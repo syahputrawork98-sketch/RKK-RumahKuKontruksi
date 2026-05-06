@@ -147,4 +147,108 @@
     font-size: 48px;
     line-height: 64px;
   }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
+
+@layer base {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+@layer components {
+  .public-section {
+    @apply py-24 px-6 md:px-12 lg:px-24;
+  }
+
+  .public-section-sm {
+    @apply py-12 px-6 md:px-12;
+  }
+
+  .public-container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .public-section-header {
+    @apply text-center mb-16 max-w-3xl mx-auto;
+  }
+
+  .public-eyebrow {
+    @apply text-primary-main text-s-bold uppercase tracking-widest mb-4 block;
+  }
+
+  .public-title {
+    @apply text-heading-l-bold md:text-display text-neutral-100 leading-tight mb-6;
+  }
+
+  .public-subtitle {
+    @apply text-l-regular md:text-heading-s-regular text-neutral-80 leading-relaxed max-w-2xl mx-auto;
+  }
+
+  .public-card {
+    @apply bg-white rounded-[32px] p-8 md:p-10 border border-neutral-30 shadow-sm transition-all duration-300;
+  }
+
+  .public-card-hover {
+    @apply hover:shadow-2xl hover:-translate-y-2 hover:border-primary-main/20;
+  }
+
+  .public-gradient-card {
+    @apply bg-linear-to-br from-white to-primary-surface border border-primary-main/10 shadow-lg;
+  }
+
+  .public-hero-title {
+    @apply text-display-s md:text-display font-extrabold text-white leading-tight drop-shadow-2xl;
+  }
+
+  .public-hero-subtitle {
+    @apply text-l-regular md:text-heading-s-regular text-white/90 leading-relaxed max-w-3xl mx-auto drop-shadow-lg;
+  }
+
+  .btn-public-primary {
+    @apply bg-primary-main text-white text-l-bold py-4 px-10 rounded-2xl transition-all shadow-xl shadow-primary-main/20 hover:bg-primary-hover hover:scale-105 active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .btn-public-secondary {
+    @apply bg-secondary-main text-white text-l-bold py-4 px-10 rounded-2xl transition-all shadow-xl shadow-secondary-main/20 hover:bg-secondary-hover hover:scale-105 active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .btn-public-outline {
+    @apply border-2 border-primary-main text-primary-main text-l-bold py-4 px-10 rounded-2xl transition-all hover:bg-primary-main hover:text-white hover:scale-105 active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .btn-public-white {
+    @apply bg-white text-primary-main text-l-bold py-4 px-10 rounded-2xl transition-all shadow-xl hover:bg-neutral-10 hover:scale-105 active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .public-icon-box {
+    @apply w-16 h-16 rounded-2xl bg-primary-surface flex items-center justify-center text-primary-main text-2xl transition-all duration-300;
+  }
+
+  .public-badge {
+    @apply inline-block bg-primary-main/10 text-primary-main text-s-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-primary-main/20;
+  }
 }

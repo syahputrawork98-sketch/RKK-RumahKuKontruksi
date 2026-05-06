@@ -4,11 +4,11 @@ import { fadeUp } from "../../animations/fadeUpVariant";
 
 export default function AboutSection() {
     return (
-        <section className="py-24 px-6 bg-neutral-20 overflow-hidden relative">
+        <section className="public-section bg-neutral-20 overflow-hidden relative">
             {/* Background Decorative Blob */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary-main/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
             
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="public-container relative z-10">
                 <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
                     {/* Left Column: Narrative */}
                     <motion.div
@@ -21,8 +21,8 @@ export default function AboutSection() {
                             visible: { opacity: 1, x: 0, transition: { duration: 0.8 } }
                         }}
                     >
-                        <span className="text-primary-main text-s-bold uppercase tracking-widest mb-4 block">Tentang RumahKu Konstruksi</span>
-                        <h2 className="text-heading-l-bold md:text-display-s mb-8 text-neutral-100 leading-tight">
+                        <span className="public-eyebrow">Tentang RumahKu Konstruksi</span>
+                        <h2 className="public-title">
                             Solusi Konstruksi <br /> <span className="text-primary-main">Tanpa Keraguan</span>
                         </h2>
                         
@@ -73,7 +73,7 @@ export default function AboutSection() {
                         ].map((item, index) => (
                             <motion.div
                                 key={index}
-                                className="bg-white p-8 rounded-[32px] shadow-sm border border-neutral-30 hover:shadow-2xl hover:border-primary-main/20 transition-all duration-500 hover:-translate-y-2"
+                                className="public-card public-card-hover"
                                 variants={fadeUp}
                             >
                                 <div className="text-display-s mb-6 flex items-center justify-center w-16 h-16 bg-neutral-20 rounded-2xl">{item.icon}</div>

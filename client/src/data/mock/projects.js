@@ -81,6 +81,7 @@ export const mockProjects = [
     budgetTotal: 850000000,
     paidAmount: 200000000,
     remainingAmount: 650000000,
+    sourceDesignRequestId: "design-request-003",
     heroImage: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200"
   },
   {
@@ -199,6 +200,7 @@ export const mockProjects = [
     budgetTotal: 1200000000,
     paidAmount: 300000000,
     remainingAmount: 900000000,
+    sourceDesignRequestId: "design-request-004",
     heroImage: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200"
   },
 

@@ -35,6 +35,8 @@ export const mockRabPlans = [
     totalAmount: 850000000,
     createdAt: "2025-03-25",
     approvedAt: "2025-04-05",
+    sourceDesignRequestId: "design-request-003",
+    designFileIds: ["design-file-003-01"],
     notes: "Revisi 1 untuk penyesuaian material atap."
   }
 ];

@@ -3,6 +3,10 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const Proyek = () => {
+    const [activeFilter, setActiveFilter] = React.useState("Semua");
+
+    const categories = ["Semua", "Desain", "Konstruksi", "Renovasi", "Desain + Bangun"];
+
     const projects = [
         {
             id: 1,
@@ -15,28 +19,48 @@ const Proyek = () => {
         {
             id: 2,
             title: "Pembangunan Rumah 2 Lantai - Depok",
-            status: "Perencanaan",
+            status: "Berjalan",
             progress: 25,
-            type: "Bangun Baru",
+            type: "Konstruksi",
             image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=800",
         },
         {
-            id: 3,
-            title: "Renovasi Dapur & Interior - Jakarta Timur",
+            id: 5,
+            title: "Desain Villa Modern - Bali",
             status: "Selesai",
             progress: 100,
-            type: "Interior",
+            type: "Desain",
+            image: "https://images.unsplash.com/photo-1600585154340-be6199f7d009?auto=format&fit=crop&q=80&w=800",
+        },
+        {
+            id: 6,
+            title: "Desain & Bangun Kost Eksklusif - Jakarta",
+            status: "Berjalan",
+            progress: 35,
+            type: "Desain + Bangun",
+            image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800",
+        },
+        {
+            id: 3,
+            title: "Renovasi Interior Apartemen - Jakarta",
+            status: "Selesai",
+            progress: 100,
+            type: "Renovasi",
             image: "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?auto=format&fit=crop&q=80&w=800",
         },
         {
             id: 4,
-            title: "Pembangunan Ruko Kecil - Tangerang",
+            title: "Pembangunan Gudang Logistik - Tangerang",
             status: "Berjalan",
             progress: 45,
-            type: "Komersial",
+            type: "Konstruksi",
             image: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800",
         },
     ];
+
+    const filteredProjects = activeFilter === "Semua" 
+        ? projects 
+        : projects.filter(p => p.type.includes(activeFilter));
 
     return (
         <main className="pt-24 pb-16">
@@ -67,8 +91,8 @@ const Proyek = () => {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
                     >
-                        Lihat beberapa contoh pekerjaan dan progres proyek yang menggambarkan 
-                        cara kami bekerja secara terencana, transparan, dan terdokumentasi.
+                        Lihat berbagai pekerjaan RKK, mulai dari konsep desain arsitektur, renovasi, 
+                        pembangunan rumah, hingga proyek desain dan konstruksi terintegrasi.
                     </motion.p>
 
                     <motion.div 
@@ -96,8 +120,25 @@ const Proyek = () => {
             {/* Showcase Grid */}
             <section className="public-section bg-white">
                 <div className="public-container">
+                    {/* Filter Category */}
+                    <div className="flex flex-wrap justify-center gap-3 mb-16">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveFilter(cat)}
+                                className={`px-6 py-2.5 rounded-full text-s-bold transition-all duration-300 ${
+                                    activeFilter === cat 
+                                    ? "bg-primary-main text-white shadow-lg shadow-primary-main/20" 
+                                    : "bg-neutral-20 text-neutral-60 hover:bg-neutral-30"
+                                }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {projects.map((project) => (
+                        {filteredProjects.map((project) => (
                             <motion.div 
                                 key={project.id}
                                 className="public-card-media public-card-hover group flex flex-col h-full"
@@ -116,7 +157,7 @@ const Proyek = () => {
                                     <div className="absolute inset-0 bg-linear-to-t from-neutral-100/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     
                                     <div className="absolute top-6 left-6">
-                                        <span className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl text-s-bold text-primary-main shadow-lg border border-white/20">
+                                        <span className="bg-primary-main/90 backdrop-blur-md px-4 py-2 rounded-2xl text-s-bold text-white shadow-lg border border-white/20">
                                             {project.type}
                                         </span>
                                     </div>

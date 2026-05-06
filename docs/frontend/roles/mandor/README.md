@@ -13,11 +13,22 @@ Role Mandor saat ini masih berupa **Shell**. Fokus peran ini adalah laporan hari
 - `MandorLayout.jsx`: Sidebar navigasi mandor.
 
 ## Data / Mock Data
-- Belum ada integrasi data mock spesifik.
+- **Mandor Table**: Menggunakan `mockForemen` di `src/data/mock/foremen.js`.
+- **Kapasitas**: Maksimal **2 proyek aktif**.
+- **Sertifikasi**: Disimpan dalam array `certificates` lengkap dengan status validitas.
+- **Relasi**: Terhubung ke `mockUsers`, `mockProjects`, dan `mockWorkers`.
+
+| Mandor | Assigned Projects | Capacity | Certificates | Status |
+|---|---:|---:|---:|---|
+| Budi Santoso | 2 | 2 | 3 valid | Full |
+| Agus Setiawan | 1 | 2 | 2 valid | Normal |
+| Dedi Rahman | 0 | 2 | 1 pending | Available |
+| Hendra Wijaya | 1 | 2 | 1 expired | Inactive |
 
 ## Sudah Dikerjakan
 - [x] Struktur layout dan navigasi sidebar.
 - [x] Routing dasar.
+- [x] Perancangan mock data mandor detail.
 
 ## Belum Dikerjakan
 - [ ] Manajemen tukang (List pekerja dan absensi).

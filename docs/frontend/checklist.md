@@ -5,6 +5,7 @@ Daftar progres implementasi fitur frontend RKK.
 ## Mock Data Foundation
 - [x] Users & Roles Mock Table
 - [x] Admin Mock Profiles (Capacity: 3 projects/admin)
+- [x] Mandor Mock Profiles (Capacity: 2 projects + Certificates)
 - [x] Customer & Staff Profile Mock Tables
 - [x] Project, Stages, & RAB Mock Tables
 - [x] Notifications Mock Table

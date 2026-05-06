@@ -30,6 +30,14 @@ Lokasi: `client/src/data/mock/`
 *   **Pelacakan**: Menggunakan field `assignedProjectIds` di `admins.js` dan `adminId` di `projects.js`.
 *   **Relasi**: `Admin` <-> `User` (via `userId`), `Admin` <-> `Project` (via `assignedProjectIds`).
 
+## Skema Kapasitas & Sertifikasi Mandor
+*   **Kapasitas**: Satu mandor dapat menangani maksimal **2 proyek aktif**.
+*   **Sertifikasi**: Disimpan dalam array `certificates` dengan metadata lengkap (BNSP, K3, dll).
+*   **Relasi**: 
+    *   `Mandor` <-> `User` (via `userId`)
+    *   `Mandor` <-> `Project` (via `assignedProjectIds`)
+    *   `Mandor` <-> `Worker` (via `workerIds`)
+
 ## Strategi Refactoring (Ongoing)
 1.  **Backward Compatibility**: File `projects.js` tetap mengekspor `activeCustomerProject` untuk mendukung komponen yang belum direfaktorisasi.
 2.  **Next Steps**: 

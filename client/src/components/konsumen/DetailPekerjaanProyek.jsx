@@ -181,53 +181,61 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {rabItems.map((item, idx) => (
-                    <tr
-                      key={item.id}
-                      className={`border-b border-neutral-20 hover:bg-neutral-20/50 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-neutral-20/30"}`}
-                    >
-                      <td className="px-4 py-3 text-neutral-50 text-xs">{idx + 1}</td>
-                      <td className="px-4 py-3">
-                        <p className="font-medium text-neutral-90">{item.uraian}</p>
-                        {item.keterangan && (
-                          <p className="text-xs text-neutral-50 mt-0.5 italic">{item.keterangan}</p>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-neutral-60">{item.lokasi}</td>
-                      <td className="px-4 py-3 text-right text-neutral-80 font-mono">{item.volume}</td>
-                      <td className="px-4 py-3 text-center text-neutral-60">{item.satuan}</td>
-                      <td className="px-4 py-3 text-right text-neutral-80 font-mono">
-                        {typeof item.hargaSatuan === "number" && item.hargaSatuan > 0
-                          ? formatCurrency(item.hargaSatuan)
-                          : "-"}
-                      </td>
-                      <td className="px-4 py-3 text-right font-semibold text-neutral-100 font-mono">
-                        {typeof item.total === "number" && item.total > 0
-                          ? formatCurrency(item.total)
-                          : "-"}
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <div className="flex flex-col items-center gap-1">
-                          <div className="w-16 h-2 bg-neutral-20 rounded-full overflow-hidden border border-neutral-30">
-                            <div
-                              className={`h-full rounded-full ${item.progress === 100 ? "bg-success-main" : item.progress > 0 ? "bg-primary-main" : "bg-neutral-30"}`}
-                              style={{ width: `${item.progress}%` }}
-                            />
-                          </div>
-                          <span className={`text-xs font-bold ${item.progress === 100 ? "text-success-main" : item.progress > 0 ? "text-primary-main" : "text-neutral-40"}`}>
-                            {item.progress}%
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-right font-semibold font-mono">
-                        <span className={item.nilaiSelesai > 0 ? "text-success-main" : "text-neutral-40"}>
-                          {typeof item.nilaiSelesai === "number" && item.nilaiSelesai > 0
-                            ? formatCurrency(item.nilaiSelesai)
+                  {rabItems.length > 0 ? (
+                    rabItems.map((item, idx) => (
+                      <tr
+                        key={item.id}
+                        className={`border-b border-neutral-20 hover:bg-neutral-20/50 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-neutral-20/30"}`}
+                      >
+                        <td className="px-4 py-3 text-neutral-50 text-xs">{idx + 1}</td>
+                        <td className="px-4 py-3">
+                          <p className="font-medium text-neutral-90">{item.uraian}</p>
+                          {item.keterangan && (
+                            <p className="text-xs text-neutral-50 mt-0.5 italic">{item.keterangan}</p>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-neutral-60">{item.lokasi}</td>
+                        <td className="px-4 py-3 text-right text-neutral-80 font-mono">{item.volume}</td>
+                        <td className="px-4 py-3 text-center text-neutral-60">{item.satuan}</td>
+                        <td className="px-4 py-3 text-right text-neutral-80 font-mono">
+                          {typeof item.hargaSatuan === "number" && item.hargaSatuan > 0
+                            ? formatCurrency(item.hargaSatuan)
                             : "-"}
-                        </span>
+                        </td>
+                        <td className="px-4 py-3 text-right font-semibold text-neutral-100 font-mono">
+                          {typeof item.total === "number" && item.total > 0
+                            ? formatCurrency(item.total)
+                            : "-"}
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <div className="flex flex-col items-center gap-1">
+                            <div className="w-16 h-2 bg-neutral-20 rounded-full overflow-hidden border border-neutral-30">
+                              <div
+                                className={`h-full rounded-full ${item.progress === 100 ? "bg-success-main" : item.progress > 0 ? "bg-primary-main" : "bg-neutral-30"}`}
+                                style={{ width: `${item.progress}%` }}
+                              />
+                            </div>
+                            <span className={`text-xs font-bold ${item.progress === 100 ? "text-success-main" : item.progress > 0 ? "text-primary-main" : "text-neutral-40"}`}>
+                              {item.progress}%
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-right font-semibold font-mono">
+                          <span className={item.nilaiSelesai > 0 ? "text-success-main" : "text-neutral-40"}>
+                            {typeof item.nilaiSelesai === "number" && item.nilaiSelesai > 0
+                              ? formatCurrency(item.nilaiSelesai)
+                              : "-"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={9} className="px-4 py-12 text-center text-neutral-50 italic">
+                        Belum ada rincian item RAB untuk tahap ini.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
                 <tfoot>
                   <tr className="bg-neutral-20 font-bold text-neutral-90 border-t-2 border-neutral-40">

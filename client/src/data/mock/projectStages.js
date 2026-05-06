@@ -101,6 +101,23 @@ export const mockProjectStages = [
     durationDays: 14,
     order: 5,
     note: "Belum dimulai. Menunggu dinding selesai."
+  },
+
+  // Stages for project-003 (Renovasi Kantor Kuningan)
+  {
+    id: "stage-interior-01",
+    projectId: "project-003",
+    code: "INT-01",
+    title: "Pekerjaan Interior & Finishing",
+    description: "Pemasangan wallpaper, karpet, dan partisi ruangan.",
+    week: 1,
+    status: "in_progress",
+    progress: 30,
+    startDate: "2025-05-01",
+    endDate: "2025-05-15",
+    durationDays: 15,
+    order: 1,
+    note: "Pemasangan partisi selesai 80%."
   }
 ];
 

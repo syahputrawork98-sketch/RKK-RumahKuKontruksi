@@ -10,7 +10,7 @@ export const mockRabCategories = [
     name: "Pekerjaan Persiapan",
     description: "Pembersihan lokasi dan persiapan area kerja.",
     order: 1,
-    subtotal: 3496999
+    subtotal: 3495000 // Fixed to match items (1,020,000 + 2,475,000)
   },
   {
     id: "rab-category-001-02",
@@ -20,7 +20,8 @@ export const mockRabCategories = [
     name: "Pekerjaan Tanah dan Pasir",
     description: "Galian dan urugan tanah/pasir.",
     order: 2,
-    subtotal: 5250000
+    subtotal: 5250000,
+    isPlaceholder: true // No items yet
   },
   {
     id: "rab-category-001-03",
@@ -30,7 +31,8 @@ export const mockRabCategories = [
     name: "Pekerjaan Struktur",
     description: "Beton bertulang, sloof, kolom, dan balok.",
     order: 3,
-    subtotal: 25750000
+    subtotal: 25750000,
+    isPlaceholder: true // No items yet
   },
   {
     id: "rab-category-001-04",
@@ -40,7 +42,8 @@ export const mockRabCategories = [
     name: "Pekerjaan Dinding",
     description: "Pasangan bata, plesteran, dan acian.",
     order: 4,
-    subtotal: 35000000
+    subtotal: 35000000,
+    isPlaceholder: true // Items exist but incomplete (only 14,025,000)
   },
 
   // Categories for project-008 (Rumah Tipe 36/72 - BSD)
@@ -52,7 +55,8 @@ export const mockRabCategories = [
     name: "Pekerjaan Persiapan",
     description: "Site clearing, bouwplank, gudang proyek.",
     order: 1,
-    subtotal: 12000000
+    subtotal: 12000000,
+    isPlaceholder: true // Items incomplete
   },
   {
     id: "rab-category-008-02",
@@ -62,7 +66,8 @@ export const mockRabCategories = [
     name: "Pekerjaan Tanah dan Pondasi",
     description: "Galian, pasir urug, batu kali, dan footplat.",
     order: 2,
-    subtotal: 85000000
+    subtotal: 85000000,
+    isPlaceholder: true // No items yet
   }
 ];
 

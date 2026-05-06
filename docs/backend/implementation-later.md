@@ -5,20 +5,29 @@ Dokumen ini berfungsi sebagai pengingat kebijakan pengembangan backend pada repo
 ## Status Eksekusi
 **Penting**: Backend **BELUM BOLEH** dieksekusi atau dibuat kodenya sekarang.
 
+## Keputusan Stack Final
+Backend telah diputuskan menggunakan:
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Language**: JavaScript
+- **ORM**: Prisma ORM
+- **Architecture**: Modular Monolith
+
+**Catatan Framework**: 
+- **Bukan Next.js**: RKK menggunakan Vite untuk frontend dan Express untuk backend secara terpisah.
+- **Bukan NestJS**: Diputuskan menggunakan Express agar lebih ringan dan konsisten dengan stack frontend JSX.
+
 ## Alasan Penundaan
-1. **Frontend Priority**: Fokus utama saat ini adalah penyelesaian UI/UX untuk seluruh role (Superadmin, Admin, Pengawas, Mandor, Konsumen).
-2. **Mock Data Maturity**: Frontend harus memiliki struktur Mock Data yang matang dan terpusat terlebih dahulu sebagai acuan skema API.
-3. **Requirement Validation**: Blueprint ini perlu divalidasi kembali setelah seluruh alur UI/UX dianggap final.
+1. **Frontend Priority**: Fokus utama saat ini adalah penyelesaian UI/UX untuk seluruh role.
+2. **Mock Data Maturity**: Frontend harus memiliki struktur Mock Data yang matang sebagai acuan skema API.
 
 ## Kapan Backend Dimulai?
 Pengembangan backend (Phase 1) akan dimulai setelah kondisi berikut terpenuhi:
-- Seluruh halaman dashboard role (Admin, Pengawas, Mandor) selesai secara UI.
+- Seluruh halaman dashboard role selesai secara UI.
 - Halaman manajemen Superadmin terisi data fungsional (minimal mock).
-- API Contract sudah disinkronkan dengan kebutuhan komponen frontend.
-- Terdapat instruksi eksplisit untuk memulai migrasi server.
+- Terdapat instruksi eksplisit untuk memulai implementasi server.
 
 ## Larangan
-- Jangan mengubah isi folder `server/` menjadi aplikasi backend (NestJS/Express) dulu.
-- Jangan menginstal dependensi backend (Prisma, Nest, dll).
-- Jangan membuat database lokal atau cloud.
-- Jangan mencoba menghubungkan frontend ke API yang belum ada.
+- Jangan mengubah isi folder `server/` menjadi aplikasi backend (Express) dulu.
+- Jangan menginstal dependensi backend (Express, Prisma, dll).
+- Jangan membuat database atau skema Prisma fisik.

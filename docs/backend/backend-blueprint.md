@@ -5,34 +5,79 @@ Backend RumahKu Kontruksi dirancang untuk menjadi tulang punggung platform jasa 
 
 ## Stack Teknologi Terencana
 - **Runtime**: Node.js
-- **Framework**: NestJS (TypeScript)
+- **Framework**: Express.js
+- **Language**: JavaScript
 - **Database**: PostgreSQL
 - **ORM**: Prisma ORM
-- **Auth**: JWT / Supabase Auth
+- **Auth**: JWT atau Supabase Auth (Diputuskan nanti)
+- **Architecture**: Modular Monolith
 
-## Arsitektur
-- **Modular Monolith**: Struktur kode dipisahkan per modul fungsional agar mudah dipahami dan dikembangkan.
-- **Microservices Ready**: Desain modular memungkinkan pemisahan menjadi microservices di masa depan jika beban sistem meningkat.
-- **Clean Architecture**: Memastikan logika bisnis terpisah dari infrastruktur luar.
+## Arsitektur Modular Monolith
+Backend RumahKu Kontruksi akan menggunakan arsitektur **Modular Monolith**.
+
+**Artinya**:
+- Backend tetap satu aplikasi Express.js dan satu server utama.
+- Database utama tetap satu PostgreSQL.
+- Kode dipisahkan per modul/domain agar rapi dan terisolasi secara logika.
+- Struktur ini lebih sederhana daripada microservices, tetapi jauh lebih rapi daripada monolith tradisional.
+
+**Contoh Struktur Backend**:
+```text
+server/
+├── src/
+│   ├── app.js             # Entry point aplikasi
+│   ├── config/            # Konfigurasi database, env, dll
+│   ├── middleware/        # Global middleware (auth, error handler)
+│   ├── modules/           # Direktori utama modul
+│   │   ├── auth/
+│   │   ├── users/
+│   │   ├── roles/
+│   │   ├── projects/
+│   │   ├── estimations/
+│   │   ├── approvals/
+│   │   ├── reports/
+│   │   ├── materials/
+│   │   ├── payments/
+│   │   ├── documents/
+│   │   ├── notifications/
+│   │   └── audit-logs/
+│   └── utils/             # Helper universal
+├── prisma/                # Skema database Prisma
+└── package.json
+```
+
+**Pola Internal Modul**:
+Setiap modul akan mengikuti pola:
+- `module-name.routes.js`: Daftar endpoint API.
+- `module-name.controller.js`: Menerima request dan mengirim response.
+- `module-name.service.js`: Implementasi logika bisnis utama.
+- `module-name.repository.js`: Komunikasi dengan database melalui Prisma.
+- `module-name.validation.js`: Validasi input request (misal: Joi atau Zod).
+
+## Keputusan Framework
+**RKK tidak menggunakan Next.js untuk backend.**
+
+**Alasan**:
+- Frontend sudah menggunakan Vite React JSX.
+- Backend akan berdiri sebagai API server terpisah di folder `server/`.
+- Next.js lebih cocok untuk aplikasi fullstack terintegrasi, sedangkan RKK memakai struktur client/server terpisah.
+- Express.js lebih sesuai untuk backend API modular yang ringan dan mudah dikembangkan.
+
+**Catatan Historis**:
+NestJS TypeScript sempat dipertimbangkan sebagai opsi backend, tetapi untuk tahap awal proyek RKK diputuskan menggunakan **Express.js JavaScript** agar lebih sederhana, konsisten dengan frontend JSX, dan lebih mudah dikembangkan bertahap.
 
 ## Prinsip Utama
 1. **Role-Based Access Control (RBAC)**: Akses data dibatasi ketat berdasarkan peran pengguna.
 2. **Workflow-Based System**: Setiap perubahan status proyek harus melalui tahapan yang telah ditentukan.
-3. **Approval-Based Process**: Pekerjaan kritis (seperti perubahan RAB atau termin pembayaran) memerlukan persetujuan dari pihak terkait.
-4. **Audit Trail**: Seluruh aktivitas penting dicatat untuk kebutuhan audit dan transparansi.
-5. **No Data Loss**: Histori penting tidak boleh dihapus secara permanen (Soft Delete).
-6. **No Status Jumping**: Status proyek harus mengikuti urutan logis.
-7. **Change Order Transparency**: Setiap perubahan scope pekerjaan di lapangan harus terdokumentasi (Variation Order).
+3. **Approval-Based Process**: Pekerjaan kritis memerlukan persetujuan berjenjang.
+4. **Audit Trail**: Seluruh aktivitas penting dicatat untuk transparansi.
+5. **No Data Loss**: Menggunakan Soft Delete untuk data historis penting.
 
 ## Fungsi Utama
-- **Auth & Session**: Manajemen login, logout, dan profil.
+- **Auth & Session**: Manajemen login dan profil.
 - **User & Role**: Manajemen data pengguna dan hak akses.
 - **Manajemen Proyek**: Database proyek dari kontrak hingga serah terima.
-- **Estimasi/RAB**: Pengelolaan anggaran dan biaya material/tenaga kerja.
-- **Laporan Progres**: Pencatatan progres harian dan mingguan dari lapangan.
-- **Manajemen Material**: Permintaan dan pengadaan material proyek.
+- **Estimasi/RAB**: Pengelolaan anggaran dan biaya.
+- **Laporan Progres**: Pencatatan progres harian dan mingguan.
 - **Approval Engine**: Sistem persetujuan berjenjang.
-- **Payment & Termin**: Manajemen tagihan dan termin pembayaran konsumen.
-- **Dokumen & File**: Penyimpanan file kontrak, gambar kerja, dan foto progres.
-- **Notifikasi**: Pemberitahuan real-time terkait progres dan approval.
 - **Audit Log**: Pencatatan jejak aktivitas sistem.

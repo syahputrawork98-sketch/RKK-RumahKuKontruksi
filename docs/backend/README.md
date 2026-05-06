@@ -7,6 +7,17 @@ Pusat dokumentasi perencanaan dan blueprint backend untuk **RumahKu Kontruksi**.
 > Prioritas saat ini adalah penyelesaian UI/UX dan Mock Data pada sisi Frontend.  
 > **Catatan**: Tidak diperbolehkan memulai implementasi kode backend sebelum ada instruksi khusus.
 
+## Planned Technology Stack
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Language**: JavaScript
+- **Database**: PostgreSQL
+- **ORM**: Prisma ORM
+- **Architecture**: Modular Monolith
+- **Auth**: JWT atau Supabase Auth (Pending Decision)
+
+**Status**: Documentation Only (Not implemented yet)
+
 ## Daftar Blueprint Backend
 Dokumentasi ini menjadi acuan utama saat tahap pengembangan backend dimulai nanti:
 

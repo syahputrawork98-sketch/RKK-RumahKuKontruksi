@@ -11,12 +11,13 @@ Daftar tugas pengembangan backend jangka panjang.
 - [x] Buat API contract plan awal.
 
 ## Phase 1: Backend Infrastructure (LATER)
-- [ ] Inisialisasi NestJS boilerplate.
-- [ ] Konfigurasi TypeScript & Linter.
+- [ ] Inisialisasi server Express.js.
+- [ ] Setup struktur folder Modular Monolith (JavaScript).
+- [ ] Setup Environment Config (.env).
 - [ ] Setup Docker Compose (PostgreSQL).
 - [ ] Integrasi Prisma ORM & Skema Awal.
-- [ ] Setup Environment Config.
-- [ ] Implementasi Global Exception Filter & Validation Pipe.
+- [ ] Implementasi Validation Middleware (Joi/Zod).
+- [ ] Setup Error Handling Middleware.
 - [ ] Setup Logger & Audit Log Middleware.
 
 ## Phase 2: Core Modules Development (LATER)

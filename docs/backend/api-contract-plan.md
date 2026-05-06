@@ -76,5 +76,8 @@ Rencana kontrak komunikasi antara Frontend dan Backend.
 - `POST /documents/upload` - Upload file ke cloud storage.
 - `GET /documents/:id` - Ambil metadata/link file.
 
+## Validasi Request
+Setiap request yang masuk akan divalidasi menggunakan **validation middleware** dengan skema yang telah ditentukan (schema validation). Hal ini memastikan data yang masuk ke service layer adalah data yang valid dan aman.
+
 > [!NOTE]
-> Daftar endpoint ini belum final dan akan disempurnakan setelah struktur Mock Data Frontend dianggap matang.
+> Daftar endpoint dan skema data ini belum final. Detail akan disesuaikan kembali setelah struktur Mock Data dan UI pada sisi Frontend dianggap matang.

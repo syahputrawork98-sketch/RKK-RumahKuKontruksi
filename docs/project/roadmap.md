@@ -2,8 +2,8 @@
 
 ## Phase 1: Structure & Frontend (Current)
 - [x] Penataan struktur folder root.
-- [x] Migrasi frontend Next.js.
-- [ ] Verifikasi running frontend.
+- [x] Migrasi frontend Vite React.
+- [x] Verifikasi running frontend.
 
 ## Phase 2: Backend Migration
 - [ ] Migrasi API Express dari repository Dev.

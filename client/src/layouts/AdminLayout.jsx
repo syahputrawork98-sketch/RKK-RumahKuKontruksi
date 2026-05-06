@@ -8,8 +8,8 @@ import TopbarBase from "@client/components/ui/topbar/TopbarBase";
 import adminSidebar from "@client/components/ui/sidebar/sidebar-data/admin";
 import adminTopbar from "@client/components/ui/topbar/topbar-data/admin";
 
-import notificationService from "@server/services/NotificationService";
-import { dummyNotifications } from "@server/data/dummyNotifications";
+import notificationService from "@client/services/mockNotificationService";
+import { dummyNotifications } from "@client/data/mock";
 
 const AdminLayout = () => {
   // ➜ STATE DIPAKAI BERSAMA (Sidebar & Topbar)

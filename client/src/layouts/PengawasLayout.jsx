@@ -8,8 +8,8 @@ import TopbarBase from "@client/components/ui/topbar/TopbarBase";
 import pengawasSidebar from "@client/components/ui/sidebar/sidebar-data/pengawas";
 import pengawasTopbar from "@client/components/ui/topbar/topbar-data/pengawas";
 
-import notificationService from "@server/services/NotificationService";
-import { dummyNotifications } from "@server/data/dummyNotifications";
+import notificationService from "@client/services/mockNotificationService";
+import { dummyNotifications } from "@client/data/mock";
 
 const PengawasLayout = () => {
   // ➜ STATE DIPAKAI BERSAMA (Sidebar & Topbar)

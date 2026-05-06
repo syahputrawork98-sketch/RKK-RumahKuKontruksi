@@ -22,7 +22,7 @@ Saat ini, mock data masih tersebar di:
 3. Hardcoded di dalam file komponen di `client/src/pages/`
 
 **Action Plan**:
-1. Pindahkan `dummyNotifications` ke `client/src/data/mock/notifications.js`.
-2. Buat file `users.js` untuk mengisi data di halaman manajemen superadmin.
-3. Buat file `projects.js` untuk melengkapi dashboard role admin/pengawas.
-4. Update import di komponen untuk merujuk ke folder mock data baru.
+1. [x] Pindahkan `dummyNotifications` ke `client/src/data/mock/notifications.js`.
+2. [x] Buat file `users.js` untuk mengisi data di halaman manajemen superadmin.
+3. [ ] Buat file `projects.js` untuk melengkapi dashboard role admin/pengawas.
+4. [x] Update import di komponen untuk merujuk ke folder mock data baru.

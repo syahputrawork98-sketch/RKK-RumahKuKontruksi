@@ -8,8 +8,8 @@ import TopbarBase from "@client/components/ui/topbar/TopbarBase";
 import mandorSidebar from "../components/ui/sidebar/sidebar-data/mandor";
 import mandorTopbar from "../components/ui/topbar/topbar-data/mandor";
 
-import notificationService from "@server/services/NotificationService";
-import { dummyNotifications } from "@server/data/dummyNotifications";
+import notificationService from "@client/services/mockNotificationService";
+import { dummyNotifications } from "@client/data/mock";
 
 const MandorLayout = () => {
   // ➜ STATE DIPAKAI BERSAMA (Sidebar & Topbar)

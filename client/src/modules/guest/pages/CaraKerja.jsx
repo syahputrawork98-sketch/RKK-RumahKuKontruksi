@@ -1,52 +1,99 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaComments, FaSearchLocation, FaEdit, FaFileContract, FaHammer, FaChartLine, FaCheckCircle } from "react-icons/fa";
+import { FaComments, FaSearchLocation, FaEdit, FaFileContract, FaHammer, FaChartLine, FaCheckCircle, FaUserTie, FaFileImage, FaPencilRuler, FaBoxOpen } from "react-icons/fa";
 
 const CaraKerja = () => {
-    const steps = [
+    const designSteps = [
         {
             title: "Konsultasi Kebutuhan",
-            desc: "Diskusi awal untuk memahami visi, kebutuhan ruang, gaya arsitektur, dan anggaran yang Anda miliki.",
-            icon: <FaComments className="text-3xl" />,
+            desc: "Diskusi visi, gaya arsitektur, dan kebutuhan ruang hunian Anda.",
+            icon: <FaComments />,
         },
         {
-            title: "Survey & Pengumpulan Data",
-            desc: "Tim kami melakukan survey lokasi untuk pengukuran akurat dan pengecekan kondisi lingkungan proyek.",
-            icon: <FaSearchLocation className="text-3xl" />,
+            title: "Brief & Referensi",
+            desc: "Pengumpulan data referensi desain dan batasan teknis lahan.",
+            icon: <FaSearchLocation />,
         },
         {
-            title: "Penyusunan Desain dan RAB",
-            desc: "Pembuatan konsep desain visual dan Rencana Anggaran Biaya yang detail dan transparan.",
-            icon: <FaEdit className="text-3xl" />,
+            title: "Penugasan Arsitek",
+            desc: "Tim arsitek RKK ditugaskan untuk mulai mengolah ide Anda.",
+            icon: <FaUserTie />,
         },
         {
-            title: "Persetujuan Kontrak",
-            desc: "Finalisasi kesepakatan kerja, jadwal pembangunan, dan penandatanganan kontrak yang aman bagi kedua belah pihak.",
-            icon: <FaFileContract className="text-3xl" />,
+            title: "Konsep Desain",
+            desc: "Pembuatan denah awal dan visualisasi 3D (rendering).",
+            icon: <FaFileImage />,
+        },
+        {
+            title: "Revisi Desain",
+            desc: "Proses penyesuaian desain hingga sesuai dengan keinginan Anda.",
+            icon: <FaPencilRuler />,
+        },
+        {
+            title: "Finalisasi Gambar Kerja",
+            desc: "Penyusunan dokumen teknis (DED) lengkap untuk pembangunan.",
+            icon: <FaEdit />,
+        },
+        {
+            title: "Handover File Desain",
+            desc: "Penyerahan seluruh file desain final kepada customer.",
+            icon: <FaBoxOpen />,
+        },
+        {
+            title: "Lanjut Konstruksi",
+            desc: "Opsional: Lanjut ke pembangunan lapangan bersama tim RKK.",
+            icon: <FaHammer />,
+        },
+    ];
+
+    const constructionSteps = [
+        {
+            title: "Konsultasi Pekerjaan",
+            desc: "Diskusi lingkup pembangunan, baik renovasi maupun bangun baru.",
+            icon: <FaComments />,
+        },
+        {
+            title: "Survey Lokasi",
+            desc: "Pengecekan fisik lahan/bangunan dan pengukuran akurat.",
+            icon: <FaSearchLocation />,
+        },
+        {
+            title: "Penyusunan RAB",
+            desc: "Penghitungan estimasi biaya pembangunan yang transparan.",
+            icon: <FaFileContract />,
+        },
+        {
+            title: "Persetujuan Kerja",
+            desc: "Penandatanganan kontrak dan jadwal pelaksanaan proyek.",
+            icon: <FaCheckCircle />,
         },
         {
             title: "Eksekusi Proyek",
-            desc: "Pembangunan fisik dimulai oleh tenaga profesional dengan standar kualitas material yang terjaga.",
-            icon: <FaHammer className="text-3xl" />,
+            desc: "Pembangunan fisik dimulai oleh tenaga profesional kami.",
+            icon: <FaHammer />,
         },
         {
             title: "Monitoring Progres",
-            desc: "Anda mendapatkan laporan progres real-time melalui sistem kami, memastikan transparansi setiap tahapan.",
-            icon: <FaChartLine className="text-3xl" />,
+            desc: "Pantau laporan progres harian & mingguan secara real-time.",
+            icon: <FaChartLine />,
+        },
+        {
+            title: "Verifikasi Tahapan",
+            desc: "Pengecekan kualitas pekerjaan di setiap milestone proyek.",
+            icon: <FaCheckCircle />,
         },
         {
             title: "Serah Terima",
-            desc: "Inspeksi akhir bersama dan serah terima kunci bangunan yang sudah siap dihuni dengan jaminan kualitas.",
-            icon: <FaCheckCircle className="text-3xl" />,
+            desc: "Proyek selesai, inspeksi akhir, dan serah terima kunci.",
+            icon: <FaBoxOpen />,
         },
     ];
 
     return (
         <main className="pt-24 pb-16">
-            {/* Hero Section - Fixed Contrast */}
+            {/* Hero Section */}
             <section className="public-section relative bg-primary-main text-white overflow-hidden">
-                {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48 blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-hover/30 rounded-full -ml-36 -mb-36 blur-2xl"></div>
 
@@ -56,14 +103,14 @@ const CaraKerja = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        Alur Kerja Terstruktur
+                        Alur Kerja Terintegrasi
                     </motion.span>
                     <motion.h1 
                         className="public-hero-title mb-8"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        Cara Kerja RumahKu Kontruksi
+                        Cara Kerja RKK
                     </motion.h1>
                     <motion.p 
                         className="public-hero-subtitle mb-10"
@@ -71,8 +118,8 @@ const CaraKerja = () => {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
                     >
-                        Setiap proyek dikelola melalui tahapan yang jelas, mulai dari konsultasi, RAB, 
-                        eksekusi, monitoring, hingga serah terima kunci bangunan Anda.
+                        Pilih alur sesuai kebutuhan Anda: mulai dari desain rumah <br className="hidden md:block" />
+                        atau langsung ke tahap konstruksi lapangan.
                     </motion.p>
 
                     <motion.div 
@@ -81,69 +128,93 @@ const CaraKerja = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                     >
-                        <Link 
-                            to="/kontak" 
-                            className="btn-public-white"
-                        >
-                            Konsultasi Sekarang
-                        </Link>
-                        <Link 
-                            to="/layanan" 
-                            className="btn-public-outline !border-white !text-white hover:!bg-white hover:!text-primary-main"
-                        >
-                            Lihat Layanan
-                        </Link>
+                        <Link to="/kontak" className="btn-public-white">Konsultasi Sekarang</Link>
+                        <Link to="/layanan" className="btn-public-outline !border-white !text-white hover:!bg-white hover:!text-primary-main">Lihat Layanan</Link>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Steps Timeline Section */}
-            <section className="public-section bg-white relative overflow-hidden">
-                <div className="public-container max-w-5xl relative">
-                    {/* Vertical Line for Desktop */}
-                    <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-px bg-neutral-30 hidden md:block"></div>
+            {/* Dual Workflow Section */}
+            <section className="public-section bg-white">
+                <div className="public-container">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+                        {/* Flow A: Design */}
+                        <div className="space-y-12">
+                            <div className="bg-primary-surface p-8 rounded-[40px] border border-primary-main/10">
+                                <span className="text-primary-main text-s-bold uppercase tracking-widest mb-3 block">Alur 01</span>
+                                <h2 className="text-heading-m-bold md:text-heading-l-bold text-neutral-100">Desain & Arsitek</h2>
+                                <p className="text-m-regular text-neutral-70 mt-3">
+                                    Untuk Anda yang belum memiliki desain bangunan atau ingin redesign total.
+                                </p>
+                            </div>
 
-                    <div className="space-y-20">
-                        {steps.map((step, index) => {
-                            const isEven = index % 2 === 0;
-                            return (
-                                <motion.div 
-                                    key={index}
-                                    className={`relative flex flex-col md:flex-row items-center md:items-start gap-12 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse text-right'}`}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: index * 0.1 }}
-                                    viewport={{ once: true }}
-                                >
-                                    {/* Central Indicator */}
-                                    <div className="absolute left-10 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-primary-main z-10 flex items-center justify-center hidden md:flex">
-                                        <div className="w-2 h-2 rounded-full bg-primary-main"></div>
-                                    </div>
-
-                                    {/* Step Image/Icon Area */}
-                                    <div className={`md:w-1/2 flex ${isEven ? 'justify-center md:justify-end' : 'justify-center md:justify-start'}`}>
-                                        <div className="relative group">
-                                            <div className="absolute inset-0 bg-primary-main/10 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
-                                            <div className="relative w-24 h-24 md:w-32 md:h-32 bg-primary-surface rounded-[32px] flex items-center justify-center text-primary-main border border-primary-main/20 shadow-lg transform group-hover:-rotate-6 transition-all duration-500">
-                                                <div className="text-4xl md:text-5xl">{step.icon}</div>
+                            <div className="relative pl-8 space-y-10 border-l-2 border-dashed border-primary-main/30 ml-6">
+                                {designSteps.map((step, index) => (
+                                    <motion.div 
+                                        key={index}
+                                        className="relative"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.05 }}
+                                        viewport={{ once: true }}
+                                    >
+                                        <div className="absolute -left-[45px] top-0 w-8 h-8 bg-white border-2 border-primary-main rounded-full flex items-center justify-center z-10 shadow-sm text-primary-main">
+                                            <span className="text-[10px] font-bold">{index + 1}</span>
+                                        </div>
+                                        <div className="flex gap-5">
+                                            <div className="w-12 h-12 shrink-0 bg-white border border-neutral-30 rounded-xl flex items-center justify-center text-primary-main text-xl shadow-xs">
+                                                {step.icon}
                                             </div>
-                                            <div className="absolute -top-4 -right-4 w-10 h-10 bg-primary-main text-white text-s-bold rounded-full flex items-center justify-center shadow-lg">
-                                                0{index + 1}
+                                            <div>
+                                                <h4 className="text-m-bold text-neutral-100">{step.title}</h4>
+                                                <p className="text-s-regular text-neutral-60 mt-1">{step.desc}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
+                                ))}
+                            </div>
 
-                                    {/* Step Content Area */}
-                                    <div className="md:w-1/2">
-                                        <div className="public-card public-card-hover !bg-neutral-20/50 hover:!bg-white group">
-                                            <span className="public-eyebrow">Langkah {index + 1}</span>
-                                            <h3 className="public-title !text-heading-m-bold md:!text-heading-l-bold group-hover:text-primary-main transition-colors">{step.title}</h3>
-                                            <p className="text-l-regular text-neutral-80 leading-relaxed">{step.desc}</p>
+                            <div className="bg-neutral-20 p-6 rounded-2xl border border-neutral-30 italic text-s-regular text-neutral-60">
+                                <strong>Catatan:</strong> Setelah desain final, customer bisa lanjut ke konstruksi bersama RKK atau menggunakan file desain secara mandiri.
+                            </div>
+                        </div>
+
+                        {/* Flow B: Construction */}
+                        <div className="space-y-12">
+                            <div className="bg-neutral-20 p-8 rounded-[40px] border border-neutral-30">
+                                <span className="text-neutral-60 text-s-bold uppercase tracking-widest mb-3 block">Alur 02</span>
+                                <h2 className="text-heading-m-bold md:text-heading-l-bold text-neutral-100">Konstruksi Lapangan</h2>
+                                <p className="text-m-regular text-neutral-70 mt-3">
+                                    Untuk Anda yang sudah siap bangun/renovasi dengan desain sendiri atau dari RKK.
+                                </p>
+                            </div>
+
+                            <div className="relative pl-8 space-y-10 border-l-2 border-dashed border-neutral-40 ml-6">
+                                {constructionSteps.map((step, index) => (
+                                    <motion.div 
+                                        key={index}
+                                        className="relative"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.05 }}
+                                        viewport={{ once: true }}
+                                    >
+                                        <div className="absolute -left-[45px] top-0 w-8 h-8 bg-white border-2 border-neutral-60 rounded-full flex items-center justify-center z-10 shadow-sm text-neutral-60">
+                                            <span className="text-[10px] font-bold">{index + 1}</span>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
+                                        <div className="flex gap-5">
+                                            <div className="w-12 h-12 shrink-0 bg-white border border-neutral-30 rounded-xl flex items-center justify-center text-neutral-70 text-xl shadow-xs">
+                                                {step.icon}
+                                            </div>
+                                            <div>
+                                                <h4 className="text-m-bold text-neutral-100">{step.title}</h4>
+                                                <p className="text-s-regular text-neutral-60 mt-1">{step.desc}</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

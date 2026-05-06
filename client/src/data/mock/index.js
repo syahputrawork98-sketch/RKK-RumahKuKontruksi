@@ -10,7 +10,6 @@ export * from "./supervisors";
 export * from "./supervisorCertificates";
 export * from "./foremen";
 export * from "./foremanCertificates";
-export * from "./workers";
 export * from "./projects";
 export * from "./projectStages";
 export * from "./rabItems";

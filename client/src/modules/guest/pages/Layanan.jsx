@@ -40,24 +40,55 @@ const Layanan = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Hero Section */}
-            <section className="bg-primary-main text-neutral-10 py-20 px-4">
-                <div className="container mx-auto text-center">
+            <section className="relative bg-primary-main text-neutral-10 py-24 px-4 overflow-hidden">
+                {/* Decorative Elements */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-primary-hover/30 rounded-full -mr-48 -mt-48 blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-pressed/40 rounded-full -ml-36 -mb-36 blur-2xl"></div>
+
+                <div className="container mx-auto text-center relative z-10">
+                    <motion.span 
+                        className="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-white text-s-bold px-4 py-1.5 rounded-full mb-6 uppercase tracking-widest"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                    >
+                        Layanan Konstruksi Terintegrasi
+                    </motion.span>
                     <motion.h1 
-                        className="text-heading-l-bold md:text-display mb-6"
+                        className="text-heading-l-bold md:text-display mb-8 leading-tight drop-shadow-md"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        Layanan RumahKu Kontruksi
+                        Solusi Profesional untuk <br /> Rumah Impian Anda
                     </motion.h1>
                     <motion.p 
-                        className="text-l-regular md:text-heading-s-regular max-w-3xl mx-auto opacity-90"
+                        className="text-l-regular md:text-heading-s-regular max-w-3xl mx-auto mb-10 text-neutral-10/90 leading-relaxed"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
                     >
-                        Kami membantu proses bangun dan renovasi rumah Anda lebih terencana, 
-                        transparan, dan terpantau dalam satu sistem profesional.
+                        Kami memastikan setiap tahapan bangun dan renovasi rumah Anda 
+                        berjalan lebih terencana, transparan, dan terdokumentasi dengan baik.
                     </motion.p>
+
+                    <motion.div 
+                        className="flex flex-wrap justify-center gap-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <Link 
+                            to="/contact" 
+                            className="bg-white text-primary-main text-l-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:bg-primary-surface hover:scale-105"
+                        >
+                            Konsultasi Sekarang
+                        </Link>
+                        <Link 
+                            to="/cara-kerja" 
+                            className="border-2 border-white text-white text-l-bold py-4 px-10 rounded-xl transition-all hover:bg-white hover:text-primary-main"
+                        >
+                            Lihat Cara Kerja
+                        </Link>
+                    </motion.div>
                 </div>
             </section>
 

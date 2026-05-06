@@ -14,22 +14,42 @@ export const mockUsers = [
   {
     id: "user-admin-001",
     name: "Rina Maharani",
-    email: "rina@rkk.com",
+    email: "rina.maharani@rumahkukontruksi.com",
     phone: "081234567890",
     role: "admin",
     avatar: "https://i.pravatar.cc/150?u=rina",
     status: "active",
-    createdAt: "2025-02-15"
+    createdAt: "2024-01-15"
   },
   {
     id: "user-admin-002",
     name: "Dewi Lestari",
-    email: "dewi@rkk.com",
+    email: "dewi.lestari@rumahkukontruksi.com",
     phone: "081234567899",
     role: "admin",
     avatar: "https://i.pravatar.cc/150?u=dewi",
     status: "active",
-    createdAt: "2025-03-20"
+    createdAt: "2024-03-20"
+  },
+  {
+    id: "user-admin-003",
+    name: "Fajar Nugroho",
+    email: "fajar.nugroho@rumahkukontruksi.com",
+    phone: "081234567888",
+    role: "admin",
+    avatar: "https://i.pravatar.cc/150?u=fajar",
+    status: "active",
+    createdAt: "2024-06-10"
+  },
+  {
+    id: "user-admin-004",
+    name: "Siti Aminah",
+    email: "siti.aminah@rumahkukontruksi.com",
+    phone: "081234567877",
+    role: "admin",
+    avatar: "https://i.pravatar.cc/150?u=siti-admin",
+    status: "active",
+    createdAt: "2024-09-05"
   },
   {
     id: "user-konsumen-001",
@@ -63,11 +83,11 @@ export const mockUsers = [
   },
   {
     id: "user-mandor-001",
-    name: "Siti Aminah",
-    email: "siti@rkk.com",
+    name: "Hasan Basri",
+    email: "hasan@rkk.com",
     phone: "081234567892",
     role: "mandor",
-    avatar: "https://i.pravatar.cc/150?u=siti",
+    avatar: "https://i.pravatar.cc/150?u=hasan",
     status: "active",
     createdAt: "2025-02-05"
   }

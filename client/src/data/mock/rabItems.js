@@ -1,11 +1,12 @@
 // client/src/data/mock/rabItems.js
 
 export const mockRabItems = [
-  // RAB for project-001, stage-01
+  // Items for project-001 (Renovasi Bekasi) -> Category: Pekerjaan Persiapan
   {
-    id: "rab-001",
+    id: "rab-item-001-01-01",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-01",
     projectId: "project-001",
-    stageId: "stage-01",
     description: "Pembersihan lokasi manual",
     location: "Area bangunan utama",
     volume: 120,
@@ -14,56 +15,86 @@ export const mockRabItems = [
     total: 1020000,
     progress: 100,
     completedValue: 1020000,
-    notes: "Area kerja dibersihkan dari material bekas."
+    status: "verified",
+    notes: "Pembersihan area dari material bekas."
   },
   {
-    id: "rab-002",
+    id: "rab-item-001-01-02",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-01",
     projectId: "project-001",
-    stageId: "stage-01",
-    description: "Pas bouwplank kayu alba",
-    location: "Keliling area pondasi",
-    volume: 42,
-    unit: "m¹",
-    unitPrice: 52000,
-    total: 2184000,
+    description: "Pasang bouwplank kayu alba",
+    location: "Keliling bangunan",
+    volume: 45,
+    unit: "m'",
+    unitPrice: 55000,
+    total: 2475000,
     progress: 100,
-    completedValue: 2184000,
-    notes: "Acuan elevasi dan titik pondasi."
-  },
-  
-  // RAB for project-001, stage-02
-  {
-    id: "rab-003",
-    projectId: "project-001",
-    stageId: "stage-02",
-    description: "Galian tanah pondasi",
-    location: "Jalur pondasi utama",
-    volume: 85,
-    unit: "m³",
-    unitPrice: 35000,
-    total: 2975000,
-    progress: 100,
-    completedValue: 2975000,
-    notes: "Kedalaman rata-rata 0.8m."
+    completedValue: 2475000,
+    status: "verified",
+    notes: "Sudah di-setting elevasi 0.00."
   },
 
-  // RAB for project-001, stage-04 (In Progress)
+  // Items for project-001 -> Category: Pekerjaan Dinding
   {
-    id: "rab-004",
+    id: "rab-item-001-04-01",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-04",
     projectId: "project-001",
-    stageId: "stage-04",
-    description: "Pasangan dinding bata ringan",
-    location: "Seluruh dinding lantai 1",
-    volume: 210,
+    description: "Pasangan bata ringan (Hebel) t:10cm",
+    location: "Lantai 1",
+    volume: 85,
     unit: "m²",
+    unitPrice: 165000,
+    total: 14025000,
+    progress: 80,
+    completedValue: 11220000,
+    status: "in_progress",
+    notes: "Progress terhambat hujan."
+  },
+
+  // Items for project-008 (Rumah Tipe 36/72 - BSD) -> Category: Pekerjaan Persiapan
+  {
+    id: "rab-item-008-01-01",
+    rabPlanId: "rab-plan-008",
+    categoryId: "rab-category-008-01",
+    projectId: "project-008",
+    description: "Pembersihan lokasi & perataan",
+    location: "Site BSD",
+    volume: 72,
+    unit: "m²",
+    unitPrice: 15000,
+    total: 1080000,
+    progress: 100,
+    completedValue: 1080000,
+    status: "verified",
+    notes: ""
+  },
+  {
+    id: "rab-item-008-01-02",
+    rabPlanId: "rab-plan-008",
+    categoryId: "rab-category-008-01",
+    projectId: "project-008",
+    description: "Pekerjaan Bouwplank",
+    location: "Keliling Site",
+    volume: 38,
+    unit: "m'",
     unitPrice: 65000,
-    total: 13650000,
-    progress: 50,
-    completedValue: 6825000,
-    notes: "Berjalan 50% di area belakang."
+    total: 2470000,
+    progress: 100,
+    completedValue: 2470000,
+    status: "verified",
+    notes: ""
   }
 ];
 
-// Helper to get RAB items by project and stage
-export const getRabByStage = (projectId, stageId) => 
-  mockRabItems.filter(r => r.projectId === projectId && r.stageId === stageId);
+// Helper to get items by category ID
+export const getRabItemsByCategoryId = (categoryId) =>
+  mockRabItems.filter((item) => item.categoryId === categoryId);
+
+// Helper to calculate category subtotal dynamically if needed
+export const calculateCategorySubtotal = (categoryId) => {
+  return mockRabItems
+    .filter(item => item.categoryId === categoryId)
+    .reduce((sum, item) => sum + item.total, 0);
+};

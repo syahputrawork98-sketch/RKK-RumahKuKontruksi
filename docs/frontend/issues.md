@@ -1,16 +1,21 @@
-# Frontend Issues Tracker
+# Frontend Mock Data Issues
 
-Daftar isu dan kekurangan yang ditemukan pada frontend saat ini.
+Audit Terakhir: 7 Mei 2026
 
-| ID | Issue | Status | Deskripsi |
-|---|---|---|---|
-| **FE-001** | Guest Navbar Responsive | Done | Navbar menggunakan breakpoint `lg:` untuk desktop. Hamburger hanya di mobile/tablet. |
-| **FE-002** | Superadmin Data Admin Empty | Open | Halaman manajemen admin masih kosong, perlu data mock. |
-| **FE-003** | Superadmin Data Pengawas Empty | Open | Halaman manajemen pengawas masih kosong, perlu data mock. |
-| **FE-004** | Superadmin Data Mandor Empty | Open | Halaman manajemen mandor masih kosong, perlu data mock. |
-| **FE-005** | Admin Dashboard Shell | Open | Dashboard admin baru berupa bingkai/shell, belum ada data operasional. |
-| **FE-006** | Pengawas Dashboard Shell | Open | Dashboard pengawas baru berupa bingkai/shell, belum ada data monitoring. |
-| **FE-007** | Mandor Dashboard Shell | Open | Dashboard mandor baru berupa bingkai/shell, belum ada data laporan harian. |
-| **FE-008** | Data Hardcoded | Open | Banyak data yang masih di-hardcode di dalam file `.jsx`, menyulitkan maintenance. |
-| **FE-009** | Frontend Mock Import Error | Done | Mock notification dan data lainnya sudah dipindahkan ke `client/src/data/mock/`. |
-| **FE-010** | About Page Alignment | Done | Spacing dan simetri halaman Tentang sudah diperbaiki. |
+## Masalah yang Diperbaiki (Fixed)
+- [x] **Missing Users**: Menambahkan `user-konsumen-002` hingga `004` dan `user-customer-viewer-002` ke `users.js`.
+- [x] **Role Assignments**: Melakukan redistribusi proyek pada Admin, Pengawas, dan Mandor agar sesuai kapasitas (Admin max 3, Pengawas max 3, Mandor max 2).
+- [x] **Mandor Permissions**: Menghapus permission `manage_workers` dari role Mandor dan memperbarui deskripsi menjadi vendor lapangan.
+- [x] **Relasi Komentar**: Menambahkan stage `stage-interior-01` pada `projectStages.js` untuk mengakomodasi komentar pada proyek `project-003`.
+- [x] **Konsistensi RAB**: Menyelaraskan subtotal kategori dengan total item pada `rabCategories.js` dan menambahkan flag `isPlaceholder` untuk data yang belum lengkap.
+- [x] **Audit Kapasitas**: Memastikan tidak ada staff/vendor yang overload.
+
+## Masalah yang Ditunda (Pending / Technical Debt)
+- [ ] **Backward Compatibility**: `activeCustomerProject` masih menggunakan struktur lama. Refactor ke struktur RAB 3 tingkat baru akan dilakukan pada tahap integrasi UI.
+- [ ] **Enum Status Proyek**: Status proyek masih menggunakan Bahasa Indonesia (`Berjalan`, `Selesai`). Perlu dinormalisasi ke enum Inggris (`in_progress`, `completed`, dll) di masa depan.
+- [ ] **Data Detail Proyek Lain**: Saat ini rincian RAB (Category/Item) baru lengkap untuk `project-001`. Proyek lain masih menggunakan data placeholder.
+
+## Prioritas Berikutnya
+1. Integrasi UI Detail Proyek Konsumen dengan data RAB 3 tingkat.
+2. Implementasi form laporan harian Mandor.
+3. Manajemen sertifikat staff di dashboard Admin.

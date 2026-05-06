@@ -19,6 +19,9 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Project Stages Sync with RAB Categories
 - [x] Notifications Mock Table
 - [x] Centralized Mock Exports (`index.js`)
+- [x] Audit & Relational Integrity Fix
+- [ ] Normalization of Project Status Enum (Technical Debt)
+- [ ] Refactor Konsumen Detail with 3-Level RAB
 
 ## Documentation
 - [x] Overview Dokumentasi (`README.md`)
@@ -67,7 +70,7 @@ Daftar progres implementasi fitur frontend RKK.
 
 ## Mandor
 - [x] Mandor Layout & Sidebar
-- [ ] Manajemen Tukang/Pekerja
+- [ ] Manajemen Tim Lapangan (Summary Vendor)
 - [ ] Laporan Harian (Logbook)
 - [ ] Request Material Proyek
 

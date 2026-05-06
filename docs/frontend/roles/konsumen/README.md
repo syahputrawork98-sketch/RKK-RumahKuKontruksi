@@ -1,40 +1,37 @@
 # Role: Konsumen
 
 ## Status Umum
-Role Konsumen memiliki fitur yang paling kompleks secara data. Fitur unggulannya adalah **Monitoring Timeline** yang memungkinkan konsumen melihat progres proyek secara detail hingga rincian RAB teknis dan dokumentasi foto lapangan.
+Role Konsumen merupakan pemilik proyek. Fokus utama peran ini adalah memantau progres pembangunan, mengunduh laporan/RAB, melakukan pembayaran, dan memberikan masukan melalui komentar.
 
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard Timeline | `/konsumen/TimelineProyek` | `TimelineProyek.jsx` | **Done** | Monitoring progres utama. |
-| Detail Laporan | `/konsumen/TimelineProyek/:stageId` | `DetailTimelineProyek.jsx` | **Done** | Tabel RAB teknis & foto. |
-| Daftar Proyek | `/konsumen/proyek` | `Proyek.jsx` | **Partial** | Data masih hardcoded di komponen. |
-| Profil Akun | `/konsumen/profil` | `Profil.jsx` | **Partial** | Data masih hardcoded di komponen. |
+| Dashboard | `/konsumen/dashboard` | `DashboardKonsumen.jsx` | **Partial** | Menampilkan statistik proyek aktif. |
+| List Proyek | `/konsumen/Proyek` | `Proyek.jsx` | **Partial** | Masih dalam proses migrasi ke `mockProjects`. |
+| Timeline | `/konsumen/TimelineProyek` | `TLProyek.jsx` | **Done** | Redesain premium sudah selesai. |
+| Detail Tahap | `/konsumen/TimelineProyek/:id` | `DetailTLProyek.jsx` | **Done** | Fitur detail RAB dan foto dokumentasi. |
 
 ## Komponen Terkait
-- `TLProyek.jsx`: Komponen timeline interaktif.
-- `DetailPekerjaanProyek.jsx`: Renderer laporan teknis dan RAB.
 - `KonsumenLayout.jsx`: Layout dengan sidebar khusus konsumen.
 
 ## Data / Mock Data
-- **Centralized Mock Data**: Menggunakan folder `src/data/mock/` sebagai sumber data tunggal.
-- **Timeline**: Sudah menggunakan `activeCustomerProject` (Backward compatibility mode).
-- **Refactoring Target**: Halaman **Proyek** dan **Profil** sedang dalam proses migrasi dari data hardcoded ke `mockProjects`, `mockCustomers`, dan `mockUsers`.
+- **Centralized Mock Data**: Menggunakan folder `src/data/mock/`.
+- **Project Members**: Pihak konsumen dapat menambahkan viewer (keluarga/staf) melalui `customerProjectMembers.js`.
+- **Comments**: Konsumen dan viewer dapat berdiskusi pada tiap tahapan proyek via `projectComments.js`.
+- **Customer Types**: Mendukung profil `individual` dan `company`.
+
+## Role Tambahan: Customer Viewer
+- Role: `customer_viewer`
+- Deskripsi: Akun tambahan pihak konsumen dengan akses hanya-baca dan komentar.
 
 ## Sudah Dikerjakan
 - [x] Redesain Timeline menjadi lebih premium dan modern.
-- [x] Implementasi halaman detail tahap dengan URL param (`:stageId`).
-- [x] Tabel RAB teknis (Volume, Satuan, Harga Satuan, Progress).
-- [x] Galeri dokumentasi foto per tahap.
-- [x] Ringkasan anggaran proyek di dashboard.
+- [x] Pembuatan skema data banyak proyek per konsumen.
+- [x] Pembuatan skema akun viewer tambahan.
+- [x] Pembuatan sistem komentar mock.
 
 ## Belum Dikerjakan
-- [ ] Fitur chat/komentar langsung pada tahap pekerjaan tertentu.
-- [ ] Tombol download laporan (PDF) yang fungsional (saat ini masih dummy).
-- [ ] Notifikasi real-time jika ada progres baru.
-
-## Prioritas Berikutnya
-1. **Sentralisasi Data**: Memindahkan data dari `Proyek.jsx` dan `Profil.jsx` ke file mock terpusat.
-2. Pemantapan fitur "Profil" (upload avatar, ganti password).
-3. Perbaikan tampilan mobile untuk tabel RAB teknis yang sangat lebar.
+- [ ] Refactor `Proyek.jsx` agar mengambil data dari `mockProjects`.
+- [ ] Refactor `Profil.jsx` agar mengambil data dari `mockCustomers`.
+- [ ] Fitur download laporan PDF otomatis (Dummy UI).

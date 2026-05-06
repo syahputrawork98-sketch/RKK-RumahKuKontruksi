@@ -9,7 +9,9 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Supervisor Certificates Mock Table
 - [x] Mandor Mock Profiles (Capacity: 2)
 - [x] Mandor Certificates Mock Table
-- [x] Customer & Staff Profile Mock Tables
+- [x] Customer Mock Profiles (Individual & Company)
+- [x] Customer Project Members (Viewer Access)
+- [x] Project Comments (Timeline Discussion)
 - [x] Project, Stages, & RAB Mock Tables
 - [x] Notifications Mock Table
 - [x] Centralized Mock Exports (`index.js`)

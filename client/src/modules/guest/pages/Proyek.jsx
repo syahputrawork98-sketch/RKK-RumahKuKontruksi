@@ -39,18 +39,58 @@ const Proyek = () => {
 
     return (
         <main className="pt-24 pb-16">
-            <section className="py-20 px-4">
-                <div className="container mx-auto text-center">
+            {/* Hero Section */}
+            <section className="relative bg-neutral-20 text-neutral-10 py-24 px-4 overflow-hidden border-b border-neutral-30">
+                {/* Decorative Elements */}
+                <div className="absolute top-0 left-0 w-96 h-96 bg-primary-main/5 rounded-full -ml-48 -mt-48 blur-3xl"></div>
+                <div className="absolute bottom-0 right-0 w-72 h-72 bg-primary-hover/10 rounded-full -mr-36 -mb-36 blur-2xl"></div>
+
+                <div className="container mx-auto text-center relative z-10">
+                    <motion.span 
+                        className="inline-block bg-primary-main/10 text-primary-main text-s-bold px-4 py-1.5 rounded-full mb-6 uppercase tracking-widest border border-primary-main/20"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                    >
+                        Showcase Proyek
+                    </motion.span>
                     <motion.h1 
-                        className="text-heading-l-bold md:text-display font-bold text-neutral-100 mb-6"
+                        className="text-heading-l-bold md:text-display mb-8 text-neutral-100 leading-tight drop-shadow-sm"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Proyek RumahKu Kontruksi
                     </motion.h1>
-                    <p className="text-l-regular md:text-heading-s-regular text-neutral-90 max-w-2xl mx-auto mb-20">
-                        Menampilkan dedikasi kami dalam membangun hunian berkualitas dan amanah di berbagai lokasi.
-                    </p>
+                    <motion.p 
+                        className="text-l-regular md:text-heading-s-regular text-neutral-80 max-w-3xl mx-auto mb-10 leading-relaxed"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        Lihat beberapa contoh pekerjaan dan progres proyek yang menggambarkan 
+                        cara kami bekerja secara terencana, transparan, dan terdokumentasi.
+                    </motion.p>
+
+                    <motion.div 
+                        className="flex flex-wrap justify-center gap-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <Link 
+                            to="/contact" 
+                            className="bg-primary-main text-white text-l-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:bg-primary-hover hover:scale-105"
+                        >
+                            Konsultasikan Proyek Anda
+                        </Link>
+                        <Link 
+                            to="/cara-kerja" 
+                            className="border-2 border-primary-main text-primary-main text-l-bold py-4 px-10 rounded-xl transition-all hover:bg-primary-main hover:text-white"
+                        >
+                            Lihat Cara Kerja
+                        </Link>
+                    </motion.div>
+                </div>
+            </section>
 
                     <div className="grid md:grid-cols-2 gap-10">
                         {projects.map((project) => (

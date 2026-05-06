@@ -5,44 +5,71 @@ export const mockRoles = [
     id: "role-superadmin",
     name: "superadmin",
     label: "Super Admin",
-    description: "Akses penuh ke seluruh sistem dan manajemen user internal.",
-    permissions: ["manage_all", "manage_users", "view_all_projects"]
+    description: "Akses penuh ke seluruh sistem, manajemen staff, dan pengaturan global.",
+    permissions: ["all"]
   },
   {
     id: "role-admin",
     name: "admin",
-    label: "Admin",
-    description: "Manajemen operasional proyek, approval pembayaran, dan penugasan tim.",
-    permissions: ["manage_projects", "approve_payments", "assign_team"]
+    label: "Admin Pusat",
+    description: "Manajemen proyek, verifikasi pembayaran, dan koordinasi staff lapangan.",
+    permissions: [
+      "view_dashboard",
+      "manage_projects",
+      "manage_customers",
+      "verify_payments",
+      "assign_staff"
+    ]
+  },
+  {
+    id: "role-pengawas",
+    name: "pengawas",
+    label: "Pengawas Lapangan",
+    description: "Memantau progres harian, verifikasi pekerjaan, dan dokumentasi lapangan.",
+    permissions: [
+      "view_dashboard",
+      "update_progress",
+      "verify_work",
+      "upload_photos",
+      "manage_materials_request"
+    ]
+  },
+  {
+    id: "role-mandor",
+    name: "mandor",
+    label: "Mandor Proyek",
+    description: "Mengelola tukang di lapangan, laporan harian, dan teknis pekerjaan.",
+    permissions: [
+      "view_dashboard",
+      "manage_workers",
+      "daily_report",
+      "request_materials"
+    ]
   },
   {
     id: "role-konsumen",
     name: "konsumen",
     label: "Konsumen",
-    description: "Pengguna yang memantau proyek miliknya, melihat timeline, dan RAB.",
-    permissions: ["view_own_projects", "view_project_progress", "view_payments"]
+    description: "Pemilik proyek yang memantau progres, pembayaran, dan hasil pekerjaan.",
+    permissions: [
+      "view_my_projects",
+      "view_timeline",
+      "approve_milestone",
+      "make_payment",
+      "comment_timeline"
+    ]
   },
   {
-    id: "role-pengawas",
-    name: "pengawas",
-    label: "Pengawas",
-    description: "Monitoring lapangan, verifikasi progres tahap, dan upload dokumentasi.",
-    permissions: ["view_assigned_projects", "verify_progress", "upload_docs"]
-  },
-  {
-    id: "role-mandor",
-    name: "mandor",
-    label: "Mandor",
-    description: "Laporan harian, manajemen tukang, dan permintaan material.",
-    permissions: ["report_daily", "manage_workers", "request_material"]
+    id: "role-customer-viewer",
+    name: "customer_viewer",
+    label: "Customer Viewer",
+    description: "Akun tambahan dari pihak konsumen untuk melihat proyek dan memberi komentar terbatas.",
+    permissions: [
+      "view_project",
+      "view_timeline",
+      "view_project_photos",
+      "view_project_rab",
+      "comment_timeline"
+    ]
   }
 ];
-
-// Legacy support if needed
-export const roles = {
-  SUPERADMIN: "superadmin",
-  ADMIN: "admin",
-  PENGAWAS: "pengawas",
-  MANDOR: "mandor",
-  KONSUMEN: "konsumen",
-};

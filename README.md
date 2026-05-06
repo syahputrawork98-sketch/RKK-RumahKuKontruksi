@@ -8,13 +8,18 @@ Ini adalah repository final utama untuk proyek **RumahKu Kontruksi**. Repository
 RKK-RumahKuKontruksi/
 ├── client/         # Frontend Vite React (Dari RumahKuKontruksi-Dev)
 ├── server/         # Backend Express (Placeholder untuk migrasi)
-├── docs/           # Dokumentasi Proyek & Rencana Migrasi
+├── docs/           # Dokumentasi Terstruktur
 ├── README.md       # File ini
 └── .gitignore      # Konfigurasi Git ignore root
 ```
 
-## Status Proyek
-Saat ini fokus pada **Frontend/UI**. Seluruh kode frontend dari repository `RumahKuKontruksi-Dev/client` telah dipindahkan ke folder `client/`. Repository `rumahkukontruksi-frontend` (Next.js) sudah tidak digunakan lagi.
+## Dokumentasi Utama
+Kami menggunakan sistem dokumentasi terstruktur untuk mengelola proyek ini:
+- **[Pusat Dokumentasi](docs/README.md)** - Mulai dari sini.
+- **[Overview Proyek](docs/project/overview.md)**
+- **[Status Frontend](docs/frontend/current-state.md)**
+- **[Audit UI/UX](docs/frontend/ui-ux-audit.md)**
+- **[Rencana Kerja (Roadmap)](docs/project/roadmap.md)**
 
 ## Cara Menjalankan Frontend
 
@@ -31,9 +36,5 @@ Saat ini fokus pada **Frontend/UI**. Seluruh kode frontend dari repository `Ruma
    npm run dev
    ```
 
-## Dokumentasi
-Detail mengenai rencana migrasi dan catatan teknis dapat ditemukan di folder `docs/`:
-- [Rencana Migrasi](docs/migration-plan.md)
-- [Catatan Frontend](docs/frontend-notes.md)
-- [Catatan Backend](docs/backend-notes.md)
-- [Roadmap](docs/roadmap.md)
+## Status Proyek
+Saat ini tim sedang fokus pada **Audit UI/UX** dan **Inventarisasi Komponen** pada sisi frontend. Seluruh kode sumber frontend berasal dari `RumahKuKontruksi-Dev/client`.

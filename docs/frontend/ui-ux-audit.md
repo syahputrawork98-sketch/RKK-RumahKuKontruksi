@@ -4,9 +4,9 @@
 Dokumen ini digunakan untuk mengontrol proses audit dan perapihan UI/UX frontend RumahKu Kontruksi secara bertahap.
 
 ## Status Umum
-Frontend menggunakan Vite React dari RumahKuKontruksi-Dev/client.
+Frontend menggunakan Vite React dari `RumahKuKontruksi-Dev/client`. Audit dilakukan untuk memastikan standar premium dan fungsionalitas yang tepat.
 
-## Daftar Route Audit (Initial Check: 2026-05-06)
+## Daftar Temuan Audit (Initial Check: 2026-05-06)
 
 | Route | Role | Status | Catatan | Prioritas |
 |---|---|---|---|---|
@@ -24,15 +24,12 @@ Frontend menggunakan Vite React dari RumahKuKontruksi-Dev/client.
 | /pengawas/dashboard | Pengawas | **REDESIGN** | Dashboard pengawas. *Status*: Masih berupa shell kosong. | high |
 | /mandor/dashboard | Mandor | **REDESIGN** | Dashboard mandor. *Status*: Masih berupa shell kosong. | high |
 
-## Aturan Perubahan UI
-- Jangan ubah semua halaman sekaligus.
-- Ubah satu halaman atau satu kelompok role per tahap.
-- Jangan ubah flow besar tanpa catatan.
-- Jangan sambungkan backend dulu.
-- Gunakan mock data terlebih dahulu.
-- Setiap perubahan UI harus bisa dijelaskan dan diuji dari route terkait.
-
-## Temuan Teknis
+## Temuan Teknis Global
 1. **Responsive**: Navbar guest perlu perbaikan breakpoint agar tidak selalu menampilkan hamburger menu.
 2. **Missing Imports**: Menambahkan mock `@server/services/NotificationService` dan `@server/data/dummyNotifications` agar dashboard bisa berjalan.
 3. **Empty States**: Halaman manajemen data superadmin perlu diisi mock data awal agar UI terlihat utuh.
+
+## Aturan Perubahan UI
+- Ubah satu halaman atau satu kelompok role per tahap.
+- Jangan ubah flow besar tanpa catatan.
+- Gunakan mock data terlebih dahulu sebelum integrasi backend.

@@ -93,23 +93,32 @@ const Layanan = () => {
             </section>
 
             {/* Services Grid */}
-            <section className="py-24 px-4 bg-white">
-                <div className="container mx-auto">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <section className="py-24 px-6 bg-white">
+                <div className="container mx-auto max-w-7xl">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                         {services.map((service, index) => (
                             <motion.div 
                                 key={index}
-                                className="bg-white p-8 rounded-2xl shadow-md border border-neutral-30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                                className="group bg-white p-10 rounded-[40px] shadow-sm border border-neutral-30 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
                             >
-                                <div className="mb-6 bg-primary-surface w-16 h-16 rounded-xl flex items-center justify-center">
-                                    {service.icon}
+                                <div className="mb-8 bg-primary-surface w-20 h-20 rounded-3xl flex items-center justify-center group-hover:bg-primary-main transition-colors duration-500">
+                                    <div className="group-hover:text-white transition-colors duration-500">
+                                        {service.icon}
+                                    </div>
                                 </div>
-                                <h3 className="text-heading-m-bold mb-4 text-neutral-100">{service.title}</h3>
-                                <p className="text-l-regular text-neutral-90 leading-relaxed">{service.desc}</p>
+                                <h3 className="text-heading-m-bold mb-4 text-neutral-100 group-hover:text-primary-main transition-colors duration-300">
+                                    {service.title}
+                                </h3>
+                                <p className="text-l-regular text-neutral-80 leading-relaxed flex-grow">
+                                    {service.desc}
+                                </p>
+                                <div className="mt-8 flex items-center gap-2 text-primary-main text-m-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    Konsultasikan Proyek Ini <span>→</span>
+                                </div>
                             </motion.div>
                         ))}
                     </div>

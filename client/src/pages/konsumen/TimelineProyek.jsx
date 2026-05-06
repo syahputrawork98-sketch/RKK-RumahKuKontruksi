@@ -1,29 +1,38 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
 import { getFullProjectDetails, getCustomerProjects } from "../../data/mock/helpers";
 import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser } from "react-icons/fi";
 
 const TimelineProyek = () => {
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const queryProjectId = queryParams.get("projectId");
   const stateProjectId = location.state?.projectId;
   
   // Default to first project if none provided
   const myProjects = getCustomerProjects("customer-001");
   const defaultProjectId = myProjects.length > 0 ? myProjects[0].id : null;
   
-  const projectId = stateProjectId || defaultProjectId;
+  const projectId = queryProjectId || stateProjectId || defaultProjectId;
   const project = getFullProjectDetails(projectId);
 
   if (!project) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
-        <h2 className="text-xl font-bold text-gray-400 italic">Proyek tidak ditemukan</h2>
-        <p className="text-gray-500 mt-2">Pilih proyek dari daftar proyek terlebih dahulu.</p>
+        <div className="text-center max-w-md">
+          <FiMapPin className="text-gray-300 mx-auto mb-4" size={48} />
+          <h2 className="text-xl font-bold text-gray-700">Proyek tidak ditemukan</h2>
+          <p className="text-gray-500 mt-2">Data proyek yang Anda cari tidak tersedia atau ID tidak valid.</p>
+          <Link to="/konsumen/proyek" className="btn btn-teal mt-6">Kembali ke Daftar Proyek</Link>
+        </div>
       </div>
     );
   }
+
+  const hasTimeline = Array.isArray(project.timeline) && project.timeline.length > 0;
+
 
   const formatCurrency = (value) =>
     new Intl.NumberFormat("id-ID", {
@@ -194,7 +203,21 @@ const TimelineProyek = () => {
             </div>
           </div>
           
-          <TLProyek timeline={project.timeline} />
+          {hasTimeline ? (
+            <TLProyek timeline={project.timeline} />
+          ) : (
+            <div className="bg-white rounded-[40px] border-2 border-dashed border-neutral-30 p-20 text-center space-y-4">
+              <div className="w-24 h-24 bg-neutral-20 rounded-3xl flex items-center justify-center mx-auto text-neutral-40">
+                <FiCalendar size={40} />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-heading-s-bold text-neutral-100">Timeline Belum Tersedia</h3>
+                <p className="text-m-regular text-neutral-60 max-w-sm mx-auto">
+                  Jadwal pelaksanaan proyek ini sedang dalam tahap penyusunan oleh tim admin dan pengawas lapangan.
+                </p>
+              </div>
+            </div>
+          )}
         </section>
       </div>
     </div>

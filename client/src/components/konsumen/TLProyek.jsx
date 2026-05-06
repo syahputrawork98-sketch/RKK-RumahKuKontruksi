@@ -74,7 +74,7 @@ const TLProyek = ({ timeline = [] }) => {
                     </div>
 
                     {/* Image preview */}
-                    {stage.images && stage.images.length > 0 && (
+                    {Array.isArray(stage.images) && stage.images.length > 0 && (
                       <div className="grid grid-cols-4 gap-2">
                         <div className="col-span-4 h-44 rounded-2xl overflow-hidden relative group/img">
                           <img
@@ -101,13 +101,19 @@ const TLProyek = ({ timeline = [] }) => {
                     <div className="space-y-2">
                       <p className="text-xs font-bold text-neutral-70 uppercase tracking-wider">Pekerjaan Utama</p>
                       <ul className="space-y-1.5">
-                        {stage.tasks.slice(0, 3).map((task, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-neutral-70">
-                            <FiCheckCircle className={`mt-0.5 shrink-0 ${stage.status === "verified" ? "text-success-main" : "text-neutral-40"}`} size={14} />
-                            {task}
+                        {Array.isArray(stage.tasks) && stage.tasks.length > 0 ? (
+                          stage.tasks.slice(0, 3).map((task, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-neutral-70">
+                              <FiCheckCircle className={`mt-0.5 shrink-0 ${stage.status === "verified" ? "text-success-main" : "text-neutral-40"}`} size={14} />
+                              {task}
+                            </li>
+                          ))
+                        ) : (
+                          <li className="text-sm text-neutral-50 italic pl-6 border-l-2 border-neutral-30">
+                            {stage.description || stage.note || "Belum ada rincian pekerjaan untuk tahap ini."}
                           </li>
-                        ))}
-                        {stage.tasks.length > 3 && (
+                        )}
+                        {Array.isArray(stage.tasks) && stage.tasks.length > 3 && (
                           <li className="text-xs font-medium text-primary-main pl-5">+{stage.tasks.length - 3} pekerjaan lainnya…</li>
                         )}
                       </ul>

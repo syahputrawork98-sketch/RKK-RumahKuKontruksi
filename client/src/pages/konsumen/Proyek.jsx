@@ -120,7 +120,7 @@ const Proyek = () => {
 
                   <button
                     className="btn btn-sm bg-teal-600 hover:bg-teal-700 text-white border-none"
-                    onClick={() => navigate("/konsumen/TimelineProyek", { state: { projectId: proyek.id } })}
+                    onClick={() => navigate(`/konsumen/TimelineProyek?projectId=${proyek.id}`, { state: { projectId: proyek.id } })}
                   >
                     Lihat Detail
                   </button>

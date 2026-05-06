@@ -1,13 +1,13 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import DetailPekerjaanProyek from "../../components/konsumen/DetailPekerjaanProyek";
-import { mockProjectStages } from "../../data/mock/projectStages";
+import { getStageByIdFull } from "../../data/mock/helpers";
 import { FiArrowLeft } from "react-icons/fi";
 
 const DetailTimelineProyek = () => {
   const { stageId } = useParams();
 
-  const stage = mockProjectStages.find((item) => item.id === stageId);
+  const stage = getStageByIdFull(stageId);
 
   if (!stage) {
     return (

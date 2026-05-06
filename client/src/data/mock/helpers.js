@@ -99,3 +99,57 @@ export const getFullProjectDetails = (projectId) => {
   };
 };
 
+/**
+ * Get a project by its ID
+ */
+export const getProjectById = (projectId) => {
+  return mockProjects.find((p) => p.id === projectId);
+};
+
+/**
+ * Get full stage details including project, customer, and RAB context
+ */
+export const getStageByIdFull = (stageId) => {
+  const stage = mockProjectStages.find((s) => s.id === stageId);
+  if (!stage) return null;
+
+  const project = mockProjects.find((p) => p.id === stage.projectId);
+  const customer = customer001; // Default for demo, or fetch by project.customerId
+  const admin = mockAdmins.find((a) => a.id === project?.adminId);
+  const supervisor = mockSupervisors.find((s) => s.id === project?.supervisorId);
+
+  // RAB Items for this stage
+  const rabItems = mockRabItems
+    .filter((item) => item.categoryId === stage.categoryId)
+    .map((item) => ({
+      ...item,
+      uraian: item.description,
+      hargaSatuan: item.unitPrice,
+      satuan: item.unit,
+      nilaiSelesai: item.completedValue,
+    }));
+
+  const amount = rabItems.reduce((sum, item) => sum + (item.total || 0), 0);
+  const paid = rabItems.reduce((sum, item) => sum + (item.completedValue || 0), 0);
+
+  return {
+    ...stage,
+    project,
+    customer,
+    admin,
+    supervisor,
+    rabItems,
+    payment: {
+      amount,
+      paid,
+    },
+    // Fallback normalization
+    tasks: stage.tasks || rabItems.map(i => i.uraian) || [],
+    images: stage.images || [],
+    title: stage.title || "Tahap Proyek",
+    note: stage.note || stage.description || ""
+  };
+};
+
+const customer001 = mockCustomers.find(c => c.id === "customer-001");
+

@@ -1,103 +1,118 @@
 // client/src/components/Footer.jsx
-// Komponen Footer RumahKu Kontruksi (RKK)
-// Disesuaikan dengan warna dan tema Navbar RKK, serta menggunakan logo Cloudinary
 import { Link } from "react-router-dom";
+import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
+
+// URL logo
+const Logo = "https://res.cloudinary.com/dmv4vtgbw/image/upload/v1760437039/rumahku-kontruksi-high-resolution-logo-transparent_rxswjp.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-neutral-100 border-t border-neutral-50 text-base-content py-10 px-6">
-      {/* Container utama */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-center sm:text-left">
-        {/* Bagian Kiri: Logo dan Deskripsi */}
-        <div className="flex flex-col items-center sm:items-start space-y-3">
-          {/* Logo Gambar */}
-          <img
-            src="https://res.cloudinary.com/dmv4vtgbw/image/upload/v1760437039/RKK-logo_ougu97.png"
-            alt="RumahKu Kontruksi Logo"
-            className="w-16 h-16 object-contain mx-auto sm:mx-0"
-          />
-
-          {/* Nama dan Versi */}
-          <p className="text-heading-s-bold text-primary-main ">
-            RumahKu Kontruksi{" "}
-            <span className="block text-m-regular text-[#E67E22]">
-              v1.0 Beta
-            </span>
-          </p>
-
-          {/* Deskripsi singkat */}
-          <p className="text-m-regular text-neutral-70 max-w-[230px]">
-            Platform kolaborasi untuk konsumen, mandor, dan pengawas proyek
-            membangun rumah dengan efisien dan transparan.
-          </p>
-        </div>
-
-        {/* Bagian Tengah: Navigasi Cepat */}
-        <div>
-          <h3 className=" mb-3 text-heading-s-bold text-primary-main">
-            Navigasi
-          </h3>
-          <ul className="space-y-2 text-m-regular text-neutral-70">
-            <li>
-              <Link to="/" className="hover:text-[#E67E22] transition-colors">
-                Beranda
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-[#E67E22] transition-colors"
-              >
-                Tentang
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-[#E67E22] transition-colors"
-              >
-                Layanan
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="hover:text-[#E67E22] transition-colors"
-              >
-                Kontak
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Bagian Kanan: Info Tambahan */}
-        <div>
-          <h3 className="mb-3 text-heading-s-bold text-primary-main">
-            Informasi
-          </h3>
-          <ul className="space-y-2 text-m-regular text-neutral-70">
-            <li>
-              Email:{" "}
-              <a
-                href="mailto:Rumahkukontruksi@outlook.com"
-                className="hover:text-[#E67E22] transition-colors"
-              >
-                rumahkukontruksi@outlook.com
+    <footer className="bg-neutral-100 border-t border-neutral-30 pt-20 pb-10 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          {/* Kolom 1: Brand */}
+          <div className="flex flex-col space-y-6">
+            <img
+              src={Logo}
+              alt="RumahKu Kontruksi Logo"
+              className="w-40 lg:w-48"
+            />
+            <p className="text-m-regular text-neutral-70 leading-relaxed">
+              Platform konstruksi terpercaya untuk mewujudkan hunian impian Anda dengan proses yang terencana, transparan, dan terdokumentasi dengan baik.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-primary-surface flex items-center justify-center text-primary-main hover:bg-primary-main hover:text-white transition-all">
+                <FaInstagram size={20} />
               </a>
-            </li>
-            <li>
-              Telepon:{" "}
-              <span className="text-primary-main">+62 812-8888-8888</span>
-            </li>
-            <li>© 2025 Seeusyah. All rights reserved.</li>
-          </ul>
-        </div>
-      </div>
+              <a href="#" className="w-10 h-10 rounded-full bg-primary-surface flex items-center justify-center text-primary-main hover:bg-primary-main hover:text-white transition-all">
+                <FaFacebook size={20} />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-primary-surface flex items-center justify-center text-primary-main hover:bg-primary-main hover:text-white transition-all">
+                <FaLinkedin size={20} />
+              </a>
+            </div>
+          </div>
 
-      {/* Garis pemisah & Catatan */}
-      <div className="mt-10 border-t border-neutral-50 pt-5 text-center text-m-regular text-neutral-70">
-        Dibangun dengan ❤️ oleh tim{" "}
-        <span className="text-primary-main text-m-bold">RumahKu Kontruksi</span>
+          {/* Kolom 2: Navigasi */}
+          <div>
+            <h3 className="text-heading-s-bold text-neutral-100 mb-8 uppercase tracking-widest">
+              Navigasi
+            </h3>
+            <ul className="space-y-4 text-m-regular text-neutral-70">
+              <li>
+                <Link to="/" className="hover:text-primary-main transition-colors">Beranda</Link>
+              </li>
+              <li>
+                <Link to="/layanan" className="hover:text-primary-main transition-colors">Layanan</Link>
+              </li>
+              <li>
+                <Link to="/cara-kerja" className="hover:text-primary-main transition-colors">Cara Kerja</Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-primary-main transition-colors">Tentang</Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-primary-main transition-colors">Kontak</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Kolom 3: Layanan Kami */}
+          <div>
+            <h3 className="text-heading-s-bold text-neutral-100 mb-8 uppercase tracking-widest">
+              Layanan Kami
+            </h3>
+            <ul className="space-y-4 text-m-regular text-neutral-70">
+              <li>
+                <Link to="/layanan" className="hover:text-primary-main transition-colors">Bangun Rumah Baru</Link>
+              </li>
+              <li>
+                <Link to="/layanan" className="hover:text-primary-main transition-colors">Renovasi Hunian</Link>
+              </li>
+              <li>
+                <Link to="/layanan" className="hover:text-primary-main transition-colors">Desain Arsitektur</Link>
+              </li>
+              <li>
+                <Link to="/layanan" className="hover:text-primary-main transition-colors">Estimasi Biaya / RAB</Link>
+              </li>
+              <li>
+                <Link to="/layanan" className="hover:text-primary-main transition-colors">Manajemen Proyek</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Kolom 4: Hubungi Kami */}
+          <div>
+            <h3 className="text-heading-s-bold text-neutral-100 mb-8 uppercase tracking-widest">
+              Hubungi Kami
+            </h3>
+            <ul className="space-y-4 text-m-regular text-neutral-70">
+              <li className="flex items-start gap-3">
+                <FaEnvelope className="mt-1 text-primary-main shrink-0" />
+                <a href="mailto:rumahkukontruksi@outlook.com" className="hover:text-primary-main transition-colors">
+                  rumahkukontruksi@outlook.com
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <FaPhoneAlt className="mt-1 text-primary-main shrink-0" />
+                <span>+62 812-8888-8888</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <FaMapMarkerAlt className="mt-1 text-primary-main shrink-0" />
+                <span>Jl. Konstruksi No. 123, Jakarta Selatan, Indonesia</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-10 border-t border-neutral-30 flex flex-col md:flex-row justify-between items-center gap-6 text-m-regular text-neutral-50">
+          <p>© 2025 RumahKu Kontruksi. All rights reserved.</p>
+          <div className="flex gap-8">
+            <Link to="#" className="hover:text-primary-main">Kebijakan Privasi</Link>
+            <Link to="#" className="hover:text-primary-main">Syarat & Ketentuan</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -9,7 +9,7 @@ import TentangTim from "../components/tentang/TentangTim";
 
 const Tentang = () => {
     return (
-        <main className="pb-24 space-y-24">
+        <main className="pt-24 pb-24 space-y-24">
             <TentangIntro />
             <div className="space-y-24">
                 <TentangVisi />
@@ -48,13 +48,13 @@ const Tentang = () => {
                     >
                         <Link 
                             to="/contact" 
-                            className="bg-primary-main text-white text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:bg-primary-hover hover:scale-105"
+                            className="bg-primary-main text-white text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:bg-primary-hover hover:scale-105 active:scale-95"
                         >
                             Hubungi Kami
                         </Link>
                         <Link 
                             to="/proyek" 
-                            className="border-2 border-primary-main text-primary-main text-l-bold py-4 px-12 rounded-2xl transition-all hover:bg-primary-main hover:text-white"
+                            className="border-2 border-primary-main text-primary-main text-l-bold py-4 px-12 rounded-2xl transition-all hover:bg-primary-main hover:text-white hover:scale-105 active:scale-95"
                         >
                             Lihat Portfolio
                         </Link>

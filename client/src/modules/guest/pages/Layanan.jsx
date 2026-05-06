@@ -40,7 +40,7 @@ const Layanan = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Hero Section */}
-            <section className="relative bg-primary-main text-neutral-10 py-24 px-4 overflow-hidden">
+            <section className="relative bg-primary-main text-white py-24 px-4 overflow-hidden">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary-hover/30 rounded-full -mr-48 -mt-48 blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-pressed/40 rounded-full -ml-36 -mb-36 blur-2xl"></div>
@@ -189,7 +189,7 @@ const Layanan = () => {
                     <h2 className="text-heading-l-bold mb-8 text-neutral-100">Siap Mewujudkan Hunian Impian Anda?</h2>
                     <Link 
                         to="/contact" 
-                        className="inline-block bg-primary-main hover:bg-primary-hover text-neutral-10 text-l-bold py-4 px-10 rounded-xl transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                        className="inline-block bg-primary-main hover:bg-primary-hover text-white text-l-bold py-4 px-10 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95"
                     >
                         Konsultasikan Kebutuhan Anda
                     </Link>

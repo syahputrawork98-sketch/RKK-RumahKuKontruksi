@@ -1,39 +1,47 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaHome, FaTools, FaDraftingCompass, FaCalculator, FaEye, FaTasks } from "react-icons/fa";
+import { FaHome, FaTools, FaDraftingCompass, FaCalculator, FaEye, FaTasks, FaComments, FaFileInvoice } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Layanan = () => {
-    const services = [
+    const designServices = [
+        {
+            title: "Konsultasi Konsep",
+            desc: "Diskusi awal untuk mematangkan ide, kebutuhan ruang, dan gaya arsitektur yang paling sesuai dengan karakter Anda.",
+            icon: <FaComments className="text-4xl text-primary-main" />,
+        },
+        {
+            title: "Desain Arsitektur",
+            desc: "Pembuatan denah, tampak, dan visualisasi 3D yang mengedepankan estetika, sirkulasi udara, dan efisiensi ruang.",
+            icon: <FaDraftingCompass className="text-4xl text-primary-main" />,
+        },
+        {
+            title: "Gambar Kerja (DED)",
+            desc: "Penyusunan rincian teknis bangunan secara detail sebagai panduan baku tim lapangan untuk menjamin presisi pembangunan.",
+            icon: <FaFileInvoice className="text-4xl text-primary-main" />,
+        },
+    ];
+
+    const constructionServices = [
         {
             title: "Bangun Rumah Baru",
-            desc: "Membantu Anda mewujudkan rumah impian dari nol dengan perencanaan matang dan konstruksi berkualitas.",
+            desc: "Membantu Anda mewujudkan rumah impian dari nol dengan perencanaan matang dan konstruksi berkualitas tinggi.",
             icon: <FaHome className="text-4xl text-primary-main" />,
         },
         {
             title: "Renovasi Rumah",
-            desc: "Transformasi hunian lama Anda menjadi lebih modern, fungsional, dan nyaman sesuai kebutuhan keluarga.",
+            desc: "Transformasi hunian lama menjadi lebih fungsional dan modern dengan tetap menjaga struktur bangunan yang aman.",
             icon: <FaTools className="text-4xl text-primary-main" />,
         },
         {
-            title: "Desain & Perencanaan",
-            desc: "Layanan desain arsitektural dan interior yang mengedepankan estetika serta efisiensi ruang.",
-            icon: <FaDraftingCompass className="text-4xl text-primary-main" />,
-        },
-        {
             title: "Estimasi Biaya / RAB",
-            desc: "Penyusunan Rencana Anggaran Biaya yang transparan dan akurat untuk menghindari pembengkakan biaya.",
+            desc: "Penyusunan Rencana Anggaran Biaya yang transparan untuk menghindari biaya tidak terduga di tengah proyek.",
             icon: <FaCalculator className="text-4xl text-primary-main" />,
         },
         {
-            title: "Pengawasan Proyek",
-            desc: "Memastikan setiap tahapan pembangunan berjalan sesuai spesifikasi, jadwal, dan standar kualitas.",
+            title: "Manajemen & Pengawasan",
+            desc: "Koordinasi dan kontrol berkala di lapangan untuk memastikan kualitas material dan jadwal pengerjaan tetap terjaga.",
             icon: <FaEye className="text-4xl text-primary-main" />,
-        },
-        {
-            title: "Manajemen Proyek",
-            desc: "Koordinasi menyeluruh antara tukang, material, dan jadwal untuk kelancaran proyek Anda.",
-            icon: <FaTasks className="text-4xl text-primary-main" />,
         },
     ];
 
@@ -51,14 +59,14 @@ const Layanan = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        Layanan Konstruksi Terintegrasi
+                        Solusi Rumah Terintegrasi
                     </motion.span>
                     <motion.h1 
                         className="public-hero-title mb-8"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        Solusi Profesional untuk <br /> Rumah Impian Anda
+                        Layanan Desain Arsitek <br /> hingga Konstruksi
                     </motion.h1>
                     <motion.p 
                         className="public-hero-subtitle mb-10"
@@ -66,8 +74,8 @@ const Layanan = () => {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
                     >
-                        Kami memastikan setiap tahapan bangun dan renovasi rumah Anda 
-                        berjalan lebih terencana, transparan, dan terdokumentasi dengan baik.
+                        RKK membantu Anda dari tahap awal pencarian ide dan desain arsitektur, 
+                        hingga eksekusi pembangunan fisik yang terencana dan terpantau.
                     </motion.p>
 
                     <motion.div 
@@ -80,7 +88,7 @@ const Layanan = () => {
                             to="/kontak" 
                             className="btn-public-white"
                         >
-                            Konsultasi Sekarang
+                            Konsultasikan Kebutuhan
                         </Link>
                         <Link 
                             to="/cara-kerja" 
@@ -92,11 +100,19 @@ const Layanan = () => {
                 </div>
             </section>
 
-            {/* Services Grid */}
+            {/* Design & Architect Section */}
             <section className="public-section bg-white">
                 <div className="public-container">
+                    <div className="mb-16">
+                        <span className="public-eyebrow">Alur 01 — Belum Punya Desain?</span>
+                        <h2 className="public-title">Layanan Desain & Arsitek</h2>
+                        <p className="public-subtitle !mx-0 max-w-2xl">
+                            Untuk Anda yang ingin mematangkan konsep rumah terlebih dahulu. Kami membantu mewujudkan visualisasi impian Anda menjadi rencana teknis yang siap bangun.
+                        </p>
+                    </div>
+
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                        {services.map((service, index) => (
+                        {designServices.map((service, index) => (
                             <motion.div 
                                 key={index}
                                 className="public-card public-card-hover group flex flex-col h-full"
@@ -116,9 +132,44 @@ const Layanan = () => {
                                 <p className="text-l-regular text-neutral-80 leading-relaxed flex-grow">
                                     {service.desc}
                                 </p>
-                                <div className="mt-8 flex items-center gap-2 text-primary-main text-m-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    Konsultasikan Proyek Ini <span>→</span>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Construction Section */}
+            <section className="public-section bg-neutral-20">
+                <div className="public-container">
+                    <div className="mb-16">
+                        <span className="public-eyebrow">Alur 02 — Siap Bangun / Renovasi?</span>
+                        <h2 className="public-title">Layanan Konstruksi & Lapangan</h2>
+                        <p className="public-subtitle !mx-0 max-w-2xl">
+                            Untuk Anda yang sudah siap mengeksekusi pembangunan, baik menggunakan desain dari RKK maupun desain mandiri. Kami menjamin transparansi biaya dan kualitas pengerjaan.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {constructionServices.map((service, index) => (
+                            <motion.div 
+                                key={index}
+                                className="public-card public-card-hover group flex flex-col h-full !bg-white"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="mb-8 bg-primary-surface w-16 h-16 rounded-2xl flex items-center justify-center group-hover:bg-primary-main transition-colors duration-500">
+                                    <div className="group-hover:text-white transition-colors duration-500">
+                                        {service.icon}
+                                    </div>
                                 </div>
+                                <h4 className="text-heading-s-bold mb-3 text-neutral-100 group-hover:text-primary-main transition-colors duration-300">
+                                    {service.title}
+                                </h4>
+                                <p className="text-m-regular text-neutral-70 leading-relaxed">
+                                    {service.desc}
+                                </p>
                             </motion.div>
                         ))}
                     </div>

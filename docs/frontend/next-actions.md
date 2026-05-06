@@ -2,10 +2,10 @@
 
 Daftar prioritas pekerjaan berikutnya untuk tim frontend RKK.
 
-## Prioritas 1: Sinkronisasi & Sentralisasi Mock Data (Single Source of Truth)
-*   **Refactor Halaman Konsumen**: Memindahkan data hardcoded dari `Proyek.jsx` dan `Profil.jsx` ke dalam `client/src/data/mock/projects.js` dan `users.js`.
-*   **Lengkapi Mock Data**: Membuat file `progress.js`, `workers.js`, `supervisors.js`, dan `admins.js` di folder `client/src/data/mock/`.
-*   **Pembersihan Import**: Memastikan semua komponen merujuk ke folder mock data yang baru.
+## Prioritas 1: Refactoring Halaman Konsumen (Integrasi Mock Data)
+*   **Integrasi Proyek**: Mengubah `Proyek.jsx` agar mengambil data dari `mockProjects` dan `mockCustomers`.
+*   **Integrasi Profil**: Mengubah `Profil.jsx` agar mengambil data dari `mockUsers` berdasarkan ID user aktif.
+*   **Finalisasi Timeline**: Memastikan detail timeline di `TimelineProyek.jsx` dan `DetailTimelineProyek.jsx` sepenuhnya sinkron dengan `projectStages.js` dan `rabItems.js`.
 
 ## Prioritas 2: Dashboard Operasional & Staf (Admin, Pengawas, Mandor)
 *   **Dashboard Admin**: Membuat tampilan manajemen proyek pusat.

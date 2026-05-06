@@ -2,6 +2,13 @@
 
 Daftar progres implementasi fitur frontend RKK.
 
+## Mock Data Foundation
+- [x] Users & Roles Mock Table
+- [x] Customer & Staff Profile Mock Tables
+- [x] Project, Stages, & RAB Mock Tables
+- [x] Notifications Mock Table
+- [x] Centralized Mock Exports (`index.js`)
+
 ## Documentation
 - [x] Overview Dokumentasi (`README.md`)
 - [x] Route Inventory Sinkronisasi

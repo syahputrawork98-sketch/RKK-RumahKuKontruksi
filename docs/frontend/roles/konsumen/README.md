@@ -18,8 +18,9 @@ Role Konsumen memiliki fitur yang paling kompleks secara data. Fitur unggulannya
 - `KonsumenLayout.jsx`: Layout dengan sidebar khusus konsumen.
 
 ## Data / Mock Data
-- Menggunakan `activeCustomerProject` dari `src/data/mock/projects.js` sebagai sumber data utama untuk timeline.
-- Halaman Proyek dan Profil masih memiliki data hardcoded yang perlu dipindahkan ke `mock/projects.js` dan `mock/users.js`.
+- **Centralized Mock Data**: Menggunakan folder `src/data/mock/` sebagai sumber data tunggal.
+- **Timeline**: Sudah menggunakan `activeCustomerProject` (Backward compatibility mode).
+- **Refactoring Target**: Halaman **Proyek** dan **Profil** sedang dalam proses migrasi dari data hardcoded ke `mockProjects`, `mockCustomers`, dan `mockUsers`.
 
 ## Sudah Dikerjakan
 - [x] Redesain Timeline menjadi lebih premium dan modern.

@@ -88,7 +88,7 @@ export const mockUsers = [
     phone: "081234567813",
     role: "pengawas",
     avatar: "https://i.pravatar.cc/150?u=supervisor-004",
-    status: "inactive",
+    status: "active",
     createdAt: "2023-04-10"
   },
   {
@@ -130,6 +130,36 @@ export const mockUsers = [
     avatar: "https://i.pravatar.cc/150?u=foreman-004",
     status: "active",
     createdAt: "2023-05-15"
+  },
+  {
+    id: "user-architect-001",
+    name: "Maya Kartika",
+    email: "maya.kartika@rumahkukontruksi.com",
+    phone: "081234567800",
+    role: "architect",
+    avatar: "https://i.pravatar.cc/150?u=architect-001",
+    status: "active",
+    createdAt: "2024-02-12"
+  },
+  {
+    id: "user-architect-002",
+    name: "Rizky Ramadhan",
+    email: "rizky.ramadhan@rumahkukontruksi.com",
+    phone: "081234567801",
+    role: "architect",
+    avatar: "https://i.pravatar.cc/150?u=architect-002",
+    status: "active",
+    createdAt: "2024-03-15"
+  },
+  {
+    id: "user-architect-003",
+    name: "Indra Wijaya",
+    email: "indra.wijaya@partner.com",
+    phone: "081234567802",
+    role: "architect",
+    avatar: "https://i.pravatar.cc/150?u=architect-003",
+    status: "active",
+    createdAt: "2024-05-20"
   },
   {
     id: "user-konsumen-001",

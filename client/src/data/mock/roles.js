@@ -48,6 +48,19 @@ export const mockRoles = [
     ]
   },
   {
+    id: "role-architect",
+    name: "architect",
+    label: "Arsitek",
+    description: "Membuat konsep desain, gambar kerja, dan mengelola revisi desain sebelum RAB/proyek dibuat.",
+    permissions: [
+      "view_design_requests",
+      "manage_assigned_designs",
+      "upload_design_files",
+      "respond_design_comments",
+      "submit_design_for_review"
+    ]
+  },
+  {
     id: "role-konsumen",
     name: "konsumen",
     label: "Konsumen",

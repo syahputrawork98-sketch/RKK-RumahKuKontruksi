@@ -7,9 +7,9 @@ import TentangTim from "../components/tentang/TentangTim";
 
 const Tentang = () => {
     return (
-        <main className="pt-24 pb-16 space-y-12">
+        <main className="pt-24 pb-24 space-y-24">
             <TentangIntro />
-            <div className="space-y-20">
+            <div className="space-y-24">
                 <TentangVisi />
                 <TentangMisi />
                 <TentangNilai />

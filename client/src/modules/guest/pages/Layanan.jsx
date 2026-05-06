@@ -40,17 +40,17 @@ const Layanan = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Hero Section */}
-            <section className="bg-primary-main text-white py-16 px-4">
+            <section className="bg-primary-main text-neutral-10 py-20 px-4">
                 <div className="container mx-auto text-center">
                     <motion.h1 
-                        className="text-4xl md:text-5xl font-bold mb-6"
+                        className="text-heading-l-bold md:text-display mb-6"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Layanan RumahKu Kontruksi
                     </motion.h1>
                     <motion.p 
-                        className="text-xl max-w-3xl mx-auto opacity-90"
+                        className="text-l-regular md:text-heading-s-regular max-w-3xl mx-auto opacity-90"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
@@ -62,21 +62,23 @@ const Layanan = () => {
             </section>
 
             {/* Services Grid */}
-            <section className="py-20 px-4">
+            <section className="py-24 px-4 bg-white">
                 <div className="container mx-auto">
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services.map((service, index) => (
                             <motion.div 
                                 key={index}
-                                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
+                                className="bg-white p-8 rounded-2xl shadow-md border border-neutral-30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}
                             >
-                                <div className="mb-6">{service.icon}</div>
-                                <h3 className="text-2xl font-bold mb-4 text-gray-800">{service.title}</h3>
-                                <p className="text-gray-600 leading-relaxed">{service.desc}</p>
+                                <div className="mb-6 bg-primary-surface w-16 h-16 rounded-xl flex items-center justify-center">
+                                    {service.icon}
+                                </div>
+                                <h3 className="text-heading-m-bold mb-4 text-neutral-100">{service.title}</h3>
+                                <p className="text-l-regular text-neutral-90 leading-relaxed">{service.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -84,12 +86,12 @@ const Layanan = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 px-4 bg-gray-50">
+            <section className="py-20 px-4 bg-neutral-20">
                 <div className="container mx-auto text-center">
-                    <h2 className="text-3xl font-bold mb-8 text-gray-800">Siap Mewujudkan Hunian Impian Anda?</h2>
+                    <h2 className="text-heading-l-bold mb-8 text-neutral-100">Siap Mewujudkan Hunian Impian Anda?</h2>
                     <Link 
                         to="/contact" 
-                        className="inline-block bg-primary-main hover:bg-primary-hover text-white font-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        className="inline-block bg-primary-main hover:bg-primary-hover text-neutral-10 text-l-bold py-4 px-10 rounded-xl transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
                     >
                         Konsultasikan Kebutuhan Anda
                     </Link>

@@ -39,16 +39,16 @@ const Proyek = () => {
 
     return (
         <main className="pt-24 pb-16">
-            <section className="py-16 px-4">
+            <section className="py-20 px-4">
                 <div className="container mx-auto text-center">
                     <motion.h1 
-                        className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
+                        className="text-heading-l-bold md:text-display font-bold text-neutral-100 mb-6"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Proyek RumahKu Kontruksi
                     </motion.h1>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-16">
+                    <p className="text-l-regular md:text-heading-s-regular text-neutral-90 max-w-2xl mx-auto mb-20">
                         Menampilkan dedikasi kami dalam membangun hunian berkualitas dan amanah di berbagai lokasi.
                     </p>
 
@@ -56,40 +56,40 @@ const Proyek = () => {
                         {projects.map((project) => (
                             <motion.div 
                                 key={project.id}
-                                className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 group"
+                                className="bg-white rounded-3xl overflow-hidden shadow-md border border-neutral-30 group hover:shadow-xl transition-all duration-300"
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.4 }}
                                 viewport={{ once: true }}
                             >
-                                <div className="relative h-64 overflow-hidden">
+                                <div className="relative h-72 overflow-hidden">
                                     <img 
                                         src={project.image} 
                                         alt={project.title} 
                                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     />
-                                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-bold text-primary-main shadow-md">
+                                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-m-bold text-primary-main shadow-md">
                                         {project.type}
                                     </div>
                                 </div>
                                 <div className="p-8 text-left">
-                                    <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-primary-main transition-colors">
+                                    <h3 className="text-heading-m-bold mb-4 text-neutral-100 group-hover:text-primary-main transition-colors">
                                         {project.title}
                                     </h3>
                                     
-                                    <div className="flex items-center justify-between mb-4">
-                                        <span className={`px-3 py-1 rounded-lg text-sm font-semibold ${
-                                            project.status === "Selesai" ? "bg-green-100 text-green-700" :
-                                            project.status === "Berjalan" ? "bg-blue-100 text-blue-700" :
-                                            "bg-yellow-100 text-yellow-700"
+                                    <div className="flex items-center justify-between mb-6">
+                                        <span className={`px-4 py-1.5 rounded-xl text-s-bold ${
+                                            project.status === "Selesai" ? "bg-success-surface text-success-main border border-success-border" :
+                                            project.status === "Berjalan" ? "bg-primary-surface text-primary-main border border-primary-border" :
+                                            "bg-warning-surface text-warning-main border border-warning-border"
                                         }`}>
                                             {project.status}
                                         </span>
-                                        <span className="text-gray-500 font-medium">{project.progress}% Selesai</span>
+                                        <span className="text-neutral-70 text-m-bold">{project.progress}% Selesai</span>
                                     </div>
 
                                     {/* Progress Bar */}
-                                    <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="w-full h-3 bg-neutral-30 rounded-full overflow-hidden">
                                         <motion.div 
                                             className="h-full bg-primary-main"
                                             initial={{ width: 0 }}

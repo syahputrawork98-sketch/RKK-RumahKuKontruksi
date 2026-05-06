@@ -45,17 +45,17 @@ const CaraKerja = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Header */}
-            <section className="py-16 px-4 bg-gray-50 border-b border-gray-100">
+            <section className="py-20 px-4 bg-neutral-20 border-b border-neutral-30">
                 <div className="container mx-auto text-center">
                     <motion.h1 
-                        className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
+                        className="text-heading-l-bold md:text-display font-bold text-neutral-100 mb-6"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Cara Kerja RumahKu Kontruksi
                     </motion.h1>
                     <motion.p 
-                        className="text-xl text-gray-600 max-w-2xl mx-auto"
+                        className="text-l-regular md:text-heading-s-regular text-neutral-90 max-w-2xl mx-auto"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
@@ -86,13 +86,13 @@ const CaraKerja = () => {
                                 </div>
 
                                 {/* Content */}
-                                <div className="text-center md:text-left bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex-grow">
+                                <div className="text-center md:text-left bg-white p-8 rounded-3xl border border-neutral-30 shadow-sm hover:shadow-md transition-shadow flex-grow">
                                     <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-                                        <span className="text-primary-main font-bold text-xl">Langkah {index + 1}</span>
-                                        <div className="h-px bg-gray-200 flex-grow hidden md:block"></div>
+                                        <span className="text-primary-main text-m-bold uppercase tracking-wider">Langkah {index + 1}</span>
+                                        <div className="h-px bg-neutral-30 flex-grow hidden md:block"></div>
                                     </div>
-                                    <h3 className="text-2xl font-bold mb-4 text-gray-800">{step.title}</h3>
-                                    <p className="text-gray-600 leading-relaxed text-lg">{step.desc}</p>
+                                    <h3 className="text-heading-m-bold mb-4 text-neutral-100">{step.title}</h3>
+                                    <p className="text-l-regular text-neutral-90 leading-relaxed">{step.desc}</p>
                                 </div>
                             </motion.div>
                         ))}

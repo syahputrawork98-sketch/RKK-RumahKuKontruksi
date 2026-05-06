@@ -29,11 +29,11 @@ const services = [
 
 export default function FeaturesSection() {
     return (
-        <section className="py-24 px-6 bg-white">
+        <section className="py-24 px-6 bg-white relative">
             <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-16">
+                <div className="text-center mb-20">
                     <motion.span 
-                        className="text-primary-main text-m-bold uppercase tracking-widest mb-4 block"
+                        className="text-primary-main text-s-bold uppercase tracking-widest mb-4 block"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
@@ -41,32 +41,34 @@ export default function FeaturesSection() {
                         Layanan Utama
                     </motion.span>
                     <motion.h2
-                        className="text-heading-l-bold md:text-display text-neutral-100"
+                        className="text-heading-l-bold md:text-display-s text-neutral-100 leading-tight"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        Solusi Konstruksi Terintegrasi
+                        Solusi Konstruksi <br className="hidden md:block" /> Terintegrasi & Profesional
                     </motion.h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {services.map((item, index) => (
                         <motion.div
                             key={index}
-                            className="group bg-white p-10 rounded-[32px] shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-neutral-30 flex flex-col items-center text-center"
+                            className="group bg-white p-10 rounded-[40px] shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-neutral-30 flex flex-col items-center text-center"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={fadeUp}
-                            custom={index * 0.2}
+                            custom={index * 0.1}
                         >
-                            <div className="w-20 h-20 bg-primary-surface rounded-2xl flex items-center justify-center mb-8 group-hover:rotate-6 transition-transform duration-300">
-                                {item.icon}
+                            <div className="w-24 h-24 bg-primary-surface rounded-[32px] flex items-center justify-center mb-8 group-hover:bg-primary-main transition-colors duration-500">
+                                <div className="group-hover:text-white group-hover:scale-110 transition-all duration-500">
+                                    {item.icon}
+                                </div>
                             </div>
 
-                            <h3 className="text-heading-s-bold mb-4 text-neutral-100">
+                            <h3 className="text-heading-s-bold mb-4 text-neutral-100 group-hover:text-primary-main transition-colors">
                                 {item.title}
                             </h3>
                             <p className="text-m-regular text-neutral-70 leading-relaxed">{item.desc}</p>
@@ -75,7 +77,7 @@ export default function FeaturesSection() {
                 </div>
 
                 <motion.div 
-                    className="mt-16 text-center"
+                    className="mt-20 text-center"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -83,9 +85,10 @@ export default function FeaturesSection() {
                 >
                     <Link 
                         to="/layanan" 
-                        className="inline-flex items-center gap-2 text-primary-main text-l-bold hover:gap-4 transition-all duration-300"
+                        className="inline-flex items-center gap-3 bg-neutral-20 hover:bg-primary-surface text-primary-main text-l-bold px-8 py-4 rounded-2xl transition-all duration-300 group"
                     >
-                        Lihat Semua Layanan <span>→</span>
+                        Lihat Semua Layanan 
+                        <span className="group-hover:translate-x-2 transition-transform">→</span>
                     </Link>
                 </motion.div>
             </div>

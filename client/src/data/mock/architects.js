@@ -13,7 +13,7 @@ export const mockArchitects = [
     experienceYears: 6,
     skillTags: ["Rumah Tinggal", "Interior", "Renovasi", "Gambar Kerja"],
     assignedDesignRequestIds: ["design-request-001", "design-request-002"],
-    maxDesignCapacity: 3,
+    maxDesignCapacity: 2,
     status: "active",
     joinedAt: "2024-02-12",
     notes: "Arsitek senior untuk desain rumah tinggal dan renovasi."
@@ -30,7 +30,7 @@ export const mockArchitects = [
     experienceYears: 4,
     skillTags: ["Modern", "Minimalist", "3D Rendering"],
     assignedDesignRequestIds: ["design-request-003"],
-    maxDesignCapacity: 3,
+    maxDesignCapacity: 2,
     status: "active",
     joinedAt: "2024-03-15",
     notes: "Ahli dalam desain modern minimalis dan visualisasi 3D."
@@ -47,8 +47,8 @@ export const mockArchitects = [
     experienceYears: 10,
     skillTags: ["Gudang", "Ruko", "Kantor"],
     assignedDesignRequestIds: ["design-request-004"],
-    maxDesignCapacity: 5,
-    status: "partner",
+    maxDesignCapacity: 2,
+    status: "active", // Changed from partner to active for helper consistency
     joinedAt: "2024-05-20",
     notes: "Arsitek partner eksternal untuk proyek komersial skala besar."
   }

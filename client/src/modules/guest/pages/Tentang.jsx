@@ -1,4 +1,6 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import TentangIntro from "../components/tentang/TentangIntro";
 import TentangVisi from "../components/tentang/TentangVisi";
 import TentangMisi from "../components/tentang/TentangMisi";

@@ -125,7 +125,65 @@ const Layanan = () => {
                 </div>
             </section>
 
-            {/* CTA Section */}
+            {/* Process/Value Section */}
+            <section className="py-24 px-6 bg-neutral-100 text-neutral-10 overflow-hidden relative">
+                {/* Decorative background shape */}
+                <div className="absolute top-0 right-0 w-[50%] h-full bg-primary-pressed/10 skew-x-12 transform translate-x-20"></div>
+
+                <div className="container mx-auto max-w-7xl relative z-10">
+                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                        <div className="lg:w-1/2">
+                            <motion.span 
+                                className="text-primary-surface text-m-bold uppercase tracking-widest mb-4 block"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                            >
+                                Keunggulan Proses Kami
+                            </motion.span>
+                            <motion.h2 
+                                className="text-heading-l-bold md:text-display mb-8 leading-tight"
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                            >
+                                Bukan Sekadar Mengerjakan, <br /> Tapi Mengontrol Proses
+                            </motion.h2>
+                            <motion.p 
+                                className="text-l-regular text-neutral-50 mb-10 leading-relaxed"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                Kami percaya bahwa kunci keberhasilan proyek konstruksi adalah kontrol yang ketat dan transparansi total. Di RumahKu Konstruksi, setiap detail kecil diperhatikan agar Anda mendapatkan hasil terbaik tanpa stres.
+                            </motion.p>
+                        </div>
+
+                        <div className="lg:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {[
+                                { title: "Terencana", desc: "Setiap kebutuhan direncanakan matang di awal." },
+                                { title: "Transparan", desc: "Estimasi biaya dibuat terbuka tanpa biaya siluman." },
+                                { title: "Terpantau", desc: "Progres pekerjaan harian dapat Anda pantau real-time." },
+                                { title: "Terorganisir", desc: "Komunikasi proyek terpusat dan tercatat rapi." },
+                                { title: "Terdokumentasi", desc: "Setiap perubahan pekerjaan diverifikasi dan dicatat." },
+                            ].map((item, index) => (
+                                <motion.div 
+                                    key={index}
+                                    className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <h4 className="text-heading-s-bold text-white mb-2">{item.title}</h4>
+                                    <p className="text-m-regular text-neutral-40">{item.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section className="py-20 px-4 bg-neutral-20">
                 <div className="container mx-auto text-center">
                     <h2 className="text-heading-l-bold mb-8 text-neutral-100">Siap Mewujudkan Hunian Impian Anda?</h2>

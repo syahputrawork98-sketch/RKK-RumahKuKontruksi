@@ -1,3 +1,4 @@
+// [ACTIVE] src/modules/guest/pages/Tentang.jsx - Digunakan oleh App.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";

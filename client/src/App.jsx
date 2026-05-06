@@ -54,7 +54,9 @@ function App() {
           <Route path="/cara-kerja" element={<CaraKerja />} />
           <Route path="/proyek" element={<ProyekGuest />} />
           <Route path="/about" element={<About />} />
+          <Route path="/tentang" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/kontak" element={<Contact />} />
         </Route>
 
         {/* ================== KONSUMEN LAYOUT ================== */}

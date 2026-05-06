@@ -52,10 +52,10 @@ const Footer = () => {
                 <Link to="/proyek" className="hover:text-primary-main transition-colors">Proyek</Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-primary-main transition-colors">Tentang</Link>
+                <Link to="/tentang" className="hover:text-primary-main transition-colors">Tentang</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-primary-main transition-colors">Kontak</Link>
+                <Link to="/kontak" className="hover:text-primary-main transition-colors">Kontak</Link>
               </li>
             </ul>
           </div>

@@ -32,8 +32,8 @@ const Navbar = () => {
     { label: "Layanan", path: "/layanan" },
     { label: "Cara Kerja", path: "/cara-kerja" },
     { label: "Proyek", path: "/proyek" },
-    { label: "Tentang", path: "/about" },
-    { label: "Kontak", path: "/contact" },
+    { label: "Tentang", path: "/tentang" },
+    { label: "Kontak", path: "/kontak" },
   ];
 
   return (

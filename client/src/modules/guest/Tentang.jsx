@@ -1,3 +1,4 @@
+// [UNUSED/DUPLICATE] src/modules/guest/Tentang.jsx - Tidak digunakan oleh App.jsx (File lama/cadangan)
 // client/src/pages/Tentang.jsx
 import React from "react";
 import { motion } from "framer-motion";

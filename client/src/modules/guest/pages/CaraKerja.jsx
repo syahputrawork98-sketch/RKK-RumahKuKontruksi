@@ -148,20 +148,79 @@ const CaraKerja = () => {
                 </div>
             </section>
 
+            {/* Trust / Control Section */}
+            <section className="py-24 px-6 bg-neutral-20">
+                <div className="container mx-auto max-w-7xl">
+                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                        <div className="lg:w-1/2">
+                            <motion.span 
+                                className="text-primary-main text-m-bold uppercase tracking-widest mb-4 block"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                            >
+                                Keamanan Proyek
+                            </motion.span>
+                            <motion.h2 
+                                className="text-heading-l-bold md:text-display mb-8 leading-tight text-neutral-100"
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                            >
+                                Setiap Tahap <br /> Lebih Terkontrol
+                            </motion.h2>
+                            <motion.p 
+                                className="text-l-regular text-neutral-80 mb-10 leading-relaxed"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                Alur kerja yang terstruktur di RumahKu Kontruksi memastikan setiap rupiah dan setiap jam kerja di lapangan dapat dipertanggungjawabkan. Kami menghilangkan ketidakpastian dalam proses konstruksi konvensional.
+                            </motion.p>
+                        </div>
+
+                        <div className="lg:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {[
+                                { title: "Estimasi Jelas", desc: "Biaya dihitung rinci sebelum pekerjaan dimulai." },
+                                { title: "Kontrol Perubahan", desc: "Setiap perubahan pekerjaan harus disetujui bersama." },
+                                { title: "Monitoring Berkala", desc: "Progres dipantau tim ahli secara rutin." },
+                                { title: "Dokumentasi Rapi", desc: "Setiap tahap memiliki arsip digital yang lengkap." },
+                                { title: "Komunikasi Terarah", desc: "Koordinasi terpusat melalui satu platform." },
+                            ].map((item, index) => (
+                                <motion.div 
+                                    key={index}
+                                    className="bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <h4 className="text-heading-s-bold text-primary-main mb-2">{item.title}</h4>
+                                    <p className="text-m-regular text-neutral-70">{item.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* CTA Section */}
-            <section className="py-20 px-4">
+            <section className="py-24 px-6">
                 <div className="container mx-auto text-center bg-primary-main rounded-[40px] py-16 px-8 shadow-2xl relative overflow-hidden">
-                    {/* Decorative circles */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full -ml-32 -mb-32"></div>
+                    {/* Decorative elements */}
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48"></div>
+                    <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full -ml-36 -mb-36"></div>
                     
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 relative z-10">Mulai Bangun Rumah Impian Anda Hari Ini</h2>
-                    <Link 
-                        to="/contact" 
-                        className="inline-block bg-white text-primary-main hover:bg-gray-100 font-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:shadow-2xl relative z-10"
-                    >
-                        Hubungi Kami Sekarang
-                    </Link>
+                    <h2 className="text-heading-l-bold text-white mb-8 relative z-10">Siap Memulai Proyek Anda dengan <br className="hidden md:block" /> Proses yang Terpercaya?</h2>
+                    <div className="flex flex-wrap justify-center gap-4 relative z-10">
+                        <Link 
+                            to="/contact" 
+                            className="bg-white text-primary-main hover:bg-neutral-10 text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+                        >
+                            Konsultasi Sekarang
+                        </Link>
+                    </div>
                 </div>
             </section>
         </main>

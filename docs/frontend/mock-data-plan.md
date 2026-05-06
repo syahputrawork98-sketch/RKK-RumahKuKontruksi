@@ -25,6 +25,11 @@ Lokasi: `client/src/data/mock/`
 *   `Project Stage` (1) <-> (N) `RAB Items`
 *   `Project` (1) <-> (1) `Customer`, `Admin`, `Supervisor`, `Foreman`
 
+## Skema Kapasitas Admin
+*   **Aturan Bisnis**: Satu admin dapat menangani maksimal **3 proyek aktif**.
+*   **Pelacakan**: Menggunakan field `assignedProjectIds` di `admins.js` dan `adminId` di `projects.js`.
+*   **Relasi**: `Admin` <-> `User` (via `userId`), `Admin` <-> `Project` (via `assignedProjectIds`).
+
 ## Strategi Refactoring (Ongoing)
 1.  **Backward Compatibility**: File `projects.js` tetap mengekspor `activeCustomerProject` untuk mendukung komponen yang belum direfaktorisasi.
 2.  **Next Steps**: 

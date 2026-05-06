@@ -13,7 +13,9 @@ Role Admin saat ini masih berupa **Shell**. Layout dasar sudah tersedia, namun f
 - `AdminLayout.jsx`: Sidebar navigasi admin.
 
 ## Data / Mock Data
-- Belum ada integrasi data mock spesifik untuk operasional admin.
+- **Admin Table**: Menggunakan `mockAdmins` di `src/data/mock/admins.js`.
+- **Kapasitas**: Setiap admin dibatasi menangani maksimal **3 proyek**.
+- **Relasi**: Penugasan proyek dilakukan melalui `assignedProjectIds` pada profil admin.
 
 ## Sudah Dikerjakan
 - [x] Struktur layout dan navigasi sidebar.

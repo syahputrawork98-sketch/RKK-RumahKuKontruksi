@@ -4,13 +4,15 @@
 Rencana migrasi dari sistem lama ke struktur repository final.
 
 ## Sumber Repositori
-1. **Frontend**: `rumahkukontruksi-frontend` (Next.js 16)
-2. **Backend**: `RumahKuKontruksi-Dev` (Express + Supabase)
+1. **Frontend**: `RumahKuKontruksi-Dev/client` (Vite React)
+2. **Backend**: `RumahKuKontruksi-Dev/server` (Express + Supabase)
+
+> **Catatan**: Repository `rumahkukontruksi-frontend` (Next.js) tidak lagi digunakan.
 
 ## Tahapan Migrasi
 - [x] Inisialisasi struktur repository final (client/, server/, docs/).
-- [x] Migrasi frontend ke folder `client/`.
-- [ ] Penyiapan dokumentasi dasar.
+- [x] Reset frontend lama (Next.js) dan migrasi frontend Vite React dari Dev ke `client/`.
+- [ ] Audit UI-UX dan penyatuan mock data terpusat.
 - [ ] Migrasi backend dari `RumahKuKontruksi-Dev` ke folder `server/`.
 - [ ] Integrasi integrasi client-server.
 - [ ] Testing dan QA.

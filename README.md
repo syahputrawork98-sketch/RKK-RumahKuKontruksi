@@ -6,7 +6,7 @@ Ini adalah repository final utama untuk proyek **RumahKu Kontruksi**. Repository
 
 ```text
 RKK-RumahKuKontruksi/
-├── client/         # Frontend Next.js (React 19, Tailwind 4)
+├── client/         # Frontend Vite React (Dari RumahKuKontruksi-Dev)
 ├── server/         # Backend Express (Placeholder untuk migrasi)
 ├── docs/           # Dokumentasi Proyek & Rencana Migrasi
 ├── README.md       # File ini
@@ -14,7 +14,7 @@ RKK-RumahKuKontruksi/
 ```
 
 ## Status Proyek
-Saat ini fokus pada **Frontend/UI**. Seluruh kode frontend dari repository `rumahkukontruksi-frontend` telah dipindahkan ke folder `client/`.
+Saat ini fokus pada **Frontend/UI**. Seluruh kode frontend dari repository `RumahKuKontruksi-Dev/client` telah dipindahkan ke folder `client/`. Repository `rumahkukontruksi-frontend` (Next.js) sudah tidak digunakan lagi.
 
 ## Cara Menjalankan Frontend
 
@@ -26,7 +26,7 @@ Saat ini fokus pada **Frontend/UI**. Seluruh kode frontend dari repository `ruma
    ```bash
    npm install
    ```
-3. Jalankan server pengembangan:
+3. Jalankan server pengembangan (Vite):
    ```bash
    npm run dev
    ```

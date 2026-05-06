@@ -19,10 +19,10 @@ const Tentang = () => {
             </div>
 
             {/* Final CTA Section */}
-            <section className="py-24 px-6 bg-neutral-20">
-                <div className="container mx-auto text-center max-w-4xl">
+            <section className="public-section bg-neutral-20">
+                <div className="public-container text-center max-w-4xl">
                     <motion.h2 
-                        className="text-heading-l-bold md:text-display mb-8 text-neutral-100"
+                        className="public-title mb-8"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -30,7 +30,7 @@ const Tentang = () => {
                         Ingin Membangun Rumah <br /> dengan Tenang?
                     </motion.h2>
                     <motion.p 
-                        className="text-l-regular text-neutral-80 mb-12 leading-relaxed"
+                        className="public-subtitle mb-12"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
@@ -48,13 +48,13 @@ const Tentang = () => {
                     >
                         <Link 
                             to="/contact" 
-                            className="bg-primary-main text-white text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:bg-primary-hover hover:scale-105 active:scale-95"
+                            className="btn-public-primary"
                         >
                             Hubungi Kami
                         </Link>
                         <Link 
                             to="/proyek" 
-                            className="border-2 border-primary-main text-primary-main text-l-bold py-4 px-12 rounded-2xl transition-all hover:bg-primary-main hover:text-white hover:scale-105 active:scale-95"
+                            className="btn-public-outline"
                         >
                             Lihat Portfolio
                         </Link>

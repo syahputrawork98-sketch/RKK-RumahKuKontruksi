@@ -31,6 +31,7 @@ const Navbar = () => {
     { label: "Beranda", path: "/" },
     { label: "Layanan", path: "/layanan" },
     { label: "Cara Kerja", path: "/cara-kerja" },
+    { label: "Proyek", path: "/proyek" },
     { label: "Tentang", path: "/about" },
     { label: "Kontak", path: "/contact" },
   ];
@@ -45,7 +46,7 @@ const Navbar = () => {
           ? "bg-white/80 backdrop-blur-xl shadow-md py-2" 
           : "bg-white/90 backdrop-blur-md py-4"
       }`}>
-        <div className="container mx-auto flex items-center justify-between px-6 lg:px-10">
+        <div className="public-container flex items-center justify-between px-6 lg:px-10">
           {/* === KIRI: LOGO === */}
           <Link to="/" className="flex items-center shrink-0">
             <img
@@ -84,7 +85,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             {/* Tombol login desktop */}
             <button
-              className="hidden lg:flex items-center gap-2 bg-primary-main hover:bg-primary-hover text-white text-m-bold px-6 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-primary-main/30 hover:-translate-y-0.5 active:translate-y-0"
+              className="btn-public-primary hidden lg:flex !py-2.5 !px-6 !rounded-xl"
               onClick={() => setIsModalOpen(true)}
             >
               <TbLogin2 size={20} />
@@ -123,7 +124,7 @@ const Navbar = () => {
               </NavLink>
             ))}
             <button
-              className="mt-6 flex items-center justify-center gap-3 bg-primary-main hover:bg-primary-hover text-white text-l-bold py-4 rounded-2xl shadow-xl transition-all"
+              className="btn-public-primary mt-6 !py-4"
               onClick={() => {
                 setIsModalOpen(true);
                 setMenuOpen(false);
@@ -205,7 +206,7 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={() => alert("Login hanya tampilan frontend.")}
-                className="w-full bg-primary-main hover:bg-primary-hover text-white text-l-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-main/20 active:scale-95"
+                className="btn-public-primary w-full"
               >
                 Masuk Sekarang
               </button>

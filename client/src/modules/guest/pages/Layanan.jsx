@@ -40,28 +40,28 @@ const Layanan = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Hero Section */}
-            <section className="relative bg-primary-main text-white py-24 px-4 overflow-hidden">
+            <section className="public-section relative bg-primary-main text-white overflow-hidden">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary-hover/30 rounded-full -mr-48 -mt-48 blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-pressed/40 rounded-full -ml-36 -mb-36 blur-2xl"></div>
 
-                <div className="container mx-auto text-center relative z-10">
+                <div className="public-container text-center relative z-10">
                     <motion.span 
-                        className="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-white text-s-bold px-4 py-1.5 rounded-full mb-6 uppercase tracking-widest"
+                        className="public-badge !bg-white/10 !text-white !border-white/20 mb-6"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
                         Layanan Konstruksi Terintegrasi
                     </motion.span>
                     <motion.h1 
-                        className="text-heading-l-bold md:text-display mb-8 leading-tight drop-shadow-md"
+                        className="public-hero-title mb-8"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Solusi Profesional untuk <br /> Rumah Impian Anda
                     </motion.h1>
                     <motion.p 
-                        className="text-l-regular md:text-heading-s-regular max-w-3xl mx-auto mb-10 text-neutral-10/90 leading-relaxed"
+                        className="public-hero-subtitle mb-10"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
@@ -78,13 +78,13 @@ const Layanan = () => {
                     >
                         <Link 
                             to="/contact" 
-                            className="bg-white text-primary-main text-l-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:bg-primary-surface hover:scale-105"
+                            className="btn-public-white"
                         >
                             Konsultasi Sekarang
                         </Link>
                         <Link 
                             to="/cara-kerja" 
-                            className="border-2 border-white text-white text-l-bold py-4 px-10 rounded-xl transition-all hover:bg-white hover:text-primary-main"
+                            className="btn-public-outline !border-white !text-white hover:!bg-white hover:!text-primary-main"
                         >
                             Lihat Cara Kerja
                         </Link>
@@ -93,13 +93,13 @@ const Layanan = () => {
             </section>
 
             {/* Services Grid */}
-            <section className="py-24 px-6 bg-white">
-                <div className="container mx-auto max-w-7xl">
+            <section className="public-section bg-white">
+                <div className="public-container">
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                         {services.map((service, index) => (
                             <motion.div 
                                 key={index}
-                                className="group bg-white p-10 rounded-[40px] shadow-sm border border-neutral-30 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full"
+                                className="public-card public-card-hover flex flex-col h-full"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
@@ -126,15 +126,15 @@ const Layanan = () => {
             </section>
 
             {/* Process/Value Section */}
-            <section className="py-24 px-6 bg-neutral-100 text-neutral-10 overflow-hidden relative">
+            <section className="public-section bg-neutral-100 text-neutral-10 overflow-hidden relative">
                 {/* Decorative background shape */}
                 <div className="absolute top-0 right-0 w-[50%] h-full bg-primary-pressed/10 skew-x-12 transform translate-x-20"></div>
 
-                <div className="container mx-auto max-w-7xl relative z-10">
+                <div className="public-container relative z-10">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
                         <div className="lg:w-1/2">
                             <motion.span 
-                                className="text-primary-surface text-m-bold uppercase tracking-widest mb-4 block"
+                                className="public-eyebrow !text-primary-surface"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
@@ -142,7 +142,7 @@ const Layanan = () => {
                                 Keunggulan Proses Kami
                             </motion.span>
                             <motion.h2 
-                                className="text-heading-l-bold md:text-display mb-8 leading-tight"
+                                className="public-title !text-neutral-10"
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
@@ -150,7 +150,7 @@ const Layanan = () => {
                                 Bukan Sekadar Mengerjakan, <br /> Tapi Mengontrol Proses
                             </motion.h2>
                             <motion.p 
-                                className="text-l-regular text-neutral-50 mb-10 leading-relaxed"
+                                className="public-subtitle !text-neutral-50 !mx-0"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
@@ -184,12 +184,12 @@ const Layanan = () => {
                     </div>
                 </div>
             </section>
-            <section className="py-20 px-4 bg-neutral-20">
-                <div className="container mx-auto text-center">
-                    <h2 className="text-heading-l-bold mb-8 text-neutral-100">Siap Mewujudkan Hunian Impian Anda?</h2>
+            <section className="public-section-sm bg-neutral-20">
+                <div className="public-container text-center">
+                    <h2 className="public-title mb-8">Siap Mewujudkan Hunian Impian Anda?</h2>
                     <Link 
                         to="/contact" 
-                        className="inline-block bg-primary-main hover:bg-primary-hover text-white text-l-bold py-4 px-10 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95"
+                        className="btn-public-primary"
                     >
                         Konsultasikan Kebutuhan Anda
                     </Link>

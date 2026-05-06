@@ -41,28 +41,28 @@ const Proyek = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Hero Section - Fixed Consistency */}
-            <section className="relative bg-primary-main text-white py-24 px-4 overflow-hidden">
+            <section className="public-section relative bg-primary-main text-white overflow-hidden">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full -ml-48 -mt-48 blur-3xl"></div>
                 <div className="absolute bottom-0 right-0 w-72 h-72 bg-primary-hover/30 rounded-full -mr-36 -mb-36 blur-2xl"></div>
 
-                <div className="container mx-auto text-center relative z-10">
+                <div className="public-container text-center relative z-10">
                     <motion.span 
-                        className="inline-block bg-white/20 backdrop-blur-md text-white text-s-bold px-4 py-1.5 rounded-full mb-6 uppercase tracking-widest border border-white/20"
+                        className="public-badge !bg-white/20 !text-white !border-white/20 mb-6"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
                         Showcase Proyek
                     </motion.span>
                     <motion.h1 
-                        className="text-heading-l-bold md:text-display mb-8 text-white leading-tight drop-shadow-md"
+                        className="public-hero-title mb-8"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Proyek RumahKu Kontruksi
                     </motion.h1>
                     <motion.p 
-                        className="text-l-regular md:text-heading-s-regular text-white/90 max-w-3xl mx-auto mb-10 leading-relaxed"
+                        className="public-hero-subtitle mb-10"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
@@ -79,13 +79,13 @@ const Proyek = () => {
                     >
                         <Link 
                             to="/contact" 
-                            className="bg-white text-primary-main text-l-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:bg-neutral-10 hover:scale-105 active:scale-95"
+                            className="btn-public-white"
                         >
                             Konsultasikan Proyek Anda
                         </Link>
                         <Link 
                             to="/cara-kerja" 
-                            className="border-2 border-white text-white text-l-bold py-4 px-10 rounded-xl transition-all hover:bg-white hover:text-primary-main hover:scale-105 active:scale-95"
+                            className="btn-public-outline !border-white !text-white hover:!bg-white hover:!text-primary-main"
                         >
                             Lihat Cara Kerja
                         </Link>
@@ -94,13 +94,13 @@ const Proyek = () => {
             </section>
 
             {/* Showcase Grid */}
-            <section className="py-24 px-6 bg-white">
-                <div className="container mx-auto max-w-7xl">
+            <section className="public-section bg-white">
+                <div className="public-container">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {projects.map((project) => (
                             <motion.div 
                                 key={project.id}
-                                className="group bg-white rounded-[40px] overflow-hidden shadow-sm border border-neutral-30 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col"
+                                className="public-card public-card-hover !p-0 overflow-hidden flex flex-col"
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6 }}
@@ -162,10 +162,10 @@ const Proyek = () => {
                 </div>
             </section>
             {/* Final CTA Section */}
-            <section className="py-24 px-6 bg-neutral-20">
-                <div className="container mx-auto text-center max-w-4xl">
+            <section className="public-section bg-neutral-20">
+                <div className="public-container text-center max-w-4xl">
                     <motion.h2 
-                        className="text-heading-l-bold md:text-display mb-8 text-neutral-100"
+                        className="public-title mb-8"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -173,7 +173,7 @@ const Proyek = () => {
                         Punya Rencana Bangun <br /> atau Renovasi?
                     </motion.h2>
                     <motion.p 
-                        className="text-l-regular text-neutral-80 mb-12 leading-relaxed"
+                        className="public-subtitle mb-12"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
@@ -191,13 +191,13 @@ const Proyek = () => {
                     >
                         <Link 
                             to="/contact" 
-                            className="bg-primary-main text-white text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:bg-primary-hover hover:scale-105 active:scale-95"
+                            className="btn-public-primary"
                         >
                             Mulai Konsultasi
                         </Link>
                         <Link 
                             to="/layanan" 
-                            className="border-2 border-primary-main text-primary-main text-l-bold py-4 px-12 rounded-2xl transition-all hover:bg-primary-main hover:text-white hover:scale-105 active:scale-95"
+                            className="btn-public-outline"
                         >
                             Lihat Layanan
                         </Link>

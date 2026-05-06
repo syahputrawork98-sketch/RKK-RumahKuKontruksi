@@ -45,28 +45,28 @@ const CaraKerja = () => {
     return (
         <main className="pt-24 pb-16">
             {/* Hero Section - Fixed Contrast */}
-            <section className="relative bg-primary-main text-white py-24 px-4 overflow-hidden">
+            <section className="public-section relative bg-primary-main text-white overflow-hidden">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48 blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-hover/30 rounded-full -ml-36 -mb-36 blur-2xl"></div>
 
-                <div className="container mx-auto text-center relative z-10">
+                <div className="public-container text-center relative z-10">
                     <motion.span 
-                        className="inline-block bg-white/20 backdrop-blur-md text-white text-s-bold px-4 py-1.5 rounded-full mb-6 uppercase tracking-widest border border-white/20"
+                        className="public-badge !bg-white/20 !text-white !border-white/20 mb-6"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
                         Alur Kerja Terstruktur
                     </motion.span>
                     <motion.h1 
-                        className="text-heading-l-bold md:text-display mb-8 text-white leading-tight drop-shadow-md"
+                        className="public-hero-title mb-8"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
                         Cara Kerja RumahKu Kontruksi
                     </motion.h1>
                     <motion.p 
-                        className="text-l-regular md:text-heading-s-regular text-white/90 max-w-3xl mx-auto mb-10 leading-relaxed"
+                        className="public-hero-subtitle mb-10"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
@@ -83,13 +83,13 @@ const CaraKerja = () => {
                     >
                         <Link 
                             to="/contact" 
-                            className="bg-white text-primary-main text-l-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:bg-neutral-10 hover:scale-105 active:scale-95"
+                            className="btn-public-white"
                         >
                             Konsultasi Sekarang
                         </Link>
                         <Link 
                             to="/layanan" 
-                            className="border-2 border-white text-white text-l-bold py-4 px-10 rounded-xl transition-all hover:bg-white hover:text-primary-main hover:scale-105 active:scale-95"
+                            className="btn-public-outline !border-white !text-white hover:!bg-white hover:!text-primary-main"
                         >
                             Lihat Layanan
                         </Link>
@@ -98,8 +98,8 @@ const CaraKerja = () => {
             </section>
 
             {/* Steps Timeline Section */}
-            <section className="py-24 px-6 bg-white relative overflow-hidden">
-                <div className="container mx-auto max-w-5xl relative">
+            <section className="public-section bg-white relative overflow-hidden">
+                <div className="public-container max-w-5xl relative">
                     {/* Vertical Line for Desktop */}
                     <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-px bg-neutral-30 hidden md:block"></div>
 
@@ -135,9 +135,9 @@ const CaraKerja = () => {
 
                                     {/* Step Content Area */}
                                     <div className="md:w-1/2">
-                                        <div className="bg-neutral-20/50 p-8 md:p-10 rounded-[40px] border border-neutral-30 hover:border-primary-main/30 hover:bg-white transition-all duration-500 hover:shadow-xl group">
-                                            <span className="text-primary-main text-m-bold uppercase tracking-widest mb-4 block">Langkah {index + 1}</span>
-                                            <h3 className="text-heading-m-bold md:text-heading-l-bold mb-4 text-neutral-100 group-hover:text-primary-main transition-colors">{step.title}</h3>
+                                        <div className="public-card public-card-hover !bg-neutral-20/50 hover:!bg-white group">
+                                            <span className="public-eyebrow">Langkah {index + 1}</span>
+                                            <h3 className="public-title !text-heading-m-bold md:!text-heading-l-bold group-hover:text-primary-main transition-colors">{step.title}</h3>
                                             <p className="text-l-regular text-neutral-80 leading-relaxed">{step.desc}</p>
                                         </div>
                                     </div>
@@ -149,12 +149,12 @@ const CaraKerja = () => {
             </section>
 
             {/* Trust / Control Section */}
-            <section className="py-24 px-6 bg-neutral-20">
-                <div className="container mx-auto max-w-7xl">
+            <section className="public-section bg-neutral-20">
+                <div className="public-container">
                     <div className="flex flex-col lg:flex-row gap-16 items-center">
                         <div className="lg:w-1/2">
                             <motion.span 
-                                className="text-primary-main text-m-bold uppercase tracking-widest mb-4 block"
+                                className="public-eyebrow"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
@@ -162,7 +162,7 @@ const CaraKerja = () => {
                                 Keamanan Proyek
                             </motion.span>
                             <motion.h2 
-                                className="text-heading-l-bold md:text-display mb-8 leading-tight text-neutral-100"
+                                className="public-title mb-8"
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
@@ -170,7 +170,7 @@ const CaraKerja = () => {
                                 Setiap Tahap <br /> Lebih Terkontrol
                             </motion.h2>
                             <motion.p 
-                                className="text-l-regular text-neutral-80 mb-10 leading-relaxed"
+                                className="public-subtitle !mx-0"
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
@@ -206,17 +206,17 @@ const CaraKerja = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-24 px-6">
-                <div className="container mx-auto text-center bg-primary-main rounded-[40px] py-16 px-8 shadow-2xl relative overflow-hidden">
+            <section className="public-section">
+                <div className="public-container text-center bg-primary-main rounded-[40px] py-16 px-8 shadow-2xl relative overflow-hidden">
                     {/* Decorative elements */}
                     <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48"></div>
                     <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full -ml-36 -mb-36"></div>
                     
-                    <h2 className="text-heading-l-bold text-white mb-8 relative z-10">Siap Memulai Proyek Anda dengan <br className="hidden md:block" /> Proses yang Terpercaya?</h2>
+                    <h2 className="public-hero-title !text-heading-l-bold mb-8 relative z-10">Siap Memulai Proyek Anda dengan <br className="hidden md:block" /> Proses yang Terpercaya?</h2>
                     <div className="flex flex-wrap justify-center gap-4 relative z-10">
                         <Link 
                             to="/contact" 
-                            className="bg-white text-primary-main hover:bg-neutral-10 text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95"
+                            className="btn-public-white"
                         >
                             Konsultasi Sekarang
                         </Link>

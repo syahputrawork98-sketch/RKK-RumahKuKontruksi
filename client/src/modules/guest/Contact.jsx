@@ -5,19 +5,19 @@ import { FiMapPin, FiClock, FiMail, FiInstagram } from "react-icons/fi";
 
 const Contact = () => {
   return (
-    <section className="bg-gray-50 text-gray-800 py-16 px-6 md:px-16 overflow-hidden">
+    <section className="public-section bg-gray-50 overflow-hidden pt-24">
       {/* ====== HERO / HEADER SECTION ====== */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
-        className="text-center mb-12"
+        className="public-section-header"
       >
-        <h1 className="text-4xl font-bold text-teal-700 mb-3">
+        <h1 className="public-title">
           Hubungi Kami
         </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="public-subtitle">
           Siap membantu Anda untuk konsultasi proyek, laporan mandor, kerjasama,
           atau pertanyaan umum. Ceritakan kebutuhan Anda, kami akan menanggapinya
           secepat mungkin.
@@ -34,7 +34,7 @@ const Contact = () => {
           viewport={{ once: true }}
           action="#"
           method="POST"
-          className="bg-white p-8 rounded-2xl shadow-lg space-y-5"
+          className="public-card shadow-lg space-y-5"
         >
           {/* ====== INPUTS ====== */}
           <div>
@@ -156,7 +156,7 @@ const Contact = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             type="submit"
-            className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors"
+            className="btn-public-primary w-full"
           >
             Kirim Pesan
           </motion.button>
@@ -189,7 +189,7 @@ const Contact = () => {
           className="space-y-6"
         >
           {/* ====== CARD INFO KONTAK ====== */}
-          <div className="bg-white p-8 rounded-2xl shadow-lg">
+          <div className="public-card shadow-lg">
             <h2 className="text-2xl font-bold text-teal-700 mb-6">
               Informasi Kantor
             </h2>

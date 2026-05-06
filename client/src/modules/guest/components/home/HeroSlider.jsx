@@ -107,30 +107,30 @@ export default function HeroSlider() {
           <div className="absolute inset-0 bg-linear-to-b from-neutral-100/60 via-neutral-100/40 to-primary-pressed/80 backdrop-blur-[2px]" />
           
           {/* Content Container */}
-          <div className="container mx-auto h-full flex flex-col justify-center items-center text-center px-6 relative z-10">
+          <div className="public-container h-full flex flex-col justify-center items-center text-center px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
               className="max-w-5xl"
             >
-              <h1 className="text-display-s md:text-display font-extrabold mb-6 leading-tight text-white drop-shadow-2xl">
+              <h1 className="public-hero-title mb-6">
                 {slides[currentIndex].title}
               </h1>
-              <p className="text-l-regular md:text-heading-s-regular mb-10 max-w-3xl mx-auto text-white/90 leading-relaxed drop-shadow-lg">
+              <p className="public-hero-subtitle mb-10">
                 {slides[currentIndex].description}
               </p>
               
               <div className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <Link 
                   to={slides[currentIndex].primaryCTA.link} 
-                  className="bg-primary-main text-white text-l-bold px-8 md:px-10 py-4 rounded-xl shadow-xl hover:bg-primary-hover hover:scale-105 transition-all duration-300 border border-primary-main/20"
+                  className="btn-public-primary"
                 >
                   {slides[currentIndex].primaryCTA.text}
                 </Link>
                 <Link 
                   to={slides[currentIndex].secondaryCTA.link} 
-                  className="bg-white/10 backdrop-blur-md border-2 border-white/40 px-8 md:px-10 py-4 rounded-xl text-l-bold text-white hover:bg-white hover:text-primary-main hover:scale-105 transition-all duration-300 shadow-lg"
+                  className="btn-public-outline !border-white !text-white hover:!bg-white hover:!text-primary-main"
                 >
                   {slides[currentIndex].secondaryCTA.text}
                 </Link>

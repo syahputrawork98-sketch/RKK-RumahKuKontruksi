@@ -8,7 +8,7 @@ const Logo = "https://res.cloudinary.com/dmv4vtgbw/image/upload/v1760437039/ruma
 const Footer = () => {
   return (
     <footer className="bg-neutral-100 border-t border-neutral-30 pt-20 pb-10 px-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="public-container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Kolom 1: Brand */}
           <div className="flex flex-col space-y-6">
@@ -47,6 +47,9 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/cara-kerja" className="hover:text-primary-main transition-colors">Cara Kerja</Link>
+              </li>
+              <li>
+                <Link to="/proyek" className="hover:text-primary-main transition-colors">Proyek</Link>
               </li>
               <li>
                 <Link to="/about" className="hover:text-primary-main transition-colors">Tentang</Link>

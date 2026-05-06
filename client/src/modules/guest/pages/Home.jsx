@@ -2,6 +2,7 @@
 
 import HeroSlider from "../components/home/HeroSlider";
 import AboutSection from "../components/home/AboutSection";
+import ServiceChoiceSection from "../components/home/ServiceChoiceSection";
 import FeaturesSection from "../components/home/FeaturesSection";
 import PlanningSection from "../components/home/PlanningSection";
 import ImplementationSection from "../components/home/ImplementationSection";
@@ -12,6 +13,7 @@ export default function Home() {
         <div className="bg-white text-gray-800 overflow-hidden">
             <HeroSlider />
             <AboutSection />
+            <ServiceChoiceSection />
             <FeaturesSection />
             <PlanningSection />
             <ImplementationSection />

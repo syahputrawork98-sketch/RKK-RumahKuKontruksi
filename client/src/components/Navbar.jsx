@@ -42,7 +42,7 @@ const Navbar = () => {
             {/* Menu disusun fleksibel agar bisa berubah menjadi kolom di mobile */}
             <div className=" flex flex-col lg:flex-row lg:items-center justify-center lg:gap-8 p-4 lg:p-0">
               {/* Map daftar menu */}
-              {["Beranda", "Layanan", "Cara Kerja", "Tentang", "Kontak"].map((item) => (
+              {["Beranda", "Layanan", "Cara Kerja", "Proyek", "Tentang", "Kontak"].map((item) => (
                 <NavLink
                   end={item === "Beranda"}
                   key={item}
@@ -53,6 +53,8 @@ const Navbar = () => {
                       ? "/layanan"
                       : item === "Cara Kerja"
                       ? "/cara-kerja"
+                      : item === "Proyek"
+                      ? "/proyek"
                       : item === "Tentang"
                       ? "/about"
                       : "/contact"

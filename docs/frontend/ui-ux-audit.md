@@ -10,8 +10,8 @@ Frontend menggunakan Vite React dari `RumahKuKontruksi-Dev/client`. Audit dilaku
 
 | Route | Role | Status | Catatan | Prioritas |
 |---|---|---|---|---|
-| / | Guest | **DONE** | Landing page utama. Messaging diperkuat (Terencana, Transparan, Terpantau). | high |
-| /layanan | Guest | **DONE** | Detail layanan pembangunan dan renovasi. | medium |
+| / | Guest | **POLISHED** | Landing page utama. Hero, Intro, dan Preview Layanan sudah dipoles premium. | high |
+| /layanan | Guest | **POLISHED** | Halaman layanan lengkap dengan hero premium dan section value. | medium |
 | /cara-kerja | Guest | **DONE** | Visualisasi 7 langkah kerja RKK. | medium |
 | /proyek | Guest | **DONE** | Portfolio proyek dengan status dan progres. | medium |
 | /about | Guest | **DONE** | Tentang perusahaan dengan konteks brand story. | medium |

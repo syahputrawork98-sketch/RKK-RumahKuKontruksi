@@ -23,6 +23,20 @@ Rencana kerja bertahap untuk pengembangan frontend.
 - [x] PUB-007: Penguatan konteks halaman Tentang (About).
 - [x] PUB-008: Visual polish dan konsistensi CTA.
 
+## Sprint Public 02 - Homepage & Layanan Visual Polish (DONE)
+- [x] PUB2-001: Polish visual Hero Slideshow Beranda.
+- [x] PUB2-002: Standarisasi CTA Link pada Hero Slide.
+- [x] PUB2-003: Redesign section Intro/About di Beranda (2-column).
+- [x] PUB2-004: Polish preview layanan di Beranda.
+- [x] PUB2-005: Polish Hero halaman Layanan (Badge & Gradient).
+- [x] PUB2-006: Peningkatan visual Card Layanan (Premium style).
+- [x] PUB2-007: Penambahan section Value/Proses di halaman Layanan.
+
+## Sprint Public 03 - Support Pages Polish (Next)
+- [ ] Polish visual halaman Cara Kerja.
+- [ ] Polish visual halaman Proyek.
+- [ ] Polish visual halaman Tentang & Kontak.
+
 ## Sprint 03 - Mock Data Foundation (Current)
 - [x] Inisialisasi folder `client/src/data/mock/`.
 - [x] Migrasi FE-009: Pindahkan mock notification ke dalam folder client.

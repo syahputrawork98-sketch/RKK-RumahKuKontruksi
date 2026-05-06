@@ -4,8 +4,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 
 | Route | Role | File | Status | Catatan |
 |---|---|---|---|---|
-| `/` | Guest | `modules/guest/pages/Home.jsx` | UI-DONE | Landing page utama. |
-| `/layanan` | Guest | `modules/guest/pages/Layanan.jsx` | UI-DONE | Detail layanan RKK. |
+| `/` | Guest | `modules/guest/pages/Home.jsx` | POLISHED | Landing page utama. |
+| `/layanan` | Guest | `modules/guest/pages/Layanan.jsx` | POLISHED | Detail layanan RKK. |
 | `/cara-kerja` | Guest | `modules/guest/pages/CaraKerja.jsx` | UI-DONE | Alur kerja proyek. |
 | `/proyek` | Guest | `modules/guest/pages/Proyek.jsx` | MOCK-DONE | Portfolio & progres proyek publik. |
 | `/about` | Guest | `modules/guest/pages/Tentang.jsx` | UI-DONE | Informasi perusahaan. |
@@ -22,6 +22,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | `/mandor/dashboard` | Mandor | `pages/mandor/DashboardMandor.jsx` | SHELL | Dashboard harian mandor. |
 
 ## Keterangan Status:
+- **POLISHED**: Tampilan sudah dipoles premium dan responsif.
 - **UI-DONE**: Tampilan dasar sudah ada.
 - **MOCK-DONE**: Sudah terhubung dengan data mock.
 - **EMPTY**: Tampilan ada tapi data/tabel kosong.

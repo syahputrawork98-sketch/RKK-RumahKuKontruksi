@@ -160,6 +160,49 @@ const Proyek = () => {
                     </div>
                 </div>
             </section>
+            {/* Final CTA Section */}
+            <section className="py-24 px-6 bg-neutral-20">
+                <div className="container mx-auto text-center max-w-4xl">
+                    <motion.h2 
+                        className="text-heading-l-bold md:text-display mb-8 text-neutral-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        Punya Rencana Bangun <br /> atau Renovasi?
+                    </motion.h2>
+                    <motion.p 
+                        className="text-l-regular text-neutral-80 mb-12 leading-relaxed"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        Kami membantu Anda merencanakan setiap detail pekerjaan secara matang sebelum eksekusi dimulai. 
+                        Wujudkan hunian impian dengan proses yang transparan dan hasil berkualitas.
+                    </motion.p>
+                    <motion.div 
+                        className="flex flex-wrap justify-center gap-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <Link 
+                            to="/contact" 
+                            className="bg-primary-main text-white text-l-bold py-4 px-12 rounded-2xl transition-all shadow-xl hover:bg-primary-hover hover:scale-105"
+                        >
+                            Mulai Konsultasi
+                        </Link>
+                        <Link 
+                            to="/layanan" 
+                            className="border-2 border-primary-main text-primary-main text-l-bold py-4 px-12 rounded-2xl transition-all hover:bg-primary-main hover:text-white"
+                        >
+                            Lihat Layanan
+                        </Link>
+                    </motion.div>
+                </div>
+            </section>
         </main>
     );
 };

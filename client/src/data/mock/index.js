@@ -20,6 +20,7 @@ export * from "./supervisorCertificates";
 // Design Timeline Mocks
 export * from "./architects";
 export * from "./designRequests";
+export * from "./designStages";
 export * from "./designFiles";
 export * from "./designRevisions";
 export * from "./designComments";

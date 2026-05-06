@@ -12,7 +12,7 @@ export const mockArchitects = [
     specialization: "Residential Design",
     experienceYears: 6,
     skillTags: ["Rumah Tinggal", "Interior", "Renovasi", "Gambar Kerja"],
-    assignedDesignRequestIds: ["design-request-001", "design-request-002"],
+    assignedDesignRequestIds: ["design-request-001"],
     maxDesignCapacity: 2,
     status: "active",
     joinedAt: "2024-02-12",

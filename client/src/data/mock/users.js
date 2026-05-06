@@ -52,6 +52,46 @@ export const mockUsers = [
     createdAt: "2024-09-05"
   },
   {
+    id: "user-pengawas-001",
+    name: "Ahmad Fauzi",
+    email: "ahmad.fauzi@rumahkukontruksi.com",
+    phone: "081234567891",
+    role: "pengawas",
+    avatar: "https://i.pravatar.cc/150?u=supervisor-001",
+    status: "active",
+    createdAt: "2023-06-10"
+  },
+  {
+    id: "user-pengawas-002",
+    name: "Bambang Wijaya",
+    email: "bambang.wijaya@rumahkukontruksi.com",
+    phone: "081234567811",
+    role: "pengawas",
+    avatar: "https://i.pravatar.cc/150?u=supervisor-002",
+    status: "active",
+    createdAt: "2023-09-15"
+  },
+  {
+    id: "user-pengawas-003",
+    name: "Eko Prasetyo",
+    email: "eko.prasetyo@rumahkukontruksi.com",
+    phone: "081234567812",
+    role: "pengawas",
+    avatar: "https://i.pravatar.cc/150?u=supervisor-003",
+    status: "active",
+    createdAt: "2024-01-05"
+  },
+  {
+    id: "user-pengawas-004",
+    name: "Lukman Hakim",
+    email: "lukman.hakim@rumahkukontruksi.com",
+    phone: "081234567813",
+    role: "pengawas",
+    avatar: "https://i.pravatar.cc/150?u=supervisor-004",
+    status: "inactive",
+    createdAt: "2023-04-10"
+  },
+  {
     id: "user-mandor-001",
     name: "Budi Santoso",
     email: "budi.santoso@rumahkukontruksi.com",
@@ -110,16 +150,6 @@ export const mockUsers = [
     avatar: "https://i.pravatar.cc/150?u=budi",
     status: "active",
     createdAt: "2025-04-10"
-  },
-  {
-    id: "user-pengawas-001",
-    name: "Ahmad Fauzi",
-    email: "ahmad@rkk.com",
-    phone: "081234567891",
-    role: "pengawas",
-    avatar: "https://i.pravatar.cc/150?u=ahmad",
-    status: "active",
-    createdAt: "2025-02-01"
   }
 ];
 

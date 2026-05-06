@@ -1,36 +1,26 @@
-# Frontend Documentation
+# Frontend Documentation - RumahKu Konstruksi (RKK)
 
-Dokumentasi ini mencakup seluruh detail teknis mengenai sisi client aplikasi RumahKu Kontruksi.
+Selamat datang di dokumentasi teknis frontend project RKK. Dokumentasi ini bertujuan untuk memberikan gambaran menyeluruh tentang arsitektur, status implementasi, dan rencana pengembangan antarmuka pengguna.
 
-## Stack Teknologi
-- **Build Tool**: Vite
-- **Library Utama**: React
-- **Routing**: React Router DOM
-- **Styling**: Tailwind CSS & DaisyUI
-- **Data Fetching**: Axios (saat ini masih mock)
+## Struktur Dokumentasi
 
-## Lokasi Kode
-Seluruh kode frontend berada di direktori `client/`.
+* [Current State](./current-state.md): Ringkasan kondisi aktual frontend saat ini.
+* [Route Inventory](./route-inventory.md): Daftar lengkap semua route dan halaman yang tersedia.
+* [Checklist](./checklist.md): Status pekerjaan per modul/fitur.
+* [Next Actions](./next-actions.md): Prioritas pengembangan berikutnya.
+* [Roles Documentation](./roles/README.md): Detail implementasi untuk setiap role pengguna.
 
-## Cara Menjalankan
-1. Masuk ke direktori:
-   ```bash
-   cd client
-   ```
-2. Install dependensi:
-   ```bash
-   npm install
-   ```
-3. Jalankan development server:
-   ```bash
-   npm run dev
-   ```
+## Teknologi Utama
 
-## Navigasi Dokumentasi Frontend
-- [Kondisi Saat Ini](./current-state.md)
-- [Inventaris Route](./route-inventory.md)
-- [Audit UI/UX](./ui-ux-audit.md)
-- [Inventaris Komponen](./component-inventory.md)
-- [Rencana Mock Data](./mock-data-plan.md)
-- [Daftar Masalah (Issues)](./issues.md)
-- [Langkah Selanjutnya](./next-actions.md)
+* **Framework**: React (Vite)
+* **Styling**: Tailwind CSS (v4 compatible)
+* **Animation**: Framer Motion
+* **Icons**: React Icons (Lucide, Feather, Fi)
+* **State Management**: React Hooks (useState, useEffect)
+
+## Status Implementasi
+
+Saat ini frontend RKK beroperasi dalam mode **UI-Only / Prototype** dengan data mock yang terpusat. Fokus utama saat ini adalah mematangkan pengalaman pengguna di sisi Konsumen dan mulai mengisi konten fungsional di dashboard operasional lainnya.
+
+---
+*Terakhir diperbarui: 7 Mei 2026*

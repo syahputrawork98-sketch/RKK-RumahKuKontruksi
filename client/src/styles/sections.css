@@ -1,0 +1,11 @@
+.section-wrapper {
+    @apply py-24 px-6 max-w-6xl mx-auto;
+}
+
+.section-title {
+    @apply text-4xl md:text-5xl font-bold mb-6 text-center;
+}
+
+.card-base {
+    @apply shadow-md border border-teal-100 rounded-2xl hover:shadow-xl transition-all duration-300;
+}

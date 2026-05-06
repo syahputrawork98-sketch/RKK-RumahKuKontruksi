@@ -9,8 +9,8 @@ Role Konsumen memiliki fitur yang paling kompleks secara data. Fitur unggulannya
 |---|---|---|---|---|
 | Dashboard Timeline | `/konsumen/TimelineProyek` | `TimelineProyek.jsx` | **Done** | Monitoring progres utama. |
 | Detail Laporan | `/konsumen/TimelineProyek/:stageId` | `DetailTimelineProyek.jsx` | **Done** | Tabel RAB teknis & foto. |
-| Daftar Proyek | `/konsumen/proyek` | `Proyek.jsx` | **Done** | List proyek milik user. |
-| Profil Akun | `/konsumen/profil` | `Profil.jsx` | **Done** | Pengaturan identitas konsumen. |
+| Daftar Proyek | `/konsumen/proyek` | `Proyek.jsx` | **Partial** | Data masih hardcoded di komponen. |
+| Profil Akun | `/konsumen/profil` | `Profil.jsx` | **Partial** | Data masih hardcoded di komponen. |
 
 ## Komponen Terkait
 - `TLProyek.jsx`: Komponen timeline interaktif.
@@ -18,7 +18,8 @@ Role Konsumen memiliki fitur yang paling kompleks secara data. Fitur unggulannya
 - `KonsumenLayout.jsx`: Layout dengan sidebar khusus konsumen.
 
 ## Data / Mock Data
-- Menggunakan `activeCustomerProject` dari `src/data/mock/projects.js` sebagai sumber data utama.
+- Menggunakan `activeCustomerProject` dari `src/data/mock/projects.js` sebagai sumber data utama untuk timeline.
+- Halaman Proyek dan Profil masih memiliki data hardcoded yang perlu dipindahkan ke `mock/projects.js` dan `mock/users.js`.
 
 ## Sudah Dikerjakan
 - [x] Redesain Timeline menjadi lebih premium dan modern.
@@ -33,5 +34,6 @@ Role Konsumen memiliki fitur yang paling kompleks secara data. Fitur unggulannya
 - [ ] Notifikasi real-time jika ada progres baru.
 
 ## Prioritas Berikutnya
-1. Pemantapan fitur "Profil" (upload avatar, ganti password).
-2. Perbaikan tampilan mobile untuk tabel RAB teknis yang sangat lebar.
+1. **Sentralisasi Data**: Memindahkan data dari `Proyek.jsx` dan `Profil.jsx` ke file mock terpusat.
+2. Pemantapan fitur "Profil" (upload avatar, ganti password).
+3. Perbaikan tampilan mobile untuk tabel RAB teknis yang sangat lebar.

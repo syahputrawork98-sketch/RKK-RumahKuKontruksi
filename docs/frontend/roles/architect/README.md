@@ -17,11 +17,22 @@ Role Arsitek ditambahkan untuk menangani fase pra-proyek/desain sebelum RAB dan 
 
 ## Mock Data Terkait
 - `architects.js`: Profil arsitek dan kapasitas.
-- `designRequests.js`: Permintaan desain dari konsumen.
+- `designRequests.js`: Kepala pekerjaan desain.
+- `designStages.js`: Timeline/Tahapan kerja desain (seperti projectStages).
 - `designFiles.js`: Berkas gambar (denah, 3D, dll).
 - `designRevisions.js`: Riwayat revisi (Max 3 gratis).
 - `designComments.js`: Diskusi fase desain.
 - `users.js` & `roles.js`: Autentikasi dan izin akses.
+
+## Dua Alur Terpisah
+
+RKK memisahkan dengan tegas alur desain dan alur konstruksi:
+
+1. **Design Flow / Alur Arsitek**: Selesai pada tahap desain final / handover desain.
+2. **Project Flow / Alur Project Lapangan**: Implementasi konstruksi/lapangan.
+
+Keduanya boleh terhubung melalui `convertedProjectId` atau `sourceDesignRequestId`, tetapi tidak wajib. Project lapangan dapat berjalan tanpa melalui alur desain formal jika konsumen sudah memiliki desain sendiri.
+
 
 ## Aturan Revisi
 - Konsumen mendapat **3 revisi gratis**.

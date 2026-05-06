@@ -15,15 +15,61 @@ Lokasi: `client/src/data/mock/`
 | RAB Item | `rabItems.js` | **Audit Done** | Detail pekerjaan (Level 3) |
 | Admins | `admins.js` | **Audit Done** | Profil admin (Kapasitas: 3 proyek) |
 | Architects | `architects.js` | **Audit Done** | Profil arsitek/designer |
-| Design Requests | `designRequests.js` | **Audit Done** | Fase pra-proyek (Timeline 1) |
+| Design Requests | `designRequests.js` | **Audit Done** | Kepala pekerjaan desain |
+| Design Stages | `designStages.js` | **Audit Done** | Timeline/Tahapan kerja desain |
 | Design Files | `designFiles.js` | **Audit Done** | Gambar/berkas desain |
 | Design Revisions | `designRevisions.js` | **Audit Done** | Riwayat revisi desain |
 | Design Comments | `designComments.js` | **Audit Done** | Komentar fase desain |
 | Supervisors | `supervisors.js` | **Audit Done** | Profil pengawas (Kapasitas: 3 proyek) |
 | Foremen | `foremen.js` | **Audit Done** | Mandor sebagai Vendor Lapangan (Kapasitas: 2) |
 | Projects | `projects.js` | **Audit Done** | Data proyek utama |
-| Project Stages | `projectStages.js` | **Audit Done** | Tahapan timeline tersinkron RAB |
+| Project Stages | `projectStages.js` | **Audit Done** | Tahapan timeline konstruksi |
+| Project Comments | `projectComments.js` | **Audit Done** | Komentar fase konstruksi |
 | Notifications | `notifications.js` | **Done** | Notifikasi tertarget |
+
+## Dua Alur Terpisah
+
+RKK memiliki dua alur operasional yang berbeda:
+
+### 1. Design Flow / Alur Arsitek
+
+Alur ini digunakan ketika konsumen belum memiliki desain, membutuhkan gambar kerja, atau membutuhkan redesign.
+
+Data utama:
+- `designRequests.js`
+- `designStages.js`
+- `designFiles.js`
+- `designRevisions.js`
+- `designComments.js`
+- `architects.js`
+
+Design Flow selesai pada tahap desain final / handover desain. Jika desain tersebut dilanjutkan menjadi pekerjaan konstruksi, maka proses berikutnya masuk ke Project Flow sebagai alur terpisah.
+
+### 2. Project Flow / Alur Project Lapangan
+
+Alur ini digunakan untuk implementasi konstruksi/lapangan.
+
+Data utama:
+- `projects.js`
+- `projectStages.js`
+- `rabPlans.js`
+- `rabCategories.js`
+- `rabItems.js`
+- `projectComments.js`
+- `supervisors.js`
+- `foremen.js`
+
+Project Flow tidak wajib berasal dari Design Flow. Project dapat berasal dari desain RKK, desain bawaan konsumen, atau pekerjaan yang tidak membutuhkan desain formal.
+
+## Relasi Opsional Design ke Project
+
+Jika Design Flow dilanjutkan ke konstruksi:
+- `designRequests.convertedProjectId` -> `projects.id`
+- `projects.sourceDesignRequestId` -> `designRequests.id`
+- `rabPlans.sourceDesignRequestId` -> `designRequests.id`
+
+Jika project berasal dari desain bawaan konsumen atau tidak membutuhkan desain formal:
+- `projects.sourceDesignRequestId` boleh `null`
 
 ## Aturan Konsistensi Relasi
 *   **Capacity Limit**: 

@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./modules/guest/pages/Home";
 import Layanan from "./modules/guest/pages/Layanan";
+import CaraKerja from "./modules/guest/pages/CaraKerja";
 import About from "./modules/guest/pages/Tentang";
 import Contact from "./modules/guest/Contact";
 
@@ -49,6 +50,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/layanan" element={<Layanan />} />
+          <Route path="/cara-kerja" element={<CaraKerja />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Route>

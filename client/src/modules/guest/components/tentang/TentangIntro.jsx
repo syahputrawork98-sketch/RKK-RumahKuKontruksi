@@ -13,10 +13,8 @@ const TentangIntro = () => {
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 leading-tight">
                     Tentang Rumahku Konstruksi
                 </h1>
-                <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                    Rumahku Konstruksi adalah platform konstruksi modern yang membantu
-                    konsumen, perusahaan, mandor, dan pengawas terhubung dalam satu sistem
-                    yang profesional, transparan, dan efektif.
+                <p className="text-gray-600 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
+                    <strong>RumahKu Kontruksi</strong> didirikan untuk menjawab tantangan industri konstruksi yang seringkali tidak terencana dan sulit dipantau. Kami percaya bahwa membangun rumah impian tidak seharusnya menjadi proses yang penuh kekhawatiran. Melalui teknologi, kami membawa standar baru dalam hal transparansi, akuntabilitas, dan profesionalisme di setiap jengkal proyek Anda.
                 </p>
             </motion.div>
         </section>

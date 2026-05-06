@@ -6,19 +6,19 @@ import { FaHandshake, FaShieldAlt, FaTools } from "react-icons/fa";
 const TentangNilai = () => {
     const values = [
         {
-            icon: FaHandshake,
-            title: "Integritas",
-            desc: "Mengutamakan kejujuran dan transparansi dalam semua proses.",
+            icon: FaShieldAlt,
+            title: "Terencana",
+            desc: "Setiap langkah pembangunan dihitung dengan matang sejak awal untuk hasil yang optimal.",
         },
         {
-            icon: FaShieldAlt,
-            title: "Keamanan",
-            desc: "Menjamin kenyamanan dan keamanan seluruh pihak yang terlibat.",
+            icon: FaHandshake,
+            title: "Transparan",
+            desc: "Keterbukaan informasi biaya dan progres adalah janji utama kami kepada klien.",
         },
         {
             icon: FaTools,
-            title: "Profesionalisme",
-            desc: "Standar tinggi dalam pengerjaan proyek konstruksi.",
+            title: "Profesional",
+            desc: "Didukung oleh tenaga ahli yang kompeten dan sistem kerja yang terorganisir.",
         },
     ];
 

@@ -22,10 +22,10 @@ const TentangIntro = () => {
                     Tentang RumahKu Kontruksi
                 </motion.span>
                 <h1 className="public-hero-title">
-                    Membangun Rumah dengan Proses yang <br className="hidden md:block" /> Lebih Jelas dan Terpercaya
+                    Mewujudkan Hunian Impian dari <br className="hidden md:block" /> Desain hingga Konstruksi
                 </h1>
                 <p className="public-hero-subtitle !text-white/80">
-                    <strong>RumahKu Kontruksi</strong> didirikan untuk menjawab tantangan industri konstruksi yang seringkali tidak terencana dan sulit dipantau. Kami hadir untuk membantu Anda memahami, memantau, dan mengelola proses bangun atau renovasi rumah dengan lebih transparan, profesional, dan akuntabel di setiap jengkal proyek Anda.
+                    <strong>RumahKu Kontruksi</strong> hadir sebagai ekosistem hunian terintegrasi yang membantu Anda di setiap tahap: mulai dari ide awal, desain arsitektur profesional, perencanaan anggaran yang jujur, hingga eksekusi pembangunan lapangan yang terpantau secara real-time. Kami percaya bahwa hunian yang baik dimulai dari perencanaan yang matang dan diakhiri dengan kualitas pengerjaan yang terjamin.
                 </p>
             </motion.div>
         </section>

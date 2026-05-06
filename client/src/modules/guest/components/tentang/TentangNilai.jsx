@@ -29,9 +29,9 @@ const TentangNilai = () => {
                     {[
                         { title: "Transparan", desc: "Setiap detail biaya dan progres dibuka secara jujur kepada klien.", icon: <FaShieldAlt /> },
                         { title: "Terencana", desc: "Pekerjaan dimulai hanya setelah perencanaan teknis dan biaya matang.", icon: <FaTools /> },
-                        { title: "Terdokumentasi", desc: "Setiap tahap memiliki catatan dan arsip digital yang rapi.", icon: <FaHandshake /> },
-                        { title: "Profesional", desc: "Didukung tim ahli yang berdedikasi dan sistem kerja terstandar.", icon: <FaShieldAlt /> },
+                        { title: "Terintegrasi", desc: "Menghubungkan tim arsitek dan tim lapangan dalam satu koordinasi rapi.", icon: <FaHandshake /> },
                         { title: "Terpantau", desc: "Klien memiliki akses penuh untuk memantau progres secara real-time.", icon: <FaTools /> },
+                        { title: "Profesional", desc: "Didukung tim ahli yang berdedikasi dan sistem kerja terstandar.", icon: <FaShieldAlt /> },
                     ].map((item, index) => (
                         <motion.div 
                             key={index}

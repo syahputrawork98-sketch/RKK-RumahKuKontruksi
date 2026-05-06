@@ -18,8 +18,8 @@ const TentangVisi = () => {
                 transition={{ duration: 0.6 }}
             >
                 <div className="inline-flex items-center justify-center gap-4 text-xl md:text-2xl font-medium text-gray-800 italic">
-                    <FaBullseye className="text-red-500 text-3xl shrink-0" />
-                    <span>"Mewujudkan layanan konstruksi yang transparan, profesional, dan aman."</span>
+                    <FaBullseye className="text-primary-main text-3xl shrink-0" />
+                    <span>"Menjadi ekosistem hunian terintegrasi yang menghubungkan ide, desain, dan konstruksi secara transparan."</span>
                 </div>
             </motion.div>
         </section>

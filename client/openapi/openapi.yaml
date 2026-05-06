@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: Project Management API
+  version: 0.1.0-mvp
+  description: |
+    API contract for frontend-backend MVP.
+    Domain: Project, Contract, Finance, Procurement, Progress, User.
+
+servers:
+  - url: http://localhost:3001
+    description: Local API
+  - url: https://api.example.com
+    description: Production API (placeholder)
+
+tags:
+  - name: Auth
+  - name: Projects
+  - name: Contracts
+  - name: Procurement
+  - name: Finance
+  - name: Progress
+  - name: Uploads
+  - name: Clients
+  - name: Suppliers
+
+
+paths:
+  /auth/me:
+    $ref: "./paths/auth.yaml#/auth_me"
+  /auth/login:
+    $ref: "./paths/auth.yaml#/auth_login"
+  /auth/logout:
+    $ref: "./paths/auth.yaml#/auth_logout"
+
+  /projects:
+    $ref: "./paths/projects.yaml#/projects"
+  /projects/{id}:
+    $ref: "./paths/projects.yaml#/project_by_id"
+
+  /contracts:
+    $ref: "./paths/contracts.yaml#/contracts"
+  /contracts/{id}:
+    $ref: "./paths/contracts.yaml#/contract_by_id"
+
+  /projects/{id}/purchase-orders:
+    $ref: "./paths/procurement.yaml#/purchase_orders"
+
+  /projects/{id}/ledger:
+    $ref: "./paths/finance.yaml#/project_ledger"
+  /projects/{id}/payments:
+    $ref: "./paths/finance.yaml#/project_payments"
+
+  /projects/{id}/progress:
+    $ref: "./paths/progress.yaml#/project_progress"
+
+  /uploads/presign:
+    $ref: "./paths/uploads.yaml#/uploads_presign"
+
+  /clients:
+    $ref: "./paths/clients.yaml#/clients"
+
+  /suppliers:
+    $ref: "./paths/suppliers.yaml#/suppliers"
+
+  /projects/{id}/contracts:
+    $ref: "./paths/contracts.yaml#/project_contracts"
+
+  /clients/{id}:
+    $ref: "./paths/clients.yaml#/client_by_id"
+
+  /suppliers/{id}:
+    $ref: "./paths/suppliers.yaml#/supplier_by_id"
+
+
+
+components:
+  schemas:
+    $ref: "./components/schemas.yaml"
+  responses:
+    $ref: "./components/responses.yaml"
+  securitySchemes:
+    $ref: "./components/securitySchemes.yaml"

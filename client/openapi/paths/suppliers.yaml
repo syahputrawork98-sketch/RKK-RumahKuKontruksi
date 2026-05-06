@@ -1,0 +1,58 @@
+suppliers:
+  get:
+    tags: [Suppliers]
+    summary: List suppliers
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    responses:
+      "200":
+        description: Supplier list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas.yaml#/Supplier"
+            examples:
+              sample:
+                value:
+                  - id: sup_001
+                    name: CV Maju Jaya
+                    contactEmail: sales@majujaya.co.id
+                  - id: sup_002
+                    name: PT Sumber Makmur
+                    contactEmail: admin@sumbermakmur.co.id
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+
+
+supplier_by_id:
+  get:
+    tags: [Suppliers]
+    summary: Get supplier by id
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Supplier detail
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/Supplier"
+            examples:
+              sample:
+                value:
+                  id: sup_001
+                  name: CV Maju Jaya
+                  contactEmail: sales@majujaya.co.id
+      "404":
+        $ref: "../components/responses.yaml#/NotFound"
+

@@ -1,0 +1,84 @@
+project_progress:
+  get:
+    tags: [Progress]
+    summary: List progress reports for project
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Progress report list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas.yaml#/ProgressReport"
+            examples:
+              sample:
+                value:
+                  - id: prg_001
+                    projectId: prj_001
+                    weekNumber: 3
+                    notes: Pekerjaan struktur 40%.
+                    photos:
+                      - url: https://cdn.example.com/progress/1.jpg
+                        caption: Pondasi selesai
+                    qcStatus: pending
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+  post:
+    tags: [Progress]
+    summary: Create progress report for project
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/ProgressReport"
+          examples:
+            sample:
+              value:
+                id: prg_001
+                projectId: prj_001
+                weekNumber: 3
+                notes: Pekerjaan struktur 40%.
+                photos:
+                  - url: https://cdn.example.com/progress/1.jpg
+                    caption: Pondasi selesai
+                qcStatus: pending
+    responses:
+      "201":
+        description: Progress report created
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/ProgressReport"
+            examples:
+              created:
+                value:
+                  id: prg_001
+                  projectId: prj_001
+                  weekNumber: 3
+                  notes: Pekerjaan struktur 40%.
+                  photos:
+                    - url: https://cdn.example.com/progress/1.jpg
+                      caption: Pondasi selesai
+                  qcStatus: pending
+      "400":
+        $ref: "../components/responses.yaml#/ValidationError"

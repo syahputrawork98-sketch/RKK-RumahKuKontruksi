@@ -1,0 +1,95 @@
+project_ledger:
+  get:
+    tags: [Finance]
+    summary: Get project ledger
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Ledger entries
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoices:
+                  type: array
+                  items:
+                    $ref: "../components/schemas.yaml#/Invoice"
+                payments:
+                  type: array
+                  items:
+                    $ref: "../components/schemas.yaml#/Payment"
+            examples:
+              sample:
+                value:
+                  invoices:
+                    - id: inv_001
+                      projectId: prj_001
+                      vendorId: sup_001
+                      amount: 50000000
+                      status: unpaid
+                      issuedAt: 2026-02-15
+                  payments:
+                    - id: pay_001
+                      projectId: prj_001
+                      amount: 25000000
+                      method: transfer
+                      paidAt: 2026-02-18
+                      reference: BANK-TRX-12345
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+
+project_payments:
+  post:
+    tags: [Finance]
+    summary: Record payment for project
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/Payment"
+          examples:
+            sample:
+              value:
+                id: pay_001
+                projectId: prj_001
+                amount: 25000000
+                method: transfer
+                paidAt: 2026-02-18
+                reference: BANK-TRX-12345
+    responses:
+      "201":
+        description: Payment recorded
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/Payment"
+            examples:
+              created:
+                value:
+                  id: pay_001
+                  projectId: prj_001
+                  amount: 25000000
+                  method: transfer
+                  paidAt: 2026-02-18
+                  reference: BANK-TRX-12345
+      "400":
+        $ref: "../components/responses.yaml#/ValidationError"

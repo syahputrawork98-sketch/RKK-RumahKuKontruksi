@@ -1,0 +1,10 @@
+CookieAuth:
+  type: apiKey
+  in: cookie
+  name: session
+  description: Primary auth via httpOnly session cookie.
+BearerAuth:
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: Optional token auth.

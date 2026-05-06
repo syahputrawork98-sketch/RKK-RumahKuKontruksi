@@ -1,0 +1,186 @@
+projects:
+  get:
+    tags: [Projects]
+    summary: List projects
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum: [draft, planning, execution, completed, archived]
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+    responses:
+      "200":
+        description: Project list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas.yaml#/Project"
+            examples:
+              sample:
+                value:
+                  - id: prj_001
+                    name: Pembangunan Gudang A
+                    clientId: cli_001
+                    status: execution
+                    budgetTotal: 2500000000
+                    startDate: 2026-02-01
+                    endDate: 2026-12-20
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+  post:
+    tags: [Projects]
+    summary: Create project
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/Project"
+          examples:
+            sample:
+              value:
+                id: prj_001
+                name: Pembangunan Gudang A
+                clientId: cli_001
+                status: planning
+                budgetTotal: 2500000000
+                startDate: 2026-02-01
+                endDate: 2026-12-20
+    responses:
+      "201":
+        description: Project created
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/Project"
+            examples:
+              created:
+                value:
+                  id: prj_001
+                  name: Pembangunan Gudang A
+                  clientId: cli_001
+                  status: planning
+                  budgetTotal: 2500000000
+                  startDate: 2026-02-01
+                  endDate: 2026-12-20
+      "400":
+        $ref: "../components/responses.yaml#/ValidationError"
+
+project_by_id:
+  get:
+    tags: [Projects]
+    summary: Get project by id
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Project detail
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/Project"
+            examples:
+              sample:
+                value:
+                  id: prj_001
+                  name: Pembangunan Gudang A
+                  clientId: cli_001
+                  status: execution
+                  budgetTotal: 2500000000
+                  startDate: 2026-02-01
+                  endDate: 2026-12-20
+      "404":
+        $ref: "../components/responses.yaml#/NotFound"
+  put:
+    tags: [Projects]
+    summary: Update project by id
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/Project"
+          examples:
+            sample:
+              value:
+                id: prj_001
+                name: Pembangunan Gudang A
+                clientId: cli_001
+                status: execution
+                budgetTotal: 2600000000
+                startDate: 2026-02-01
+                endDate: 2026-12-20
+    responses:
+      "200":
+        description: Project updated
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/Project"
+            examples:
+              updated:
+                value:
+                  id: prj_001
+                  name: Pembangunan Gudang A
+                  clientId: cli_001
+                  status: execution
+                  budgetTotal: 2600000000
+                  startDate: 2026-02-01
+                  endDate: 2026-12-20
+      "400":
+        $ref: "../components/responses.yaml#/ValidationError"
+      "404":
+        $ref: "../components/responses.yaml#/NotFound"
+
+  delete:
+    tags: [Projects]
+    summary: Delete project by id
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "204":
+        description: Project deleted
+      "404":
+        $ref: "../components/responses.yaml#/NotFound"

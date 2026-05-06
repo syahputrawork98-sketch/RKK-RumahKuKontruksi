@@ -1,0 +1,282 @@
+ErrorResponse:
+  type: object
+  required: [error]
+  properties:
+    error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          example: VALIDATION_ERROR
+        message:
+          type: string
+          example: Invalid request payload.
+        details:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+
+User:
+  type: object
+  required: [id, name, email, roles, attributes]
+  properties:
+    id:
+      type: string
+      example: usr_001
+    name:
+      type: string
+      example: Budi Santoso
+    email:
+      type: string
+      format: email
+      example: budi@company.com
+    roles:
+      type: array
+      items:
+        type: string
+      example: [project_manager]
+    attributes:
+      type: object
+      required: [projectIds, orgId, financialLimit]
+      properties:
+        projectIds:
+          type: array
+          items:
+            type: string
+          example: [prj_001, prj_002]
+        orgId:
+          type: string
+          example: org_001
+        financialLimit:
+          type: number
+          format: double
+          example: 100000000
+
+Project:
+  type: object
+  required: [id, name, clientId, status, budgetTotal, startDate, endDate]
+  properties:
+    id:
+      type: string
+      example: prj_001
+    name:
+      type: string
+      example: Pembangunan Gudang A
+    clientId:
+      type: string
+      example: cli_001
+    status:
+      type: string
+      enum: [draft, planning, execution, completed, archived]
+    budgetTotal:
+      type: number
+      format: double
+      example: 2500000000
+    startDate:
+      type: string
+      format: date
+      example: 2026-02-01
+    endDate:
+      type: string
+      format: date
+      example: 2026-12-20
+
+Client:
+  type: object
+  required: [id, name]
+  properties:
+    id:
+      type: string
+      example: cli_001
+    name:
+      type: string
+      example: PT Sinar Abadi
+    contactEmail:
+      type: string
+      format: email
+      example: admin@sinarabadi.co.id
+
+Supplier:
+  type: object
+  required: [id, name]
+  properties:
+    id:
+      type: string
+      example: sup_001
+    name:
+      type: string
+      example: CV Maju Jaya
+    contactEmail:
+      type: string
+      format: email
+      example: sales@majujaya.co.id
+
+Contract:
+  type: object
+  required: [id, projectId, contractorId, scope, signedAt, paymentSchedule]
+  properties:
+    id:
+      type: string
+      example: ctr_001
+    projectId:
+      type: string
+      example: prj_001
+    contractorId:
+      type: string
+      example: sup_001
+    scope:
+      type: string
+      example: Struktur dan finishing
+    signedAt:
+      type: string
+      format: date
+      example: 2026-02-10
+    paymentSchedule:
+      type: array
+      items:
+        type: object
+        required: [milestone, amount, dueDate]
+        properties:
+          milestone:
+            type: string
+            example: DP 30%
+          amount:
+            type: number
+            format: double
+            example: 750000000
+          dueDate:
+            type: string
+            format: date
+            example: 2026-03-01
+
+PurchaseOrderItem:
+  type: object
+  required: [name, qty, unitPrice]
+  properties:
+    name:
+      type: string
+      example: Besi beton 10mm
+    qty:
+      type: number
+      format: double
+      example: 100
+    unitPrice:
+      type: number
+      format: double
+      example: 120000
+    unit:
+      type: string
+      example: batang
+
+PurchaseOrder:
+  type: object
+  required: [id, projectId, supplierId, items, totalAmount, status]
+  properties:
+    id:
+      type: string
+      example: po_001
+    projectId:
+      type: string
+      example: prj_001
+    supplierId:
+      type: string
+      example: sup_001
+    items:
+      type: array
+      items:
+        $ref: "#/PurchaseOrderItem"
+    totalAmount:
+      type: number
+      format: double
+      example: 12000000
+    status:
+      type: string
+      enum: [draft, issued, delivered, cancelled]
+
+Invoice:
+  type: object
+  required: [id, projectId, vendorId, amount, status, issuedAt]
+  properties:
+    id:
+      type: string
+      example: inv_001
+    projectId:
+      type: string
+      example: prj_001
+    vendorId:
+      type: string
+      example: sup_001
+    amount:
+      type: number
+      format: double
+      example: 50000000
+    status:
+      type: string
+      enum: [unpaid, partial, paid, void]
+    issuedAt:
+      type: string
+      format: date
+      example: 2026-02-15
+
+Payment:
+  type: object
+  required: [id, projectId, amount, method, paidAt]
+  properties:
+    id:
+      type: string
+      example: pay_001
+    projectId:
+      type: string
+      example: prj_001
+    amount:
+      type: number
+      format: double
+      example: 25000000
+    method:
+      type: string
+      enum: [transfer, cash, giro]
+    paidAt:
+      type: string
+      format: date
+      example: 2026-02-18
+    reference:
+      type: string
+      example: BANK-TRX-12345
+
+ProgressPhoto:
+  type: object
+  required: [url]
+  properties:
+    url:
+      type: string
+      format: uri
+      example: https://cdn.example.com/progress/1.jpg
+    caption:
+      type: string
+      example: Pondasi selesai
+
+ProgressReport:
+  type: object
+  required: [id, projectId, weekNumber, notes, photos, qcStatus]
+  properties:
+    id:
+      type: string
+      example: prg_001
+    projectId:
+      type: string
+      example: prj_001
+    weekNumber:
+      type: integer
+      example: 3
+    notes:
+      type: string
+      example: Pekerjaan struktur 40%.
+    photos:
+      type: array
+      items:
+        $ref: "#/ProgressPhoto"
+    qcStatus:
+      type: string
+      enum: [pending, approved, rejected]

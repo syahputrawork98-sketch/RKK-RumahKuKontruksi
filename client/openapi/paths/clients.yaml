@@ -1,0 +1,57 @@
+clients:
+  get:
+    tags: [Clients]
+    summary: List clients
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    responses:
+      "200":
+        description: Client list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas.yaml#/Client"
+            examples:
+              sample:
+                value:
+                  - id: cli_001
+                    name: PT Sinar Abadi
+                    contactEmail: admin@sinarabadi.co.id
+                  - id: cli_002
+                    name: PT Maju Bersama
+                    contactEmail: contact@maju.co.id
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+
+
+client_by_id:
+  get:
+    tags: [Clients]
+    summary: Get client by id
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Client detail
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/Client"
+            examples:
+              sample:
+                value:
+                  id: cli_001
+                  name: PT Sinar Abadi
+                  contactEmail: admin@sinarabadi.co.id
+      "404":
+        $ref: "../components/responses.yaml#/NotFound"

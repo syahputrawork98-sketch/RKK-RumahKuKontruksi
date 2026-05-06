@@ -1,0 +1,93 @@
+auth_me:
+  get:
+    tags: [Auth]
+    summary: Get current authenticated user
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    responses:
+      "200":
+        description: Current user
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/User"
+            examples:
+              sample:
+                value:
+                  id: usr_001
+                  name: Budi Santoso
+                  email: budi@company.com
+                  roles: [project_manager]
+                  attributes:
+                    projectIds: [prj_001, prj_002]
+                    orgId: org_001
+                    financialLimit: 100000000
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+
+auth_login:
+  post:
+    tags: [Auth]
+    summary: Login user (set session cookie or return token)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [email, password]
+            properties:
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+          examples:
+            sample:
+              value:
+                email: budi@company.com
+                password: secret123
+    responses:
+      "200":
+        description: Login successful
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                accessToken:
+                  type: string
+            examples:
+              success:
+                value:
+                  message: Login successful
+                  accessToken: jwt-token-here
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"
+
+auth_logout:
+  post:
+    tags: [Auth]
+    summary: Logout current session
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    responses:
+      "200":
+        description: Logout successful
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            examples:
+              success:
+                value:
+                  message: Logout successful
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"

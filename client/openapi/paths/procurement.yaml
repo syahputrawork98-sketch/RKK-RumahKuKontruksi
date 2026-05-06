@@ -1,0 +1,90 @@
+purchase_orders:
+  post:
+    tags: [Procurement]
+    summary: Create purchase order for project
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas.yaml#/PurchaseOrder"
+          examples:
+            sample:
+              value:
+                id: po_001
+                projectId: prj_001
+                supplierId: sup_001
+                items:
+                  - name: Besi beton 10mm
+                    qty: 100
+                    unitPrice: 120000
+                    unit: batang
+                totalAmount: 12000000
+                status: issued
+    responses:
+      "201":
+        description: Purchase order created
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas.yaml#/PurchaseOrder"
+            examples:
+              created:
+                value:
+                  id: po_001
+                  projectId: prj_001
+                  supplierId: sup_001
+                  items:
+                    - name: Besi beton 10mm
+                      qty: 100
+                      unitPrice: 120000
+                      unit: batang
+                  totalAmount: 12000000
+                  status: issued
+      "400":
+        $ref: "../components/responses.yaml#/ValidationError"
+  get:
+    tags: [Procurement]
+    summary: List purchase orders for project
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Purchase order list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas.yaml#/PurchaseOrder"
+            examples:
+              sample:
+                value:
+                  - id: po_001
+                    projectId: prj_001
+                    supplierId: sup_001
+                    items:
+                      - name: Besi beton 10mm
+                        qty: 100
+                        unitPrice: 120000
+                        unit: batang
+                    totalAmount: 12000000
+                    status: issued
+      "401":
+        $ref: "../components/responses.yaml#/Unauthorized"

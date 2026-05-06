@@ -1,0 +1,35 @@
+Unauthorized:
+  description: Unauthorized
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas.yaml#/ErrorResponse"
+      example:
+        error:
+          code: UNAUTHORIZED
+          message: Authentication required.
+
+NotFound:
+  description: Resource not found
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas.yaml#/ErrorResponse"
+      example:
+        error:
+          code: NOT_FOUND
+          message: Resource not found.
+
+ValidationError:
+  description: Request validation failed
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas.yaml#/ErrorResponse"
+      example:
+        error:
+          code: VALIDATION_ERROR
+          message: One or more fields are invalid.
+          details:
+            - field: name
+              issue: Required

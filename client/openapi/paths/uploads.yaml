@@ -1,0 +1,47 @@
+uploads_presign:
+  post:
+    tags: [Uploads]
+    summary: Get presigned upload URL
+    security:
+      - CookieAuth: []
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [filename, contentType]
+            properties:
+              filename:
+                type: string
+                example: progress-1.jpg
+              contentType:
+                type: string
+                example: image/jpeg
+          examples:
+            sample:
+              value:
+                filename: progress-1.jpg
+                contentType: image/jpeg
+    responses:
+      "200":
+        description: Presigned upload URL
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uploadUrl:
+                  type: string
+                  format: uri
+                publicUrl:
+                  type: string
+                  format: uri
+            examples:
+              sample:
+                value:
+                  uploadUrl: https://s3.example.com/bucket/progress-1.jpg?signature=xxx
+                  publicUrl: https://cdn.example.com/progress-1.jpg
+      "400":
+        $ref: "../components/responses.yaml#/ValidationError"

@@ -2,28 +2,28 @@
 
 Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`.
 
-| Route | Role | File | Status | Catatan |
-|---|---|---|---|---|
-| `/` | Guest | `modules/guest/pages/Home.jsx` | POLISHED | Landing page utama. |
-| `/layanan` | Guest | `modules/guest/pages/Layanan.jsx` | POLISHED | Detail layanan RKK. |
-| `/cara-kerja` | Guest | `modules/guest/pages/CaraKerja.jsx` | POLISHED | Alur kerja proyek. |
-| `/proyek` | Guest | `modules/guest/pages/Proyek.jsx` | POLISHED | Portfolio & progres proyek publik. |
-| `/about` | Guest | `modules/guest/pages/Tentang.jsx` | POLISHED | Informasi perusahaan. |
-| `/contact` | Guest | `modules/guest/Contact.jsx` | UI-DONE | Halaman kontak. |
-| `/konsumen/TimelineProyek` | Konsumen | `pages/konsumen/TimelineProyek.jsx` | MOCK-DONE | Visualisasi progres proyek. |
-| `/konsumen/proyek` | Konsumen | `pages/konsumen/Proyek.jsx` | UI-DONE | List proyek konsumen. |
-| `/konsumen/profil` | Konsumen | `pages/konsumen/Profil.jsx` | UI-DONE | Manajemen profil konsumen. |
-| `/superadmin/dashboard` | Superadmin | `pages/superadmin/DashboardSuperadmin.jsx` | UI-DONE | Ringkasan statistik sistem. |
-| `/superadmin/data-admin` | Superadmin | `pages/superadmin/DataAdminPage.jsx` | EMPTY | Manajemen data admin. |
-| `/superadmin/data-pengawas` | Superadmin | `pages/superadmin/DataPengawasPage.jsx` | EMPTY | Manajemen data pengawas. |
-| `/superadmin/data-mandor` | Superadmin | `pages/superadmin/DataMandorPage.jsx` | EMPTY | Manajemen data mandor. |
-| `/admin/dashboard` | Admin | `pages/admin/DashboardAdmin.jsx` | SHELL | Dashboard operasional admin. |
-| `/pengawas/dashboard` | Pengawas | `pages/pengawas/DashboardPengawas.jsx` | SHELL | Dashboard monitoring pengawas. |
-| `/mandor/dashboard` | Mandor | `pages/mandor/DashboardMandor.jsx` | SHELL | Dashboard harian mandor. |
+| Role | Halaman | Route | File/Component | Status | Catatan |
+|---|---|---|---|---|---|
+| Guest | Home | `/` | `modules/guest/pages/Home.jsx` | **Done** | Landing page utama. |
+| Guest | Layanan | `/layanan` | `modules/guest/pages/Layanan.jsx` | **Done** | Grid layanan jasa konstruksi. |
+| Guest | Cara Kerja | `/cara-kerja` | `modules/guest/pages/CaraKerja.jsx` | **Done** | Visualisasi alur kerja proyek. |
+| Guest | Proyek | `/proyek` | `modules/guest/pages/Proyek.jsx` | **Done** | Portfolio publik. |
+| Guest | Tentang | `/tentang` | `modules/guest/pages/Tentang.jsx` | **Done** | Visi, misi, dan tim. |
+| Guest | Kontak | `/kontak` | `modules/guest/Contact.jsx` | **Done** | Form kontak dan peta lokasi. |
+| Konsumen | Dashboard Timeline | `/konsumen/TimelineProyek` | `pages/konsumen/TimelineProyek.jsx` | **Done** | Monitoring progres proyek aktif. |
+| Konsumen | Detail Tahap | `/konsumen/TimelineProyek/:stageId` | `pages/konsumen/DetailTimelineProyek.jsx` | **Done** | Laporan teknis per tahap pekerjaan. |
+| Konsumen | List Proyek | `/konsumen/proyek` | `pages/konsumen/Proyek.jsx` | **Done** | Daftar proyek milik konsumen. |
+| Konsumen | Profil | `/konsumen/profil` | `pages/konsumen/Profil.jsx` | **Done** | Pengaturan akun konsumen. |
+| Superadmin | Dashboard | `/superadmin/dashboard` | `pages/superadmin/DashboardSuperadmin.jsx` | **Partial** | Statistik global sistem. |
+| Superadmin | Data Admin | `/superadmin/data-admin` | `pages/superadmin/DataAdminPage.jsx` | **Shell** | Manajemen user admin. |
+| Superadmin | Data Pengawas | `/superadmin/data-pengawas` | `pages/superadmin/DataPengawasPage.jsx` | **Shell** | Manajemen user pengawas. |
+| Superadmin | Data Mandor | `/superadmin/data-mandor` | `pages/superadmin/DataMandorPage.jsx` | **Shell** | Manajemen user mandor. |
+| Admin | Dashboard | `/admin/dashboard` | `pages/admin/DashboardAdmin.jsx` | **Shell** | Operasional proyek pusat. |
+| Pengawas | Dashboard | `/pengawas/dashboard` | `pages/pengawas/DashboardPengawas.jsx` | **Shell** | Monitoring lapangan. |
+| Mandor | Dashboard | `/mandor/dashboard` | `pages/mandor/DashboardMandor.jsx` | **Shell** | Laporan harian & tukang. |
 
 ## Keterangan Status:
-- **POLISHED**: Tampilan sudah dipoles premium dan responsif.
-- **UI-DONE**: Tampilan dasar sudah ada.
-- **MOCK-DONE**: Sudah terhubung dengan data mock.
-- **EMPTY**: Tampilan ada tapi data/tabel kosong.
-- **SHELL**: Hanya berupa bingkai layout tanpa konten utama.
+* **Done**: Sudah cukup selesai secara UI dan fungsionalitas mock.
+* **Partial**: Halaman sudah ada tapi masih perlu penyempurnaan/data mock.
+* **Shell**: Route/layout sudah ada tapi konten belum lengkap (placeholder).
+* **Planned**: Belum dibuat, masih dalam rencana pengembangan.

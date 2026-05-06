@@ -12,9 +12,9 @@ Frontend menggunakan Vite React dari `RumahKuKontruksi-Dev/client`. Audit dilaku
 |---|---|---|---|---|
 | / | Guest | **POLISHED** | Landing page utama. Hero, Intro, dan Preview Layanan sudah dipoles premium. | high |
 | /layanan | Guest | **POLISHED** | Halaman layanan lengkap dengan hero premium dan section value. | medium |
-| /cara-kerja | Guest | **DONE** | Visualisasi 7 langkah kerja RKK. | medium |
-| /proyek | Guest | **DONE** | Portfolio proyek dengan status dan progres. | medium |
-| /about | Guest | **DONE** | Tentang perusahaan dengan konteks brand story. | medium |
+| /cara-kerja | Guest | **POLISHED** | Alur kerja terstruktur dengan timeline premium. | medium |
+| /proyek | Guest | **POLISHED** | Portfolio proyek dengan status dan progres bar. | medium |
+| /about | Guest | **POLISHED** | Brand story dan nilai perusahaan yang diperkuat. | medium |
 | /contact | Guest | **KEEP** | Kontak perusahaan. | medium |
 | /konsumen/TimelineProyek | Konsumen | **KEEP** | Timeline proyek (Budi Santoso, Ahmad Fauzi). | high |
 | /konsumen/proyek | Konsumen | **KEEP** | Data proyek konsumen. | high |

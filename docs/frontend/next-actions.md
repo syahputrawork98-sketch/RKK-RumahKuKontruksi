@@ -32,10 +32,15 @@ Rencana kerja bertahap untuk pengembangan frontend.
 - [x] PUB2-006: Peningkatan visual Card Layanan (Premium style).
 - [x] PUB2-007: Penambahan section Value/Proses di halaman Layanan.
 
-## Sprint Public 03 - Support Pages Polish (Next)
-- [ ] Polish visual halaman Cara Kerja.
-- [ ] Polish visual halaman Proyek.
-- [ ] Polish visual halaman Tentang & Kontak.
+## Sprint Public 03 - Support Pages Polish (DONE)
+- [x] PUB3-001: Polish visual hero halaman Cara Kerja.
+- [x] PUB3-002: Peningkatan visual timeline alur kerja.
+- [x] PUB3-003: Penambahan section trust/control di Cara Kerja.
+- [x] PUB3-004: Polish visual hero halaman Proyek.
+- [x] PUB3-005: Peningkatan visual card showcase proyek.
+- [x] PUB3-006: Penambahan final CTA di halaman Proyek.
+- [x] PUB3-007: Polish visual hero dan story halaman Tentang.
+- [x] PUB3-008: Penambahan section nilai/komitmen di Tentang.
 
 ## Sprint 03 - Mock Data Foundation (Current)
 - [x] Inisialisasi folder `client/src/data/mock/`.

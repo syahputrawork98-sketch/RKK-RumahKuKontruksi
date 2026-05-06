@@ -6,9 +6,9 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|---|
 | `/` | Guest | `modules/guest/pages/Home.jsx` | POLISHED | Landing page utama. |
 | `/layanan` | Guest | `modules/guest/pages/Layanan.jsx` | POLISHED | Detail layanan RKK. |
-| `/cara-kerja` | Guest | `modules/guest/pages/CaraKerja.jsx` | UI-DONE | Alur kerja proyek. |
-| `/proyek` | Guest | `modules/guest/pages/Proyek.jsx` | MOCK-DONE | Portfolio & progres proyek publik. |
-| `/about` | Guest | `modules/guest/pages/Tentang.jsx` | UI-DONE | Informasi perusahaan. |
+| `/cara-kerja` | Guest | `modules/guest/pages/CaraKerja.jsx` | POLISHED | Alur kerja proyek. |
+| `/proyek` | Guest | `modules/guest/pages/Proyek.jsx` | POLISHED | Portfolio & progres proyek publik. |
+| `/about` | Guest | `modules/guest/pages/Tentang.jsx` | POLISHED | Informasi perusahaan. |
 | `/contact` | Guest | `modules/guest/Contact.jsx` | UI-DONE | Halaman kontak. |
 | `/konsumen/TimelineProyek` | Konsumen | `pages/konsumen/TimelineProyek.jsx` | MOCK-DONE | Visualisasi progres proyek. |
 | `/konsumen/proyek` | Konsumen | `pages/konsumen/Proyek.jsx` | UI-DONE | List proyek konsumen. |

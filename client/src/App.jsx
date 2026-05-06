@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // ===== HALAMAN UMUM =====
 import MainLayout from "./layouts/MainLayout";
 import Home from "./modules/guest/pages/Home";
+import Layanan from "./modules/guest/pages/Layanan";
 import About from "./modules/guest/pages/Tentang";
 import Contact from "./modules/guest/Contact";
 
@@ -47,6 +48,7 @@ function App() {
         {/* ================== MAIN LAYOUT (UMUM) ================== */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/layanan" element={<Layanan />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Route>

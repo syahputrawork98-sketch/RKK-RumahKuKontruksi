@@ -42,13 +42,15 @@ const Navbar = () => {
             {/* Menu disusun fleksibel agar bisa berubah menjadi kolom di mobile */}
             <div className=" flex flex-col lg:flex-row lg:items-center justify-center lg:gap-8 p-4 lg:p-0">
               {/* Map daftar menu */}
-              {["Beranda", "Tentang", "Kontak"].map((item) => (
+              {["Beranda", "Layanan", "Tentang", "Kontak"].map((item) => (
                 <NavLink
                   end={item === "Beranda"}
                   key={item}
                   to={
                     item === "Beranda"
                       ? "/"
+                      : item === "Layanan"
+                      ? "/layanan"
                       : item === "Tentang"
                       ? "/about"
                       : "/contact"

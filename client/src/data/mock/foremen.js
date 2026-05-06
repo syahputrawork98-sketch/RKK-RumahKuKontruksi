@@ -41,7 +41,7 @@ export const mockForemen = [
       estimatedWorkerCount: 5,
       mainSkills: ["Tukang Cat", "Tukang Plafon", "Tukang Keramik"]
     },
-    assignedProjectIds: ["project-003"],
+    assignedProjectIds: ["project-007", "project-003"],
     maxProjectCapacity: 2,
     status: "active",
     joinedAt: "2023-11-20",
@@ -64,7 +64,7 @@ export const mockForemen = [
       estimatedWorkerCount: 4,
       mainSkills: ["Tukang Rangka Baja", "Tukang Plafon"]
     },
-    assignedProjectIds: [],
+    assignedProjectIds: ["project-008", "project-011"],
     maxProjectCapacity: 2,
     status: "active",
     joinedAt: "2024-02-10",
@@ -89,9 +89,9 @@ export const mockForemen = [
     },
     assignedProjectIds: ["project-004"],
     maxProjectCapacity: 2,
-    status: "on_hold",
+    status: "active", // Changed from on_hold to active as it has project-004
     joinedAt: "2023-05-15",
-    notes: "Sedang tidak aktif menunggu pembaruan kontrak."
+    notes: "Kembali aktif untuk menangani perbaikan atap gudang."
   }
 ];
 

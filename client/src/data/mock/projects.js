@@ -50,7 +50,7 @@ export const mockProjects = [
     status: "Selesai",
     progress: 100,
     customerId: "customer-001",
-    adminId: "admin-002",
+    adminId: "admin-004", // Moved from admin-002
     supervisorId: "supervisor-001",
     foremanId: "foreman-002",
     location: "Bekasi, Jawa Barat",
@@ -112,8 +112,8 @@ export const mockProjects = [
     status: "Berjalan",
     progress: 25,
     customerId: "customer-003",
-    adminId: "admin-001",
-    supervisorId: "supervisor-001",
+    adminId: "admin-003", // Moved from admin-001
+    supervisorId: "supervisor-003", // Moved from supervisor-001
     foremanId: "foreman-002",
     location: "Jakarta Pusat",
     startDate: "2025-03-01",
@@ -131,8 +131,8 @@ export const mockProjects = [
     status: "Perencanaan",
     progress: 0,
     customerId: "customer-003",
-    adminId: "admin-001",
-    supervisorId: "supervisor-001",
+    adminId: "admin-004", // Moved from admin-001
+    supervisorId: "supervisor-004", // Moved from supervisor-001
     foremanId: null,
     location: "Mega Kuningan, Jakarta Selatan",
     startDate: "2025-06-01",
@@ -170,8 +170,8 @@ export const mockProjects = [
     progress: 100,
     customerId: "customer-003",
     adminId: "admin-003",
-    supervisorId: "supervisor-003",
-    foremanId: "foreman-002",
+    supervisorId: "supervisor-002", // Moved from supervisor-003
+    foremanId: "foreman-003", // Moved from foreman-002
     location: "Jakarta Selatan",
     startDate: "2025-01-10",
     estimatedEndDate: "2025-02-28",
@@ -212,7 +212,7 @@ export const mockProjects = [
     progress: 5,
     customerId: "customer-001",
     adminId: "admin-002",
-    supervisorId: "supervisor-001",
+    supervisorId: "supervisor-003", // Moved from supervisor-001
     foremanId: null,
     location: "Jakarta Selatan",
     startDate: "2025-04-10",

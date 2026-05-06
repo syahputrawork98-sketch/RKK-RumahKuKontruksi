@@ -12,7 +12,7 @@ export const mockSupervisors = [
     specialization: "Pengawasan Struktur Bangunan",
     experienceYears: 7,
     skillTags: ["Quality Control", "Struktur", "K3", "Progress Verification"],
-    assignedProjectIds: ["project-001", "project-002", "project-003"],
+    assignedProjectIds: ["project-001", "project-002", "project-007"],
     maxProjectCapacity: 3,
     status: "active",
     joinedAt: "2023-06-10",
@@ -29,7 +29,7 @@ export const mockSupervisors = [
     specialization: "Pengawasan Arsitektur & Finishing",
     experienceYears: 5,
     skillTags: ["Interior", "Finishing", "Material Audit"],
-    assignedProjectIds: ["project-004", "project-005"],
+    assignedProjectIds: ["project-008", "project-004", "project-011"],
     maxProjectCapacity: 3,
     status: "active",
     joinedAt: "2023-09-15",
@@ -46,7 +46,7 @@ export const mockSupervisors = [
     specialization: "Pengawasan Sipil Umum",
     experienceYears: 3,
     skillTags: ["Drainase", "Pagar", "Lanskap"],
-    assignedProjectIds: ["project-006"],
+    assignedProjectIds: ["project-003", "project-006", "project-005"],
     maxProjectCapacity: 3,
     status: "active",
     joinedAt: "2024-01-05",
@@ -58,16 +58,17 @@ export const mockSupervisors = [
     name: "Lukman Hakim",
     email: "lukman.hakim@rumahkukontruksi.com",
     phone: "081234567813",
+    role: "pengawas",
     avatar: "https://i.pravatar.cc/150?u=supervisor-004",
     address: "Tangerang, Banten",
     specialization: "Pengawasan Infrastruktur",
     experienceYears: 12,
     skillTags: ["Jalan", "Jembatan", "Konstruksi Berat"],
-    assignedProjectIds: [],
+    assignedProjectIds: ["project-009"],
     maxProjectCapacity: 3,
-    status: "inactive",
+    status: "active", // Changed from inactive to handle project-009
     joinedAt: "2023-04-10",
-    notes: "Sedang cuti panjang untuk urusan pribadi."
+    notes: "Kembali aktif untuk mengawasi proyek ruko Mega Kuningan."
   }
 ];
 

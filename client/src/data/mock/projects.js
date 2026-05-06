@@ -49,7 +49,7 @@ export const mockProjects = [
     customerId: "customer-001",
     adminId: "admin-001",
     supervisorId: "supervisor-001",
-    foremanId: "foreman-001",
+    foremanId: "foreman-002",
     location: "Jakarta Pusat",
     startDate: "2025-03-01",
     estimatedEndDate: "2025-05-15",
@@ -68,7 +68,7 @@ export const mockProjects = [
     customerId: "customer-002",
     adminId: "admin-002",
     supervisorId: "supervisor-001",
-    foremanId: "foreman-001",
+    foremanId: "foreman-004",
     location: "Tangerang",
     startDate: "2025-04-01",
     estimatedEndDate: "2025-05-01",
@@ -87,7 +87,7 @@ export const mockProjects = [
     customerId: "customer-001",
     adminId: "admin-002",
     supervisorId: "supervisor-001",
-    foremanId: "foreman-001",
+    foremanId: null,
     location: "Jakarta Selatan",
     startDate: "2025-04-10",
     estimatedEndDate: "2025-05-10",
@@ -106,7 +106,7 @@ export const mockProjects = [
     customerId: "customer-002",
     adminId: "admin-003",
     supervisorId: "supervisor-001",
-    foremanId: "foreman-001",
+    foremanId: null,
     location: "Depok",
     startDate: "2025-04-15",
     estimatedEndDate: "2025-05-30",
@@ -128,7 +128,7 @@ export const activeCustomerProject = {
     admin: {
       name: "Rina Maharani",
       role: "Admin Proyek",
-      avatar: "https://i.pravatar.cc/150?u=rina",
+      avatar: "https://i.pravatar.cc/150?u=admin-001",
       status: "Aktif"
     },
     pengawas: {
@@ -140,7 +140,7 @@ export const activeCustomerProject = {
     mandor: {
       name: "Budi Santoso",
       role: "Mandor",
-      avatar: "https://i.pravatar.cc/150?u=budi",
+      avatar: "https://i.pravatar.cc/150?u=foreman-001",
       status: "Aktif"
     }
   },

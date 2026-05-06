@@ -17,7 +17,7 @@ export const mockUsers = [
     email: "rina.maharani@rumahkukontruksi.com",
     phone: "081234567890",
     role: "admin",
-    avatar: "https://i.pravatar.cc/150?u=rina",
+    avatar: "https://i.pravatar.cc/150?u=admin-001",
     status: "active",
     createdAt: "2024-01-15"
   },
@@ -27,7 +27,7 @@ export const mockUsers = [
     email: "dewi.lestari@rumahkukontruksi.com",
     phone: "081234567899",
     role: "admin",
-    avatar: "https://i.pravatar.cc/150?u=dewi",
+    avatar: "https://i.pravatar.cc/150?u=admin-002",
     status: "active",
     createdAt: "2024-03-20"
   },
@@ -37,7 +37,7 @@ export const mockUsers = [
     email: "fajar.nugroho@rumahkukontruksi.com",
     phone: "081234567888",
     role: "admin",
-    avatar: "https://i.pravatar.cc/150?u=fajar",
+    avatar: "https://i.pravatar.cc/150?u=admin-003",
     status: "active",
     createdAt: "2024-06-10"
   },
@@ -47,9 +47,49 @@ export const mockUsers = [
     email: "siti.aminah@rumahkukontruksi.com",
     phone: "081234567877",
     role: "admin",
-    avatar: "https://i.pravatar.cc/150?u=siti-admin",
+    avatar: "https://i.pravatar.cc/150?u=admin-004",
     status: "active",
     createdAt: "2024-09-05"
+  },
+  {
+    id: "user-mandor-001",
+    name: "Budi Santoso",
+    email: "budi.santoso@rumahkukontruksi.com",
+    phone: "081234567892",
+    role: "mandor",
+    avatar: "https://i.pravatar.cc/150?u=foreman-001",
+    status: "active",
+    createdAt: "2023-08-15"
+  },
+  {
+    id: "user-mandor-002",
+    name: "Agus Setiawan",
+    email: "agus.setiawan@rumahkukontruksi.com",
+    phone: "081234567881",
+    role: "mandor",
+    avatar: "https://i.pravatar.cc/150?u=foreman-002",
+    status: "active",
+    createdAt: "2023-11-20"
+  },
+  {
+    id: "user-mandor-003",
+    name: "Dedi Rahman",
+    email: "dedi.rahman@rumahkukontruksi.com",
+    phone: "081234567882",
+    role: "mandor",
+    avatar: "https://i.pravatar.cc/150?u=foreman-003",
+    status: "active",
+    createdAt: "2024-02-10"
+  },
+  {
+    id: "user-mandor-004",
+    name: "Hendra Wijaya",
+    email: "hendra.wijaya@rumahkukontruksi.com",
+    phone: "081234567883",
+    role: "mandor",
+    avatar: "https://i.pravatar.cc/150?u=foreman-004",
+    status: "inactive",
+    createdAt: "2023-05-15"
   },
   {
     id: "user-konsumen-001",
@@ -80,16 +120,6 @@ export const mockUsers = [
     avatar: "https://i.pravatar.cc/150?u=ahmad",
     status: "active",
     createdAt: "2025-02-01"
-  },
-  {
-    id: "user-mandor-001",
-    name: "Hasan Basri",
-    email: "hasan@rkk.com",
-    phone: "081234567892",
-    role: "mandor",
-    avatar: "https://i.pravatar.cc/150?u=hasan",
-    status: "active",
-    createdAt: "2025-02-05"
   }
 ];
 

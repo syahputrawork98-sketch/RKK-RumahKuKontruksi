@@ -15,6 +15,8 @@ Role Admin saat ini masih berupa **Shell**. Layout dasar sudah tersedia, namun f
 ## Data / Mock Data
 - **Admin Table**: Menggunakan `mockAdmins` di `src/data/mock/admins.js`.
 - **Kapasitas**: Setiap admin dibatasi menangani maksimal **3 proyek**.
+- **RAB Management**: Admin mengelola struktur RAB 3 tingkat (Plan, Category, Item) untuk setiap proyek.
+- **Relasi Staff**: Admin melakukan penugasan pengawas dan mandor ke proyek.
 - **Relasi**: Penugasan proyek dilakukan melalui `assignedProjectIds` pada profil admin.
 
 ## Sudah Dikerjakan

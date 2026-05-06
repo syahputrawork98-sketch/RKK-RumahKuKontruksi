@@ -16,9 +16,9 @@ Role Konsumen merupakan pemilik proyek. Fokus utama peran ini adalah memantau pr
 - `KonsumenLayout.jsx`: Layout dengan sidebar khusus konsumen.
 
 ## Data / Mock Data
-- **Centralized Mock Data**: Menggunakan folder `src/data/mock/`.
-- **Project Members**: Pihak konsumen dapat menambahkan viewer (keluarga/staf) melalui `customerProjectMembers.js`.
-- **Comments**: Konsumen dan viewer dapat berdiskusi pada tiap tahapan proyek via `projectComments.js`.
+- **Three-Level RAB**: Menggunakan `rabPlans`, `rabCategories`, dan `rabItems` untuk rincian biaya yang terstruktur.
+- **Timeline Sync**: Setiap tahap di `projectStages` terhubung ke kategori RAB tertentu melalui `categoryId`.
+- **Backward Compatibility**: Untuk sementara, `activeCustomerProject` tetap dipertahankan hingga migrasi UI selesai.
 - **Customer Types**: Mendukung profil `individual` dan `company`.
 
 ## Role Tambahan: Customer Viewer

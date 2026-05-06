@@ -13,7 +13,10 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Customer Mock Profiles (Individual & Company)
 - [x] Customer Project Members (Viewer Access)
 - [x] Project Comments (Timeline Discussion)
-- [x] Project, Stages, & RAB Mock Tables
+- [x] RAB Plan (Header/Document)
+- [x] RAB Category (Work Groups)
+- [x] RAB Item (Detailed Tasks)
+- [x] Project Stages Sync with RAB Categories
 - [x] Notifications Mock Table
 - [x] Centralized Mock Exports (`index.js`)
 

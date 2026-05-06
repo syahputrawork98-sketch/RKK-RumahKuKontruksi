@@ -15,8 +15,8 @@ Role Pengawas saat ini masih berupa **Shell**. Pengawas nantinya akan menjadi pe
 ## Data / Mock Data
 - **Pengawas Table**: Menggunakan `mockSupervisors` di `src/data/mock/supervisors.js`.
 - **Sertifikasi Table**: Menggunakan `mockSupervisorCertificates.js` (Terpisah).
-- **Kapasitas**: Maksimal **3 proyek aktif**.
-- **Relasi**: Terhubung ke `mockUsers`, `mockProjects`, dan `mockSupervisorCertificates`.
+- **Progress Verification**: Verifikasi progres dilakukan pada level kategori dan item RAB (`rabItems.js`).
+- **Relasi Proyek**: Pengawas memantau progres fisik dan dokumentasi lapangan.
 
 | Pengawas | Assigned Projects | Capacity | Certificates | Status |
 |---|---:|---:|---:|---|

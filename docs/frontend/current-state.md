@@ -11,14 +11,14 @@ Frontend RKK saat ini adalah **prototype fungsional** yang sangat lengkap secara
 
 ## Status Role
 * **Guest**: **Done**. Semua halaman publik (Home, Layanan, Cara Kerja, Proyek, Tentang, Kontak) sudah memiliki UI premium dan responsif.
-* **Konsumen**: **Done**. Dashboard, profil, list proyek, dan detail timeline sudah berfungsi penuh dengan data mock.
+* **Konsumen**: **Partial**. Monitoring timeline sudah sangat matang, namun halaman Proyek dan Profil masih menggunakan data hardcoded.
 * **Superadmin**: **Partial**. Layout sudah ada, tabel data admin/mandor sudah ada namun masih perlu pengisian data mock yang lebih realistis.
 * **Admin/Pengawas/Mandor**: **Shell**. Layout dasar dan dashboard shell sudah ada, namun konten spesifik per role belum diimplementasikan.
 
 ## Area Pengembangan Prioritas
-1. **Dashboard Operasional**: Mengisi konten untuk dashboard Admin, Pengawas, dan Mandor agar setara dengan kualitas dashboard Konsumen.
-2. **Interaktivitas Form**: Menambahkan validasi dan feedback visual pada form-form di sisi admin/superadmin.
-3. **Pembersihan Kode**: Menghapus file mock lama yang sudah digantikan oleh sistem data terpusat yang baru.
+1. **Single Source of Truth**: Memindahkan sisa data hardcoded di halaman Konsumen (Proyek & Profil) ke folder `src/data/mock/`.
+2. **Dashboard Operasional**: Mengisi konten untuk dashboard Admin, Pengawas, dan Mandor agar setara dengan kualitas dashboard Konsumen.
+3. **Interaktivitas Form**: Menambahkan validasi dan feedback visual pada form-form di sisi admin/superadmin.
 
 ---
 *Terakhir diperbarui: 7 Mei 2026*

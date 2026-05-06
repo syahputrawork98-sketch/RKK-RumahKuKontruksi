@@ -2,13 +2,15 @@
 
 Daftar prioritas pekerjaan berikutnya untuk tim frontend RKK.
 
-## Prioritas 1: Fungsionalitas Operasional (Admin & Pengawas)
-*   **Mengisi Dashboard Admin**: Membuat tampilan manajemen proyek pusat di mana admin bisa melihat semua proyek berjalan, status pembayaran, dan penugasan tim.
-*   **Form Verifikasi Pengawas**: Mengembangkan antarmuka bagi pengawas untuk menandai tahap pekerjaan sebagai "Verified" atau memberikan catatan revisi.
+## Prioritas 1: Sinkronisasi & Sentralisasi Mock Data (Single Source of Truth)
+*   **Refactor Halaman Konsumen**: Memindahkan data hardcoded dari `Proyek.jsx` dan `Profil.jsx` ke dalam `client/src/data/mock/projects.js` dan `users.js`.
+*   **Lengkapi Mock Data**: Membuat file `progress.js`, `workers.js`, `supervisors.js`, dan `admins.js` di folder `client/src/data/mock/`.
+*   **Pembersihan Import**: Memastikan semua komponen merujuk ke folder mock data yang baru.
 
-## Prioritas 2: Manajemen Data Superadmin
-*   **Data Mock Realistis**: Mengisi tabel-tabel di Superadmin dengan data mock yang lebih banyak dan realistis agar fitur filter dan search bisa diuji.
-*   **Visualisasi Data**: Menambahkan grafik sederhana (menggunakan Chart.js atau sejenisnya) pada dashboard superadmin untuk memantau pertumbuhan proyek.
+## Prioritas 2: Dashboard Operasional & Staf (Admin, Pengawas, Mandor)
+*   **Dashboard Admin**: Membuat tampilan manajemen proyek pusat.
+*   **Form Verifikasi Pengawas**: Mengembangkan antarmuka verifikasi tahapan yang sinkron dengan timeline konsumen.
+*   **Logbook Mandor**: Membuat antarmuka laporan harian mandor.
 
 ## Prioritas 3: Refactoring & Optimasi
 *   **Pembersihan Mock Data**: Memastikan semua komponen menggunakan data dari `src/data/mock/projects.js` dan menghapus file-file mock individual yang redundan.

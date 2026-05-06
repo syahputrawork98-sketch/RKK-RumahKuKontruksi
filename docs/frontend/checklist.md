@@ -23,8 +23,8 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Dashboard Monitoring
 - [x] Timeline Proyek (Card based vertical)
 - [x] Detail Laporan Tahap (Technical RAB table)
-- [x] Profil User
-- [x] List Proyek Aktif
+- [ ] Profil User (Partial - data still hardcoded)
+- [ ] List Proyek Aktif (Partial - data still hardcoded)
 - [x] Dokumentasi Foto per Tahap
 
 ## Superadmin

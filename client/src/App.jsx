@@ -17,6 +17,7 @@ import Contact from "./modules/guest/Contact";
 // ===== HALAMAN KONSUMEN =====
 import KonsumenLayout from "./layouts/KonsumenLayout";
 import TimelineProyek from "./pages/konsumen/TimelineProyek";
+import DetailTimelineProyek from "./pages/konsumen/DetailTimelineProyek";
 import Proyek from "./pages/konsumen/Proyek";
 import Profil from "./pages/konsumen/Profil";
 
@@ -62,6 +63,7 @@ function App() {
         {/* ================== KONSUMEN LAYOUT ================== */}
         <Route path="/konsumen" element={<KonsumenLayout />}>
           <Route path="TimelineProyek" element={<TimelineProyek />} />
+          <Route path="TimelineProyek/:stageId" element={<DetailTimelineProyek />} />
           <Route path="proyek" element={<Proyek />} />
           <Route path="profil" element={<Profil />} />
         </Route>

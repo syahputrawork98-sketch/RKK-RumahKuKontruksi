@@ -1,58 +1,49 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiCheckCircle, FiClock, FiAlertCircle, FiImage, FiChevronRight, FiMessageSquare, FiCalendar } from "react-icons/fi";
-import DetailPekerjaanProyek from "./DetailPekerjaanProyek";
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FiCheckCircle, FiClock, FiChevronRight, FiMessageSquare, FiCalendar } from "react-icons/fi";
 
 const TLProyek = ({ timeline = [] }) => {
-  const [selectedDetail, setSelectedDetail] = useState(null);
-
-  if (selectedDetail) {
-    return (
-      <DetailPekerjaanProyek
-        data={selectedDetail}
-        onBack={() => setSelectedDetail(null)}
-      />
-    );
-  }
-
   return (
     <div className="relative">
       {/* Vertical Line */}
-      <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-neutral-30 -translate-x-1/2 rounded-full"></div>
+      <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-neutral-30 -translate-x-1/2 rounded-full" />
 
       <div className="space-y-16 relative">
         {timeline.map((stage, idx) => {
-          const isEven = idx % 2 === 0;
           const isVerified = stage.verification?.isVerified;
-          
+          const detailId = stage.id || `stage-${String(idx + 1).padStart(2, "0")}`;
+
           return (
-            <motion.div 
-              key={stage.id}
+            <motion.div
+              key={detailId}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={`relative flex items-center gap-8 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+              className="relative flex items-center gap-8"
             >
               {/* Timeline Dot */}
               <div className={`absolute left-4 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full border-4 border-white shadow-lg z-20 flex items-center justify-center ${
-                stage.status === 'verified' ? 'bg-success-main' : 
-                stage.status === 'in_progress' ? 'bg-primary-main' : 'bg-neutral-40'
+                stage.status === "verified" ? "bg-success-main" :
+                stage.status === "in_progress" ? "bg-primary-main" : "bg-neutral-40"
               }`}>
-                {stage.status === 'verified' ? <FiCheckCircle className="text-white" /> : 
-                 stage.status === 'in_progress' ? <FiClock className="text-white animate-spin-slow" /> : 
-                 <span className="text-white text-xs-bold">{stage.code}</span>}
+                {stage.status === "verified"
+                  ? <FiCheckCircle className="text-white" />
+                  : stage.status === "in_progress"
+                  ? <FiClock className="text-white" />
+                  : <span className="text-white text-xs font-bold">{stage.code}</span>}
               </div>
 
-              {/* Card Container */}
+              {/* Card */}
               <div className="w-full md:w-[45%] ml-12 md:ml-0">
                 <div className="public-card group hover:shadow-xl transition-all duration-500 !p-0 overflow-hidden">
                   {/* Status Strip */}
                   <div className={`h-1.5 w-full ${
-                    stage.status === 'verified' ? 'bg-success-main' : 
-                    stage.status === 'in_progress' ? 'bg-primary-main' : 'bg-neutral-40'
-                  }`}></div>
+                    stage.status === "verified" ? "bg-success-main" :
+                    stage.status === "in_progress" ? "bg-primary-main" : "bg-neutral-40"
+                  }`} />
 
-                  <div className="p-6 md:p-8 space-y-6">
+                  <div className="p-6 md:p-8 space-y-5">
                     {/* Header */}
                     <div className="flex justify-between items-start gap-4">
                       <div>
@@ -61,100 +52,106 @@ const TLProyek = ({ timeline = [] }) => {
                           {stage.title}
                         </h3>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs-bold shadow-sm ${
-                        stage.status === 'verified' ? 'bg-success-main/10 text-success-main' : 
-                        stage.status === 'in_progress' ? 'bg-primary-main/10 text-primary-main' : 'bg-neutral-20 text-neutral-60'
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-sm shrink-0 ${
+                        stage.status === "verified" ? "bg-success-main/10 text-success-main" :
+                        stage.status === "in_progress" ? "bg-primary-main/10 text-primary-main" : "bg-neutral-20 text-neutral-60"
                       }`}>
-                        {stage.status === 'verified' ? 'Verified' : 
-                         stage.status === 'in_progress' ? 'In Progress' : 'Pending'}
+                        {stage.status === "verified" ? "Verified" :
+                         stage.status === "in_progress" ? "In Progress" : "Pending"}
                       </span>
                     </div>
 
                     {/* Meta Info */}
-                    <div className="flex flex-wrap items-center gap-4 text-s-regular text-neutral-60">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-60">
                       <div className="flex items-center gap-1.5">
-                        <FiCalendar className="text-primary-main" /> {stage.startDate} - {stage.endDate}
+                        <FiCalendar size={13} className="text-primary-main" />
+                        {stage.startDate} – {stage.endDate}
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <FiClock className="text-primary-main" /> {stage.durationDays} Hari
+                        <FiClock size={13} className="text-primary-main" />
+                        {stage.durationDays} Hari
                       </div>
                     </div>
 
-                    {/* Image Gallery Preview */}
+                    {/* Image preview */}
                     {stage.images && stage.images.length > 0 && (
                       <div className="grid grid-cols-4 gap-2">
-                        <div className="col-span-4 h-48 rounded-2xl overflow-hidden relative group/img">
-                          <img src={stage.images[0]} alt={stage.title} className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110" />
-                          <div className="absolute inset-0 bg-neutral-100/20 group-hover/img:bg-transparent transition-colors"></div>
+                        <div className="col-span-4 h-44 rounded-2xl overflow-hidden relative group/img">
+                          <img
+                            src={stage.images[0]}
+                            alt={stage.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-neutral-100/20 group-hover/img:bg-transparent transition-colors" />
                         </div>
                         {stage.images.slice(1, 4).map((img, i) => (
-                          <div key={i} className="h-16 rounded-lg overflow-hidden border border-neutral-30">
+                          <div key={i} className="h-14 rounded-lg overflow-hidden border border-neutral-30">
                             <img src={img} alt="" className="w-full h-full object-cover" />
                           </div>
                         ))}
                         {stage.images.length > 4 && (
-                          <div className="h-16 rounded-lg bg-neutral-20 border border-neutral-30 flex items-center justify-center text-xs-bold text-neutral-60">
+                          <div className="h-14 rounded-lg bg-neutral-20 border border-neutral-30 flex items-center justify-center text-xs font-bold text-neutral-60">
                             +{stage.images.length - 4}
                           </div>
                         )}
                       </div>
                     )}
 
-                    {/* Task List Preview */}
-                    <div className="space-y-3">
-                      <p className="text-s-bold text-neutral-90">Pekerjaan Utama:</p>
-                      <ul className="space-y-2">
+                    {/* Task preview */}
+                    <div className="space-y-2">
+                      <p className="text-xs font-bold text-neutral-70 uppercase tracking-wider">Pekerjaan Utama</p>
+                      <ul className="space-y-1.5">
                         {stage.tasks.slice(0, 3).map((task, i) => (
-                          <li key={i} className="flex items-start gap-2 text-m-regular text-neutral-70">
-                            <FiCheckCircle className={`mt-1 shrink-0 ${stage.status === 'verified' ? 'text-success-main' : 'text-neutral-40'}`} />
+                          <li key={i} className="flex items-start gap-2 text-sm text-neutral-70">
+                            <FiCheckCircle className={`mt-0.5 shrink-0 ${stage.status === "verified" ? "text-success-main" : "text-neutral-40"}`} size={14} />
                             {task}
                           </li>
                         ))}
                         {stage.tasks.length > 3 && (
-                          <li className="text-s-medium text-primary-main pl-6">+{stage.tasks.length - 3} Pekerjaan lainnya...</li>
+                          <li className="text-xs font-medium text-primary-main pl-5">+{stage.tasks.length - 3} pekerjaan lainnya…</li>
                         )}
                       </ul>
                     </div>
 
-                    {/* Stage Progress Bar */}
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs-bold">
-                        <span className="text-neutral-60">Progres Tahap Ini</span>
+                    {/* Progress bar */}
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between text-xs font-bold">
+                        <span className="text-neutral-60">Progres Tahap</span>
                         <span className="text-neutral-90">{stage.progress}%</span>
                       </div>
                       <div className="w-full h-2 bg-neutral-20 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full rounded-full transition-all duration-1000 ${
-                            stage.status === 'verified' ? 'bg-success-main' : 'bg-primary-main'
-                          }`}
+                        <div
+                          className={`h-full rounded-full ${stage.status === "verified" ? "bg-success-main" : "bg-primary-main"}`}
                           style={{ width: `${stage.progress}%` }}
-                        ></div>
+                        />
                       </div>
                     </div>
 
-                    {/* Footer Info & Actions */}
-                    <div className="pt-6 border-t border-neutral-30 flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center gap-4">
+                    {/* Footer */}
+                    <div className="pt-4 border-t border-neutral-30 flex flex-wrap items-center justify-between gap-3">
+                      <div>
                         {isVerified && (
-                          <div className="flex items-center gap-1.5 text-xs-bold text-success-main">
-                            <FiCheckCircle /> Verified by {stage.verification.verifiedBy}
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-success-main">
+                            <FiCheckCircle size={13} /> Verified by {stage.verification.verifiedBy}
                           </div>
                         )}
-                        {stage.note && (
-                          <div className="text-xs-regular text-neutral-60 italic max-w-[200px] truncate">
-                            "{stage.note}"
-                          </div>
+                        {!isVerified && stage.note && (
+                          <p className="text-xs text-neutral-50 italic max-w-[200px] truncate">"{stage.note}"</p>
                         )}
                       </div>
-                      <div className="flex items-center gap-3">
-                        <button 
-                          onClick={() => setSelectedDetail(stage)}
-                          className="px-4 py-2 bg-primary-main text-white text-s-bold rounded-xl hover:bg-primary-hover transition-colors flex items-center gap-2"
+                      <div className="flex items-center gap-2">
+                        <Link
+                          to={`/konsumen/TimelineProyek/${detailId}`}
+                          className="px-4 py-2 bg-primary-main text-white text-xs font-bold rounded-xl hover:bg-primary-hover transition-colors flex items-center gap-2"
                         >
-                          Lihat Detail <FiChevronRight />
-                        </button>
-                        <button className="w-10 h-10 border border-neutral-30 text-neutral-60 rounded-xl flex items-center justify-center hover:bg-neutral-20 hover:text-primary-main transition-all">
-                          <FiMessageSquare />
+                          Lihat Detail <FiChevronRight size={14} />
+                        </Link>
+                        <button
+                          type="button"
+                          className="w-9 h-9 border border-neutral-30 text-neutral-60 rounded-xl flex items-center justify-center hover:bg-neutral-20 hover:text-primary-main transition-all"
+                          title="Komentar"
+                        >
+                          <FiMessageSquare size={14} />
                         </button>
                       </div>
                     </div>

@@ -77,7 +77,7 @@ const Layanan = () => {
                         transition={{ delay: 0.3 }}
                     >
                         <Link 
-                            to="/contact" 
+                            to="/kontak" 
                             className="btn-public-white"
                         >
                             Konsultasi Sekarang
@@ -188,7 +188,7 @@ const Layanan = () => {
                 <div className="public-container text-center">
                     <h2 className="public-title mb-8">Siap Mewujudkan Hunian Impian Anda?</h2>
                     <Link 
-                        to="/contact" 
+                        to="/kontak" 
                         className="btn-public-primary"
                     >
                         Konsultasikan Kebutuhan Anda

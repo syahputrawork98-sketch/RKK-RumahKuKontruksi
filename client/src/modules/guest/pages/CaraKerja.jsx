@@ -82,7 +82,7 @@ const CaraKerja = () => {
                         transition={{ delay: 0.3 }}
                     >
                         <Link 
-                            to="/contact" 
+                            to="/kontak" 
                             className="btn-public-white"
                         >
                             Konsultasi Sekarang
@@ -212,10 +212,10 @@ const CaraKerja = () => {
                     <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48"></div>
                     <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full -ml-36 -mb-36"></div>
                     
-                    <h2 className="public-hero-title !text-heading-l-bold mb-8 relative z-10">Siap Memulai Proyek Anda dengan <br className="hidden md:block" /> Proses yang Terpercaya?</h2>
+                    <h2 className="public-hero-title mb-8 relative z-10">Siap Memulai Proyek Anda dengan <br className="hidden md:block" /> Proses yang Terpercaya?</h2>
                     <div className="flex flex-wrap justify-center gap-4 relative z-10">
                         <Link 
-                            to="/contact" 
+                            to="/kontak" 
                             className="btn-public-white"
                         >
                             Konsultasi Sekarang

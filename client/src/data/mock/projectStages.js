@@ -5,6 +5,8 @@ export const mockProjectStages = [
   {
     id: "stage-01",
     projectId: "project-001",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-01",
     code: "I",
     title: "Pekerjaan Persiapan",
     description: "Pembersihan lokasi, pemasangan bouwplank, dan koordinasi awal.",
@@ -25,6 +27,8 @@ export const mockProjectStages = [
   {
     id: "stage-02",
     projectId: "project-001",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-02",
     code: "II",
     title: "Pekerjaan Tanah & Galian",
     description: "Galian tanah pondasi dan urugan pasir.",
@@ -45,6 +49,8 @@ export const mockProjectStages = [
   {
     id: "stage-03",
     projectId: "project-001",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-03",
     code: "III",
     title: "Pekerjaan Struktur Bawah",
     description: "Pasangan pondasi batu kali, sloof, dan pengecoran.",
@@ -65,6 +71,8 @@ export const mockProjectStages = [
   {
     id: "stage-04",
     projectId: "project-001",
+    rabPlanId: "rab-plan-001",
+    categoryId: "rab-category-001-04",
     code: "IV",
     title: "Pekerjaan Dinding & Kusen",
     description: "Pasangan bata ringan dan pemasangan kusen.",
@@ -80,6 +88,8 @@ export const mockProjectStages = [
   {
     id: "stage-05",
     projectId: "project-001",
+    rabPlanId: "rab-plan-001",
+    categoryId: null, // To be defined later or mapped
     code: "V",
     title: "Struktur Atap & Plafon",
     description: "Rangka baja ringan dan penutup atap.",

@@ -12,5 +12,7 @@ export * from "./foremen";
 export * from "./foremanCertificates";
 export * from "./projects";
 export * from "./projectStages";
+export * from "./rabPlans";
+export * from "./rabCategories";
 export * from "./rabItems";
 export * from "./notifications";

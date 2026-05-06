@@ -16,8 +16,9 @@ Role Superadmin sudah memiliki struktur navigasi dan manajemen data dasar (Admin
 - `SuperAdminLayout.jsx`: Sidebar dengan akses penuh ke manajemen user.
 
 ## Data / Mock Data
-- **Centralized Staff Tables**: Menggunakan `mockAdmins`, `mockSupervisors`, `mockForemen`, dan `mockWorkers`.
-- **Workload Monitoring**: Superadmin dapat memantau beban kerja admin berdasarkan kapasitas (max 3 proyek).
+- **Centralized Staff Tables**: Menggunakan `mockAdmins`, `mockSupervisors`, dan `mockForemen`.
+- **Separated Certificates**: Sertifikat Pengawas dan Mandor dikelola dalam tabel terpisah (`supervisorCertificates.js`, `foremanCertificates.js`). Admin tidak menggunakan tabel sertifikat.
+- **Workload Monitoring**: Superadmin dapat memantau beban kerja (admin & pengawas max 3, mandor max 2).
 
 ## Sudah Dikerjakan
 - [x] Struktur layout dengan sidebar dan header.

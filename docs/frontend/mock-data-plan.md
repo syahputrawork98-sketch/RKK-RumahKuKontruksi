@@ -9,40 +9,31 @@ Lokasi: `client/src/data/mock/`
 |---|---|---|---|
 | Users | `users.js` | **Done** | Akun dasar semua role (ID: `user-role-00x`) |
 | Roles | `roles.js` | **Done** | Definisi label, deskripsi, dan permission role |
-| Customers | `customers.js` | **Done** | Profil detail konsumen (Relasi ke `users`) |
-| Admins | `admins.js` | **Done** | Profil staf admin pusat |
-| Supervisors | `supervisors.js` | **Done** | Profil pengawas lapangan |
-| Foremen | `foremen.js` | **Done** | Profil mandor proyek |
-| Workers | `workers.js` | **Done** | Data tukang dan absensi harian |
-| Projects | `projects.js` | **Done** | Data proyek utama (ID: `project-00x`) |
-| Project Stages | `projectStages.js` | **Done** | Tahapan pekerjaan (Relasi ke `projects`) |
-| RAB Items | `rabItems.js` | **Done** | Rincian biaya per tahap (Relasi ke `projectStages`) |
-| Notifications | `notifications.js` | **Done** | Notifikasi tertarget per user/role |
+| Customers | `customers.js` | **Done** | Profil detail konsumen |
+| Admins | `admins.js` | **Done** | Profil admin (Kapasitas: 3 proyek) |
+| Supervisors | `supervisors.js` | **Done** | Profil pengawas (Kapasitas: 3 proyek) |
+| Supervisor Certs | `supervisorCertificates.js`| **Done** | Sertifikat pengawas terpisah |
+| Foremen | `foremen.js` | **Done** | Profil mandor (Kapasitas: 2 proyek) |
+| Foreman Certs | `foremanCertificates.js` | **Done** | Sertifikat mandor terpisah |
+| Workers | `workers.js` | **Done** | Data tukang dan absensi |
+| Projects | `projects.js` | **Done** | Data proyek utama |
+| Project Stages | `projectStages.js` | **Done** | Tahapan pekerjaan |
+| RAB Items | `rabItems.js` | **Done** | Rincian biaya per tahap |
+| Notifications | `notifications.js` | **Done** | Notifikasi tertarget |
 
-## Relasi Data
+## Skema Kapasitas Staf
+*   **Admin**: Maksimal **3 proyek aktif**.
+*   **Pengawas**: Maksimal **3 proyek aktif**.
+*   **Mandor**: Maksimal **2 proyek aktif**.
+
+## Pemisahan Sertifikat
+Sertifikat untuk **Mandor** dan **Pengawas** dipisahkan ke file `.js` tersendiri untuk menjaga kebersihan data profil utama. Admin tidak memiliki tabel sertifikat.
+
+## Relasi Data Utama
 *   `User` (1) <-> (1) `Profile` (Customer/Admin/Staff)
 *   `Project` (1) <-> (N) `Project Stages`
 *   `Project Stage` (1) <-> (N) `RAB Items`
-*   `Project` (1) <-> (1) `Customer`, `Admin`, `Supervisor`, `Foreman`
-
-## Skema Kapasitas Admin
-*   **Aturan Bisnis**: Satu admin dapat menangani maksimal **3 proyek aktif**.
-*   **Pelacakan**: Menggunakan field `assignedProjectIds` di `admins.js` dan `adminId` di `projects.js`.
-*   **Relasi**: `Admin` <-> `User` (via `userId`), `Admin` <-> `Project` (via `assignedProjectIds`).
-
-## Skema Kapasitas & Sertifikasi Mandor
-*   **Kapasitas**: Satu mandor dapat menangani maksimal **2 proyek aktif**.
-*   **Sertifikasi**: Disimpan dalam array `certificates` dengan metadata lengkap (BNSP, K3, dll).
-*   **Relasi**: 
-    *   `Mandor` <-> `User` (via `userId`)
-    *   `Mandor` <-> `Project` (via `assignedProjectIds`)
-    *   `Mandor` <-> `Worker` (via `workerIds`)
-
-## Strategi Refactoring (Ongoing)
-1.  **Backward Compatibility**: File `projects.js` tetap mengekspor `activeCustomerProject` untuk mendukung komponen yang belum direfaktorisasi.
-2.  **Next Steps**: 
-    *   Refactor `Proyek.jsx` Konsumen untuk mengambil data dari `mockProjects`.
-    *   Refactor `Profil.jsx` Konsumen untuk mengambil data dari `mockCustomers` / `mockUsers`.
+*   `Profile` (1) <-> (N) `Certificates` (Hanya Mandor & Pengawas)
 
 ---
 *Terakhir diperbarui: 7 Mei 2026*

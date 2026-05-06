@@ -14,9 +14,9 @@ Role Mandor saat ini masih berupa **Shell**. Fokus peran ini adalah laporan hari
 
 ## Data / Mock Data
 - **Mandor Table**: Menggunakan `mockForemen` di `src/data/mock/foremen.js`.
+- **Sertifikasi Table**: Menggunakan `mockForemanCertificates.js` (Terpisah).
 - **Kapasitas**: Maksimal **2 proyek aktif**.
-- **Sertifikasi**: Disimpan dalam array `certificates` lengkap dengan status validitas.
-- **Relasi**: Terhubung ke `mockUsers`, `mockProjects`, dan `mockWorkers`.
+- **Relasi**: Terhubung ke `mockUsers`, `mockProjects`, `mockWorkers`, dan `mockForemanCertificates`.
 
 | Mandor | Assigned Projects | Capacity | Certificates | Status |
 |---|---:|---:|---:|---|
@@ -28,7 +28,7 @@ Role Mandor saat ini masih berupa **Shell**. Fokus peran ini adalah laporan hari
 ## Sudah Dikerjakan
 - [x] Struktur layout dan navigasi sidebar.
 - [x] Routing dasar.
-- [x] Perancangan mock data mandor detail.
+- [x] Pemisahan tabel sertifikat mandor.
 
 ## Belum Dikerjakan
 - [ ] Manajemen tukang (List pekerja dan absensi).

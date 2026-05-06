@@ -13,11 +13,22 @@ Role Pengawas saat ini masih berupa **Shell**. Pengawas nantinya akan menjadi pe
 - `PengawasLayout.jsx`: Sidebar navigasi pengawas.
 
 ## Data / Mock Data
-- Belum ada integrasi data mock spesifik.
+- **Pengawas Table**: Menggunakan `mockSupervisors` di `src/data/mock/supervisors.js`.
+- **Sertifikasi Table**: Menggunakan `mockSupervisorCertificates.js` (Terpisah).
+- **Kapasitas**: Maksimal **3 proyek aktif**.
+- **Relasi**: Terhubung ke `mockUsers`, `mockProjects`, dan `mockSupervisorCertificates`.
+
+| Pengawas | Assigned Projects | Capacity | Certificates | Status |
+|---|---:|---:|---:|---|
+| Ahmad Fauzi | 3 | 3 | 3 valid | Full |
+| Bambang Wijaya | 2 | 3 | 2 valid | Normal |
+| Eko Prasetyo | 1 | 3 | 1 pending | Available |
+| Lukman Hakim | 0 | 3 | 1 expired | Inactive |
 
 ## Sudah Dikerjakan
 - [x] Struktur layout dan navigasi sidebar.
 - [x] Routing dasar.
+- [x] Perancangan mock data pengawas dan pemisahan sertifikat.
 
 ## Belum Dikerjakan
 - [ ] List Proyek yang diawasi.

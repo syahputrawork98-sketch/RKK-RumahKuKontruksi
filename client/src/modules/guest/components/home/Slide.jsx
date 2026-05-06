@@ -13,11 +13,11 @@ const Slide = () => {
               className="w-full h-full object-cover"
               alt="Proyek Konstruksi"
             />
-            <div className="absolute inset-0 bg-linear-to-br from-neutral-100/70 via-primary-pressed/50 to-primary-main/40 flex flex-col justify-center items-center text-center px-6">
-              <h1 className="text-4xl md:text-6xl font-extrabold mb-6 animate-fadeInUp leading-tight max-w-5xl">
+            <div className="absolute inset-0 bg-linear-to-b from-neutral-100/40 via-neutral-100/20 to-primary-pressed/60 flex flex-col justify-center items-center text-center px-6">
+              <h1 className="text-4xl md:text-display font-extrabold mb-6 animate-fadeInUp leading-tight max-w-5xl text-neutral-10 drop-shadow-lg">
                 Bangun Rumah Lebih Terencana, Transparan, dan Terpantau
               </h1>
-              <p className="text-lg md:text-xl mb-10 max-w-3xl text-primary-surface leading-relaxed">
+              <p className="text-l-regular md:text-heading-s-regular mb-10 max-w-3xl text-neutral-10/90 leading-relaxed drop-shadow-md">
                 Dari konsultasi, RAB, progres proyek, dokumentasi lapangan, hingga pembayaran termin 
                 — semua proses pembangunan rumah dikelola lebih rapi dalam satu alur kerja.
               </p>
@@ -32,13 +32,13 @@ const Slide = () => {
             </div>
             <a
               href="#slide4"
-              className="btn btn-circle absolute left-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❮
             </a>
             <a
               href="#slide2"
-              className="btn btn-circle absolute right-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❯
             </a>
@@ -51,11 +51,11 @@ const Slide = () => {
               className="w-full h-full object-cover"
               alt="Desain Arsitektur"
             />
-            <div className="absolute inset-0 bg-linear-to-br from-neutral-100/70 via-primary-pressed/50 to-primary-main/40 flex flex-col justify-center items-center text-center px-6">
-              <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInUp">
-                Dari Desain Hingga Realisasi
+            <div className="absolute inset-0 bg-linear-to-b from-neutral-100/40 via-neutral-100/20 to-primary-pressed/60 flex flex-col justify-center items-center text-center px-6">
+              <h1 className="text-4xl md:text-display font-extrabold mb-6 animate-fadeInUp leading-tight max-w-5xl text-neutral-10 drop-shadow-lg">
+                Perencanaan Jelas dari Desain hingga RAB
               </h1>
-              <p className="text-lg md:text-xl mb-10 max-w-2xl text-primary-surface">
+              <p className="text-l-regular md:text-heading-s-regular mb-10 max-w-3xl text-neutral-10/90 leading-relaxed drop-shadow-md">
                 Kami membantu Anda merancang dan mewujudkan rumah impian dengan
                 sistem perencanaan yang efisien dan transparan.
               </p>
@@ -67,13 +67,13 @@ const Slide = () => {
             </div>
             <a
               href="#slide1"
-              className="btn btn-circle absolute left-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❮
             </a>
             <a
               href="#slide3"
-              className="btn btn-circle absolute right-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❯
             </a>
@@ -86,11 +86,11 @@ const Slide = () => {
               className="w-full h-full object-cover"
               alt="Pekerja Proyek"
             />
-            <div className="absolute inset-0 bg-linear-to-br from-neutral-100/70 via-primary-pressed/50 to-primary-main/40 flex flex-col justify-center items-center text-center px-6">
-              <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInUp">
-                Tim Profesional & Berpengalaman
+            <div className="absolute inset-0 bg-linear-to-b from-neutral-100/40 via-neutral-100/20 to-primary-pressed/60 flex flex-col justify-center items-center text-center px-6">
+              <h1 className="text-4xl md:text-display font-extrabold mb-6 animate-fadeInUp leading-tight max-w-5xl text-neutral-10 drop-shadow-lg">
+                Proyek Dipantau oleh Tim Lapangan yang Terkoordinasi
               </h1>
-              <p className="text-lg md:text-xl mb-10 max-w-2xl text-primary-surface">
+              <p className="text-l-regular md:text-heading-s-regular mb-10 max-w-3xl text-neutral-10/90 leading-relaxed drop-shadow-md">
                 Didukung oleh tenaga ahli konstruksi yang kompeten dan
                 terpercaya untuk menjamin kualitas proyek Anda.
               </p>
@@ -102,13 +102,13 @@ const Slide = () => {
             </div>
             <a
               href="#slide2"
-              className="btn btn-circle absolute left-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❮
             </a>
             <a
               href="#slide4"
-              className="btn btn-circle absolute right-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❯
             </a>
@@ -121,11 +121,11 @@ const Slide = () => {
               className="w-full h-full object-cover"
               alt="Konstruksi Bangunan"
             />
-            <div className="absolute inset-0 bg-linear-to-br from-neutral-100/70 via-primary-pressed/50 to-primary-main/40 flex flex-col justify-center items-center text-center px-6">
-              <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInUp">
-                Kolaborasi, Transparansi, dan Inovasi
+            <div className="absolute inset-0 bg-linear-to-b from-neutral-100/40 via-neutral-100/20 to-primary-pressed/60 flex flex-col justify-center items-center text-center px-6">
+              <h1 className="text-4xl md:text-display font-extrabold mb-6 animate-fadeInUp leading-tight max-w-5xl text-neutral-10 drop-shadow-lg">
+                Semua Proses Lebih Terdokumentasi dan Terarah
               </h1>
-              <p className="text-lg md:text-xl mb-10 max-w-2xl text-primary-surface">
+              <p className="text-l-regular md:text-heading-s-regular mb-10 max-w-3xl text-neutral-10/90 leading-relaxed drop-shadow-md">
                 RumahKu Konstruksi memudahkan kerja sama semua pihak dalam satu
                 platform modern untuk hasil yang maksimal.
               </p>
@@ -137,13 +137,13 @@ const Slide = () => {
             </div>
             <a
               href="#slide3"
-              className="btn btn-circle absolute left-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❮
             </a>
             <a
               href="#slide1"
-              className="btn btn-circle absolute right-5 top-1/2 -translate-y-1/2 bg-white/20 border-none hover:bg-white/40 text-white"
+              className="w-12 h-12 flex items-center justify-center rounded-full absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 hover:bg-white/30 text-white transition-all duration-300 backdrop-blur-sm"
             >
               ❯
             </a>

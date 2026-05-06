@@ -4,24 +4,24 @@ import { fadeUp } from "../../animations/fadeUpVariant";
 
 const features = [
     {
-        title: "Cari & Hubungkan",
-        desc: "Temukan mandor, tukang, dan pengawas proyek terpercaya di sekitar Anda hanya dengan beberapa klik.",
-        icon: "🔍",
+        title: "Perencanaan Matang",
+        desc: "Penyusunan RAB dan jadwal yang detail di awal untuk meminimalkan risiko pembengkakan biaya di kemudian hari.",
+        icon: "📋",
     },
     {
-        title: "Kelola Proyek",
-        desc: "Pantau progres pembangunan, laporan harian, jadwal, dan anggaran dalam satu dasbor terpadu.",
-        icon: "📅",
+        title: "Monitoring Real-Time",
+        desc: "Pantau progres pembangunan harian langsung dari gadget Anda lengkap dengan dokumentasi foto lapangan.",
+        icon: "📱",
     },
     {
-        title: "Kolaborasi Mudah",
-        desc: "Komunikasi antar tim proyek jadi lebih efisien tanpa perlu berpindah aplikasi — semua di satu tempat.",
-        icon: "💬",
+        title: "Laporan Terpusat",
+        desc: "Semua data proyek, mulai dari material hingga absensi tukang, tercatat rapi dan dapat diakses kapan saja.",
+        icon: "📂",
     },
     {
-        title: "Transparansi Biaya",
-        desc: "Setiap pengeluaran tercatat otomatis, sehingga Anda tahu ke mana setiap rupiah digunakan.",
-        icon: "📈",
+        title: "Alur Kerja Teruji",
+        desc: "Sistem approval berjenjang memastikan setiap tahapan pekerjaan telah diverifikasi oleh pengawas ahli.",
+        icon: "🛡️",
     },
 ];
 

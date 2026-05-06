@@ -1,4 +1,5 @@
 // src/modules/guest/components/home/Slide.jsx
+import { Link } from "react-router-dom";
 
 const Slide = () => {
   return (
@@ -13,20 +14,20 @@ const Slide = () => {
               alt="Proyek Konstruksi"
             />
             <div className="absolute inset-0 bg-linear-to-br from-neutral-100/70 via-primary-pressed/50 to-primary-main/40 flex flex-col justify-center items-center text-center px-6">
-              <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInUp">
-                Solusi Digital untuk Bangun Rumah & Proyek Impian Anda
+              <h1 className="text-4xl md:text-6xl font-extrabold mb-6 animate-fadeInUp leading-tight max-w-5xl">
+                Bangun Rumah Lebih Terencana, Transparan, dan Terpantau
               </h1>
-              <p className="text-lg md:text-xl mb-10 max-w-2xl text-primary-surface">
-                RumahKu Konstruksi menghubungkan konsumen, mandor, dan pengawas
-                proyek dalam satu ekosistem digital yang transparan dan efisien.
+              <p className="text-lg md:text-xl mb-10 max-w-3xl text-primary-surface leading-relaxed">
+                Dari konsultasi, RAB, progres proyek, dokumentasi lapangan, hingga pembayaran termin 
+                — semua proses pembangunan rumah dikelola lebih rapi dalam satu alur kerja.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="bg-white text-l-bold text-primary-main  px-7 py-3 rounded-xl shadow-md hover:bg-primary-surface hover:scale-105 transition-all duration-300">
-                  Mulai Sekarang
-                </button>
-                <button className="border-2 border-white px-7 py-3 rounded-xl font-semibold hover:bg-white hover:text-primary-main hover:scale-105 transition-all duration-300">
-                  Pelajari Lebih Lanjut
-                </button>
+                <Link to="/layanan" className="bg-white text-l-bold text-primary-main px-8 py-3.5 rounded-xl shadow-lg hover:bg-primary-surface hover:scale-105 transition-all duration-300">
+                  Lihat Layanan
+                </Link>
+                <Link to="/cara-kerja" className="border-2 border-white px-8 py-3.5 rounded-xl text-l-bold text-white hover:bg-white hover:text-primary-main hover:scale-105 transition-all duration-300">
+                  Cara Kerja
+                </Link>
               </div>
             </div>
             <a

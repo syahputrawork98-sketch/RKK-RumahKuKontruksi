@@ -23,19 +23,10 @@ export default function AboutSection() {
                     variants={fadeUp}
                     custom={1}
                 >
-                    <strong>RumahKu Konstruksi</strong> adalah platform digital yang
-                    mempermudah proses pembangunan rumah dan proyek konstruksi modern.
-                    Kami hadir untuk menjembatani <strong>konsumen</strong>,
-                    <strong> mandor</strong>, dan <strong>pengawas proyek</strong> agar
-                    dapat berkolaborasi dengan efisien, transparan, dan profesional.
+                    <strong>RumahKu Konstruksi</strong> lahir dari keinginan untuk menyelesaikan masalah klasik dalam pembangunan rumah: ketidakpastian biaya, progres yang sulit dipantau, dan komunikasi yang terhambat. 
                     <br />
                     <br />
-                    Melalui sistem berbasis teknologi, setiap tahapan proyek dapat
-                    dipantau secara <strong>real-time</strong>, mulai dari desain,
-                    perencanaan, pembelian material, hingga penyelesaian akhir.
-                    Tujuannya adalah memastikan proyek Anda berjalan
-                    <strong> tepat waktu</strong>, <strong>sesuai anggaran</strong>, dan
-                    <strong> bebas stres</strong>.
+                    Kami menjembatani <strong>konsumen</strong>, <strong>mandor</strong>, dan <strong>pengawas proyek</strong> dalam satu platform profesional. Dengan sistem monitoring yang terintegrasi, setiap detail pekerjaan — mulai dari RAB hingga foto progres harian — terdokumentasi dengan transparan untuk memastikan hunian Anda selesai <strong>tepat waktu</strong> dan <strong>sesuai kualitas</strong>.
                 </motion.p>
             </motion.div>
         </section>

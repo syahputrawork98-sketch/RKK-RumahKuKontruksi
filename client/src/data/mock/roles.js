@@ -38,11 +38,12 @@ export const mockRoles = [
     id: "role-mandor",
     name: "mandor",
     label: "Mandor Proyek",
-    description: "Mengelola tukang di lapangan, laporan harian, dan teknis pekerjaan.",
+    description: "Vendor lapangan yang bertanggung jawab mengirim laporan progres dan koordinasi pekerjaan proyek.",
     permissions: [
       "view_dashboard",
-      "manage_workers",
-      "daily_report",
+      "view_assigned_projects",
+      "submit_daily_report",
+      "upload_progress_photos",
       "request_materials"
     ]
   },

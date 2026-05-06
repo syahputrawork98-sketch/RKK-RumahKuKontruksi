@@ -12,6 +12,11 @@ Daftar prioritas pekerjaan berikutnya untuk tim frontend RKK.
 *   **Form Verifikasi Pengawas**: Mengembangkan antarmuka verifikasi tahapan yang sinkron dengan timeline konsumen.
 *   **Logbook Mandor**: Membuat antarmuka laporan harian mandor.
 
+## Prioritas 3: Alur Pra-Proyek & Desain (Arsitek)
+*   **Dashboard Arsitek**: Membuat antarmuka manajemen permintaan desain.
+*   **Design Request Management**: Implementasi UI untuk konsumen mengajukan kebutuhan desain awal.
+*   **Revision Flow**: Implementasi antarmuka kelola revisi (gratis vs berbayar).
+
 ## Prioritas 3: Refactoring & Optimasi
 *   **Pembersihan Mock Data**: Memastikan semua komponen menggunakan data dari `src/data/mock/projects.js` dan menghapus file-file mock individual yang redundan.
 *   **Interactive Modals**: Memperbaiki interaksi modal (seperti modal login atau modal verifikasi) agar memiliki transisi yang lebih halus menggunakan Framer Motion.

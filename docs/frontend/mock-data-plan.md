@@ -14,6 +14,11 @@ Lokasi: `client/src/data/mock/`
 | RAB Category | `rabCategories.js` | **Audit Done** | Kelompok pekerjaan (Level 2) |
 | RAB Item | `rabItems.js` | **Audit Done** | Detail pekerjaan (Level 3) |
 | Admins | `admins.js` | **Audit Done** | Profil admin (Kapasitas: 3 proyek) |
+| Architects | `architects.js` | **Audit Done** | Profil arsitek/designer |
+| Design Requests | `designRequests.js` | **Audit Done** | Fase pra-proyek (Timeline 1) |
+| Design Files | `designFiles.js` | **Audit Done** | Gambar/berkas desain |
+| Design Revisions | `designRevisions.js` | **Audit Done** | Riwayat revisi desain |
+| Design Comments | `designComments.js` | **Audit Done** | Komentar fase desain |
 | Supervisors | `supervisors.js` | **Audit Done** | Profil pengawas (Kapasitas: 3 proyek) |
 | Foremen | `foremen.js` | **Audit Done** | Mandor sebagai Vendor Lapangan (Kapasitas: 2) |
 | Projects | `projects.js` | **Audit Done** | Data proyek utama |

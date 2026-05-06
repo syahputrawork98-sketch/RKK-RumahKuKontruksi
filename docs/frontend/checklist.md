@@ -23,6 +23,15 @@ Daftar progres implementasi fitur frontend RKK.
 - [ ] Normalization of Project Status Enum (Technical Debt)
 - [ ] Refactor Konsumen Detail with 3-Level RAB
 
+## Design Timeline (Pre-Project)
+- [x] Architect Mock Profiles
+- [x] Design Request Mock Table
+- [x] Design Files & Categories
+- [x] Design Revisions (Free vs Chargeable)
+- [x] Design Comments Mock Table
+- [ ] UI Dashboard Arsitek
+- [ ] UI Design Request Management (Konsumen/Admin)
+
 ## Documentation
 - [x] Overview Dokumentasi (`README.md`)
 - [x] Route Inventory Sinkronisasi

@@ -60,9 +60,12 @@ const Slide = () => {
                 sistem perencanaan yang efisien dan transparan.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="bg-white text-primary-main text-l-bold px-7 py-3 rounded-xl shadow-md hover:bg-primary-surface hover:scale-105 transition-all duration-300">
+                <Link to="/contact" className="bg-white text-primary-main text-l-bold px-8 py-3.5 rounded-xl shadow-lg hover:bg-primary-surface hover:scale-105 transition-all duration-300">
                   Konsultasi Gratis
-                </button>
+                </Link>
+                <Link to="/layanan" className="border-2 border-white px-8 py-3.5 rounded-xl text-l-bold text-white hover:bg-white hover:text-primary-main hover:scale-105 transition-all duration-300">
+                  Lihat Layanan
+                </Link>
               </div>
             </div>
             <a
@@ -95,9 +98,12 @@ const Slide = () => {
                 terpercaya untuk menjamin kualitas proyek Anda.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="bg-white text-primary-main text-l-bold px-7 py-3 rounded-xl shadow-md hover:bg-primary-surface hover:scale-105 transition-all duration-300">
-                  Lihat Tim Kami
-                </button>
+                <Link to="/proyek" className="bg-white text-primary-main text-l-bold px-8 py-3.5 rounded-xl shadow-lg hover:bg-primary-surface hover:scale-105 transition-all duration-300">
+                  Lihat Proyek
+                </Link>
+                <Link to="/contact" className="border-2 border-white px-8 py-3.5 rounded-xl text-l-bold text-white hover:bg-white hover:text-primary-main hover:scale-105 transition-all duration-300">
+                  Hubungi Kami
+                </Link>
               </div>
             </div>
             <a
@@ -130,9 +136,12 @@ const Slide = () => {
                 platform modern untuk hasil yang maksimal.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="bg-white text-primary-main text-l-bold px-7 py-3 rounded-xl shadow-md hover:bg-primary-surface hover:scale-105 transition-all duration-300">
+                <Link to="/contact" className="bg-white text-primary-main text-l-bold px-8 py-3.5 rounded-xl shadow-lg hover:bg-primary-surface hover:scale-105 transition-all duration-300">
                   Mulai Bangun Sekarang
-                </button>
+                </Link>
+                <Link to="/cara-kerja" className="border-2 border-white px-8 py-3.5 rounded-xl text-l-bold text-white hover:bg-white hover:text-primary-main hover:scale-105 transition-all duration-300">
+                  Pelajari Cara Kerja
+                </Link>
               </div>
             </div>
             <a

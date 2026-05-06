@@ -26,11 +26,31 @@ Lokasi: `client/src/data/mock/`
 | Notifications | `notifications.js` | **Done** | Notifikasi tertarget |
 
 ## Aturan Konsistensi Relasi
-*   **Capacity Limit**: Admin (3 proyek), Pengawas (3 proyek), Mandor (2 proyek), Arsitek (2 design request aktif).
-*   **Architect Metrics**: Arsitek menggunakan `maxDesignCapacity` karena bekerja di fase pra-proyek/desain, bukan fase konstruksi lapangan.
+*   **Capacity Limit**: 
+    - Admin: Maksimal 3 proyek aktif.
+    - Pengawas: Maksimal 3 proyek aktif.
+    - Mandor: Maksimal 2 proyek aktif.
+    - Arsitek: Maksimal 2 design request aktif.
+*   **Architect Metrics**: Arsitek menggunakan `maxDesignCapacity`. `architects.assignedDesignRequestIds` hanya berisi design request aktif. History dihitung dari `designRequests.assignedArchitectId`.
 *   **Mandor as Vendor**: Tidak mengelola tukang/worker detail. Permission `manage_workers` ditiadakan.
 *   **RAB Integrity**: Subtotal Category harus cocok dengan total Item, atau diberi flag `isPlaceholder`.
 *   **User Sync**: Setiap profil (Customer/Staff) wajib memiliki user entry yang valid di `users.js`.
+
+## Design Source & Project Entry Flow
+Project konstruksi tidak wajib berasal dari Design Timeline RKK. UI harus menyesuaikan tampilan berdasarkan sumber desain.
+
+### Design Source Types
+| Value | Makna |
+|---|---|
+| `rkk_design_request` | Project berasal dari Design Timeline RKK. Memiliki `sourceDesignRequestId`. |
+| `customer_provided` | Konsumen membawa desain sendiri. `sourceDesignRequestId` adalah `null`. |
+| `not_required` | Project kecil/perawatan tanpa desain formal. `sourceDesignRequestId` adalah `null`. |
+
+### Recommended Fields in `projects.js`
+```js
+designSource: "rkk_design_request" | "customer_provided" | "not_required",
+sourceDesignRequestId: "design-request-xxx" | null
+```
 
 ## Struktur RAB 3 Tingkat
 1.  **RAB Plan**: Mewakili dokumen/header RAB untuk satu proyek tertentu.

@@ -7,8 +7,9 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Admin Mock Profiles (Capacity: 3)
 - [x] Supervisor Mock Profiles (Capacity: 3)
 - [x] Supervisor Certificates Mock Table
-- [x] Mandor Mock Profiles (Capacity: 2)
+- [x] Mandor Mock Profiles (External Vendor Model)
 - [x] Mandor Certificates Mock Table
+- [ ] Workers/Tukang (Removed - Managed by Foreman)
 - [x] Customer Mock Profiles (Individual & Company)
 - [x] Customer Project Members (Viewer Access)
 - [x] Project Comments (Timeline Discussion)

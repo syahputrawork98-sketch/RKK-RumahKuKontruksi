@@ -17,8 +17,8 @@ Role Superadmin sudah memiliki struktur navigasi dan manajemen data dasar (Admin
 
 ## Data / Mock Data
 - **Centralized Staff Tables**: Menggunakan `mockAdmins`, `mockSupervisors`, dan `mockForemen`.
-- **Separated Certificates**: Sertifikat Pengawas dan Mandor dikelola dalam tabel terpisah (`supervisorCertificates.js`, `foremanCertificates.js`). Admin tidak menggunakan tabel sertifikat.
-- **Workload Monitoring**: Superadmin dapat memantau beban kerja (admin & pengawas max 3, mandor max 2).
+- **Mandor as Vendor**: Mandor dikelola sebagai vendor lapangan eksternal. Data tukang individu tidak lagi dikelola oleh RKK (hanya `teamSummary`).
+- **Separated Certificates**: Sertifikat Pengawas dan Mandor dikelola dalam tabel terpisah.
 
 ## Sudah Dikerjakan
 - [x] Struktur layout dengan sidebar dan header.

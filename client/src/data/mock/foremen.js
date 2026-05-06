@@ -15,41 +15,6 @@ export const mockForemen = [
     assignedProjectIds: ["project-001", "project-002"],
     workerIds: ["worker-001", "worker-002", "worker-003"],
     maxProjectCapacity: 2,
-    certificates: [
-      {
-        id: "cert-foreman-001-001",
-        title: "Sertifikat Kompetensi Kerja Mandor Konstruksi",
-        issuer: "BNSP",
-        certificateNumber: "BNSP-MDR-2024-001",
-        issuedAt: "2024-01-20",
-        expiredAt: "2027-01-20",
-        fileUrl: "/mock/certificates/mandor/foreman-001-skk.pdf",
-        fileType: "pdf",
-        status: "valid"
-      },
-      {
-        id: "cert-foreman-001-002",
-        title: "Sertifikat K3 Konstruksi",
-        issuer: "Kemnaker",
-        certificateNumber: "K3-MDR-2024-118",
-        issuedAt: "2024-03-15",
-        expiredAt: "2027-03-15",
-        fileUrl: "/mock/certificates/mandor/foreman-001-k3.pdf",
-        fileType: "pdf",
-        status: "valid"
-      },
-      {
-        id: "cert-foreman-001-003",
-        title: "Pelatihan Manajemen Tukang Lapangan",
-        issuer: "RKK Internal",
-        certificateNumber: "RKK-TR-2024-05",
-        issuedAt: "2024-04-10",
-        expiredAt: "2029-04-10",
-        fileUrl: "/mock/certificates/mandor/foreman-001-training.pdf",
-        fileType: "pdf",
-        status: "valid"
-      }
-    ],
     status: "active",
     joinedAt: "2023-08-15",
     notes: "Mandor senior untuk pekerjaan struktur dan renovasi rumah tinggal."
@@ -68,30 +33,6 @@ export const mockForemen = [
     assignedProjectIds: ["project-003"],
     workerIds: ["worker-004", "worker-005"],
     maxProjectCapacity: 2,
-    certificates: [
-      {
-        id: "cert-foreman-002-001",
-        title: "Sertifikat Keahlian Finishing Bangunan",
-        issuer: "LPJK",
-        certificateNumber: "LPJK-FIN-2023-088",
-        issuedAt: "2023-05-10",
-        expiredAt: "2026-05-10",
-        fileUrl: "/mock/certificates/mandor/foreman-002-skk.pdf",
-        fileType: "pdf",
-        status: "valid"
-      },
-      {
-        id: "cert-foreman-002-002",
-        title: "Sertifikat K3 Konstruksi",
-        issuer: "Kemnaker",
-        certificateNumber: "K3-MDR-2023-210",
-        issuedAt: "2023-06-01",
-        expiredAt: "2026-06-01",
-        fileUrl: "/mock/certificates/mandor/foreman-002-k3.pdf",
-        fileType: "pdf",
-        status: "valid"
-      }
-    ],
     status: "active",
     joinedAt: "2023-11-20",
     notes: "Ahli dalam pekerjaan detail finishing dan interior."
@@ -110,19 +51,6 @@ export const mockForemen = [
     assignedProjectIds: [],
     workerIds: [],
     maxProjectCapacity: 2,
-    certificates: [
-      {
-        id: "cert-foreman-003-001",
-        title: "Sertifikat Pelatihan Baja Ringan",
-        issuer: "BlueScope",
-        certificateNumber: "BS-TRAIN-2024-012",
-        issuedAt: "2024-02-15",
-        expiredAt: "2027-02-15",
-        fileUrl: "/mock/certificates/mandor/foreman-003-blue.pdf",
-        fileType: "pdf",
-        status: "pending"
-      }
-    ],
     status: "active",
     joinedAt: "2024-02-10",
     notes: "Mandor muda potensial dengan spesialisasi atap baja ringan."
@@ -141,19 +69,6 @@ export const mockForemen = [
     assignedProjectIds: ["project-004"],
     workerIds: ["worker-006"],
     maxProjectCapacity: 2,
-    certificates: [
-      {
-        id: "cert-foreman-004-001",
-        title: "Sertifikat Mandor Drainase",
-        issuer: "BNSP",
-        certificateNumber: "BNSP-DRN-2020-005",
-        issuedAt: "2020-01-10",
-        expiredAt: "2023-01-10",
-        fileUrl: "/mock/certificates/mandor/foreman-004-expired.pdf",
-        fileType: "pdf",
-        status: "expired"
-      }
-    ],
     status: "inactive",
     joinedAt: "2023-05-15",
     notes: "Sedang tidak aktif menunggu pembaruan sertifikasi."

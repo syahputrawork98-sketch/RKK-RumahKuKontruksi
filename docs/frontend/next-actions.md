@@ -17,11 +17,11 @@ Daftar prioritas pekerjaan berikutnya untuk tim frontend RKK.
 *   **Design Request Management**: Implementasi UI untuk konsumen mengajukan kebutuhan desain awal.
 *   **Revision Flow**: Implementasi antarmuka kelola revisi (gratis vs berbayar).
 
-## Prioritas 3: Refactoring & Optimasi
+## Prioritas 4: Refactoring & Optimasi
 *   **Pembersihan Mock Data**: Memastikan semua komponen menggunakan data dari `src/data/mock/projects.js` dan menghapus file-file mock individual yang redundan.
 *   **Interactive Modals**: Memperbaiki interaksi modal (seperti modal login atau modal verifikasi) agar memiliki transisi yang lebih halus menggunakan Framer Motion.
 
-## Prioritas 4: Dokumentasi Lanjutan
+## Prioritas 5: Dokumentasi Lanjutan
 *   **Component Inventory**: Mendokumentasikan komponen-komponen reusable yang sudah dibuat (Card, Badge, Table, Button) agar bisa digunakan dengan mudah oleh pengembang lain.
 
 ---

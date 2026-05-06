@@ -28,6 +28,11 @@ Role Arsitek ditambahkan untuk menangani fase pra-proyek/desain sebelum RAB dan 
 - Revisi ke-4 dan seterusnya dikenakan biaya tambahan (Charge).
 - Besar biaya disimpan di `designRevisions.chargeAmount`.
 
+## Aturan Kapasitas
+- Arsitek maksimal menangani **2 design request/gambar aktif**.
+- Kapasitas disimpan di `architects.maxDesignCapacity`.
+- Arsitek tidak memakai `maxProjectCapacity` karena Arsitek bekerja di fase desain, bukan fase konstruksi lapangan.
+
 ## Relasi ke Proyek
 Setelah desain disetujui, Admin dapat mengonversi design request menjadi Project.
 - `designRequests.convertedProjectId` -> `projects.id`

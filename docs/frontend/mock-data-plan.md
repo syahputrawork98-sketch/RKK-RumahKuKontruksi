@@ -26,7 +26,8 @@ Lokasi: `client/src/data/mock/`
 | Notifications | `notifications.js` | **Done** | Notifikasi tertarget |
 
 ## Aturan Konsistensi Relasi
-*   **Capacity Limit**: Admin (3), Pengawas (3), Mandor (2).
+*   **Capacity Limit**: Admin (3 proyek), Pengawas (3 proyek), Mandor (2 proyek), Arsitek (2 design request aktif).
+*   **Architect Metrics**: Arsitek menggunakan `maxDesignCapacity` karena bekerja di fase pra-proyek/desain, bukan fase konstruksi lapangan.
 *   **Mandor as Vendor**: Tidak mengelola tukang/worker detail. Permission `manage_workers` ditiadakan.
 *   **RAB Integrity**: Subtotal Category harus cocok dengan total Item, atau diberi flag `isPlaceholder`.
 *   **User Sync**: Setiap profil (Customer/Staff) wajib memiliki user entry yang valid di `users.js`.

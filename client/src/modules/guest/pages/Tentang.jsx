@@ -48,7 +48,7 @@ const Tentang = () => {
                         transition={{ delay: 0.3 }}
                     >
                         <Link 
-                            to="/contact" 
+                            to="/kontak" 
                             className="btn-public-primary"
                         >
                             Hubungi Kami

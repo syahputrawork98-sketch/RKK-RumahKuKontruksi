@@ -99,7 +99,7 @@ const Layanan = () => {
                         {services.map((service, index) => (
                             <motion.div 
                                 key={index}
-                                className="public-card public-card-hover flex flex-col h-full"
+                                className="public-card public-card-hover group flex flex-col h-full"
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}

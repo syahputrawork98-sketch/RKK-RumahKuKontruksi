@@ -78,7 +78,7 @@ const Proyek = () => {
                         transition={{ delay: 0.3 }}
                     >
                         <Link 
-                            to="/contact" 
+                            to="/kontak" 
                             className="btn-public-white"
                         >
                             Konsultasikan Proyek Anda
@@ -100,7 +100,7 @@ const Proyek = () => {
                         {projects.map((project) => (
                             <motion.div 
                                 key={project.id}
-                                className="public-card public-card-hover !p-0 overflow-hidden flex flex-col"
+                                className="public-card-media public-card-hover group flex flex-col h-full"
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6 }}
@@ -190,7 +190,7 @@ const Proyek = () => {
                         transition={{ delay: 0.3 }}
                     >
                         <Link 
-                            to="/contact" 
+                            to="/kontak" 
                             className="btn-public-primary"
                         >
                             Mulai Konsultasi

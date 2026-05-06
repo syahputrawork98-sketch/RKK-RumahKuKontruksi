@@ -38,46 +38,29 @@ Rencana kontrak komunikasi antara Frontend dan Backend.
 }
 ```
 
-## Rencana Endpoint Awal
+## Implemented API v0 (Core Data Service)
+Daftar endpoint yang sudah diimplementasikan dan diverifikasi:
 
-### Auth
-- `POST /auth/login` - Masuk sistem.
-- `POST /auth/logout` - Keluar sistem.
-- `GET /auth/me` - Ambil profil user yang sedang login.
+### System
+- `GET /api/health` - Cek status server.
 
-### Users
-- `GET /users` - List user (filter by role).
-- `POST /users` - Tambah user baru (Admin only).
-- `GET /users/:id` - Detail user.
-- `PATCH /users/:id` - Update data user.
-- `DELETE /users/:id` - Deaktivasi user (Soft delete).
+### Customers (Full CRUD)
+- `GET /api/customers` - Ambil daftar pelanggan.
+- `GET /api/customers/:id` - Ambil detail pelanggan.
+- `POST /api/customers` - Tambah pelanggan baru.
+- `PATCH /api/customers/:id` - Update data pelanggan.
+- `DELETE /api/customers/:id` - Hapus pelanggan (hanya jika tidak ada proyek).
 
-### Projects
-- `GET /projects` - List proyek (filter by user role).
-- `POST /projects` - Inisialisasi proyek baru.
-- `GET /projects/:id` - Detail proyek (Timeline, RAB, Progres).
-- `PATCH /projects/:id` - Update informasi proyek.
+### Projects (Read Only)
+- `GET /api/projects` - Ambil daftar proyek.
+- `GET /api/projects/:id` - Detail proyek (termasuk stages & RAB).
+- `GET /api/projects/:id/stages` - Ambil tahapan proyek.
+- `GET /api/projects/:id/rab` - Ambil RAB aktif proyek.
 
-### Reports
-- `GET /projects/:id/reports` - List laporan harian/mingguan proyek.
-- `POST /projects/:id/reports` - Input laporan harian baru.
-
-### Approvals
-- `GET /approvals` - List permintaan approval masuk.
-- `POST /approvals` - Ajukan approval baru.
-- `PATCH /approvals/:id/approve` - Menyetujui pengajuan.
-- `PATCH /approvals/:id/reject` - Menolak pengajuan.
-
-### Notifications
-- `GET /notifications` - Ambil notifikasi user.
-- `PATCH /notifications/:id/read` - Tandai sudah dibaca.
-
-### Documents
-- `POST /documents/upload` - Upload file ke cloud storage.
-- `GET /documents/:id` - Ambil metadata/link file.
-
-## Validasi Request
-Setiap request yang masuk akan divalidasi menggunakan **validation middleware** dengan skema yang telah ditentukan (schema validation). Hal ini memastikan data yang masuk ke service layer adalah data yang valid dan aman.
+## Rencana Endpoint Berikutnya
+...
+(Isi rencana endpoint lainnya)
 
 > [!NOTE]
-> Daftar endpoint dan skema data ini belum final. Detail akan disesuaikan kembali setelah struktur Mock Data dan UI pada sisi Frontend dianggap matang.
+> Seluruh response menggunakan format JSON standar: `{ success: boolean, data?: any, message?: string }`.
+> Validasi dasar telah diterapkan pada modul Customers (Conflict 409 untuk email duplikat, 404 untuk data tidak ditemukan).

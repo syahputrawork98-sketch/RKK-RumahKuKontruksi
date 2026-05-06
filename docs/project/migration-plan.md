@@ -21,10 +21,12 @@ Rencana migrasi dari berbagai sumber pengembangan ke struktur repository final.
 - [ ] Implementasi mock data terpusat di `client/src/data/mock/`.
 - [ ] Perbaikan isu-isu UI minor (Navbar, Responsive).
 
-### Tahap 3: Migrasi Backend (PLANNED)
-- [ ] Migrasi server Express dari `RumahKuKontruksi-Dev/server`.
-- [ ] Sinkronisasi API routes dengan frontend.
+### Tahap 3: Migrasi & Baseline Backend (DONE/ONGOING)
+- [x] Inisialisasi Express API & Prisma Data Service (Node.js).
+- [x] Baseline Migration & Re-seed dari Mock Data Frontend.
+- [x] Implementasi Customer CRUD & Project Read Endpoints.
+- [ ] Stabilisasi & CRUD untuk modul Proyek/RAB.
 
-### Tahap 4: Integrasi & Deployment
-- [ ] Integrasi penuh frontend-backend.
+### Tahap 4: Integrasi & Deployment (CURRENT)
+- [ ] Sinkronisasi API service dengan Frontend (Penggantian Mock Service).
 - [ ] Production build dan deployment.

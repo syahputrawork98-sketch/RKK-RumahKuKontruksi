@@ -1,165 +1,218 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FiArrowLeft, FiPackage, FiCamera, FiCreditCard, FiCheckCircle, FiInfo } from "react-icons/fi";
+import { FiArrowLeft, FiCheckCircle, FiClock, FiFileText, FiCamera, FiCreditCard } from "react-icons/fi";
 
 const DetailPekerjaanProyek = ({ data, onBack }) => {
-  if (!data) return <p>Tidak ada data pekerjaan untuk ditampilkan.</p>;
+  if (!data) return <p className="p-10 text-center text-neutral-60">Tidak ada data laporan untuk ditampilkan.</p>;
 
-  const {
-    minggu,
-    kode,
-    judul,
-    pekerjaan,
-    tanggalMulai,
-    tanggalSelesai,
-    durasiHari,
-    foto,
-    biaya,
-    verifikasi,
-    catatan,
-  } = data;
+  // Normalisasi Data agar mendukung format lama dan baru
+  const normalized = {
+    week: data.week ?? data.minggu,
+    code: data.code ?? data.kode,
+    title: data.title ?? data.judul,
+    tasks: data.tasks ?? data.pekerjaan ?? [],
+    startDate: data.startDate ?? data.tanggalMulai,
+    endDate: data.endDate ?? data.tanggalSelesai,
+    durationDays: data.durationDays ?? data.durasiHari,
+    images: data.images ?? data.foto ?? [],
+    amount: data.payment?.amount ?? data.biaya?.harusDibayar ?? data.biaya?.harursDibayar ?? 0,
+    paid: data.payment?.paid ?? data.biaya?.terbayar ?? 0,
+    isVerified: data.verification?.isVerified ?? data.verifikasi ?? false,
+    verifiedBy: data.verification?.verifiedBy || (data.verifikasi ? "Pengawas Lapangan" : ""),
+    verifiedAt: data.verification?.verifiedAt || "",
+    note: data.note ?? data.catatan ?? ""
+  };
+
+  const remaining = normalized.amount - normalized.paid;
 
   const formatCurrency = (value) =>
     new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
       maximumFractionDigits: 0,
-    }).format(value);
+    }).format(value || 0);
 
   return (
     <motion.div 
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="space-y-8"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="max-w-5xl mx-auto space-y-6"
     >
-      {/* Header with Back Button */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      {/* 1. Header Dokumen Laporan */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm">
         <div className="flex items-center gap-4">
           <button
             onClick={onBack}
-            className="w-12 h-12 rounded-2xl bg-white border border-neutral-30 flex items-center justify-center text-neutral-60 hover:text-primary-main hover:border-primary-main transition-all shadow-sm"
+            className="w-10 h-10 rounded-xl bg-neutral-20 flex items-center justify-center text-neutral-60 hover:text-primary-main transition-colors border border-neutral-30"
+            title="Kembali ke Timeline"
           >
-            <FiArrowLeft size={24} />
+            <FiArrowLeft size={20} />
           </button>
           <div>
-            <span className="public-eyebrow !mb-0.5">Detail Tahap {kode}</span>
-            <h2 className="text-heading-m-bold md:text-heading-l-bold text-neutral-100">
-              {judul}
+            <p className="text-xs-bold text-primary-main uppercase tracking-widest">Laporan Progres Tahap Pekerjaan</p>
+            <h2 className="text-heading-s-bold md:text-heading-m-bold text-neutral-100">
+              Tahap {normalized.code} — {normalized.title}
             </h2>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className={`px-4 py-2 rounded-xl text-s-bold shadow-sm ${
-            verifikasi ? "bg-success-main/10 text-success-main" : "bg-error-main/10 text-error-main"
-          }`}>
-            {verifikasi ? "Diverifikasi Pengawas" : "Menunggu Verifikasi"}
-          </span>
+        <div className={`px-4 py-2 rounded-xl text-s-bold flex items-center gap-2 border ${
+          normalized.isVerified ? "bg-success-main/5 text-success-main border-success-main/20" : "bg-warning-main/5 text-warning-main border-warning-main/20"
+        }`}>
+          {normalized.isVerified ? <FiCheckCircle /> : <FiClock />}
+          {normalized.isVerified ? "Diverifikasi" : "Menunggu Verifikasi"}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column: General Info & Tasks */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Summary Card */}
-          <div className="public-card bg-primary-main text-white p-8 grid grid-cols-2 md:grid-cols-3 gap-6">
-            <div>
-              <p className="text-s-bold text-white/60 uppercase tracking-widest mb-1">Minggu Ke</p>
-              <p className="text-heading-s-bold">{minggu}</p>
-            </div>
-            <div>
-              <p className="text-s-bold text-white/60 uppercase tracking-widest mb-1">Durasi</p>
-              <p className="text-heading-s-bold">{durasiHari} Hari</p>
-            </div>
-            <div className="col-span-2 md:col-span-1">
-              <p className="text-s-bold text-white/60 uppercase tracking-widest mb-1">Rentang Waktu</p>
-              <p className="text-m-bold">{tanggalMulai} - {tanggalSelesai}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Kolom Kiri: Identitas & Daftar Pekerjaan */}
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* 2. Identitas Tahap (Tabel Ringkas) */}
+          <div className="bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm space-y-4">
+            <h3 className="text-s-bold text-neutral-90 flex items-center gap-2 uppercase tracking-wider">
+              <FiFileText className="text-primary-main" /> Identitas Tahap
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8 text-sm">
+              <div>
+                <p className="text-neutral-50 mb-0.5">Kode Tahap</p>
+                <p className="font-semibold text-neutral-100">{normalized.code}</p>
+              </div>
+              <div>
+                <p className="text-neutral-50 mb-0.5">Minggu Ke</p>
+                <p className="font-semibold text-neutral-100">{normalized.week}</p>
+              </div>
+              <div>
+                <p className="text-neutral-50 mb-0.5">Durasi</p>
+                <p className="font-semibold text-neutral-100">{normalized.durationDays} Hari Kalender</p>
+              </div>
+              <div>
+                <p className="text-neutral-50 mb-0.5">Tanggal Mulai</p>
+                <p className="font-semibold text-neutral-100">{normalized.startDate}</p>
+              </div>
+              <div>
+                <p className="text-neutral-50 mb-0.5">Tanggal Selesai</p>
+                <p className="font-semibold text-neutral-100">{normalized.endDate}</p>
+              </div>
+              <div>
+                <p className="text-neutral-50 mb-0.5">Status Laporan</p>
+                <p className={`font-semibold ${normalized.isVerified ? 'text-success-main' : 'text-warning-main'}`}>
+                  {normalized.isVerified ? 'Final / Verified' : 'Draft / Progress'}
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Task List */}
-          <div className="public-card space-y-6">
-            <h3 className="text-heading-s-bold text-neutral-100 flex items-center gap-3">
-              <FiPackage className="text-primary-main" /> Daftar Pekerjaan
+          {/* 3. Daftar Pekerjaan (Checklist) */}
+          <div className="bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm space-y-4">
+            <h3 className="text-s-bold text-neutral-90 flex items-center gap-2 uppercase tracking-wider">
+              <FiCheckCircle className="text-primary-main" /> Item Pekerjaan Terlaksana
             </h3>
-            <ul className="space-y-4">
-              {pekerjaan.map((p, i) => (
-                <li key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-neutral-20 border border-neutral-30">
-                  <span className="w-8 h-8 rounded-full bg-white border border-neutral-30 flex items-center justify-center text-s-bold text-primary-main shrink-0 shadow-sm">
+            <div className="space-y-3">
+              {normalized.tasks.map((task, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-neutral-20/50 border border-neutral-30/50 text-neutral-80">
+                  <div className="w-6 h-6 rounded-full bg-white border border-neutral-30 flex items-center justify-center text-xs-bold text-primary-main">
                     {i + 1}
-                  </span>
-                  <p className="text-m-medium text-neutral-80 pt-1">{p}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Documentation Gallery */}
-          <div className="public-card space-y-6">
-            <h3 className="text-heading-s-bold text-neutral-100 flex items-center gap-3">
-              <FiCamera className="text-primary-main" /> Dokumentasi Pekerjaan
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {foto.map((f, i) => (
-                <div key={i} className="rounded-[24px] overflow-hidden border border-neutral-30 shadow-sm">
-                  <img
-                    src={f}
-                    alt={`Dokumentasi ${judul} #${i + 1}`}
-                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-700"
-                  />
+                  </div>
+                  <span className="text-m-medium">{task}</span>
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* 5. Dokumentasi Foto */}
+          <div className="bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm space-y-4">
+            <h3 className="text-s-bold text-neutral-90 flex items-center gap-2 uppercase tracking-wider">
+              <FiCamera className="text-primary-main" /> Lampiran Dokumentasi Visual
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {normalized.images.slice(0, 6).map((img, i) => {
+                const url = typeof img === 'string' ? img : img.url;
+                const caption = typeof img === 'string' ? null : img.caption;
+                return (
+                  <div key={i} className="space-y-2">
+                    <div className="aspect-video rounded-xl overflow-hidden border border-neutral-30 bg-neutral-20">
+                      <img
+                        src={url}
+                        alt={`Dokumentasi ${normalized.title} ${i + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {caption && <p className="text-xs-regular text-neutral-60 text-center italic">{caption}</p>}
+                  </div>
+                );
+              })}
+            </div>
+            {normalized.images.length === 0 && (
+              <p className="text-sm text-neutral-50 italic py-4 text-center">Belum ada dokumentasi foto untuk tahap ini.</p>
+            )}
           </div>
         </div>
 
-        {/* Right Column: Costs & Notes */}
-        <div className="space-y-8">
-          {/* Cost Card */}
-          <div className="public-card space-y-6">
-            <h3 className="text-heading-s-bold text-neutral-100 flex items-center gap-3">
-              <FiCreditCard className="text-primary-main" /> Rincian Biaya
+        {/* Kolom Kanan: Biaya & Verifikasi */}
+        <div className="space-y-6">
+          {/* 4. RAB / Rincian Pembayaran */}
+          <div className="bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm space-y-4">
+            <h3 className="text-s-bold text-neutral-90 flex items-center gap-2 uppercase tracking-wider">
+              <FiCreditCard className="text-primary-main" /> Rincian Biaya Tahap
             </h3>
-            <div className="space-y-4">
-              <div className="p-4 rounded-2xl bg-neutral-20 border border-neutral-30">
-                <p className="text-s-bold text-neutral-60 uppercase mb-1">Harus Dibayar</p>
-                <p className="text-heading-s-bold text-neutral-100">{formatCurrency(biaya.harusDibayar)}</p>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center py-2 border-b border-neutral-20">
+                <span className="text-sm text-neutral-60">Biaya Tahap (RAB)</span>
+                <span className="text-m-bold text-neutral-100">{formatCurrency(normalized.amount)}</span>
               </div>
-              <div className="p-4 rounded-2xl bg-success-main/5 border border-success-main/20">
-                <p className="text-s-bold text-success-main uppercase mb-1">Sudah Terbayar</p>
-                <p className="text-heading-s-bold text-success-main">{formatCurrency(biaya.terbayar)}</p>
+              <div className="flex justify-between items-center py-2 border-b border-neutral-20">
+                <span className="text-sm text-neutral-60">Telah Dibayar</span>
+                <span className="text-m-bold text-success-main">{formatCurrency(normalized.paid)}</span>
               </div>
-              {biaya.harusDibayar - biaya.terbayar > 0 && (
-                <div className="p-4 rounded-2xl bg-error-main/5 border border-error-main/20">
-                  <p className="text-s-bold text-error-main uppercase mb-1">Sisa Tagihan</p>
-                  <p className="text-heading-s-bold text-error-main">{formatCurrency(biaya.harusDibayar - biaya.terbayar)}</p>
-                </div>
-              )}
+              <div className="flex justify-between items-center py-2">
+                <span className="text-sm text-neutral-60">Sisa Pembayaran</span>
+                <span className={`text-m-bold ${remaining > 0 ? 'text-error-main' : 'text-neutral-100'}`}>
+                  {formatCurrency(remaining)}
+                </span>
+              </div>
+            </div>
+            {remaining > 0 && (
+              <p className="text-xs-regular text-error-main bg-error-main/5 p-2 rounded-lg border border-error-main/10">
+                * Terdapat sisa tagihan yang harus diselesaikan untuk tahap ini.
+              </p>
+            )}
+          </div>
+
+          {/* 6. Catatan Lapangan */}
+          <div className="bg-white p-6 rounded-2xl border border-neutral-30 shadow-sm space-y-3">
+            <h3 className="text-s-bold text-neutral-90 flex items-center gap-2 uppercase tracking-wider text-xs">
+              Catatan Lapangan
+            </h3>
+            <div className="p-4 bg-neutral-20 rounded-xl border border-neutral-30/50 text-sm text-neutral-70 leading-relaxed italic">
+              {normalized.note || "Tidak ada catatan tambahan dari pengawas atau mandor."}
             </div>
           </div>
 
-          {/* Notes & Verification */}
-          <div className="public-card space-y-6">
-            <h3 className="text-heading-s-bold text-neutral-100 flex items-center gap-3">
-              <FiInfo className="text-primary-main" /> Catatan & Verifikasi
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                {verifikasi ? (
-                  <FiCheckCircle className="text-success-main text-xl mt-1 shrink-0" />
-                ) : (
-                  <FiInfo className="text-error-main text-xl mt-1 shrink-0" />
-                )}
-                <p className="text-m-medium text-neutral-80">
-                  {verifikasi 
-                    ? "Pekerjaan ini telah diverifikasi oleh pengawas lapangan dan dinyatakan sesuai standar."
-                    : "Pekerjaan ini sedang menunggu proses verifikasi oleh pengawas lapangan."}
+          {/* 7. Blok Verifikasi Formal */}
+          <div className={`p-6 rounded-2xl border shadow-sm space-y-3 ${
+            normalized.isVerified ? "bg-success-main/5 border-success-main/20" : "bg-neutral-20 border-neutral-30"
+          }`}>
+            <h3 className="text-s-bold text-neutral-90 uppercase tracking-widest text-xs">Verifikasi Laporan</h3>
+            {normalized.isVerified ? (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-success-main text-sm font-bold">
+                  <FiCheckCircle /> Dokumen Telah Diverifikasi
+                </div>
+                <div className="text-xs-regular text-neutral-60">
+                  <p>Verified by: {normalized.verifiedBy}</p>
+                  {normalized.verifiedAt && <p>Date: {normalized.verifiedAt}</p>}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-neutral-50 text-sm font-bold uppercase tracking-wide">
+                  <FiClock /> Belum Diverifikasi
+                </div>
+                <p className="text-xs-regular text-neutral-50 italic">
+                  Menunggu pengecekan akhir oleh tim pengawas lapangan.
                 </p>
               </div>
-              <div className="p-4 rounded-2xl bg-neutral-20 border border-neutral-30 italic text-m-regular text-neutral-60">
-                "{catatan || "Tidak ada catatan tambahan untuk tahap ini."}"
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

@@ -7,27 +7,9 @@ const TLProyek = ({ timeline = [] }) => {
   const [selectedDetail, setSelectedDetail] = useState(null);
 
   if (selectedDetail) {
-    // Mapping for legacy DetailPekerjaanProyek compatibility if not updated
-    const legacyData = {
-      minggu: selectedDetail.week,
-      kode: selectedDetail.code,
-      judul: selectedDetail.title,
-      pekerjaan: selectedDetail.tasks,
-      tanggalMulai: selectedDetail.startDate,
-      tanggalSelesai: selectedDetail.endDate,
-      durasiHari: selectedDetail.durationDays,
-      foto: selectedDetail.images,
-      biaya: {
-        harusDibayar: selectedDetail.payment.amount,
-        terbayar: selectedDetail.payment.paid
-      },
-      verifikasi: selectedDetail.verification.isVerified,
-      catatan: selectedDetail.note
-    };
-
     return (
       <DetailPekerjaanProyek
-        data={legacyData}
+        data={selectedDetail}
         onBack={() => setSelectedDetail(null)}
       />
     );

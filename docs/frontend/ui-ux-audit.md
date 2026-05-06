@@ -10,8 +10,11 @@ Frontend menggunakan Vite React dari `RumahKuKontruksi-Dev/client`. Audit dilaku
 
 | Route | Role | Status | Catatan | Prioritas |
 |---|---|---|---|---|
-| / | Guest | **KEEP** | Landing page utama. *Issue*: Hamburger menu muncul di desktop. | high |
-| /about | Guest | **KEEP** | Tentang perusahaan. | medium |
+| / | Guest | **DONE** | Landing page utama. Messaging diperkuat (Terencana, Transparan, Terpantau). | high |
+| /layanan | Guest | **DONE** | Detail layanan pembangunan dan renovasi. | medium |
+| /cara-kerja | Guest | **DONE** | Visualisasi 7 langkah kerja RKK. | medium |
+| /proyek | Guest | **DONE** | Portfolio proyek dengan status dan progres. | medium |
+| /about | Guest | **DONE** | Tentang perusahaan dengan konteks brand story. | medium |
 | /contact | Guest | **KEEP** | Kontak perusahaan. | medium |
 | /konsumen/TimelineProyek | Konsumen | **KEEP** | Timeline proyek (Budi Santoso, Ahmad Fauzi). | high |
 | /konsumen/proyek | Konsumen | **KEEP** | Data proyek konsumen. | high |

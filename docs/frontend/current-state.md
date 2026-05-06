@@ -15,7 +15,7 @@ Frontend telah berhasil dimigrasikan dari `RumahKuKontruksi-Dev/client` ke dalam
 4. **Mock Import**: Beberapa file layout mengimpor mock notification dari direktori `server/` (di luar `client/`), yang perlu dipindahkan ke dalam `client/src/data/mock/`.
 
 ## Ringkasan Per Role
-- **Guest**: Halaman Home, About, dan Contact sudah ada namun perlu polesan UI.
+- **Guest**: Sitemap publik sudah lengkap (Beranda, Layanan, Cara Kerja, Proyek, Tentang, Kontak). Messaging diperkuat untuk menonjolkan nilai transparansi dan manajemen proyek profesional.
 - **Konsumen**: Fitur Timeline Proyek sudah memiliki data mock yang cukup baik.
-- **Superadmin**: Struktur manajemen data (Admin, Mandor, Pengawas) sudah ada namun datanya masih kosong/hardcoded.
-- **Admin/Pengawas/Mandor**: Hanya berupa halaman dashboard awal (Welcome message saja).
+- **Superadmin**: Struktur manajemen data sudah ada, menunggu pengisian data mock fungsional.
+- **Admin/Pengawas/Mandor**: Masih berupa "shell" (Prioritas berikutnya).

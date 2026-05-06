@@ -8,10 +8,20 @@ Rencana kerja bertahap untuk pengembangan frontend.
 - [x] Pembuatan tracker issues.
 - [x] Pendokumentasian kondisi terkini.
 
-## Sprint 02 - UI Stabilization & Fixes (Current)
+## Sprint 02 - UI Stabilization & Fixes (DONE)
 - [x] Perbaikan FE-001: Guest Navbar Responsive.
 - [x] Perbaikan FE-010: Penyelarasan halaman About.
-- [ ] Perbaikan layout spacing di berbagai dashboard.
+- [x] Perbaikan layout spacing di berbagai dashboard.
+
+## Sprint Public 01 - Public Sitemap & Content Foundation (DONE)
+- [x] PUB-001: Penambahan route /layanan, /cara-kerja, /proyek.
+- [x] PUB-002: Pembaruan Navbar publik dengan menu lengkap.
+- [x] PUB-003: Pembuatan halaman Layanan.
+- [x] PUB-004: Pembuatan halaman Cara Kerja.
+- [x] PUB-005: Pembuatan halaman Proyek (Mock Data).
+- [x] PUB-006: Penguatan messaging Beranda (Home).
+- [x] PUB-007: Penguatan konteks halaman Tentang (About).
+- [x] PUB-008: Visual polish dan konsistensi CTA.
 
 ## Sprint 03 - Mock Data Foundation (Current)
 - [x] Inisialisasi folder `client/src/data/mock/`.

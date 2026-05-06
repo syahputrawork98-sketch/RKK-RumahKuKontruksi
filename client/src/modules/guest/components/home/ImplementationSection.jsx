@@ -77,7 +77,7 @@ export default function ImplementationSection() {
                                     className="flex items-center gap-4 p-4 rounded-2xl bg-neutral-20 border border-neutral-30 hover:border-primary-main/30 hover:bg-white transition-all duration-300"
                                     whileHover={{ scale: 1.02 }}
                                 >
-                                    <div className="text-primary-main text-xl">
+                                    <div className="public-icon-box-sm shrink-0">
                                         {feature.icon}
                                     </div>
                                     <span className="text-m-bold text-neutral-100">{feature.title}</span>

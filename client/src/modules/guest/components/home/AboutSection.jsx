@@ -76,7 +76,7 @@ export default function AboutSection() {
                                 className="public-card public-card-hover"
                                 variants={fadeUp}
                             >
-                                <div className="text-display-s mb-6 flex items-center justify-center w-16 h-16 bg-neutral-20 rounded-2xl">{item.icon}</div>
+                                <div className="public-icon-box mb-6 text-display-s">{item.icon}</div>
                                 <h3 className="text-heading-s-bold text-neutral-100 mb-3">{item.title}</h3>
                                 <p className="text-m-regular text-neutral-80 leading-relaxed">{item.desc}</p>
                             </motion.div>

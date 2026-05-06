@@ -109,19 +109,48 @@ export default function HeroSlider() {
           {/* Content Container */}
           <div className="public-container h-full flex flex-col justify-center items-center text-center px-6 relative z-10">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
+              initial="hidden"
+              animate="visible"
+              key={`content-${currentIndex}`}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.2,
+                    delayChildren: 0.3
+                  }
+                }
+              }}
               className="max-w-5xl"
             >
-              <h1 className="public-hero-title mb-6">
+              <motion.h1 
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+                }}
+                className="public-hero-title mb-6"
+              >
                 {slides[currentIndex].title}
-              </h1>
-              <p className="public-hero-subtitle mb-10">
-                {slides[currentIndex].description}
-              </p>
+              </motion.h1>
               
-              <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              <motion.p 
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+                }}
+                className="public-hero-subtitle mb-10"
+              >
+                {slides[currentIndex].description}
+              </motion.p>
+              
+              <motion.div 
+                variants={{
+                  hidden: { opacity: 0, scale: 0.9 },
+                  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
+                }}
+                className="flex flex-wrap justify-center gap-4 md:gap-6"
+              >
                 <Link 
                   to={slides[currentIndex].primaryCTA.link} 
                   className="btn-public-primary"
@@ -134,7 +163,7 @@ export default function HeroSlider() {
                 >
                   {slides[currentIndex].secondaryCTA.text}
                 </Link>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>

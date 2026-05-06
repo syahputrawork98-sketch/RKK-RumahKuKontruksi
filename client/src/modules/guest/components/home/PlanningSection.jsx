@@ -73,7 +73,7 @@ export default function PlanningSection() {
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.1 }}
                                 >
-                                    <div className="w-12 h-12 bg-primary-surface rounded-xl flex items-center justify-center shrink-0 text-xl">
+                                    <div className="public-icon-box-sm shrink-0">
                                         {benefit.icon}
                                     </div>
                                     <div>

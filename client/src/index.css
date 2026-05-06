@@ -248,6 +248,10 @@
     @apply w-16 h-16 rounded-2xl bg-primary-surface flex items-center justify-center text-primary-main text-2xl transition-all duration-300;
   }
 
+  .public-icon-box-sm {
+    @apply w-12 h-12 rounded-xl bg-primary-surface flex items-center justify-center text-primary-main text-xl transition-all duration-300;
+  }
+
   .public-badge {
     @apply inline-block bg-primary-main/10 text-primary-main text-s-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-primary-main/20;
   }

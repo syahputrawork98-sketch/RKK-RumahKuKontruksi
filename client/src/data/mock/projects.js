@@ -40,6 +40,7 @@ export const mockProjects = [
     budgetTotal: 150000000,
     paidAmount: 50000000,
     remainingAmount: 100000000,
+    sourceDesignRequestId: "design-request-002",
     heroImage: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200"
   },
   {

@@ -23,6 +23,7 @@ export const mockRabPlans = [
     totalAmount: 150000000,
     createdAt: "2025-03-15",
     approvedAt: "2025-03-20",
+    sourceDesignRequestId: "design-request-002",
     notes: "RAB pembangunan kolam renang outdoor."
   },
   {

@@ -36,4 +36,4 @@ Kami menggunakan sistem dokumentasi terstruktur untuk mengelola proyek ini:
 6. `npm run dev`
 
 ## Status Proyek
-Saat ini proyek telah memasuki tahap **Integrasi Backend**. Backend Data Service (Express + Prisma + PostgreSQL) versi awal telah diimplementasikan untuk menyediakan data riil ke frontend menggantikan mock data.
+Saat ini proyek telah memasuki tahap **Pengembangan Backend**. Backend Data Service v0 sudah tersedia dan disiapkan untuk menggantikan mock data frontend secara bertahap. Fokus saat ini adalah menstabilkan backend CRUD inti sebelum integrasi frontend penuh.

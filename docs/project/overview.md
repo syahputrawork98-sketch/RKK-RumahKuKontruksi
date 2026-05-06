@@ -11,4 +11,4 @@ Repository **RKK-RumahKuKontruksi** adalah repository final utama yang menggabun
 - **Backend**: Express.js + Prisma + PostgreSQL (Implemented v0). Data service awal untuk Customers dan Projects sudah aktif.
 
 ## Fokus Saat Ini
-Fokus utama tim saat ini adalah **Integrasi Core Data Service** dan penyelesaian CRUD untuk entitas proyek sebelum integrasi penuh ke frontend.
+Fokus utama tim saat ini adalah **menstabilkan backend CRUD inti sebelum integrasi frontend bertahap**. Frontend saat ini masih berjalan menggunakan mock data sebagai basis UI/UX utama.

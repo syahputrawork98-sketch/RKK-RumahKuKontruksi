@@ -2,7 +2,7 @@
 
 Daftar tugas pengembangan backend jangka panjang.
 
-## Phase 0: Documentation Only (CURRENT)
+## Phase 0: Documentation Planning (DONE)
 - [x] Buat blueprint arsitektur backend.
 - [x] Buat modul inventory.
 - [x] Buat role permission matrix.
@@ -30,9 +30,9 @@ Daftar tugas pengembangan backend jangka panjang.
 - [ ] **Approval Engine**: Logic workflow status berjenjang.
 - [ ] **Reporting Module**: Input laporan harian & foto progres.
 
-## Phase 3: Integration & Stabilization (CURRENT)
-- [ ] Sinkronisasi API service dengan Frontend (In Progress).
-- [ ] Penggantian Mock Data Service ke Real API Service (In Progress).
+## Phase 3: Integration & Stabilization (PLANNED)
+- [ ] Sinkronisasi API service dengan Frontend (Planned, after backend CRUD baseline).
+- [ ] Penggantian Mock Data Service ke Real API Service (Planned, gradual fallback strategy).
 - [ ] End-to-End Testing (E2E).
 
 > [!NOTE]

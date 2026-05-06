@@ -8,19 +8,21 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Guest | Layanan | `/layanan` | `modules/guest/pages/Layanan.jsx` | **Done** | Grid layanan jasa konstruksi. |
 | Guest | Cara Kerja | `/cara-kerja` | `modules/guest/pages/CaraKerja.jsx` | **Done** | Visualisasi alur kerja proyek. |
 | Guest | Proyek | `/proyek` | `modules/guest/pages/Proyek.jsx` | **Done** | Portfolio publik. |
+| Guest | Tentang | `/about` | `modules/guest/pages/Tentang.jsx` | **Done** | Alias untuk `/tentang`. |
 | Guest | Tentang | `/tentang` | `modules/guest/pages/Tentang.jsx` | **Done** | Visi, misi, dan tim. |
+| Guest | Kontak | `/contact` | `modules/guest/Contact.jsx` | **Done** | Alias untuk `/kontak`. |
 | Guest | Kontak | `/kontak` | `modules/guest/Contact.jsx` | **Done** | Form kontak dan peta lokasi. |
 | Konsumen | Dashboard Timeline | `/konsumen/TimelineProyek` | `pages/konsumen/TimelineProyek.jsx` | **Done** | Monitoring progres proyek aktif. |
 | Konsumen | Detail Tahap | `/konsumen/TimelineProyek/:stageId` | `pages/konsumen/DetailTimelineProyek.jsx` | **Done** | Laporan teknis per tahap pekerjaan. |
-| Konsumen | List Proyek | `/konsumen/proyek` | `pages/konsumen/Proyek.jsx` | **Done** | Daftar proyek milik konsumen. |
-| Konsumen | Profil | `/konsumen/profil` | `pages/konsumen/Profil.jsx` | **Done** | Pengaturan akun konsumen. |
+| Konsumen | List Proyek | `/konsumen/proyek` | `pages/konsumen/Proyek.jsx` | **Partial** | Data masih hardcoded di komponen. |
+| Konsumen | Profil | `/konsumen/profil` | `pages/konsumen/Profil.jsx` | **Partial** | Data masih hardcoded di komponen. |
 | Superadmin | Dashboard | `/superadmin/dashboard` | `pages/superadmin/DashboardSuperadmin.jsx` | **Partial** | Statistik global sistem. |
 | Superadmin | Data Admin | `/superadmin/data-admin` | `pages/superadmin/DataAdminPage.jsx` | **Shell** | Manajemen user admin. |
 | Superadmin | Data Pengawas | `/superadmin/data-pengawas` | `pages/superadmin/DataPengawasPage.jsx` | **Shell** | Manajemen user pengawas. |
 | Superadmin | Data Mandor | `/superadmin/data-mandor` | `pages/superadmin/DataMandorPage.jsx` | **Shell** | Manajemen user mandor. |
 | Admin | Dashboard | `/admin/dashboard` | `pages/admin/DashboardAdmin.jsx` | **Shell** | Operasional proyek pusat. |
 | Pengawas | Dashboard | `/pengawas/dashboard` | `pages/pengawas/DashboardPengawas.jsx` | **Shell** | Monitoring lapangan. |
-| Mandor | Dashboard | `/mandor/dashboard` | `pages/mandor/DashboardMandor.jsx` | **Shell** | Laporan harian & tukang. |
+| Mandor | Dashboard | `/mandor/dashboard" | `pages/mandor/DashboardMandor.jsx` | **Shell** | Laporan harian & tukang. |
 
 ## Keterangan Status:
 * **Done**: Sudah cukup selesai secara UI dan fungsionalitas mock.

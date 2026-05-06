@@ -19,10 +19,13 @@ Lokasi: `client/src/data/mock/`
 Saat ini, mock data masih tersebar di:
 1. `server/services/NotificationService.js` (Sementara)
 2. `server/data/dummyNotifications.js` (Sementara)
-3. Hardcoded di dalam file komponen di `client/src/pages/`
+3. Hardcoded di dalam file komponen di `client/src/pages/` (Proyek, Profil)
 
 **Action Plan**:
 1. [x] Pindahkan `dummyNotifications` ke `client/src/data/mock/notifications.js`.
 2. [x] Buat file `users.js` untuk mengisi data di halaman manajemen superadmin.
-3. [ ] Buat file `projects.js` untuk melengkapi dashboard role admin/pengawas.
-4. [x] Update import di komponen untuk merujuk ke folder mock data baru.
+3. [x] Buat file `projects.js` untuk melengkapi dashboard role konsumen/admin.
+4. [x] Buat file `roles.js` untuk definisi hak akses.
+5. [ ] Buat file `progress.js`, `workers.js`, `supervisors.js`, `admins.js`.
+6. [ ] Refactor `Proyek.jsx` dan `Profil.jsx` Konsumen agar menggunakan centralized mock data.
+7. [x] Update import di komponen (Timeline & Detail) untuk merujuk ke folder mock data baru.

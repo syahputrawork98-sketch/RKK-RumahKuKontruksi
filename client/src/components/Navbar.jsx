@@ -27,20 +27,20 @@ const Navbar = () => {
             <img
               src={Logo}
               alt="Logo RumahKu Konstruksi"
-              className="w-32 md:w-36 hover:scale-105 transition-transform"
+              className="w-32 lg:w-36 hover:scale-105 transition-transform"
             />
           </Link>
 
           {/* === TENGAH: MENU NAVIGASI === */}
           <div
-            className={`absolute md:static top-12 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none transition-all duration-300 ease-in-out ${
+            className={`absolute lg:static top-12 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-md lg:shadow-none transition-all duration-300 ease-in-out ${
               menuOpen
                 ? "opacity-100 visible"
-                : "opacity-0 invisible md:visible md:opacity-100"
+                : "opacity-0 invisible lg:visible lg:opacity-100"
             }`}
           >
             {/* Menu disusun fleksibel agar bisa berubah menjadi kolom di mobile */}
-            <div className=" flex flex-col md:flex-row md:items-center justify-center md:gap-8 p-4 md:p-0">
+            <div className=" flex flex-col lg:flex-row lg:items-center justify-center lg:gap-8 p-4 lg:p-0">
               {/* Map daftar menu */}
               {["Beranda", "Tentang", "Kontak"].map((item) => (
                 <NavLink
@@ -55,7 +55,7 @@ const Navbar = () => {
                   }
                   className={({ isActive }) => {
                     return (
-                      "py-2 md:py-0 transition-colors " +
+                      "py-2 lg:py-0 transition-colors " +
                       (isActive
                         ? "text-l-bold text-primary-main"
                         : "text-secondary-main hover:text-primary-hover text-l-regular")
@@ -73,7 +73,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             {/* Tombol login desktop (ada teks Sign In) */}
             <button
-              className="hidden md:flex items-center gap-2 bg-primary-main hover:bg-primary-hover text-neutral-10 text-l-bold px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
+              className="hidden lg:flex items-center gap-2 bg-primary-main hover:bg-primary-hover text-neutral-10 text-l-bold px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
               onClick={() => setIsModalOpen(true)} // buka modal login
             >
               <TbLogin2 size={20} />
@@ -82,7 +82,7 @@ const Navbar = () => {
 
             {/* Tombol login mobile (hanya ikon) */}
             <button
-              className="md:hidden text-primary-main hover:text-primary-hover transition-colors"
+              className="lg:hidden text-primary-main hover:text-primary-hover transition-colors"
               onClick={() => setIsModalOpen(true)} // buka modal login
             >
               <TbLogin2 size={24} />
@@ -90,7 +90,7 @@ const Navbar = () => {
 
             {/* Tombol toggle menu burger mobile */}
             <button
-              className="md:hidden text-secondary-main hover:text-primary-hover transition-colors"
+              className="lg:hidden text-secondary-main hover:text-primary-hover transition-colors"
               onClick={() => setMenuOpen(!menuOpen)} // buka/tutup menu
             >
               {menuOpen ? <HiX size={26} /> : <HiMenuAlt3 size={26} />}

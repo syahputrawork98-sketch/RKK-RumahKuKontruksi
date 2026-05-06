@@ -7,12 +7,14 @@ import TentangTim from "../components/tentang/TentangTim";
 
 const Tentang = () => {
     return (
-        <main className="pt-20">
+        <main className="pt-24 pb-16 space-y-12">
             <TentangIntro />
-            <TentangVisi />
-            <TentangMisi />
-            <TentangNilai />
-            <TentangTim />
+            <div className="space-y-20">
+                <TentangVisi />
+                <TentangMisi />
+                <TentangNilai />
+                <TentangTim />
+            </div>
         </main>
     );
 };

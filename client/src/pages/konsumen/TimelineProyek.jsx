@@ -1,11 +1,29 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
-import { activeCustomerProject } from "../../data/mock/projects";
+import { getFullProjectDetails, getCustomerProjects } from "../../data/mock/helpers";
 import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser } from "react-icons/fi";
 
 const TimelineProyek = () => {
-  const project = activeCustomerProject;
+  const location = useLocation();
+  const stateProjectId = location.state?.projectId;
+  
+  // Default to first project if none provided
+  const myProjects = getCustomerProjects("customer-001");
+  const defaultProjectId = myProjects.length > 0 ? myProjects[0].id : null;
+  
+  const projectId = stateProjectId || defaultProjectId;
+  const project = getFullProjectDetails(projectId);
+
+  if (!project) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
+        <h2 className="text-xl font-bold text-gray-400 italic">Proyek tidak ditemukan</h2>
+        <p className="text-gray-500 mt-2">Pilih proyek dari daftar proyek terlebih dahulu.</p>
+      </div>
+    );
+  }
 
   const formatCurrency = (value) =>
     new Intl.NumberFormat("id-ID", {
@@ -38,6 +56,11 @@ const TimelineProyek = () => {
               <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md text-white text-s-bold rounded-full border border-white/20">
                 {project.type}
               </span>
+              {project.sourceDesignRequestId && (
+                <span className="px-4 py-1.5 bg-secondary-main text-white text-s-bold rounded-full shadow-lg border border-secondary-main/20">
+                  RKK Design Source
+                </span>
+              )}
             </motion.div>
 
             <motion.h1 

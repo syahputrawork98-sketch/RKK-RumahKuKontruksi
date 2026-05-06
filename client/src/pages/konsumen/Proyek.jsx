@@ -1,83 +1,27 @@
-// src/pages/konsumen/Proyek.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { getCustomerProjects } from "../../data/mock/helpers";
 
 const Proyek = () => {
-  const proyekList = [
-    {
-      id: "PRJ001",
-      nama: "Renovasi Rumah Minimalis",
-      status: "Aktif",
-      progress: 45,
-      tanggalMulai: "2025-09-01",
-      tanggalSelesai: "2025-12-01",
-      mandor: "Budi Santoso",
-      pengawas: "Ahmad Fauzi",
-      alamat: "Jl. Melati No. 12, Jakarta Selatan",
-      nilaiProyek: 250_000_000,
-      nilaiKeluar: 110_000_000,
-      keteranganTerakhir: "Pengecatan dinding lantai 1 selesai",
-      gambar: "https://rhdesainrumah.id/wp-content/uploads/2025/04/417-imron-part-3-desain-rumah-minimalis.jpg",
-    },
-    {
-      id: "PRJ002",
-      nama: "Pembangunan Ruko 2 Lantai",
-      status: "Selesai",
-      progress: 100,
-      tanggalMulai: "2025-01-10",
-      tanggalSelesai: "2025-06-15",
-      mandor: "Andi Wijaya",
-      pengawas: "Rina Maharani",
-      alamat: "Jl. Kebon Jeruk No. 45, Jakarta Barat",
-      nilaiProyek: 500_000_000,
-      nilaiKeluar: 500_000_000,
-      keteranganTerakhir: "Serah terima proyek selesai",
-      gambar: "https://placehold.co/600x400" },
-    {
-      id: "PRJ003",
-      nama: "Renovasi Kamar & Taman",
-      status: "Ditunda",
-      progress: 20,
-      tanggalMulai: "2025-08-05",
-      tanggalSelesai: "2025-11-20",
-      mandor: "Siti Aminah",
-      pengawas: "Fajar Nugroho",
-      alamat: "Jl. Sudirman No. 78, Jakarta Pusat",
-      nilaiProyek: 150_000_000,
-      nilaiKeluar: 30_000_000,
-      keteranganTerakhir: "Pekerjaan pondasi selesai",
-      gambar: "https://placehold.co/600x400",
-    },
-    {
-      id: "PRJ004",
-      nama: "Perbaikan Atap & Plafon",
-      status: "Aktif",
-      progress: 10,
-      tanggalMulai: "2025-10-01",
-      tanggalSelesai: "2025-11-15",
-      mandor: "Rahmat Hidayat",
-      pengawas: "Dewi Lestari",
-      alamat: "Jl. Mangga No. 99, Jakarta Timur",
-      nilaiProyek: 75_000_000,
-      nilaiKeluar: 10_000_000,
-      keteranganTerakhir: "Pembongkaran atap lama selesai",
-      gambar: "https://placehold.co/600x400",
-    },
-    {
-      id: "PRJ005",
-      nama: "Cat & Dekorasi Interior",
-      status: "Aktif",
-      progress: 5,
-      tanggalMulai: "2025-10-10",
-      tanggalSelesai: "2025-11-25",
-      mandor: "Lina Marlina",
-      pengawas: "Agus Saputra",
-      alamat: "Jl. Melur No. 56, Jakarta Selatan",
-      nilaiProyek: 50_000_000,
-      nilaiKeluar: 2_500_000,
-      keteranganTerakhir: "Persiapan cat dan peralatan",
-      gambar: "https://placehold.co/600x400",
-    },
-  ];
+  const navigate = useNavigate();
+  // Assume customer-001 is logged in
+  const proyekList = getCustomerProjects("customer-001");
+
+  // Status mapping for visual consistency
+  const getStatusConfig = (status) => {
+    switch (status) {
+      case "Selesai":
+        return { badge: "badge-success", progress: "progress-success" };
+      case "Berjalan":
+        return { badge: "badge-primary", progress: "progress-primary" };
+      case "Ditunda":
+      case "Perencanaan":
+      case "Penawaran":
+        return { badge: "badge-warning", progress: "progress-warning" };
+      default:
+        return { badge: "badge-ghost", progress: "progress-ghost" };
+    }
+  };
 
   // Fungsi menghitung hari berjalan proyek aktif
   const hitungHariBerjalan = (tglMulai) => {
@@ -93,83 +37,98 @@ const Proyek = () => {
       <h1 className="text-2xl font-bold mb-6 text-teal-700">Daftar Proyek Saya</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {proyekList.map((proyek) => (
-          <div
-            key={proyek.id}
-            className="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col"
-          >
-            {/* Gambar proyek */}
-            <img
-              src={proyek.gambar}
-              alt={proyek.nama}
-              className="w-full h-40 object-cover"
-            />
+        {proyekList.map((proyek) => {
+          const config = getStatusConfig(proyek.status);
+          
+          return (
+            <div
+              key={proyek.id}
+              className="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300"
+            >
+              {/* Gambar proyek */}
+              <img
+                src={proyek.heroImage}
+                alt={proyek.name}
+                className="w-full h-48 object-cover"
+              />
 
-            <div className="p-5 flex-1 flex flex-col justify-between">
-              {/* Header proyek */}
-              <div className="mb-3">
-                <h2 className="text-xl font-semibold text-teal-600">{proyek.nama}</h2>
-                <p className="text-sm text-gray-500">{proyek.alamat}</p>
-              </div>
-
-              {/* Detail proyek */}
-              <div className="mb-3 space-y-1 text-sm text-gray-700">
-                <p><span className="font-semibold">ID Proyek:</span> {proyek.id}</p>
-                <p><span className="font-semibold">Mandor:</span> {proyek.mandor}</p>
-                <p><span className="font-semibold">Pengawas:</span> {proyek.pengawas}</p>
-                <p>
-                  <span className="font-semibold">Tanggal:</span>{" "}
-                  {proyek.tanggalMulai} - {proyek.tanggalSelesai}
-                </p>
-                {proyek.status === "Aktif" && (
-                  <p>
-                    <span className="font-semibold">Hari Berjalan:</span>{" "}
-                    {hitungHariBerjalan(proyek.tanggalMulai)} hari
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                {/* Header proyek */}
+                <div className="mb-4">
+                  <h2 className="text-xl font-bold text-teal-700 line-clamp-1">{proyek.name}</h2>
+                  <p className="text-sm text-gray-500 flex items-center gap-1">
+                    <span className="truncate">{proyek.location}</span>
                   </p>
-                )}
-                <p><span className="font-semibold">Nilai Proyek:</span> Rp {proyek.nilaiProyek.toLocaleString()}</p>
-                <p><span className="font-semibold">Pengeluaran:</span> Rp {proyek.nilaiKeluar.toLocaleString()}</p>
-                <p><span className="font-semibold">Keterangan Terakhir:</span> {proyek.keteranganTerakhir}</p>
+                </div>
 
-                {/* Progress bar */}
-                <div className="mt-2">
-                  <progress
-                    className={`progress w-full ${proyek.status === "Selesai"
-                      ? "progress-success"
-                      : proyek.status === "Aktif"
-                      ? "progress-primary"
-                      : "progress-warning"
-                    }`}
-                    value={proyek.progress}
-                    max="100"
-                  ></progress>
-                  <p className="text-right text-sm mt-1">{proyek.progress}%</p>
+                {/* Detail proyek */}
+                <div className="mb-4 space-y-2 text-sm text-gray-700">
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Kode:</span> 
+                    <span className="font-mono bg-gray-100 px-1 rounded">{proyek.projectCode}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Mandor:</span> 
+                    <span>{proyek.foremanName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Pengawas:</span> 
+                    <span>{proyek.supervisorName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Periode:</span> 
+                    <span className="text-xs">{proyek.startDate} - {proyek.estimatedEndDate}</span>
+                  </div>
+                  
+                  {proyek.status === "Berjalan" && (
+                    <div className="flex justify-between text-teal-600">
+                      <span className="font-semibold">Hari Berjalan:</span> 
+                      <span>{hitungHariBerjalan(proyek.startDate)} hari</span>
+                    </div>
+                  )}
+                  
+                  <div className="pt-2 border-t border-gray-100">
+                    <div className="flex justify-between mb-1">
+                      <span className="font-semibold">Nilai Proyek:</span> 
+                      <span className="font-bold text-teal-700">Rp {proyek.budgetTotal?.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>Terbayar:</span> 
+                      <span>Rp {proyek.paidAmount?.toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="mt-4">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="font-medium">Progres Lapangan</span>
+                      <span className="font-bold">{proyek.progress}%</span>
+                    </div>
+                    <progress
+                      className={`progress w-full h-2 ${config.progress}`}
+                      value={proyek.progress}
+                      max="100"
+                    ></progress>
+                  </div>
+                </div>
+
+                {/* Footer card: status & button */}
+                <div className="flex justify-between items-center mt-auto pt-4">
+                  <span className={`badge px-3 py-3 border-none text-white ${config.badge}`}>
+                    {proyek.status}
+                  </span>
+
+                  <button
+                    className="btn btn-sm bg-teal-600 hover:bg-teal-700 text-white border-none"
+                    onClick={() => navigate("/konsumen/TimelineProyek", { state: { projectId: proyek.id } })}
+                  >
+                    Lihat Detail
+                  </button>
                 </div>
               </div>
-
-              {/* Footer card: status & button */}
-              <div className="flex justify-between items-center mt-3">
-                <span
-                  className={`badge ${proyek.status === "Selesai"
-                    ? "badge-success"
-                    : proyek.status === "Aktif"
-                      ? "badge-primary"
-                      : "badge-warning"
-                  }`}
-                >
-                  {proyek.status}
-                </span>
-
-                <button
-                  className="btn btn-sm btn-outline btn-teal"
-                  onClick={() => alert(`Lihat proses proyek: ${proyek.nama}`)}
-                >
-                  Lihat Proses
-                </button>
-              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Card untuk pengajuan proyek baru */}

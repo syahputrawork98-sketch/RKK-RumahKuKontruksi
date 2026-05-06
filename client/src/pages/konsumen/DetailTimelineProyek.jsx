@@ -1,14 +1,13 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import DetailPekerjaanProyek from "../../components/konsumen/DetailPekerjaanProyek";
-import { activeCustomerProject } from "../../data/mock/projects";
+import { mockProjectStages } from "../../data/mock/projectStages";
 import { FiArrowLeft } from "react-icons/fi";
 
 const DetailTimelineProyek = () => {
   const { stageId } = useParams();
 
-  const timeline = activeCustomerProject?.timeline || [];
-  const stage = timeline.find((item) => item.id === stageId);
+  const stage = mockProjectStages.find((item) => item.id === stageId);
 
   if (!stage) {
     return (

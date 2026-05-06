@@ -1,20 +1,26 @@
-// src/pages/konsumen/Profil.jsx
 import React, { useState } from "react";
+import { mockCustomers } from "../../data/mock/customers";
 
 const Profil = () => {
+  // Assume customer-001 is logged in
+  const customerData = mockCustomers.find(c => c.id === "customer-001");
+
   // Mock data konsumen
   const [user, setUser] = useState({
-    nama: "Syah Putra",
-    email: "syahputra@email.com",
-    nomor: "+62 812-3456-7890",
-    alamat: "Jl. Merdeka No.12, RT.05/RW.02, Kecamatan Gambir, Kota Jakarta Pusat, DKI Jakarta, Indonesia",
-    tanggalBergabung: "01 Jan 2023",
-    jenisKelamin: "Pria",
-    tempatTanggalLahir: "Jakarta, 01 Jan 1990",
-    fotoProfil: "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp",
-    idKonsumen: "RKK-00123",
-    jumlahProyek: 5,
+    nama: customerData?.name || "Nama Konsumen",
+    email: customerData?.email || "email@example.com",
+    nomor: customerData?.phone || "08xxxxxx",
+    alamat: customerData?.address || "Alamat belum diatur",
+    tanggalBergabung: customerData?.joinedAt || "01 Jan 2024",
+    jenisKelamin: "Pria", // Not in mock data yet, keep default
+    tempatTanggalLahir: "Jakarta, 01 Jan 1990", // Not in mock data yet
+    fotoProfil: customerData?.avatar || "https://i.pravatar.cc/150",
+    idKonsumen: customerData?.id || "RKK-XXX",
+    jumlahProyek: 3, // Could be calculated from mockProjects
     statusAkun: "Aktif",
+    identityNumber: customerData?.identityNumber || "N/A",
+    occupation: customerData?.occupation || "N/A",
+    notes: customerData?.notes || ""
   });
 
   const [isEditing, setIsEditing] = useState(false);

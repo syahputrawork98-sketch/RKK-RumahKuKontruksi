@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaUserCircle, FaProjectDiagram, FaStream, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
+import { mockCustomers } from "../../data/mock/customers";
 
 const NavbarKonsumen = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Assume customer-001 is logged in
+  const currentUser = mockCustomers.find(c => c.id === "customer-001");
 
   return (
     <nav className="bg-white text-teal-700 shadow-md fixed w-full z-50">
@@ -17,9 +21,16 @@ const NavbarKonsumen = () => {
             className="w-12 h-12 object-contain rounded-full p-1"
           />
           {/* Nama Konsumen di desktop */}
-          <h2 className="hidden md:block text-xl font-semibold text-teal-700">
-            Nama Konsumen
-          </h2>
+          <div className="hidden md:flex items-center gap-2">
+            <img 
+              src={currentUser?.avatar} 
+              alt={currentUser?.name} 
+              className="w-8 h-8 rounded-full object-cover border border-teal-100"
+            />
+            <h2 className="text-xl font-semibold text-teal-700">
+              {currentUser?.name || "Nama Konsumen"}
+            </h2>
+          </div>
         </div>
 
         {/* MENU DESKTOP */}

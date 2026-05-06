@@ -1,6 +1,6 @@
 // client/src/components/Navbar.jsx
 import { useState, useEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TbLogin2 } from "react-icons/tb"; // Icon untuk tombol login
 import { HiMenuAlt3, HiX } from "react-icons/hi"; // Icon menu burger & close
 
@@ -16,6 +16,7 @@ const Navbar = () => {
   // State untuk toggle modal login
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Handle scroll effect
   useEffect(() => {
@@ -35,6 +36,46 @@ const Navbar = () => {
     { label: "Tentang", path: "/tentang" },
     { label: "Kontak", path: "/kontak" },
   ];
+
+  // Role demo login options
+  const roleLoginOptions = [
+    {
+      label: "Masuk sebagai Konsumen",
+      role: "Konsumen",
+      description: "Pantau proyek, timeline, dan profil pemesanan.",
+      path: "/konsumen/proyek",
+    },
+    {
+      label: "Masuk sebagai Super Admin",
+      role: "Super Admin",
+      description: "Kelola data admin, pengawas, mandor, dan kontrol sistem.",
+      path: "/superadmin/dashboard",
+    },
+    {
+      label: "Masuk sebagai Admin",
+      role: "Admin",
+      description: "Kelola proyek, data operasional, dan koordinasi tim.",
+      path: "/admin/dashboard",
+    },
+    {
+      label: "Masuk sebagai Pengawas",
+      role: "Pengawas",
+      description: "Pantau progres lapangan dan laporan proyek.",
+      path: "/pengawas/dashboard",
+    },
+    {
+      label: "Masuk sebagai Mandor",
+      role: "Mandor",
+      description: "Kelola pekerjaan harian dan laporan lapangan.",
+      path: "/mandor/dashboard",
+    },
+  ];
+
+  const handleDemoRoleLogin = (path) => {
+    setIsModalOpen(false);
+    setMenuOpen(false);
+    navigate(path);
+  };
 
   return (
     <>
@@ -148,7 +189,7 @@ const Navbar = () => {
           }}
         >
           {/* Box modal utama */}
-          <div className="bg-white rounded-[32px] shadow-2xl w-11/12 max-w-md p-8 relative animate-scaleIn border border-neutral-30">
+          <div className="bg-white rounded-[32px] shadow-2xl w-11/12 max-w-md max-h-[90vh] overflow-y-auto p-8 relative animate-scaleIn border border-neutral-30">
             {/* Tombol close */}
             <button
               className="absolute right-6 top-6 w-10 h-10 flex items-center justify-center rounded-full bg-neutral-20 text-neutral-80 hover:bg-primary-surface hover:text-primary-main transition-all cursor-pointer"
@@ -221,6 +262,43 @@ const Navbar = () => {
                 </a>
               </p>
             </form>
+
+            {/* Demo Role Login Shortcuts */}
+            <div className="mt-8 pt-6 border-t border-neutral-30">
+              <div className="text-center mb-4">
+                <p className="text-s-bold text-neutral-90 uppercase tracking-widest">
+                  Pilih Akses Demo Role
+                </p>
+                <p className="text-s-regular text-neutral-60 mt-1">
+                  Gunakan shortcut ini untuk mengecek tampilan dashboard per role.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3">
+                {roleLoginOptions.map((option) => (
+                  <button
+                    key={option.role}
+                    type="button"
+                    onClick={() => handleDemoRoleLogin(option.path)}
+                    className="group w-full text-left rounded-2xl border border-neutral-30 bg-neutral-20 px-4 py-3 transition-all duration-300 hover:border-primary-main hover:bg-primary-surface hover:shadow-md"
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <p className="text-m-bold text-neutral-100 group-hover:text-primary-main">
+                          {option.label}
+                        </p>
+                        <p className="text-s-regular text-neutral-70 mt-0.5">
+                          {option.description}
+                        </p>
+                      </div>
+                      <span className="text-primary-main text-l-bold transition-transform group-hover:translate-x-1">
+                        →
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}

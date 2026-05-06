@@ -15,16 +15,16 @@ const TentangIntro = () => {
                 transition={{ duration: 0.6 }}
             >
                 <motion.span 
-                    className="public-badge mb-6"
+                    className="public-badge !bg-white/10 !text-white !border-white/20 mb-6"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                 >
                     Tentang RumahKu Kontruksi
                 </motion.span>
-                <h1 className="public-title">
+                <h1 className="public-hero-title">
                     Membangun Rumah dengan Proses yang <br className="hidden md:block" /> Lebih Jelas dan Terpercaya
                 </h1>
-                <p className="public-subtitle">
+                <p className="public-hero-subtitle !text-white/80">
                     <strong>RumahKu Kontruksi</strong> didirikan untuk menjawab tantangan industri konstruksi yang seringkali tidak terencana dan sulit dipantau. Kami hadir untuk membantu Anda memahami, memantau, dan mengelola proses bangun atau renovasi rumah dengan lebih transparan, profesional, dan akuntabel di setiap jengkal proyek Anda.
                 </p>
             </motion.div>

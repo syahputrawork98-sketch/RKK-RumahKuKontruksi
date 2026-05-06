@@ -1,6 +1,6 @@
 // client/src/components/Navbar.jsx
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { TbLogin2 } from "react-icons/tb"; // Icon untuk tombol login
 import { HiMenuAlt3, HiX } from "react-icons/hi"; // Icon menu burger & close
 
@@ -11,95 +11,126 @@ const Logo =
 const Navbar = () => {
   // State untuk toggle menu navigasi di mobile
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // State untuk toggle modal login
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Menu items list
+  const menuItems = [
+    { label: "Beranda", path: "/" },
+    { label: "Layanan", path: "/layanan" },
+    { label: "Cara Kerja", path: "/cara-kerja" },
+    { label: "Tentang", path: "/about" },
+    { label: "Kontak", path: "/contact" },
+  ];
 
   return (
     <>
       {/* ========================== */}
       {/* ======== NAVBAR ========= */}
       {/* ========================== */}
-      <nav className="fixed top-0 left-0 right-0 bg-white backdrop-blur-md shadow-sm z-50">
-        <div className="container mx-auto flex items-center justify-between px-4 py-3">
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled 
+          ? "bg-white/80 backdrop-blur-xl shadow-md py-2" 
+          : "bg-white/90 backdrop-blur-md py-4"
+      }`}>
+        <div className="container mx-auto flex items-center justify-between px-6 lg:px-10">
           {/* === KIRI: LOGO === */}
           <Link to="/" className="flex items-center shrink-0">
             <img
               src={Logo}
               alt="Logo RumahKu Konstruksi"
-              className="w-32 lg:w-36 hover:scale-105 transition-transform"
+              className="w-32 lg:w-40 hover:scale-105 transition-transform duration-300"
             />
           </Link>
 
-          {/* === TENGAH: MENU NAVIGASI === */}
-          <div
-            className={`absolute lg:static top-12 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-md lg:shadow-none transition-all duration-300 ease-in-out ${
-              menuOpen
-                ? "opacity-100 visible"
-                : "opacity-0 invisible lg:visible lg:opacity-100"
-            }`}
-          >
-            {/* Menu disusun fleksibel agar bisa berubah menjadi kolom di mobile */}
-            <div className=" flex flex-col lg:flex-row lg:items-center justify-center lg:gap-8 p-4 lg:p-0">
-              {/* Map daftar menu */}
-              {["Beranda", "Layanan", "Cara Kerja", "Proyek", "Tentang", "Kontak"].map((item) => (
-                <NavLink
-                  end={item === "Beranda"}
-                  key={item}
-                  to={
-                    item === "Beranda"
-                      ? "/"
-                      : item === "Layanan"
-                      ? "/layanan"
-                      : item === "Cara Kerja"
-                      ? "/cara-kerja"
-                      : item === "Proyek"
-                      ? "/proyek"
-                      : item === "Tentang"
-                      ? "/about"
-                      : "/contact"
-                  }
-                  className={({ isActive }) => {
-                    return (
-                      "py-2 lg:py-0 transition-colors " +
-                      (isActive
-                        ? "text-l-bold text-primary-main"
-                        : "text-secondary-main hover:text-primary-hover text-l-regular")
-                    );
-                  }}
-                  onClick={() => setMenuOpen(false)} // menutup menu setelah klik
-                >
-                  {item}
-                </NavLink>
-              ))}
-            </div>
+          {/* === TENGAH: MENU NAVIGASI (Desktop) === */}
+          <div className="hidden lg:flex items-center gap-10">
+            {menuItems.map((item) => (
+              <NavLink
+                end={item.path === "/"}
+                key={item.label}
+                to={item.path}
+                className={({ isActive }) => 
+                  `text-m-bold transition-all duration-300 hover:text-primary-main relative group ${
+                    isActive ? "text-primary-main" : "text-neutral-80"
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {item.label}
+                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary-main transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`} />
+                  </>
+                )}
+              </NavLink>
+            ))}
           </div>
 
           {/* === KANAN: TOMBOL LOGIN DAN MENU MOBILE === */}
           <div className="flex items-center gap-4">
-            {/* Tombol login desktop (ada teks Sign In) */}
+            {/* Tombol login desktop */}
             <button
-              className="hidden lg:flex items-center gap-2 bg-primary-main hover:bg-primary-hover text-neutral-10 text-l-bold px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
-              onClick={() => setIsModalOpen(true)} // buka modal login
+              className="hidden lg:flex items-center gap-2 bg-primary-main hover:bg-primary-hover text-white text-m-bold px-6 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-primary-main/30 hover:-translate-y-0.5 active:translate-y-0"
+              onClick={() => setIsModalOpen(true)}
             >
               <TbLogin2 size={20} />
-              Sign In
-            </button>
-
-            {/* Tombol login mobile (hanya ikon) */}
-            <button
-              className="lg:hidden text-primary-main hover:text-primary-hover transition-colors"
-              onClick={() => setIsModalOpen(true)} // buka modal login
-            >
-              <TbLogin2 size={24} />
+              Masuk
             </button>
 
             {/* Tombol toggle menu burger mobile */}
             <button
-              className="lg:hidden text-secondary-main hover:text-primary-hover transition-colors"
-              onClick={() => setMenuOpen(!menuOpen)} // buka/tutup menu
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-primary-main hover:bg-primary-surface rounded-full transition-all"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
             >
-              {menuOpen ? <HiX size={26} /> : <HiMenuAlt3 size={26} />}
+              {menuOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
+            </button>
+          </div>
+        </div>
+
+        {/* === MOBILE MENU OVERLAY === */}
+        <div className={`fixed inset-0 top-[72px] bg-white z-40 transition-all duration-500 lg:hidden ${
+          menuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
+        }`}>
+          <div className="flex flex-col p-8 gap-6 h-full">
+            {menuItems.map((item, index) => (
+              <NavLink
+                key={item.label}
+                to={item.path}
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) => 
+                  `text-heading-s-bold py-4 border-b border-neutral-20 transition-all ${
+                    isActive ? "text-primary-main pl-4" : "text-neutral-100"
+                  }`
+                }
+                style={{ transitionDelay: `${index * 50}ms` }}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <button
+              className="mt-6 flex items-center justify-center gap-3 bg-primary-main hover:bg-primary-hover text-white text-l-bold py-4 rounded-2xl shadow-xl transition-all"
+              onClick={() => {
+                setIsModalOpen(true);
+                setMenuOpen(false);
+              }}
+            >
+              <TbLogin2 size={24} />
+              Masuk
             </button>
           </div>
         </div>
@@ -110,74 +141,82 @@ const Navbar = () => {
       {/* ========================== */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-60 flex items-center justify-center bg-neutral-100/50 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn"
-          // Klik area luar modal untuk menutup
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-neutral-100/60 backdrop-blur-md transition-opacity duration-300 animate-fadeIn"
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsModalOpen(false);
           }}
         >
           {/* Box modal utama */}
-          <div className="bg-white rounded-2xl shadow-2xl w-11/12 max-w-md p-6 relative animate-scaleIn">
-            {/* Tombol close (✕ di pojok kanan atas) */}
+          <div className="bg-white rounded-[32px] shadow-2xl w-11/12 max-w-md p-8 relative animate-scaleIn border border-neutral-30">
+            {/* Tombol close */}
             <button
-              className="absolute right-4 top-4 text-secondary-main hover:text-secondary-hover text-heading-m-regular cursor-pointer"
+              className="absolute right-6 top-6 w-10 h-10 flex items-center justify-center rounded-full bg-neutral-20 text-neutral-80 hover:bg-primary-surface hover:text-primary-main transition-all cursor-pointer"
               onClick={() => setIsModalOpen(false)}
             >
-              ✕
+              <HiX size={20} />
             </button>
 
             {/* Judul modal */}
-            <h2 className="text-heading-m-bold text-center mb-6">
-              Masuk ke Akun Anda
-            </h2>
+            <div className="text-center mb-8">
+              <h2 className="text-heading-l-bold text-neutral-100 mb-2">
+                Selamat Datang
+              </h2>
+              <p className="text-m-regular text-neutral-70">
+                Masuk untuk mengelola proyek konstruksi Anda
+              </p>
+            </div>
 
             {/* Form login */}
-            <form className="space-y-4">
-              {/* Input email */}
+            <form className="space-y-5">
               <div>
-                <label htmlFor="email" className="block text-m-regular mb-1">
+                <label htmlFor="email" className="block text-s-bold text-neutral-80 mb-2 ml-1">
                   Alamat Email
                 </label>
                 <input
                   id="email"
                   type="email"
-                  placeholder="nama@company.com"
-                  className="w-full border border-neutral-50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-focus"
+                  placeholder="contoh@email.com"
+                  className="w-full bg-neutral-20 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-primary-main transition-all text-neutral-100"
                   required
                 />
               </div>
 
-              {/* Input password */}
               <div>
-                <label htmlFor="password" className="block text-m-regular mb-1">
+                <label htmlFor="password" className="block text-s-bold text-neutral-80 mb-2 ml-1">
                   Kata Sandi
                 </label>
                 <input
                   id="password"
                   type="password"
                   placeholder="••••••••"
-                  className="w-full border border-neutral-50 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-focus"
+                  className="w-full bg-neutral-20 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-primary-main transition-all text-neutral-100"
                   required
                 />
               </div>
 
-              {/* Tombol login */}
+              <div className="flex items-center justify-between px-1">
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <input type="checkbox" className="w-4 h-4 rounded border-neutral-30 text-primary-main focus:ring-primary-main" />
+                  <span className="text-s-regular text-neutral-70 group-hover:text-neutral-100 transition-colors">Ingat saya</span>
+                </label>
+                <a href="#" className="text-s-bold text-primary-main hover:text-primary-hover transition-colors">Lupa sandi?</a>
+              </div>
+
               <button
                 type="button"
                 onClick={() => alert("Login hanya tampilan frontend.")}
-                className="w-full bg-primary-main hover:bg-primary-hover text-l-bold text-neutral-10 py-2 rounded-lg transition-colors shadow-md"
+                className="w-full bg-primary-main hover:bg-primary-hover text-white text-l-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-main/20 active:scale-95"
               >
-                SIGN IN
+                Masuk Sekarang
               </button>
 
-              {/* Link ke halaman daftar */}
-              <p className="text-sm text-center text-neutral-90 mt-3">
+              <p className="text-m-regular text-center text-neutral-70 mt-6">
                 Belum punya akun?{" "}
                 <a
                   href="#"
-                  className="text-m-bold text-primary-main hover:underline "
+                  className="text-m-bold text-primary-main hover:underline"
                 >
-                  Daftar Sekarang
+                  Daftar
                 </a>
               </p>
             </form>
@@ -189,20 +228,18 @@ const Navbar = () => {
       {/* ======= ANIMASI CSS ====== */}
       {/* ========================== */}
       <style>{`
-        /* Animasi muncul overlay (fade-in) */
         @keyframes fadeIn {
           from { opacity: 0 }
           to { opacity: 1 }
         }
 
-        /* Animasi modal muncul dari skala kecil (zoom-in) */
         @keyframes scaleIn {
-          from { transform: scale(0.9); opacity: 0 }
+          from { transform: scale(0.95); opacity: 0 }
           to { transform: scale(1); opacity: 1 }
         }
 
-        .animate-fadeIn { animation: fadeIn 0.25s ease-out forwards }
-        .animate-scaleIn { animation: scaleIn 0.25s ease-out forwards }
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards }
+        .animate-scaleIn { animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards }
       `}</style>
     </>
   );

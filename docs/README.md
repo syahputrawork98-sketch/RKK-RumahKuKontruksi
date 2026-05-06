@@ -21,8 +21,12 @@ Dokumentasi mendalam mengenai implementasi frontend (Vite React).
 - [Next Actions](./frontend/next-actions.md)
 
 ### 3. [Backend](./backend/)
-Catatan mengenai rencana dan implementasi backend (placeholder saat ini).
-- [Backend Notes](./backend/backend-notes.md)
+Blueprint dan perencanaan backend RumahKu Kontruksi (Tahap Perencanaan).
+- [Backend README](./backend/README.md)
+- [Backend Blueprint](./backend/backend-blueprint.md)
+- [Backend To-Do](./backend/backend-todo.md)
+- [API Contract Plan](./backend/api-contract-plan.md)
+- [Workflow Rules](./backend/workflow-rules.md)
 
 ### 4. [Decisions](./decisions/)
 Catatan keputusan arsitektur dan teknis penting (Architecture Decision Records).

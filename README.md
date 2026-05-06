@@ -20,6 +20,7 @@ Kami menggunakan sistem dokumentasi terstruktur untuk mengelola proyek ini:
 - **[Status Frontend](docs/frontend/current-state.md)**
 - **[Audit UI/UX](docs/frontend/ui-ux-audit.md)**
 - **[Rencana Kerja (Roadmap)](docs/project/roadmap.md)**
+- **[Perencanaan Backend](docs/backend/README.md)**
 
 ## Cara Menjalankan Frontend
 

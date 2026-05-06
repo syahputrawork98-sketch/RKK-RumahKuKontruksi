@@ -97,37 +97,53 @@ const CaraKerja = () => {
                 </div>
             </section>
 
-            {/* Steps Section */}
-            <section className="py-20 px-4">
-                <div className="container mx-auto max-w-5xl">
-                    <div className="space-y-12">
-                        {steps.map((step, index) => (
-                            <motion.div 
-                                key={index}
-                                className="flex flex-col md:flex-row items-center md:items-start gap-8 group"
-                                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.5 }}
-                                viewport={{ once: true }}
-                            >
-                                {/* Step Number & Icon */}
-                                <div className="flex-shrink-0">
-                                    <div className="w-20 h-20 rounded-2xl bg-primary-main text-white flex items-center justify-center shadow-lg transform group-hover:rotate-6 transition-transform">
-                                        {step.icon}
-                                    </div>
-                                </div>
+            {/* Steps Timeline Section */}
+            <section className="py-24 px-6 bg-white relative overflow-hidden">
+                <div className="container mx-auto max-w-5xl relative">
+                    {/* Vertical Line for Desktop */}
+                    <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-px bg-neutral-30 hidden md:block"></div>
 
-                                {/* Content */}
-                                <div className="text-center md:text-left bg-white p-8 rounded-3xl border border-neutral-30 shadow-sm hover:shadow-md transition-shadow flex-grow">
-                                    <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-                                        <span className="text-primary-main text-m-bold uppercase tracking-wider">Langkah {index + 1}</span>
-                                        <div className="h-px bg-neutral-30 flex-grow hidden md:block"></div>
+                    <div className="space-y-20">
+                        {steps.map((step, index) => {
+                            const isEven = index % 2 === 0;
+                            return (
+                                <motion.div 
+                                    key={index}
+                                    className={`relative flex flex-col md:flex-row items-center md:items-start gap-12 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse text-right'}`}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                >
+                                    {/* Central Indicator */}
+                                    <div className="absolute left-10 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-primary-main z-10 flex items-center justify-center hidden md:flex">
+                                        <div className="w-2 h-2 rounded-full bg-primary-main"></div>
                                     </div>
-                                    <h3 className="text-heading-m-bold mb-4 text-neutral-100">{step.title}</h3>
-                                    <p className="text-l-regular text-neutral-90 leading-relaxed">{step.desc}</p>
-                                </div>
-                            </motion.div>
-                        ))}
+
+                                    {/* Step Image/Icon Area */}
+                                    <div className={`md:w-1/2 flex ${isEven ? 'justify-center md:justify-end' : 'justify-center md:justify-start'}`}>
+                                        <div className="relative group">
+                                            <div className="absolute inset-0 bg-primary-main/10 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
+                                            <div className="relative w-24 h-24 md:w-32 md:h-32 bg-primary-surface rounded-[32px] flex items-center justify-center text-primary-main border border-primary-main/20 shadow-lg transform group-hover:-rotate-6 transition-all duration-500">
+                                                <div className="text-4xl md:text-5xl">{step.icon}</div>
+                                            </div>
+                                            <div className="absolute -top-4 -right-4 w-10 h-10 bg-primary-main text-white text-s-bold rounded-full flex items-center justify-center shadow-lg">
+                                                0{index + 1}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Step Content Area */}
+                                    <div className="md:w-1/2">
+                                        <div className="bg-neutral-20/50 p-8 md:p-10 rounded-[40px] border border-neutral-30 hover:border-primary-main/30 hover:bg-white transition-all duration-500 hover:shadow-xl group">
+                                            <span className="text-primary-main text-m-bold uppercase tracking-widest mb-4 block">Langkah {index + 1}</span>
+                                            <h3 className="text-heading-m-bold md:text-heading-l-bold mb-4 text-neutral-100 group-hover:text-primary-main transition-colors">{step.title}</h3>
+                                            <p className="text-l-regular text-neutral-80 leading-relaxed">{step.desc}</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

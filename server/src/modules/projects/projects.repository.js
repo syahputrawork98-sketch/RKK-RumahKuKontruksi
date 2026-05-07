@@ -19,6 +19,12 @@ export const findById = async (id) => {
     where: { id },
     include: {
       customer: true,
+      _count: {
+        select: {
+          stages: true,
+          rabPlans: true,
+        }
+      },
       stages: {
         orderBy: { order: 'asc' }
       },
@@ -36,6 +42,31 @@ export const findById = async (id) => {
         }
       }
     },
+  });
+};
+
+export const findByCode = async (projectCode) => {
+  return await prisma.project.findUnique({
+    where: { projectCode },
+  });
+};
+
+export const create = async (data) => {
+  return await prisma.project.create({
+    data,
+  });
+};
+
+export const update = async (id, data) => {
+  return await prisma.project.update({
+    where: { id },
+    data,
+  });
+};
+
+export const remove = async (id) => {
+  return await prisma.project.delete({
+    where: { id },
   });
 };
 

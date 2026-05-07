@@ -27,9 +27,17 @@ Dokumentasi implementasi UI (Vite React) dan integrasi data.
 - [Issues Tracker](./frontend/issues.md)
 - [Next Actions](./frontend/next-actions.md)
 
-### 4. [Decisions (ADR)](./decisions/)
+### 4. [Business Workflow / Alur](./alur/)
+Berisi alur bisnis lintas role dan proses operasional RKK. Folder ini menjadi sumber logika bisnis sebelum alur diturunkan menjadi checklist backend dan frontend.
+- [**Alur Role & Workflow**](./alur/README.md) - Daftar lengkap peran dan alur operasional.
+
+### 5. [Decisions (ADR)](./decisions/)
 Catatan keputusan arsitektur dan teknis penting.
 - [2026-05-06-frontend-source](./decisions/2026-05-06-frontend-source.md)
+
+## Hubungan Dokumentasi
+Dokumentasi disusun mengalir dari konsep bisnis hingga implementasi teknis:
+`Alur Bisnis (docs/alur)` → `Checklist Implementasi (docs/backend/checklist & docs/frontend/checklist)` → `Implementasi Kode (server & client)`
 
 ---
 *Catatan: Project ini mengutamakan stabilitas fungsionalitas lokal sebelum mengimplementasikan sistem autentikasi dan deployment produksi.*

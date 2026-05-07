@@ -2,24 +2,95 @@ import React, { useState } from "react";
 import { FiSave, FiArrowLeft, FiAlertCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
+import React, { useState, useEffect } from "react";
+import { FiSave, FiArrowLeft, FiAlertCircle } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import customerService from "../../services/customerService";
+import supervisorService from "../../services/supervisorService";
+import foremanService from "../../services/foremanService";
+import projectService from "../../services/projectService";
+import RoleDataState from "../../components/common/RoleDataState";
+
 const CreateProyekAdminPage = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        name: "",
-        customer: "",
-        location: "",
-        type: "Rumah Tinggal",
-        budget: "",
-        startDate: "",
-        notes: ""
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState(null);
+    
+    const [options, setOptions] = useState({
+        customers: [],
+        supervisors: [],
+        foremen: []
     });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Submitting Project:", formData);
-        alert("Simulasi: Proyek Berhasil Dibuat!\n(Data dicatat di console log)");
-        navigate("/admin/proyek");
+    const [formData, setFormData] = useState({
+        projectCode: `PRJ-${Date.now().toString().slice(-6)}`,
+        name: "",
+        customerId: "",
+        supervisorId: "",
+        foremanId: "",
+        budget: "",
+        startDate: "",
+        endDate: "",
+        status: "persiapan",
+        progress: 0
+    });
+
+    useEffect(() => {
+        fetchOptions();
+    }, []);
+
+    const fetchOptions = async () => {
+        try {
+            setLoading(true);
+            const [custRes, supRes, forRes] = await Promise.all([
+                customerService.getAllCustomers(),
+                supervisorService.getAllSupervisors(),
+                foremanService.getAllForemen()
+            ]);
+
+            setOptions({
+                customers: custRes.data || [],
+                supervisors: supRes.data || [],
+                foremen: forRes.data || []
+            });
+            setLoading(false);
+        } catch (err) {
+            console.error("Error fetching options:", err);
+            setError("Gagal memuat data pilihan (Customer/Tim).");
+            setLoading(false);
+        }
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setSubmitting(true);
+            
+            // Convert types
+            const payload = {
+                ...formData,
+                customerId: parseInt(formData.customerId),
+                supervisorId: formData.supervisorId ? parseInt(formData.supervisorId) : null,
+                foremanId: formData.foremanId ? parseInt(formData.foremanId) : null,
+                budget: parseFloat(formData.budget),
+                progress: parseInt(formData.progress),
+                remainingAmount: parseFloat(formData.budget),
+                paidAmount: 0
+            };
+
+            await projectService.createProject(payload);
+            alert("Proyek Berhasil Dibuat!");
+            navigate("/admin/proyek");
+        } catch (err) {
+            console.error("Error creating project:", err);
+            alert("Gagal membuat proyek: " + (err.response?.data?.message || err.message));
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    if (loading) return <RoleDataState type="loading" message="Menyiapkan formulir..." />;
 
     return (
         <div className="animate-fadeIn space-y-6">
@@ -41,6 +112,16 @@ const CreateProyekAdminPage = () => {
                     <form onSubmit={handleSubmit} className="dashboard-card space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Kode Proyek</label>
+                                <input 
+                                    required
+                                    type="text" 
+                                    value={formData.projectCode}
+                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm font-bold text-[var(--dashboard-primary)]"
+                                    onChange={(e) => setFormData({...formData, projectCode: e.target.value})}
+                                />
+                            </div>
+                            <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Nama Proyek</label>
                                 <input 
                                     required
@@ -55,34 +136,12 @@ const CreateProyekAdminPage = () => {
                                 <select 
                                     required
                                     className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
-                                    onChange={(e) => setFormData({...formData, customer: e.target.value})}
+                                    onChange={(e) => setFormData({...formData, customerId: e.target.value})}
                                 >
                                     <option value="">Pilih Customer...</option>
-                                    <option value="1">Bpk. Budi Santoso</option>
-                                    <option value="2">Ibu Maria Ulfa</option>
-                                    <option value="3">PT. Maju Jaya</option>
-                                </select>
-                            </div>
-                            <div className="space-y-2 md:col-span-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Lokasi Proyek</label>
-                                <input 
-                                    required
-                                    type="text" 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
-                                    placeholder="Alamat lengkap lokasi konstruksi"
-                                    onChange={(e) => setFormData({...formData, location: e.target.value})}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Tipe Proyek</label>
-                                <select 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
-                                    onChange={(e) => setFormData({...formData, type: e.target.value})}
-                                >
-                                    <option>Rumah Tinggal</option>
-                                    <option>Ruko / Komersial</option>
-                                    <option>Industrial / Gudang</option>
-                                    <option>Renovasi</option>
+                                    {options.customers.map(c => (
+                                        <option key={c.id} value={c.id}>{c.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="space-y-2">
@@ -95,6 +154,33 @@ const CreateProyekAdminPage = () => {
                                     onChange={(e) => setFormData({...formData, budget: e.target.value})}
                                 />
                             </div>
+                            
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Pengawas (Supervisor)</label>
+                                <select 
+                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    onChange={(e) => setFormData({...formData, supervisorId: e.target.value})}
+                                >
+                                    <option value="">Belum Ditugaskan</option>
+                                    {options.supervisors.map(s => (
+                                        <option key={s.id} value={s.id}>{s.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Mandor (Foreman)</label>
+                                <select 
+                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    onChange={(e) => setFormData({...formData, foremanId: e.target.value})}
+                                >
+                                    <option value="">Belum Ditugaskan</option>
+                                    {options.foremen.map(f => (
+                                        <option key={f.id} value={f.id}>{f.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Tanggal Estimasi Mulai</label>
                                 <input 
@@ -104,24 +190,27 @@ const CreateProyekAdminPage = () => {
                                     onChange={(e) => setFormData({...formData, startDate: e.target.value})}
                                 />
                             </div>
-                            <div className="space-y-2 md:col-span-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Catatan Tambahan</label>
-                                <textarea 
-                                    rows="4"
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Estimasi Selesai</label>
+                                <input 
+                                    type="date" 
                                     className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
-                                    placeholder="Kebutuhan khusus atau catatan lapangan..."
-                                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                                ></textarea>
+                                    onChange={(e) => setFormData({...formData, endDate: e.target.value})}
+                                />
                             </div>
                         </div>
 
                         <div className="pt-4 border-t border-[var(--dashboard-border)] flex justify-end">
                             <button 
                                 type="submit"
-                                className="flex items-center gap-2 px-8 py-3 bg-[var(--dashboard-primary)] text-white rounded-2xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all"
+                                disabled={submitting}
+                                className={`
+                                    flex items-center gap-2 px-8 py-3 bg-[var(--dashboard-primary)] text-white rounded-2xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all
+                                    ${submitting ? "opacity-50 cursor-not-allowed" : ""}
+                                `}
                             >
                                 <FiSave />
-                                Simpan Proyek
+                                {submitting ? "Menyimpan..." : "Simpan Proyek"}
                             </button>
                         </div>
                     </form>
@@ -134,8 +223,7 @@ const CreateProyekAdminPage = () => {
                             <div className="space-y-1">
                                 <h4 className="text-xs font-bold text-amber-600 uppercase tracking-wider">Penting</h4>
                                 <p className="text-[10px] leading-relaxed text-amber-700 font-medium">
-                                    Pastikan data customer sudah terdaftar di modul Konsumen sebelum membuat proyek baru. 
-                                    Input budget hanya berupa estimasi kotor; RAB detail akan disusun di modul terpisah.
+                                    Input budget hanya berupa estimasi kotor; RAB detail akan disusun di modul terpisah. Penugasan tim bisa diubah nanti di modul Penugasan Tim.
                                 </p>
                             </div>
                         </div>

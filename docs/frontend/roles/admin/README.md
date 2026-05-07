@@ -1,24 +1,25 @@
 # Role: Admin
 
 ## Status Umum
-Role Admin saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi utama, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur operasional.
+Role Admin saat ini dalam tahap **DB-Backed v1**. Seluruh navigasi utama, dashboard, manajemen proyek, dan penugasan tim telah terintegrasi dengan database lokal (PostgreSQL) melalui API Backend.
 
 ## Fungsi Utama Role
-Admin bertanggung jawab atas manajemen operasional proyek konstruksi secara menyeluruh, mulai dari validasi RAB, penugasan tim lapangan (Pengawas & Mandor), hingga monitoring pembayaran termin konsumen.
+Admin bertanggung jawab atas manajemen operasional proyek konstruksi secara menyeluruh, mulai dari inisialisasi proyek, penugasan tim lapangan (Pengawas & Mandor), hingga monitoring progres dan anggaran (RAB).
 
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/admin/dashboard` | `DashboardAdmin.jsx` | **Done (Mock)** | Dashboard operasional admin. |
-| Manajemen Proyek | `/admin/proyek` | `ProyekAdminPage.jsx` | **Done (Mock)** | List proyek, filter, & status. |
-| Detail Proyek | `/admin/proyek/:id` | `DetailProyekAdminPage.jsx` | **Done (Mock)** | Detail informasi & penugasan. |
-| RAB Proyek | `/admin/rab` | `RabAdminPage.jsx` | **Done (Mock)** | Ringkasan anggaran biaya. |
-| Detail RAB | `/admin/rab/:id` | `DetailRabAdminPage.jsx` | **Done (Mock)** | Struktur RAB 3-level (Plan/Cat/Item). |
-| Pembayaran | `/admin/pembayaran` | `PembayaranAdminPage.jsx` | **Done (Mock)** | Validasi termin konsumen. |
-| Penugasan Tim | `/admin/penugasan-tim` | `PenugasanTimAdminPage.jsx` | **Done (Mock)** | Alokasi Pengawas & Mandor. |
-| Laporan Progress | `/admin/laporan-progress` | `LaporanProgressAdminPage.jsx` | **Done (Mock)** | Monitoring aktivitas lapangan. |
-| Pengaturan | `/admin/pengaturan` | `PengaturanAdminPage.jsx` | **Done (Mock)** | Profil & preferensi tampilan. |
+| Dashboard | `/admin/dashboard` | `DashboardAdmin.jsx` | **DB-Backed v1** | Statistik rill dari database. |
+| Manajemen Proyek | `/admin/proyek` | `ProyekAdminPage.jsx` | **DB-Backed v1** | List proyek rill. |
+| Detail Proyek | `/admin/proyek/:id` | `DetailProyekAdminPage.jsx` | **DB-Backed v1** | Detail & penugasan rill. |
+| Buat Proyek | `/admin/proyek/create` | `CreateProyekAdminPage.jsx` | **DB-Backed v1** | Submit data ke database. |
+| RAB Proyek | `/admin/rab` | `RabAdminPage.jsx` | **DB-Backed v1** | List RAB rill. |
+| Detail RAB | `/admin/rab/:id` | `DetailRabAdminPage.jsx` | **DB-Backed v1** | Read-first dari database. |
+| Penugasan Tim | `/admin/penugasan-tim` | `PenugasanTimAdminPage.jsx` | **DB-Backed v1** | Alokasi Pengawas & Mandor rill. |
+| Pembayaran | `/admin/pembayaran` | `PembayaranAdminPage.jsx` | **Done (Mock)** | Validasi termin (Operational Postponed). |
+| Laporan Progress | `/admin/laporan-progress` | `LaporanProgressAdminPage.jsx` | **Done (Mock)** | Monitoring (Operational Postponed). |
+| Pengaturan | `/admin/pengaturan` | `PengaturanAdminPage.jsx` | **Done (Mock)** | Profil & preferensi. |
 
 ## Komponen Terkait
 - `AdminLayout.jsx`: Sidebar navigasi & Topbar dengan sinkronisasi tema.
@@ -30,22 +31,17 @@ Admin bertanggung jawab atas manajemen operasional proyek konstruksi secara meny
 - **Relasi Staff**: Penugasan mitra (Mandor) dan staff internal (Pengawas).
 
 ## Sudah Dikerjakan
-- [x] Struktur layout dan navigasi sidebar lengkap (7 menu utama).
-- [x] Sinkronisasi tema Light/Dark global.
-- [x] Routing lengkap (10+ route aktif).
-- [x] Halaman shell profesional untuk seluruh modul Admin.
+- [x] Struktur navigasi dropdown-based (Proyek, Tim, Keuangan).
+- [x] Integrasi Dashboard dengan statistik database rill.
+- [x] CRUD Proyek (List, Detail, Create) terkoneksi ke Backend.
+- [x] Manajemen Penugasan Tim terkoneksi ke Database.
+- [x] Read-First RAB dari Database.
 
-## Belum Dikerjakan
-- [ ] Integrasi rill dengan API Backend v0 (Project List, Customer List).
-- [ ] Fitur Create Proyek yang terhubung ke Database.
-- [ ] Fitur Approval Pembayaran rill.
+## Belum Dikerjakan / Postponed
+- [ ] Validasi Pembayaran rill (Menunggu modul Keuangan stabil).
+- [ ] Sinkronisasi Laporan Progress rill (Menunggu modul Lapangan stabil).
+- [ ] Alur approval RAB (Workflow approval).
 
 ## Batasan Saat Ini
-- **UI-Only / Mock-First**: Seluruh data dan aksi masih bersifat simulasi.
-- **No Auth**: Belum ada sistem login/izin akses.
-- **Backend v0**: Sebagian besar API masih bersifat Read-Only atau belum tersedia.
-
-## Prioritas Berikutnya
-1. Integrasi API `GET /api/projects` pada halaman Manajemen Proyek.
-2. Implementasi `POST /api/projects` pada form Buat Proyek.
-3. Sinkronisasi data RAB dengan API `GET /api/projects/:id/rab`.
+- **Operational CRUD Pending**: Modul mendalam seperti input progress harian dan detail transaksi pembayaran masih menggunakan shell/mock sesuai kebijakan postponement.
+- **No Auth**: Masih menggunakan Dev Switcher untuk akses.

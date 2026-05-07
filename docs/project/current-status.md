@@ -38,7 +38,7 @@ Modul operasional Pengawas dan Mandor sengaja ditunda. Modul seperti laporan har
 | **Pengawas** | Backend/Database | DB-Backed v1 | Requires persona, no mock fallback for main data |
 | **Mandor** | Backend/Database | DB-Backed v1 | Requires persona, no mock fallback for main data |
 | **Arsitek** | Backend/Database | DB-Backed v1 | Profile/Dashboard only. Design workflow is Mock-First |
-| **Admin** | Mock/Partial | UI Shell Available | Backend integration pending |
+| **Admin** | Backend/Database | DB-Backed v1 | Dashboard, Projects, RAB (Read), Team Assignments |
 | **Superadmin** | Mock/Partial | UI Shell Available | Backend integration pending |
 | **Konsumen** | Mock/Partial | UI Shell Available | Backend integration pending |
 

@@ -17,36 +17,34 @@ export default [
         href: "/admin/dashboard",
     },
     {
-        type: "item",
+        type: "dropdown",
         icon: FiLayers,
-        label: "Manajemen Proyek",
-        href: "/admin/proyek",
-        activeStartsWith: "/admin/proyek"
+        label: "Proyek",
+        activeStartsWith: "/admin/proyek",
+        items: [
+            { label: "Daftar Proyek", href: "/admin/proyek" },
+            { label: "Buat Proyek", href: "/admin/proyek/create" },
+            { label: "RAB Proyek", href: "/admin/rab" },
+            { label: "Laporan Progress", href: "/admin/laporan-progress" },
+        ],
     },
     {
-        type: "item",
-        icon: FiFileText,
-        label: "RAB Proyek",
-        href: "/admin/rab",
-        activeStartsWith: "/admin/rab"
-    },
-    {
-        type: "item",
-        icon: FiCreditCard,
-        label: "Pembayaran",
-        href: "/admin/pembayaran",
-    },
-    {
-        type: "item",
+        type: "dropdown",
         icon: FiUsers,
-        label: "Penugasan Tim",
-        href: "/admin/penugasan-tim",
+        label: "Tim & Penugasan",
+        activeStartsWith: "/admin/penugasan-tim",
+        items: [
+            { label: "Penugasan Tim", href: "/admin/penugasan-tim" },
+        ],
     },
     {
-        type: "item",
-        icon: FiBarChart2,
-        label: "Laporan Progress",
-        href: "/admin/laporan-progress",
+        type: "dropdown",
+        icon: FiCreditCard,
+        label: "Keuangan",
+        activeStartsWith: "/admin/pembayaran",
+        items: [
+            { label: "Pembayaran", href: "/admin/pembayaran" },
+        ],
     },
     {
         type: "item",

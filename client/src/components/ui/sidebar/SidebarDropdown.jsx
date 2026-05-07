@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
 
-const SidebarDropdown = ({ icon: Icon, label, items, collapsed }) => {
+const SidebarDropdown = ({ icon: Icon, label, items, collapsed, active = false }) => {
     const location = useLocation();
-    const isChildActive = items.some(item => location.pathname === item.href);
+    const isChildActive = active || items.some(item => location.pathname === item.href);
     const [open, setOpen] = useState(isChildActive);
 
     return (

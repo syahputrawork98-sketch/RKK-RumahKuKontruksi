@@ -44,6 +44,34 @@ const projectService = {
    */
   async getProjectRab(id) {
     return apiClient.get(`/projects/${id}/rab`);
+  },
+
+  /**
+   * Create new project
+   * @param {Object} data 
+   * @returns {Promise<Object>}
+   */
+  async createProject(data) {
+    return apiClient.post('/projects', data);
+  },
+
+  /**
+   * Update existing project
+   * @param {string} id 
+   * @param {Object} data 
+   * @returns {Promise<Object>}
+   */
+  async updateProject(id, data) {
+    return apiClient.patch(`/projects/${id}`, data);
+  },
+
+  /**
+   * Delete project (Soft delete usually)
+   * @param {string} id 
+   * @returns {Promise<Object>}
+   */
+  async deleteProject(id) {
+    return apiClient.delete(`/projects/${id}`);
   }
 };
 

@@ -47,13 +47,24 @@ Status: **Database-Backed v1**
 47: - **Design Workflow**: Halaman Permintaan Desain, File Desain, Revisi, dll masih menggunakan mock data karena backend alur kerja desain sengaja ditunda.
 48: - **No Fallback**: Data profil utama dilarang fallback ke mockArchitects.
 
+### 4. Admin
+Status: **Database-Backed v1**
+- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`
+- **Dependency**: Tidak membutuhkan persona context khusus (Global Admin role).
+
+**Behavior UI:**
+- **Dashboard**: Statistik (Total Proyek, Proyek Berjalan, dll) dikalkulasi dari data rill database.
+- **Manajemen Proyek**: CRUD Proyek (List, Detail, Create) ditarik dan dikirim ke API backend.
+- **RAB**: Data RAB (Read-First) ditarik dari database per proyek.
+- **Penugasan Tim**: Data Pengawas dan Mandor pada setiap proyek ditarik rill dari database.
+- **Operational Data**: Laporan Progress dan Pembayaran saat ini masih menggunakan tampilan shell/mock karena backend operasional mendalam sengaja ditunda.
+
 ---
 
 ## Mock-First / Partial Roles (Development Stage)
 
 Role-role berikut masih dalam tahap pengembangan UI shell dan diperbolehkan menggunakan mock data terpusat dari `client/src/data/mock/`:
 
-- **Admin**
 - **Superadmin**
 - **Konsumen**
 

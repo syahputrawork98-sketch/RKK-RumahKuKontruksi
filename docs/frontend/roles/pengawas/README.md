@@ -3,6 +3,9 @@
 ## Status Umum
 Role Pengawas saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi utama, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur monitoring dan verifikasi lapangan.
 
+## Fungsi Utama Role
+Pengawas bertanggung jawab atas monitoring teknis harian di lapangan, melakukan verifikasi terhadap capaian progres yang dilaporkan Mandor, serta mengelola dokumentasi fisik proyek untuk transparansi ke Admin/Konsumen.
+
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
@@ -32,9 +35,14 @@ Role Pengawas saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navi
 - [x] Halaman shell profesional untuk seluruh modul Pengawas.
 
 ## Belum Dikerjakan
-- [ ] Integrasi API Backend (Progress Verification, Reports).
+- [ ] Integrasi API Backend rill (Progress Verification, Reports).
 - [ ] Sistem Checklist Pekerjaan rill per tahapan.
 - [ ] Fitur Sinkronisasi dengan Timeline Konsumen rill.
+
+## Batasan Saat Ini
+- **UI-Only / Mock-First**: Seluruh data dan aksi masih bersifat simulasi.
+- **No Auth**: Belum ada sistem login/izin akses.
+- **Backend v0**: Data belum sinkron dengan database rill.
 
 ## Prioritas Berikutnya
 1. Implementasi alur Verifikasi Progres yang terhubung dengan database.

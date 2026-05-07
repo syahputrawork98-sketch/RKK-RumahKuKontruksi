@@ -1,7 +1,7 @@
 # Role: Konsumen
 
 ## Status Umum
-Role Konsumen merupakan pemilik proyek. Fokus utama peran ini adalah memantau progres pembangunan, mengunduh laporan/RAB, melakukan pembayaran, dan memberikan masukan melalui komentar.
+Role Konsumen saat ini berstatus **Done / Stable UI**. Fokus utama peran ini adalah memantau progres pembangunan melalui timeline premium, transparansi RAB, dan dokumentasi foto harian.
 
 ## Halaman / Route
 

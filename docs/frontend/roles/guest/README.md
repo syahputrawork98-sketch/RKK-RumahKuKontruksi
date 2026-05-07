@@ -1,7 +1,7 @@
 # Role: Guest / Public
 
 ## Status Umum
-Role Guest adalah bagian yang paling matang secara visual. Semua halaman publik telah dipoles menggunakan sistem desain publik yang baru, memastikan tampilan premium dan responsif di semua perangkat.
+Role Guest saat ini berstatus **Done / Stable UI**. Semua halaman publik telah dipoles menggunakan sistem desain premium dan responsif, berfungsi sebagai wajah utama RKK.
 
 ## Halaman / Route
 

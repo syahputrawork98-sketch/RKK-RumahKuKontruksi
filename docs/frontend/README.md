@@ -19,16 +19,12 @@ Selamat datang di dokumentasi teknis frontend project RKK. Dokumentasi ini bertu
 * **Icons**: React Icons (Lucide, Feather, Fi)
 * **State Management**: React Hooks (useState, useEffect)
 
-## Status Implementasi
-
-Saat ini frontend RKK beroperasi dalam mode **UI-Only / Prototype** dengan data mock yang terpusat. 
+Saat ini frontend RKK beroperasi dalam mode **UI-Only / Prototype** dengan data mock yang terpusat. Pengembangan role internal dilakukan dengan pendekatan **Mock-First**, sehingga tidak bergantung pada ketersediaan API rill atau sistem Autentikasi/Login di backend.
 
 **Update 7 Mei 2026**:
 - **Superadmin**: Refined (Theme & Navigation Done).
-- **Admin**: Next Target (Shell/Mock-First).
-- **Integrasi API**: Aktif untuk modul Proyek & Customer (Read-Only).
-
-Pengembangan role Admin akan dilakukan dengan pendekatan **Mock-First**, sehingga tidak bergantung pada ketersediaan API atau sistem Autentikasi/Login di backend.
+- **Admin/Arsitek/Pengawas/Mandor**: Shell Expanded (Navigasi & Dashboard Shell Done).
+- **Integrasi API**: Aktif untuk modul Proyek & Customer (Read-Only) pada backend v0.
 
 ---
 *Terakhir diperbarui: 7 Mei 2026*

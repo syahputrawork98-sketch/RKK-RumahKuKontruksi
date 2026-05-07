@@ -3,6 +3,9 @@
 ## Status Umum
 Role Admin saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi utama, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur operasional.
 
+## Fungsi Utama Role
+Admin bertanggung jawab atas manajemen operasional proyek konstruksi secara menyeluruh, mulai dari validasi RAB, penugasan tim lapangan (Pengawas & Mandor), hingga monitoring pembayaran termin konsumen.
+
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
@@ -28,7 +31,7 @@ Role Admin saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigas
 
 ## Sudah Dikerjakan
 - [x] Struktur layout dan navigasi sidebar lengkap (7 menu utama).
-- [x] Sinkronisasi tema Light/Dark dengan Superadmin.
+- [x] Sinkronisasi tema Light/Dark global.
 - [x] Routing lengkap (10+ route aktif).
 - [x] Halaman shell profesional untuk seluruh modul Admin.
 
@@ -36,6 +39,11 @@ Role Admin saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigas
 - [ ] Integrasi rill dengan API Backend v0 (Project List, Customer List).
 - [ ] Fitur Create Proyek yang terhubung ke Database.
 - [ ] Fitur Approval Pembayaran rill.
+
+## Batasan Saat Ini
+- **UI-Only / Mock-First**: Seluruh data dan aksi masih bersifat simulasi.
+- **No Auth**: Belum ada sistem login/izin akses.
+- **Backend v0**: Sebagian besar API masih bersifat Read-Only atau belum tersedia.
 
 ## Prioritas Berikutnya
 1. Integrasi API `GET /api/projects` pada halaman Manajemen Proyek.

@@ -1,7 +1,7 @@
 # Role: Superadmin
 
 ## Status Umum
-Role Superadmin memiliki otoritas penuh untuk mengelola seluruh user internal, mitra (Mandor & Arsitek), serta monitoring finansial dan progres proyek secara global.
+Role Superadmin saat ini dalam tahap **Partial / Refined Shell**. Layout, sidebar, topbar, dan sistem tema Superadmin telah dipolish dan digunakan sebagai standar referensi desain untuk seluruh dashboard internal role lainnya (Admin, Arsitek, Pengawas, Mandor).
 
 ## Halaman / Route
 

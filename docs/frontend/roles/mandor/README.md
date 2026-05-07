@@ -3,6 +3,9 @@
 ## Status Umum
 Role Mandor saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi harian lapangan, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur logbook harian dan eksekusi tugas.
 
+## Fungsi Utama Role
+Mandor bertanggung jawab atas eksekusi harian di lapangan, manajemen tugas tim teknis, pengisian logbook harian, pelaporan kendala, serta pengajuan kebutuhan material ke Pengawas/Admin.
+
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
@@ -12,7 +15,7 @@ Role Mandor saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh naviga
 | Detail Proyek | `/mandor/proyek-aktif/:id` | `DetailProyekAktifMandorPage.jsx` | **Done (Mock)** | Info tugas, tim, & kendala lapangan. |
 | Tugas Harian | `/mandor/tugas-harian` | `TugasHarianMandorPage.jsx` | **Done (Mock)** | Checklist pekerjaan harian tim teknis. |
 | Laporan Harian | `/mandor/laporan-harian` | `LaporanHarianMandorPage.jsx` | **Done (Mock)** | Logbook harian/catatan kemajuan fisik. |
-| Request Material | `/mandor/request-material` | `RequestMaterialMandorPage.jsx` | **Done (Mock)** | Pengajuan kebutuhan logistik mendesak. |
+| Request Material | `/mandor/request-material` | `RequestMaterialMandorPage.jsx" | **Done (Mock)** | Pengajuan kebutuhan logistik mendesak. |
 | Dokumentasi | `/mandor/dokumentasi` | `DokumentasiLapanganMandorPage.jsx` | **Done (Mock)** | Bukti visual progres harian. |
 | Kendala Lapangan | `/mandor/kendala-lapangan` | `KendalaLapanganMandorPage.jsx` | **Done (Mock)** | Pelaporan hambatan & masalah lapangan. |
 | Pengaturan | `/mandor/pengaturan` | `PengaturanMandorPage.jsx` | **Done (Mock)** | Profil & ringkasan tim binaan. |
@@ -33,9 +36,14 @@ Role Mandor saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh naviga
 - [x] Halaman shell profesional untuk seluruh modul Mandor.
 
 ## Belum Dikerjakan
-- [ ] Integrasi API Backend (Logbook, Material Requests).
-- [ ] Modul Manajemen Tim Internal Mandor.
-- [ ] Fitur Sinkronisasi Offline (PWA/Local Storage) untuk area *low-signal*.
+- [ ] Integrasi API Backend rill (Logbook, Material Requests).
+- [ ] Modul Manajemen Tim Internal Mandor detail.
+- [ ] Fitur Sinkronisasi Offline (PWA/Local Storage).
+
+## Batasan Saat Ini
+- **UI-Only / Mock-First**: Seluruh data dan aksi masih bersifat simulasi.
+- **No Auth**: Belum ada sistem login/izin akses.
+- **Backend v0**: Data belum sinkron dengan database rill.
 
 ## Prioritas Berikutnya
 1. Implementasi alur Laporan Harian (Logbook) yang terhubung ke database.

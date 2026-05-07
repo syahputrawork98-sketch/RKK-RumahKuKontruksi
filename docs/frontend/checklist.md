@@ -67,22 +67,29 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Theme Toggle (Light/Dark)
 
 ## Admin
-- [x] Admin Layout & Sidebar
-- [ ] Project Management Dashboard (Next Target)
+- [x] Admin Layout & Sidebar (Shell Expanded)
+- [x] Dashboard Operasional Admin (Mock)
+- [x] Manajemen Proyek (Mock List & Detail)
 - [ ] Approval Pembayaran
 - [ ] Penjadwalan Proyek Global
 
+## Arsitek
+- [x] Arsitek Layout & Sidebar (Shell Expanded)
+- [x] Dashboard Kapasitas Desain (Mock)
+- [x] Manajemen Permintaan Desain (Mock)
+- [ ] Integrasi rill data Brief Desain
+
 ## Pengawas
-- [x] Pengawas Layout & Sidebar
-- [ ] Monitoring List Proyek Lapangan
+- [x] Pengawas Layout & Sidebar (Shell Expanded)
+- [x] Dashboard Monitoring Lapangan (Mock)
+- [x] Monitoring List Proyek Lapangan (Mock)
 - [ ] Form Verifikasi Tahapan Proyek
-- [ ] Upload Dokumentasi Lapangan
 
 ## Mandor
-- [x] Mandor Layout & Sidebar
-- [ ] Manajemen Tim Lapangan (Summary Vendor)
-- [ ] Laporan Harian (Logbook)
-- [ ] Request Material Proyek
+- [x] Mandor Layout & Sidebar (Shell Expanded)
+- [x] Dashboard Operasional Mandor (Mock)
+- [x] Laporan Harian (Logbook Shell)
+- [ ] Request Material Proyek (Backend Sync)
 
 ---
 *Status: 7 Mei 2026*

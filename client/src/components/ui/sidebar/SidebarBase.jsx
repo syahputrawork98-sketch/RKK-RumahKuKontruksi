@@ -20,18 +20,18 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
 
     return (
         <aside
-            className={`dashboard-sidebar ${isCollapsed ? "w-20" : "w-72"}`}
+            className={`dashboard-sidebar fixed top-0 left-0 h-screen z-50 transition-all duration-300 flex flex-col ${isCollapsed ? "w-20" : "w-72"}`}
         >
             {/* BRAND HEADER */}
-            <div className="flex items-center justify-between px-4 py-6 mb-2 border-b border-[var(--dashboard-sidebar-border)]">
+            <div className="dashboard-sidebar-header flex items-center justify-between px-4 py-6 mb-2">
                 {!isCollapsed ? (
                     <div className="flex items-center gap-3 pl-2">
                         <div className="w-10 h-10 bg-[var(--dashboard-primary)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--dashboard-primary)]/20">
                             <span className="text-xl font-bold text-white tracking-tighter">RK</span>
                         </div>
                         <div className="flex flex-col">
-                            <h1 className="text-lg font-bold leading-none tracking-tight">RKK</h1>
-                            <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest mt-0.5">Superadmin Panel</span>
+                            <h1 className="text-lg font-extrabold leading-none tracking-tight">RKK</h1>
+                            <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest mt-1">Superadmin Panel</span>
                         </div>
                     </div>
                 ) : (
@@ -43,9 +43,9 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                 {!isCollapsed && (
                     <button
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="p-2 hover:bg-white/5 rounded-xl transition text-[var(--dashboard-primary)]"
+                        className="dashboard-icon-button !w-8 !h-8 !bg-transparent border-none hover:!bg-[var(--dashboard-sidebar-hover-bg)]"
                     >
-                        <FiChevronsLeft size={20} />
+                        <FiChevronsLeft size={18} />
                     </button>
                 )}
             </div>
@@ -55,9 +55,9 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                 <div className="flex justify-center mb-6">
                     <button
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="p-2 hover:bg-white/5 rounded-xl transition text-[var(--dashboard-primary)]"
+                        className="dashboard-icon-button !w-8 !h-8 !bg-transparent border-none hover:!bg-[var(--dashboard-sidebar-hover-bg)]"
                     >
-                        <FiChevronsRight size={20} />
+                        <FiChevronsRight size={18} />
                     </button>
                 </div>
             )}
@@ -99,8 +99,8 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
             {/* USER PROFILE CARD */}
             <div className="p-4 border-t border-[var(--dashboard-sidebar-border)]">
                 <div className={`
-                    flex items-center gap-3 p-3 rounded-2xl
-                    ${isCollapsed ? "justify-center" : "bg-white/5 border border-white/5"}
+                    flex items-center gap-3 p-3 rounded-2xl transition-all
+                    ${isCollapsed ? "justify-center" : "bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)]"}
                 `}>
                     <img
                         src={user?.photo ?? "https://placehold.co/200x200"}
@@ -110,7 +110,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
 
                     {!isCollapsed && (
                         <div className="flex-1 overflow-hidden">
-                            <p className="font-bold text-sm truncate text-white">{user?.name ?? "Superadmin"}</p>
+                            <p className="font-bold text-sm truncate text-[var(--dashboard-text)]">{user?.name ?? "Superadmin"}</p>
                             <p className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-wider truncate">
                                 {user?.role ?? "Role"}
                             </p>

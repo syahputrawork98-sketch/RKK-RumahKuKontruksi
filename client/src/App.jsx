@@ -37,6 +37,15 @@ import PlaceholderPage from "./pages/superadmin/PlaceholderPage";
 // ===== HALAMAN ADMIN =====
 import AdminLayout from "./layouts/AdminLayout";
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
+import ProyekAdminPage from "./pages/admin/ProyekAdminPage";
+import CreateProyekAdminPage from "./pages/admin/CreateProyekAdminPage";
+import DetailProyekAdminPage from "./pages/admin/DetailProyekAdminPage";
+import RabAdminPage from "./pages/admin/RabAdminPage";
+import DetailRabAdminPage from "./pages/admin/DetailRabAdminPage";
+import PembayaranAdminPage from "./pages/admin/PembayaranAdminPage";
+import PenugasanTimAdminPage from "./pages/admin/PenugasanTimAdminPage";
+import LaporanProgressAdminPage from "./pages/admin/LaporanProgressAdminPage";
+import PengaturanAdminPage from "./pages/admin/PengaturanAdminPage";
 
 // ===== HALAMAN PENGAWAS =====
 import PengawasLayout from "./layouts/PengawasLayout";
@@ -94,6 +103,15 @@ function App() {
         {/* ================== ADMIN LAYOUT ================== */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<DashboardAdmin />} />
+          <Route path="proyek" element={<ProyekAdminPage />} />
+          <Route path="proyek/create" element={<CreateProyekAdminPage />} />
+          <Route path="proyek/:projectId" element={<DetailProyekAdminPage />} />
+          <Route path="rab" element={<RabAdminPage />} />
+          <Route path="rab/:projectId" element={<DetailRabAdminPage />} />
+          <Route path="pembayaran" element={<PembayaranAdminPage />} />
+          <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
+          <Route path="laporan-progress" element={<LaporanProgressAdminPage />} />
+          <Route path="pengaturan" element={<PengaturanAdminPage />} />
         </Route>
 
         {/* ================== PENGAWAS LAYOUT ================== */}

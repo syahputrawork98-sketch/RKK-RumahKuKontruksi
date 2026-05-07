@@ -1,0 +1,67 @@
+import React from "react";
+import { FiUser, FiMonitor, FiLock, FiInfo } from "react-icons/fi";
+
+const PengaturanAdminPage = () => {
+    return (
+        <div className="animate-fadeIn space-y-6">
+            <div>
+                <h2 className="text-2xl font-extrabold tracking-tight">Pengaturan</h2>
+                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Kelola profil dan preferensi dashboard Anda.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="dashboard-card space-y-6">
+                    <div className="flex items-center gap-3 border-b border-[var(--dashboard-border)] pb-4">
+                        <FiUser className="text-[var(--dashboard-primary)]" size={20} />
+                        <h3 className="font-bold text-sm">Profil Admin</h3>
+                    </div>
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4">
+                            <img src="https://placehold.co/80x80" className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--dashboard-primary)]/20" alt="Avatar" />
+                            <button className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest">Ubah Foto</button>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4">
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Nama Lengkap</label>
+                                <input type="text" readOnly value="Administrator Proyek" className="w-full px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm opacity-70" />
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Email</label>
+                                <input type="text" readOnly value="admin@rkk.co.id" className="w-full px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm opacity-70" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="dashboard-card space-y-6">
+                    <div className="flex items-center gap-3 border-b border-[var(--dashboard-border)] pb-4">
+                        <FiMonitor className="text-[var(--dashboard-primary)]" size={20} />
+                        <h3 className="font-bold text-sm">Preferensi Tampilan</h3>
+                    </div>
+                    <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex gap-3">
+                        <FiInfo className="text-amber-500 shrink-0 mt-0.5" />
+                        <p className="text-[10px] font-medium text-amber-700 leading-relaxed">
+                            Tema (Light/Dark Mode) saat ini dikelola secara global melalui Topbar. Pilihan Anda akan tersimpan di penyimpanan lokal browser.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="dashboard-card md:col-span-2 border-dashed border-2 border-[var(--dashboard-border)] bg-transparent">
+                    <div className="flex flex-col items-center justify-center py-8 text-center space-y-3">
+                        <div className="w-12 h-12 rounded-full bg-slate-500/10 flex items-center justify-center text-slate-500">
+                            <FiLock size={24} />
+                        </div>
+                        <div>
+                            <h4 className="text-sm font-bold uppercase tracking-widest">Keamanan & Autentikasi</h4>
+                            <p className="text-xs text-[var(--dashboard-text-soft)] mt-1">
+                                Fitur penggantian password dan manajemen sesi akan tersedia setelah modul **Backend Auth** diimplementasikan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default PengaturanAdminPage;

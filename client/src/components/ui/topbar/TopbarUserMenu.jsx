@@ -40,7 +40,7 @@ const TopbarUserMenu = ({ user, open, onToggle }) => {
                     </a>
                     <div className="border-t border-[var(--dashboard-border)] my-1" />
 
-                    <a href="/logout" className="flex items-center gap-3 px-4 py-2 text-sm text-[var(--dashboard-danger)] hover:bg-red-50 transition">
+                    <a href="/logout" className="flex items-center gap-3 px-4 py-2 text-sm text-[var(--dashboard-danger)] hover:bg-[var(--dashboard-danger)]/5 transition">
                         <FiLogOut />
                         Logout
                     </a>

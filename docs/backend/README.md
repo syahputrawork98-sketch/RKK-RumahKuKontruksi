@@ -21,13 +21,29 @@ Backend saat ini beroperasi sebagai **Core Data Service** untuk lingkungan penge
 | **Auth** | `/api/auth` | **NOT IMPLEMENTED** | Ditunda untuk fokus pada integrasi data |
 
 ## Not Implemented Yet
-Fitur-fitur berikut masih dalam antrean pengembangan:
+Fitur-fitur berikut masih dalam antrean pengembangan dan sengaja ditunda:
 - Sistem Autentikasi (Login/JWT/Session) asli.
 - Role Guard & Permission di sisi server.
-- Modul Operasional (Laporan Harian, Request Material, Kendala).
+- Modul Operasional (Laporan Harian, Laporan Mingguan, Request Material, Kendala, Verifikasi).
 - Sistem Notifikasi Real-time.
 - Sistem Penyimpanan File/Upload Dokumentasi.
 - Hardening untuk lingkungan produksi.
+
+## Postponed Operational Modules
+
+The following modules are intentionally not implemented yet:
+- daily reports
+- weekly reports
+- material requests
+- field issues
+- documentation uploads
+- daily tasks
+- progress verification workflow
+
+### Reason
+These modules depend on a stable Project/Stage/Progress/RAB workflow and will be designed later to avoid data model mismatch and rework.
+
+*Modul operasional ini belum dibuat secara sengaja karena membutuhkan desain relasi yang matang dengan Project, Stage, Progress, RAB, dan workflow lapangan. Modul ini akan dikerjakan setelah struktur Project lebih stabil.*
 
 ## Technology Stack
 - **Runtime**: Node.js (ES Modules)

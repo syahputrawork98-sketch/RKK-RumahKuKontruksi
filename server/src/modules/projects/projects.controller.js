@@ -1,5 +1,6 @@
 import * as ProjectRepository from './projects.repository.js';
 import * as CustomerRepository from '../customers/customers.repository.js';
+import * as AdminRepository from '../admins/admins.repository.js';
 import { serializeDecimal } from '../../utils/decimalHelper.js';
 
 export const getProjects = async (req, res, next) => {
@@ -92,7 +93,7 @@ export const getProjectRab = async (req, res, next) => {
 
 export const createProject = async (req, res, next) => {
   try {
-    const { projectCode, name, customerId, startDate, estimatedEndDate, ...rest } = req.body;
+    const { projectCode, name, customerId, adminId, startDate, estimatedEndDate, ...rest } = req.body;
 
     // Validation
     if (!projectCode || !name || !customerId) {
@@ -109,6 +110,17 @@ export const createProject = async (req, res, next) => {
         success: false,
         message: 'Customer not found',
       });
+    }
+
+    // Check admin capacity if assigned
+    if (adminId) {
+      const activeProjectsCount = await AdminRepository.countActiveProjects(adminId);
+      if (activeProjectsCount >= 3) {
+        return res.status(400).json({
+          success: false,
+          message: 'Admin ini sudah menangani maksimal 3 proyek aktif.'
+        });
+      }
     }
 
     // Check duplicate code
@@ -147,6 +159,7 @@ export const createProject = async (req, res, next) => {
       projectCode,
       name,
       customerId,
+      adminId: adminId || null,
       type: rest.type || 'Pembangunan',
       status: rest.status || 'planning',
       startDate: startDate ? new Date(startDate) : null,
@@ -166,7 +179,7 @@ export const createProject = async (req, res, next) => {
 export const updateProject = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { projectCode, customerId, startDate, estimatedEndDate, ...data } = req.body;
+    const { projectCode, customerId, adminId, startDate, estimatedEndDate, ...data } = req.body;
 
     // Check project existence
     const project = await ProjectRepository.findById(id);
@@ -187,6 +200,20 @@ export const updateProject = async (req, res, next) => {
         });
       }
       data.customerId = customerId;
+    }
+
+    // Check admin capacity if changing or assigning for the first time
+    if (adminId && adminId !== project.adminId) {
+      const activeProjectsCount = await AdminRepository.countActiveProjects(adminId);
+      if (activeProjectsCount >= 3) {
+        return res.status(400).json({
+          success: false,
+          message: 'Admin ini sudah menangani maksimal 3 proyek aktif.'
+        });
+      }
+      data.adminId = adminId;
+    } else if (adminId === null) {
+      data.adminId = null;
     }
 
     // Check duplicate code if changing

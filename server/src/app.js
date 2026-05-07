@@ -5,6 +5,8 @@ import projectRoutes from './modules/projects/projects.routes.js';
 import supervisorRoutes from './modules/supervisors/supervisors.routes.js';
 import foremanRoutes from './modules/foremen/foremen.routes.js';
 import architectRoutes from './modules/architects/architects.routes.js';
+import adminRoutes from './modules/admins/admins.routes.js';
+import superadminRoutes from './modules/superadmins/superadmins.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -23,6 +25,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/supervisors', supervisorRoutes);
 app.use('/api/foremen', foremanRoutes);
 app.use('/api/architects', architectRoutes);
+app.use('/api/admins', adminRoutes);
+app.use('/api/superadmins', superadminRoutes);
 
 // Error Handler
 app.use(errorHandler);

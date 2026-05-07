@@ -6,6 +6,7 @@ import ThemeToggle from "../theme/ThemeToggle";
 import TopbarUserMenu from "./TopbarUserMenu";
 import TopbarNotification from "./TopbarNotification";
 import SupervisorSwitcher from "./SupervisorSwitcher";
+import ForemanSwitcher from "./ForemanSwitcher";
 
 const TopbarBase = ({
     title,
@@ -15,7 +16,8 @@ const TopbarBase = ({
     isCollapsed,
     theme,
     onToggleTheme,
-    showSupervisorSwitcher = false // TAMBAHAN PROP
+    showSupervisorSwitcher = false,
+    showForemanSwitcher = false
 }) => {
 
     const [openMenu, setOpenMenu] = useState(false);
@@ -58,6 +60,7 @@ const TopbarBase = ({
 
                 {/* PERSONA SWITCHER (DEV ONLY) */}
                 {showSupervisorSwitcher && <SupervisorSwitcher />}
+                {showForemanSwitcher && <ForemanSwitcher />}
             </div>
 
             <div className="flex items-center gap-4 mr-8">

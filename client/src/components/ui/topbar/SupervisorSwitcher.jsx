@@ -32,9 +32,10 @@ const SupervisorSwitcher = () => {
 
       <select 
         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-        value={selectedSupervisorId}
+        value={selectedSupervisorId || ''}
         onChange={(e) => setSelectedSupervisorId(e.target.value)}
       >
+        <option value="" disabled>Pilih Pengawas...</option>
         {supervisors.map(s => (
           <option key={s.id} value={s.id}>
             {s.name} — {s._count?.projects || 0} Proyek

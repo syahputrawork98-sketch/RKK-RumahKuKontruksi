@@ -1,6 +1,6 @@
 # Frontend Checklist
 
-Checklist frontend adalah turunan dari [docs/alur](../alur/README.md) ke kebutuhan UI/client.
+Checklist frontend adalah turunan dari [docs/alur](../../alur/README.md) ke kebutuhan UI/client.
 
 Checklist ini belum berarti semua UI harus langsung dibuat. Checklist ini menjadi blueprint saat implementasi frontend dimulai.
 
@@ -15,8 +15,57 @@ Setiap checklist harus menjawab:
 - **Form & Validation**: Aturan input di sisi client.
 - **Integrasi API**: Service/API yang diperlukan.
 
+## Standar Checklist Atomik
+
+Setiap checklist frontend sebaiknya tidak hanya mencatat route dan component umum, tetapi juga menurunkan workflow menjadi kontrak UI yang lebih detail.
+
+Tambahkan bagian berikut secara bertahap pada setiap checklist workflow:
+
+### Page Contract
+Menjelaskan halaman, route, actor, tujuan halaman, dan sumber data.
+
+### Component Contract
+Menjelaskan komponen, penggunaan, data/props, dan catatan perilaku.
+
+### Service Mapping
+Menjelaskan action UI ke service/API yang dipanggil.
+
+### Role Visibility Matrix
+Menjelaskan elemen UI yang terlihat/tersembunyi berdasarkan role.
+
+### UI State Contract
+Menjelaskan empty, loading, error, success, revision, locked, readonly state.
+
+### Acceptance Criteria
+Menjelaskan kondisi minimal agar UI dianggap selesai.
+
+## Template Frontend Checklist Atomik
+
+### Page Contract
+| Page | Route | Actor | Purpose | Data Source |
+|---|---|---|---|---|
+
+### Component Contract
+| Component | Used By | Data / Props | Notes |
+|---|---|---|---|
+
+### Service Mapping
+| UI Action | Service/API | Success State | Error State |
+|---|---|---|---|
+
+### Role Visibility Matrix
+| UI Element | Admin | Pengawas | Mandor | Konsumen | Notes |
+|---|---|---|---|---|---|
+
+### UI State Contract
+| State | Trigger | UI Behavior |
+|---|---|---|
+
+### Acceptance Criteria
+- [ ] ...
+
 ## Urutan Baca
-1. [**Business Workflow**](../alur/README.md)
+1. [**Business Workflow**](../../alur/README.md)
 2. [**Role Data Source Status**](../role-data-source-status.md)
 3. [**Route Inventory**](../route-inventory.md)
 4. [**Frontend Roles Documentation**](../roles/README.md)

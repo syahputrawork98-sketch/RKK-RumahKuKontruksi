@@ -10,32 +10,55 @@
 ## Tujuan Backend
 Menyediakan mekanisme bagi Pengawas untuk memverifikasi progres fisik di lapangan yang menjadi sumber kebenaran data (*Single Source of Truth*) bagi seluruh sistem.
 
-## Entity / Model
-- [ ] Field `verifiedProgress` pada model `Project` atau `Stage`.
-- [ ] Model `ProgressVerificationLog` untuk mencatatUserID, Timestamp, Progres, dan Catatan.
+## Database Contract
+| Model/Table | Purpose | Required Fields | Optional Fields | Relations | Notes |
+|---|---|---|---|---|---|
+| `Project` | Update progress resmi | `verifiedProgress` (Float) | - | - | Simpan status terakhir |
+| `ProgressVerificationLog` | Riwayat verifikasi | `id`, `projectId`, `supervisorId`, `previousProgress`, `newProgress`, `notes`, `createdAt` | `stageId`, `sourceJournalId`, `evidencePhotoId` | `Project`, `Supervisor` | **Soft Delete Only** |
 
-## API / Service
-- [ ] `PATCH /api/projects/:id/verify-progress`: Update progres resmi oleh Pengawas.
-- [ ] `GET /api/projects/:id/progress-history`: Riwayat verifikasi progres.
+## Enum / Status
+| Enum | Values | Notes |
+|---|---|---|
+| `ProjectProgressStatus` | `not_started`, `in_progress`, `on_hold`, `completed` | Status siklus proyek |
+| `ProgressVerificationAction` | `verify`, `revise`, `rollback_request` | Aksi saat verifikasi |
 
-## Status Flow
-- [ ] Angka progres bersifat kumulatif (tidak boleh turun tanpa intervensi Admin).
-- [ ] Update progres memicu kemungkinan publikasi ke Konsumen.
+## API Contract
+| Method | Endpoint | Actor | Purpose | Request Body | Response | Error |
+|---|---|---|---|---|---|---|
+| `PATCH` | `/api/projects/:id/verify-progress` | Pengawas Assigned | Update progress resmi | `{ verifiedProgress, notes, stageId? }` | Project Updated + Log Entry | 403 (Non-assigned), 400 (Invalid range) |
+| `GET` | `/api/projects/:id/progress-history` | Admin / Pengawas Assigned | Melihat riwayat progress | - | List of `ProgressVerificationLog` | 403 (Unauthorized) |
 
-## Business Rules
-- [ ] **Single Source of Truth**: Hanya progres terverifikasi Pengawas yang diakui sebagai progres resmi proyek.
-- [ ] Progres pembayaran Mandor tidak boleh melebihi progres verifikasi ini.
+## Status Transition Matrix
+| From | Action | Actor | To | Rule |
+|---|---|---|---|---|
+| `in_progress` | `verify` | Assigned Pengawas | `in_progress` | Update `verifiedProgress` |
+| `in_progress` | `progress 100` | Assigned Pengawas | `completed` (Candidate) | Membutuhkan review Admin untuk status final |
+| `completed` / `closed` | `verify` | - | - | **Forbidden** (Read-only) |
 
-## Permission / Role Rules
-- [ ] Hanya **Pengawas** yang ditugaskan ke proyek tersebut yang bisa melakukan verifikasi.
-- [ ] **Admin** hanya memiliki akses baca riwayat.
+## Allowed Action Matrix
+| Role | Status/Condition | Allowed Actions | Forbidden Actions |
+|---|---|---|---|
+| Pengawas Assigned | `in_progress` | `verify progress`, `add notes` | Delete logs |
+| Pengawas Non-assigned | Any | `view` (Internal) | `verify progress` |
+| Mandor | `in_progress` | `view verified progress`, `submit claim` | `change verified progress` |
+| Admin | Any | `view history`, `publish to customer` | `change field progress` |
+| Konsumen | Any | `view published progress` | `view internal claim` |
 
-## Validation
-- [ ] Input progres wajib di antara 0% - 100%.
-- [ ] Wajib menyertakan catatan verifikasi teknis.
+## Validation & Error Rules
+| Rule | Error Message / Code | Notes |
+|---|---|---|
+| Range Check | `Progress must be between 0-100` | HTTP 400 |
+| Decrement Check | `Progress cannot decrease without admin override` | Cegah manipulasi data |
+| Notes Length | `Notes must be at least 10 characters` | Wajib alasan teknis |
+| Assignment Check | `You are not assigned to this project` | HTTP 403 |
+| Status Check | `Project is not in active state` | HTTP 400 |
 
-## Audit Trail / History
-- [ ] Catat setiap perubahan progres: userID, Timestamp, Angka Lama, Angka Baru, Catatan.
+## Acceptance Criteria
+- [ ] Progress resmi hanya bisa diubah oleh Pengawas yang ditugaskan (*Assigned*).
+- [ ] Setiap perubahan progress secara otomatis membuat entri di `ProgressVerificationLog`.
+- [ ] Modul pembayaran (*Payment*) dan Dashboard Konsumen hanya membaca data dari `verifiedProgress`.
+- [ ] Mandor tidak memiliki izin untuk mengubah `verifiedProgress`.
+- [ ] Admin bertindak sebagai pemantau dan publikator, bukan pembuat progress lapangan.
 
 ## Integrasi dengan Alur Lain
 - [ ] Dasar untuk [Payment Foreman](./payment-foreman.md).

@@ -9,22 +9,26 @@ Menjadi peta besar implementasi **RumahKu Konstruksi (RKK)** setelah sinkronisas
 3. [**Frontend Data Source Policy**](../frontend/role-data-source-status.md): Aturan penggunaan data (DB vs Mock).
 4. [**Implementation Checklist**](../backend/checklist/README.md) & [**Frontend Checklist**](../frontend/checklist/README.md): Panduan teknis per alur kerja.
 
-## Status Label & Definisi
-Untuk menjaga kejujuran status implementasi, gunakan label berikut:
-- **DB-Backed v1**: Sudah terhubung ke database rill melalui API (Stable).
-- **Partial**: Sebagian data rill, sebagian masih mock/placeholder.
-- **Shell / Static**: UI sudah ada, namun data masih bersifat simulasi/manual.
-- **Mock-First**: Masih menggunakan data dummy dari repositori `mock/`.
-- **Experimental Backend Draft**: Terhubung ke backend yang masih dalam tahap draf/uji coba (Belum final).
-- **Backend Pending**: UI sudah siap, namun menunggu implementasi API operasional.
-- **Postponed / Do Not Build Yet**: Pengembangan modul ditunda secara sengaja.
+## Tingkat Kesiapan Dokumentasi
 
-## Prinsip Utama Implementasi
-- **Progres Resmi**: Hanya berasal dari **Verifikasi Pengawas**.
-- **Data Progres Mandor**: Bersifat "Klaim" atau aktivitas harian, bukan kebenaran data proyek.
-- **Pembayaran Mandor**: Wajib merujuk pada progres yang sudah diverifikasi Pengawas.
-- **Dashboard Konsumen**: Hanya menampilkan progres yang telah **Dipublikasikan oleh Admin** setelah diverifikasi Pengawas.
-- **Material Request**: Berstatus **Experimental**. Kode yang ada saat ini adalah basis awal, bukan alur produksi final.
+Untuk memastikan implementasi yang presisi, dokumentasi dibagi menjadi tiga tingkat kedalaman:
+
+- **Level 1 - Blueprint**: Dokumen menjelaskan arah besar, status, dan prinsip (e.g. `implementation-blueprint.md`).
+- **Level 2 - Checklist**: Dokumen menjelaskan kebutuhan backend/frontend per workflow secara umum.
+- **Level 3 - Implementation Contract**: Dokumen detail yang mencakup Database Contract, API Contract, Status Matrix, Role/Action Matrix, UI Contract, dan Acceptance Criteria.
+
+Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke Level 3 secara bertahap.
+
+## Workflow Prioritas (Target Level 3)
+1. **Project Progress Source of Truth** (Level 3 - Active Example)
+2. **Jurnal Mingguan Mandor** (Level 2 -> Level 3 Target)
+3. **Laporan Mingguan Pengawas** (Level 2 -> Level 3 Target)
+4. **Progress to Customer** (Level 2 -> Level 3 Target)
+5. **Payment Foreman** (Level 2 -> Level 3 Target)
+6. **Material Request Finalization** (Experimental -> Level 3 Target)
+
+> [!NOTE]
+> Jangan semua workflow dipaksa detail sekaligus untuk menghindari kontradiksi. Project Progress menjadi prioritas utama karena merupakan dasar dari modul payment, laporan, dan publikasi konsumen.
 
 ## Peta Jalan Prioritas (Workflow Order)
 1. **Project Progress SOT**: Implementasi model verifikasi progres resmi.

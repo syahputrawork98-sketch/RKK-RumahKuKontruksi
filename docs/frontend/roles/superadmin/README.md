@@ -1,35 +1,38 @@
 # Role: Superadmin
 
 ## Status Umum
-Role Superadmin sudah memiliki struktur navigasi dan manajemen data dasar (Admin, Pengawas, Mandor). Fokus saat ini adalah pengisian data mock agar tabel tidak terlihat kosong dan penambahan fitur statistik global.
+Role Superadmin memiliki otoritas penuh untuk mengelola seluruh user internal, mitra (Mandor & Arsitek), serta monitoring finansial dan progres proyek secara global.
 
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/superadmin/dashboard` | `DashboardSuperadmin.jsx` | **Partial** | Perlu widget statistik tambahan. |
-| Data Admin | `/superadmin/data-admin` | `DataAdminPage.jsx` | **Shell** | Tabel manajemen admin. |
-| Data Pengawas | `/superadmin/data-pengawas` | `DataPengawasPage.jsx` | **Shell** | Tabel manajemen pengawas. |
-| Data Mandor | `/superadmin/data-mandor` | `DataMandorPage.jsx` | **Shell** | Tabel manajemen mandor. |
+| Dashboard | `/superadmin/dashboard` | `DashboardSuperadmin.jsx` | **Done** | Statistik global & monitoring cepat. |
+| Data Admin | `/superadmin/data-admin` | `DataAdminPage.jsx` | **Shell** | Manajemen staff internal. |
+| Data Pengawas | `/superadmin/data-pengawas` | `DataPengawasPage.jsx` | **Shell** | Manajemen pengawas lapangan. |
+| Data Mandor | `/superadmin/data-mandor` | `DataMandorPage.jsx` | **Shell** | Manajemen mitra mandor. |
+| Data Arsitek | `/superadmin/data-arsitek` | `PlaceholderPage` | **Placeholder** | Manajemen mitra arsitek. |
+| Pembayaran | `/superadmin/pembayaran/*` | `PlaceholderPage` | **Placeholder** | Monitoring arus kas keluar/masuk. |
+
+## Business Terminology (Penting)
+- **Tukang/Pekerja**: RKK tidak mengelola data tukang secara individu di sistem utama. Semua pekerja lapangan direpresentasikan melalui **Mandor** atau **Mitra Mandor**.
+- **Mitra Arsitek**: Mengelola fee desain dan progres gambar pra-konstruksi.
 
 ## Komponen Terkait
-- `SuperAdminLayout.jsx`: Sidebar dengan akses penuh ke manajemen user.
+- `SuperAdminLayout.jsx`: Sidebar dengan akses penuh ke manajemen user & finansial.
+- `DashboardStats.jsx`: Widget statistik responsif (5 cards).
 
 ## Data / Mock Data
-- **Centralized Staff Tables**: Menggunakan `mockAdmins`, `mockSupervisors`, dan `mockForemen`.
-- **Cross-Project RAB**: Superadmin dapat melihat struktur dan ringkasan RAB 3 tingkat dari seluruh proyek.
-- **System Settings**: Mengelola definisi role dan permission sistem.
+- **Centralized Staff Tables**: Menggunakan `mockAdmins`, `mockSupervisors`, `mockForemen`, dan `mockArchitects`.
+- **System Settings**: Mengelola parameter sistem dan log aktivitas.
 
 ## Sudah Dikerjakan
-- [x] Struktur layout dengan sidebar dan header.
-- [x] Routing dasar untuk semua manajemen entitas.
-- [x] Tampilan tabel awal.
+- [x] Struktur layout dengan sidebar dan header bertema (Light/Dark).
+- [x] Dashboard stats terintegrasi (Proyek, Klien, Mandor, Arsitek).
+- [x] Routing namespace `/superadmin/` yang konsisten.
+- [x] Placeholder untuk modul-modul ekspansi.
 
 ## Belum Dikerjakan
-- [ ] Form Create/Update untuk data admin, pengawas, dan mandor.
-- [ ] Fitur aktivasi/deaktivasi akun user.
-- [ ] Visualisasi grafik pertumbuhan proyek di dashboard.
-
-## Prioritas Berikutnya
-1. Implementasi CRUD modal/page untuk manajemen staff.
-2. Sinkronisasi data mock staf agar selaras dengan data tim di `projects.js`.
+- [ ] Implementasi CRUD rill untuk Manajemen User.
+- [ ] Integrasi data pembayaran rill.
+- [ ] Visualisasi grafik pertumbuhan di dashboard.

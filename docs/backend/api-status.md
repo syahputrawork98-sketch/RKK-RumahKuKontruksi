@@ -65,6 +65,25 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /foremen/experiences/:experienceId`: Update pengalaman.
 - `DELETE /foremen/experiences/:experienceId`: Hapus pengalaman.
 
+## Architects
+- `GET /architects`: Ambil semua data Arsitek.
+- `GET /architects/:id`: Ambil detail Arsitek.
+- `POST /architects`: Tambah Arsitek baru.
+- `PATCH /architects/:id`: Update profil Arsitek.
+- `DELETE /architects/:id`: Hapus Arsitek (Soft delete).
+
+### Certificates (Architect)
+- `GET /architects/:id/certificates`: List sertifikat arsitek.
+- `POST /architects/:id/certificates`: Tambah sertifikat.
+- `PATCH /architects/certificates/:certificateId`: Update sertifikat.
+- `DELETE /architects/certificates/:certificateId`: Hapus sertifikat.
+
+### Experiences (Architect)
+- `GET /architects/:id/experiences`: List pengalaman arsitek.
+- `POST /architects/:id/experiences`: Tambah pengalaman.
+- `PATCH /architects/experiences/:experienceId`: Update pengalaman.
+- `DELETE /architects/experiences/:experienceId`: Hapus pengalaman.
+
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
 
@@ -79,6 +98,9 @@ The following APIs are intentionally postponed and should not be implemented bef
 - `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
 - `POST /progress-verifications`: Verifikasi progres oleh pengawas (NOT IMPLEMENTED)
 - `GET/POST /tasks`: Manajemen tugas harian (NOT IMPLEMENTED)
+- `GET/POST /design-requests`: Permintaan desain (NOT IMPLEMENTED)
+- `GET/POST /design-files`: Upload file desain (NOT IMPLEMENTED)
+- `GET/POST /design-revisions`: Manajemen revisi desain (NOT IMPLEMENTED)
 
 *These endpoints are intentionally postponed to ensure data consistency with the core Project and RAB modules.*
 

@@ -34,6 +34,18 @@ Status: **Database-Backed v1**
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
 - **Operational Data**: Bagian operasional (Tugas Harian, Laporan Harian) saat ini masih menggunakan tampilan statis karena backend modul tersebut sengaja ditunda.
 - **Operational Status**: Operational pages seperti tugas harian, laporan harian, request material, dokumentasi, dan kendala lapangan belum dibuat backend operasionalnya. Halaman tersebut belum menjadi target CRUD sekarang dan akan dibahas setelah struktur Project/Progress/RAB stabil.
+37: 
+38: ### 3. Arsitek / Architect
+39: Status: **Database-Backed v1**
+40: - **Context**: `ArchitectPersonaContext`
+41: - **Services**: `architectService`
+42: - **Dependency**: Membutuhkan seleksi persona melalui `ArchitectSwitcher` (Dev Mode).
+43: 
+44: **Behavior UI:**
+45: - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
+46: - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
+47: - **Design Workflow**: Halaman Permintaan Desain, File Desain, Revisi, dll masih menggunakan mock data karena backend alur kerja desain sengaja ditunda.
+48: - **No Fallback**: Data profil utama dilarang fallback ke mockArchitects.
 
 ---
 
@@ -43,7 +55,6 @@ Role-role berikut masih dalam tahap pengembangan UI shell dan diperbolehkan meng
 
 - **Admin**
 - **Superadmin**
-- **Arsitek**
 - **Konsumen**
 
 *Catatan: Migrasi ke database untuk role ini akan dilakukan secara bertahap setelah modul operasional Pengawas & Mandor stabil.*
@@ -53,7 +64,7 @@ Role-role berikut masih dalam tahap pengembangan UI shell dan diperbolehkan meng
 ## Aturan Penggunaan Mock Data
 Untuk menghindari kerancuan data selama pengembangan:
 
-1. **Mock Data untuk Pengawas/Mandor**:
+1. **Mock Data untuk Pengawas/Mandor/Arsitek**:
     - **BOLEH**: Digunakan untuk *Seeding* database lokal (`npm run db:seed`).
     - **BOLEH**: Digunakan sebagai referensi struktur objek data di komponen UI.
     - **TIDAK BOLEH**: Digunakan sebagai fallback data jika API backend kosong atau error.

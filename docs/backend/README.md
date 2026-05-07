@@ -18,6 +18,7 @@ Backend saat ini beroperasi sebagai **Core Data Service** untuk lingkungan penge
 | **Projects** | `/api/projects` | CRUD/Filter Available | Mendukung filter `supervisorId` dan `foremanId` |
 | **Supervisors** | `/api/supervisors` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
 | **Foremen** | `/api/foremen` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
+| **Architects** | `/api/architects` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
 | **Auth** | `/api/auth` | **NOT IMPLEMENTED** | Ditunda untuk fokus pada integrasi data |
 
 ## Not Implemented Yet
@@ -25,8 +26,9 @@ Fitur-fitur berikut masih dalam antrean pengembangan dan sengaja ditunda:
 - Sistem Autentikasi (Login/JWT/Session) asli.
 - Role Guard & Permission di sisi server.
 - Modul Operasional (Laporan Harian, Laporan Mingguan, Request Material, Kendala, Verifikasi).
+- Alur Kerja Desain (Design Request, Design File, Design Revision, Design Review).
 - Sistem Notifikasi Real-time.
-- Sistem Penyimpanan File/Upload Dokumentasi.
+- Sistem Penyimpanan File/Upload Dokumentasi & Desain.
 - Hardening untuk lingkungan produksi.
 
 ## Postponed Operational Modules
@@ -39,6 +41,10 @@ The following modules are intentionally not implemented yet:
 - documentation uploads
 - daily tasks
 - progress verification workflow
+- design requests
+- design files
+- design revisions
+- design comments/reviews
 
 ### Reason
 These modules depend on a stable Project/Stage/Progress/RAB workflow and will be designed later to avoid data model mismatch and rework.

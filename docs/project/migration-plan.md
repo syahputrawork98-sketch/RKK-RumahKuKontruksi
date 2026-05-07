@@ -27,11 +27,13 @@ Rencana strategis migrasi pengembangan dari *Mock-First UI* menuju *Database-Bac
     - Projects (Read/Filter)
     - Supervisors (Profile, Certs, Exp)
     - Foremen (Profile, Certs, Exp)
+    - Architects (Profile, Certs, Exp)
 - [ ] Stabilisasi relasi antar model (Projects, Stages, RAB).
 
 ### Tahap 4: Local Role Integration (CURRENT)
 - [x] Migrasi Role **Pengawas** ke Database-Backed v1.
 - [x] Migrasi Role **Mandor** ke Database-Backed v1.
+- [x] Migrasi Role **Arsitek** ke Database-Backed v1 (Profil/Dashboard).
 - [x] Implementasi Persona Selector (Dev Mode) untuk simulasi login lokal.
 - [x] Implementasi RolePersonaEmptyState & RoleDataState (Empty/Error Handling).
 - [ ] QA lokal persona/data/error states untuk memastikan zero mock fallback.
@@ -48,7 +50,10 @@ Rencana strategis migrasi pengembangan dari *Mock-First UI* menuju *Database-Bac
     - Field Issues (Kendala Lapangan)
     - Task Management (Tugas Harian)
     - Progress Verification (Verifikasi Progres)
-- [ ] Integrasi upload dokumentasi foto/file.
+- [ ] Implementasi alur kerja desain Arsitek (setelah Core Model stabil):
+    - Permintaan Desain (Design Requests)
+    - File Desain & Revisi (Design Files & Revisions)
+- [ ] Integrasi upload dokumentasi foto/file & desain.
 
 ### Tahap 7: Auth & Production Hardening (POSTPONED)
 - [ ] Implementasi sistem autentikasi asli (Login, JWT, Session).

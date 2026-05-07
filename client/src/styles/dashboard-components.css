@@ -1,0 +1,61 @@
+/* client/src/styles/dashboard-components.css */
+
+.dashboard-shell {
+  @apply min-h-screen flex bg-[var(--dashboard-bg)] text-[var(--dashboard-text)];
+}
+
+.dashboard-main {
+  @apply flex-1 flex flex-col transition-all duration-300;
+}
+
+.dashboard-page {
+  @apply flex-1 p-8 overflow-x-hidden mt-16;
+}
+
+.dashboard-container {
+  @apply max-w-7xl mx-auto w-full;
+}
+
+.dashboard-card {
+  @apply bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-3xl shadow-sm p-6 transition-all duration-300;
+}
+
+.dashboard-section-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.dashboard-title {
+  @apply text-2xl font-bold tracking-tight text-[var(--dashboard-text)];
+}
+
+.dashboard-subtitle {
+  @apply text-sm text-[var(--dashboard-text-muted)] mt-1;
+}
+
+.dashboard-table-card {
+  @apply dashboard-card p-0 overflow-hidden;
+}
+
+.dashboard-badge {
+  @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border;
+}
+
+.dashboard-sidebar {
+  @apply fixed top-0 left-0 h-screen bg-[var(--dashboard-sidebar-bg)] text-[var(--dashboard-sidebar-text)] border-r border-[var(--dashboard-sidebar-border)] z-50 transition-all duration-300;
+}
+
+.dashboard-topbar {
+  @apply fixed top-0 right-0 h-16 bg-[var(--dashboard-topbar-bg)] backdrop-blur-md border-b border-[var(--dashboard-border)] z-40 transition-all duration-300;
+}
+
+.dashboard-icon-button {
+  @apply p-2.5 rounded-full transition-all duration-200 text-[var(--dashboard-text-muted)] hover:bg-[var(--dashboard-surface-soft)] hover:text-[var(--dashboard-text)];
+}
+
+.dashboard-primary-button {
+  @apply bg-[var(--dashboard-primary)] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 active:scale-95 transition-all;
+}
+
+.dashboard-secondary-button {
+  @apply bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text)] px-5 py-2.5 rounded-xl font-bold text-sm border border-[var(--dashboard-border)] hover:bg-[var(--dashboard-border)] transition-all;
+}

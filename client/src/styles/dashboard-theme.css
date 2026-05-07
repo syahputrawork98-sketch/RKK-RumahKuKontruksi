@@ -1,0 +1,51 @@
+/* client/src/styles/dashboard-theme.css */
+
+:root {
+  /* Layout Colors */
+  --dashboard-bg: #f8fafc; /* slate-50 */
+  --dashboard-surface: #ffffff;
+  --dashboard-surface-soft: #f1f5f9; /* slate-100 */
+  --dashboard-border: #e2e8f0; /* slate-200 */
+  --dashboard-border-soft: #f1f5f9; /* slate-100 */
+  
+  /* Text Colors */
+  --dashboard-text: #0f172a; /* slate-900 */
+  --dashboard-text-muted: #64748b; /* slate-500 */
+  --dashboard-text-soft: #94a3b8; /* slate-400 */
+  
+  /* Primary & Brand Colors (RKK Teal/Emerald) */
+  --dashboard-primary: #006a61;
+  --dashboard-primary-soft: #e0f4f2;
+  --dashboard-primary-hover: #005c54;
+  
+  /* Functional Colors */
+  --dashboard-success: #10b981; /* emerald-500 */
+  --dashboard-warning: #f59e0b; /* amber-500 */
+  --dashboard-danger: #ef4444; /* red-500 */
+  
+  /* Sidebar Specific (Always Dark for RKK Brand) */
+  --dashboard-sidebar-bg: #020617; /* slate-950 */
+  --dashboard-sidebar-text: #f8fafc;
+  --dashboard-sidebar-active-bg: rgba(255, 255, 255, 0.1);
+  --dashboard-sidebar-border: rgba(255, 255, 255, 0.05);
+
+  /* Topbar Specific */
+  --dashboard-topbar-bg: rgba(255, 255, 255, 0.8);
+}
+
+.dark {
+  /* Layout Colors */
+  --dashboard-bg: #020617; /* slate-950 */
+  --dashboard-surface: #0f172a; /* slate-900 */
+  --dashboard-surface-soft: #1e293b; /* slate-800 */
+  --dashboard-border: #1e293b; /* slate-800 */
+  --dashboard-border-soft: #334155; /* slate-700 */
+  
+  /* Text Colors */
+  --dashboard-text: #f8fafc; /* slate-50 */
+  --dashboard-text-muted: #94a3b8; /* slate-400 */
+  --dashboard-text-soft: #64748b; /* slate-500 */
+  
+  /* Topbar Specific */
+  --dashboard-topbar-bg: rgba(15, 23, 42, 0.8);
+}

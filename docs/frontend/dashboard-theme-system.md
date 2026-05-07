@@ -1,50 +1,51 @@
 # Dashboard Theme System
 
-Sistem desain terpusat untuk seluruh dashboard internal (Superadmin, Admin, Pengawas, Mandor, Arsitek, dan Konsumen Dashboard). Sistem ini memisahkan styling dashboard dari website publik untuk menjaga profesionalisme dan mendukung fitur mode terang/gelap.
+Dokumentasi ini menjelaskan sistem tema terpusat (Light/Dark mode) yang digunakan pada layout internal/dashboard RKK.
 
-## Struktur CSS
+## 1. Fondasi Tema
+Sistem tema menggunakan CSS Variables yang didefinisikan di `client/src/styles/dashboard-theme.css`. Tema dikontrol melalui atribut `data-theme` pada elemen root dashboard atau `document.documentElement`.
 
-File styling dashboard terletak di `client/src/styles/`:
+### Konfigurasi
+- **Light Mode**: Default atau `data-theme="light"`
+- **Dark Mode**: `data-theme="dark"`
+- **Persistence**: Status tema disimpan di `localStorage` dengan key `rkk-dashboard-theme`.
 
-1.  **`dashboard-theme.css`**: Berisi CSS variables (tokens) untuk warna, background, dan border. Mendukung mode `.dark`.
-2.  **`dashboard-components.css`**: Berisi class reusable seperti `.dashboard-card`, `.dashboard-sidebar`, dll.
-3.  **`index.css`**: Entry point yang mengimpor kedua file di atas.
-
-## Theme Tokens (CSS Variables)
-
-Gunakan variabel berikut untuk menjaga konsistensi:
+## 2. Variabel Utama (Tokens)
+Gunakan variabel berikut untuk memastikan komponen mendukung Light & Dark mode secara otomatis:
 
 | Variabel | Deskripsi |
-| :--- | :--- |
-| `--dashboard-bg` | Background utama halaman dashboard. |
-| `--dashboard-surface` | Background komponen (card, modal). |
-| `--dashboard-text` | Warna teks utama. |
-| `--dashboard-primary` | Warna brand utama (RKK Teal). |
-| `--dashboard-border` | Warna garis pembatas standar. |
+| --- | --- |
+| `--dashboard-bg` | Background utama halaman |
+| `--dashboard-surface` | Background card / komponen |
+| `--dashboard-surface-soft` | Background komponen sekunder / hover |
+| `--dashboard-text` | Warna teks utama |
+| `--dashboard-muted` | Warna teks sekunder / redup |
+| `--dashboard-border` | Warna border standar |
+| `--dashboard-primary` | Warna brand utama (Teal/Emerald) |
 
-## Reusable Classes
+## 3. Komponen Utama
+- **ThemeToggle**: Komponen untuk mengganti tema yang diletakkan di Topbar.
+- **SuperAdminLayout**: Mengelola state tema dan menerapkan class shell.
 
-| Class | Kegunaan |
-| :--- | :--- |
-| `.dashboard-shell` | Wrapper utama layout (sidebar + main). |
-| `.dashboard-page` | Wrapper konten halaman (dengan padding & mt). |
-| `.dashboard-card` | Kontainer card standar dengan rounded & shadow. |
-| `.dashboard-title` | Style judul halaman/section. |
-| `.dashboard-primary-button` | Tombol utama dashboard. |
+## 4. Cara Penggunaan pada Komponen Baru
+Hindari penggunaan class utility Tailwind untuk warna yang bersifat absolut (seperti `bg-white` atau `text-slate-900`). Gunakan variabel CSS:
 
-## Mode Terang & Gelap
-
-Sistem sudah menyiapkan token untuk dark mode. Untuk mengaktifkannya, tambahkan class `dark` pada elemen `html` atau `body`.
-
-```css
-/* Contoh penggunaan di dashboard-theme.css */
-.dark {
-  --dashboard-bg: #020617;
-  --dashboard-surface: #0f172a;
+```jsx
+// Bagus (Mendukung Light/Dark Mode)
+<div className="bg-[var(--dashboard-surface)] text-[var(--dashboard-text)] border border-[var(--dashboard-border)]">
   ...
-}
+</div>
+
+// Atau gunakan class reusable
+<div className="dashboard-card">
+  ...
+</div>
 ```
 
-## Implementasi di Superadmin
-
-Superadmin saat ini menjadi **Lead Design Reference**. Seluruh frame Superadmin (Layout, Sidebar, Topbar) sudah menggunakan sistem ini. Role lain disarankan melakukan replikasi dari struktur Superadmin.
+## 5. Struktur Layout
+Layout dashboard terdiri dari:
+- `.dashboard-shell`: Wrapper utama (flex).
+- `.dashboard-sidebar`: Sidebar navigasi (fixed).
+- `.dashboard-main`: Area konten utama (transition-all).
+- `.dashboard-topbar`: Topbar navigasi (fixed).
+- `.dashboard-page`: Area konten per halaman (padding).

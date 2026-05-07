@@ -1,11 +1,17 @@
-// client/src/components/ui/sidebar/sidebar-data/admin.js
 import {
     FiHome,
+    FiUsers,
     FiLayers,
+    FiFileText,
     FiActivity,
     FiCreditCard,
     FiSettings,
-    FiSearch
+    FiCheckSquare,
+    FiBriefcase,
+    FiClipboard,
+    FiArchive,
+    FiExternalLink,
+    FiAlertCircle
 } from "react-icons/fi";
 
 export default [
@@ -17,40 +23,72 @@ export default [
     },
     {
         type: "dropdown",
+        icon: FiUsers,
+        label: "Konsumen & Pengajuan",
+        activeStartsWith: "/admin/konsumen",
+        items: [
+            { label: "Data Konsumen", href: "/admin/konsumen/data" },
+            { label: "Pengajuan Desain", href: "/admin/konsumen/pengajuan-desain" },
+            { label: "Pengajuan Konstruksi", href: "/admin/konsumen/pengajuan-konstruksi" },
+            { label: "Validasi Pengajuan", href: "/admin/konsumen/validasi" },
+        ],
+    },
+    {
+        type: "dropdown",
         icon: FiLayers,
         label: "Manajemen Proyek",
-        activeStartsWith: ["/admin/proyek", "/admin/rab", "/admin/penugasan-tim"],
+        activeStartsWith: ["/admin/proyek", "/admin/penugasan-tim"],
         items: [
             { label: "Daftar Proyek", href: "/admin/proyek" },
             { label: "Buat Proyek", href: "/admin/proyek/create" },
-            { label: "RAB Proyek", href: "/admin/rab" },
+            { label: "Aktivasi Proyek", href: "/admin/proyek/aktivasi" },
             { label: "Penugasan Tim", href: "/admin/penugasan-tim" },
+            { label: "Penutupan Proyek", href: "/admin/proyek/penutupan" },
+        ],
+    },
+    {
+        type: "dropdown",
+        icon: FiFileText,
+        label: "Dokumen & RAB",
+        activeStartsWith: "/admin/dokumen",
+        items: [
+            { label: "RAB Proyek", href: "/admin/rab" },
+            { label: "Gambar Kerja", href: "/admin/dokumen/gambar-kerja" },
+            { label: "Kontrak", href: "/admin/dokumen/kontrak" },
+            { label: "Dokumen Final", href: "/admin/dokumen/final" },
+            { label: "Change Order", href: "/admin/dokumen/change-order" },
         ],
     },
     {
         type: "dropdown",
         icon: FiActivity,
-        label: "Monitoring",
-        activeStartsWith: ["/admin/laporan-progress", "/admin/request-material"],
+        label: "Monitoring Lapangan",
+        activeStartsWith: ["/admin/monitoring", "/admin/laporan-progress", "/admin/request-material", "/admin/laporan-mingguan-pengawas"],
         items: [
-            { label: "Laporan Progress", href: "/admin/laporan-progress" },
-            { label: "Logistik & Material", href: "/admin/request-material" },
-        ],
-    },
-    {
-        type: "dropdown",
-        icon: FiCreditCard,
-        label: "Keuangan",
-        activeStartsWith: "/admin/pembayaran",
-        items: [
-            { label: "Pembayaran", href: "/admin/pembayaran" },
+            { label: "Progress Terverifikasi", href: "/admin/laporan-progress" },
+            { label: "Jurnal Mandor Approved", href: "/admin/monitoring/jurnal-mandor" },
+            { label: "Laporan Mingguan Pengawas", href: "/admin/laporan-mingguan-pengawas" },
+            { label: "Material Request", href: "/admin/request-material" },
+            { label: "Kendala/Eskalasi", href: "/admin/monitoring/kendala" },
         ],
     },
     {
         type: "item",
-        icon: FiFileText,
-        label: "Laporan Pengawas",
-        href: "/admin/laporan-mingguan-pengawas",
+        icon: FiExternalLink,
+        label: "Publikasi Konsumen",
+        href: "/admin/publikasi",
+    },
+    {
+        type: "dropdown",
+        icon: FiCreditCard,
+        label: "Pembayaran",
+        activeStartsWith: "/admin/pembayaran",
+        items: [
+            { label: "Pembayaran Konsumen", href: "/admin/pembayaran/konsumen" },
+            { label: "Pembayaran Mandor", href: "/admin/pembayaran/mandor" },
+            { label: "Validasi Disbursement", href: "/admin/pembayaran/validasi" },
+            { label: "Riwayat Pembayaran", href: "/admin/pembayaran/riwayat" },
+        ],
     },
     {
         type: "item",

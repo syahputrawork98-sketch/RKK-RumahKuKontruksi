@@ -65,6 +65,16 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed, panelLabel = "Su
             {/* MENU LIST */}
             <div className="flex-1 px-4 space-y-1 overflow-y-auto scrollbar-hide py-2">
                 {menu.map((item, index) => {
+                    // Utility to check if a path matches
+                    const isPathActive = (href, startsWith) => {
+                        if (location.pathname === href) return true;
+                        if (startsWith) {
+                            const startsWithArr = Array.isArray(startsWith) ? startsWith : [startsWith];
+                            return startsWithArr.some(path => location.pathname.startsWith(path));
+                        }
+                        return false;
+                    };
+
                     if (item.type === "item") {
                         return (
                             <SidebarItem
@@ -72,19 +82,18 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed, panelLabel = "Su
                                 icon={item.icon}
                                 label={item.label}
                                 href={item.href}
-                                active={location.pathname === item.href}
+                                active={isPathActive(item.href, item.activeStartsWith)}
                                 collapsed={isCollapsed}
                             />
                         );
                     }
 
                     if (item.type === "dropdown") {
-                        const isChildActive = item.items.some(child => location.pathname === child.href);
+                        const isChildActive = item.items.some(child => 
+                            isPathActive(child.href, child.activeStartsWith)
+                        );
                         
-                        // Check if activeStartsWith is string or array
-                        const matchesPath = Array.isArray(item.activeStartsWith)
-                            ? item.activeStartsWith.some(path => location.pathname.startsWith(path))
-                            : location.pathname.startsWith(item.activeStartsWith);
+                        const isParentActive = item.activeStartsWith ? isPathActive(null, item.activeStartsWith) : false;
 
                         return (
                             <SidebarDropdown
@@ -93,7 +102,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed, panelLabel = "Su
                                 label={item.label}
                                 items={item.items}
                                 collapsed={isCollapsed}
-                                active={isChildActive || matchesPath}
+                                active={isChildActive || isParentActive}
                             />
                         );
                     }

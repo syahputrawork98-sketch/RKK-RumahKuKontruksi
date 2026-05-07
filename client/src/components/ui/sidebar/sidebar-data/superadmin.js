@@ -1,4 +1,3 @@
-// client/src/components/ui/sidebar-data/superadmin.js
 import {
     FiHome,
     FiUsers,
@@ -7,7 +6,12 @@ import {
     FiFileText,
     FiCreditCard,
     FiSettings,
-    FiActivity
+    FiActivity,
+    FiShield,
+    FiTrendingUp,
+    FiTruck,
+    FiAlertCircle,
+    FiBriefcase
 } from "react-icons/fi";
 
 export default [
@@ -20,50 +24,57 @@ export default [
     {
         type: "dropdown",
         icon: FiUsers,
-        label: "Manajemen User",
+        label: "Data Master",
         activeStartsWith: "/superadmin/data-",
         items: [
             { label: "Admin", href: "/superadmin/data-admin" },
+            { label: "Superadmin", href: "/superadmin/data-superadmin" },
+            { label: "Konsumen", href: "/superadmin/data-konsumen" },
             { label: "Pengawas", href: "/superadmin/data-pengawas" },
             { label: "Mandor", href: "/superadmin/data-mandor" },
             { label: "Arsitek", href: "/superadmin/data-arsitek" },
-            { label: "Konsumen", href: "/superadmin/data-konsumen" },
             { label: "Perusahaan & PIC", href: "/superadmin/data-perusahaan" },
         ],
     },
     {
-        type: "item",
-        icon: FiLayers,
-        label: "Proyek",
-        href: "/superadmin/proyek",
-    },
-    {
-        type: "item",
-        icon: FiBarChart2,
-        label: "Progres Proyek",
-        href: "/superadmin/progres-proyek",
-    },
-    {
-        type: "item",
-        icon: FiFileText,
-        label: "RAB",
-        href: "/superadmin/rab",
-    },
-    {
         type: "dropdown",
-        icon: FiCreditCard,
-        label: "Pembayaran",
-        activeStartsWith: "/superadmin/pembayaran",
+        icon: FiLayers,
+        label: "Proyek Global",
+        activeStartsWith: "/superadmin/proyek",
         items: [
-            { label: "Pembayaran Konsumen", href: "/superadmin/pembayaran/konsumen" },
-            { label: "Pembayaran Mandor", href: "/superadmin/pembayaran/mandor" },
-            { label: "Pembayaran Arsitek", href: "/superadmin/pembayaran/arsitek" },
+            { label: "Semua Proyek", href: "/superadmin/proyek" },
+            { label: "Proyek Aktif", href: "/superadmin/proyek/aktif" },
+            { label: "Relasi Admin-Proyek", href: "/superadmin/proyek/relasi" },
         ],
     },
     {
         type: "item",
+        icon: FiBriefcase,
+        label: "Kapasitas Admin",
+        href: "/superadmin/kapasitas-admin",
+    },
+    {
+        type: "dropdown",
+        icon: FiTrendingUp,
+        label: "Monitoring Global",
+        activeStartsWith: ["/superadmin/monitoring", "/superadmin/progres-proyek"],
+        items: [
+            { label: "Progress Proyek", href: "/superadmin/progres-proyek" },
+            { label: "Pembayaran Global", href: "/superadmin/pembayaran" },
+            { label: "Material Request", href: "/superadmin/monitoring/material" },
+            { label: "Laporan Pengawas", href: "/superadmin/monitoring/laporan-pengawas" },
+        ],
+    },
+    {
+        type: "item",
+        icon: FiAlertCircle,
+        label: "Eskalasi & Koreksi",
+        href: "/superadmin/eskalasi",
+    },
+    {
+        type: "item",
         icon: FiActivity,
-        label: "Log Aktivitas",
+        label: "Audit Aktivitas",
         href: "/superadmin/log-aktivitas",
     },
     {

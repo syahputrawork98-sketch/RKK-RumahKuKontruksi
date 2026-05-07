@@ -1,13 +1,16 @@
-// client/src/components/ui/sidebar/sidebar-data/mandor.js
 import {
     FiHome,
     FiLayers,
-    FiList,
     FiFileText,
     FiShoppingCart,
     FiCamera,
     FiAlertTriangle,
-    FiSettings
+    FiSettings,
+    FiInfo,
+    FiBriefcase,
+    FiCreditCard,
+    FiSearch,
+    FiClipboard
 } from "react-icons/fi";
 
 export default [
@@ -25,22 +28,15 @@ export default [
         activeStartsWith: "/mandor/proyek-aktif"
     },
     {
-        type: "item",
-        icon: FiList,
-        label: "Tugas Harian",
-        href: "/mandor/tugas-harian",
-    },
-    {
-        type: "item",
-        icon: FiFileText,
-        label: "Laporan Harian",
-        href: "/mandor/laporan-harian",
-    },
-    {
-        type: "item",
-        icon: FiShoppingCart,
-        label: "Request Material",
-        href: "/mandor/request-material",
+        type: "dropdown",
+        icon: FiInfo,
+        label: "Informasi Kerja",
+        activeStartsWith: "/mandor/info",
+        items: [
+            { label: "Scope & RAB Ringkas", href: "/mandor/info/rab" },
+            { label: "Gambar Kerja", href: "/mandor/info/gambar-kerja" },
+            { label: "Jadwal Kerja", href: "/mandor/info/jadwal" },
+        ],
     },
     {
         type: "item",
@@ -51,15 +47,38 @@ export default [
     },
     {
         type: "item",
-        icon: FiCamera,
-        label: "Dokumentasi Lapangan",
-        href: "/mandor/dokumentasi",
+        icon: FiShoppingCart,
+        label: "Material Request",
+        href: "/mandor/request-material",
     },
     {
         type: "item",
         icon: FiAlertTriangle,
         label: "Kendala Lapangan",
         href: "/mandor/kendala-lapangan",
+    },
+    {
+        type: "item",
+        icon: FiCamera,
+        label: "Dokumentasi / Galeri",
+        href: "/mandor/dokumentasi",
+    },
+    {
+        type: "dropdown",
+        icon: FiSearch,
+        label: "Peluang Proyek",
+        activeStartsWith: "/mandor/peluang",
+        items: [
+            { label: "Project Posting", href: "/mandor/peluang/posting" },
+            { label: "Penawaran Saya", href: "/mandor/peluang/penawaran" },
+            { label: "Riwayat Penawaran", href: "/mandor/peluang/riwayat" },
+        ],
+    },
+    {
+        type: "item",
+        icon: FiCreditCard,
+        label: "Pembayaran",
+        href: "/mandor/pembayaran",
     },
     {
         type: "item",

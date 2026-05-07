@@ -3,9 +3,14 @@ import { NavLink, useLocation } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
 
 const SidebarDropdown = ({ icon: Icon, label, items, collapsed, active = false }) => {
+    const [open, setOpen] = useState(active);
+
+    // Sync open state when active changes (e.g. navigation)
+    React.useEffect(() => {
+        if (active) setOpen(true);
+    }, [active]);
+
     const location = useLocation();
-    const isChildActive = active || items.some(item => location.pathname === item.href);
-    const [open, setOpen] = useState(isChildActive);
 
     return (
         <div className="select-none">
@@ -14,7 +19,7 @@ const SidebarDropdown = ({ icon: Icon, label, items, collapsed, active = false }
                 onClick={() => setOpen(!open)}
                 className={`
                     dashboard-sidebar-item w-full flex items-center justify-between border-none
-                    ${isChildActive ? "dashboard-sidebar-item-active" : ""}
+                    ${active ? "dashboard-sidebar-item-active" : ""}
                 `}
             >
                 {/* ICON + LABEL */}

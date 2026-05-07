@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 
-const SidebarItem = ({ icon: Icon, label, href, collapsed }) => {
+const SidebarItem = ({ icon: Icon, label, href, collapsed, active }) => {
     return (
         <NavLink
             to={href}
-            className={({ isActive }) => `
+            className={`
                 dashboard-sidebar-item group relative
-                ${isActive ? "dashboard-sidebar-item-active" : ""}
+                ${active ? "dashboard-sidebar-item-active" : ""}
             `}
         >
             <div className="flex items-center justify-center">

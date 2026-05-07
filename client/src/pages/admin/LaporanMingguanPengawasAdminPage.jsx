@@ -67,7 +67,7 @@ const LaporanMingguanPengawasAdminPage = () => {
 
             {/* Filter */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {['all', 'submitted', 'under_admin_review', 'revision_requested', 'approved', 'rejected'].map((status) => (
+                {['all', 'submitted', 'under_admin_review', 'reviewed', 'published', 'revision_requested', 'rejected'].map((status) => (
                     <button
                         key={status}
                         onClick={() => setStatusFilter(status)}

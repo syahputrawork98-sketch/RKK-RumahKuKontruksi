@@ -7,7 +7,10 @@ import {
     FiCheckCircle,
     FiTrendingUp,
     FiUsers,
-    FiUser
+    FiUser,
+    FiFileText,
+    FiPackage,
+    FiAlertCircle
 } from "react-icons/fi";
 import {
     DashboardHeader,
@@ -15,23 +18,13 @@ import {
     DashboardActivity,
     DashboardProjectsTable,
 } from "@client/components/ui/dashboard";
-import projectService from "../../services/projectService";
-import customerService from "../../services/customerService";
-import supervisorService from "../../services/supervisorService";
-import foremanService from "../../services/foremanService";
-import architectService from "../../services/architectService";
+import adminService from "../../services/adminService";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DashboardAdmin = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [data, setData] = useState({
-        projects: [],
-        customers: [],
-        supervisors: [],
-        foremen: [],
-        architects: []
-    });
+    const [stats, setStats] = useState(null);
 
     useEffect(() => {
         fetchDashboardData();
@@ -40,21 +33,8 @@ const DashboardAdmin = () => {
     const fetchDashboardData = async () => {
         try {
             setLoading(true);
-            const [projectsRes, customersRes, supervisorsRes, foremenRes, architectsRes] = await Promise.all([
-                projectService.getProjects(),
-                customerService.getAllCustomers(),
-                supervisorService.getAllSupervisors(),
-                foremanService.getAllForemen(),
-                architectService.getAllArchitects()
-            ]);
-
-            setData({
-                projects: projectsRes.data || [],
-                customers: customersRes.data || [],
-                supervisors: supervisorsRes.data || [],
-                foremen: foremenRes.data || [],
-                architects: architectsRes.data || []
-            });
+            const res = await adminService.getDashboardStats();
+            setStats(res.data);
             setLoading(false);
         } catch (err) {
             console.error("Error fetching dashboard data:", err);
@@ -71,48 +51,79 @@ const DashboardAdmin = () => {
         return <RoleDataState type="error" message={error} onRetry={fetchDashboardData} />;
     }
 
-    const { projects, customers, supervisors, foremen, architects } = data;
+    if (!stats) return <RoleDataState type="empty" message="Data dashboard tidak tersedia." />;
 
-    // Calculate Stats
-    const totalProjects = projects.length;
-    const ongoingProjects = projects.filter(p => p.status === "active" || p.status === "ongoing" || p.status === "in_progress" || (p.progress > 0 && p.progress < 100)).length;
-    const avgProgress = totalProjects > 0 
-        ? Math.round(projects.reduce((sum, p) => sum + (p.progress || 0), 0) / totalProjects) 
-        : 0;
+    const { projects, customers, financials, recentProjects, reports, materialRequests } = stats;
+
+    // Calculate derived stats
+    const totalProjects = projects.reduce((sum, p) => sum + (p._count?._all || p._count || 0), 0);
+    const activeProjects = projects.find(p => p.status === "active")?._count?._all || 0;
     
-    const totalPeople = customers.length + supervisors.length + foremen.length + architects.length;
+    // Reports stats
+    const pendingReports = reports?.find(r => r.status === "submitted")?._count?._all || 0;
+    const underReviewReports = reports?.find(r => r.status === "under_admin_review")?._count?._all || 0;
+    
+    // Material stats
+    const pendingMaterials = materialRequests?.find(m => m.status === "approved_by_supervisor")?._count?._all || 0;
 
-    const stats = [
+    const dashboardStats = [
         { label: "Total Proyek", value: totalProjects, icon: FiLayers, color: "#1A4D2E" },
-        { label: "Proyek Berjalan", value: ongoingProjects, icon: FiTrendingUp, color: "#16A34A" },
-        { label: "Total Konsumen", value: customers.length, icon: FiUser, color: "#F59E0B" },
-        { label: "Total Tim Lab.", value: supervisors.length + foremen.length, icon: FiUsers, color: "#0EA5E9" },
-        { label: "Rata-rata Progress", value: `${avgProgress}%`, icon: FiCheckCircle, color: "#7C3AED" },
+        { label: "Laporan Baru", value: pendingReports + underReviewReports, icon: FiFileText, color: "#0EA5E9" },
+        { label: "Request Material", value: pendingMaterials, icon: FiPackage, color: "#F59E0B" },
+        { label: "Total Konsumen", value: customers, icon: FiUser, color: "#7C3AED" },
     ];
 
     const recentActivities = [
-        { id: 1, text: "Sistem siap digunakan untuk manajemen proyek lokal.", time: "Baru saja" },
-        { id: 2, text: "Database terhubung dengan modul Pengawas & Mandor.", time: "Hari ini" },
-        { id: 3, text: "Modul Arsitek (Profil) telah beralih ke Database.", time: "Kemarin" },
+        { id: 1, text: "Monitoring Progress resmi dari Pengawas aktif.", time: "Fase 3" },
+        { id: 2, text: "Review Laporan Mingguan Pengawas terintegrasi.", time: "Baru saja" },
+        { id: 3, text: "Publikasi ke Timeline Konsumen sudah siap.", time: "Update" },
     ];
 
     // Format projects for table
-    const formattedProjects = projects.slice(0, 5).map(p => ({
+    const formattedProjects = recentProjects.map(p => ({
         kode: p.projectCode || "PRJ-???",
         name: p.name,
         progress: p.progress || 0,
         status: p.status,
-        nilai: p.budget ? `Rp ${(p.budget / 1000000).toFixed(0)}jt` : "-"
+        nilai: p.budgetTotal ? `Rp ${(parseFloat(p.budgetTotal) / 1000000).toFixed(0)}jt` : "-"
     }));
 
     return (
         <div className="animate-fadeIn space-y-6">
             <DashboardHeader />
             
-            <DashboardStats stats={stats} />
+            <DashboardStats stats={dashboardStats} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 space-y-6">
+                    {/* Operational Alerts */}
+                    {(pendingReports > 0 || pendingMaterials > 0) && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {pendingReports > 0 && (
+                                <div className="bg-blue-600 p-4 rounded-2xl text-white shadow-lg shadow-blue-600/20 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Laporan Menunggu</p>
+                                        <h4 className="text-xl font-black">{pendingReports} Laporan Baru</h4>
+                                    </div>
+                                    <a href="/admin/laporan-mingguan-pengawas" className="p-2 bg-white/20 rounded-xl hover:bg-white/30 transition-all">
+                                        <FiActivity />
+                                    </a>
+                                </div>
+                            )}
+                            {pendingMaterials > 0 && (
+                                <div className="bg-amber-500 p-4 rounded-2xl text-white shadow-lg shadow-amber-500/20 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Logistik</p>
+                                        <h4 className="text-xl font-black">{pendingMaterials} Request Material</h4>
+                                    </div>
+                                    <a href="/admin/request-material" className="p-2 bg-white/20 rounded-xl hover:bg-white/30 transition-all">
+                                        <FiPackage />
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     <div className="dashboard-card">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold">Proyek Terbaru</h3>
@@ -127,12 +138,23 @@ const DashboardAdmin = () => {
                 </div>
 
                 <div className="space-y-6">
-                    <DashboardActivity activities={recentActivities} title="Aktivitas Sistem" />
+                    <DashboardActivity activities={recentActivities} title="Monitoring Operasional" />
                     
-                    <div className="dashboard-card bg-[var(--dashboard-primary)] text-white">
-                        <h3 className="font-bold mb-2">Manajemen Lokal</h3>
-                        <p className="text-xs opacity-90 mb-4">Anda sedang dalam mode integrasi database lokal. Seluruh data ditarik dari PostgreSQL.</p>
-                        <button className="w-full py-2 bg-white/20 hover:bg-white/30 rounded-xl text-xs font-bold transition-all">Pelajari Alur CRUD</button>
+                    <div className="dashboard-card bg-slate-900 text-white">
+                        <h3 className="font-bold mb-2 flex items-center gap-2">
+                            <FiCheckCircle className="text-emerald-400" /> Fase 3 — Aktif
+                        </h3>
+                        <p className="text-xs opacity-70 mb-4 leading-relaxed">
+                            Fokus Monitoring:
+                            <br />• Progress Terverifikasi (SOT)
+                            <br />• Review Laporan Pengawas
+                            <br />• Publikasi Ringkasan Konsumen
+                        </p>
+                        <div className="p-3 bg-white/10 rounded-xl border border-white/10">
+                            <p className="text-[10px] font-medium italic opacity-90">
+                                "Admin memegang kendali publikasi informasi ke Konsumen untuk menjaga integritas data operasional."
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

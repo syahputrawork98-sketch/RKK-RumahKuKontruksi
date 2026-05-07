@@ -379,10 +379,11 @@ export const reviewReport = async (req, res, next) => {
         newStatus = 'under_admin_review';
         break;
       case 'approve':
-        newStatus = 'approved';
+      case 'reviewed':
+        newStatus = 'reviewed';
         break;
       case 'request_revision':
-        if (!note) return res.status(400).json({ success: false, message: 'Review note is required' });
+        if (!note && !req.body.adminNote) return res.status(400).json({ success: false, message: 'Review note is required' });
         newStatus = 'revision_requested';
         break;
       case 'reject':
@@ -402,12 +403,53 @@ export const reviewReport = async (req, res, next) => {
       action,
       oldStatus: report.status,
       status: newStatus,
-      note
+      note: note || req.body.adminNote,
+      adminNote: req.body.adminNote,
+      customerSummaryDraft: req.body.customerSummaryDraft
     });
 
     res.json({
       success: true,
       message: `Status laporan diperbarui menjadi ${newStatus}.`,
+      data: serializeDecimal(updated),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+export const publishReport = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { actorRole, actorId } = req.body;
+
+    const report = await SupervisorReportRepository.findReportById(id);
+    if (!report) {
+      return res.status(404).json({ success: false, message: 'Report not found' });
+    }
+
+    if (actorRole !== 'admin' && actorRole !== 'superadmin') {
+      return res.status(403).json({ success: false, message: 'Only admins can publish reports.' });
+    }
+
+    if (report.status !== 'reviewed' && report.status !== 'approved') {
+      return res.status(400).json({ success: false, message: 'Only reviewed reports can be published.' });
+    }
+
+    if (!report.customerSummaryDraft) {
+      return res.status(400).json({ success: false, message: 'Customer summary draft must be prepared before publishing.' });
+    }
+
+    const updated = await SupervisorReportRepository.updateReportStatus(id, {
+      actorRole,
+      actorId,
+      action: 'publish',
+      oldStatus: report.status,
+      status: 'published'
+    });
+
+    res.json({
+      success: true,
+      message: 'Laporan berhasil dipublikasikan ke Konsumen.',
       data: serializeDecimal(updated),
     });
   } catch (error) {

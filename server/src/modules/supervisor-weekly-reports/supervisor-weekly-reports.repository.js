@@ -127,17 +127,26 @@ export const updateReport = async (id, data) => {
 };
 
 export const updateReportStatus = async (id, data) => {
-  const { status, actorId, action, note, oldStatus } = data;
+  const { status, actorId, action, note, adminNote, customerSummaryDraft, oldStatus } = data;
   
   return await prisma.$transaction(async (tx) => {
     const updateData = { status };
     
     if (status === 'submitted') updateData.submittedAt = new Date();
-    if (['approved', 'rejected', 'revision_requested'].includes(status)) {
+    
+    if (['approved', 'reviewed', 'rejected', 'revision_requested', 'under_admin_review'].includes(status)) {
       updateData.reviewedAt = new Date();
       if (actorId) updateData.reviewedByAdminId = actorId;
-      if (note) updateData.adminNote = note;
+      if (adminNote) updateData.adminNote = adminNote;
+      if (customerSummaryDraft) updateData.customerSummaryDraft = customerSummaryDraft;
+      // Also allow 'note' from the old logic as fallback for adminNote
+      if (note && !adminNote) updateData.adminNote = note;
     }
+
+    if (status === 'published') {
+      // Locking or other publish logic could go here
+    }
+
     if (status === 'locked') updateData.lockedAt = new Date();
 
     const report = await tx.supervisorWeeklyReport.update({

@@ -15,5 +15,6 @@ router.patch('/:id', SupervisorReportController.updateReport);
 // Action routes
 router.post('/:id/submit', SupervisorReportController.submitReport);
 router.post('/:id/review', SupervisorReportController.reviewReport);
+router.post('/:id/publish', SupervisorReportController.publishReport);
 
 export default router;

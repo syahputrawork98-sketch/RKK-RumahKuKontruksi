@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:4000/api/supervisor-weekly-reports';
+import apiClient from './apiClient';
 
 const supervisorWeeklyReportService = {
     /**
@@ -8,12 +6,7 @@ const supervisorWeeklyReportService = {
      * @param {Object} params - { projectId, weekStartDate, weekEndDate, actorRole, actorId }
      */
     getReportContext: async (params) => {
-        try {
-            const response = await axios.get(`${API_URL}/context`, { params });
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.get('/supervisor-weekly-reports/context', { params });
     },
 
     /**
@@ -21,12 +14,7 @@ const supervisorWeeklyReportService = {
      * @param {Object} params - { projectId, supervisorId, status, weekStartDate, weekEndDate, actorRole, actorId }
      */
     getSupervisorWeeklyReports: async (params) => {
-        try {
-            const response = await axios.get(API_URL, { params });
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.get('/supervisor-weekly-reports', { params });
     },
 
     /**
@@ -35,12 +23,7 @@ const supervisorWeeklyReportService = {
      * @param {Object} actor - { actorRole, actorId }
      */
     getSupervisorWeeklyReportById: async (id, actor) => {
-        try {
-            const response = await axios.get(`${API_URL}/${id}`, { params: actor });
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.get(`/supervisor-weekly-reports/${id}`, { params: actor });
     },
 
     /**
@@ -48,12 +31,7 @@ const supervisorWeeklyReportService = {
      * @param {Object} payload 
      */
     createSupervisorWeeklyReport: async (payload) => {
-        try {
-            const response = await axios.post(API_URL, payload);
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.post('/supervisor-weekly-reports', payload);
     },
 
     /**
@@ -62,12 +40,7 @@ const supervisorWeeklyReportService = {
      * @param {Object} payload 
      */
     updateSupervisorWeeklyReport: async (id, payload) => {
-        try {
-            const response = await axios.patch(`${API_URL}/${id}`, payload);
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.patch(`/supervisor-weekly-reports/${id}`, payload);
     },
 
     /**
@@ -76,26 +49,25 @@ const supervisorWeeklyReportService = {
      * @param {Object} actor - { actorRole, actorId }
      */
     submitSupervisorWeeklyReport: async (id, actor) => {
-        try {
-            const response = await axios.post(`${API_URL}/${id}/submit`, actor);
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.post(`/supervisor-weekly-reports/${id}/submit`, actor);
     },
 
     /**
-     * Review report (Admin action: approve, revision, reject)
+     * Review report (Admin action: start_admin_review, reviewed, request_revision, reject)
      * @param {string} id 
-     * @param {Object} payload - { actorRole, actorId, action, note }
+     * @param {Object} payload - { actorRole, actorId, action, note, adminNote, customerSummaryDraft }
      */
     reviewSupervisorWeeklyReport: async (id, payload) => {
-        try {
-            const response = await axios.post(`${API_URL}/${id}/review`, payload);
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
+        return apiClient.post(`/supervisor-weekly-reports/${id}/review`, payload);
+    },
+
+    /**
+     * Publish report to Customer
+     * @param {string} id 
+     * @param {Object} actor - { actorRole, actorId }
+     */
+    publishSupervisorWeeklyReport: async (id, actor) => {
+        return apiClient.post(`/supervisor-weekly-reports/${id}/publish`, actor);
     }
 };
 

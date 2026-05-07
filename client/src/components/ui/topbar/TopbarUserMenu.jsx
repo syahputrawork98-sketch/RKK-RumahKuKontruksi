@@ -14,14 +14,14 @@ const TopbarUserMenu = ({ user, open, onToggle }) => {
                 `}
             >
                 <img
-                    src={user.photo || "https://placehold.co/40"}
+                    src={user?.photo || "https://placehold.co/40"}
                     className="w-8 h-8 rounded-full border border-white shadow-sm object-cover"
                     alt="User"
                 />
                 <div className="flex items-center gap-2">
                     <div className="flex flex-col items-start">
-                        <span className="text-xs font-bold text-[var(--dashboard-text)] leading-none">{user.name}</span>
-                        <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-wider mt-0.5">{user.role}</span>
+                        <span className="text-xs font-bold text-[var(--dashboard-text)] leading-none">{user?.name || 'Guest'}</span>
+                        <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-wider mt-0.5">{user?.role || 'User'}</span>
                     </div>
                     <FiChevronDown className={`text-[var(--dashboard-text-soft)] transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
                 </div>

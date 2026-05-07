@@ -1,8 +1,18 @@
-// client/src/components/ui/topbar/TopbarUserMenu.jsx
 import React from "react";
 import { FiChevronDown, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
+import { useDevAuth } from "../../../context/DevAuthContext";
+import { useNavigate } from "react-router-dom";
 
 const TopbarUserMenu = ({ user, open, onToggle }) => {
+    const { signOut } = useDevAuth();
+    const navigate = useNavigate();
+
+    const handleSignOut = (e) => {
+        e.preventDefault();
+        signOut();
+        navigate("/sign-in");
+    };
+
     return (
         <div className="relative">
             {/* BUTTON */}
@@ -40,9 +50,13 @@ const TopbarUserMenu = ({ user, open, onToggle }) => {
                     </a>
                     <div className="border-t border-[var(--dashboard-border)] my-1" />
 
-                    <a href="/logout" className="flex items-center gap-3 px-4 py-2 text-sm text-[var(--dashboard-danger)] hover:bg-[var(--dashboard-danger)]/5 transition">
+                    <a 
+                        href="/logout" 
+                        onClick={handleSignOut}
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-[var(--dashboard-danger)] hover:bg-[var(--dashboard-danger)]/5 transition"
+                    >
                         <FiLogOut />
-                        Logout
+                        Sign Out (Dev)
                     </a>
                 </div>
             )}

@@ -98,5 +98,17 @@ Untuk menghindari kerancuan data selama pengembangan:
 2. **Mock Data untuk Role Lain**:
     - **BOLEH**: Digunakan sebagai sumber data utama hingga modul backend terkait diimplementasikan.
 
+## Dev Sign-In & Persona Session
+
+Selama local development, sistem menggunakan Dev Sign-In untuk memilih role dan persona dari database.
+
+- **Dev Sign-In bukan auth produksi.**
+- Tidak memakai password/JWT.
+- Session disimpan di localStorage dengan key `rkk.devAuth`.
+- **Legacy Persona Sync**: Persona yang dipilih disinkronkan ke key localStorage lama per role (misal: `rkk.dev.selectedSupervisorId`) agar context existing tetap bekerja.
+- **Role Arsitek**: Wajib tersedia di pilihan Dev Sign-In dan menggunakan endpoint `/api/architects`.
+- **Pola Utama**: Pengawas dan Mandor digunakan sebagai standar referensi implementasi.
+- **Auth/JWT/RBAC tetap Postponed.**
+
 ## Error Handling Policy
 - Jika API Backend mengembalikan error (misal: Server mati), UI harus menampilkan komponen `ErrorState` atau pesan error yang jelas, bukan kembali menampilkan mock data secara otomatis.

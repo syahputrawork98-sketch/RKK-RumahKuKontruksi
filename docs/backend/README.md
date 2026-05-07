@@ -37,6 +37,7 @@ Modul berikut benar-benar belum tersedia di sisi backend:
 ## Dokumentasi Teknis
 - [**Backend Roles & Data Scope**](./roles/README.md): Aturan akses data per peran.
 - [**Backend Checklist per Workflow**](./checklist/README.md): Panduan implementasi atomik.
+- [**Database Plan**](./database-plan.md): Peta model/tabel database berbasis workflow.
 - [**API Status & Endpoint List**](./api-status.md): Daftar endpoint rill yang tersedia.
 - [**Role & Permission Matrix**](./role-permission-matrix.md): Rencana hak akses (Blueprint).
 

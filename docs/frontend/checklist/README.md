@@ -78,3 +78,4 @@ Menjelaskan kondisi minimal agar UI dianggap selesai.
 - [Pengajuan Material Mandor](./material-request.md)
 - [Pengajuan Pembayaran Mandor](./payment-foreman.md)
 - [Publikasi Progres ke Konsumen](./progress-to-customer.md)
+- [Dev Sign-In & Persona Session](./dev-sign-in-persona-session.md)

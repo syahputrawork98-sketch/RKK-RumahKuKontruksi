@@ -69,6 +69,12 @@ const Navbar = () => {
       description: "Kelola pekerjaan harian dan laporan lapangan.",
       path: "/mandor/dashboard",
     },
+    {
+      label: "Masuk sebagai Arsitek",
+      role: "Arsitek",
+      description: "Kelola brief desain, desain aktif, revisi, dan file desain.",
+      path: "/arsitek/dashboard",
+    },
   ];
 
   const handleDemoRoleLogin = (path) => {

@@ -75,7 +75,7 @@ export const getStats = async () => {
       by: ['status'],
       _count: { _all: true }
     }),
-    prisma.customer.count({ where: { deletedAt: null } }),
+      prisma.customer.count(),
     prisma.project.aggregate({
       _sum: {
         budgetTotal: true,

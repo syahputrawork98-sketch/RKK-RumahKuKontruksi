@@ -265,7 +265,7 @@ const CustomerAdminPage = () => {
                         <form onSubmit={handleSubmit} className="p-8 space-y-6">
                             {/* Tipe Konsumen */}
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Tipe Konsumen</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Tipe Konsumen</label>
                                 <div className="flex gap-4">
                                     {["Individual", "Corporate"].map(type => (
                                         <button
@@ -275,7 +275,7 @@ const CustomerAdminPage = () => {
                                             className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold border transition-all flex items-center justify-center gap-2 ${
                                                 formData.customerType === type 
                                                 ? "bg-teal-500 border-teal-500 text-white shadow-md shadow-teal-500/20" 
-                                                : "bg-white border-gray-200 text-gray-500 hover:border-teal-500/30"
+                                                : "bg-white border-gray-200 text-gray-600 hover:border-teal-500/30"
                                             }`}
                                         >
                                             {formData.customerType === type && <FiCheck />}
@@ -288,11 +288,11 @@ const CustomerAdminPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {formData.customerType === "Individual" ? (
                                     <div className="space-y-2 md:col-span-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Nama Lengkap</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Nama Lengkap</label>
                                         <input 
                                             required
                                             type="text" 
-                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                             placeholder="Nama Konsumen..."
                                             value={formData.name}
                                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -301,31 +301,31 @@ const CustomerAdminPage = () => {
                                 ) : (
                                     <>
                                         <div className="space-y-2 md:col-span-2">
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Nama Perusahaan</label>
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Nama Perusahaan</label>
                                             <input 
                                                 required
                                                 type="text" 
-                                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                                 placeholder="PT. Contoh Perusahaan..."
                                                 value={formData.companyName}
                                                 onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Nama PIC</label>
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Nama PIC</label>
                                             <input 
                                                 type="text" 
-                                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                                 placeholder="Nama PIC..."
                                                 value={formData.picName}
                                                 onChange={(e) => setFormData({...formData, picName: e.target.value})}
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Jabatan PIC</label>
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Jabatan PIC</label>
                                             <input 
                                                 type="text" 
-                                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                                 placeholder="Jabatan PIC..."
                                                 value={formData.picPosition}
                                                 onChange={(e) => setFormData({...formData, picPosition: e.target.value})}
@@ -335,41 +335,41 @@ const CustomerAdminPage = () => {
                                 )}
 
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Email</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Email</label>
                                     <input 
                                         required
                                         type="email" 
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                         placeholder="email@contoh.com"
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Telepon</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Telepon</label>
                                     <input 
                                         type="text" 
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                         placeholder="0812xxxx"
                                         value={formData.phone}
                                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                                     />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Alamat Lengkap</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Alamat Lengkap</label>
                                     <textarea 
                                         rows="3"
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                         placeholder="Alamat penagihan/domisili..."
                                         value={formData.address}
                                         onChange={(e) => setFormData({...formData, address: e.target.value})}
                                     />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Catatan / Keterangan</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Catatan / Keterangan</label>
                                     <input 
                                         type="text" 
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
                                         placeholder="Catatan tambahan..."
                                         value={formData.notes}
                                         onChange={(e) => setFormData({...formData, notes: e.target.value})}

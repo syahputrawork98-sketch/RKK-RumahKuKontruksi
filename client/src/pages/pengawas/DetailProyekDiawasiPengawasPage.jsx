@@ -1,7 +1,21 @@
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { 
+    FiArrowLeft, 
+    FiInfo, 
+    FiLayers, 
+    FiCheckCircle, 
+    FiCamera, 
+    FiShoppingCart, 
+    FiAlertCircle, 
+    FiMapPin, 
+    FiUser, 
+    FiClock 
+} from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
-import { useEffect } from "react";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailProyekDiawasiPengawasPage = () => {
     const { projectId } = useParams();
@@ -10,6 +24,7 @@ const DetailProyekDiawasiPengawasPage = () => {
     const [activeTab, setActiveTab] = useState("overview");
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -19,12 +34,16 @@ const DetailProyekDiawasiPengawasPage = () => {
             }
             try {
                 setIsLoading(true);
+                setError(null);
                 const response = await projectService.getProjectById(projectId);
                 if (response.success) {
                     setProject(response.data);
+                } else {
+                    setError("Proyek tidak ditemukan.");
                 }
-            } catch (error) {
-                console.error("Failed to fetch project detail:", error);
+            } catch (err) {
+                console.error("Failed to fetch project detail:", err);
+                setError("Gagal mengambil detail proyek.");
             } finally {
                 setIsLoading(false);
             }
@@ -58,10 +77,38 @@ const DetailProyekDiawasiPengawasPage = () => {
         );
     }
 
+    if (error) {
+        return (
+            <div className="animate-fadeIn">
+                <button 
+                    onClick={() => navigate("/pengawas/proyek")}
+                    className="mb-6 p-2 bg-[var(--dashboard-surface-soft)] hover:bg-[var(--dashboard-border)] rounded-xl transition-all inline-flex items-center gap-2 text-xs font-bold"
+                >
+                    <FiArrowLeft size={16} /> KEMBALI
+                </button>
+                <RoleDataState 
+                    type="error"
+                    title={error}
+                    onRetry={() => window.location.reload()}
+                />
+            </div>
+        );
+    }
+
     if (!project) {
         return (
-            <div className="dashboard-card p-20 text-center text-slate-400 font-medium">
-                Proyek tidak ditemukan atau Anda tidak memiliki akses.
+            <div className="animate-fadeIn">
+                <button 
+                    onClick={() => navigate("/pengawas/proyek")}
+                    className="mb-6 p-2 bg-[var(--dashboard-surface-soft)] hover:bg-[var(--dashboard-border)] rounded-xl transition-all inline-flex items-center gap-2 text-xs font-bold"
+                >
+                    <FiArrowLeft size={16} /> KEMBALI
+                </button>
+                <RoleDataState 
+                    type="empty"
+                    title="Proyek Tidak Ditemukan"
+                    description="Proyek yang Anda cari tidak tersedia atau Anda tidak memiliki akses ke proyek ini."
+                />
             </div>
         );
     }

@@ -4,6 +4,7 @@ import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorService from "../../services/supervisorService";
 
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const PengaturanPengawasPage = () => {
     const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
@@ -11,26 +12,39 @@ const PengaturanPengawasPage = () => {
     const [certificates, setCertificates] = useState([]);
     const [experiences, setExperiences] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDetails = async () => {
             if (!selectedSupervisorId) return;
             try {
                 setIsLoading(true);
+                setError(null);
                 const [certs, exps] = await Promise.all([
                     supervisorService.getCertificates(selectedSupervisorId),
                     supervisorService.getExperiences(selectedSupervisorId)
                 ]);
                 if (certs.success) setCertificates(certs.data);
                 if (exps.success) setExperiences(exps.data);
-            } catch (error) {
-                console.error("Failed to fetch details:", error);
+            } catch (err) {
+                console.error("Failed to fetch details:", err);
+                setError("Gagal memuat detail profil pengawas.");
             } finally {
                 setIsLoading(false);
             }
         };
         fetchDetails();
     }, [selectedSupervisorId]);
+
+    if (error) {
+        return (
+            <RoleDataState 
+                type="error"
+                title={error}
+                onRetry={() => window.location.reload()}
+            />
+        );
+    }
 
     if (!selectedSupervisorId && !isLoading) {
         return (

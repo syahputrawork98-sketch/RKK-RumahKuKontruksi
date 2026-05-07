@@ -16,11 +16,13 @@ import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
 
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DashboardPengawas = () => {
     const { selectedSupervisor, selectedSupervisorId, selectSupervisor, supervisors } = useSupervisorPersona();
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -30,12 +32,14 @@ const DashboardPengawas = () => {
             }
             try {
                 setIsLoading(true);
+                setError(null);
                 const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
                 if (response.success) {
                     setProjects(response.data);
                 }
-            } catch (error) {
-                console.error("Failed to fetch dashboard data:", error);
+            } catch (err) {
+                console.error("Failed to fetch dashboard data:", err);
+                setError("Gagal mengambil data dari database lokal.");
             } finally {
                 setIsLoading(false);
             }
@@ -46,6 +50,7 @@ const DashboardPengawas = () => {
 
     const stats = [
         { label: "Proyek Diawasi", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
+        // TODO: replace static/mock data after operational backend is implemented
         { label: "Butuh Verifikasi", value: 0, icon: FiCheckSquare, color: "#F59E0B" },
         { label: "Progres Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#0EA5E9" },
         { label: "Dokumentasi Baru", value: 0, icon: FiCamera, color: "#16A34A" },
@@ -70,11 +75,21 @@ const DashboardPengawas = () => {
         );
     }
 
-    if (isLoading && projects.length === 0) {
+    if (isLoading && projects.length === 0 && !error) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
             </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <RoleDataState 
+                type="error"
+                title={error}
+                onRetry={() => window.location.reload()}
+            />
         );
     }
 
@@ -149,6 +164,7 @@ const DashboardPengawas = () => {
                         </div>
                         <div className="dashboard-card border-dashed border-2 p-6 flex flex-col items-center justify-center text-center">
                             <FiCheckSquare className="text-[var(--dashboard-text-soft)] mb-2" size={32} />
+                            {/* TODO: replace static/mock data after operational backend is implemented */}
                             <p className="text-xs font-bold">0 Tahapan Menunggu Verifikasi</p>
                             <button className="mt-3 text-[10px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Periksa Sekarang</button>
                         </div>
@@ -160,6 +176,7 @@ const DashboardPengawas = () => {
                     
                     <div className="dashboard-card">
                         <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-primary)]">Dokumentasi Terbaru</h3>
+                        {/* TODO: replace static/mock data after operational backend is implemented */}
                         <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
                             Belum ada dokumentasi
                         </div>

@@ -5,12 +5,14 @@ import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
 
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const ProyekDiawasiPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
     const [activeSubtab, setActiveSubtab] = useState("aktif");
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     const subtabs = [
@@ -28,12 +30,14 @@ const ProyekDiawasiPengawasPage = () => {
             }
             try {
                 setIsLoading(true);
+                setError(null);
                 const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
                 if (response.success) {
                     setProjects(response.data);
                 }
-            } catch (error) {
-                console.error("Failed to fetch projects:", error);
+            } catch (err) {
+                console.error("Failed to fetch projects:", err);
+                setError("Gagal memuat daftar proyek dari database.");
             } finally {
                 setIsLoading(false);
             }
@@ -112,7 +116,13 @@ const ProyekDiawasiPengawasPage = () => {
                     </button>
                 </div>
 
-                {isLoading ? (
+                {error ? (
+                    <RoleDataState 
+                        type="error"
+                        title={error}
+                        onRetry={() => window.location.reload()}
+                    />
+                ) : isLoading ? (
                     <div className="py-20 flex justify-center">
                         <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
                     </div>

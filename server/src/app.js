@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import customerRoutes from './modules/customers/customers.routes.js';
 import projectRoutes from './modules/projects/projects.routes.js';
+import supervisorRoutes from './modules/supervisors/supervisors.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -17,6 +18,7 @@ app.get('/api/health', (req, res) => {
 // Routes
 app.use('/api/customers', customerRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/supervisors', supervisorRoutes);
 
 // Error Handler
 app.use(errorHandler);

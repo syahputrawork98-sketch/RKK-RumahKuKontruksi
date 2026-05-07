@@ -81,6 +81,8 @@ import RevisiDesainArsitekPage from "./pages/arsitek/RevisiDesainArsitekPage";
 import RiwayatDesainArsitekPage from "./pages/arsitek/RiwayatDesainArsitekPage";
 import PengaturanArsitekPage from "./pages/arsitek/PengaturanArsitekPage";
 
+import { SupervisorPersonaProvider } from "./context/SupervisorPersonaContext";
+
 function App() {
   return (
     <Router>
@@ -141,7 +143,14 @@ function App() {
         </Route>
 
         {/* ================== PENGAWAS LAYOUT ================== */}
-        <Route path="/pengawas" element={<PengawasLayout />}>
+        <Route 
+          path="/pengawas" 
+          element={
+            <SupervisorPersonaProvider>
+              <PengawasLayout />
+            </SupervisorPersonaProvider>
+          }
+        >
           <Route path="dashboard" element={<DashboardPengawas />} />
           <Route path="proyek" element={<ProyekDiawasiPengawasPage />} />
           <Route path="proyek/:projectId" element={<DetailProyekDiawasiPengawasPage />} />

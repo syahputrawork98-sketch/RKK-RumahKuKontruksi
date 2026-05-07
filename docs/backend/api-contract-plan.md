@@ -51,11 +51,27 @@ Daftar endpoint yang sudah diimplementasikan dan diverifikasi:
 - `PATCH /api/customers/:id` - Update data pelanggan.
 - `DELETE /api/customers/:id` - Hapus pelanggan (hanya jika tidak ada proyek).
 
-### Projects (Read Only)
+### Projects (Read Only / Filtered)
 - `GET /api/projects` - Ambil daftar proyek.
+- `GET /api/projects?supervisorId=...` - Ambil proyek berdasarkan pengawas (v1).
 - `GET /api/projects/:id` - Detail proyek (termasuk stages & RAB).
 - `GET /api/projects/:id/stages` - Ambil tahapan proyek.
 - `GET /api/projects/:id/rab` - Ambil RAB aktif proyek.
+
+### Supervisors (Full CRUD - v1)
+- `GET /api/supervisors` - Daftar pengawas aktif.
+- `GET /api/supervisors/:id` - Detail profil pengawas.
+- `POST /api/supervisors` - Tambah data pengawas.
+- `PATCH /api/supervisors/:id` - Update profil pengawas.
+- `DELETE /api/supervisors/:id` - Soft delete (deaktivasi) pengawas.
+- `GET /api/supervisors/:id/certificates` - Daftar sertifikasi pengawas.
+- `POST /api/supervisors/:id/certificates` - Tambah sertifikasi.
+- `PATCH /api/supervisors/certificates/:certId` - Update sertifikasi.
+- `DELETE /api/supervisors/certificates/:certId` - Soft delete sertifikasi.
+- `GET /api/supervisors/:id/experiences` - Daftar pengalaman kerja pengawas.
+- `POST /api/supervisors/:id/experiences` - Tambah pengalaman kerja.
+- `PATCH /api/supervisors/experiences/:expId` - Update pengalaman.
+- `DELETE /api/supervisors/experiences/:expId` - Soft delete pengalaman.
 
 ## Rencana Endpoint Berikutnya (Planned)
 Daftar endpoint di bawah ini adalah rencana pengembangan tahap berikutnya untuk mendukung role Admin, Pengawas, dan Mandor.

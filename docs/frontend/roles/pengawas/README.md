@@ -1,7 +1,7 @@
 # Role: Pengawas
 
 ## Status Umum
-Role Pengawas saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi utama, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur monitoring dan verifikasi lapangan.
+Role Pengawas saat ini dalam tahap **Database-Backed v1**. Pengawas adalah role pertama yang beralih dari data mock ke data rill dari database (PostgreSQL/Prisma) melalui **Persona Switcher (Dev Mode)**.
 
 ## Fungsi Utama Role
 Pengawas bertanggung jawab atas monitoring teknis harian di lapangan, melakukan verifikasi terhadap capaian progres yang dilaporkan Mandor, serta mengelola dokumentasi fisik proyek untuk transparansi ke Admin/Konsumen.
@@ -10,14 +10,14 @@ Pengawas bertanggung jawab atas monitoring teknis harian di lapangan, melakukan 
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/pengawas/dashboard` | `DashboardPengawas.jsx` | **Done (Mock)** | Ringkasan proyek, verifikasi, & dokumentasi. |
-| Proyek Diawasi | `/pengawas/proyek` | `ProyekDiawasiPengawasPage.jsx` | **Done (Mock)** | List proyek dengan subtab status. |
-| Detail Proyek | `/pengawas/proyek/:id` | `DetailProyekDiawasiPengawasPage.jsx` | **Done (Mock)** | Detail tahapan, checklist, & material. |
+| Dashboard | `/pengawas/dashboard` | `DashboardPengawas.jsx` | **Implemented (DB)** | Agregasi proyek rill berdasarkan persona pengawas. |
+| Proyek Diawasi | `/pengawas/proyek` | `ProyekDiawasiPengawasPage.jsx` | **Implemented (DB)** | List proyek rill dari database dengan filter supervisorId. |
+| Detail Proyek | `/pengawas/proyek/:id` | `DetailProyekDiawasiPengawasPage.jsx` | **Done (Mock)** | Masih dalam tahap mock-first untuk detail teknis. |
 | Verifikasi Progres | `/pengawas/verifikasi-progres` | `VerifikasiProgresPengawasPage.jsx` | **Done (Mock)** | Validasi capaian progres dari Mandor. |
 | Dokumentasi | `/pengawas/dokumentasi` | `DokumentasiLapanganPengawasPage.jsx` | **Done (Mock)** | Galeri foto bukti fisik lapangan. |
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | `LaporanMingguanPengawasPage.jsx` | **Done (Mock)** | Monitoring kepatuhan pelaporan periodik. |
 | Request Material | `/pengawas/request-material` | `RequestMaterialPengawasPage.jsx` | **Done (Mock)** | Monitoring permintaan logistik proyek. |
-| Pengaturan | `/pengawas/pengaturan` | `PengaturanPengawasPage.jsx` | **Done (Mock)** | Profil & cakupan wilayah kerja. |
+| Pengaturan | `/pengawas/pengaturan` | `PengaturanPengawasPage.jsx` | **Implemented (DB)** | CRUD Profil, Sertifikasi, & Pengalaman rill DB. |
 
 ## Komponen Terkait
 - `PengawasLayout.jsx`: Sidebar navigasi & Topbar khusus Pengawas.

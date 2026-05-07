@@ -8,8 +8,12 @@ const projectService = {
    * Get list of projects
    * @returns {Promise<Object>}
    */
-  async getProjects() {
-    return apiClient.get('/projects');
+  async getProjects(params = {}) {
+    let endpoint = '/projects';
+    if (params.supervisorId) {
+      endpoint += `?supervisorId=${params.supervisorId}`;
+    }
+    return apiClient.get(endpoint);
   },
 
   /**

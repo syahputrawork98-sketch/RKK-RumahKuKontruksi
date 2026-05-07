@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { 
     FiLayers, 
     FiCheckSquare, 
@@ -12,21 +12,49 @@ import {
     DashboardStats,
     DashboardActivity,
 } from "@client/components/ui/dashboard";
+import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
+import projectService from "../../services/projectService";
 
 const DashboardPengawas = () => {
+    const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
+    const [projects, setProjects] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            if (!selectedSupervisorId) return;
+            try {
+                setIsLoading(true);
+                const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
+                if (response.success) {
+                    setProjects(response.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch dashboard data:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, [selectedSupervisorId]);
+
     const stats = [
-        { label: "Proyek Diawasi", value: 3, icon: FiLayers, color: "#1A4D2E" },
+        { label: "Proyek Diawasi", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
         { label: "Butuh Verifikasi", value: 5, icon: FiCheckSquare, color: "#F59E0B" },
-        { label: "Progres Rata-rata", value: "68%", icon: FiActivity, color: "#0EA5E9" },
+        { label: "Progres Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#0EA5E9" },
         { label: "Dokumentasi Baru", value: 12, icon: FiCamera, color: "#16A34A" },
         { label: "Request Material", value: 2, icon: FiShoppingCart, color: "#E11428" },
     ];
 
-    const priorityProjects = [
-        { id: "PRJ-001", name: "Renovasi Rumah Budi", location: "Bandung", progress: 65, status: "active" },
-        { id: "PRJ-002", name: "Ruko Maria Ulfa", location: "Jakarta", progress: 12, status: "needs_verification" },
-        { id: "PRJ-003", name: "Gudang PT. MJ", location: "Surabaya", progress: 92, status: "active" },
-    ];
+    const priorityProjects = projects.slice(0, 3).map(p => ({
+        id: p.projectCode,
+        dbId: p.id,
+        name: p.name,
+        location: p.location,
+        progress: p.progress || 0,
+        status: p.status === 'Berjalan' ? 'active' : p.status === 'Selesai' ? 'completed' : 'needs_verification'
+    }));
 
     const recentActivities = [
         { id: 1, text: "Mandor Ahmad mengajukan verifikasi progres Tahap 2 (PRJ-001)", time: "10 menit lalu" },
@@ -44,9 +72,20 @@ const DashboardPengawas = () => {
         return mapping[status] || { text: status, color: "bg-slate-500/10 text-slate-500" };
     };
 
+    if (isLoading && projects.length === 0) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
     return (
         <div className="animate-fadeIn space-y-6">
-            <DashboardHeader />
+            <DashboardHeader 
+                title={`Halo, ${selectedSupervisor?.name || 'Pengawas'}`}
+                subtitle={`Anda sedang mengawasi ${projects.length} proyek aktif hari ini.`}
+            />
             
             <DashboardStats stats={stats} />
 
@@ -58,8 +97,8 @@ const DashboardPengawas = () => {
                             <button className="text-xs font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
                         </div>
                         <div className="space-y-4">
-                            {priorityProjects.map((prj) => (
-                                <div key={prj.id} className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] hover:border-[var(--dashboard-primary)]/30 transition-all flex flex-col md:flex-row justify-between gap-4">
+                            {priorityProjects.length > 0 ? priorityProjects.map((prj) => (
+                                <div key={prj.dbId} className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] hover:border-[var(--dashboard-primary)]/30 transition-all flex flex-col md:flex-row justify-between gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
                                             <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase">{prj.id}</span>
@@ -83,7 +122,11 @@ const DashboardPengawas = () => {
                                         <button className="px-4 py-2 bg-white dark:bg-slate-800 rounded-xl text-[10px] font-black uppercase tracking-widest border border-[var(--dashboard-border)] hover:bg-[var(--dashboard-primary)] hover:text-white transition-all">Detail</button>
                                     </div>
                                 </div>
-                            ))}
+                            )) : (
+                                <div className="p-12 text-center text-slate-400 font-medium border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
+                                    Belum ada proyek yang ditugaskan ke Anda.
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -91,7 +134,7 @@ const DashboardPengawas = () => {
                         <div className="dashboard-card bg-slate-800 text-white p-6 relative overflow-hidden">
                             <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Mingguan</h3>
                             <p className="text-2xl font-black mb-1">Belum Terkirim</p>
-                            <p className="text-[10px] opacity-70">Minggu Ke-18: 3 Proyek</p>
+                            <p className="text-[10px] opacity-70">Minggu Ke-18: {projects.length} Proyek</p>
                             <button className="mt-4 px-4 py-2 bg-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest">Buat Laporan</button>
                             <FiFileText className="absolute -right-4 -bottom-4 text-white/10 w-24 h-24" />
                         </div>
@@ -111,7 +154,7 @@ const DashboardPengawas = () => {
                         <div className="grid grid-cols-2 gap-2">
                             {[1, 2, 3, 4].map((i) => (
                                 <div key={i} className="aspect-square bg-[var(--dashboard-surface-soft)] rounded-xl overflow-hidden border border-[var(--dashboard-border)] relative group">
-                                    <img src={`https://placehold.co/200x200?text=Doc+${i}`} className="w-full h-full object-cover group-hover:scale-110 transition-all" alt="Doc" />
+                                    <img src={`https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=200`} className="w-full h-full object-cover group-hover:scale-110 transition-all" alt="Doc" />
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
                                         <span className="text-[8px] text-white font-black uppercase">PRJ-00{i}</span>
                                     </div>

@@ -1,7 +1,13 @@
 import prisma from '../../config/prisma.js';
 
-export const findAll = async () => {
+export const findAll = async (filters = {}) => {
+  const where = {};
+  if (filters.supervisorId) {
+    where.supervisorId = filters.supervisorId;
+  }
+
   return await prisma.project.findMany({
+    where,
     include: {
       customer: {
         select: {

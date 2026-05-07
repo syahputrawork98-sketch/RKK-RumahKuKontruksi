@@ -8,7 +8,8 @@ Daftar modul fungsional yang direncanakan untuk backend RumahKu Kontruksi.
 | **User Module** | Pengelolaan data pengguna. | PLANNED | Placeholder di database. |
 | **Role & Permission** | Pengaturan RBAC. | PLANNED | Belum ada enforcement API. |
 | **Client / Customer** | Database informasi konsumen. | **Implemented v0** | **Full CRUD** aktif. |
-| **Project Module** | Inti manajemen data proyek. | **Partial** | **Read-Only** aktif. |
+| **Supervisor Module** | Manajemen profil & kompetensi pengawas. | **Implemented v1** | **Full CRUD** (Profile, Certs, Exp) aktif. |
+| **Project Module** | Inti manajemen data proyek. | **Partial / Refined** | **CRUD** aktif (Filter by SupervisorId). |
 | **Project Phase** | Manajemen tahapan proyek. | **Partial** | **Read-Only** aktif. |
 | **Estimation / RAB** | Pengelolaan Rencana Anggaran Biaya. | **Partial** | **Read-Only** (3 levels) aktif. |
 | **Contract Module** | Manajemen dokumen kontrak. | PLANNED | - |

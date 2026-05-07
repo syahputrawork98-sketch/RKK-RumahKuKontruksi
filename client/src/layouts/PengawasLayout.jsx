@@ -52,6 +52,7 @@ const PengawasLayout = () => {
                     onToggleTheme={toggleTheme}
                     notificationService={notificationService}
                     dummyNotifications={dummyNotifications}
+                    showSupervisorSwitcher={true}
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}

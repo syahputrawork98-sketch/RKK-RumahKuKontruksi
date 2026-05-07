@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch, FiFilter, FiChevronRight, FiMapPin, FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
+import projectService from "../../services/projectService";
 
 const ProyekDiawasiPengawasPage = () => {
+    const { selectedSupervisorId } = useSupervisorPersona();
     const [activeSubtab, setActiveSubtab] = useState("aktif");
-
-    const projects = [
-        { id: "PRJ-001", name: "Renovasi Rumah Budi", customer: "Budi Santoso", location: "Bandung, Jabar", status: "active", progress: 65, currentStage: "Pasang Keramik", mandor: "Ahmad" },
-        { id: "PRJ-002", name: "Ruko Maria Ulfa", customer: "Maria Ulfa", location: "Jakarta Selatan", status: "needs_verification", progress: 12, currentStage: "Pondasi", mandor: "Hendra" },
-        { id: "PRJ-003", name: "Gudang PT. MJ", customer: "PT. Maju Jaya", location: "Surabaya", status: "active", progress: 92, currentStage: "Finishing Cat", mandor: "Yusuf" },
-    ];
+    const [projects, setProjects] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const subtabs = [
         { id: "aktif", label: "Aktif" },
@@ -18,15 +18,45 @@ const ProyekDiawasiPengawasPage = () => {
         { id: "completed", label: "Selesai" },
     ];
 
+    useEffect(() => {
+        const fetchProjects = async () => {
+            if (!selectedSupervisorId) return;
+            try {
+                setIsLoading(true);
+                const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
+                if (response.success) {
+                    setProjects(response.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch projects:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProjects();
+    }, [selectedSupervisorId]);
+
     const getStatusLabel = (status) => {
         const mapping = {
-            active: { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
-            needs_verification: { text: "Butuh Verifikasi", color: "bg-amber-500/10 text-amber-500" },
-            delayed: { text: "Terlambat", color: "bg-red-500/10 text-red-500" },
-            completed: { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
+            'Berjalan': { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
+            'planning': { text: "Perencanaan", color: "bg-blue-500/10 text-blue-500" },
+            'Selesai': { text: "Selesai", color: "bg-slate-500/10 text-slate-500" },
         };
         return mapping[status] || { text: status, color: "bg-slate-500/10 text-slate-500" };
     };
+
+    // Filter projects by subtab and search query
+    const filteredProjects = projects.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             p.projectCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             (p.customer?.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+        
+        if (activeSubtab === "aktif") return matchesSearch && p.status === "Berjalan";
+        if (activeSubtab === "completed") return matchesSearch && p.status === "Selesai";
+        // needs_verification and delayed are mock status for now as DB doesn't have it explicitly
+        return matchesSearch; 
+    });
 
     return (
         <div className="animate-fadeIn space-y-6">
@@ -59,6 +89,8 @@ const ProyekDiawasiPengawasPage = () => {
                         <input 
                             type="text" 
                             placeholder="Cari nama proyek atau customer..." 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                         />
                     </div>
@@ -67,66 +99,70 @@ const ProyekDiawasiPengawasPage = () => {
                     </button>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="border-b border-[var(--dashboard-border)]">
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Proyek</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Lokasi & Mandor</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Tahapan Saat Ini</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Progress</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {projects.map((prj) => (
-                                <tr key={prj.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors">
-                                    <td className="py-4 px-2">
-                                        <div className="flex flex-col">
-                                            <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase">{prj.id}</span>
-                                            <span className="text-sm font-bold">{prj.name}</span>
-                                            <span className="text-[10px] text-[var(--dashboard-text-soft)] font-medium">{prj.customer}</span>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2">
-                                        <div className="flex flex-col gap-1">
-                                            <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--dashboard-text-soft)]">
+                {isLoading ? (
+                    <div className="py-20 flex justify-center">
+                        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="border-b border-[var(--dashboard-border)]">
+                                    <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Proyek</th>
+                                    <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Lokasi</th>
+                                    <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Status</th>
+                                    <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Progress</th>
+                                    <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredProjects.length > 0 ? filteredProjects.map((prj) => (
+                                    <tr key={prj.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors">
+                                        <td className="py-4 px-2">
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase">{prj.projectCode}</span>
+                                                <span className="text-sm font-bold">{prj.name}</span>
+                                                <span className="text-[10px] text-[var(--dashboard-text-soft)] font-medium">{prj.customer?.name || 'No Customer'}</span>
+                                            </div>
+                                        </td>
+                                        <td className="py-4 px-2">
+                                            <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">
                                                 <FiMapPin size={10} /> {prj.location}
                                             </div>
-                                            <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--dashboard-primary)] uppercase tracking-tighter">
-                                                <FiUser size={10} /> Mandor {prj.mandor}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs font-bold">{prj.currentStage}</span>
-                                            <span className={`w-fit px-2 py-0.5 rounded text-[8px] font-black uppercase ${getStatusLabel(prj.status).color}`}>
+                                        </td>
+                                        <td className="py-4 px-2">
+                                            <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${getStatusLabel(prj.status).color}`}>
                                                 {getStatusLabel(prj.status).text}
                                             </span>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2 w-32">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{prj.progress}%</span>
-                                            <div className="w-full h-1 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
-                                                <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.progress}%` }} />
+                                        </td>
+                                        <td className="py-4 px-2 w-32">
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{prj.progress || 0}%</span>
+                                                <div className="w-full h-1 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
+                                                    <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.progress || 0}%` }} />
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2 text-right">
-                                        <Link 
-                                            to={`/pengawas/proyek/${prj.id}`}
-                                            className="inline-flex items-center gap-1 text-xs font-black text-[var(--dashboard-primary)] hover:underline"
-                                        >
-                                            DETAIL <FiChevronRight />
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                                        </td>
+                                        <td className="py-4 px-2 text-right">
+                                            <Link 
+                                                to={`/pengawas/proyek/${prj.id}`}
+                                                className="inline-flex items-center gap-1 text-xs font-black text-[var(--dashboard-primary)] hover:underline"
+                                            >
+                                                DETAIL <FiChevronRight />
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan="5" className="py-20 text-center text-slate-400 font-medium italic">
+                                            Tidak ada proyek yang ditemukan.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </div>
     );

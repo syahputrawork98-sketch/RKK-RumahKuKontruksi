@@ -5,6 +5,7 @@ import { FiBell } from "react-icons/fi";
 import ThemeToggle from "../theme/ThemeToggle";
 import TopbarUserMenu from "./TopbarUserMenu";
 import TopbarNotification from "./TopbarNotification";
+import SupervisorSwitcher from "./SupervisorSwitcher";
 
 const TopbarBase = ({
     title,
@@ -12,8 +13,9 @@ const TopbarBase = ({
     notificationService,
     dummyNotifications,
     isCollapsed,
-    theme,           // ← TAMBAHAN PROP
-    onToggleTheme    // ← TAMBAHAN PROP
+    theme,
+    onToggleTheme,
+    showSupervisorSwitcher = false // TAMBAHAN PROP
 }) => {
 
     const [openMenu, setOpenMenu] = useState(false);
@@ -42,15 +44,20 @@ const TopbarBase = ({
             }}
         >
             {/* TITLE & BREADCRUMB AREA */}
-            <div className="flex flex-col ml-8">
-                <h2 className="dashboard-title !text-lg leading-tight">
-                    {title}
-                </h2>
-                <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest">RKK Dashboard</span>
-                    <span className="w-1 h-1 bg-[var(--dashboard-border)] rounded-full"></span>
-                    <span className="text-[10px] text-[var(--dashboard-text-muted)] font-medium italic">Internal System</span>
+            <div className="flex items-center gap-6 ml-8">
+                <div className="flex flex-col">
+                    <h2 className="dashboard-title !text-lg leading-tight">
+                        {title}
+                    </h2>
+                    <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest">RKK Dashboard</span>
+                        <span className="w-1 h-1 bg-[var(--dashboard-border)] rounded-full"></span>
+                        <span className="text-[10px] text-[var(--dashboard-text-muted)] font-medium italic">Internal System</span>
+                    </div>
                 </div>
+
+                {/* PERSONA SWITCHER (DEV ONLY) */}
+                {showSupervisorSwitcher && <SupervisorSwitcher />}
             </div>
 
             <div className="flex items-center gap-4 mr-8">

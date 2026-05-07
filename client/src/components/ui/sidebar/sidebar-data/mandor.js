@@ -44,6 +44,13 @@ export default [
     },
     {
         type: "item",
+        icon: FiFileText,
+        label: "Jurnal Mingguan",
+        href: "/mandor/jurnal-mingguan",
+        activeStartsWith: "/mandor/jurnal-mingguan"
+    },
+    {
+        type: "item",
         icon: FiCamera,
         label: "Dokumentasi Lapangan",
         href: "/mandor/dokumentasi",

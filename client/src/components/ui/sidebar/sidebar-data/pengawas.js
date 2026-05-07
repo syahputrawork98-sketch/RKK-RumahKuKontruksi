@@ -49,6 +49,13 @@ export default [
     },
     {
         type: "item",
+        icon: FiFileText,
+        label: "Jurnal Mandor",
+        href: "/pengawas/jurnal-mandor",
+        activeStartsWith: "/pengawas/jurnal-mandor"
+    },
+    {
+        type: "item",
         icon: FiSettings,
         label: "Pengaturan",
         href: "/pengawas/pengaturan",

@@ -20,20 +20,26 @@ import {
 } from "@client/components/ui/dashboard";
 import adminService from "../../services/adminService";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const DashboardAdmin = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [stats, setStats] = useState(null);
 
+    const { selectedAdminId } = useAdminPersona();
+
     useEffect(() => {
-        fetchDashboardData();
-    }, []);
+        if (selectedAdminId) {
+            fetchDashboardData();
+        }
+    }, [selectedAdminId]);
 
     const fetchDashboardData = async () => {
+        if (!selectedAdminId) return;
         try {
             setLoading(true);
-            const res = await adminService.getDashboardStats();
+            const res = await adminService.getDashboardStats({ adminId: selectedAdminId });
             setStats(res.data);
             setLoading(false);
         } catch (err) {
@@ -42,6 +48,10 @@ const DashboardAdmin = () => {
             setLoading(false);
         }
     };
+
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar untuk mensimulasikan login." />;
+    }
 
     if (loading) {
         return <RoleDataState type="loading" message="Memuat data dashboard..." />;

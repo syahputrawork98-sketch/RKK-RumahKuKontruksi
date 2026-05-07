@@ -15,11 +15,13 @@ import adminService from "../../services/adminService";
 import supervisorService from "../../services/supervisorService";
 import foremanService from "../../services/foremanService";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const PenugasanTimAdminPage = () => {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const { selectedAdminId } = useAdminPersona();
     
     const [projects, setProjects] = useState([]);
     const [options, setOptions] = useState({
@@ -38,14 +40,16 @@ const PenugasanTimAdminPage = () => {
     });
 
     useEffect(() => {
-        fetchInitialData();
-    }, []);
+        if (selectedAdminId) {
+            fetchInitialData();
+        }
+    }, [selectedAdminId]);
 
     const fetchInitialData = async () => {
         try {
             setLoading(true);
             const [projRes, admRes, supRes, forRes] = await Promise.all([
-                projectService.getProjects(),
+                projectService.getProjects({ adminId: selectedAdminId }),
                 adminService.getAdmins(),
                 supervisorService.getAllSupervisors(),
                 foremanService.getAllForemen()
@@ -111,6 +115,10 @@ const PenugasanTimAdminPage = () => {
         p.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
+    }
+
     if (loading) return <RoleDataState type="loading" message="Memuat modul penugasan..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchInitialData} />;
 
@@ -135,7 +143,7 @@ const PenugasanTimAdminPage = () => {
                                     placeholder="Cari kode proyek, nama, atau customer..." 
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                 />
                             </div>
                         </div>
@@ -215,11 +223,11 @@ const PenugasanTimAdminPage = () => {
 
                                 <div className="space-y-4">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] flex items-center gap-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 flex items-center gap-2">
                                             <FiUser /> Admin Penanggung Jawab
                                         </label>
                                         <select 
-                                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                             value={assignment.adminId}
                                             onChange={(e) => setAssignment({...assignment, adminId: e.target.value})}
                                         >
@@ -231,11 +239,11 @@ const PenugasanTimAdminPage = () => {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] flex items-center gap-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 flex items-center gap-2">
                                             <FiUsers /> Pengawas (Supervisor)
                                         </label>
                                         <select 
-                                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
                                             value={assignment.supervisorId}
                                             onChange={(e) => setAssignment({...assignment, supervisorId: e.target.value})}
                                         >
@@ -247,11 +255,11 @@ const PenugasanTimAdminPage = () => {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] flex items-center gap-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 flex items-center gap-2">
                                             <FiUsers /> Mandor (Foreman)
                                         </label>
                                         <select 
-                                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                                             value={assignment.foremanId}
                                             onChange={(e) => setAssignment({...assignment, foremanId: e.target.value})}
                                         >
@@ -284,13 +292,24 @@ const PenugasanTimAdminPage = () => {
                             </div>
                         )}
                         
-                        <div className="mt-8 pt-6 border-t border-[var(--dashboard-border)]">
+                        <div className="mt-8 pt-6 border-t border-[var(--dashboard-border)] space-y-4">
                             <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 flex items-center gap-2 mb-2">
-                                <FiAlertCircle /> Penting
+                                <FiAlertCircle /> Panduan Peran
                             </h4>
-                            <p className="text-[10px] text-amber-700 leading-relaxed font-medium">
-                                Penugasan tim akan menentukan proyek mana yang muncul di dashboard Pengawas dan Mandor masing-masing personil. Pastikan ketersediaan tim sebelum menyimpan.
-                            </p>
+                            <div className="space-y-3">
+                                <div className="text-[10px] text-amber-700 leading-relaxed font-medium">
+                                    <b className="block">Admin Penanggung Jawab</b>
+                                    Pemilik proyek di sistem. Proyek hanya muncul di dashboard Admin yang ditugaskan.
+                                </div>
+                                <div className="text-[10px] text-amber-700 leading-relaxed font-medium">
+                                    <b className="block">Pengawas (Supervisor)</b>
+                                    Bertanggung jawab melakukan verifikasi progress lapangan dan membuat laporan mingguan.
+                                </div>
+                                <div className="text-[10px] text-amber-700 leading-relaxed font-medium">
+                                    <b className="block">Mandor (Foreman)</b>
+                                    Bertanggung jawab mengisi jurnal harian dan request material di lapangan.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

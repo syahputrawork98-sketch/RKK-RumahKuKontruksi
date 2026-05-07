@@ -3,6 +3,7 @@ import { FiPlus, FiSearch, FiFilter, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const ProyekAdminPage = () => {
     const [activeSubtab, setActiveSubtab] = useState("daftar");
@@ -11,14 +12,19 @@ const ProyekAdminPage = () => {
     const [projects, setProjects] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
 
+    const { selectedAdminId } = useAdminPersona();
+
     useEffect(() => {
-        fetchProjects();
-    }, []);
+        if (selectedAdminId) {
+            fetchProjects();
+        }
+    }, [selectedAdminId]);
 
     const fetchProjects = async () => {
+        if (!selectedAdminId) return;
         try {
             setLoading(true);
-            const res = await projectService.getProjects();
+            const res = await projectService.getProjects({ adminId: selectedAdminId });
             setProjects(res.data || []);
             setLoading(false);
         } catch (err) {
@@ -48,6 +54,10 @@ const ProyekAdminPage = () => {
         prj.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         prj.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
+    }
 
     if (loading) return <RoleDataState type="loading" message="Memuat daftar proyek..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjects} />;

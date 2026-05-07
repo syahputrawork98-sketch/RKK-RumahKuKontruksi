@@ -6,12 +6,14 @@ import supervisorService from "../../services/supervisorService";
 import foremanService from "../../services/foremanService";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const CreateProyekAdminPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const { selectedAdminId, selectedAdmin } = useAdminPersona();
     
     const [options, setOptions] = useState({
         customers: [],
@@ -66,6 +68,7 @@ const CreateProyekAdminPage = () => {
             // Convert types
             const payload = {
                 ...formData,
+                adminId: selectedAdminId,
                 customerId: formData.customerId,
                 supervisorId: formData.supervisorId || null,
                 foremanId: formData.foremanId || null,
@@ -86,6 +89,7 @@ const CreateProyekAdminPage = () => {
         }
     };
 
+    if (!selectedAdminId) return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
     if (loading) return <RoleDataState type="loading" message="Menyiapkan formulir..." />;
 
     return (
@@ -108,30 +112,30 @@ const CreateProyekAdminPage = () => {
                     <form onSubmit={handleSubmit} className="dashboard-card space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Kode Proyek</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Kode Proyek</label>
                                 <input 
                                     required
                                     type="text" 
                                     value={formData.projectCode}
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm font-bold text-[var(--dashboard-primary)]"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, projectCode: e.target.value})}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Nama Proyek</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Nama Proyek</label>
                                 <input 
                                     required
                                     type="text" 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     placeholder="Contoh: Renovasi Rumah Pak Agus"
                                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Customer</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Customer</label>
                                 <select 
                                     required
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, customerId: e.target.value})}
                                 >
                                     <option value="">Pilih Customer...</option>
@@ -141,11 +145,11 @@ const CreateProyekAdminPage = () => {
                                 </select>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Estimasi Budget (Rp)</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Estimasi Budget (Rp)</label>
                                 <input 
                                     required
                                     type="number" 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     placeholder="Contoh: 500000000"
                                     value={formData.budgetTotal}
                                     onChange={(e) => setFormData({...formData, budgetTotal: e.target.value})}
@@ -153,9 +157,9 @@ const CreateProyekAdminPage = () => {
                             </div>
                             
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Pengawas (Supervisor)</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Pengawas (Supervisor)</label>
                                 <select 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, supervisorId: e.target.value})}
                                 >
                                     <option value="">Belum Ditugaskan</option>
@@ -166,9 +170,9 @@ const CreateProyekAdminPage = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Mandor (Foreman)</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Mandor (Foreman)</label>
                                 <select 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, foremanId: e.target.value})}
                                 >
                                     <option value="">Belum Ditugaskan</option>
@@ -179,19 +183,19 @@ const CreateProyekAdminPage = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Tanggal Estimasi Mulai</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Tanggal Estimasi Mulai</label>
                                 <input 
                                     required
                                     type="date" 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, startDate: e.target.value})}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Estimasi Selesai</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Estimasi Selesai</label>
                                 <input 
                                     type="date" 
-                                    className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, endDate: e.target.value})}
                                 />
                             </div>
@@ -219,6 +223,9 @@ const CreateProyekAdminPage = () => {
                             <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" />
                             <div className="space-y-1">
                                 <h4 className="text-xs font-bold text-amber-600 uppercase tracking-wider">Penting</h4>
+                                <p className="text-[10px] leading-relaxed text-amber-700 font-medium">
+                                    Proyek ini akan otomatis didaftarkan di bawah kendali Admin: <b>{selectedAdmin?.name || "Persona Aktif"}</b>.
+                                </p>
                                 <p className="text-[10px] leading-relaxed text-amber-700 font-medium">
                                     Input budget hanya berupa estimasi kotor; RAB detail akan disusun di modul terpisah. Penugasan tim bisa diubah nanti di modul Penugasan Tim.
                                 </p>

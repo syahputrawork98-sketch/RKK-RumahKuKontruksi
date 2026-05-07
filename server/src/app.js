@@ -8,6 +8,8 @@ import architectRoutes from './modules/architects/architects.routes.js';
 import adminRoutes from './modules/admins/admins.routes.js';
 import superadminRoutes from './modules/superadmins/superadmins.routes.js';
 import materialRequestRoutes from './modules/material-requests/material-requests.routes.js';
+import weeklyJournalRoutes from './modules/weekly-journals/weekly-journals.routes.js';
+import supervisorWeeklyReportRoutes from './modules/supervisor-weekly-reports/supervisor-weekly-reports.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -29,6 +31,8 @@ app.use('/api/architects', architectRoutes);
 app.use('/api/admins', adminRoutes);
 app.use('/api/superadmins', superadminRoutes);
 app.use('/api/material-requests', materialRequestRoutes);
+app.use('/api/weekly-journals', weeklyJournalRoutes);
+app.use('/api/supervisor-weekly-reports', supervisorWeeklyReportRoutes);
 
 // Error Handler
 app.use(errorHandler);

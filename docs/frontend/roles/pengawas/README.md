@@ -1,41 +1,42 @@
 # Role: Pengawas
 
 ## Status Umum
-Role Pengawas saat ini masih berupa **Shell**. Pengawas nantinya akan menjadi pengguna utama yang mengisi data progres dan memverifikasi pekerjaan di lapangan.
+Role Pengawas saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi utama, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur monitoring dan verifikasi lapangan.
 
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/pengawas/dashboard` | `DashboardPengawas.jsx` | **Shell** | Placeholder monitoring. |
+| Dashboard | `/pengawas/dashboard` | `DashboardPengawas.jsx` | **Done (Mock)** | Ringkasan proyek, verifikasi, & dokumentasi. |
+| Proyek Diawasi | `/pengawas/proyek` | `ProyekDiawasiPengawasPage.jsx` | **Done (Mock)** | List proyek dengan subtab status. |
+| Detail Proyek | `/pengawas/proyek/:id` | `DetailProyekDiawasiPengawasPage.jsx` | **Done (Mock)** | Detail tahapan, checklist, & material. |
+| Verifikasi Progres | `/pengawas/verifikasi-progres` | `VerifikasiProgresPengawasPage.jsx` | **Done (Mock)** | Validasi capaian progres dari Mandor. |
+| Dokumentasi | `/pengawas/dokumentasi` | `DokumentasiLapanganPengawasPage.jsx` | **Done (Mock)** | Galeri foto bukti fisik lapangan. |
+| Laporan Mingguan | `/pengawas/laporan-mingguan` | `LaporanMingguanPengawasPage.jsx` | **Done (Mock)** | Monitoring kepatuhan pelaporan periodik. |
+| Request Material | `/pengawas/request-material` | `RequestMaterialPengawasPage.jsx` | **Done (Mock)** | Monitoring permintaan logistik proyek. |
+| Pengaturan | `/pengawas/pengaturan` | `PengaturanPengawasPage.jsx` | **Done (Mock)** | Profil & cakupan wilayah kerja. |
 
 ## Komponen Terkait
-- `PengawasLayout.jsx`: Sidebar navigasi pengawas.
+- `PengawasLayout.jsx`: Sidebar navigasi & Topbar khusus Pengawas.
+- `DashboardStats.jsx`: Widget statistik progres lapangan.
 
-## Data / Mock Data
-- **Pengawas Table**: Menggunakan `mockSupervisors` di `src/data/mock/supervisors.js`.
-- **Sertifikasi Table**: Menggunakan `mockSupervisorCertificates.js` (Terpisah).
-- **Progress Verification**: Verifikasi progres dilakukan pada level kategori dan item RAB (`rabItems.js`).
-- **Relasi Proyek**: Pengawas memantau progres fisik dan dokumentasi lapangan.
-
-| Pengawas | Assigned Projects | Capacity | Certificates | Status |
-|---|---:|---:|---:|---|
-| Ahmad Fauzi | 3 | 3 | 3 valid | Full |
-| Bambang Wijaya | 2 | 3 | 2 valid | Normal |
-| Eko Prasetyo | 1 | 3 | 1 pending | Available |
-| Lukman Hakim | 0 | 3 | 1 expired | Inactive |
+## Data / Mock Data (Mock-First)
+- **Project Monitoring**: Fokus pada status `active`, `needs_verification`, dan `delayed`.
+- **Verification Workflow**: Alur validasi dari pengajuan Mandor sebelum masuk ke sistem Admin/Konsumen.
+- **Field Documentation**: Sinkronisasi foto lapangan per tahapan pengerjaan.
 
 ## Sudah Dikerjakan
-- [x] Struktur layout dan navigasi sidebar.
-- [x] Routing dasar.
-- [x] Perancangan mock data pengawas dan pemisahan sertifikat.
+- [x] Struktur layout dan navigasi sidebar Pengawas.
+- [x] Sinkronisasi tema Light/Dark global.
+- [x] Routing lengkap (8 route aktif).
+- [x] Halaman shell profesional untuk seluruh modul Pengawas.
 
 ## Belum Dikerjakan
-- [ ] List Proyek yang diawasi.
-- [ ] Form input progres mingguan.
-- [ ] Tombol verifikasi tahapan (Checklist pekerjaan).
-- [ ] Fitur upload foto dokumentasi lapangan.
+- [ ] Integrasi API Backend (Progress Verification, Reports).
+- [ ] Sistem Checklist Pekerjaan rill per tahapan.
+- [ ] Fitur Sinkronisasi dengan Timeline Konsumen rill.
 
 ## Prioritas Berikutnya
-1. Membuat antarmuka untuk verifikasi tahapan yang akan sinkron dengan tampilan timeline Konsumen.
-2. Form upload dokumentasi foto.
+1. Implementasi alur Verifikasi Progres yang terhubung dengan database.
+2. Modul Checklist Detail untuk setiap tahapan pekerjaan.
+3. Form pembuatan Laporan Mingguan otomatis.

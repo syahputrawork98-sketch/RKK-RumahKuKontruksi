@@ -1,73 +1,56 @@
-// client/src/components/ui/sidebar-data/superadmin.js
+// client/src/components/ui/sidebar/sidebar-data/pengawas.js
 import {
-  FiHome,
-  FiUsers,
-  FiLayers,
-  FiBarChart2,
-  FiFileText,
-  FiCreditCard,
-  FiSettings,
-  FiActivity,
+    FiHome,
+    FiLayers,
+    FiCheckSquare,
+    FiCamera,
+    FiFileText,
+    FiShoppingCart,
+    FiSettings
 } from "react-icons/fi";
 
 export default [
-  {
-    type: "item",
-    icon: FiHome,
-    label: "Dashboard",
-    href: "/pengawas/dashboard",
-  },
-  // {
-  // 		type: "dropdown",
-  // 		icon: FiUsers,
-  // 		label: "Manajemen User",
-  // 		activeStartsWith: "/admin/user",
-  // 		items: [
-  // 				{ label: "Admin", href: "/superadmin/data-admin" },
-  // 				{ label: "Pengawas", href: "/superadmin/data-pengawas" },
-  // 				{ label: "Mandor", href: "/admin/user/mandor" },
-  // 				{ label: "Konsumen", href: "/admin/user/konsumen" },
-  // 				{ label: "Perusahaan & PIC", href: "/admin/user/perusahaan" },
-  // 		],
-  // },
-  // {
-  // 		type: "item",
-  // 		icon: FiLayers,
-  // 		label: "Proyek",
-  // 		href: "/admin/proyek",
-  // },
-  // {
-  // 		type: "item",
-  // 		icon: FiBarChart2,
-  // 		label: "Progres Proyek",
-  // 		href: "/admin/progres-proyek",
-  // },
-  // {
-  // 		type: "item",
-  // 		icon: FiFileText,
-  // 		label: "RAB",
-  // 		href: "/admin/rab",
-  // },
-  // {
-  // 		type: "dropdown",
-  // 		icon: FiCreditCard,
-  // 		label: "Pembayaran",
-  // 		activeStartsWith: "/admin/pembayaran",
-  // 		items: [
-  // 				{ label: "Pembayaran Konsumen", href: "/admin/pembayaran/konsumen" },
-  // 				{ label: "Pembayaran Mandor", href: "/admin/pembayaran/mandor" },
-  // 		],
-  // },
-  // {
-  // 		type: "item",
-  // 		icon: FiActivity,
-  // 		label: "Log Aktivitas",
-  // 		href: "/admin/log-aktivitas",
-  // },
-  // {
-  // 		type: "item",
-  // 		icon: FiSettings,
-  // 		label: "Pengaturan",
-  // 		href: "/admin/pengaturan",
-  // },
+    {
+        type: "item",
+        icon: FiHome,
+        label: "Dashboard",
+        href: "/pengawas/dashboard",
+    },
+    {
+        type: "item",
+        icon: FiLayers,
+        label: "Proyek Diawasi",
+        href: "/pengawas/proyek",
+        activeStartsWith: "/pengawas/proyek"
+    },
+    {
+        type: "item",
+        icon: FiCheckSquare,
+        label: "Verifikasi Progres",
+        href: "/pengawas/verifikasi-progres",
+    },
+    {
+        type: "item",
+        icon: FiCamera,
+        label: "Dokumentasi Lapangan",
+        href: "/pengawas/dokumentasi",
+    },
+    {
+        type: "item",
+        icon: FiFileText,
+        label: "Laporan Mingguan",
+        href: "/pengawas/laporan-mingguan",
+    },
+    {
+        type: "item",
+        icon: FiShoppingCart,
+        label: "Request Material",
+        href: "/pengawas/request-material",
+    },
+    {
+        type: "item",
+        icon: FiSettings,
+        label: "Pengaturan",
+        href: "/pengawas/pengaturan",
+    },
 ];

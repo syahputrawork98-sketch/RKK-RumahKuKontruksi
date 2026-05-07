@@ -50,6 +50,13 @@ import PengaturanAdminPage from "./pages/admin/PengaturanAdminPage";
 // ===== HALAMAN PENGAWAS =====
 import PengawasLayout from "./layouts/PengawasLayout";
 import DashboardPengawas from "./pages/pengawas/DashboardPengawas";
+import ProyekDiawasiPengawasPage from "./pages/pengawas/ProyekDiawasiPengawasPage";
+import DetailProyekDiawasiPengawasPage from "./pages/pengawas/DetailProyekDiawasiPengawasPage";
+import VerifikasiProgresPengawasPage from "./pages/pengawas/VerifikasiProgresPengawasPage";
+import DokumentasiLapanganPengawasPage from "./pages/pengawas/DokumentasiLapanganPengawasPage";
+import LaporanMingguanPengawasPage from "./pages/pengawas/LaporanMingguanPengawasPage";
+import RequestMaterialPengawasPage from "./pages/pengawas/RequestMaterialPengawasPage";
+import PengaturanPengawasPage from "./pages/pengawas/PengaturanPengawasPage";
 
 // ===== HALAMAN MANDOR =====
 import MandorLayout from "./layouts/MandorLayout";
@@ -128,6 +135,13 @@ function App() {
         {/* ================== PENGAWAS LAYOUT ================== */}
         <Route path="/pengawas" element={<PengawasLayout />}>
           <Route path="dashboard" element={<DashboardPengawas />} />
+          <Route path="proyek" element={<ProyekDiawasiPengawasPage />} />
+          <Route path="proyek/:projectId" element={<DetailProyekDiawasiPengawasPage />} />
+          <Route path="verifikasi-progres" element={<VerifikasiProgresPengawasPage />} />
+          <Route path="dokumentasi" element={<DokumentasiLapanganPengawasPage />} />
+          <Route path="laporan-mingguan" element={<LaporanMingguanPengawasPage />} />
+          <Route path="request-material" element={<RequestMaterialPengawasPage />} />
+          <Route path="pengaturan" element={<PengaturanPengawasPage />} />
         </Route>
 
         {/* ================== MANDOR LAYOUT ================== */}

@@ -15,7 +15,8 @@ Frontend RKK saat ini adalah **prototype fungsional** yang sangat lengkap secara
 * **Superadmin**: **Stable (UI Standard)**. Sidebar, Topbar, dan Layout sudah dipolish sebagai patokan desain dashboard internal. Route sudah diselaraskan ke `/superadmin`.
 * **Admin**: **Shell Expanded / Mock-First**. Navigasi lengkap, layout bertema, dan halaman shell profesional sudah tersedia.
 * **Arsitek**: **Shell Expanded / Mock-First**. Kerangka dashboard, permintaan desain, dan navigasi khusus arsitek sudah tersedia.
-* **Pengawas/Mandor**: **Shell**. Menunggu replikasi desain dari standar Superadmin.
+* **Pengawas**: **Shell Expanded / Mock-First**. Navigasi monitoring lapangan, verifikasi progres, dan dokumentasi sudah tersedia.
+* **Mandor**: **Shell**. Menunggu replikasi desain dari standar Superadmin.
 
 
 ## Area Pengembangan Prioritas

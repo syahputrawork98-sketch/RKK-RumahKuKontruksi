@@ -1,5 +1,4 @@
-// client/src/layouts/SuperAdminLayout.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import SidebarBase from "@client/components/ui/sidebar/SidebarBase";
@@ -12,42 +11,58 @@ import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
 
 const PengawasLayout = () => {
-  // ➜ STATE DIPAKAI BERSAMA (Sidebar & Topbar)
-  const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("rkk-dashboard-theme") || "light";
+    });
 
-  return (
-    <div className="flex">
-      {/* SIDEBAR */}
-      <SidebarBase
-        menu={pengawasSidebar}
-        user={pengawasTopbar.user}
-        isCollapsed={isCollapsed}
-        setIsCollapsed={setIsCollapsed}
-      />
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("rkk-dashboard-theme", theme);
+    }, [theme]);
 
-      {/* MAIN CONTENT AREA */}
-      <div
-        className={`flex-1 transition-all duration-300`}
-        style={{
-          marginLeft: isCollapsed ? "5rem" : "18rem",
-        }}
-      >
-        {/* TOPBAR */}
-        <TopbarBase
-          title={pengawasTopbar.title}
-          user={pengawasTopbar.user}
-          isCollapsed={isCollapsed}
-          notificationService={notificationService}
-          dummyNotifications={dummyNotifications}
-        />
+    const toggleTheme = () => {
+        setTheme(prev => prev === "light" ? "dark" : "light");
+    };
 
-        {/* PAGE CONTENT VIA OUTLET */}
-        <main className="p-6 mt-16">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
+    return (
+        <div className="dashboard-shell flex min-h-screen">
+            {/* SIDEBAR */}
+            <SidebarBase
+                menu={pengawasSidebar}
+                user={pengawasTopbar.user}
+                isCollapsed={isCollapsed}
+                setIsCollapsed={setIsCollapsed}
+                panelLabel="Pengawas Panel"
+            />
+
+            {/* MAIN CONTENT AREA */}
+            <div 
+                className="dashboard-main flex-1 flex flex-col transition-all duration-300"
+                style={{
+                    marginLeft: isCollapsed ? "5rem" : "18rem",
+                }}
+            >
+                {/* TOPBAR */}
+                <TopbarBase
+                    title={pengawasTopbar.title}
+                    user={pengawasTopbar.user}
+                    isCollapsed={isCollapsed}
+                    theme={theme}
+                    onToggleTheme={toggleTheme}
+                    notificationService={notificationService}
+                    dummyNotifications={dummyNotifications}
+                />
+
+                {/* PAGE CONTENT VIA OUTLET */}
+                <main className="dashboard-page flex-1 mt-16 p-6 overflow-y-auto">
+                    <div className="dashboard-container">
+                        <Outlet />
+                    </div>
+                </main>
+            </div>
+        </div>
+    );
 };
 
 export default PengawasLayout;

@@ -78,6 +78,7 @@ function App() {
           <Route path="data-mandor" element={<DataMandor />} />
           
           {/* PLACEHOLDERS */}
+          <Route path="data-arsitek" element={<PlaceholderPage title="Manajemen Arsitek" description="Halaman untuk mengelola data mitra arsitek dan desain proyek." />} />
           <Route path="data-konsumen" element={<PlaceholderPage title="Manajemen Konsumen" description="Halaman untuk mengelola data konsumen retail dan korporat." />} />
           <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." />} />
           <Route path="proyek" element={<PlaceholderPage title="Monitoring Proyek" description="Halaman monitoring status seluruh proyek konstruksi." />} />
@@ -85,6 +86,7 @@ function App() {
           <Route path="rab" element={<PlaceholderPage title="Monitoring RAB" description="Halaman monitoring rencana anggaran biaya seluruh proyek." />} />
           <Route path="pembayaran/konsumen" element={<PlaceholderPage title="Tagihan Konsumen" description="Halaman monitoring invoice dan pembayaran dari konsumen." />} />
           <Route path="pembayaran/mandor" element={<PlaceholderPage title="Opname Mandor" description="Halaman monitoring pengajuan pembayaran dan opname mandor." />} />
+          <Route path="pembayaran/arsitek" element={<PlaceholderPage title="Fee Arsitek" description="Halaman monitoring pembayaran fee desain untuk mitra arsitek." />} />
           <Route path="log-aktivitas" element={<LogAktivitas />} />
           <Route path="pengaturan" element={<PlaceholderPage title="Pengaturan Sistem" description="Halaman konfigurasi parameter sistem dan backup data." />} />
         </Route>

@@ -11,15 +11,22 @@ const SidebarDropdown = ({ icon: Icon, label, items, active, collapsed }) => {
             <button
                 onClick={() => setOpen(!open)}
                 className={`
-                    flex items-center justify-between w-full p-3 rounded-lg 
-                    transition-all duration-200
-                    ${active ? "bg-teal-700 text-white shadow-inner" : "hover:bg-teal-800"}
+                    flex items-center justify-between w-full p-3.5 rounded-xl 
+                    transition-all duration-200 group
+                    ${active 
+                        ? "bg-white/5 text-white border border-white/5 shadow-xs" 
+                        : "text-slate-400 hover:bg-white/5 hover:text-white"}
                 `}
             >
                 {/* ICON + LABEL */}
                 <div className="flex items-center gap-3">
-                    <Icon className="text-xl transition-transform group-hover:scale-110" />
-                    {!collapsed && <span className="font-medium">{label}</span>}
+                    <div className={`
+                        flex items-center justify-center transition-colors
+                        ${active ? "text-teal-400" : "group-hover:text-teal-400"}
+                    `}>
+                        <Icon size={20} />
+                    </div>
+                    {!collapsed && <span className="font-medium text-sm tracking-wide">{label}</span>}
                 </div>
 
                 {/* CHEVRON */}
@@ -35,15 +42,15 @@ const SidebarDropdown = ({ icon: Icon, label, items, active, collapsed }) => {
             {!collapsed && (
                 <div
                     className={`
-                        ml-12 mt-1 flex flex-col gap-1 overflow-hidden transition-all duration-300
-                        ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+                        ml-4 mt-1 flex flex-col gap-1 overflow-hidden transition-all duration-300 border-l border-white/10 pl-6
+                        ${open ? "max-h-96 opacity-100 py-2" : "max-h-0 opacity-0"}
                     `}
                 >
                     {items.map((item, idx) => (
                         <a
                             key={idx}
                             href={item.href}
-                            className="p-2 text-sm rounded-md hover:bg-teal-800 transition-all duration-200"
+                            className="p-2.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-white/5 hover:text-white transition-all duration-200"
                         >
                             {item.label}
                         </a>

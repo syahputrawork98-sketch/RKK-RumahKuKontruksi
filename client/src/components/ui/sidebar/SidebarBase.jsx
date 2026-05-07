@@ -15,36 +15,58 @@ import SidebarDropdown from "./SidebarDropdown";
         setIsCollapsed
 */
 const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
-
     const location = useLocation();
 
     return (
         <aside
             className={`${isCollapsed ? "w-20" : "w-72"}
-                fixed top-0 left-0 h-screen bg-teal-900 text-white 
-                border-r border-teal-700 flex flex-col 
-                transition-all duration-300 z-50`}
+                fixed top-0 left-0 h-screen 
+                bg-linear-to-b from-teal-950 via-slate-950 to-slate-900 
+                text-white border-r border-teal-500/10 flex flex-col 
+                transition-all duration-300 z-50 shadow-2xl`}
         >
-
-            {/* HEADER */}
-            <div className="flex items-center justify-between px-4 py-5 border-b border-teal-700">
-
-                {/* Tampilkan text hanya ketika tidak collapsed */}
-                {!isCollapsed && (
-                    <h1 className="text-xl font-bold">Dashboard</h1>
+            {/* BRAND HEADER */}
+            <div className="flex items-center justify-between px-4 py-6 mb-2">
+                {!isCollapsed ? (
+                    <div className="flex items-center gap-3 pl-2">
+                        <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/20">
+                            <span className="text-xl font-bold text-white tracking-tighter">RK</span>
+                        </div>
+                        <div className="flex flex-col">
+                            <h1 className="text-lg font-bold leading-none tracking-tight">RKK</h1>
+                            <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest mt-0.5">Superadmin Panel</span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/20 mx-auto">
+                        <span className="text-lg font-bold text-white">R</span>
+                    </div>
                 )}
 
-                {/* BUTTON COLLAPSE */}
-                <button
-                    onClick={() => setIsCollapsed(!isCollapsed)}
-                    className="p-2 hover:bg-teal-700 rounded-lg transition"
-                >
-                    {isCollapsed ? <FiChevronsRight /> : <FiChevronsLeft />}
-                </button>
+                {!isCollapsed && (
+                    <button
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className="p-2 hover:bg-white/5 rounded-xl transition text-teal-400"
+                    >
+                        <FiChevronsLeft size={20} />
+                    </button>
+                )}
             </div>
 
+            {/* BUTTON COLLAPSE (VISIBLE ON COLLAPSED) */}
+            {isCollapsed && (
+                <div className="flex justify-center mb-6">
+                    <button
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className="p-2 hover:bg-white/5 rounded-xl transition text-teal-400"
+                    >
+                        <FiChevronsRight size={20} />
+                    </button>
+                </div>
+            )}
+
             {/* MENU LIST */}
-            <div className="flex-1 px-3 py-4 space-y-3 overflow-y-auto">
+            <div className="flex-1 px-4 space-y-1 overflow-y-auto scrollbar-hide py-2">
                 {menu.map((item, index) => {
                     if (item.type === "item") {
                         return (
@@ -60,6 +82,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                     }
 
                     if (item.type === "dropdown") {
+                        const isChildActive = item.items.some(child => location.pathname === child.href);
                         return (
                             <SidebarDropdown
                                 key={index}
@@ -67,7 +90,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                                 label={item.label}
                                 items={item.items}
                                 collapsed={isCollapsed}
-                                active={location.pathname.startsWith(item.activeStartsWith)}
+                                active={isChildActive || location.pathname.startsWith(item.activeStartsWith)}
                             />
                         );
                     }
@@ -76,22 +99,28 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                 })}
             </div>
 
-            {/* USER INFO */}
-            <div className="border-t border-teal-700 p-4 flex items-center gap-3">
-                <img
-                    src={user?.photo ?? "https://placehold.co/200x200"}
-                    className="w-10 h-10 rounded-full object-cover"
-                />
+            {/* USER PROFILE CARD */}
+            <div className="p-4 border-t border-white/5">
+                <div className={`
+                    flex items-center gap-3 p-3 rounded-2xl
+                    ${isCollapsed ? "justify-center" : "bg-white/5 border border-white/5"}
+                `}>
+                    <img
+                        src={user?.photo ?? "https://placehold.co/200x200"}
+                        className="w-10 h-10 rounded-xl object-cover ring-2 ring-teal-500/20"
+                        alt="User"
+                    />
 
-                {/* Tampilkan info hanya kalau sidebar tidak collapse */}
-                {!isCollapsed && (
-                    <div>
-                        <p className="font-semibold">{user?.name ?? "User"}</p>
-                        <p className="text-xs text-teal-300">{user?.role ?? "Role"}</p>
-                    </div>
-                )}
+                    {!isCollapsed && (
+                        <div className="flex-1 overflow-hidden">
+                            <p className="font-bold text-sm truncate text-white">{user?.name ?? "Superadmin"}</p>
+                            <p className="text-[10px] text-teal-400 font-bold uppercase tracking-wider truncate">
+                                {user?.role ?? "Role"}
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
-
         </aside>
     );
 };

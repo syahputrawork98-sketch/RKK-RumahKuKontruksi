@@ -30,11 +30,17 @@ export default function DataAdminPage() {
     fetchAdmins();
   }, []);
   return (
-    <div className="p-6">
+    <div className="animate-fadeIn">
       {/* PAGE HEADER */}
-      <div className="mb-6 flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">Data Admin</h1>
-        <p className="text-slate-600">Kelola semua akun admin & superadmin.</p>
+      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="dashboard-title text-4xl">Manajemen Admin</h1>
+          <p className="dashboard-subtitle text-lg">Kelola akun administrator, hak akses, dan monitoring aktivitas staff internal RKK.</p>
+        </div>
+        <div className="flex items-center gap-2 bg-[var(--dashboard-primary-soft)] px-4 py-2 rounded-xl border border-[var(--dashboard-primary)]/10">
+          <span className="w-2 h-2 bg-[var(--dashboard-primary)] rounded-full animate-pulse"></span>
+          <span className="text-xs font-bold text-[var(--dashboard-primary)] uppercase tracking-widest">{dataAdmin.length} Total Admin</span>
+        </div>
       </div>
 
       {/* TABLE COMPONENT */}

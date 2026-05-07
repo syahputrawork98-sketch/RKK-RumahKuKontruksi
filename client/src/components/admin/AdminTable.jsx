@@ -82,62 +82,69 @@ export default function AdminTable({ data }) {
   };
 
   return (
-    <div className="mt-6">
-      {/* FILTERS */}
-      <AdminFilters
-        search={search}
-        setSearch={setSearch}
-        role={role}
-        setRole={setRole}
-        sort={sort}
-        setSort={setSort}
-      />
-
-      {/* ADD BUTTON */}
-      <div className="flex justify-end mb-3">
+    <div className="mt-8">
+      {/* ACTION BAR: SEARCH & ADD */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+        <div className="flex-1">
+          <AdminFilters
+            search={search}
+            setSearch={setSearch}
+            sort={sort}
+            setSort={setSort}
+          />
+        </div>
+        
         <button
           onClick={handleAdd}
-          className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+          className="dashboard-primary-button flex items-center justify-center gap-2 !py-3"
         >
-          + Tambah Admin
+          <span className="text-xl leading-none">+</span>
+          <span>Tambah Admin</span>
         </button>
       </div>
 
       {/* TABLE */}
-      <div className="overflow-x-auto bg-white rounded-xl shadow-sm border">
-        <table className="w-full text-sm">
-          <thead className="bg-slate-100 text-slate-600 text-xs uppercase">
-            <tr>
-              <th className="px-4 py-3 text-left">Foto</th>
-              <th className="px-4 py-3 text-left">ID</th>
-              <th className="px-4 py-3 text-left">Nama</th>
-              <th className="px-4 py-3 text-left">No HP</th>
-              <th className="px-4 py-3 text-left">Alamat</th>
-              <th className="px-4 py-3 text-left">Dibuat</th>
-              <th className="px-4 py-3 text-left">Aksi</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {sortedAdmins.length === 0 ? (
-              <tr>
-                <td colSpan="9" className="py-10 text-center text-slate-500">
-                  Tidak ada admin yang ditemukan.
-                </td>
+      <div className="dashboard-table-card">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr className="bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-muted)] border-b border-[var(--dashboard-border-soft)]">
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Profil</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">ID / Nama Lengkap</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Kontak / Email</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Alamat</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Bergabung</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px] text-center">Aksi</th>
               </tr>
-            ) : (
-              sortedAdmins.map((admin) => (
-                <AdminRow
-                  key={admin.id_admin}
-                  admin={admin}
-                  onEdit={() => handleEdit(admin)}
-                  onDelete={() => handleDelete(admin)}
-                  onDetail={() => setDetailAdmin(admin)}
-                />
-              ))
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
+              {sortedAdmins.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4">
+                        <span className="text-2xl">?</span>
+                      </div>
+                      <p className="font-bold">Tidak ada admin ditemukan</p>
+                      <p className="text-xs">Coba ubah kata kunci pencarian Anda</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                sortedAdmins.map((admin) => (
+                  <AdminRow
+                    key={admin.id_admin}
+                    admin={admin}
+                    onEdit={() => handleEdit(admin)}
+                    onDelete={() => handleDelete(admin)}
+                    onDetail={() => setDetailAdmin(admin)}
+                  />
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* MODALS */}

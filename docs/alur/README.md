@@ -32,3 +32,4 @@ Setiap alur kerja ditandai dengan status berikut:
 - [Jurnal Mingguan Mandor](./jurnal-mingguan-mandor.md) (Planned)
 - [Laporan Mingguan Pengawas](./alur-laporan-mingguan-pengawas.md) (Planned)
 - [Alur Notifikasi Sistem](./notification-system.md) (Planned)
+- [Approval, Rejection, Revisi](./07-alur-approval-rejection-revisi.md) (Planned)

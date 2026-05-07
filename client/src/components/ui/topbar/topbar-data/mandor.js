@@ -1,9 +1,9 @@
-// client/src/components/ui/topbar-data/superadmin.js
+// client/src/components/ui/topbar/topbar-data/mandor.js
 export default {
-  title: "Mandor Dashboard",
-  user: {
-    name: "Mandor",
-    role: "Mandor",
-    photo: "https://placehold.co/40",
-  },
+    title: "Mandor Panel",
+    user: {
+        name: "Mandor Lapangan",
+        role: "Foreman",
+        photo: "https://placehold.co/200x200",
+    },
 };

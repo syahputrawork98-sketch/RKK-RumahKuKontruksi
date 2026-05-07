@@ -1,40 +1,43 @@
 # Role: Mandor
 
 ## Status Umum
-Role Mandor saat ini masih berupa **Shell**. Fokus peran ini adalah laporan harian, manajemen tim lapangan, dan permintaan material di lokasi proyek.
+Role Mandor saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi harian lapangan, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan fitur logbook harian dan eksekusi tugas.
 
 ## Halaman / Route
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/mandor/dashboard` | `DashboardMandor.jsx` | **Shell** | Placeholder dashboard harian. |
+| Dashboard | `/mandor/dashboard` | `DashboardMandor.jsx` | **Done (Mock)** | Ringkasan tugas & progress harian. |
+| Proyek Aktif | `/mandor/proyek-aktif` | `ProyekAktifMandorPage.jsx` | **Done (Mock)** | List proyek dalam pengerjaan tim. |
+| Detail Proyek | `/mandor/proyek-aktif/:id` | `DetailProyekAktifMandorPage.jsx` | **Done (Mock)** | Info tugas, tim, & kendala lapangan. |
+| Tugas Harian | `/mandor/tugas-harian` | `TugasHarianMandorPage.jsx` | **Done (Mock)** | Checklist pekerjaan harian tim teknis. |
+| Laporan Harian | `/mandor/laporan-harian` | `LaporanHarianMandorPage.jsx` | **Done (Mock)** | Logbook harian/catatan kemajuan fisik. |
+| Request Material | `/mandor/request-material` | `RequestMaterialMandorPage.jsx` | **Done (Mock)** | Pengajuan kebutuhan logistik mendesak. |
+| Dokumentasi | `/mandor/dokumentasi` | `DokumentasiLapanganMandorPage.jsx` | **Done (Mock)** | Bukti visual progres harian. |
+| Kendala Lapangan | `/mandor/kendala-lapangan` | `KendalaLapanganMandorPage.jsx` | **Done (Mock)** | Pelaporan hambatan & masalah lapangan. |
+| Pengaturan | `/mandor/pengaturan` | `PengaturanMandorPage.jsx` | **Done (Mock)** | Profil & ringkasan tim binaan. |
 
 ## Komponen Terkait
-- `MandorLayout.jsx`: Sidebar navigasi mandor.
+- `MandorLayout.jsx`: Sidebar navigasi & Topbar khusus Mandor.
+- `DashboardStats.jsx`: Widget statistik operasional harian.
 
-## Data / Mock Data
-- **Mandor Table**: Menggunakan `mockForemen` di `src/data/mock/foremen.js`. Mandor diposisikan sebagai **Vendor Lapangan**.
-- **Sertifikasi Table**: Menggunakan `mockForemanCertificates.js`.
-- **Kapasitas**: Maksimal **2 proyek aktif**.
-- **Tim Lapangan**: RKK tidak mengelola data tukang secara individu. Informasi tim tersedia secara ringkas di `teamSummary`.
-
-| Mandor | Vendor Type | Capacity | Certificates | Status |
-|---|---|---:|---:|---|
-| Budi Santoso | Company (CV) | 2 | 3 valid | Full |
-| Agus Setiawan | Individual | 2 | 2 valid | Normal |
-| Dedi Rahman | Individual | 2 | 1 pending | Available |
-| Hendra Wijaya | External (PT)| 2 | 1 expired | On Hold |
+## Data / Mock Data (Mock-First)
+- **Daily Operations**: Fokus pada `dailyTasks`, `logbook`, dan `fieldIssues`.
+- **Team Management**: Hanya menampilkan ringkasan jumlah dan kategori pekerja (Batu, Kayu, dll).
+- **Logistics**: Alur pengajuan material dari level terendah (lapangan).
 
 ## Sudah Dikerjakan
-- [x] Struktur layout dan navigasi sidebar.
-- [x] Routing dasar.
-- [x] Transisi ke model Vendor Lapangan (Hapus data worker detail).
+- [x] Struktur layout dan navigasi sidebar Mandor.
+- [x] Sinkronisasi tema Light/Dark global.
+- [x] Routing lengkap (9 route aktif).
+- [x] Halaman shell profesional untuk seluruh modul Mandor.
 
 ## Belum Dikerjakan
-- [ ] Manajemen tim lapangan (Ringkasan personil).
-- [ ] Form laporan harian/logbook.
-- [ ] Form pengajuan material ke admin pusat.
+- [ ] Integrasi API Backend (Logbook, Material Requests).
+- [ ] Modul Manajemen Tim Internal Mandor.
+- [ ] Fitur Sinkronisasi Offline (PWA/Local Storage) untuk area *low-signal*.
 
 ## Prioritas Berikutnya
-1. Desain form laporan harian sederhana yang ramah penggunaan mobile.
-2. Penyesuaian UI manajemen tim agar sesuai dengan model vendor (tidak list per orang).
+1. Implementasi alur Laporan Harian (Logbook) yang terhubung ke database.
+2. Modul Request Material dari sisi Mandor.
+3. Sinkronisasi data progres harian dengan verifikasi di sisi Pengawas.

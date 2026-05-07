@@ -16,7 +16,7 @@ Frontend RKK saat ini adalah **prototype fungsional** yang sangat lengkap secara
 * **Admin**: **Shell Expanded / Mock-First**. Navigasi lengkap, layout bertema, dan halaman shell profesional sudah tersedia.
 * **Arsitek**: **Shell Expanded / Mock-First**. Kerangka dashboard, permintaan desain, dan navigasi khusus arsitek sudah tersedia.
 * **Pengawas**: **Shell Expanded / Mock-First**. Navigasi monitoring lapangan, verifikasi progres, dan dokumentasi sudah tersedia.
-* **Mandor**: **Shell**. Menunggu replikasi desain dari standar Superadmin.
+* **Mandor**: **Shell Expanded / Mock-First**. Navigasi operasional harian, logbook, dan request material lapangan sudah tersedia.
 
 
 ## Area Pengembangan Prioritas

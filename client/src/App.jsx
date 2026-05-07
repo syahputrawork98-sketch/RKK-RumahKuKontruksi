@@ -61,6 +61,14 @@ import PengaturanPengawasPage from "./pages/pengawas/PengaturanPengawasPage";
 // ===== HALAMAN MANDOR =====
 import MandorLayout from "./layouts/MandorLayout";
 import DashboardMandor from "./pages/mandor/DashboardMandor";
+import ProyekAktifMandorPage from "./pages/mandor/ProyekAktifMandorPage";
+import DetailProyekAktifMandorPage from "./pages/mandor/DetailProyekAktifMandorPage";
+import TugasHarianMandorPage from "./pages/mandor/TugasHarianMandorPage";
+import LaporanHarianMandorPage from "./pages/mandor/LaporanHarianMandorPage";
+import RequestMaterialMandorPage from "./pages/mandor/RequestMaterialMandorPage";
+import DokumentasiLapanganMandorPage from "./pages/mandor/DokumentasiLapanganMandorPage";
+import KendalaLapanganMandorPage from "./pages/mandor/KendalaLapanganMandorPage";
+import PengaturanMandorPage from "./pages/mandor/PengaturanMandorPage";
 
 // ===== HALAMAN ARSITEK =====
 import ArsitekLayout from "./layouts/ArsitekLayout";
@@ -147,6 +155,14 @@ function App() {
         {/* ================== MANDOR LAYOUT ================== */}
         <Route path="/mandor" element={<MandorLayout />}>
           <Route path="dashboard" element={<DashboardMandor />} />
+          <Route path="proyek-aktif" element={<ProyekAktifMandorPage />} />
+          <Route path="proyek-aktif/:projectId" element={<DetailProyekAktifMandorPage />} />
+          <Route path="tugas-harian" element={<TugasHarianMandorPage />} />
+          <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
+          <Route path="request-material" element={<RequestMaterialMandorPage />} />
+          <Route path="dokumentasi" element={<DokumentasiLapanganMandorPage />} />
+          <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
+          <Route path="pengaturan" element={<PengaturanMandorPage />} />
         </Route>
 
         {/* ================== ARSITEK LAYOUT ================== */}

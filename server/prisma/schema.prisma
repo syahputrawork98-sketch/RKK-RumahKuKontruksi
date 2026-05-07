@@ -274,3 +274,64 @@ model RabItem {
 
   @@map("rab_items")
 }
+
+model Architect {
+  id                String                 @id @default(cuid())
+  userId            String?                @map("user_id")
+  name              String
+  email             String?                @unique
+  phone             String?
+  avatar            String?
+  employmentType    String?                @map("employment_type")
+  specialization    String?
+  experienceYears   Int?                   @map("experience_years")
+  skillTags         Json?                  @map("skill_tags")
+  maxDesignCapacity Int                    @default(2) @map("max_design_capacity")
+  status            String                 @default("active")
+  joinedAt          DateTime?              @map("joined_at")
+  notes             String?
+  createdAt         DateTime               @default(now()) @map("created_at")
+  updatedAt         DateTime               @updatedAt @map("updated_at")
+  deletedAt         DateTime?              @map("deleted_at")
+  certificates      ArchitectCertificate[]
+  experiences       ArchitectExperience[]
+
+  @@map("architects")
+}
+
+model ArchitectCertificate {
+  id                String    @id @default(cuid())
+  architectId       String    @map("architect_id")
+  title             String
+  issuer            String
+  certificateNumber String?   @map("certificate_number")
+  issuedAt          DateTime? @map("issued_at")
+  expiredAt         DateTime? @map("expired_at")
+  fileUrl           String?   @map("file_url")
+  fileType          String?   @map("file_type")
+  status            String    @default("valid")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  deletedAt         DateTime? @map("deleted_at")
+  architect         Architect @relation(fields: [architectId], references: [id])
+
+  @@map("architect_certificates")
+}
+
+model ArchitectExperience {
+  id          String    @id @default(cuid())
+  architectId String    @map("architect_id")
+  projectName String    @map("project_name")
+  companyName String?   @map("company_name")
+  role        String?
+  location    String?
+  startYear   Int?      @map("start_year")
+  endYear     Int?      @map("end_year")
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  architect   Architect @relation(fields: [architectId], references: [id])
+
+  @@map("architect_experiences")
+}

@@ -7,6 +7,7 @@ import { mockRabCategories } from '../../client/src/data/mock/rabCategories.js';
 import { mockRabItems } from '../../client/src/data/mock/rabItems.js';
 import { mockForemen } from '../../client/src/data/mock/foremen.js';
 import { mockForemanCertificates } from '../../client/src/data/mock/foremanCertificates.js';
+import { mockArchitects } from '../../client/src/data/mock/architects.js';
 
 const prisma = new PrismaClient();
 
@@ -154,6 +155,53 @@ async function main() {
         status: cert.status
       }
     });
+  }
+
+  // 0.7 Architects
+  console.log('Seeding architects...');
+  for (const a of mockArchitects) {
+    await prisma.architect.upsert({
+      where: { id: a.id },
+      update: {},
+      create: {
+        id: a.id,
+        userId: a.userId,
+        name: a.name,
+        email: a.email,
+        phone: a.phone,
+        avatar: a.avatar,
+        employmentType: a.employmentType,
+        specialization: a.specialization,
+        experienceYears: a.experienceYears,
+        skillTags: a.skillTags,
+        maxDesignCapacity: a.maxDesignCapacity,
+        status: a.status,
+        joinedAt: a.joinedAt ? new Date(a.joinedAt) : null,
+        notes: a.notes
+      }
+    });
+  }
+
+  // Clear related to avoid duplicates
+  await prisma.architectCertificate.deleteMany({});
+  await prisma.architectExperience.deleteMany({});
+
+  console.log('Seeding architect certificates...');
+  const archCertificates = [
+    { id: 'arch-cert-001', architectId: 'architect-001', title: 'SKA Arsitek Madya', issuer: 'IAI', status: 'valid' },
+    { id: 'arch-cert-002', architectId: 'architect-002', title: 'Sertifikasi Green Building', issuer: 'GBCI', status: 'valid' }
+  ];
+  for (const cert of archCertificates) {
+    await prisma.architectCertificate.create({ data: cert });
+  }
+
+  console.log('Seeding architect experiences...');
+  const archExperiences = [
+    { id: 'arch-exp-001', architectId: 'architect-001', projectName: 'Villa Uluwatu', role: 'Principal Architect', companyName: 'IndoDesign', startYear: 2021, endYear: 2022 },
+    { id: 'arch-exp-002', architectId: 'architect-003', projectName: 'Warehouse Cikarang', role: 'Lead Architect', companyName: 'Partner Arch', startYear: 2019, endYear: 2021 }
+  ];
+  for (const exp of archExperiences) {
+    await prisma.architectExperience.create({ data: exp });
   }
 
   // 1. Customers

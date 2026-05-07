@@ -55,6 +55,17 @@ import DashboardPengawas from "./pages/pengawas/DashboardPengawas";
 import MandorLayout from "./layouts/MandorLayout";
 import DashboardMandor from "./pages/mandor/DashboardMandor";
 
+// ===== HALAMAN ARSITEK =====
+import ArsitekLayout from "./layouts/ArsitekLayout";
+import DashboardArsitek from "./pages/arsitek/DashboardArsitek";
+import PermintaanDesainArsitekPage from "./pages/arsitek/PermintaanDesainArsitekPage";
+import DetailPermintaanDesainArsitekPage from "./pages/arsitek/DetailPermintaanDesainArsitekPage";
+import DesainAktifArsitekPage from "./pages/arsitek/DesainAktifArsitekPage";
+import FileDesainArsitekPage from "./pages/arsitek/FileDesainArsitekPage";
+import RevisiDesainArsitekPage from "./pages/arsitek/RevisiDesainArsitekPage";
+import RiwayatDesainArsitekPage from "./pages/arsitek/RiwayatDesainArsitekPage";
+import PengaturanArsitekPage from "./pages/arsitek/PengaturanArsitekPage";
+
 function App() {
   return (
     <Router>
@@ -122,6 +133,18 @@ function App() {
         {/* ================== MANDOR LAYOUT ================== */}
         <Route path="/mandor" element={<MandorLayout />}>
           <Route path="dashboard" element={<DashboardMandor />} />
+        </Route>
+
+        {/* ================== ARSITEK LAYOUT ================== */}
+        <Route path="/arsitek" element={<ArsitekLayout />}>
+          <Route path="dashboard" element={<DashboardArsitek />} />
+          <Route path="permintaan-desain" element={<PermintaanDesainArsitekPage />} />
+          <Route path="permintaan-desain/:requestId" element={<DetailPermintaanDesainArsitekPage />} />
+          <Route path="desain-aktif" element={<DesainAktifArsitekPage />} />
+          <Route path="file-desain" element={<FileDesainArsitekPage />} />
+          <Route path="revisi" element={<RevisiDesainArsitekPage />} />
+          <Route path="riwayat" element={<RiwayatDesainArsitekPage />} />
+          <Route path="pengaturan" element={<PengaturanArsitekPage />} />
         </Route>
       </Routes>
     </Router>

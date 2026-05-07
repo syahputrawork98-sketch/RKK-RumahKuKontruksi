@@ -7,6 +7,9 @@
 ## Definisi Role
 Mandor adalah mitra pelaksana lapangan RKK (RumahKu Kontruksi) yang memimpin tim pekerja (tukang) untuk mengeksekusi pekerjaan fisik di lokasi proyek. Mandor bukan merupakan karyawan internal RKK melainkan mitra profesional yang bekerja berdasarkan kontrak/penugasan per proyek.
 
+### Relasi dengan Jurnal Mingguan Mandor (`jurnal-mingguan-mandor.md`)
+Jurnal Mingguan yang sudah berstatus `Approved` atau `Locked` berfungsi sebagai bukti pendukung utama untuk pengajuan pembayaran. Mandor wajib melampirkan referensi jurnal terkait saat mengajukan pembayaran kategori tertentu.
+
 ## Posisi Mandor dalam Alur Proyek
 Mandor masuk ke dalam alur proyek setelah Admin mempublikasikan peluang pekerjaan melalui **Project Posting**. Mandor berperan sebagai pihak yang mengajukan penawaran, mengeksekusi pekerjaan fisik, dan berkoordinasi langsung dengan Pengawas di lapangan.
 
@@ -22,7 +25,7 @@ Dalam sistem RKK, Mandor memiliki satu role otentikasi utama yaitu **Mandor**, n
 - **Eksekusi Fisik**: Menjamin pekerjaan selesai sesuai Gambar Kerja dan standar kualitas.
 - **Manajemen Tukang**: Mengatur kehadiran, produktivitas, dan kualitas kerja tim tukang.
 - **Pengajuan Penawaran**: Memberikan harga dan estimasi waktu yang kompetitif dan masuk akal.
-- **Laporan Progres**: Melaporkan capaian harian dan kendala teknis kepada Pengawas.
+- **Jurnal Mingguan**: Membuat catatan pekerjaan mingguan sebagai bukti progres dan dasar pembayaran.
 - **Kebutuhan Material**: Mengajukan permintaan material (Material Request) sesuai kebutuhan lapangan.
 
 ## Alur Utama Mandor
@@ -34,7 +37,7 @@ Dalam sistem RKK, Mandor memiliki satu role otentikasi utama yaitu **Mandor**, n
 6. **Seleksi Admin**: Mandor menunggu hasil evaluasi Admin yang membandingkan beberapa penawaran.
 7. **Penetapan Pelaksana**: Jika terpilih, Mandor ditetapkan sebagai pelaksana dan proyek muncul di daftar proyek aktifnya.
 8. **Eksekusi Lapangan**: Mandor memimpin tukang mengerjakan proyek di bawah pengawasan Pengawas.
-9. **Pelaporan & Pengajuan**: Selama proyek berjalan, Mandor mengajukan material request dan melaporkan progres harian (Rencana Fitur).
+9. **Pelaporan & Pengajuan**: Selama proyek berjalan, Mandor mengajukan material request dan mengisi **Jurnal Mingguan Mandor** secara bertahap.
 
 ## Project Posting dan Penawaran Mandor
 Admin dapat mempublikasikan proyek ke bursa internal RKK agar bisa dilihat oleh daftar Mandor yang tersedia.
@@ -54,7 +57,7 @@ Admin dapat mempublikasikan proyek ke bursa internal RKK agar bisa dilihat oleh 
 - Membaca detail proyek (Scope, Gambar Kerja, Ringkasan RAB) yang dibuka oleh Admin.
 - Mengajukan harga dan durasi penawaran (Rencana Fitur).
 - Mengajukan kebutuhan material (Material Request) (Rencana Fitur).
-- Melaporkan progres fisik harian (Rencana Fitur).
+- Mengisi **Jurnal Mingguan Mandor** (bukti progres dan dokumentasi) (Rencana Fitur).
 
 ## Yang Tidak Boleh Dilakukan
 - **Ubah RAB/Desain**: Mandor dilarang keras mengubah RAB, scope, atau desain secara sepihak.
@@ -73,7 +76,7 @@ Admin dapat mempublikasikan proyek ke bursa internal RKK agar bisa dilihat oleh 
 - **Seleksi Mandor oleh Admin**: Planned.
 - **Status Kemitraan (Reguler/Mitra)**: Planned.
 - **Material Request Workflow**: Postponed.
-- **Laporan Harian/Progress**: Postponed.
+- **Verifikasi Jurnal Mingguan & Progres**: Postponed (Ref: jurnal-mingguan-mandor.md).
 - **Manajemen Pembayaran Mandor**: Postponed.
 - **Change Order Management**: Do Not Build Yet.
 - **Auth/JWT/Session/Role Guard**: Do Not Build Yet.

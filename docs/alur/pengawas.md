@@ -12,7 +12,7 @@ Pengawas mulai terlibat aktif ketika proyek telah mencapai status **Active** ata
 
 ## Tanggung Jawab Utama
 - **Kontrol Kualitas**: Memastikan material dan metode kerja sesuai standar.
-- **Monitoring Progres**: Mencatat capaian fisik pekerjaan secara periodik.
+- **Monitoring Progres**: Memverifikasi **Jurnal Mingguan Mandor** dan mencatat capaian fisik aktual.
 - **Verifikasi Aktual**: Memastikan kondisi lapangan sesuai dengan rencana desain dan gambar kerja.
 - **Rekomendasi Teknis**: Memberikan solusi teknis jika ditemukan kendala fisik di lapangan.
 - **Pelaporan**: Melaporkan deviasi, kendala, atau progres kepada Admin.
@@ -69,7 +69,7 @@ Pengawas diperbolehkan memberikan rekomendasi perubahan teknis terbatas jika kon
 - **Laporan Harian Lapangan**: Postponed.
 - **Dokumentasi Foto Lapangan**: Postponed.
 - **Pelaporan Kendala Lapangan**: Postponed.
-- **Verifikasi Progres Final**: Postponed.
+- **Verifikasi Jurnal Mingguan & Progres**: Postponed (Ref: jurnal-mingguan-mandor.md).
 - **Approval Biaya & Invoice**: Do Not Build Yet.
 - **Change Order Management**: Do Not Build Yet.
 - **Auth/JWT/Session/Role Guard**: Do Not Build Yet.

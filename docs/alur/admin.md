@@ -50,7 +50,7 @@ Admin bertanggung jawab penuh atas administrasi proyek yang dipegang, meliputi:
 6. **Koordinasi Fase Konstruksi**: Admin mengecek kesiapan dokumen (Gambar Kerja, RAB) dan memastikan review internal sesuai standar RKK.
 7. **Finalisasi Kontrak**: Admin memastikan RAB final disepakati, kontrak ditandatangani, dan DP diterima.
 8. **Aktivasi Proyek**: Admin menyiapkan aktivasi proyek di sistem setelah syarat terpenuhi.
-9. **Monitoring Proyek**: Selama proyek berjalan, Admin memantau termin pembayaran, mencatat deviasi administratif, dan melakukan eskalasi jika terjadi kendala (misal: keterlambatan pembayaran).
+9. **Monitoring Proyek**: Selama proyek berjalan, Admin memantau termin pembayaran, mereview **Jurnal Mingguan Mandor** (sebagai referensi monitoring), mencatat deviasi administratif, dan melakukan eskalasi jika terjadi kendala (misal: keterlambatan pembayaran).
 10. **Penutupan**: Admin memastikan seluruh dokumentasi serah terima dan penutupan proyek tercatat lengkap di sistem.
 
 ## Admin dan Pengajuan Konsumen

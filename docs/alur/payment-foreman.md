@@ -161,6 +161,9 @@ Pemisahan tegas antara Biaya Upah (Alur ini) dan Biaya Logistik/Material. Permin
 ### Relasi dengan Progress Proyek
 Progres yang diverifikasi di alur ini secara otomatis mengupdate data progres internal proyek. Namun, tampilan progres untuk Konsumen bisa saja berbeda (lebih disederhanakan) sesuai kebijakan Admin.
 
+### Relasi dengan Jurnal Mingguan Mandor (`jurnal-mingguan-mandor.md`)
+Jurnal Mingguan yang sudah berstatus `Approved` atau `Locked` berfungsi sebagai bukti pendukung utama untuk pengajuan pembayaran. Mandor wajib melampirkan referensi jurnal terkait saat mengajukan pembayaran kategori tertentu.
+
 ## 12. Notifikasi
 1.  **Mandor**: Notifikasi "Jendela Pengajuan Dibuka" (Jumat 15.00).
 2.  **Pengawas**: Notifikasi "Ada Pengajuan Baru" saat Mandor klik Submit.

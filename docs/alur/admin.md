@@ -86,6 +86,9 @@ Admin mengelola status administratif pembayaran, bukan sebagai pemegang dana lan
 - **Monitoring**: Admin memantau apakah termin sudah dibayar sebelum mengizinkan tahap pekerjaan berikutnya dimulai (secara administratif).
 - **Eskalasi**: Jika pembayaran terlambat, Admin berhak menandai status proyek "Menunggu Pembayaran" dan melakukan follow-up administratif.
 
+**Otoritas Skema Pembayaran**:
+Admin memiliki otoritas penuh untuk menentukan skema pembayaran yang digunakan oleh Konsumen (Desain, Termin Konstruksi, atau Per Kategori Konstruksi). Pilihan ini didasarkan pada nilai proyek, risiko, dan kesepakatan awal.
+
 ## Admin dan Project Posting Mandor
 *Fase ini adalah Rencana Fitur (Planned).*
 

@@ -24,3 +24,4 @@ Setiap alur kerja ditandai dengan status berikut:
 - [Mandor](./mandor.md) (Partial)
 - [Pengawas](./pengawas.md) (Partial)
 - [PIC](./pic.md) (Planned)
+- [Pembayaran Konsumen](./payment-customer.md) (Planned)

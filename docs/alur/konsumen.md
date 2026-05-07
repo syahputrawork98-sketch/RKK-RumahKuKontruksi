@@ -37,7 +37,7 @@ Digunakan jika Konsumen ingin membangun proyek, baik sudah memiliki dokumen desa
 9. **Serah Terima**: Proses finalisasi pekerjaan dan penyerahan kunci (Handover).
 
 ## Alur Pembayaran Bertahap Konsumen
-Pembayaran tidak dilakukan secara penuh di awal, melainkan bertahap untuk menjaga keamanan transaksi dan kelancaran arus kas proyek.
+Pembayaran tidak dilakukan secara penuh di awal, melainkan bertahap untuk menjaga keamanan transaksi dan kelancaran arus kas proyek. Detail alur pembayaran dapat dilihat pada [Alur Pembayaran Konsumen](./payment-customer.md).
 
 **Ketentuan Utama**:
 - **DP Awal**: Umumnya sebesar 20% dari nilai kontrak (digunakan untuk mobilisasi dan tahap persiapan).

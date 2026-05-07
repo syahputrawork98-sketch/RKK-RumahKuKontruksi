@@ -2,20 +2,16 @@
 import React, { useState, useEffect } from "react";
 import { FiBell } from "react-icons/fi";
 
-import TopbarUserMenu from "./TopbarUserMenu";
-import TopbarNotification from "./TopbarNotification";
+import ThemeToggle from "../theme/ThemeToggle";
 
-/*
-    ➤ PERUBAHAN PENTING:
-    - Tambahkan prop: isCollapsed 
-      agar topbar tahu kapan sidebar mengecil/melebar
-*/
 const TopbarBase = ({
     title,
     user,
     notificationService,
     dummyNotifications,
-    isCollapsed   // ← TAMBAHAN PROP
+    isCollapsed,
+    theme,           // ← TAMBAHAN PROP
+    onToggleTheme    // ← TAMBAHAN PROP
 }) => {
 
     const [openMenu, setOpenMenu] = useState(false);
@@ -38,9 +34,8 @@ const TopbarBase = ({
 
     return (
         <header
-            className="dashboard-topbar"
+            className="dashboard-topbar fixed top-0 right-0 h-16 z-40 transition-all duration-300 flex items-center justify-between"
             style={{
-                marginLeft: isCollapsed ? "5rem" : "18rem",
                 width: `calc(100% - ${isCollapsed ? "5rem" : "18rem"})`
             }}
         >
@@ -57,6 +52,8 @@ const TopbarBase = ({
             </div>
 
             <div className="flex items-center gap-4 mr-8">
+                {/* THEME TOGGLE */}
+                <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
                 {/* NOTIFICATION */}
                 <div className="relative">

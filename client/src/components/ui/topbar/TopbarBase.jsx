@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { FiBell } from "react-icons/fi";
 
 import ThemeToggle from "../theme/ThemeToggle";
+import TopbarUserMenu from "./TopbarUserMenu";
+import TopbarNotification from "./TopbarNotification";
 
 const TopbarBase = ({
     title,

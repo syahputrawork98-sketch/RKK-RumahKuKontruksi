@@ -14,7 +14,8 @@ import {
     FiPackage,
     FiTag,
     FiX,
-    FiSave
+    FiSave,
+    FiInfo
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import rabService from "../../services/rabService";
@@ -374,14 +375,31 @@ const DetailRabAdminPage = () => {
             {/* MODAL PLAN */}
             {showPlanModal && (
                 <Modal title="Buat RAB Plan" onClose={() => setShowPlanModal(false)}>
+                    <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-2">
+                        <h4 className="text-[10px] font-black text-amber-700 uppercase tracking-widest flex items-center gap-2">
+                            <FiInfo /> Informasi Penting
+                        </h4>
+                        <ul className="text-[10px] text-amber-800 space-y-1 list-disc pl-4 font-medium leading-relaxed">
+                            <li>RAB Plan adalah dokumen anggaran utama untuk proyek ini.</li>
+                            <li>Setelah RAB Plan dibuat, Admin dapat menambahkan kategori dan item pekerjaan.</li>
+                            <li>Total RAB akan dipakai sebagai budgetTotal project.</li>
+                            <li>RAB ini masih Draft dan belum menjadi Change Order/final contract.</li>
+                        </ul>
+                    </div>
                     <form onSubmit={handleCreatePlan} className="space-y-4">
-                        <Input label="Judul RAB" value={planForm.title} onChange={e => setPlanForm({...planForm, title: e.target.value})} placeholder="Contoh: RAB Pembangunan Rumah Modern" required />
+                        <Input 
+                            label="Judul RAB" 
+                            value={planForm.title} 
+                            onChange={e => setPlanForm({...planForm, title: e.target.value})} 
+                            placeholder={`Contoh: RAB Pembangunan - ${project?.name}`} 
+                            required 
+                        />
                         <div className="grid grid-cols-2 gap-4">
                             <Input label="Tipe" value={planForm.type} onChange={e => setPlanForm({...planForm, type: e.target.value})} placeholder="Pembangunan" />
                             <Input label="Versi" value={planForm.version} onChange={e => setPlanForm({...planForm, version: e.target.value})} placeholder="1.0" />
                         </div>
-                        <TextArea label="Catatan (Opsional)" value={planForm.notes} onChange={e => setPlanForm({...planForm, notes: e.target.value})} />
-                        <SubmitButton label="Buat Plan" />
+                        <TextArea label="Catatan (Opsional)" value={planForm.notes} onChange={e => setPlanForm({...planForm, notes: e.target.value})} placeholder="Tambahkan catatan jika diperlukan..." />
+                        <SubmitButton label="Buat Plan Sekarang" />
                     </form>
                 </Modal>
             )}
@@ -439,15 +457,15 @@ const Modal = ({ title, children, onClose }) => (
 
 const Input = ({ label, ...props }) => (
     <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-text-soft)] px-1">{label}</label>
-        <input {...props} className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold" />
+        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 px-1">{label}</label>
+        <input {...props} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold" />
     </div>
 );
 
 const TextArea = ({ label, ...props }) => (
     <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-text-soft)] px-1">{label}</label>
-        <textarea {...props} rows="3" className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold" />
+        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 px-1">{label}</label>
+        <textarea {...props} rows="3" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold" />
     </div>
 );
 

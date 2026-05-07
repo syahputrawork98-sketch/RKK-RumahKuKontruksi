@@ -61,3 +61,53 @@ export const countActiveProjects = async (adminId) => {
     }
   });
 };
+
+export const getStats = async () => {
+  const [
+    projectStats, 
+    customerCount, 
+    projectFinancials, 
+    latestProjects,
+    reportStats,
+    materialRequestStats
+  ] = await Promise.all([
+    prisma.project.groupBy({
+      by: ['status'],
+      _count: { _all: true }
+    }),
+    prisma.customer.count({ where: { deletedAt: null } }),
+    prisma.project.aggregate({
+      _sum: {
+        budgetTotal: true,
+        paidAmount: true,
+        remainingAmount: true
+      }
+    }),
+    prisma.project.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        customer: {
+          select: { name: true }
+        }
+      }
+    }),
+    prisma.supervisorWeeklyReport.groupBy({
+      by: ['status'],
+      _count: { _all: true }
+    }),
+    prisma.materialRequest.groupBy({
+      by: ['status'],
+      _count: { _all: true }
+    })
+  ]);
+
+  return {
+    projects: projectStats,
+    customers: customerCount,
+    financials: projectFinancials._sum,
+    recentProjects: latestProjects,
+    reports: reportStats,
+    materialRequests: materialRequestStats
+  };
+};

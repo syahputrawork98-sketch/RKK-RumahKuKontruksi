@@ -162,7 +162,7 @@ const ProyekAdminPage = () => {
                                         </td>
                                         <td className="py-4 px-2">
                                             <span className="text-sm font-bold text-[var(--dashboard-text)]">
-                                                {prj.budget ? `Rp ${prj.budget.toLocaleString("id-ID")}` : "-"}
+                                                {prj.budgetTotal ? `Rp ${parseFloat(prj.budgetTotal).toLocaleString("id-ID")}` : "-"}
                                             </span>
                                         </td>
                                         <td className="py-4 px-2 text-right">

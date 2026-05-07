@@ -21,6 +21,7 @@ import TimelineProyek from "./pages/konsumen/TimelineProyek";
 import DetailTimelineProyek from "./pages/konsumen/DetailTimelineProyek";
 import Proyek from "./pages/konsumen/Proyek";
 import Profil from "./pages/konsumen/Profil";
+import PlaceholderKonsumenPage from "./pages/konsumen/PlaceholderKonsumenPage";
 
 // ===== HALAMAN SUPER ADMIN =====
 import SuperadminLayout from "./layouts/SuperAdminLayout";
@@ -46,6 +47,8 @@ import PenugasanTimAdminPage from "./pages/admin/PenugasanTimAdminPage";
 import LaporanProgressAdminPage from "./pages/admin/LaporanProgressAdminPage";
 import RequestMaterialAdminPage from "./pages/admin/RequestMaterialAdminPage";
 import PengaturanAdminPage from "./pages/admin/PengaturanAdminPage";
+import CustomerAdminPage from "./pages/admin/CustomerAdminPage";
+import PublikasiKonsumenAdminPage from "./pages/admin/PublikasiKonsumenAdminPage";
 
 // ===== HALAMAN PENGAWAS =====
 import PengawasLayout from "./layouts/PengawasLayout";
@@ -112,7 +115,6 @@ function App() {
             <Route path="/sign-in" element={<SignInPage />} />
           </Route>
 
-          {/* ================== KONSUMEN LAYOUT ================== */}
           <Route 
             path="/konsumen" 
             element={
@@ -121,9 +123,23 @@ function App() {
               </DevRouteGuard>
             }
           >
+            <Route index element={<PlaceholderKonsumenPage title="Dashboard Konsumen" description="Selamat datang di Customer Portal RKK. Di sini Anda dapat melihat ringkasan status seluruh proyek Anda." status="Planned" dos={["Melihat ringkasan progress", "Melihat notifikasi terbaru", "Akses cepat ke proyek aktif"]} donts={["Mengubah data teknis", "Melihat log internal pengawas"]} notes="Data yang ditampilkan adalah data yang telah divalidasi dan dipublish oleh Admin RKK." />} />
+            <Route path="dashboard" element={<PlaceholderKonsumenPage title="Dashboard Konsumen" description="Selamat datang di Customer Portal RKK. Di sini Anda dapat melihat ringkasan status seluruh proyek Anda." status="Planned" dos={["Melihat ringkasan progress", "Melihat notifikasi terbaru", "Akses cepat ke proyek aktif"]} donts={["Mengubah data teknis", "Melihat log internal pengawas"]} notes="Data yang ditampilkan adalah data yang telah divalidasi dan dipublish oleh Admin RKK." />} />
+            
+            {/* Proyek & Timeline */}
+            <Route path="proyek" element={<Proyek />} />
+            <Route path="timeline-proyek" element={<TimelineProyek />} />
+            <Route path="timeline-proyek/:stageId" element={<DetailTimelineProyek />} />
+            
+            {/* Alias Route Lama (Compatibility) */}
             <Route path="TimelineProyek" element={<TimelineProyek />} />
             <Route path="TimelineProyek/:stageId" element={<DetailTimelineProyek />} />
-            <Route path="proyek" element={<Proyek />} />
+            <Route path="timeline" element={<TimelineProyek />} /> {/* Fix for mobile mismatch */}
+            
+            {/* Keuangan & Dokumen */}
+            <Route path="pembayaran" element={<PlaceholderKonsumenPage title="Pembayaran & Termin" description="Halaman ini menampilkan jadwal termin dan status pembayaran resmi proyek Anda." status="Planned" dos={["Melihat jadwal termin", "Melihat riwayat pembayaran", "Download invoice/kwitansi resmi"]} donts={["Melakukan pembayaran ke rekening pribadi mitra", "Mengubah nilai kontrak tanpa addendum"]} notes="Pembayaran resmi hanya dilakukan ke rekening perusahaan RKK. Pembayaran tidak secara otomatis menciptakan progress proyek." />} />
+            <Route path="dokumen" element={<PlaceholderKonsumenPage title="Pusat Dokumen" description="Akses ke seluruh dokumen legal, kontrak, dan gambar kerja yang telah disetujui." status="Planned" dos={["Download dokumen kontrak", "Melihat gambar kerja final", "Akses Berita Acara (BAST)"]} donts={["Mengedit dokumen yang sudah TTD", "Melihat draft internal yang belum dipublish"]} notes="Pastikan Anda menyimpan salinan digital untuk keperluan administrasi pribadi." />} />
+            
             <Route path="profil" element={<Profil />} />
           </Route>
 
@@ -181,7 +197,7 @@ function App() {
             <Route path="dashboard" element={<DashboardAdmin />} />
             
             {/* KONSUMEN & PENGAJUAN */}
-            <Route path="konsumen/data" element={<PlaceholderPage title="Data Konsumen" description="Daftar konsumen yang ditangani oleh Admin ini." status="Partial" />} />
+            <Route path="konsumen/data" element={<CustomerAdminPage />} />
             <Route path="konsumen/pengajuan-desain" element={<PlaceholderPage title="Pengajuan Desain" description="Drafting dan verifikasi permintaan desain baru." status="Planned" />} />
             <Route path="konsumen/pengajuan-konstruksi" element={<PlaceholderPage title="Pengajuan Konstruksi" description="Proses konversi desain menjadi proyek konstruksi." status="Planned" />} />
             <Route path="konsumen/validasi" element={<PlaceholderPage title="Validasi Pengajuan" description="Checklist verifikasi administrasi pengajuan konsumen." status="Planned" />} />
@@ -210,7 +226,7 @@ function App() {
             <Route path="request-material" element={<RequestMaterialAdminPage />} />
             <Route path="monitoring/kendala" element={<PlaceholderPage title="Kendala & Eskalasi" description="Daftar kendala lapangan yang memerlukan keputusan Admin." status="Planned" />} />
             
-            <Route path="publikasi" element={<PlaceholderPage title="Publikasi Progress" description="Pusat kendali laporan yang bisa dilihat oleh Konsumen." status="Planned" dos={["Filter foto proyek", "Review narasi progress", "Publish ke timeline konsumen"]} donts={["Publish foto mentah tanpa filter", "Publish internal dispute"]} />} />
+            <Route path="publikasi" element={<PublikasiKonsumenAdminPage />} />
 
             {/* PEMBAYARAN */}
             <Route path="pembayaran/konsumen" element={<PlaceholderPage title="Pembayaran Konsumen" description="Monitoring invoice dan bukti bayar dari konsumen." status="Planned" />} />

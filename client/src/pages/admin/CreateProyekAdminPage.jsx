@@ -25,7 +25,7 @@ const CreateProyekAdminPage = () => {
         customerId: "",
         supervisorId: "",
         foremanId: "",
-        budget: "",
+        budgetTotal: "",
         startDate: "",
         endDate: "",
         status: "persiapan",
@@ -69,9 +69,9 @@ const CreateProyekAdminPage = () => {
                 customerId: formData.customerId,
                 supervisorId: formData.supervisorId || null,
                 foremanId: formData.foremanId || null,
-                budget: parseFloat(formData.budget),
+                budgetTotal: parseFloat(formData.budgetTotal),
                 progress: parseInt(formData.progress),
-                remainingAmount: parseFloat(formData.budget),
+                remainingAmount: parseFloat(formData.budgetTotal),
                 paidAmount: 0
             };
 
@@ -147,7 +147,8 @@ const CreateProyekAdminPage = () => {
                                     type="number" 
                                     className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     placeholder="Contoh: 500000000"
-                                    onChange={(e) => setFormData({...formData, budget: e.target.value})}
+                                    value={formData.budgetTotal}
+                                    onChange={(e) => setFormData({...formData, budgetTotal: e.target.value})}
                                 />
                             </div>
                             

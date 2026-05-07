@@ -2,28 +2,27 @@ import apiClient from './apiClient';
 
 export const adminService = {
   getAdmins: async (params) => {
-    const response = await apiClient.get('/admins', { params });
-    return response.data;
+    return apiClient.get('/admins', { params });
   },
 
   getAdminById: async (id) => {
-    const response = await apiClient.get(`/admins/${id}`);
-    return response.data;
+    return apiClient.get(`/admins/${id}`);
   },
 
   createAdmin: async (payload) => {
-    const response = await apiClient.post('/admins', payload);
-    return response.data;
+    return apiClient.post('/admins', payload);
   },
 
   updateAdmin: async (id, payload) => {
-    const response = await apiClient.patch(`/admins/${id}`, payload);
-    return response.data;
+    return apiClient.patch(`/admins/${id}`, payload);
   },
 
   deleteAdmin: async (id) => {
-    const response = await apiClient.delete(`/admins/${id}`);
-    return response.data;
+    return apiClient.delete(`/admins/${id}`);
+  },
+  
+  getDashboardStats: async () => {
+    return apiClient.get('/admins/dashboard-stats');
   }
 };
 

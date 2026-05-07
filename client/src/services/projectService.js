@@ -66,6 +66,16 @@ const projectService = {
   },
 
   /**
+   * Update project assignment (Admin/Supervisor/Foreman)
+   * @param {string} id 
+   * @param {Object} data 
+   * @returns {Promise<Object>}
+   */
+  async updateProjectAssignment(id, data) {
+    return apiClient.patch(`/projects/${id}`, data);
+  },
+
+  /**
    * Delete project (Soft delete usually)
    * @param {string} id 
    * @returns {Promise<Object>}

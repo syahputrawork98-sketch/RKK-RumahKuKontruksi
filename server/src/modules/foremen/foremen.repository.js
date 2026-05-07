@@ -101,7 +101,7 @@ export const softDeleteExperience = async (id) => {
 // Helper for projects
 export const findProjectsByForemanId = async (foremanId) => {
   return await prisma.project.findMany({
-    where: { foremanId, deletedAt: null },
+    where: { foremanId },
     include: {
       customer: {
         select: { name: true }

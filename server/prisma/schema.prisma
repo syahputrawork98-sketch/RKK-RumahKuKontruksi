@@ -61,6 +61,7 @@ model Project {
   rabCategories         RabCategory[]
   rabItems              RabItem[]
   rabPlans              RabPlan[]
+  materialRequests      MaterialRequest[]
 
   @@map("projects")
 }
@@ -82,6 +83,7 @@ model Supervisor {
   certificates       SupervisorCertificate[]
   experiences        SupervisorExperience[]
   projects           Project[]
+  materialRequests   MaterialRequest[]
 
   @@map("supervisors")
 }
@@ -147,6 +149,7 @@ model Foreman {
   certificates       ForemanCertificate[]
   experiences        ForemanExperience[]
   projects           Project[]
+  materialRequests   MaterialRequest[]
 
   @@map("foremen")
 }
@@ -210,6 +213,7 @@ model ProjectStage {
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
   project      Project   @relation(fields: [projectId], references: [id])
+  materialRequests MaterialRequest[]
 
   @@map("project_stages")
 }
@@ -272,6 +276,7 @@ model RabItem {
   category       RabCategory @relation(fields: [categoryId], references: [id])
   project        Project     @relation(fields: [projectId], references: [id])
   rabPlan        RabPlan     @relation(fields: [rabPlanId], references: [id])
+  materialRequestItems MaterialRequestItem[]
 
   @@map("rab_items")
 }
@@ -348,6 +353,7 @@ model Admin {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
   projects  Project[]
+  materialRequests MaterialRequest[]
 
   @@map("admins")
 }
@@ -364,4 +370,88 @@ model Superadmin {
   deletedAt DateTime? @map("deleted_at")
 
   @@map("superadmins")
+}
+
+model MaterialRequest {
+  id                 String                   @id @default(cuid())
+  requestCode        String                   @unique @map("request_code")
+  projectId          String                   @map("project_id")
+  stageId            String                   @map("stage_id")
+  foremanId          String                   @map("foreman_id")
+  supervisorId       String                   @map("supervisor_id")
+  adminId            String?                  @map("admin_id")
+  status             String                   @default("draft")
+  priority           String                   @default("medium")
+  neededDate         DateTime?                @map("needed_date")
+  reason             String?
+  overEstimateReason String?                  @map("over_estimate_reason")
+  supervisorNote     String?                  @map("supervisor_note")
+  adminNote          String?                  @map("admin_note")
+  rejectionReason    String?                  @map("rejection_reason")
+  revisionNote       String?                  @map("revision_note")
+  createdAt          DateTime                 @default(now()) @map("created_at")
+  updatedAt          DateTime                 @updatedAt @map("updated_at")
+  submittedAt        DateTime?                @map("submitted_at")
+  supervisorReviewedAt DateTime?              @map("supervisor_reviewed_at")
+  adminReviewedAt    DateTime?                @map("admin_reviewed_at")
+  processedAt        DateTime?                @map("processed_at")
+  deliveredAt        DateTime?                @map("delivered_at")
+  receivedAt         DateTime?                @map("received_at")
+  completedAt        DateTime?                @map("completed_at")
+  cancelledAt        DateTime?                @map("cancelled_at")
+
+  project            Project                  @relation(fields: [projectId], references: [id])
+  stage              ProjectStage             @relation(fields: [stageId], references: [id])
+  foreman            Foreman                  @relation(fields: [foremanId], references: [id])
+  supervisor         Supervisor               @relation(fields: [supervisorId], references: [id])
+  admin              Admin?                   @relation(fields: [adminId], references: [id])
+  items              MaterialRequestItem[]
+  history            MaterialRequestHistory[]
+
+  @@map("material_requests")
+}
+
+model MaterialRequestItem {
+  id                      String          @id @default(cuid())
+  materialRequestId       String          @map("material_request_id")
+  rabItemId               String?         @map("rab_item_id")
+  materialName            String          @map("material_name")
+  requestedQty            Decimal         @map("requested_qty") @db.Decimal(12, 3)
+  approvedQty             Decimal?        @map("approved_qty") @db.Decimal(12, 3)
+  receivedQty             Decimal?        @map("received_qty") @db.Decimal(12, 3)
+  unit                    String
+  estimatedQtyFromRab     Decimal?        @map("estimated_qty_from_rab") @db.Decimal(12, 3)
+  previouslyRequestedQty  Decimal?        @map("previously_requested_qty") @db.Decimal(12, 3)
+  previouslyApprovedQty   Decimal?        @map("previously_approved_qty") @db.Decimal(12, 3)
+  previouslyReceivedQty   Decimal?        @map("previously_received_qty") @db.Decimal(12, 3)
+  totalAfterRequestQty    Decimal?        @map("total_after_request_qty") @db.Decimal(12, 3)
+  varianceQty             Decimal?        @map("variance_qty") @db.Decimal(12, 3)
+  variancePercentage      Decimal?        @map("variance_percentage") @db.Decimal(8, 2)
+  toleranceStatus         String?         @map("tolerance_status")
+  estimatedUnitPrice      Decimal?        @map("estimated_unit_price") @db.Decimal(15, 2)
+  finalUnitPrice          Decimal?        @map("final_unit_price") @db.Decimal(15, 2)
+  note                    String?
+  isAdditionalMaterial    Boolean         @default(false) @map("is_additional_material")
+  additionalReason        String?         @map("additional_reason")
+
+  materialRequest         MaterialRequest @relation(fields: [materialRequestId], references: [id])
+  rabItem                 RabItem?        @relation(fields: [rabItemId], references: [id])
+
+  @@map("material_request_items")
+}
+
+model MaterialRequestHistory {
+  id                String          @id @default(cuid())
+  materialRequestId String          @map("material_request_id")
+  action            String
+  oldStatus         String?         @map("old_status")
+  newStatus         String?         @map("new_status")
+  actorId           String          @map("actor_id")
+  actorRole         String          @map("actor_role")
+  note              String?
+  createdAt         DateTime        @default(now()) @map("created_at")
+
+  materialRequest   MaterialRequest @relation(fields: [materialRequestId], references: [id])
+
+  @@map("material_request_history")
 }

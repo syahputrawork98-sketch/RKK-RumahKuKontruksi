@@ -48,6 +48,12 @@ export default [
     },
     {
         type: "item",
+        icon: FiFileText,
+        label: "Laporan Pengawas",
+        href: "/admin/laporan-mingguan-pengawas",
+    },
+    {
+        type: "item",
         icon: FiSettings,
         label: "Pengaturan",
         href: "/admin/pengaturan",

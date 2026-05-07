@@ -33,6 +33,8 @@ import PlaceholderPage from "./pages/superadmin/PlaceholderPage";
 
 // ===== HALAMAN ADMIN =====
 import AdminLayout from "./layouts/AdminLayout";
+import LaporanMingguanPengawasAdminPage from "./pages/admin/LaporanMingguanPengawasAdminPage";
+import DetailLaporanMingguanPengawasAdminPage from "./pages/admin/DetailLaporanMingguanPengawasAdminPage";
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
 import ProyekAdminPage from "./pages/admin/ProyekAdminPage";
 import CreateProyekAdminPage from "./pages/admin/CreateProyekAdminPage";
@@ -53,8 +55,12 @@ import DetailProyekDiawasiPengawasPage from "./pages/pengawas/DetailProyekDiawas
 import VerifikasiProgresPengawasPage from "./pages/pengawas/VerifikasiProgresPengawasPage";
 import DokumentasiLapanganPengawasPage from "./pages/pengawas/DokumentasiLapanganPengawasPage";
 import LaporanMingguanPengawasPage from "./pages/pengawas/LaporanMingguanPengawasPage";
+import CreateLaporanMingguanPengawasPage from "./pages/pengawas/CreateLaporanMingguanPengawasPage";
+import DetailLaporanMingguanPengawasPage from "./pages/pengawas/DetailLaporanMingguanPengawasPage";
 import RequestMaterialPengawasPage from "./pages/pengawas/RequestMaterialPengawasPage";
 import PengaturanPengawasPage from "./pages/pengawas/PengaturanPengawasPage";
+import JurnalMandorPengawasPage from "./pages/pengawas/JurnalMandorPengawasPage";
+import DetailJurnalMandorPengawasPage from "./pages/pengawas/DetailJurnalMandorPengawasPage";
 
 // ===== HALAMAN MANDOR =====
 import MandorLayout from "./layouts/MandorLayout";
@@ -67,6 +73,9 @@ import RequestMaterialMandorPage from "./pages/mandor/RequestMaterialMandorPage"
 import DokumentasiLapanganMandorPage from "./pages/mandor/DokumentasiLapanganMandorPage";
 import KendalaLapanganMandorPage from "./pages/mandor/KendalaLapanganMandorPage";
 import PengaturanMandorPage from "./pages/mandor/PengaturanMandorPage";
+import JurnalMingguanMandorPage from "./pages/mandor/JurnalMingguanMandorPage";
+import CreateJurnalMingguanMandorPage from "./pages/mandor/CreateJurnalMingguanMandorPage";
+import DetailJurnalMingguanMandorPage from "./pages/mandor/DetailJurnalMingguanMandorPage";
 
 // ===== HALAMAN ARSITEK =====
 import ArsitekLayout from "./layouts/ArsitekLayout";
@@ -169,6 +178,8 @@ function App() {
             <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
             <Route path="laporan-progress" element={<LaporanProgressAdminPage />} />
             <Route path="request-material" element={<RequestMaterialAdminPage />} />
+            <Route path="laporan-mingguan-pengawas" element={<LaporanMingguanPengawasAdminPage />} />
+            <Route path="laporan-mingguan-pengawas/:reportId" element={<DetailLaporanMingguanPengawasAdminPage />} />
             <Route path="pengaturan" element={<PengaturanAdminPage />} />
           </Route>
 
@@ -189,7 +200,11 @@ function App() {
             <Route path="verifikasi-progres" element={<VerifikasiProgresPengawasPage />} />
             <Route path="dokumentasi" element={<DokumentasiLapanganPengawasPage />} />
             <Route path="laporan-mingguan" element={<LaporanMingguanPengawasPage />} />
+            <Route path="laporan-mingguan/create" element={<CreateLaporanMingguanPengawasPage />} />
+            <Route path="laporan-mingguan/:reportId" element={<DetailLaporanMingguanPengawasPage />} />
             <Route path="request-material" element={<RequestMaterialPengawasPage />} />
+            <Route path="jurnal-mandor" element={<JurnalMandorPengawasPage />} />
+            <Route path="jurnal-mandor/:journalId" element={<DetailJurnalMandorPengawasPage />} />
             <Route path="pengaturan" element={<PengaturanPengawasPage />} />
           </Route>
 
@@ -212,6 +227,9 @@ function App() {
             <Route path="request-material" element={<RequestMaterialMandorPage />} />
             <Route path="dokumentasi" element={<DokumentasiLapanganMandorPage />} />
             <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
+            <Route path="jurnal-mingguan" element={<JurnalMingguanMandorPage />} />
+            <Route path="jurnal-mingguan/create" element={<CreateJurnalMingguanMandorPage />} />
+            <Route path="jurnal-mingguan/:journalId" element={<DetailJurnalMingguanMandorPage />} />
             <Route path="pengaturan" element={<PengaturanMandorPage />} />
           </Route>
 

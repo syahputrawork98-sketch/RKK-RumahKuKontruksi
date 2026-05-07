@@ -1,32 +1,50 @@
-# Migration Plan - RumahKu Kontruksi
+# Migration Plan - RumahKu Konstruksi
 
 ## Deskripsi
-Rencana migrasi dari berbagai sumber pengembangan ke struktur repository final.
+Rencana strategis migrasi pengembangan dari *Mock-First UI* menuju *Database-Backed System* dengan fokus pada stabilitas lokal terlebih dahulu.
 
-## Perubahan Arah Strategis (2026-05-06)
-- **Ditinggalkan**: Repository `rumahkukontruksi-frontend` (Next.js) tidak lagi digunakan sebagai referensi frontend karena alasan performa dan kemudahan pengembangan saat ini.
-- **Dipilih**: Repository `RumahKuKontruksi-Dev/client` (Vite React) dipilih sebagai basis frontend final.
+## Perubahan Arah Strategis (Mei 2026)
+- **Local Development First**: Mengutamakan penyelesaian CRUD database lokal dan integrasi fungsional role sebelum masuk ke tahap produksi/deployment.
+- **Role-Based Migration**: Migrasi dilakukan per role, dimulai dari role operasional lapangan (Pengawas & Mandor).
+- **No Mock Fallback Policy**: Untuk role yang sudah memiliki backend, dilarang keras menggunakan mock data sebagai fallback utama guna menjamin integritas data sistem.
 
 ## Tahapan Migrasi
 
 ### Tahap 1: Restrukturisasi & Reset (DONE)
 - [x] Inisialisasi struktur repository final (client/, server/, docs/).
-- [x] Penghapusan frontend Next.js lama.
-- [x] Migrasi frontend Vite React dari `RumahKuKontruksi-Dev`.
-- [x] Verifikasi running dev server.
+- [x] Migrasi frontend Vite React pilihan ke folder `client/`.
+- [x] Verifikasi running dev server frontend & backend.
 
-### Tahap 2: Stabilisasi Frontend (ONGOING)
-- [ ] Reorganisasi dokumentasi dan inventarisasi route/komponen.
-- [ ] Audit UI/UX menyeluruh.
-- [ ] Implementasi mock data terpusat di `client/src/data/mock/`.
-- [ ] Perbaikan isu-isu UI minor (Navbar, Responsive).
+### Tahap 2: Stabilisasi Frontend (DONE/ONGOING)
+- [x] Implementasi mock data terpusat untuk referensi pengembangan.
+- [x] Perbaikan navigasi dan tema dashboard (Superadmin/Admin).
+- [ ] Refinement UI/UX untuk role lainnya.
 
-### Tahap 3: Migrasi & Baseline Backend (DONE/ONGOING)
-- [x] Inisialisasi Express API & Prisma Data Service (Node.js).
-- [x] Baseline Migration & Re-seed dari Mock Data Frontend.
-- [x] Implementasi Customer CRUD & Project Read Endpoints.
-- [ ] Stabilisasi & CRUD untuk modul Proyek/RAB.
+### Tahap 3: Backend Core Data Service (DONE/ONGOING)
+- [x] Inisialisasi Express API & Prisma Data Service.
+- [x] Implementasi modul CRUD dasar:
+    - Customers
+    - Projects (Read/Filter)
+    - Supervisors (Profile, Certs, Exp)
+    - Foremen (Profile, Certs, Exp)
+- [ ] Stabilisasi relasi antar model (Projects, Stages, RAB).
 
-### Tahap 4: Integrasi & Deployment (CURRENT)
-- [ ] Sinkronisasi API service dengan Frontend (Penggantian Mock Service).
-- [ ] Production build dan deployment.
+### Tahap 4: Local Role Integration (CURRENT)
+- [x] Migrasi Role **Pengawas** ke Database-Backed v1.
+- [x] Migrasi Role **Mandor** ke Database-Backed v1.
+- [x] Implementasi Persona Selector (Dev Mode) untuk simulasi login lokal.
+- [ ] Penghapusan bertahap dependensi mock data pada komponen inti role.
+
+### Tahap 5: Operational CRUD Integration (NEXT)
+- [ ] Implementasi modul operasional lapangan:
+    - Daily Reports (Laporan Harian)
+    - Material Requests (Permintaan Material)
+    - Field Issues (Kendala Lapangan)
+    - Task Management (Tugas Harian)
+- [ ] Integrasi upload dokumentasi foto/file.
+
+### Tahap 6: Auth & Production Hardening (POSTPONED)
+- [ ] Implementasi sistem autentikasi asli (Login, JWT, Session).
+- [ ] Server-side Role Guard & Permission.
+- [ ] Production Build optimization.
+- [ ] Deployment ke environment staging/production.

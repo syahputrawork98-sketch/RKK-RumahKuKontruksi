@@ -33,18 +33,27 @@ Banyaknya tabel bukan masalah selama setiap tabel punya tujuan, relasi, dan work
 | ProgressVerificationLog | Riwayat perubahan progres resmi proyek | Existing |
 
 ## Foreman Journal
-| Model/Table | Purpose | Status |
-|---|---|---|
-| WeeklyJournal | Jurnal mingguan Mandor | Planned |
-| WeeklyJournalActivity | Detail aktivitas kerja | Planned |
-| WeeklyJournalLabor | Data tenaga kerja | Planned |
-| WeeklyJournalPhoto | Foto pendukung jurnal | Planned |
+
+| Model/Table | Purpose | Status | Notes |
+|---|---|---|---|
+| WeeklyJournal | Header jurnal mingguan Mandor | Existing | Per project + foreman + week period |
+| WeeklyJournalActivity | Detail aktivitas kerja dalam jurnal | Existing | Optional link ke ProjectStage/RabItem |
+| WeeklyJournalPhoto | Foto pendukung jurnal | Existing | Upload fisik final belum dibuat |
+| WeeklyJournalReviewLog | Riwayat review/status jurnal | Existing | Audit trail submit/approve/revision/reject |
+
+> [!IMPORTANT]
+> Jurnal Mingguan Mandor adalah sumber klaim aktivitas, bukan sumber progress resmi. Progress resmi tetap berasal dari **Project Progress SOT**.
 
 ## Supervisor Report
-| Model/Table | Purpose | Status |
-|---|---|---|
-| SupervisorWeeklyReport | Laporan/evaluasi mingguan Pengawas | Planned |
-| SupervisorReportNote | Catatan kualitas/kendala/rekomendasi | Planned |
+| Model/Table | Purpose | Status | Notes |
+|---|---|---|---|
+| SupervisorWeeklyReport | Header laporan mingguan Pengawas | Existing | Per project + supervisor + week period |
+| SupervisorWeeklyReportJournal | Relasi ke jurnal Mandor approved | Existing | Menghubungkan laporan dengan WeeklyJournal approved |
+| SupervisorWeeklyReportNote | Catatan quality/safety/blocker/recommendation | Existing | Catatan detail laporan |
+| SupervisorWeeklyReportReviewLog | Riwayat review/status laporan | Existing | Audit trail submit/approve/revision/reject |
+
+> [!NOTE]
+> Laporan Mingguan Pengawas adalah rekap/evaluasi resmi berbasis jurnal approved dan progress verified. Laporan ini bukan sumber progress resmi baru dan bukan customer publication final.
 
 ## Material Request
 | Model/Table | Purpose | Status |

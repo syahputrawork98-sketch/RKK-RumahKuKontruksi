@@ -113,13 +113,32 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
   - Jalur Normal vs Urgent belum diimplementasikan secara spesifik di backend.
   - **Status**: *Experimental Backend Draft* (Tidak untuk penggunaan produksi).
 
+- **Status**: *Implemented Local Backend v1 / Frontend Pending*.
+
+## Supervisor Weekly Reports (Implemented Local Backend v1)
+- `GET /api/supervisor-weekly-reports/context`: Ambil data pendukung pembuatan laporan (project info, progress snapshot, approved journals).
+- `GET /api/supervisor-weekly-reports`: Ambil list laporan (dukung filter role/project/status/period).
+- `GET /api/supervisor-weekly-reports/:id`: Ambil detail laporan lengkap dengan journals, notes, dan review logs.
+- `POST /api/supervisor-weekly-reports`: Membuat draft laporan baru (Role: Pengawas).
+- `PATCH /api/supervisor-weekly-reports/:id`: Memperbarui draft/revisi laporan.
+- `POST /api/supervisor-weekly-reports/:id/submit`: Mengirim laporan ke Admin (Status: submitted).
+- `POST /api/supervisor-weekly-reports/:id/review`: Review laporan oleh Admin (Aksi: start_admin_review, approve, request_revision, reject).
+
+**Catatan**:
+- Actor masih menggunakan payload/query local dev (`actorRole`, `actorId`).
+- Belum menggunakan JWT/RBAC produksi.
+- Laporan tidak mengubah `Project.verifiedProgress`.
+- Laporan tidak publish ke Konsumen secara otomatis.
+- Laporan tidak membuat Payment otomatis.
+- **Status**: *Implemented Local Backend v1 / Frontend Pending*.
+
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
 
 The following APIs are intentionally postponed and should not be implemented before Project/Stage/Progress/RAB workflow is clarified:
 
 - `GET/POST /daily-reports`: Laporan harian mandor (NOT IMPLEMENTED)
-- `GET/POST /weekly-reports`: Laporan mingguan pengawas (NOT IMPLEMENTED)
+- `GET/POST /daily-reports`: Laporan harian mandor (NOT IMPLEMENTED)
 - `GET/POST /field-issues`: Kendala lapangan (NOT IMPLEMENTED)
 - `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
 - `GET/POST /tasks`: Manajemen tugas harian (NOT IMPLEMENTED)

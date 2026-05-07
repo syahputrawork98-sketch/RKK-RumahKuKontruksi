@@ -61,9 +61,13 @@ Untuk memastikan implementasi yang presisi, dokumentasi dibagi menjadi tiga ting
 Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke Level 3 secara bertahap.
 
 ## Workflow Prioritas (Target Level 3)
-1. **Project Progress Source of Truth** (Level 3 - Active Example)
-2. **Jurnal Mingguan Mandor** (Level 2 -> Level 3 Target)
-3. **Laporan Mingguan Pengawas** (Level 2 -> Level 3 Target)
+1. **Project Progress Source of Truth** (Level 3 - Active Example / Implemented Local Workflow v1)
+2. **Jurnal Mingguan Mandor** (Level 3 - Backend + Frontend Implemented Local v1)
+3. **Laporan Mingguan Pengawas** (Backend + Frontend Implemented Local v1)
+
+> [!NOTE]
+> Laporan Mingguan Pengawas menjadi workflow berikutnya setelah Jurnal Mingguan Mandor karena laporan ini merangkum jurnal approved dan progress verified menjadi evaluasi resmi untuk Admin. Laporan tidak boleh membuat progress baru, payment, atau publikasi Konsumen secara otomatis.
+
 4. **Progress to Customer** (Level 2 -> Level 3 Target)
 5. **Payment Foreman** (Level 2 -> Level 3 Target)
 6. **Material Request Finalization** (Experimental -> Level 3 Target)

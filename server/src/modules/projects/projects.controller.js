@@ -4,8 +4,8 @@ import { serializeDecimal } from '../../utils/decimalHelper.js';
 
 export const getProjects = async (req, res, next) => {
   try {
-    const { supervisorId } = req.query;
-    const projects = await ProjectRepository.findAll({ supervisorId });
+    const { supervisorId, foremanId } = req.query;
+    const projects = await ProjectRepository.findAll({ supervisorId, foremanId });
     res.json({
       success: true,
       data: serializeDecimal(projects),

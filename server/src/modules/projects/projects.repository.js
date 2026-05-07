@@ -5,6 +5,9 @@ export const findAll = async (filters = {}) => {
   if (filters.supervisorId) {
     where.supervisorId = filters.supervisorId;
   }
+  if (filters.foremanId) {
+    where.foremanId = filters.foremanId;
+  }
 
   return await prisma.project.findMany({
     where,

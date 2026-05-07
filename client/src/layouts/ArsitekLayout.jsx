@@ -9,6 +9,7 @@ import arsitekTopbar from "@client/components/ui/topbar/topbar-data/arsitek";
 
 import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
+import { useArchitectPersona } from "../context/ArchitectPersonaContext";
 
 const ArsitekLayout = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -21,16 +22,25 @@ const ArsitekLayout = () => {
         localStorage.setItem("rkk-dashboard-theme", theme);
     }, [theme]);
 
+    const { selectedArchitect } = useArchitectPersona();
+
     const toggleTheme = () => {
         setTheme(prev => prev === "light" ? "dark" : "light");
     };
+
+    // Use selected architect data if available, otherwise fallback to mock
+    const currentUser = selectedArchitect ? {
+        name: selectedArchitect.name,
+        role: "Arsitek / Architect",
+        photo: selectedArchitect.avatar || arsitekTopbar.user.photo
+    } : arsitekTopbar.user;
 
     return (
         <div className="dashboard-shell flex min-h-screen">
             {/* SIDEBAR */}
             <SidebarBase
                 menu={arsitekSidebar}
-                user={arsitekTopbar.user}
+                user={currentUser}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
                 panelLabel="Arsitek Panel"
@@ -46,12 +56,13 @@ const ArsitekLayout = () => {
                 {/* TOPBAR */}
                 <TopbarBase
                     title={arsitekTopbar.title}
-                    user={arsitekTopbar.user}
+                    user={currentUser}
                     isCollapsed={isCollapsed}
                     theme={theme}
                     onToggleTheme={toggleTheme}
                     notificationService={notificationService}
                     dummyNotifications={dummyNotifications}
+                    showArchitectSwitcher={true}
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}

@@ -83,6 +83,7 @@ import PengaturanArsitekPage from "./pages/arsitek/PengaturanArsitekPage";
 
 import { SupervisorPersonaProvider } from "./context/SupervisorPersonaContext";
 import { ForemanPersonaProvider } from "./context/ForemanPersonaContext";
+import { ArchitectPersonaProvider } from "./context/ArchitectPersonaContext";
 
 function App() {
   return (
@@ -183,7 +184,14 @@ function App() {
         </Route>
 
         {/* ================== ARSITEK LAYOUT ================== */}
-        <Route path="/arsitek" element={<ArsitekLayout />}>
+        <Route 
+          path="/arsitek" 
+          element={
+            <ArchitectPersonaProvider>
+              <ArsitekLayout />
+            </ArchitectPersonaProvider>
+          }
+        >
           <Route path="dashboard" element={<DashboardArsitek />} />
           <Route path="permintaan-desain" element={<PermintaanDesainArsitekPage />} />
           <Route path="permintaan-desain/:requestId" element={<DetailPermintaanDesainArsitekPage />} />

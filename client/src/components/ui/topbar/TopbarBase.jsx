@@ -7,6 +7,7 @@ import TopbarUserMenu from "./TopbarUserMenu";
 import TopbarNotification from "./TopbarNotification";
 import SupervisorSwitcher from "./SupervisorSwitcher";
 import ForemanSwitcher from "./ForemanSwitcher";
+import ArchitectSwitcher from "./ArchitectSwitcher";
 
 const TopbarBase = ({
     title,
@@ -17,7 +18,8 @@ const TopbarBase = ({
     theme,
     onToggleTheme,
     showSupervisorSwitcher = false,
-    showForemanSwitcher = false
+    showForemanSwitcher = false,
+    showArchitectSwitcher = false
 }) => {
 
     const [openMenu, setOpenMenu] = useState(false);
@@ -61,6 +63,7 @@ const TopbarBase = ({
                 {/* PERSONA SWITCHER (DEV ONLY) */}
                 {showSupervisorSwitcher && <SupervisorSwitcher />}
                 {showForemanSwitcher && <ForemanSwitcher />}
+                {showArchitectSwitcher && <ArchitectSwitcher />}
             </div>
 
             <div className="flex items-center gap-4 mr-8">

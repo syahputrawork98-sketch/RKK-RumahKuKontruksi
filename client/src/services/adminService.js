@@ -21,8 +21,8 @@ export const adminService = {
     return apiClient.delete(`/admins/${id}`);
   },
   
-  getDashboardStats: async () => {
-    return apiClient.get('/admins/dashboard-stats');
+  getDashboardStats: async (params) => {
+    return apiClient.get('/admins/dashboard-stats', { params });
   }
 };
 

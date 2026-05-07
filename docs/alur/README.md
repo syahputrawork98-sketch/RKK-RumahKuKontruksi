@@ -25,3 +25,10 @@ Setiap alur kerja ditandai dengan status berikut:
 - [Pengawas](./pengawas.md) (Partial)
 - [PIC](./pic.md) (Planned)
 - [Pembayaran Konsumen](./payment-customer.md) (Planned)
+
+## Alur Turunan (Derived Workflows)
+- [Pengajuan Material Mandor](./material-request.md) (Implemented)
+- [Pengajuan Pembayaran Mandor](./payment-foreman.md) (Planned)
+- [Jurnal Mingguan Mandor](./jurnal-mingguan-mandor.md) (Planned)
+- [Laporan Mingguan Pengawas](./alur-laporan-mingguan-pengawas.md) (Planned)
+- [Alur Notifikasi Sistem](./notification-system.md) (Planned)

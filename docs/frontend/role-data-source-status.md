@@ -21,6 +21,7 @@ Status: **Database-Backed v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `supervisorId`.
 - **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock PRJ-001/002 lama.
+- **Operational Status**: Operational pages seperti verifikasi progres, dokumentasi, laporan mingguan, dan request material belum dibuat backend operasionalnya. Halaman tersebut belum menjadi target CRUD sekarang dan akan dibahas setelah struktur Project/Progress/RAB stabil.
 
 ### 2. Mandor / Foreman
 Status: **Database-Backed v1**
@@ -31,7 +32,8 @@ Status: **Database-Backed v1**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
-- **Operational Data**: Bagian operasional (Tugas Harian, Laporan Harian) saat ini masih menggunakan tampilan statis karena backend modul tersebut belum tersedia.
+- **Operational Data**: Bagian operasional (Tugas Harian, Laporan Harian) saat ini masih menggunakan tampilan statis karena backend modul tersebut sengaja ditunda.
+- **Operational Status**: Operational pages seperti tugas harian, laporan harian, request material, dokumentasi, dan kendala lapangan belum dibuat backend operasionalnya. Halaman tersebut belum menjadi target CRUD sekarang dan akan dibahas setelah struktur Project/Progress/RAB stabil.
 
 ---
 
@@ -55,6 +57,7 @@ Untuk menghindari kerancuan data selama pengembangan:
     - **BOLEH**: Digunakan untuk *Seeding* database lokal (`npm run db:seed`).
     - **BOLEH**: Digunakan sebagai referensi struktur objek data di komponen UI.
     - **TIDAK BOLEH**: Digunakan sebagai fallback data jika API backend kosong atau error.
+    - **TIDAK BOLEH**: Membuat mock fallback untuk operational pages seolah-olah data sudah nyata. Jika backend belum ada, UI boleh menampilkan placeholder/0/belum tersedia dengan catatan TODO.
 
 2. **Mock Data untuk Role Lain**:
     - **BOLEH**: Digunakan sebagai sumber data utama hingga modul backend terkait diimplementasikan.

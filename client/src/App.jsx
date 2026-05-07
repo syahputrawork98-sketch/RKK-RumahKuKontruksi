@@ -84,6 +84,7 @@ import PengaturanArsitekPage from "./pages/arsitek/PengaturanArsitekPage";
 import { SupervisorPersonaProvider } from "./context/SupervisorPersonaContext";
 import { ForemanPersonaProvider } from "./context/ForemanPersonaContext";
 import { ArchitectPersonaProvider } from "./context/ArchitectPersonaContext";
+import { AdminPersonaProvider } from "./context/AdminPersonaContext";
 
 function App() {
   return (
@@ -131,7 +132,14 @@ function App() {
         </Route>
 
         {/* ================== ADMIN LAYOUT ================== */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route 
+          path="/admin" 
+          element={
+            <AdminPersonaProvider>
+              <AdminLayout />
+            </AdminPersonaProvider>
+          }
+        >
           <Route path="dashboard" element={<DashboardAdmin />} />
           <Route path="proyek" element={<ProyekAdminPage />} />
           <Route path="proyek/create" element={<CreateProyekAdminPage />} />

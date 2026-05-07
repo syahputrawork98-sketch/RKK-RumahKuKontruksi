@@ -9,8 +9,10 @@ import adminTopbar from "@client/components/ui/topbar/topbar-data/admin";
 
 import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
+import { useAdminPersona } from "@client/context/AdminPersonaContext";
 
 const AdminLayout = () => {
+    const { selectedAdmin } = useAdminPersona();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem("rkk-dashboard-theme") || "light";
@@ -30,7 +32,7 @@ const AdminLayout = () => {
             {/* SIDEBAR */}
             <SidebarBase
                 menu={adminSidebar}
-                user={adminTopbar.user}
+                user={selectedAdmin}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
                 panelLabel="Admin Panel"
@@ -46,12 +48,13 @@ const AdminLayout = () => {
                 {/* TOPBAR */}
                 <TopbarBase
                     title={adminTopbar.title}
-                    user={adminTopbar.user}
+                    user={selectedAdmin}
                     isCollapsed={isCollapsed}
                     theme={theme}
                     onToggleTheme={toggleTheme}
                     notificationService={notificationService}
                     dummyNotifications={dummyNotifications}
+                    showAdminSwitcher={true}
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}

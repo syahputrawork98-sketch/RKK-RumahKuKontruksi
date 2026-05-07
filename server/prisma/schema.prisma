@@ -54,6 +54,7 @@ model Project {
   createdAt             DateTime       @default(now()) @map("created_at")
   updatedAt             DateTime       @updatedAt @map("updated_at")
   stages                ProjectStage[]
+  admin                 Admin?         @relation(fields: [adminId], references: [id])
   customer              Customer       @relation(fields: [customerId], references: [id])
   supervisor            Supervisor?    @relation(fields: [supervisorId], references: [id])
   foreman               Foreman?       @relation(fields: [foremanId], references: [id])
@@ -334,4 +335,33 @@ model ArchitectExperience {
   architect   Architect @relation(fields: [architectId], references: [id])
 
   @@map("architect_experiences")
+}
+
+model Admin {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  avatar    String?
+  status    String    @default("active")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  projects  Project[]
+
+  @@map("admins")
+}
+
+model Superadmin {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  avatar    String?
+  status    String    @default("active")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("superadmins")
 }

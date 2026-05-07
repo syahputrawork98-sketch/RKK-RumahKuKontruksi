@@ -14,6 +14,64 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Start seeding...');
 
+  // -1. Admins
+  console.log('Seeding admins...');
+  const admins = [
+    {
+      id: 'admin-001',
+      name: 'Budi Santoso',
+      email: 'budi.admin@rkk.local',
+      phone: '081234567001',
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=admin-001'
+    },
+    {
+      id: 'admin-002',
+      name: 'Siti Rahma',
+      email: 'siti.admin@rkk.local',
+      phone: '081234567002',
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=admin-002'
+    },
+    {
+      id: 'admin-003',
+      name: 'Rizky Pratama',
+      email: 'rizky.admin@rkk.local',
+      phone: '081234567003',
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=admin-003'
+    }
+  ];
+
+  for (const a of admins) {
+    await prisma.admin.upsert({
+      where: { id: a.id },
+      update: {},
+      create: a
+    });
+  }
+
+  // -0.5 Superadmins
+  console.log('Seeding superadmins...');
+  const superadmins = [
+    {
+      id: 'superadmin-001',
+      name: 'Superadmin RKK',
+      email: 'superadmin@rkk.local',
+      phone: '081234567000',
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=superadmin-001'
+    }
+  ];
+
+  for (const sa of superadmins) {
+    await prisma.superadmin.upsert({
+      where: { id: sa.id },
+      update: {},
+      create: sa
+    });
+  }
+
   // 0. Supervisors
   console.log('Seeding supervisors...');
   const supervisors = [
@@ -247,9 +305,15 @@ async function main() {
   for (const p of mockProjects) {
     const sId = distribution[p.id] || null;
     
+    // Remap adminId to valid seeded admins
+    let aId = p.adminId;
+    if (aId === 'admin-004') aId = 'admin-003';
+    if (!['admin-001', 'admin-002', 'admin-003'].includes(aId)) aId = 'admin-001';
+
     await prisma.project.upsert({
       where: { id: p.id },
       update: {
+          adminId: aId,
           supervisorId: sId,
           foremanId: p.foremanId || null
       },
@@ -269,7 +333,7 @@ async function main() {
         remainingAmount: p.remainingAmount,
         heroImage: p.heroImage,
         sourceDesignRequestId: p.sourceDesignRequestId,
-        adminId: p.adminId,
+        adminId: aId,
         supervisorId: sId,
         foremanId: p.foremanId || null,
       },

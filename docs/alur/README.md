@@ -33,3 +33,4 @@ Setiap alur kerja ditandai dengan status berikut:
 - [Laporan Mingguan Pengawas](./alur-laporan-mingguan-pengawas.md) (Planned)
 - [Alur Notifikasi Sistem](./notification-system.md) (Planned)
 - [Approval, Rejection, Revisi](./07-alur-approval-rejection-revisi.md) (Planned)
+- [Progress Proyek ke Konsumen](./alur-progress-proyek-ke-konsumen.md) (Planned)

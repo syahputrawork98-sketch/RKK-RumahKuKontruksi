@@ -9,28 +9,22 @@ export const SupervisorPersonaProvider = ({ children }) => {
     localStorage.getItem('rkk.dev.selectedSupervisorId') || ''
   );
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchSupervisors = async () => {
     try {
-      setIsLoading(true);
+      setLoading(true);
+      setError(null);
       const response = await supervisorService.getAllSupervisors();
       if (response.success) {
         setSupervisors(response.data);
-        
-        // Default to first supervisor if none selected or selected one doesn't exist
-        if (!selectedSupervisorId || !response.data.find(s => s.id === selectedSupervisorId)) {
-          const defaultId = response.data[0]?.id || '';
-          setSelectedSupervisorId(defaultId);
-          localStorage.setItem('rkk.dev.selectedSupervisorId', defaultId);
-        }
       }
     } catch (err) {
       console.error('Failed to fetch supervisors:', err);
       setError('Gagal mengambil data pengawas dari database.');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -41,19 +35,38 @@ export const SupervisorPersonaProvider = ({ children }) => {
   useEffect(() => {
     if (selectedSupervisorId && supervisors.length > 0) {
       const found = supervisors.find(s => s.id === selectedSupervisorId);
-      setSelectedSupervisor(found || null);
-      localStorage.setItem('rkk.dev.selectedSupervisorId', selectedSupervisorId);
+      if (found) {
+        setSelectedSupervisor(found);
+        localStorage.setItem('rkk.dev.selectedSupervisorId', selectedSupervisorId);
+      } else {
+        setSelectedSupervisor(null);
+        setSelectedSupervisorId('');
+        localStorage.removeItem('rkk.dev.selectedSupervisorId');
+      }
     } else {
       setSelectedSupervisor(null);
     }
   }, [selectedSupervisorId, supervisors]);
 
+  const selectSupervisor = (id) => {
+    setSelectedSupervisorId(id);
+    localStorage.setItem('rkk.dev.selectedSupervisorId', id);
+  };
+
+  const clearSupervisor = () => {
+    setSelectedSupervisorId('');
+    setSelectedSupervisor(null);
+    localStorage.removeItem('rkk.dev.selectedSupervisorId');
+  };
+
   const value = {
     supervisors,
     selectedSupervisor,
     selectedSupervisorId,
+    selectSupervisor,
     setSelectedSupervisorId,
-    isLoading,
+    clearSupervisor,
+    loading,
     error,
     refreshSupervisors: fetchSupervisors
   };

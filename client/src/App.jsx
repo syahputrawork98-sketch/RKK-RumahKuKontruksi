@@ -82,6 +82,7 @@ import RiwayatDesainArsitekPage from "./pages/arsitek/RiwayatDesainArsitekPage";
 import PengaturanArsitekPage from "./pages/arsitek/PengaturanArsitekPage";
 
 import { SupervisorPersonaProvider } from "./context/SupervisorPersonaContext";
+import { ForemanPersonaProvider } from "./context/ForemanPersonaContext";
 
 function App() {
   return (
@@ -162,7 +163,14 @@ function App() {
         </Route>
 
         {/* ================== MANDOR LAYOUT ================== */}
-        <Route path="/mandor" element={<MandorLayout />}>
+        <Route 
+          path="/mandor" 
+          element={
+            <ForemanPersonaProvider>
+              <MandorLayout />
+            </ForemanPersonaProvider>
+          }
+        >
           <Route path="dashboard" element={<DashboardMandor />} />
           <Route path="proyek-aktif" element={<ProyekAktifMandorPage />} />
           <Route path="proyek-aktif/:projectId" element={<DetailProyekAktifMandorPage />} />

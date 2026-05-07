@@ -11,12 +11,12 @@ Arsitek bertanggung jawab menangani fase pra-proyek/desain sebelum RAB dan imple
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
 | Dashboard | `/arsitek/dashboard` | `DashboardArsitek.jsx` | **Implemented (DB)** | Ringkasan profil & kapasitas dari database. |
-| Permintaan Desain | `/arsitek/permintaan-desain` | `PermintaanDesainArsitekPage.jsx` | **Done (Mock)** | List permintaan desain (Mock-First). |
-| Detail Permintaan | `/arsitek/permintaan-desain/:id` | `DetailPermintaanDesainArsitekPage.jsx` | **Done (Mock)** | Detail brief & file desain (Mock-First). |
-| Desain Aktif | `/arsitek/desain-aktif` | `DesainAktifArsitekPage.jsx` | **Done (Mock)** | Fokus pengerjaan desain berjalan. |
-| File Desain | `/arsitek/file-desain` | `FileDesainArsitekPage.jsx` | **Done (Mock)** | Repositori dokumen desain. |
-| Revisi Desain | `/arsitek/revisi` | `RevisiDesainArsitekPage.jsx` | **Done (Mock)** | Monitoring catatan revisi customer. |
-| Riwayat Desain | `/arsitek/riwayat` | `RiwayatDesainArsitekPage.jsx` | **Done (Mock)** | Arsip desain selesai/batal. |
+| Permintaan Desain | `/arsitek/permintaan-desain` | `PermintaanDesainArsitekPage.jsx` | **Mock-First** | List permintaan desain (Backend Pending). |
+| Detail Permintaan | `/arsitek/permintaan-desain/:id` | `DetailPermintaanDesainArsitekPage.jsx` | **Mock-First** | Detail brief & file desain (Backend Pending). |
+| Desain Aktif | `/arsitek/desain-aktif` | `DesainAktifArsitekPage.jsx` | **Mock-First** | Fokus pengerjaan desain berjalan. |
+| File Desain | `/arsitek/file-desain` | `FileDesainArsitekPage.jsx` | **Mock-First** | Repositori dokumen desain. |
+| Revisi Desain | `/arsitek/revisi` | `RevisiDesainArsitekPage.jsx` | **Mock-First** | Monitoring catatan revisi customer. |
+| Riwayat Desain | `/arsitek/riwayat` | `RiwayatDesainArsitekPage.jsx` | **Mock-First** | Arsip desain selesai/batal. |
 | Pengaturan | `/arsitek/pengaturan` | `PengaturanArsitekPage.jsx` | **Implemented (DB)** | Profil, Sertifikasi, & Pengalaman rill DB. |
 
 ## Komponen Terkait

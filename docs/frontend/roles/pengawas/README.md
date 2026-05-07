@@ -13,10 +13,10 @@ Pengawas bertanggung jawab atas monitoring teknis harian di lapangan, melakukan 
 | Dashboard | `/pengawas/dashboard` | `DashboardPengawas.jsx` | **Implemented (DB)** | Agregasi proyek rill berdasarkan persona pengawas. |
 | Proyek Diawasi | `/pengawas/proyek` | `ProyekDiawasiPengawasPage.jsx` | **Implemented (DB)** | List proyek rill dari database dengan filter supervisorId. |
 | Detail Proyek | `/pengawas/proyek/:id` | `DetailProyekDiawasiPengawasPage.jsx` | **Implemented (DB)** | Detail proyek rill termasuk info teknis dasar. |
-| Verifikasi Progres | `/pengawas/verifikasi-progres` | `VerifikasiProgresPengawasPage.jsx` | **Postponed** | Backend operasional pending. |
-| Dokumentasi | `/pengawas/dokumentasi` | `DokumentasiLapanganPengawasPage.jsx` | **Postponed** | Backend operasional pending. |
-| Laporan Mingguan | `/pengawas/laporan-mingguan` | `LaporanMingguanPengawasPage.jsx` | **Postponed** | Backend operasional pending. |
-| Request Material | `/pengawas/request-material` | `RequestMaterialPengawasPage.jsx` | **Postponed** | Backend operasional pending. |
+| Verifikasi Progres | `/pengawas/verifikasi-progres` | `VerifikasiProgresPengawasPage.jsx` | **Experimental** | Backend draft pending. |
+| Dokumentasi | `/pengawas/dokumentasi` | `DokumentasiLapanganPengawasPage.jsx` | **Shell / Pending** | Backend operasional pending. |
+| Laporan Mingguan | `/pengawas/laporan-mingguan` | `LaporanMingguanPengawasPage.jsx` | **Shell / Pending** | Backend operasional pending. |
+| Request Material | `/pengawas/request-material` | `RequestMaterialPengawasPage.jsx` | **Experimental** | Terhubung ke MR Backend Draft. |
 | Pengaturan | `/pengawas/pengaturan` | `PengaturanPengawasPage.jsx` | **Implemented (DB)** | CRUD Profil, Sertifikasi, & Pengalaman rill DB. |
 
 ## Komponen Terkait

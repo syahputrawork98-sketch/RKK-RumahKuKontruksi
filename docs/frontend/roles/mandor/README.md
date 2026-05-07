@@ -13,11 +13,11 @@ Mandor bertanggung jawab atas eksekusi harian di lapangan, manajemen tugas tim t
 | Dashboard | `/mandor/dashboard` | `DashboardMandor.jsx` | **Implemented (DB)** | Ringkasan tugas & progress harian dari database. |
 | Proyek Aktif | `/mandor/proyek-aktif` | `ProyekAktifMandorPage.jsx` | **Implemented (DB)** | List proyek aktif berdasarkan persona mandor. |
 | Detail Proyek | `/mandor/proyek-aktif/:id` | `DetailProyekAktifMandorPage.jsx` | **Implemented (DB)** | Info proyek rill dari database. |
-| Tugas Harian | `/mandor/tugas-harian` | `TugasHarianMandorPage.jsx` | **Postponed** | Backend operasional pending. |
-| Laporan Harian | `/mandor/laporan-harian` | `LaporanHarianMandorPage.jsx` | **Postponed** | Backend operasional pending. |
-| Request Material | `/mandor/request-material` | `RequestMaterialMandorPage.jsx` | **Postponed** | Backend operasional pending. |
-| Dokumentasi | `/mandor/dokumentasi` | `DokumentasiLapanganMandorPage.jsx` | **Postponed** | Backend operasional pending. |
-| Kendala Lapangan | `/mandor/kendala-lapangan` | `KendalaLapanganMandorPage.jsx` | **Postponed** | Backend operasional pending. |
+| Tugas harian | `/mandor/tugas-harian` | `TugasHarianMandorPage.jsx` | **Shell / Pending** | Backend operasional pending. |
+| Laporan harian | `/mandor/laporan-harian` | `LaporanHarianMandorPage.jsx` | **Shell / Pending** | Backend operasional pending. |
+| Request Material | `/mandor/request-material` | `RequestMaterialMandorPage.jsx` | **Experimental** | Terhubung ke MR Backend Draft. |
+| Dokumentasi | `/mandor/dokumentasi` | `DokumentasiLapanganMandorPage.jsx` | **Shell / Pending** | Backend operasional pending. |
+| Kendala Lapangan | `/mandor/kendala-lapangan` | `KendalaLapanganMandorPage.jsx` | **Shell / Pending** | Backend operasional pending. |
 | Pengaturan | `/mandor/pengaturan` | `PengaturanMandorPage.jsx` | **Implemented (DB)** | Profil, Sertifikasi, & Pengalaman rill DB. |
 
 ## Komponen Terkait

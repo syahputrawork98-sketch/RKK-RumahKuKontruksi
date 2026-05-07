@@ -7,10 +7,10 @@ Role Superadmin saat ini dalam tahap **Partial / Refined Shell**. Layout, sideba
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/superadmin/dashboard` | `DashboardSuperadmin.jsx` | **Done** | Statistik global & monitoring cepat. |
-| Data Admin | `/superadmin/data-admin` | `DataAdminPage.jsx` | **Shell** | Manajemen staff internal. |
-| Data Pengawas | `/superadmin/data-pengawas` | `DataPengawasPage.jsx` | **Shell** | Manajemen pengawas lapangan. |
-| Data Mandor | `/superadmin/data-mandor` | `DataMandorPage.jsx` | **Shell** | Manajemen mitra mandor. |
+| Dashboard | `/superadmin/dashboard` | `DashboardSuperadmin.jsx` | **Partial** | Statistik global (Sebagian rill DB). |
+| Data Admin | `/superadmin/data-admin` | `DataAdminPage.jsx` | **DB-Backed v1** | Manajemen data Admin rill. |
+| Data Pengawas | `/superadmin/data-pengawas` | `DataPengawasPage.jsx` | **DB-Backed v1** | Manajemen data Pengawas rill. |
+| Data Mandor | `/superadmin/data-mandor` | `DataMandorPage.jsx` | **DB-Backed v1** | Manajemen data Mandor rill. |
 | Data Arsitek | `/superadmin/data-arsitek` | `PlaceholderPage` | **Placeholder** | Manajemen mitra arsitek. |
 | Pembayaran | `/superadmin/pembayaran/*` | `PlaceholderPage` | **Placeholder** | Monitoring arus kas keluar/masuk. |
 

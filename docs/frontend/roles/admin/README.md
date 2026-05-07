@@ -17,9 +17,10 @@ Admin bertanggung jawab atas manajemen operasional proyek konstruksi secara meny
 | RAB Proyek | `/admin/rab` | `RabAdminPage.jsx` | **DB-Backed v1** | List RAB rill. |
 | Detail RAB | `/admin/rab/:id` | `DetailRabAdminPage.jsx` | **DB-Backed v1** | Read-first dari database. |
 | Penugasan Tim | `/admin/penugasan-tim` | `PenugasanTimAdminPage.jsx` | **DB-Backed v1** | Alokasi Pengawas & Mandor rill. |
-| Pembayaran | `/admin/pembayaran` | `PembayaranAdminPage.jsx` | **Done (Mock)** | Validasi termin (Operational Postponed). |
-| Laporan Progress | `/admin/laporan-progress` | `LaporanProgressAdminPage.jsx` | **Done (Mock)** | Monitoring (Operational Postponed). |
-| Pengaturan | `/admin/pengaturan` | `PengaturanAdminPage.jsx` | **Done (Mock)** | Profil & preferensi. |
+| Pembayaran | `/admin/pembayaran` | `PembayaranAdminPage.jsx` | **Shell / Pending** | Manajemen termin konsumen (Operational Pending). |
+| Laporan Progress | `/admin/laporan-progress` | `LaporanProgressAdminPage.jsx` | **Shell / Pending** | Monitoring progres (Operational Pending). |
+| Request Material | `/admin/request-material`| `RequestMaterialAdminPage.jsx`| **Experimental** | Terhubung ke MR Backend Draft. |
+| Pengaturan | `/admin/pengaturan` | `PengaturanAdminPage.jsx` | **DB-Backed v1** | Profil admin dari database. |
 
 ## Komponen Terkait
 - `AdminLayout.jsx`: Sidebar navigasi & Topbar dengan sinkronisasi tema.

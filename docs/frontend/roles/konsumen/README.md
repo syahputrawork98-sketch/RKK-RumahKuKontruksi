@@ -7,10 +7,10 @@ Role Konsumen saat ini berstatus **Done / Stable UI**. Fokus utama peran ini ada
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/konsumen/dashboard` | `DashboardKonsumen.jsx` | **Partial** | Menampilkan statistik proyek aktif. |
-| List Proyek | `/konsumen/Proyek` | `Proyek.jsx` | **Partial** | Masih dalam proses migrasi ke `mockProjects`. |
-| Timeline | `/konsumen/TimelineProyek` | `TLProyek.jsx` | **Done** | Redesain premium sudah selesai. |
-| Detail Tahap | `/konsumen/TimelineProyek/:id` | `DetailTLProyek.jsx` | **Done** | Fitur detail RAB dan foto dokumentasi. |
+| Dashboard | `/konsumen/dashboard` | `DashboardKonsumen.jsx` | **Mock-First** | Menampilkan statistik proyek aktif (Mock). |
+| List Proyek | `/konsumen/proyek` | `Proyek.jsx` | **Partial** | List proyek konsumen (Partial DB). |
+| Timeline | `/konsumen/TimelineProyek` | `TimelineProyek.jsx` | **Mock-First** | Visualisasi tahap kerja (Mock). |
+| Detail Tahap | `/konsumen/TimelineProyek/:id` | `DetailTimelineProyek.jsx` | **Mock-First** | Detail progres & foto dokumentasi (Mock). |
 
 ## Komponen Terkait
 - `KonsumenLayout.jsx`: Layout dengan sidebar khusus konsumen.

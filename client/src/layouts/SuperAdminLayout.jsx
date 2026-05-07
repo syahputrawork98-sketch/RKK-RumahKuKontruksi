@@ -1,5 +1,4 @@
-// client/src/layouts/SuperAdminLayout.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import SidebarBase from "@client/components/ui/sidebar/SidebarBase";
@@ -12,13 +11,25 @@ import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
 
 const SuperAdminLayout = () => {
+    // ➜ THEME STATE
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("rkk-dashboard-theme") || "light";
+    });
 
-    // ➜ STATE DIPAKAI BERSAMA (Sidebar & Topbar)
+    useEffect(() => {
+        localStorage.setItem("rkk-dashboard-theme", theme);
+        document.documentElement.setAttribute("data-theme", theme);
+    }, [theme]);
+
+    const handleToggleTheme = () => {
+        setTheme((current) => (current === "dark" ? "light" : "dark"));
+    };
+
+    // ➜ SIDEBAR COLLAPSE STATE
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     return (
-        <div className="dashboard-shell">
-
+        <div className="dashboard-shell" data-theme={theme}>
             {/* SIDEBAR */}
             <SidebarBase
                 menu={superadminSidebar}
@@ -29,12 +40,11 @@ const SuperAdminLayout = () => {
 
             {/* MAIN CONTENT AREA */}
             <div
-                className="dashboard-main"
+                className="dashboard-main flex-1 flex flex-col"
                 style={{
                     marginLeft: isCollapsed ? "5rem" : "18rem",
                 }}
             >
-
                 {/* TOPBAR */}
                 <TopbarBase
                     title={superadminTopbar.title}
@@ -42,10 +52,12 @@ const SuperAdminLayout = () => {
                     isCollapsed={isCollapsed}
                     notificationService={notificationService}
                     dummyNotifications={dummyNotifications}
+                    theme={theme}
+                    onToggleTheme={handleToggleTheme}
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}
-                <main className="dashboard-page">
+                <main className="dashboard-page flex-1 mt-16">
                     <div className="dashboard-container">
                         <Outlet />
                     </div>

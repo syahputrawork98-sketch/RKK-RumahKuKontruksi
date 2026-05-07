@@ -51,6 +51,9 @@ model Project {
   adminId               String?        @map("admin_id")
   supervisorId          String?        @map("supervisor_id")
   foremanId             String?        @map("foreman_id")
+  verifiedProgress      Float          @default(0) @map("verified_progress")
+  verifiedProgressUpdatedAt DateTime?  @map("verified_progress_updated_at")
+  verifiedProgressById  String?        @map("verified_progress_by_id")
   createdAt             DateTime       @default(now()) @map("created_at")
   updatedAt             DateTime       @updatedAt @map("updated_at")
   stages                ProjectStage[]
@@ -62,6 +65,7 @@ model Project {
   rabItems              RabItem[]
   rabPlans              RabPlan[]
   materialRequests      MaterialRequest[]
+  progressLogs          ProgressVerificationLog[]
 
   @@map("projects")
 }
@@ -84,6 +88,7 @@ model Supervisor {
   experiences        SupervisorExperience[]
   projects           Project[]
   materialRequests   MaterialRequest[]
+  progressLogs       ProgressVerificationLog[]
 
   @@map("supervisors")
 }
@@ -454,4 +459,24 @@ model MaterialRequestHistory {
   materialRequest   MaterialRequest @relation(fields: [materialRequestId], references: [id])
 
   @@map("material_request_history")
+}
+
+model ProgressVerificationLog {
+  id String @id @default(cuid())
+
+  projectId String @map("project_id")
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  supervisorId String @map("supervisor_id")
+  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+
+  previousProgress Float @map("previous_progress")
+  newProgress      Float @map("new_progress")
+  notes            String
+
+  stageId String? @map("stage_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("progress_verification_logs")
 }

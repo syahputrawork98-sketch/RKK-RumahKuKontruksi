@@ -4,7 +4,7 @@
 - [docs/alur/pengawas.md](../../alur/pengawas.md)
 
 ## Status Saat Ini
-**Experimental / Backend Pending**. UI shell sudah ada namun belum terhubung ke API verifikasi rill.
+**Implemented Local Workflow v1**. Terhubung ke API rill dengan local dev actor validation. No JWT/RBAC yet.
 
 ## Tujuan UI
 Memberikan antarmuka bagi Pengawas untuk mengupdate progres resmi proyek secara akurat.
@@ -54,12 +54,12 @@ Memberikan antarmuka bagi Pengawas untuk mengupdate progres resmi proyek secara 
 | Unpublished State | Konsumen View | Tampilkan status "Menunggu update admin" |
 
 ## Acceptance Criteria
-- [ ] Pengawas hanya dapat melihat proyek yang ditugaskan (*Assigned*).
-- [ ] Tombol "Update Progres" secara teknis tidak muncul untuk role Mandor atau Konsumen.
-- [ ] Admin dapat melihat progres verified, namun dalam mode baca-saja (*Read-only*).
-- [ ] Konsumen hanya melihat progres yang telah memiliki status `published`.
-- [ ] UI membedakan secara visual antara **Klaim Mandor** (Draft) vs **Progres Resmi** (Verified).
-- [ ] Jika API gagal (Error), UI tidak boleh melakukan *fallback* ke data mock untuk halaman berlabel DB-Backed.
+- [x] Pengawas hanya dapat melihat proyek yang ditugaskan (*Assigned*).
+- [x] Tombol "Update Progres" hanya tersedia untuk Pengawas.
+- [x] Admin dapat melihat progres verified dalam mode baca-saja (*Read-only*).
+- [x] Mandor dapat melihat progres verified dalam mode baca-saja di dashboard.
+- [x] UI membedakan secara visual antara **Progres Resmi** (Verified) dengan label SOT yang jelas.
+- [x] Jika API gagal (Error), UI menampilkan state error yang benar dan tidak fallback ke mock.
 
 ## Integrasi dengan Alur Lain
 - [ ] Mempengaruhi tampilan [Progress to Customer](./progress-to-customer.md).

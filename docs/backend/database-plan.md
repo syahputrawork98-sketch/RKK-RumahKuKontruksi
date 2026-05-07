@@ -30,8 +30,7 @@ Banyaknya tabel bukan masalah selama setiap tabel punya tujuan, relasi, dan work
 ## Progress & Verification
 | Model/Table | Purpose | Status |
 |---|---|---|
-| ProgressVerification | Progres resmi proyek dari Pengawas | Planned |
-| ProgressVerificationHistory | Riwayat perubahan progress verified | Planned |
+| ProgressVerificationLog | Riwayat perubahan progres resmi proyek | Existing |
 
 ## Foreman Journal
 | Model/Table | Purpose | Status |

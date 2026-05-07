@@ -296,3 +296,120 @@ export const deleteProject = async (req, res, next) => {
     next(error);
   }
 };
+
+export const verifyProjectProgress = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { actorRole, actorId, verifiedProgress, notes, stageId } = req.body;
+
+    // 1. Basic Validations
+    if (actorRole !== 'pengawas') {
+      return res.status(403).json({
+        success: false,
+        message: 'Hanya Pengawas yang dapat memverifikasi progress proyek.'
+      });
+    }
+
+    if (!actorId) {
+      return res.status(400).json({
+        success: false,
+        message: 'actorId (Supervisor ID) wajib disertakan.'
+      });
+    }
+
+    if (verifiedProgress === undefined || typeof verifiedProgress !== 'number' || verifiedProgress < 0 || verifiedProgress > 100) {
+      return res.status(400).json({
+        success: false,
+        message: 'verifiedProgress wajib angka antara 0 dan 100.'
+      });
+    }
+
+    if (!notes || notes.length < 10) {
+      return res.status(400).json({
+        success: false,
+        message: 'Catatan verifikasi (notes) wajib diisi minimal 10 karakter.'
+      });
+    }
+
+    // 2. Project Existence & Assignment Check
+    const project = await ProjectRepository.findById(id);
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project tidak ditemukan.'
+      });
+    }
+
+    if (project.supervisorId !== actorId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak ditugaskan sebagai Pengawas pada proyek ini.'
+      });
+    }
+
+    // 3. Progress Logic: Cannot decrease (Phase 1 rule)
+    if (verifiedProgress < project.verifiedProgress) {
+      return res.status(400).json({
+        success: false,
+        message: `Progress tidak boleh turun. Progress saat ini: ${project.verifiedProgress}%`
+      });
+    }
+
+    // 4. Execution
+    const previousProgress = project.verifiedProgress;
+    
+    const updatedProject = await ProjectRepository.update(id, {
+      verifiedProgress,
+      verifiedProgressUpdatedAt: new Date(),
+      verifiedProgressById: actorId,
+      progress: Math.round(verifiedProgress) // Sync with existing int progress
+    });
+
+    const log = await ProjectRepository.createProgressLog({
+      projectId: id,
+      supervisorId: actorId,
+      previousProgress,
+      newProgress: verifiedProgress,
+      notes,
+      stageId: stageId || null
+    });
+
+    res.json({
+      success: true,
+      message: 'Progress proyek berhasil diverifikasi.',
+      data: {
+        project: serializeDecimal(updatedProject),
+        log: serializeDecimal(log)
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProjectProgressHistory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    
+    // Check project existence
+    const project = await ProjectRepository.findById(id);
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project tidak ditemukan.'
+      });
+    }
+
+    const history = await ProjectRepository.findProgressHistoryByProjectId(id);
+
+    res.json({
+      success: true,
+      data: {
+        currentProgress: project.verifiedProgress,
+        history: serializeDecimal(history)
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -5,7 +5,7 @@
 - [docs/alur/jurnal-mingguan-mandor.md](../../alur/jurnal-mingguan-mandor.md)
 
 ## Status Saat Ini
-**Backend Pending**. Belum ada implementasi endpoint verifikasi progres resmi.
+**Implemented Local Workflow v1**. Database-backed dengan local dev actor validation. No JWT/RBAC yet.
 
 ## Tujuan Backend
 Menyediakan mekanisme bagi Pengawas untuk memverifikasi progres fisik di lapangan yang menjadi sumber kebenaran data (*Single Source of Truth*) bagi seluruh sistem.
@@ -54,11 +54,12 @@ Menyediakan mekanisme bagi Pengawas untuk memverifikasi progres fisik di lapanga
 | Status Check | `Project is not in active state` | HTTP 400 |
 
 ## Acceptance Criteria
-- [ ] Progress resmi hanya bisa diubah oleh Pengawas yang ditugaskan (*Assigned*).
-- [ ] Setiap perubahan progress secara otomatis membuat entri di `ProgressVerificationLog`.
-- [ ] Modul pembayaran (*Payment*) dan Dashboard Konsumen hanya membaca data dari `verifiedProgress`.
-- [ ] Mandor tidak memiliki izin untuk mengubah `verifiedProgress`.
-- [ ] Admin bertindak sebagai pemantau dan publikator, bukan pembuat progress lapangan.
+- [x] Progress resmi hanya bisa diubah oleh Pengawas yang ditugaskan (*Assigned*).
+- [x] Setiap perubahan progress secara otomatis membuat entri di `ProgressVerificationLog`.
+- [x] Mandor tidak memiliki izin untuk mengubah `verifiedProgress`.
+- [x] Admin bertindak sebagai pemantau, bukan pembuat progress lapangan.
+- [x] Progress tidak boleh turun dari nilai sebelumnya (Phase 1).
+- [x] Validasi notes minimal 10 karakter.
 
 ## Integrasi dengan Alur Lain
 - [ ] Dasar untuk [Payment Foreman](./payment-foreman.md).

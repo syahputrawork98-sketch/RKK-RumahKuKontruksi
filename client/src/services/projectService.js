@@ -72,6 +72,33 @@ const projectService = {
    */
   async deleteProject(id) {
     return apiClient.delete(`/projects/${id}`);
+  },
+
+  /**
+   * Verify project progress (Supervisor only)
+   * @param {string} projectId 
+   * @param {Object} data 
+   * @returns {Promise<Object>}
+   */
+  async verifyProjectProgress(projectId, data) {
+    return apiClient.patch(`/projects/${projectId}/verify-progress`, data);
+  },
+
+  /**
+   * Get project progress verification history
+   * @param {string} projectId 
+   * @param {Object} actor 
+   * @returns {Promise<Object>}
+   */
+  async getProjectProgressHistory(projectId, actor = {}) {
+    const queryParams = new URLSearchParams();
+    if (actor.actorRole) queryParams.append('actorRole', actor.actorRole);
+    if (actor.actorId) queryParams.append('actorId', actor.actorId);
+    
+    const queryString = queryParams.toString();
+    const endpoint = `/projects/${projectId}/progress-history${queryString ? `?${queryString}` : ''}`;
+    
+    return apiClient.get(endpoint);
   }
 };
 

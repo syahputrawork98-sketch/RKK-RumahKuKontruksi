@@ -52,7 +52,7 @@ const DashboardMandor = () => {
         { label: "Proyek Aktif", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
         // TODO: replace static/mock data after operational backend is implemented
         { label: "Tugas Hari Ini", value: 0, icon: FiList, color: "#0EA5E9" },
-        { label: "Progress Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#16A34A" },
+        { label: "Progres Terverifikasi", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.verifiedProgress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#16A34A" },
         { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#F59E0B" },
         { label: "Kendala Lapangan", value: 0, icon: FiAlertTriangle, color: "#E11428" },
     ];
@@ -94,6 +94,13 @@ const DashboardMandor = () => {
                 title={`Halo, ${selectedForeman?.name || 'Mandor'}`}
                 subtitle={`Anda memiliki ${projects.length} proyek aktif yang perlu dipantau.`}
             />
+
+            <div className="bg-blue-500/5 border border-blue-500/10 p-3 rounded-xl flex items-center gap-3">
+                <FiInfo className="text-blue-500 text-xs" />
+                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">
+                    Progres resmi proyek (SOT) sepenuhnya berasal dari hasil verifikasi Pengawas di lapangan.
+                </p>
+            </div>
             
             <DashboardStats stats={stats} />
 

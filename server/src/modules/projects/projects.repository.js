@@ -55,6 +55,13 @@ export const findById = async (id) => {
       },
       rabItems: {
         orderBy: { id: 'asc' }
+      },
+      supervisor: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true
+        }
       }
     },
   });
@@ -105,5 +112,34 @@ export const findRabByProjectId = async (projectId) => {
         }
       }
     }
+  });
+};
+
+export const createProgressLog = async (data) => {
+  return await prisma.progressVerificationLog.create({
+    data,
+    include: {
+      supervisor: {
+        select: {
+          name: true,
+          avatar: true
+        }
+      }
+    }
+  });
+};
+
+export const findProgressHistoryByProjectId = async (projectId) => {
+  return await prisma.progressVerificationLog.findMany({
+    where: { projectId },
+    include: {
+      supervisor: {
+        select: {
+          name: true,
+          avatar: true
+        }
+      }
+    },
+    orderBy: { createdAt: 'desc' }
   });
 };

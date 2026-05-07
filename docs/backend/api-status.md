@@ -25,6 +25,8 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `DELETE /projects/:id`: Hapus proyek.
 - `GET /projects/:id/stages`: Ambil tahapan proyek.
 - `GET /projects/:id/rab`: Ambil data RAB proyek.
+- `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas (SOT).
+- `GET /projects/:id/progress-history`: Riwayat verifikasi progres proyek.
 
 ## Supervisors
 - `GET /supervisors`: Ambil semua data Pengawas.
@@ -120,7 +122,6 @@ The following APIs are intentionally postponed and should not be implemented bef
 - `GET/POST /weekly-reports`: Laporan mingguan pengawas (NOT IMPLEMENTED)
 - `GET/POST /field-issues`: Kendala lapangan (NOT IMPLEMENTED)
 - `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
-- `POST /progress-verifications`: Verifikasi progres oleh pengawas (NOT IMPLEMENTED)
 - `GET/POST /tasks`: Manajemen tugas harian (NOT IMPLEMENTED)
 - `GET/POST /design-requests`: Permintaan desain (NOT IMPLEMENTED)
 - `GET/POST /design-files`: Upload file desain (NOT IMPLEMENTED)

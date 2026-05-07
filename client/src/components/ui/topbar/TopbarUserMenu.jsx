@@ -6,14 +6,24 @@ const TopbarUserMenu = ({ user, open, onToggle }) => {
     return (
         <div className="relative">
             {/* BUTTON */}
-            <button onClick={onToggle} className="flex items-center gap-3">
+            <button 
+                onClick={onToggle} 
+                className={`
+                    flex items-center gap-3 p-1 pr-4 rounded-full transition-all duration-200
+                    ${open ? "bg-teal-50 ring-2 ring-teal-500/10" : "hover:bg-slate-100"}
+                `}
+            >
                 <img
                     src={user.photo || "https://placehold.co/40"}
-                    className="w-10 h-10 rounded-full border border-teal-200 shadow-sm"
+                    className="w-8 h-8 rounded-full border border-white shadow-sm object-cover"
+                    alt="User"
                 />
-                <div className="flex items-center gap-1 text-teal-700">
-                    <span className="font-medium tracking-wide">{user.name}</span>
-                    <FiChevronDown />
+                <div className="flex items-center gap-2">
+                    <div className="flex flex-col items-start">
+                        <span className="text-xs font-bold text-slate-800 leading-none">{user.name}</span>
+                        <span className="text-[10px] text-teal-600 font-bold uppercase tracking-wider mt-0.5">{user.role}</span>
+                    </div>
+                    <FiChevronDown className={`text-slate-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
                 </div>
             </button>
 

@@ -39,29 +39,29 @@ const TopbarBase = ({
     return (
         <header
             className="
-                h-16 bg-white border-b border-teal-100 shadow-sm 
-                flex items-center justify-between px-6 
+                h-16 bg-white/80 backdrop-blur-md border-b border-teal-500/10 shadow-sm 
+                flex items-center justify-between px-8 
                 fixed top-0 right-0 z-40
                 transition-all duration-300
             "
-            /* 
-                ➤ LOGIC UTAMA POSISI TOPBAR:
-                - marginLeft mengikuti besar Sidebar:
-                  collapsed = 5rem (w-20)
-                  expanded = 18rem (w-72)
-                - Width topbar dihitung otomatis agar penuh
-            */
             style={{
                 marginLeft: isCollapsed ? "5rem" : "18rem",
                 width: `calc(100% - ${isCollapsed ? "5rem" : "18rem"})`
             }}
         >
-            {/* TITLE */}
-            <div className="text-lg font-semibold text-teal-700 tracking-wide">
-                {title}
+            {/* TITLE & BREADCRUMB AREA */}
+            <div className="flex flex-col">
+                <h2 className="text-lg font-bold text-slate-800 tracking-tight leading-tight">
+                    {title}
+                </h2>
+                <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[10px] text-teal-600 font-bold uppercase tracking-widest">RKK Dashboard</span>
+                    <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                    <span className="text-[10px] text-slate-400 font-medium italic">Internal System</span>
+                </div>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
 
                 {/* NOTIFICATION */}
                 <div className="relative">
@@ -70,12 +70,15 @@ const TopbarBase = ({
                             setOpenNotif(!openNotif);
                             setOpenMenu(false);
                         }}
-                        className="relative"
+                        className={`
+                            relative p-2.5 rounded-full transition-all duration-200
+                            ${openNotif ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-100"}
+                        `}
                     >
-                        <FiBell className="text-teal-700 text-xl hover:text-teal-900 transition" />
+                        <FiBell className="text-xl" />
 
                         {unreadCount > 0 && (
-                            <span className="absolute -top-1 -right-1 bg-red-500 w-2.5 h-2.5 rounded-full border border-white" />
+                            <span className="absolute top-2 right-2 bg-red-500 w-2.5 h-2.5 rounded-full border-2 border-white animate-pulse" />
                         )}
                     </button>
 
@@ -83,6 +86,8 @@ const TopbarBase = ({
                         <TopbarNotification notifList={notifList} />
                     )}
                 </div>
+
+                <div className="w-px h-8 bg-slate-200 mx-2"></div>
 
                 {/* USER MENU */}
                 <TopbarUserMenu

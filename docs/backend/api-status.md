@@ -84,16 +84,40 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /architects/experiences/:experienceId`: Update pengalaman.
 - `DELETE /architects/experiences/:experienceId`: Hapus pengalaman.
 
+## Admins (Local CRUD/API Draft)
+- `GET /admins`: Ambil semua data Admin.
+- `GET /admins/:id`: Ambil detail Admin.
+- `POST /admins`: Tambah Admin baru.
+- `PATCH /admins/:id`: Update data Admin.
+- `DELETE /admins/:id`: Hapus Admin.
+
+## Superadmins (Local CRUD/API Draft)
+- `GET /superadmins`: Ambil semua data Superadmin.
+- `GET /superadmins/:id`: Ambil detail Superadmin.
+- `POST /superadmins`: Tambah Superadmin baru.
+- `PATCH /superadmins/:id`: Update data Superadmin.
+- `DELETE /superadmins/:id`: Hapus Superadmin.
+
+## Material Requests (Experimental Backend Draft)
+- `GET /api/material-requests`: Ambil semua pengajuan material.
+- `GET /api/material-requests/:id`: Ambil detail pengajuan material.
+- `POST /api/material-requests`: Membuat pengajuan material baru.
+- `PATCH /api/material-requests/:id/status`: Update status pengajuan.
+- `GET /api/material-requests/project/:projectId`: List pengajuan per proyek.
+- **Catatan**: 
+  - Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
+  - Sistem *Audit Trail* (History) sudah mulai ada namun belum final.
+  - Validasi role/RBAC dan transisi status belum diperketat secara final.
+  - Jalur Normal vs Urgent belum diimplementasikan secara spesifik di backend.
+  - **Status**: *Experimental Backend Draft* (Tidak untuk penggunaan produksi).
+
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
-
-## Postponed / Not Implemented Operational APIs
 
 The following APIs are intentionally postponed and should not be implemented before Project/Stage/Progress/RAB workflow is clarified:
 
 - `GET/POST /daily-reports`: Laporan harian mandor (NOT IMPLEMENTED)
 - `GET/POST /weekly-reports`: Laporan mingguan pengawas (NOT IMPLEMENTED)
-- `GET/POST /material-requests`: Permintaan material (NOT IMPLEMENTED)
 - `GET/POST /field-issues`: Kendala lapangan (NOT IMPLEMENTED)
 - `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
 - `POST /progress-verifications`: Verifikasi progres oleh pengawas (NOT IMPLEMENTED)
@@ -106,5 +130,6 @@ The following APIs are intentionally postponed and should not be implemented bef
 
 ## Notes
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
-- **No Role Guard**: Pengecekan role belum dilakukan di sisi server.
+- **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
+- **Experimental Status**: Material Request saat ini sudah memiliki draft backend awal, tetapi status alurnya masih experimental. Implementasi ini dipertahankan sebagai basis awal, namun belum boleh dianggap final sampai checklist backend/frontend dan aturan alur diselesaikan.

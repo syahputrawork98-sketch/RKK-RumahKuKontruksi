@@ -20,8 +20,10 @@ Status: **Database-Backed v1**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `supervisorId`.
-- **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock PRJ-001/002 lama.
-- **Operational Status**: Operational pages seperti verifikasi progres, dokumentasi, laporan mingguan, dan request material belum dibuat backend operasionalnya. Halaman tersebut belum menjadi target CRUD sekarang dan akan dibahas setelah struktur Project/Progress/RAB stabil.
+- **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock.
+- **Operational Status**: 
+  - Verifikasi progres, dokumentasi, laporan mingguan: **Backend Pending / Experimental**.
+  - Request material: **Experimental / Backend Draft**.
 
 ### 2. Mandor / Foreman
 Status: **Database-Backed v1**
@@ -32,20 +34,23 @@ Status: **Database-Backed v1**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
-- **Operational Data**: Bagian operasional (Tugas Harian, Laporan Harian) saat ini masih menggunakan tampilan statis karena backend modul tersebut sengaja ditunda.
-- **Operational Status**: Operational pages seperti tugas harian, laporan harian, request material, dokumentasi, dan kendala lapangan belum dibuat backend operasionalnya. Halaman tersebut belum menjadi target CRUD sekarang dan akan dibahas setelah struktur Project/Progress/RAB stabil.
+- **Operational Status**: 
+  - Tugas harian, laporan harian, dokumentasi, kendala lapangan: **Shell / Backend Pending**.
+  - Request material: **Experimental / Backend Draft**.
 37: 
 38: ### 3. Arsitek / Architect
-39: Status: **Database-Backed v1**
-40: - **Context**: `ArchitectPersonaContext`
-41: - **Services**: `architectService`
-42: - **Dependency**: Membutuhkan seleksi persona melalui `ArchitectSwitcher` (Dev Mode).
-43: 
-44: **Behavior UI:**
-45: - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
-46: - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
-47: - **Design Workflow**: Halaman Permintaan Desain, File Desain, Revisi, dll masih menggunakan mock data karena backend alur kerja desain sengaja ditunda.
-48: - **No Fallback**: Data profil utama dilarang fallback ke mockArchitects.
+
+### 3. Arsitek / Architect
+Status: **Database-Backed v1**
+- **Context**: `ArchitectPersonaContext`
+- **Services**: `architectService`
+- **Dependency**: Membutuhkan seleksi persona melalui `ArchitectSwitcher` (Dev Mode).
+
+**Behavior UI:**
+- **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
+- **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
+- **Design Workflow**: Halaman Permintaan Desain, File Desain, Revisi, dll: **Mock-First / Backend Pending**.
+- **No Fallback**: Data profil utama dilarang fallback ke mock.
 
 ### 4. Admin
 Status: **Database-Backed v1**
@@ -53,27 +58,36 @@ Status: **Database-Backed v1**
 - **Dependency**: Tidak membutuhkan persona context khusus (Global Admin role).
 
 **Behavior UI:**
-- **Dashboard**: Statistik (Total Proyek, Proyek Berjalan, dll) dikalkulasi dari data rill database.
-- **Manajemen Proyek**: CRUD Proyek (List, Detail, Create) ditarik dan dikirim ke API backend.
-- **RAB**: Data RAB (Read-First) ditarik dari database per proyek.
-- **Penugasan Tim**: Data Pengawas dan Mandor pada setiap proyek ditarik rill dari database.
-- **Operational Data**: Laporan Progress dan Pembayaran saat ini masih menggunakan tampilan shell/mock karena backend operasional mendalam sengaja ditunda.
+- **Dashboard**: Statistik rill dari database.
+- **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
+- **RAB**: Data RAB (Read-First): **Partial**.
+- **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
+- **Operational Data**: 
+  - Laporan Progress, Pembayaran: **Shell / Backend Pending**.
+  - Request Material: **Experimental**.
 
 ---
 
-## Mock-First / Partial Roles (Development Stage)
+### 5. Superadmin
+Status: **Partial / UI Shell**
+- **Context**: `SuperadminPersonaContext`
+- **Services**: `superadminService`
+- **Behavior UI**: Entity API sudah ada (DB-Backed v1 untuk profil/list), namun alur kerja manajemen sistem secara penuh masih bersifat **Partial / UI Shell / Mock**.
 
-Role-role berikut masih dalam tahap pengembangan UI shell dan diperbolehkan menggunakan mock data terpusat dari `client/src/data/mock/`:
-
-- **Superadmin**
-- **Konsumen**
-
-*Catatan: Migrasi ke database untuk role ini akan dilakukan secara bertahap setelah modul operasional Pengawas & Mandor stabil.*
+### 6. Konsumen
+Status: **Mock-First / Partial**
+- **Dashboard**: Belum terhubung ke progres resmi proyek: **Mock-First**.
+- **CRUD Profil**: Mungkin sudah memiliki entity API, namun secara keseluruhan workflow masih **Partial**.
 
 ---
 
 ## Aturan Penggunaan Mock Data
 Untuk menghindari kerancuan data selama pengembangan:
+
+1. **Role dengan Status DB-Backed v1**:
+    - **TIDAK BOLEH**: Menggunakan mock data untuk halaman yang sudah ditandai DB-backed.
+    - **ERROR HANDLING**: Jika API kosong atau error, tampilkan *Empty State* atau *Error State*, bukan fallback ke mock.
+    - **MOCK EXCEPTION**: Hanya boleh digunakan untuk modul operasional yang memang belum memiliki backend final (ditandai *Experimental* atau *Backend Pending*).
 
 1. **Mock Data untuk Pengawas/Mandor/Arsitek**:
     - **BOLEH**: Digunakan untuk *Seeding* database lokal (`npm run db:seed`).

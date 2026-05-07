@@ -11,9 +11,11 @@ Mengelola permintaan kebutuhan material dari lapangan secara terstruktur untuk m
 - [ ] Model `MaterialRequestItem`: `id`, `requestId`, `itemName`, `qtyRequested`, `qtyApproved`, `unit`, `rabItemId` (ref).
 
 ## API / Service
-- [ ] `POST /api/material-requests`: Membuat pengajuan baru.
-- [ ] `PATCH /api/material-requests/:id/supervisor-verify`: Verifikasi teknis oleh Pengawas.
-- [ ] `PATCH /api/material-requests/:id/admin-approve`: Approval pengadaan oleh Admin.
+- [x] **Backend draft exists**: Route `/api/material-requests` sudah tersedia.
+- [x] **Model exists**: `MaterialRequest`, `MaterialRequestItem`, `MaterialRequestHistory` sudah ada di Prisma.
+- [x] **History exists**: Audit trail dasar sudah mulai ada.
+- [ ] `PATCH /api/material-requests/:id/supervisor-verify`: Verifikasi teknis oleh Pengawas (Not final).
+- [ ] `PATCH /api/material-requests/:id/admin-approve`: Approval pengadaan oleh Admin (Not final).
 
 ## Status Flow
 - [ ] `draft` -> `submitted` -> `approved_by_supervisor` -> `approved_by_admin` -> `processing` -> `delivered` -> `received`.
@@ -24,6 +26,8 @@ Mengelola permintaan kebutuhan material dari lapangan secara terstruktur untuk m
 - [ ] **No Purchase without Approval**: Mandor dilarang mencatatkan pembelian tanpa approval sistem.
 
 ## Permission / Role Rules
+- [ ] **Role validation not final**: Pengecekan izin akses rill di backend belum diperketat.
+- [ ] **Status transition enforcement not final**: Aturan perpindahan status belum sepenuhnya dikunci di backend.
 - [ ] **Mandor**: Inisiator pengajuan dan konfirmator penerimaan.
 - [ ] **Pengawas**: Verifikasi kesesuaian fisik lapangan.
 - [ ] **Admin**: Approval finansial dan logistik.
@@ -38,5 +42,7 @@ Mengelola permintaan kebutuhan material dari lapangan secara terstruktur untuk m
 - [ ] Referensi ke item RAB di proyek terkait.
 
 ## Tidak Dikerjakan di Fase Ini
+- [ ] **Not production-ready yet**: Alur ini masih bersifat eksperimental.
+- [ ] **Normal vs Urgent flow not final**: Logika pembedaan jalur belum final di backend.
 - [ ] Inventory management (Stok gudang pusat).
 - [ ] Perbandingan harga antar supplier secara otomatis.

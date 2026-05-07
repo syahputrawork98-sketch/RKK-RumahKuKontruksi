@@ -27,6 +27,7 @@ import DashboardSuperadmin from "./pages/superadmin/DashboardSuperadmin";
 import DataAdmin from "./pages/superadmin/DataAdminPage";
 import DataPengawas from "./pages/superadmin/DataPengawasPage";
 import DataMandor from "./pages/superadmin/DataMandorPage";
+import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./pages/superadmin/PlaceholderPage";
 
 
@@ -84,7 +85,7 @@ function App() {
           <Route path="rab" element={<PlaceholderPage title="Monitoring RAB" description="Halaman monitoring rencana anggaran biaya seluruh proyek." />} />
           <Route path="pembayaran/konsumen" element={<PlaceholderPage title="Tagihan Konsumen" description="Halaman monitoring invoice dan pembayaran dari konsumen." />} />
           <Route path="pembayaran/mandor" element={<PlaceholderPage title="Opname Mandor" description="Halaman monitoring pengajuan pembayaran dan opname mandor." />} />
-          <Route path="log-aktivitas" element={<PlaceholderPage title="Log Aktivitas Sistem" description="Halaman audit log untuk memantau aktivitas user di sistem." />} />
+          <Route path="log-aktivitas" element={<LogAktivitas />} />
           <Route path="pengaturan" element={<PlaceholderPage title="Pengaturan Sistem" description="Halaman konfigurasi parameter sistem dan backup data." />} />
         </Route>
 

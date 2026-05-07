@@ -1,7 +1,3 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiPrinter, FiDownload, FiPlus } from "react-icons/fi";
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiPrinter, FiDownload, FiPlus, FiAlertCircle } from "react-icons/fi";

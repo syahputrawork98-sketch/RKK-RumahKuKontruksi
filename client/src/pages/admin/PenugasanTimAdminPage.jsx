@@ -1,6 +1,3 @@
-import React, { useState } from "react";
-import { FiUsers, FiUserPlus, FiActivity, FiTool } from "react-icons/fi";
-
 import React, { useState, useEffect } from "react";
 import { FiUsers, FiUserPlus, FiActivity, FiTool, FiCheckCircle, FiClock } from "react-icons/fi";
 import projectService from "../../services/projectService";

@@ -6,14 +6,17 @@
 export const serializeDecimal = (obj) => {
   if (obj === null || obj === undefined) return obj;
 
+  // Handle Date objects
+  if (obj instanceof Date) return obj;
+
   if (Array.isArray(obj)) {
     return obj.map(item => serializeDecimal(item));
   }
 
   if (typeof obj === 'object') {
-    // Check if it's a Prisma Decimal object
-    if (obj.constructor && obj.constructor.name === 'Decimal') {
-      return obj.toNumber();
+    // Check if it's a Prisma Decimal object (decimal.js)
+    if (obj.constructor && (obj.constructor.name === 'Decimal' || obj.toNumber)) {
+      return typeof obj.toNumber === 'function' ? obj.toNumber() : obj;
     }
 
     const newObj = {};

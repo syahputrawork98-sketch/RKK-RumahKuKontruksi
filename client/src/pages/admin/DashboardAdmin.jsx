@@ -1,19 +1,3 @@
-import React from "react";
-import { 
-    FiLayers, 
-    FiActivity, 
-    FiClock, 
-    FiCreditCard, 
-    FiCheckCircle,
-    FiTrendingUp
-} from "react-icons/fi";
-import {
-    DashboardHeader,
-    DashboardStats,
-    DashboardActivity,
-    DashboardProjectsTable,
-} from "@client/components/ui/dashboard";
-
 import React, { useState, useEffect } from "react";
 import { 
     FiLayers, 

@@ -1,15 +1,3 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { 
-    FiArrowLeft, 
-    FiInfo, 
-    FiUsers, 
-    FiFileText, 
-    FiActivity, 
-    FiCreditCard,
-    FiMoreVertical
-} from "react-icons/fi";
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 

@@ -1,7 +1,3 @@
-import React from "react";
-import { FiFileText, FiChevronRight, FiSearch } from "react-icons/fi";
-import { Link } from "react-router-dom";
-
 import React, { useState, useEffect } from "react";
 import { FiFileText, FiChevronRight, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";

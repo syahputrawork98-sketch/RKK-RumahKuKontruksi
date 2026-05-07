@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import { FiSave, FiArrowLeft, FiAlertCircle } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-
 import React, { useState, useEffect } from "react";
-import { FiSave, FiArrowLeft, FiAlertCircle } from "react-icons/fi";
+import { FiSave, FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import customerService from "../../services/customerService";
 import supervisorService from "../../services/supervisorService";
@@ -70,9 +66,9 @@ const CreateProyekAdminPage = () => {
             // Convert types
             const payload = {
                 ...formData,
-                customerId: parseInt(formData.customerId),
-                supervisorId: formData.supervisorId ? parseInt(formData.supervisorId) : null,
-                foremanId: formData.foremanId ? parseInt(formData.foremanId) : null,
+                customerId: formData.customerId,
+                supervisorId: formData.supervisorId || null,
+                foremanId: formData.foremanId || null,
                 budget: parseFloat(formData.budget),
                 progress: parseInt(formData.progress),
                 remainingAmount: parseFloat(formData.budget),

@@ -8,10 +8,10 @@ const ForemanSwitcher = () => {
     selectedForeman, 
     selectedForemanId, 
     setSelectedForemanId,
-    isLoading 
+    loading 
   } = useForemanPersona();
 
-  if (isLoading) return null;
+  if (loading) return null;
 
   return (
     <div className="relative group px-4 py-1.5 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg flex items-center gap-3 transition-all hover:border-blue-400">

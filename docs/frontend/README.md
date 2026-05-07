@@ -7,6 +7,7 @@ Selamat datang di dokumentasi teknis frontend project RKK. Dokumentasi ini bertu
 * [Current State](./current-state.md): Ringkasan kondisi aktual frontend saat ini.
 * [Route Inventory](./route-inventory.md): Daftar lengkap semua route dan halaman yang tersedia.
 * [Checklist](./checklist.md): Status pekerjaan per modul/fitur.
+* [Dashboard Theme System](./dashboard-theme-system.md): Standar desain dashboard internal (Light/Dark).
 * [Next Actions](./next-actions.md): Prioritas pengembangan berikutnya.
 * [Roles Documentation](./roles/README.md): Detail implementasi untuk setiap role pengguna.
 

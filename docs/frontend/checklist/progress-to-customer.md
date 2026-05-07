@@ -1,44 +1,45 @@
-# Frontend Checklist - Progress Proyek ke Konsumen
+# Frontend Checklist - Publikasi Progres ke Konsumen
 
 ## Source Alur
 - [docs/alur/alur-progress-proyek-ke-konsumen.md](../../alur/alur-progress-proyek-ke-konsumen.md)
 
+## Status Saat Ini
+**Mock-First / Partial**. Dashboard konsumen sudah ada UI-nya namun datanya belum berasal dari alur verifikasi rill.
+
 ## Tujuan UI
-Menampilkan informasi kemajuan proyek secara transparan, bersih, dan mudah dipahami oleh Konsumen.
+Memberikan visibilitas progres pembangunan yang akurat dan terpercaya kepada Konsumen.
 
 ## Pages / Routes
-- [ ] `/dashboard/customer/projects/:id`: Dashboard utama Konsumen.
-- [ ] `/dashboard/customer/projects/:id/gallery`: Galeri foto progres.
+- [ ] `/admin/laporan-progress`: Halaman bagi Admin untuk melakukan aksi "Publish".
+- [ ] `/konsumen/TimelineProyek`: Dashboard progres di sisi Konsumen.
 
 ## Components
-- [ ] `ProjectProgressBar`: Visualisasi persentase progres total.
-- [ ] `TimelineUpdateList`: Daftar update progres dari waktu ke waktu.
-- [ ] `PublicPhotoGallery`: Grid foto-foto yang sudah dipublish Admin.
-- [ ] `StatusMilestone`: Status per kategori pekerjaan (Selesai/Berjalan/Belum Mulai).
+- [ ] `PublishToggle`: Tombol bagi Admin untuk merilis data ke dashboard konsumen.
+- [ ] `CustomerTimelineCard`: Card progres yang sudah difilter untuk tampilan konsumen.
+- [ ] `VerifiedBadge`: Indikator bahwa data sudah divalidasi tim teknis RKK.
 
 ## User Actions
-- [ ] **Konsumen**: Melihat progres, Scroll timeline histori, Lihat foto detail.
+- [ ] **Admin**: Klik "Publish ke Konsumen".
+- [ ] **Konsumen**: Melihat detail progres dan dokumentasi foto.
 
 ## UI States
-- [ ] **Empty state**: Tampil jika belum ada update yang dipublish oleh Admin.
-- [ ] **Loading state**: Saat memuat data timeline/galeri.
-- [ ] **Error state**: Jika gagal memuat data proyek.
+- [ ] **Unpublished state**: Di sisi Admin (Data verified ada tapi belum dipublish).
+- [ ] **Verified state**: Di sisi Konsumen (Menampilkan badge kepercayaan).
 
 ## Role Visibility
-- [ ] Hanya data dengan status `published` yang boleh muncul di dashboard **Konsumen**.
+- [ ] Kontrol aksi "Publish" hanya untuk **Admin**.
+- [ ] **Konsumen** dilarang melihat angka klaim mentah dari Mandor.
 
 ## Data Display
-- [ ] Progres Total (%).
-- [ ] Narasi Update (Catatan Publik).
-- [ ] Tanggal Update Terakhir.
-- [ ] Foto Dokumentasi Terpilih.
+- [ ] Angka progres kumulatif (e.g. 45%).
+- [ ] Foto dokumentasi fisik lapangan yang terpilih.
 
-## Form & Validation UI
-- [ ] (Tidak ada form input untuk Konsumen di alur ini).
+## Integrasi API / Service
+- [ ] `/api/projects/:id/publish-progress`.
 
 ## Integrasi dengan Alur Lain
-- [ ] Data bersumber dari [Laporan Mingguan Pengawas](./laporan-mingguan-pengawas.md) yang diproses Admin.
+- [ ] Sumber data berasal dari [Verifikasi Progres Proyek](./project-progress.md).
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Notifikasi Push/Email ke perangkat Konsumen.
-- [ ] Download laporan progres versi ringkas.
+- [ ] Animasi 3D progres pembangunan.
+- [ ] Live streaming CCTV lapangan di dashboard konsumen.

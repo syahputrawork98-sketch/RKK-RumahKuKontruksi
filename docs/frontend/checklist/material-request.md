@@ -3,52 +3,49 @@
 ## Source Alur
 - [docs/alur/material-request.md](../../alur/material-request.md)
 
+## Status Saat Ini
+**Experimental / Backend Draft**. UI pengajuan sudah ada namun terhubung ke backend yang masih dalam tahap eksperimen.
+
 ## Tujuan UI
 Memberikan antarmuka bagi Mandor untuk mengajukan kebutuhan barang/material proyek secara efisien.
 
 ## Pages / Routes
-- [x] **Request material UI may exist**: Halaman pengajuan mungkin sudah tersedia di beberapa role dashboard.
-- [ ] `/dashboard/foreman/material-requests`: Daftar pengajuan material.
-- [ ] `/dashboard/foreman/material-requests/new`: Form pengajuan baru.
-- [ ] `/dashboard/admin/logistics/requests`: Daftar pengajuan yang perlu diproses logistik.
+- [ ] `/mandor/request-material`: Halaman daftar dan form pengajuan.
+- [ ] `/admin/request-material`: Halaman review logistik oleh Admin.
 
 ## Components
-- [ ] `MaterialItemForm`: Baris input nama barang, jumlah, dan satuan.
-- [ ] `UrgentToggle`: Switch untuk menandai pengajuan sebagai `Urgent`.
-- [ ] `RabToleranceIndicator`: Label indikator (Normal/Warning/Anomali) berdasarkan estimasi RAB.
-- [ ] `DeliveryStatusTimeline`: Visualisasi status barang (Ordered -> Delivered -> Received).
+- [ ] `MaterialItemForm`: Input baris barang, jumlah, dan satuan.
+- [ ] `UrgentToggle`: Switch untuk menandai pengajuan prioritas.
+- [ ] `ApprovalChainStatus`: Visualisasi status persetujuan (Mandor -> Pengawas -> Admin).
 
 ## User Actions
-- [ ] **Mandor**: Tambah item, pilih tipe pengajuan, klik Submit, klik "Barang Diterima".
-- [ ] **Pengawas**: Klik Verifikasi Teknis.
-- [ ] **Admin**: Klik Approve Budget & Pengadaan.
+- [ ] Tambah/Hapus item material.
+- [ ] Pilih tipe (Normal/Urgent).
+- [ ] Klik Submit.
+- [ ] Klik "Barang Diterima" (Role Mandor).
 
 ## UI States
-- [ ] **Experimental / Backend Draft**: Tandai UI sebagai fitur eksperimental.
-- [ ] **Revision state**: Jika ada catatan revisi dari Pengawas/Admin.
-- [ ] **Loading state**: Saat memuat katalog material atau kirim data.
-- [ ] **Success state**: Konfirmasi barang berhasil diajukan.
+- [ ] **Experimental state**: Label peringatan bahwa alur masih dalam tahap uji coba.
+- [ ] **Revision state**: Jika ada barang yang tidak disetujui atau perlu diganti.
 
 ## Role Visibility
-- [ ] Tombol "Barang Diterima" hanya untuk role **Mandor**.
-- [ ] Tombol "Verifikasi" hanya untuk role **Pengawas**.
-- [ ] Tombol "Approve Pengadaan" hanya untuk role **Admin**.
+- [ ] Tombol "Barang Diterima" hanya untuk **Mandor**.
+- [ ] Tombol "Verifikasi Teknis" hanya untuk **Pengawas**.
+- [ ] Tombol "Approve Pengadaan" hanya untuk **Admin**.
 
 ## Data Display
-- [ ] Daftar Item & Qty.
-- [ ] Status Pengiriman.
-- [ ] Estimasi vs Aktual Qty.
+- [ ] Daftar barang & jumlah yang diminta vs yang disetujui.
+- [ ] Status pengiriman barang dari gudang/supplier.
 
 ## Form & Validation UI
-- [ ] Validasi: Field `Justification` wajib diisi jika progres melebihi batas toleransi RAB.
+- [ ] Validasi: Nama barang dan jumlah wajib diisi.
+
+## Integrasi API / Service
+- [ ] `/api/material-requests`.
 
 ## Integrasi dengan Alur Lain
-- [ ] Mengacu pada item RAB yang didefinisikan Admin di awal proyek.
+- [ ] Mengacu pada item material yang ada di RAB proyek.
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] **Do not treat as final workflow**: Alur UI belum dianggap final.
-- [ ] **UI must distinguish normal vs urgent later**: Pembedaan visual jalur normal vs urgent.
-- [ ] **UI must show approval chain**: Tampilan rantai persetujuan Mandor → Pengawas → Admin.
-- [ ] **UI must not allow Mandor free purchase flow**: Proteksi terhadap pembelian bebas tanpa sistem.
-- [ ] Integrasi dengan katalog supplier luar (E-commerce).
-- [ ] Scan barcode penerimaan barang.
+- [ ] **Do not treat as final**: Alur UI belum dianggap produksi.
+- [ ] Scan barcode saat barang sampai di lapangan.

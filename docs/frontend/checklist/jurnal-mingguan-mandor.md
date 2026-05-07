@@ -3,48 +3,49 @@
 ## Source Alur
 - [docs/alur/jurnal-mingguan-mandor.md](../../alur/jurnal-mingguan-mandor.md)
 
+## Status Saat Ini
+**Shell / Backend Pending**. Struktur UI dasar sedang disiapkan.
+
 ## Tujuan UI
-Memfasilitasi Mandor untuk mencatat aktivitas harian dan progres klaim secara berkala selama satu minggu.
+Memberikan kemudahan bagi Mandor untuk mencatatkan progres aktivitas mingguan dari lapangan.
 
 ## Pages / Routes
-- [ ] `/dashboard/foreman/journals`: Daftar jurnal mingguan.
-- [ ] `/dashboard/foreman/journals/new`: Form buat jurnal baru.
-- [ ] `/dashboard/foreman/journals/:id/edit`: Form isi/edit jurnal harian.
-- [ ] `/dashboard/supervisor/journals/review`: Daftar jurnal yang perlu direview (Role Pengawas).
+- [ ] `/mandor/laporan-harian` (Akan direfaktor menjadi Jurnal/Logbook).
+- [ ] `/mandor/laporan-harian/new`: Form pengisian jurnal baru.
 
 ## Components
-- [ ] `JournalCalendar`: Penanda periode minggu jurnal.
-- [ ] `JournalEntryCard`: Komponen input aktivitas harian (Deskripsi, Pekerja, Foto).
-- [ ] `PhotoUploader`: Upload multiple foto progres.
-- [ ] `ProgressClaimInput`: Input % klaim progres mandor.
-- [ ] `ReviewActionButtons`: Tombol Approve/Request Revision/Reject (Role Pengawas).
+- [ ] `ActivityListInput`: Baris dinamis untuk menambah aktivitas kerja.
+- [ ] `LaborCountInput`: Input jumlah tukang/pekerja per kategori.
+- [ ] `ProgressClaimInput`: Input estimasi progres yang dicapai (Klaim).
 
 ## User Actions
-- [ ] **Mandor**: Simpan draf, Tambah entry harian, Upload foto, Klik Submit Jurnal.
-- [ ] **Pengawas**: Klik Review, Tulis catatan verifikasi, Klik Approve/Revision/Reject.
+- [ ] Mengisi daftar aktivitas pekerjaan.
+- [ ] Memasukkan jumlah tenaga kerja yang hadir.
+- [ ] Klik "Submit Jurnal" untuk direview Pengawas.
 
 ## UI States
-- [ ] **Empty state**: Tampil jika belum ada jurnal yang dibuat.
-- [ ] **Loading state**: Saat upload foto atau simpan data.
-- [ ] **Revision state**: Highlight bagian yang perlu direvisi jika status `revision_requested`.
-- [ ] **Locked state**: Form dilarang diedit jika status sudah `submitted`, `approved`, atau `locked`.
+- [ ] **Draft state**: Jurnal yang belum dikirim.
+- [ ] **Revision state**: Menampilkan catatan revisi dari Pengawas dengan warna kontras.
+- [ ] **Locked/Submitted state**: Form tidak bisa diedit setelah dikirim.
 
 ## Role Visibility
-- [ ] Form edit hanya untuk role **Mandor**.
-- [ ] Dashboard review hanya untuk role **Pengawas**.
+- [ ] Form input hanya aktif untuk role **Mandor**.
+- [ ] Role **Pengawas** melihat tombol "Approve" atau "Minta Revisi".
 
 ## Data Display
-- [ ] Status Jurnal (Badge color).
-- [ ] Tabel Riwayat Aktivitas Harian.
-- [ ] Label tegas: "Klaim Mandor" vs "Terverifikasi Pengawas".
+- [ ] Daftar aktivitas per hari/minggu.
+- [ ] Statistik penggunaan tenaga kerja.
 
 ## Form & Validation UI
-- [ ] Client-side validation: Deskripsi minimal 10 karakter.
-- [ ] Upload foto wajib ada minimal 1 per entry.
+- [ ] Validasi: Field aktivitas tidak boleh kosong.
+- [ ] Validasi: Persentase klaim progres tidak boleh > 100%.
+
+## Integrasi API / Service
+- [ ] `POST /api/journals/foreman`.
 
 ## Integrasi dengan Alur Lain
-- [ ] Status jurnal `approved` akan memicu ketersediaan di [Payment Foreman](./payment-foreman.md).
+- [ ] Data progres klaim akan divalidasi di [Verifikasi Progres Proyek](./project-progress.md).
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Fitur "Copy from Previous Week".
-- [ ] Offline-first sync (PWA).
+- [ ] Fitur tanda tangan digital Mandor.
+- [ ] Export jurnal ke format Excel.

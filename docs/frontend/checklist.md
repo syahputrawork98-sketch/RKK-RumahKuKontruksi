@@ -1,6 +1,9 @@
-# Frontend Checklist
+# Frontend Checklist (Legacy Progress Tracker)
 
-Daftar progres implementasi fitur frontend RKK.
+> [!NOTE]
+> Catatan: File ini adalah progress tracker frontend umum/legacy. Checklist implementasi atomik per workflow berada di folder `docs/frontend/checklist/`.
+
+Daftar progres implementasi fitur frontend RKK secara umum.
 
 ## Mock Data Foundation
 - [x] Users & Roles Mock Table

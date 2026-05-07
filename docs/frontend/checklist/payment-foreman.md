@@ -3,46 +3,43 @@
 ## Source Alur
 - [docs/alur/payment-foreman.md](../../alur/payment-foreman.md)
 
+## Status Saat Ini
+**Shell / Backend Pending**.
+
 ## Tujuan UI
-Memfasilitasi Mandor untuk mengajukan tagihan berdasarkan progres pekerjaan yang sudah disetujui.
+Memberikan fasilitas bagi Mandor untuk mengajukan klaim upah berdasarkan capaian kerja yang telah diverifikasi.
 
 ## Pages / Routes
-- [ ] `/dashboard/foreman/payments/request`: Form pengajuan pembayaran baru.
-- [ ] `/dashboard/foreman/payments/history`: Daftar riwayat pengajuan dan status bayar.
-- [ ] `/dashboard/admin/payments/review`: Daftar pengajuan yang perlu diproses Admin.
+- [ ] `/mandor/pembayaran` (Planned): Halaman riwayat dan pengajuan upah.
+- [ ] `/admin/pembayaran`: Halaman monitoring dan approval disbursement.
 
 ## Components
-- [ ] `PaymentCategorySelector`: Dropdown/List kategori pekerjaan.
-- [ ] `AmountAutoCalculator`: Menampilkan hitungan otomatis (Nilai x Progres %).
-- [ ] `JournalRefSelector`: Memilih Jurnal Mingguan `approved` sebagai referensi.
-- [ ] `PaymentStatusBadge`: Status pengajuan (Submitted, Approved, Paid).
+- [ ] `PaymentCategoryCard`: Card yang menampilkan progres verified vs jumlah yang sudah dibayarkan.
+- [ ] `AmountCalculator`: Label yang menampilkan otomatis nominal (Progres x Nilai RAB).
 
 ## User Actions
-- [ ] **Mandor**: Pilih kategori, pilih jurnal referensi, klik Submit Pengajuan.
-- [ ] **Admin**: Verifikasi data, klik "Approve for Payment".
+- [ ] Pilih kategori pekerjaan.
+- [ ] Klik "Ajukan Pembayaran Minggu Ini".
 
 ## UI States
-- [ ] **Locked state**: Tombol "Submit" disabled di luar jendela waktu Sabtu-Minggu.
-- [ ] **Loading state**: Saat kalkulasi nominal atau kirim data.
-- [ ] **Success state**: Konfirmasi pengajuan diterima.
+- [ ] **Locked state**: Jika progres verified masih 0% atau jurnal belum diapprove.
+- [ ] **Submitted state**: Menunggu review Admin.
 
 ## Role Visibility
-- [ ] Form pengajuan hanya untuk role **Mandor**.
-- [ ] Approval finansial hanya untuk role **Admin**.
+- [ ] Tombol "Ajukan" hanya untuk role **Mandor**.
+- [ ] Tombol "Bayar / Approve" hanya untuk role **Admin**.
 
 ## Data Display
-- [ ] Nilai Kategori Total.
-- [ ] Progres Terverifikasi (%).
-- [ ] Nominal yang Diajukan.
-- [ ] Status Pembayaran (Paid/Unpaid).
+- [ ] Nominal pengajuan, progres verified yang digunakan sebagai dasar, dan potongan (jika ada).
 
 ## Form & Validation UI
-- [ ] Validasi: Tidak bisa submit jika jurnal referensi belum `approved`.
-- [ ] Pesan "Jendela pengajuan ditutup" jika di luar jadwal.
+- [ ] Validasi: Pengajuan hanya bisa dilakukan pada jendela waktu Sabtu-Minggu.
+
+## Integrasi API / Service
+- [ ] `/api/payments/foreman`.
 
 ## Integrasi dengan Alur Lain
-- [ ] Membaca data progres dari [Jurnal Mingguan Mandor](./jurnal-mingguan-mandor.md).
+- [ ] Mengambil data progres dari [Verifikasi Progres Proyek](./project-progress.md).
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Upload bukti transfer (Resi bank) manual di UI.
-- [ ] Print kwitansi pembayaran.
+- [ ] Input data rekening bank secara dinamis (Hanya statis).

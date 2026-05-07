@@ -3,42 +3,47 @@
 ## Source Alur
 - [docs/alur/alur-laporan-mingguan-pengawas.md](../../alur/alur-laporan-mingguan-pengawas.md)
 
+## Status Saat Ini
+**Shell / Backend Pending**.
+
 ## Tujuan UI
-Memungkinkan Pengawas untuk merumuskan evaluasi teknis mingguan berdasarkan data lapangan yang sudah ada.
+Antarmuka bagi Pengawas untuk memberikan evaluasi resmi mingguan kepada manajemen (Admin).
 
 ## Pages / Routes
-- [ ] `/dashboard/supervisor/reports`: Daftar laporan mingguan.
-- [ ] `/dashboard/supervisor/reports/create`: Halaman buat laporan baru (dengan auto-populate).
-- [ ] `/dashboard/admin/reports/review`: Halaman review laporan oleh Admin.
+- [ ] `/pengawas/laporan-mingguan`: List riwayat laporan.
+- [ ] `/pengawas/laporan-mingguan/create`: Form pembuatan evaluasi mingguan.
 
 ## Components
-- [ ] `AutoPopulateSection`: Komponen yang menampilkan ringkasan otomatis dari Jurnal Mandor.
-- [ ] `EvaluationForm`: Input evaluasi, kendala, dan rekomendasi teknis.
-- [ ] `CustomerSummaryEditor`: Editor khusus untuk narasi yang akan tampil di dashboard konsumen.
+- [ ] `SummaryVerifiedProgress`: Widget yang menarik data progres terakhir yang diverifikasi.
+- [ ] `ForemanEvaluationCard`: Komponen input rating dan catatan untuk Mandor.
+- [ ] `FieldIssueSummary`: Daftar kendala yang dilaporkan pada minggu tersebut.
 
 ## User Actions
-- [ ] **Pengawas**: Klik "Tarik Data Jurnal", Isi evaluasi, Klik Submit Laporan.
-- [ ] **Admin**: Klik "Mark as Reviewed", Edit narasi konsumen, Klik "Publish to Customer".
+- [ ] Menulis evaluasi pengerjaan.
+- [ ] Memberikan rekomendasi tindakan (misal: penambahan tukang).
+- [ ] Klik "Submit Laporan Mingguan".
 
 ## UI States
-- [ ] **Loading state**: Saat menarik data otomatis dari jurnal.
-- [ ] **Success state**: Notifikasi laporan terkirim ke Admin.
-- [ ] **Locked state**: Laporan tidak bisa diubah setelah status `reviewed`.
+- [ ] **Loading state**: Menarik ringkasan data progres dan jurnal Mandor.
+- [ ] **Success state**: Konfirmasi laporan terkirim ke Admin.
 
 ## Role Visibility
-- [ ] Form internal notes hanya tampil untuk role **Pengawas** dan **Admin**.
-- [ ] Tombol "Publish" hanya tampil untuk role **Admin**.
+- [ ] Form hanya untuk role **Pengawas**.
+- [ ] Role **Admin** dapat melihat detail laporan di dashboard manajemen.
 
 ## Data Display
-- [ ] Ringkasan Jurnal Mandor (Read-only).
-- [ ] Status Laporan (draft, submitted, reviewed, published).
+- [ ] Grafik progres mingguan (Verified).
+- [ ] List aktivitas Mandor yang sudah diapprove.
 
 ## Form & Validation UI
-- [ ] Validasi range tanggal laporan.
+- [ ] Validasi: Field evaluasi teknis wajib diisi.
+
+## Integrasi API / Service
+- [ ] `POST /api/reports/supervisor`.
 
 ## Integrasi dengan Alur Lain
-- [ ] Data dari laporan ini akan menjadi sumber untuk [Progress to Customer](./progress-to-customer.md).
+- [ ] Mengambil data dari [Jurnal Mingguan Mandor](./jurnal-mingguan-mandor.md).
+- [ ] Menjadi referensi bagi Admin di [Laporan Progress Admin].
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Export PDF laporan resmi.
-- [ ] Komentar/Thread diskusi per laporan.
+- [ ] Print preview laporan dalam format surat resmi.

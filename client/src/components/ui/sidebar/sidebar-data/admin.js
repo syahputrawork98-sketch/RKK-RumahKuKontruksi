@@ -31,9 +31,10 @@ export default [
         type: "dropdown",
         icon: FiActivity,
         label: "Monitoring",
-        activeStartsWith: "/admin/laporan-progress",
+        activeStartsWith: ["/admin/laporan-progress", "/admin/request-material"],
         items: [
             { label: "Laporan Progress", href: "/admin/laporan-progress" },
+            { label: "Logistik & Material", href: "/admin/request-material" },
         ],
     },
     {

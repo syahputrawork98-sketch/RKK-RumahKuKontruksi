@@ -45,6 +45,7 @@ import DetailRabAdminPage from "./pages/admin/DetailRabAdminPage";
 import PembayaranAdminPage from "./pages/admin/PembayaranAdminPage";
 import PenugasanTimAdminPage from "./pages/admin/PenugasanTimAdminPage";
 import LaporanProgressAdminPage from "./pages/admin/LaporanProgressAdminPage";
+import RequestMaterialAdminPage from "./pages/admin/RequestMaterialAdminPage";
 import PengaturanAdminPage from "./pages/admin/PengaturanAdminPage";
 
 // ===== HALAMAN PENGAWAS =====
@@ -157,6 +158,7 @@ function App() {
           <Route path="pembayaran" element={<PembayaranAdminPage />} />
           <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
           <Route path="laporan-progress" element={<LaporanProgressAdminPage />} />
+          <Route path="request-material" element={<RequestMaterialAdminPage />} />
           <Route path="pengaturan" element={<PengaturanAdminPage />} />
         </Route>
 

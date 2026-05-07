@@ -58,16 +58,17 @@ Daftar progres implementasi fitur frontend RKK.
 - [x] Dokumentasi Foto per Tahap
 
 ## Superadmin
-- [x] Superadmin Layout & Sidebar
-- [ ] Dashboard Statistik (Chart integration)
+- [x] Superadmin Layout & Sidebar (Refined & Themed)
+- [x] Dashboard Statistik (Terminology & Grid Fixed)
 - [x] CRUD Data Admin (UI Shell)
 - [x] CRUD Data Pengawas (UI Shell)
 - [x] CRUD Data Mandor (UI Shell)
 - [ ] Audit Log View
+- [x] Theme Toggle (Light/Dark)
 
 ## Admin
 - [x] Admin Layout & Sidebar
-- [ ] Project Management Dashboard
+- [ ] Project Management Dashboard (Next Target)
 - [ ] Approval Pembayaran
 - [ ] Penjadwalan Proyek Global
 

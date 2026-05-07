@@ -21,14 +21,14 @@ Daftar tugas pengembangan backend jangka panjang.
 - [ ] Setup Logger & Audit Log Middleware.
 
 ## Phase 2: Core Modules Development (PARTIAL)
-- [ ] **Auth Module**: Login, Logout, JWT Guard (Deferred).
-- [ ] **User & Role Module**: Manajemen hak akses.
-- [x] **Customer Module**: CRUD Customers.
-- [x] **Project Module**: Read-only Proyek & Stages.
-- [ ] **Project Module**: CRUD Proyek (NEXT).
-- [ ] **Estimation Module**: Logic perhitungan RAB (Read-only implemented).
-- [ ] **Approval Engine**: Logic workflow status berjenjang.
-- [ ] **Reporting Module**: Input laporan harian & foto progres.
+- [ ] **Auth Module**: Login, Logout, JWT Guard (Planned).
+- [ ] **User & Role Module**: Manajemen hak akses (Planned).
+- [x] **Customer Module**: CRUD Customers (Implemented v0).
+- [x] **Project Module**: Read-only Proyek & Stages (Implemented v0).
+- [ ] **Project Module**: CRUD Proyek (Planned).
+- [ ] **Estimation Module**: Read-only RAB 3-Level (Implemented v0).
+- [ ] **Approval Engine**: Logic workflow status berjenjang (Planned).
+- [ ] **Reporting Module**: Input laporan harian & foto progres (Planned).
 
 ## Phase 3: Integration & Stabilization (PARTIAL)
 - [x] Sinkronisasi API service dengan Frontend (Project List & Detail).

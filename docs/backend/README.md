@@ -2,21 +2,19 @@
 
 Pusat dokumentasi perencanaan dan blueprint backend untuk **RumahKu Konstruksi**.
 
-> [!NOTE]
-> **Status Backend**: Implemented v0.1 (Core Data Service & Integration).  
-> Backend sudah melayani data riil untuk Customers dan Projects. Fokus saat ini di sisi Frontend adalah standarisasi UI Dashboard agar siap menerima integrasi data dari API secara konsisten lintas role.
-> **Database**: PostgreSQL aktif di port 5433 (Dev).
+## Status Backend (Implemented v0)
+Backend saat ini beroperasi sebagai **Core Data Service**. Fokus utama adalah menyediakan akses data riil dari database PostgreSQL melalui Prisma ORM untuk dikonsumsi oleh Frontend.
+
+> [!WARNING]
+> **Autentikasi & Login**: Belum diimplementasikan (Pending).  
+> Saat ini API dapat diakses tanpa token/JWT. Role guard belum aktif di sisi server. Pengujian dilakukan dengan asumsi user sudah teridentifikasi secara hardcoded di sisi frontend atau melalui parameter URL.
 
 ## Technology Stack (Current)
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
-- **Language**: JavaScript
 - **Database**: PostgreSQL (v18+)
 - **ORM**: Prisma ORM
-- **Architecture**: Modular Monolith
-- **Auth**: Pending (Belum diimplementasikan)
-
-**Status**: Implemented v0 (Core Data Service)
+- **Auth**: **NOT IMPLEMENTED** (Phase 2 Planned)
 
 ## Daftar Blueprint Backend
 Dokumentasi ini menjadi acuan utama saat tahap pengembangan backend dimulai nanti:

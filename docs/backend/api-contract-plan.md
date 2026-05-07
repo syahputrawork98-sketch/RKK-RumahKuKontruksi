@@ -57,9 +57,28 @@ Daftar endpoint yang sudah diimplementasikan dan diverifikasi:
 - `GET /api/projects/:id/stages` - Ambil tahapan proyek.
 - `GET /api/projects/:id/rab` - Ambil RAB aktif proyek.
 
-## Rencana Endpoint Berikutnya
-...
-(Isi rencana endpoint lainnya)
+## Rencana Endpoint Berikutnya (Planned)
+Daftar endpoint di bawah ini adalah rencana pengembangan tahap berikutnya untuk mendukung role Admin, Pengawas, dan Mandor.
+
+### Admin Dashboard & Management
+- `GET /api/admin/dashboard-summary` - Agregasi statistik global (Planned).
+- `GET /api/admin/projects` - Daftar proyek dengan filter administratif (Planned).
+- `POST /api/projects` - Buat proyek baru (Planned).
+- `PATCH /api/projects/:id/status` - Update status workflow proyek (Planned).
+- `PATCH /api/projects/:id/assignment` - Penugasan Pengawas & Mandor (Planned).
+
+### Estimation & Payments
+- `POST /api/projects/:id/rab/items` - Tambah item pekerjaan ke RAB (Planned).
+- `PATCH /api/rab/items/:id` - Update harga/volume item RAB (Planned).
+- `GET /api/payments` - Daftar pengajuan pembayaran & invoice (Planned).
+- `PATCH /api/payments/:id/approval` - Approval termin pembayaran (Planned).
+
+### User & Auth
+- `POST /api/auth/login` - Otentikasi pengguna (Planned).
+- `GET /api/auth/me` - Ambil profil user login (Planned).
+
+> [!IMPORTANT]
+> Endpoint dalam kategori **Planned** belum diimplementasikan di server. Dokumentasi ini berfungsi sebagai draf kontrak untuk pengembangan Frontend Role Admin secara *mock-first*.
 
 > [!NOTE]
 > Seluruh response menggunakan format JSON standar: `{ success: boolean, data?: any, message?: string }`.

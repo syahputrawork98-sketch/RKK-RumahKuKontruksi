@@ -21,7 +21,14 @@ Selamat datang di dokumentasi teknis frontend project RKK. Dokumentasi ini bertu
 
 ## Status Implementasi
 
-Saat ini frontend RKK beroperasi dalam mode **UI-Only / Prototype** dengan data mock yang terpusat. Fokus utama saat ini adalah mematangkan pengalaman pengguna di sisi Konsumen dan mulai mengisi konten fungsional di dashboard operasional lainnya.
+Saat ini frontend RKK beroperasi dalam mode **UI-Only / Prototype** dengan data mock yang terpusat. 
+
+**Update 7 Mei 2026**:
+- **Superadmin**: Refined (Theme & Navigation Done).
+- **Admin**: Next Target (Shell/Mock-First).
+- **Integrasi API**: Aktif untuk modul Proyek & Customer (Read-Only).
+
+Pengembangan role Admin akan dilakukan dengan pendekatan **Mock-First**, sehingga tidak bergantung pada ketersediaan API atau sistem Autentikasi/Login di backend.
 
 ---
 *Terakhir diperbarui: 7 Mei 2026*

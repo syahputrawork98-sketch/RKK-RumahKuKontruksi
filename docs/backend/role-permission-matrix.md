@@ -4,6 +4,9 @@ Dokumen ini merinci hak akses dan tanggung jawab setiap peran dalam sistem.
 
 ## Daftar Peran (Roles)
 
+> [!WARNING]
+> **Status Implementasi**: Matriks di bawah ini adalah panduan desain dan perencanaan. Saat ini (Backend v0), sistem **belum menerapkan pengecekan permission (RBAC)** secara otomatis melalui API. Seluruh user yang terhubung ke server saat ini memiliki akses penuh ke endpoint yang tersedia.
+
 | Role | Fungsi Utama | Akses Utama | Batasan | Catatan |
 |---|---|---|---|---|
 | **Owner** | Pemilik bisnis / Founder. | Full Read/View seluruh sistem. | Tidak melakukan input data operasional. | Fokus pada reporting dan audit. |

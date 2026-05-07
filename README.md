@@ -36,4 +36,6 @@ Kami menggunakan sistem dokumentasi terstruktur untuk mengelola proyek ini:
 6. `npm run dev`
 
 ## Status Proyek
-Saat ini proyek telah memasuki tahap **Pengembangan Backend**. Backend Data Service v0 sudah tersedia dan disiapkan untuk menggantikan mock data frontend secara bertahap. Fokus saat ini adalah menstabilkan backend CRUD inti sebelum integrasi frontend penuh.
+Saat ini proyek berada pada tahap **Refining Superadmin & Admin UI**.
+- **Backend**: Implemented v0 (Core Data Service) - Menyediakan API riil untuk Customer & Proyek tanpa Autentikasi.
+- **Frontend**: Role Superadmin telah dipoles (Theme & Navigation). Fokus berikutnya adalah pengembangan Role Admin dengan pendekatan *Mock-First*.

@@ -7,8 +7,8 @@ Dokumentasi detail implementasi antarmuka berdasarkan peran (role) pengguna di a
 | **Guest/Public** | **Done** | [View Details](./guest/README.md) |
 | **Konsumen** | **Done** | [View Details](./konsumen/README.md) |
 | **Arsitek** | **Mock Only** | [View Details](./architect/README.md) |
-| **Superadmin** | **Partial** | [View Details](./superadmin/README.md) |
-| **Admin** | **Shell** | [View Details](./admin/README.md) |
+| **Superadmin** | **Refined (Theme)** | [View Details](./superadmin/README.md) |
+| **Admin** | **Next Target** | [View Details](./admin/README.md) |
 | **Pengawas** | **Shell** | [View Details](./pengawas/README.md) |
 | **Mandor** | **Shell** | [View Details](./mandor/README.md) |
 

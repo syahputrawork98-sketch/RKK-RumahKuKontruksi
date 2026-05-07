@@ -17,10 +17,18 @@
 | **Supervisors** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Foremen** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
-| **Daily Reports** | NOT IMPLEMENTED | Future operational module |
-| **Material Requests** | NOT IMPLEMENTED | Future operational module |
-| **Field Issues** | NOT IMPLEMENTED | Future operational module |
-| **Documentation** | NOT IMPLEMENTED | Future operational module |
+| **Daily Reports** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+| **Material Requests** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+| **Field Issues** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+| **Documentation** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+| **Weekly Reports** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+| **Daily Tasks** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+| **Verification Workflow** | NOT IMPLEMENTED | Postponed until Project/RAB stabilized |
+
+## Operational Modules Postponement
+Modul operasional Pengawas dan Mandor sengaja ditunda. Modul seperti laporan harian, request material, kendala lapangan, dokumentasi, dan verifikasi progres akan dibahas dan dibuat nanti bersamaan dengan pematangan modul Project, Stage, Progress, RAB, dan workflow lapangan agar struktur datanya tidak bentrok atau perlu dibongkar ulang.
+
+*Operational modules for Pengawas and Mandor are intentionally postponed until the Project, Stage, Progress, RAB, and field workflow structure are discussed and stabilized.*
 
 ## Frontend Role Status
 
@@ -46,12 +54,12 @@ Aturan penggunaan data source untuk menjaga integritas sistem selama masa transi
 - **Mock Allowed**: Masih diperbolehkan menggunakan mock data terpusat hingga modul backend untuk role tersebut tersedia.
 
 ## Known Issues / Technical Notes
-1. **Operational Modules**: Halaman operasional Mandor (Tugas Harian, Laporan Harian, Request Material, dll) masih menggunakan tampilan statis/mock karena backend operasional belum diimplementasikan.
-2. **Supervisor Operations**: Halaman Verifikasi Progres dan Laporan Mingguan pada Pengawas masih dalam tahap pengembangan backend.
-3. **Auth Bypass**: Seluruh sistem saat ini mengabaikan pengecekan token/autentikasi asli untuk mempermudah pengembangan integrasi data lokal.
+1. **Operational Modules**: Halaman operasional Mandor dan Pengawas (Tugas Harian, Laporan Harian, Request Material, Verifikasi, dll) masih menggunakan tampilan statis/mock karena backend operasional sengaja ditunda.
+2. **Auth Bypass**: Seluruh sistem saat ini mengabaikan pengecekan token/autentikasi asli untuk mempermudah pengembangan integrasi data lokal.
 
 ## Next Recommended Actions
-1. **Stabilisasi Pengawas & Mandor**: Memastikan seluruh detail proyek dan profil benar-benar sinkron dengan database.
-2. **Implementasi Operational CRUD**: Mulai mengerjakan modul Laporan Harian (Daily Reports) dan Kendala Lapangan (Field Issues).
-3. **Migrasi Role Admin**: Mulai memindahkan data statistik Admin ke backend secara bertahap.
-4. **Auth Implementation**: Implementasi JWT/Session dilakukan hanya setelah fungsionalitas CRUD lokal stabil di semua role utama.
+1. **Pertahankan Pengawas dan Mandor sebagai DB-backed v1 yang stabil**: Memastikan seluruh detail proyek dan profil benar-benar sinkron dengan database.
+2. **QA Lokal**: Lakukan pengujian menyeluruh untuk fitur persona, empty state, error state, dan pengambilan data project/profil.
+3. **Diskusi Modul Core**: Mulai diskusi dan perapihan modul Project/Progress/RAB.
+4. **Desain Operational CRUD**: Setelah modul Project/Progress/RAB jelas, baru desain operational CRUD untuk Pengawas/Mandor.
+5. **Auth Implementation**: Implementasi JWT/Session tetap ditunda sampai fungsionalitas CRUD lokal stabil di semua role utama.

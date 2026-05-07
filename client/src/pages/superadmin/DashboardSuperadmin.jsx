@@ -104,7 +104,7 @@ const DashboardSuperadmin = () => {
   ];
 
   return (
-    <div className="p-6 bg-[#F5F5F5] min-h-screen">
+    <div className="animate-fadeIn">
       <DashboardHeader />
       <DashboardStats stats={stats} />
       <DashboardCharts />

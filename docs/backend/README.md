@@ -1,33 +1,42 @@
 # Backend Documentation Center
 
-Pusat dokumentasi perencanaan dan blueprint backend untuk **RumahKu Konstruksi**.
+Pusat dokumentasi untuk layanan backend **RumahKu Konstruksi** yang berfokus pada integrasi data lokal.
 
-## Status Backend (Implemented v0)
-Backend saat ini beroperasi sebagai **Core Data Service**. Fokus utama adalah menyediakan akses data riil dari database PostgreSQL melalui Prisma ORM untuk dikonsumsi oleh Frontend.
+## Status Backend (Implemented v1)
+Backend saat ini beroperasi sebagai **Core Data Service** untuk lingkungan pengembangan lokal. Fokus utama adalah menyediakan fungsionalitas CRUD dasar untuk mendukung transisi frontend dari mock data ke database.
 
 > [!WARNING]
-> **Autentikasi & Login**: Belum diimplementasikan (Pending).  
-> Saat ini API dapat diakses tanpa token/JWT. Role guard belum aktif di sisi server. Pengujian dilakukan dengan asumsi user sudah teridentifikasi secara hardcoded di sisi frontend atau melalui parameter URL.
+> **Autentikasi & Security**: Belum diimplementasikan secara sengaja.  
+> API saat ini dapat diakses secara publik tanpa token/JWT. Role guard belum aktif di sisi server. Keamanan produksi akan dikerjakan pada fase akhir setelah seluruh alur CRUD lokal stabil.
 
-## Technology Stack (Current)
+## Implemented Local API Modules
+
+| Module | Base Endpoint | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| **Health** | `/api/health` | DONE | Server health check |
+| **Customers** | `/api/customers` | CRUD Available | Manajemen data pelanggan |
+| **Projects** | `/api/projects` | CRUD/Filter Available | Mendukung filter `supervisorId` dan `foremanId` |
+| **Supervisors** | `/api/supervisors` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
+| **Foremen** | `/api/foremen` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
+| **Auth** | `/api/auth` | **NOT IMPLEMENTED** | Ditunda untuk fokus pada integrasi data |
+
+## Not Implemented Yet
+Fitur-fitur berikut masih dalam antrean pengembangan:
+- Sistem Autentikasi (Login/JWT/Session) asli.
+- Role Guard & Permission di sisi server.
+- Modul Operasional (Laporan Harian, Request Material, Kendala).
+- Sistem Notifikasi Real-time.
+- Sistem Penyimpanan File/Upload Dokumentasi.
+- Hardening untuk lingkungan produksi.
+
+## Technology Stack
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
-- **Database**: PostgreSQL (v18+)
-- **ORM**: Prisma ORM
-- **Auth**: **NOT IMPLEMENTED** (Phase 2 Planned)
+- **Database**: PostgreSQL (Prisma ORM)
+- **Validation**: Joi / Custom Validation logic
 
-## Daftar Blueprint Backend
-Dokumentasi ini menjadi acuan utama saat tahap pengembangan backend dimulai nanti:
-
-- [**Backend Blueprint**](./backend-blueprint.md): Gambaran umum arsitektur dan prinsip stack.
-- [**Backend To-Do**](./backend-todo.md): Daftar tugas pengembangan backend jangka panjang.
-- [**Module Inventory**](./module-inventory.md): Inventarisasi modul-modul yang direncanakan.
-- [**Role & Permission Matrix**](./role-permission-matrix.md): Matriks akses pengguna berdasarkan role.
-- [**Workflow Rules**](./workflow-rules.md): Aturan alur kerja dan approval proyek.
-- [**Database Entity Plan**](./database-entity-plan.md): Rencana entitas data dan relasi utama.
-- [**API Contract Plan**](./api-contract-plan.md): Rencana kontrak API dan standar response.
-- [**Implementation Later**](./implementation-later.md): Panduan prasyarat sebelum memulai eksekusi.
-
----
-*Dokumen lama sebagai referensi:*
-- [Backend Notes (Old Reference)](./backend-notes.md)
+## Referensi API
+- [**API Status & Endpoint List**](./api-status.md): Daftar endpoint yang benar-benar tersedia sekarang.
+- [**Database Entity Plan**](./database-entity-plan.md): Relasi model database saat ini.
+- [**Role & Permission Matrix**](./role-permission-matrix.md): Rencana hak akses (Draft).
+- [**Backend To-Do**](./backend-todo.md): Antrean tugas pengembangan backend.

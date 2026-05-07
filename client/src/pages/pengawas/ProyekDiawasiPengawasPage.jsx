@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
 
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+
 const ProyekDiawasiPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
     const [activeSubtab, setActiveSubtab] = useState("aktif");
@@ -20,7 +22,10 @@ const ProyekDiawasiPengawasPage = () => {
 
     useEffect(() => {
         const fetchProjects = async () => {
-            if (!selectedSupervisorId) return;
+            if (!selectedSupervisorId) {
+                setIsLoading(false);
+                return;
+            }
             try {
                 setIsLoading(true);
                 const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
@@ -57,6 +62,14 @@ const ProyekDiawasiPengawasPage = () => {
         // needs_verification and delayed are mock status for now as DB doesn't have it explicitly
         return matchesSearch; 
     });
+
+    if (!selectedSupervisorId && !isLoading) {
+        return (
+            <RolePersonaEmptyState 
+                description="Pilih akun Pengawas untuk melihat proyek yang sedang Anda awasi."
+            />
+        );
+    }
 
     return (
         <div className="animate-fadeIn space-y-6">

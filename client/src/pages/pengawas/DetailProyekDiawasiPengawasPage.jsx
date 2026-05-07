@@ -1,34 +1,37 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { 
-    FiArrowLeft, 
-    FiInfo, 
-    FiLayers, 
-    FiCheckCircle, 
-    FiCamera, 
-    FiShoppingCart,
-    FiAlertCircle,
-    FiUser,
-    FiMapPin,
-    FiClock
-} from "react-icons/fi";
+import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
+import projectService from "../../services/projectService";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import { useEffect } from "react";
 
 const DetailProyekDiawasiPengawasPage = () => {
     const { projectId } = useParams();
     const navigate = useNavigate();
+    const { selectedSupervisorId } = useSupervisorPersona();
     const [activeTab, setActiveTab] = useState("overview");
+    const [project, setProject] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const projectData = {
-        id: projectId || "PRJ-001",
-        name: "Renovasi Rumah Budi Santoso",
-        customer: "Bpk. Budi Santoso",
-        location: "Jl. Merdeka No. 12, Bandung",
-        status: "active",
-        progress: 65,
-        currentStage: "Pemasangan Keramik Lantai Utama",
-        mandor: "Ahmad Jailani",
-        deadline: "20 Mei 2026",
-    };
+    useEffect(() => {
+        const fetchProject = async () => {
+            if (!selectedSupervisorId || !projectId) {
+                setIsLoading(false);
+                return;
+            }
+            try {
+                setIsLoading(true);
+                const response = await projectService.getProjectById(projectId);
+                if (response.success) {
+                    setProject(response.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch project detail:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProject();
+    }, [projectId, selectedSupervisorId]);
 
     const tabs = [
         { id: "overview", label: "Overview", icon: FiInfo },
@@ -38,6 +41,30 @@ const DetailProyekDiawasiPengawasPage = () => {
         { id: "material", label: "Material", icon: FiShoppingCart },
         { id: "catatan", label: "Catatan Lapangan", icon: FiAlertCircle },
     ];
+
+    if (!selectedSupervisorId && !isLoading) {
+        return (
+            <RolePersonaEmptyState 
+                description="Pilih akun Pengawas untuk melihat detail proyek ini."
+            />
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
+    if (!project) {
+        return (
+            <div className="dashboard-card p-20 text-center text-slate-400 font-medium">
+                Proyek tidak ditemukan atau Anda tidak memiliki akses.
+            </div>
+        );
+    }
 
     return (
         <div className="animate-fadeIn space-y-6">
@@ -52,12 +79,16 @@ const DetailProyekDiawasiPengawasPage = () => {
                     </button>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h2 className="text-2xl font-black tracking-tight">{projectData.id}</h2>
-                            <span className="px-3 py-0.5 bg-emerald-500/10 text-emerald-500 text-[10px] font-black uppercase rounded-full border border-emerald-500/20">
-                                Proyek Aktif
+                            <h2 className="text-2xl font-black tracking-tight">{project.projectCode}</h2>
+                            <span className={`px-3 py-0.5 text-[10px] font-black uppercase rounded-full border ${
+                                project.status === 'Berjalan' 
+                                ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' 
+                                : 'bg-slate-500/10 text-slate-500 border-slate-500/20'
+                            }`}>
+                                Proyek {project.status}
                             </span>
                         </div>
-                        <p className="text-xs text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-wide">{projectData.name}</p>
+                        <p className="text-xs text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-wide">{project.name}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -96,11 +127,11 @@ const DetailProyekDiawasiPengawasPage = () => {
                                         <div className="space-y-3">
                                             <div className="flex items-start gap-3">
                                                 <FiMapPin className="text-[var(--dashboard-text-soft)] mt-0.5" />
-                                                <span className="text-sm font-bold leading-relaxed">{projectData.location}</span>
+                                                <span className="text-sm font-bold leading-relaxed">{project.location}</span>
                                             </div>
                                             <div className="flex items-center gap-3">
                                                 <FiUser className="text-[var(--dashboard-primary)]" />
-                                                <span className="text-sm font-black uppercase tracking-tighter">Mandor: {projectData.mandor}</span>
+                                                <span className="text-sm font-black uppercase tracking-tighter">Mandor: {project.foreman?.name || 'Belum Ditugaskan'}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -108,11 +139,11 @@ const DetailProyekDiawasiPengawasPage = () => {
                                         <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Status Pengerjaan</h4>
                                         <div className="space-y-1">
                                             <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Tahapan Berjalan</p>
-                                            <p className="text-sm font-black text-emerald-600">{projectData.currentStage}</p>
+                                            <p className="text-sm font-black text-emerald-600">{project.stages?.find(s => s.status === 'Berjalan')?.name || 'Belum Dimulai'}</p>
                                         </div>
                                         <div className="space-y-1">
-                                            <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Deadline Terdekat</p>
-                                            <p className="text-sm font-black text-red-500">{projectData.deadline}</p>
+                                            <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Deadline Estimasi</p>
+                                            <p className="text-sm font-black text-red-500">{project.estimatedEndDate ? new Date(project.estimatedEndDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -122,10 +153,10 @@ const DetailProyekDiawasiPengawasPage = () => {
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-xs font-black uppercase">
                                             <span>Selesai</span>
-                                            <span>{projectData.progress}%</span>
+                                            <span>{project.progress}%</span>
                                         </div>
                                         <div className="w-full h-3 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden p-0.5 border border-[var(--dashboard-border)]">
-                                            <div className="h-full bg-linear-to-r from-[var(--dashboard-primary)] to-emerald-400 rounded-full" style={{ width: `${projectData.progress}%` }} />
+                                            <div className="h-full bg-linear-to-r from-[var(--dashboard-primary)] to-emerald-400 rounded-full" style={{ width: `${project.progress}%` }} />
                                         </div>
                                     </div>
                                 </div>

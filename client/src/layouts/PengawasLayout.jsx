@@ -10,7 +10,10 @@ import pengawasTopbar from "@client/components/ui/topbar/topbar-data/pengawas";
 import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
 
+import { useSupervisorPersona } from "@client/context/SupervisorPersonaContext";
+
 const PengawasLayout = () => {
+    const { selectedSupervisor } = useSupervisorPersona();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem("rkk-dashboard-theme") || "light";
@@ -25,12 +28,18 @@ const PengawasLayout = () => {
         setTheme(prev => prev === "light" ? "dark" : "light");
     };
 
+    const userData = selectedSupervisor ? {
+        name: selectedSupervisor.name,
+        role: "Site Supervisor",
+        photo: selectedSupervisor.avatar || "https://i.pravatar.cc/150?u=placeholder"
+    } : pengawasTopbar.user;
+
     return (
         <div className="dashboard-shell flex min-h-screen">
             {/* SIDEBAR */}
             <SidebarBase
                 menu={pengawasSidebar}
-                user={pengawasTopbar.user}
+                user={userData}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
                 panelLabel="Pengawas Panel"
@@ -46,7 +55,7 @@ const PengawasLayout = () => {
                 {/* TOPBAR */}
                 <TopbarBase
                     title={pengawasTopbar.title}
-                    user={pengawasTopbar.user}
+                    user={userData}
                     isCollapsed={isCollapsed}
                     theme={theme}
                     onToggleTheme={toggleTheme}

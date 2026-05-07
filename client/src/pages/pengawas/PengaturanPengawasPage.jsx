@@ -3,8 +3,10 @@ import { FiUser, FiMonitor, FiMapPin, FiInfo, FiLayers, FiAward, FiBriefcase } f
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorService from "../../services/supervisorService";
 
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+
 const PengaturanPengawasPage = () => {
-    const { selectedSupervisor } = useSupervisorPersona();
+    const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
     const [activeTab, setActiveTab] = useState("profil");
     const [certificates, setCertificates] = useState([]);
     const [experiences, setExperiences] = useState([]);
@@ -12,12 +14,12 @@ const PengaturanPengawasPage = () => {
 
     useEffect(() => {
         const fetchDetails = async () => {
-            if (!selectedSupervisor?.id) return;
+            if (!selectedSupervisorId) return;
             try {
                 setIsLoading(true);
                 const [certs, exps] = await Promise.all([
-                    supervisorService.getCertificates(selectedSupervisor.id),
-                    supervisorService.getExperiences(selectedSupervisor.id)
+                    supervisorService.getCertificates(selectedSupervisorId),
+                    supervisorService.getExperiences(selectedSupervisorId)
                 ]);
                 if (certs.success) setCertificates(certs.data);
                 if (exps.success) setExperiences(exps.data);
@@ -28,7 +30,15 @@ const PengaturanPengawasPage = () => {
             }
         };
         fetchDetails();
-    }, [selectedSupervisor]);
+    }, [selectedSupervisorId]);
+
+    if (!selectedSupervisorId && !isLoading) {
+        return (
+            <RolePersonaEmptyState 
+                description="Pilih akun Pengawas untuk mengelola pengaturan profil dan sertifikasi Anda."
+            />
+        );
+    }
 
     const tabs = [
         { id: "profil", label: "Profil", icon: FiUser },

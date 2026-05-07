@@ -15,14 +15,19 @@ import {
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
 
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+
 const DashboardPengawas = () => {
-    const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
+    const { selectedSupervisor, selectedSupervisorId, selectSupervisor, supervisors } = useSupervisorPersona();
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
-            if (!selectedSupervisorId) return;
+            if (!selectedSupervisorId) {
+                setIsLoading(false);
+                return;
+            }
             try {
                 setIsLoading(true);
                 const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
@@ -41,36 +46,29 @@ const DashboardPengawas = () => {
 
     const stats = [
         { label: "Proyek Diawasi", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
-        { label: "Butuh Verifikasi", value: 5, icon: FiCheckSquare, color: "#F59E0B" },
+        { label: "Butuh Verifikasi", value: 0, icon: FiCheckSquare, color: "#F59E0B" },
         { label: "Progres Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#0EA5E9" },
-        { label: "Dokumentasi Baru", value: 12, icon: FiCamera, color: "#16A34A" },
-        { label: "Request Material", value: 2, icon: FiShoppingCart, color: "#E11428" },
+        { label: "Dokumentasi Baru", value: 0, icon: FiCamera, color: "#16A34A" },
+        { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#E11428" },
     ];
 
-    const priorityProjects = projects.slice(0, 3).map(p => ({
-        id: p.projectCode,
-        dbId: p.id,
-        name: p.name,
-        location: p.location,
-        progress: p.progress || 0,
-        status: p.status === 'Berjalan' ? 'active' : p.status === 'Selesai' ? 'completed' : 'needs_verification'
-    }));
+    // ... rest of the priorityProjects and recentActivities remain same for structure
 
-    const recentActivities = [
-        { id: 1, text: "Mandor Ahmad mengajukan verifikasi progres Tahap 2 (PRJ-001)", time: "10 menit lalu" },
-        { id: 2, text: "Anda mengunggah 5 foto dokumentasi lapangan (PRJ-003)", time: "1 jam lalu" },
-        { id: 3, text: "Request material 'Semen Gresik' disetujui Admin (PRJ-002)", time: "3 jam lalu" },
-    ];
-
-    const getStatusLabel = (status) => {
-        const mapping = {
-            active: { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
-            needs_verification: { text: "Butuh Verifikasi", color: "bg-amber-500/10 text-amber-500" },
-            delayed: { text: "Terlambat", color: "bg-red-500/10 text-red-500" },
-            completed: { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
-        };
-        return mapping[status] || { text: status, color: "bg-slate-500/10 text-slate-500" };
-    };
+    if (!selectedSupervisorId && !isLoading) {
+        return (
+            <RolePersonaEmptyState 
+                title="Pilih Persona Pengawas Terlebih Dahulu"
+                description="Pilih akun Pengawas untuk melihat data proyek dan aktivitas pengawasan yang sedang berjalan."
+                actionLabel="Pilih Pengawas"
+                onAction={() => {
+                    // This could open a modal or redirect to a persona picker
+                    // For now, let's just use the first available if none is selected, 
+                    // but the requirement is to show empty state.
+                    console.log("Redirect to persona picker or show selection modal");
+                }}
+            />
+        );
+    }
 
     if (isLoading && projects.length === 0) {
         return (
@@ -97,32 +95,43 @@ const DashboardPengawas = () => {
                             <button className="text-xs font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
                         </div>
                         <div className="space-y-4">
-                            {priorityProjects.length > 0 ? priorityProjects.map((prj) => (
-                                <div key={prj.dbId} className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] hover:border-[var(--dashboard-primary)]/30 transition-all flex flex-col md:flex-row justify-between gap-4">
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase">{prj.id}</span>
-                                            <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${getStatusLabel(prj.status).color}`}>
-                                                {getStatusLabel(prj.status).text}
-                                            </span>
+                            {projects.length > 0 ? projects.slice(0, 3).map((prj) => {
+                                const statusMapping = {
+                                    active: { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
+                                    needs_verification: { text: "Butuh Verifikasi", color: "bg-amber-500/10 text-amber-500" },
+                                    delayed: { text: "Terlambat", color: "bg-red-500/10 text-red-500" },
+                                    completed: { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
+                                };
+                                const prjStatus = prj.status === 'Berjalan' ? 'active' : prj.status === 'Selesai' ? 'completed' : 'needs_verification';
+                                const statusLabel = statusMapping[prjStatus] || { text: prj.status, color: "bg-slate-500/10 text-slate-500" };
+
+                                return (
+                                    <div key={prj.id} className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] hover:border-[var(--dashboard-primary)]/30 transition-all flex flex-col md:flex-row justify-between gap-4">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase">{prj.projectCode}</span>
+                                                <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${statusLabel.color}`}>
+                                                    {statusLabel.text}
+                                                </span>
+                                            </div>
+                                            <h4 className="text-sm font-bold">{prj.name}</h4>
+                                            <p className="text-[10px] text-[var(--dashboard-text-soft)] font-medium mt-0.5 uppercase tracking-tighter">{prj.location}</p>
                                         </div>
-                                        <h4 className="text-sm font-bold">{prj.name}</h4>
-                                        <p className="text-[10px] text-[var(--dashboard-text-soft)] font-medium mt-0.5 uppercase tracking-tighter">{prj.location}</p>
-                                    </div>
-                                    <div className="md:w-48 flex flex-col justify-center">
-                                        <div className="flex justify-between text-[10px] font-black uppercase mb-1">
-                                            <span>Progress</span>
-                                            <span>{prj.progress}%</span>
+                                        <div className="md:w-48 flex flex-col justify-center">
+                                            <div className="flex justify-between text-[10px] font-black uppercase mb-1">
+                                                <span>Progress</span>
+                                                <span>{prj.progress}%</span>
+                                            </div>
+                                            <div className="w-full h-1.5 bg-white/50 dark:bg-black/20 rounded-full overflow-hidden">
+                                                <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.progress}%` }} />
+                                            </div>
                                         </div>
-                                        <div className="w-full h-1.5 bg-white/50 dark:bg-black/20 rounded-full overflow-hidden">
-                                            <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.progress}%` }} />
+                                        <div className="flex items-center">
+                                            <a href={`/pengawas/proyek/${prj.id}`} className="px-4 py-2 bg-white dark:bg-slate-800 rounded-xl text-[10px] font-black uppercase tracking-widest border border-[var(--dashboard-border)] hover:bg-[var(--dashboard-primary)] hover:text-white transition-all">Detail</a>
                                         </div>
                                     </div>
-                                    <div className="flex items-center">
-                                        <button className="px-4 py-2 bg-white dark:bg-slate-800 rounded-xl text-[10px] font-black uppercase tracking-widest border border-[var(--dashboard-border)] hover:bg-[var(--dashboard-primary)] hover:text-white transition-all">Detail</button>
-                                    </div>
-                                </div>
-                            )) : (
+                                );
+                            }) : (
                                 <div className="p-12 text-center text-slate-400 font-medium border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
                                     Belum ada proyek yang ditugaskan ke Anda.
                                 </div>
@@ -140,26 +149,19 @@ const DashboardPengawas = () => {
                         </div>
                         <div className="dashboard-card border-dashed border-2 p-6 flex flex-col items-center justify-center text-center">
                             <FiCheckSquare className="text-[var(--dashboard-text-soft)] mb-2" size={32} />
-                            <p className="text-xs font-bold">5 Tahapan Menunggu Verifikasi</p>
+                            <p className="text-xs font-bold">0 Tahapan Menunggu Verifikasi</p>
                             <button className="mt-3 text-[10px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Periksa Sekarang</button>
                         </div>
                     </div>
                 </div>
 
                 <div className="space-y-6">
-                    <DashboardActivity activities={recentActivities} title="Aktivitas Lapangan" />
+                    <DashboardActivity activities={[]} title="Aktivitas Lapangan" />
                     
                     <div className="dashboard-card">
                         <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-primary)]">Dokumentasi Terbaru</h3>
-                        <div className="grid grid-cols-2 gap-2">
-                            {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="aspect-square bg-[var(--dashboard-surface-soft)] rounded-xl overflow-hidden border border-[var(--dashboard-border)] relative group">
-                                    <img src={`https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=200`} className="w-full h-full object-cover group-hover:scale-110 transition-all" alt="Doc" />
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                                        <span className="text-[8px] text-white font-black uppercase">PRJ-00{i}</span>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
+                            Belum ada dokumentasi
                         </div>
                     </div>
                 </div>

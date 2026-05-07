@@ -8,6 +8,9 @@ export const findAll = async (filters = {}) => {
   if (filters.foremanId) {
     where.foremanId = filters.foremanId;
   }
+  if (filters.adminId) {
+    where.adminId = filters.adminId;
+  }
 
   return await prisma.project.findMany({
     where,

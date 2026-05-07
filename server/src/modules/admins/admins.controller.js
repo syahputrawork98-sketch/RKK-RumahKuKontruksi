@@ -109,7 +109,8 @@ export const deleteAdmin = async (req, res, next) => {
 
 export const getDashboardStats = async (req, res, next) => {
   try {
-    const stats = await AdminRepository.getStats();
+    const { adminId } = req.query;
+    const stats = await AdminRepository.getStats(adminId);
     res.json({
       success: true,
       data: stats

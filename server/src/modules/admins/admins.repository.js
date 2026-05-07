@@ -62,7 +62,9 @@ export const countActiveProjects = async (adminId) => {
   });
 };
 
-export const getStats = async () => {
+export const getStats = async (adminId = null) => {
+  const where = adminId ? { adminId } : {};
+
   const [
     projectStats, 
     customerCount, 
@@ -73,10 +75,14 @@ export const getStats = async () => {
   ] = await Promise.all([
     prisma.project.groupBy({
       by: ['status'],
+      where,
       _count: { _all: true }
     }),
-      prisma.customer.count(),
+    adminId 
+      ? prisma.customer.count({ where: { projects: { some: { adminId } } } })
+      : prisma.customer.count(),
     prisma.project.aggregate({
+      where,
       _sum: {
         budgetTotal: true,
         paidAmount: true,
@@ -84,6 +90,7 @@ export const getStats = async () => {
       }
     }),
     prisma.project.findMany({
+      where,
       take: 5,
       orderBy: { createdAt: 'desc' },
       include: {
@@ -94,10 +101,12 @@ export const getStats = async () => {
     }),
     prisma.supervisorWeeklyReport.groupBy({
       by: ['status'],
+      where: adminId ? { project: { adminId } } : {},
       _count: { _all: true }
     }),
     prisma.materialRequest.groupBy({
       by: ['status'],
+      where: adminId ? { adminId } : {},
       _count: { _all: true }
     })
   ]);

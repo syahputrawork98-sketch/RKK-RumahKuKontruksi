@@ -10,7 +10,10 @@ import mandorTopbar from "@client/components/ui/topbar/topbar-data/mandor";
 import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
 
+import { useForemanPersona } from "@client/context/ForemanPersonaContext";
+
 const MandorLayout = () => {
+    const { selectedForeman } = useForemanPersona();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem("rkk-dashboard-theme") || "light";
@@ -25,12 +28,18 @@ const MandorLayout = () => {
         setTheme(prev => prev === "light" ? "dark" : "light");
     };
 
+    const userData = selectedForeman ? {
+        name: selectedForeman.name,
+        role: "Foreman / Mandor",
+        photo: selectedForeman.avatar || "https://i.pravatar.cc/150?u=placeholder"
+    } : mandorTopbar.user;
+
     return (
         <div className="dashboard-shell flex min-h-screen">
             {/* SIDEBAR */}
             <SidebarBase
                 menu={mandorSidebar}
-                user={mandorTopbar.user}
+                user={userData}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
                 panelLabel="Mandor Panel"
@@ -46,12 +55,13 @@ const MandorLayout = () => {
                 {/* TOPBAR */}
                 <TopbarBase
                     title={mandorTopbar.title}
-                    user={mandorTopbar.user}
+                    user={userData}
                     isCollapsed={isCollapsed}
                     theme={theme}
                     onToggleTheme={toggleTheme}
                     notificationService={notificationService}
                     dummyNotifications={dummyNotifications}
+                    showForemanSwitcher={true}
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}

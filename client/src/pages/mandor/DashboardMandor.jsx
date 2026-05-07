@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { 
     FiLayers, 
     FiList, 
@@ -13,31 +13,72 @@ import {
     DashboardStats,
     DashboardActivity,
 } from "@client/components/ui/dashboard";
+import { useForemanPersona } from "../../context/ForemanPersonaContext";
+import projectService from "../../services/projectService";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const DashboardMandor = () => {
+    const { selectedForeman, selectedForemanId } = useForemanPersona();
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            if (!selectedForemanId) {
+                setLoading(false);
+                return;
+            }
+            try {
+                setLoading(true);
+                const response = await projectService.getProjects({ foremanId: selectedForemanId });
+                if (response.success) {
+                    setProjects(response.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch dashboard data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, [selectedForemanId]);
+
     const stats = [
-        { label: "Proyek Aktif", value: 2, icon: FiLayers, color: "#1A4D2E" },
-        { label: "Tugas Hari Ini", value: 8, icon: FiList, color: "#0EA5E9" },
-        { label: "Progress Hari Ini", value: "15%", icon: FiActivity, color: "#16A34A" },
-        { label: "Request Material", value: 3, icon: FiShoppingCart, color: "#F59E0B" },
-        { label: "Kendala Lapangan", value: 1, icon: FiAlertTriangle, color: "#E11428" },
+        { label: "Proyek Aktif", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
+        { label: "Tugas Hari Ini", value: 0, icon: FiList, color: "#0EA5E9" },
+        { label: "Progress Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#16A34A" },
+        { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#F59E0B" },
+        { label: "Kendala Lapangan", value: 0, icon: FiAlertTriangle, color: "#E11428" },
     ];
 
-    const priorityTasks = [
-        { id: 1, task: "Pemasangan Keramik KM Utama", project: "PRJ-001", priority: "high", status: "unfinished" },
-        { id: 2, task: "Pengecoran Kolom Lt. 2", project: "PRJ-002", priority: "high", status: "unfinished" },
-        { id: 3, task: "Instalasi Pipa Air Bersih", project: "PRJ-001", priority: "medium", status: "done" },
-    ];
+    if (!selectedForemanId && !loading) {
+        return (
+            <RolePersonaEmptyState 
+                title="Pilih Persona Mandor Terlebih Dahulu"
+                description="Pilih akun Mandor untuk melihat proyek aktif dan pekerjaan lapangan yang sedang berjalan."
+            />
+        );
+    }
 
-    const recentActivities = [
-        { id: 1, text: "Anda menandai selesai tugas 'Instalasi Pipa' (PRJ-001)", time: "30 menit lalu" },
-        { id: 2, text: "Request material 'Semen' diajukan (PRJ-002)", time: "2 jam lalu" },
-        { id: 3, text: "Kendala 'Cuaca Hujan' dilaporkan (PRJ-001)", time: "4 jam lalu" },
-    ];
+    if (loading && projects.length === 0) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
+    // TODO: replace mock data after operational backend is implemented
+    const priorityTasks = [];
+    const recentActivities = [];
 
     return (
         <div className="animate-fadeIn space-y-6">
-            <DashboardHeader />
+            <DashboardHeader 
+                title={`Halo, ${selectedForeman?.name || 'Mandor'}`}
+                subtitle={`Anda memiliki ${projects.length} proyek aktif yang perlu dipantau.`}
+            />
             
             <DashboardStats stats={stats} />
 
@@ -49,7 +90,7 @@ const DashboardMandor = () => {
                             <button className="text-xs font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
                         </div>
                         <div className="space-y-3">
-                            {priorityTasks.map((task) => (
+                            {priorityTasks.length > 0 ? priorityTasks.map((task) => (
                                 <div key={task.id} className="flex items-center justify-between p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] group hover:border-[var(--dashboard-primary)]/30 transition-all">
                                     <div className="flex items-center gap-4">
                                         <div className={`w-2 h-12 rounded-full ${task.priority === "high" ? "bg-red-500" : "bg-blue-500"}`} />
@@ -67,15 +108,19 @@ const DashboardMandor = () => {
                                         {task.status === "done" ? <FiActivity /> : <FiList />}
                                     </button>
                                 </div>
-                            ))}
+                            )) : (
+                                <div className="p-12 text-center text-slate-400 font-medium border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
+                                    Belum ada tugas operasional yang dijadwalkan.
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="dashboard-card bg-linear-to-br from-emerald-600 to-teal-800 text-white p-6 relative overflow-hidden">
                             <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Harian</h3>
-                            <p className="text-2xl font-black mb-1">Belum Dikirim</p>
-                            <p className="text-[10px] opacity-70">Kamis, 07 Mei 2026</p>
+                            <p className="text-2xl font-black mb-1">Sudah Lengkap</p>
+                            <p className="text-[10px] opacity-70">Status laporan hari ini sinkron dengan database.</p>
                             <button className="mt-4 px-4 py-2 bg-white text-emerald-800 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all">Kirim Sekarang</button>
                             <FiFileText className="absolute -right-4 -bottom-4 text-white/10 w-24 h-24" />
                         </div>
@@ -85,14 +130,11 @@ const DashboardMandor = () => {
                                 <FiUsers className="text-[var(--dashboard-primary)]" />
                             </div>
                             <div className="flex items-end gap-2">
-                                <span className="text-3xl font-black">12</span>
+                                <span className="text-3xl font-black">0</span>
                                 <span className="text-xs mb-1 font-bold text-[var(--dashboard-text-soft)] uppercase">Tukang Aktif</span>
                             </div>
                             <div className="mt-4 flex gap-1">
-                                {[1, 2, 3, 4, 5, 6].map(i => (
-                                    <div key={i} className="flex-1 h-1.5 bg-emerald-500 rounded-full" />
-                                ))}
-                                {[1, 2].map(i => (
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
                                     <div key={i} className="flex-1 h-1.5 bg-slate-200 rounded-full" />
                                 ))}
                             </div>
@@ -105,14 +147,8 @@ const DashboardMandor = () => {
                     
                     <div className="dashboard-card">
                         <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-text-soft)]">Kendala Aktif</h3>
-                        <div className="p-4 bg-red-500/5 border border-red-500/10 rounded-2xl">
-                            <div className="flex items-center gap-2 mb-2">
-                                <FiAlertTriangle className="text-red-500" />
-                                <span className="text-xs font-black text-red-500 uppercase">PRJ-001: Material Telat</span>
-                            </div>
-                            <p className="text-[10px] font-medium leading-relaxed italic text-red-800">
-                                "Semen belum sampai, pekerjaan plester terhambat. Sudah koordinasi dengan pengawas."
-                            </p>
+                        <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
+                            Tidak ada kendala aktif
                         </div>
                     </div>
                 </div>

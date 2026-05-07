@@ -1,35 +1,37 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { 
-    FiArrowLeft, 
-    FiInfo, 
-    FiList, 
-    FiActivity, 
-    FiUsers, 
-    FiShoppingCart,
-    FiCamera,
-    FiAlertTriangle,
-    FiClock,
-    FiMapPin
-} from "react-icons/fi";
+import { useForemanPersona } from "../../context/ForemanPersonaContext";
+import projectService from "../../services/projectService";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import { useEffect } from "react";
 
 const DetailProyekAktifMandorPage = () => {
     const { projectId } = useParams();
     const navigate = useNavigate();
+    const { selectedForemanId } = useForemanPersona();
     const [activeTab, setActiveTab] = useState("overview");
+    const [project, setProject] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const projectData = {
-        id: projectId || "PRJ-001",
-        name: "Renovasi Rumah Budi Santoso",
-        customer: "Bpk. Budi Santoso",
-        location: "Bandung, Jawa Barat",
-        status: "active",
-        progress: 65,
-        currentStage: "Pemasangan Keramik",
-        targetToday: "Selesai KM Utama & Persiapan Ruang Tamu",
-        deadline: "20 Mei 2026",
-        pengawas: "Fauzi",
-    };
+    useEffect(() => {
+        const fetchProject = async () => {
+            if (!selectedForemanId || !projectId) {
+                setIsLoading(false);
+                return;
+            }
+            try {
+                setIsLoading(true);
+                const response = await projectService.getProjectById(projectId);
+                if (response.success) {
+                    setProject(response.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch project detail:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProject();
+    }, [projectId, selectedForemanId]);
 
     const tabs = [
         { id: "overview", label: "Overview", icon: FiInfo },
@@ -40,6 +42,30 @@ const DetailProyekAktifMandorPage = () => {
         { id: "dokumentasi", label: "Dokumentasi", icon: FiCamera },
         { id: "kendala", label: "Kendala", icon: FiAlertTriangle },
     ];
+
+    if (!selectedForemanId && !isLoading) {
+        return (
+            <RolePersonaEmptyState 
+                description="Pilih akun Mandor untuk melihat detail eksekusi proyek ini."
+            />
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
+    if (!project) {
+        return (
+            <div className="dashboard-card p-20 text-center text-slate-400 font-medium">
+                Proyek tidak ditemukan atau Anda tidak memiliki akses.
+            </div>
+        );
+    }
 
     return (
         <div className="animate-fadeIn space-y-6">
@@ -54,12 +80,12 @@ const DetailProyekAktifMandorPage = () => {
                     </button>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h2 className="text-2xl font-black tracking-tight">{projectData.id}</h2>
+                            <h2 className="text-2xl font-black tracking-tight">{project.projectCode}</h2>
                             <span className="px-3 py-0.5 bg-emerald-500/10 text-emerald-500 text-[10px] font-black uppercase rounded-full border border-emerald-500/20">
                                 Eksekusi Lapangan
                             </span>
                         </div>
-                        <p className="text-xs text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-wide">{projectData.name}</p>
+                        <p className="text-xs text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-wide">{project.name}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -99,11 +125,11 @@ const DetailProyekAktifMandorPage = () => {
                                             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Info Lapangan</h4>
                                             <div className="flex items-center gap-3">
                                                 <FiMapPin className="text-[var(--dashboard-text-soft)]" />
-                                                <span className="text-sm font-bold">{projectData.location}</span>
+                                                <span className="text-sm font-bold">{project.location}</span>
                                             </div>
                                             <div className="flex items-center gap-3">
                                                 <FiUsers className="text-[var(--dashboard-primary)]" />
-                                                <span className="text-sm font-black uppercase tracking-tighter">Pengawas: {projectData.pengawas}</span>
+                                                <span className="text-sm font-black uppercase tracking-tighter">Pengawas: {project.supervisor?.name || 'Belum Ditugaskan'}</span>
                                             </div>
                                         </div>
                                         <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
@@ -111,17 +137,18 @@ const DetailProyekAktifMandorPage = () => {
                                                 <FiClock className="text-amber-500" />
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Target Hari Ini</span>
                                             </div>
-                                            <p className="text-xs font-bold leading-relaxed italic">"{projectData.targetToday}"</p>
+                                            {/* TODO: replace with real target data from daily task backend */}
+                                            <p className="text-xs font-bold leading-relaxed italic text-slate-400">"Belum ada target tugas hari ini"</p>
                                         </div>
                                     </div>
                                     <div className="space-y-6 text-right">
                                         <div className="space-y-1">
-                                            <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Deadline Proyek</p>
-                                            <p className="text-lg font-black text-red-500">{projectData.deadline}</p>
+                                            <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Deadline Estimasi</p>
+                                            <p className="text-lg font-black text-red-500">{project.estimatedEndDate ? new Date(project.estimatedEndDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}</p>
                                         </div>
                                         <div className="space-y-1">
                                             <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Tahapan Berjalan</p>
-                                            <p className="text-sm font-black text-[var(--dashboard-primary)] uppercase">{projectData.currentStage}</p>
+                                            <p className="text-sm font-black text-[var(--dashboard-primary)] uppercase">{project.stages?.find(s => s.status === 'Berjalan')?.name || 'Belum Dimulai'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -129,10 +156,10 @@ const DetailProyekAktifMandorPage = () => {
                                 <div className="space-y-4 pt-4 border-t border-[var(--dashboard-border)]">
                                     <div className="flex justify-between items-end mb-2">
                                         <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Progress Akumulatif</h4>
-                                        <span className="text-2xl font-black">{projectData.progress}%</span>
+                                        <span className="text-2xl font-black">{project.progress}%</span>
                                     </div>
                                     <div className="w-full h-4 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden p-1 border border-[var(--dashboard-border)] shadow-inner">
-                                        <div className="h-full bg-linear-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-1000" style={{ width: `${projectData.progress}%` }} />
+                                        <div className="h-full bg-linear-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-1000" style={{ width: `${project.progress}%` }} />
                                     </div>
                                 </div>
                             </div>

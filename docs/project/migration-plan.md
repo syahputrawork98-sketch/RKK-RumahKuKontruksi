@@ -33,17 +33,24 @@ Rencana strategis migrasi pengembangan dari *Mock-First UI* menuju *Database-Bac
 - [x] Migrasi Role **Pengawas** ke Database-Backed v1.
 - [x] Migrasi Role **Mandor** ke Database-Backed v1.
 - [x] Implementasi Persona Selector (Dev Mode) untuk simulasi login lokal.
-- [ ] Penghapusan bertahap dependensi mock data pada komponen inti role.
+- [x] Implementasi RolePersonaEmptyState & RoleDataState (Empty/Error Handling).
+- [ ] QA lokal persona/data/error states untuk memastikan zero mock fallback.
 
-### Tahap 5: Operational CRUD Integration (NEXT)
-- [ ] Implementasi modul operasional lapangan:
+### Tahap 5: Core Model Refinement (NEXT)
+- [ ] Diskusi dan perapihan modul Project/Progress/Stage/RAB.
+- [ ] Sinkronisasi workflow Project dengan kebutuhan Pengawas dan Mandor.
+- [ ] Stabilisasi relasi model Projects, Stages, dan RAB.
+
+### Tahap 6: Operational CRUD Integration (FUTURE)
+- [ ] Implementasi modul operasional lapangan (setelah Core Model stabil):
     - Daily Reports (Laporan Harian)
     - Material Requests (Permintaan Material)
     - Field Issues (Kendala Lapangan)
     - Task Management (Tugas Harian)
+    - Progress Verification (Verifikasi Progres)
 - [ ] Integrasi upload dokumentasi foto/file.
 
-### Tahap 6: Auth & Production Hardening (POSTPONED)
+### Tahap 7: Auth & Production Hardening (POSTPONED)
 - [ ] Implementasi sistem autentikasi asli (Login, JWT, Session).
 - [ ] Server-side Role Guard & Permission.
 - [ ] Production Build optimization.

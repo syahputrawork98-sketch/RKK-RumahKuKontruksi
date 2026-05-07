@@ -7,6 +7,15 @@ import { useLocation } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import SidebarDropdown from "./SidebarDropdown";
 
+// client/src/components/ui/sidebar/SidebarBase.jsx
+
+import React from "react";
+import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
+
+import SidebarItem from "./SidebarItem";
+import SidebarDropdown from "./SidebarDropdown";
+
 /*
     ➤ PERUBAHAN BESAR:
     - HAPUS state internal: const [isCollapsed, setIsCollapsed] = useState(false)
@@ -19,26 +28,22 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
 
     return (
         <aside
-            className={`${isCollapsed ? "w-20" : "w-72"}
-                fixed top-0 left-0 h-screen 
-                bg-linear-to-b from-teal-950 via-slate-950 to-slate-900 
-                text-white border-r border-teal-500/10 flex flex-col 
-                transition-all duration-300 z-50 shadow-2xl`}
+            className={`dashboard-sidebar ${isCollapsed ? "w-20" : "w-72"}`}
         >
             {/* BRAND HEADER */}
-            <div className="flex items-center justify-between px-4 py-6 mb-2">
+            <div className="flex items-center justify-between px-4 py-6 mb-2 border-b border-[var(--dashboard-sidebar-border)]">
                 {!isCollapsed ? (
                     <div className="flex items-center gap-3 pl-2">
-                        <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/20">
+                        <div className="w-10 h-10 bg-[var(--dashboard-primary)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--dashboard-primary)]/20">
                             <span className="text-xl font-bold text-white tracking-tighter">RK</span>
                         </div>
                         <div className="flex flex-col">
                             <h1 className="text-lg font-bold leading-none tracking-tight">RKK</h1>
-                            <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest mt-0.5">Superadmin Panel</span>
+                            <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest mt-0.5">Superadmin Panel</span>
                         </div>
                     </div>
                 ) : (
-                    <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/20 mx-auto">
+                    <div className="w-10 h-10 bg-[var(--dashboard-primary)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--dashboard-primary)]/20 mx-auto">
                         <span className="text-lg font-bold text-white">R</span>
                     </div>
                 )}
@@ -46,7 +51,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                 {!isCollapsed && (
                     <button
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="p-2 hover:bg-white/5 rounded-xl transition text-teal-400"
+                        className="p-2 hover:bg-white/5 rounded-xl transition text-[var(--dashboard-primary)]"
                     >
                         <FiChevronsLeft size={20} />
                     </button>
@@ -58,7 +63,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                 <div className="flex justify-center mb-6">
                     <button
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="p-2 hover:bg-white/5 rounded-xl transition text-teal-400"
+                        className="p-2 hover:bg-white/5 rounded-xl transition text-[var(--dashboard-primary)]"
                     >
                         <FiChevronsRight size={20} />
                     </button>
@@ -100,21 +105,21 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
             </div>
 
             {/* USER PROFILE CARD */}
-            <div className="p-4 border-t border-white/5">
+            <div className="p-4 border-t border-[var(--dashboard-sidebar-border)]">
                 <div className={`
                     flex items-center gap-3 p-3 rounded-2xl
                     ${isCollapsed ? "justify-center" : "bg-white/5 border border-white/5"}
                 `}>
                     <img
                         src={user?.photo ?? "https://placehold.co/200x200"}
-                        className="w-10 h-10 rounded-xl object-cover ring-2 ring-teal-500/20"
+                        className="w-10 h-10 rounded-xl object-cover ring-2 ring-[var(--dashboard-primary)]/20"
                         alt="User"
                     />
 
                     {!isCollapsed && (
                         <div className="flex-1 overflow-hidden">
                             <p className="font-bold text-sm truncate text-white">{user?.name ?? "Superadmin"}</p>
-                            <p className="text-[10px] text-teal-400 font-bold uppercase tracking-wider truncate">
+                            <p className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-wider truncate">
                                 {user?.role ?? "Role"}
                             </p>
                         </div>

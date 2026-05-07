@@ -22,7 +22,7 @@ const SidebarDropdown = ({ icon: Icon, label, items, active, collapsed }) => {
                 <div className="flex items-center gap-3">
                     <div className={`
                         flex items-center justify-center transition-colors
-                        ${active ? "text-teal-400" : "group-hover:text-teal-400"}
+                        ${active ? "text-[var(--dashboard-primary)]" : "group-hover:text-[var(--dashboard-primary)]"}
                     `}>
                         <Icon size={20} />
                     </div>

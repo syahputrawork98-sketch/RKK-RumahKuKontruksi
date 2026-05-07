@@ -123,8 +123,6 @@ export const createRabItem = async (req, res, next) => {
     const category = await RabRepository.findCategoryById(categoryId);
     if (!category) return res.status(404).json({ success: false, message: 'Category not found' });
 
-    const total = parseFloat(volume) * parseFloat(unitPrice);
-
     const item = await RabRepository.createItem({
       categoryId,
       rabPlanId: category.rabPlanId,
@@ -133,7 +131,6 @@ export const createRabItem = async (req, res, next) => {
       volume,
       unit,
       unitPrice,
-      total,
       status: 'pending',
       ...rest
     });
@@ -155,12 +152,6 @@ export const updateRabItem = async (req, res, next) => {
 
     const existing = await RabRepository.findItemById(itemId);
     if (!existing) return res.status(404).json({ success: false, message: 'Item not found' });
-
-    if (volume !== undefined || unitPrice !== undefined) {
-      const v = volume !== undefined ? volume : existing.volume;
-      const up = unitPrice !== undefined ? unitPrice : existing.unitPrice;
-      data.total = parseFloat(v) * parseFloat(up);
-    }
 
     const updated = await RabRepository.updateItem(itemId, data);
 

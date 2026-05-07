@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import prisma from '../../config/prisma.js';
 
 // Plan
@@ -76,13 +77,37 @@ export const findItemById = async (id) => {
 };
 
 export const createItem = async (data) => {
-  return await prisma.rabItem.create({ data });
+  // Normalize payload with Decimal
+  const volume = new Prisma.Decimal(data.volume || 0);
+  const unitPrice = new Prisma.Decimal(data.unitPrice || 0);
+  const total = volume.mul(unitPrice);
+
+  return await prisma.rabItem.create({ 
+    data: {
+      ...data,
+      volume,
+      unitPrice,
+      total
+    } 
+  });
 };
 
 export const updateItem = async (id, data) => {
+  const updateData = { ...data };
+
+  // If volume or unitPrice is updated, recalculate total
+  if (data.volume !== undefined || data.unitPrice !== undefined) {
+    const existing = await prisma.rabItem.findUnique({ where: { id } });
+    const volume = new Prisma.Decimal(data.volume !== undefined ? data.volume : (existing.volume || 0));
+    const unitPrice = new Prisma.Decimal(data.unitPrice !== undefined ? data.unitPrice : (existing.unitPrice || 0));
+    updateData.total = volume.mul(unitPrice);
+    updateData.volume = volume;
+    updateData.unitPrice = unitPrice;
+  }
+
   return await prisma.rabItem.update({
     where: { id },
-    data
+    data: updateData
   });
 };
 
@@ -97,7 +122,11 @@ export const syncCategorySubtotal = async (categoryId) => {
   const items = await prisma.rabItem.findMany({
     where: { categoryId }
   });
-  const subtotal = items.reduce((sum, item) => sum.add(item.total), new prisma.Prisma.Decimal(0));
+  
+  const subtotal = items.reduce(
+    (sum, item) => sum.add(item.total || 0), 
+    new Prisma.Decimal(0)
+  );
   
   return await prisma.rabCategory.update({
     where: { id: categoryId },
@@ -109,7 +138,11 @@ export const syncPlanTotal = async (rabPlanId) => {
   const categories = await prisma.rabCategory.findMany({
     where: { rabPlanId }
   });
-  const totalAmount = categories.reduce((sum, cat) => sum.add(cat.subtotal), new prisma.Prisma.Decimal(0));
+  
+  const totalAmount = categories.reduce(
+    (sum, cat) => sum.add(cat.subtotal || 0), 
+    new Prisma.Decimal(0)
+  );
   
   const updatedPlan = await prisma.rabPlan.update({
     where: { id: rabPlanId },

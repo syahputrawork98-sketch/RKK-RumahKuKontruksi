@@ -85,6 +85,7 @@ import { SupervisorPersonaProvider } from "./context/SupervisorPersonaContext";
 import { ForemanPersonaProvider } from "./context/ForemanPersonaContext";
 import { ArchitectPersonaProvider } from "./context/ArchitectPersonaContext";
 import { AdminPersonaProvider } from "./context/AdminPersonaContext";
+import { SuperadminPersonaProvider } from "./context/SuperadminPersonaContext";
 
 function App() {
   return (
@@ -111,7 +112,14 @@ function App() {
         </Route>
 
         {/* ================== SUPER ADMIN LAYOUT ================== */}
-        <Route path="/superadmin" element={<SuperadminLayout />}>
+        <Route 
+          path="/superadmin" 
+          element={
+            <SuperadminPersonaProvider>
+              <SuperadminLayout />
+            </SuperadminPersonaProvider>
+          }
+        >
           <Route path="dashboard" element={<DashboardSuperadmin />} />
           <Route path="data-admin" element={<DataAdmin />} />
           <Route path="data-pengawas" element={<DataPengawas />} />

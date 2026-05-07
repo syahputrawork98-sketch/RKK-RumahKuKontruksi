@@ -1,40 +1,76 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import adminService from '../services/adminService';
 
 const AdminPersonaContext = createContext();
 
-const MOCK_ADMIN_PERSONAS = [
-  { id: 'admin-utama', name: 'Admin Utama', role: 'Super Admin', photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100' },
-  { id: 'admin-proyek', name: 'Admin Proyek', role: 'Project Admin', photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100' },
-  { id: 'admin-keuangan', name: 'Admin Keuangan', role: 'Finance Admin', photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=100' },
-];
-
 export const AdminPersonaProvider = ({ children }) => {
+  const [admins, setAdmins] = useState([]);
   const [selectedAdminId, setSelectedAdminId] = useState(
-    localStorage.getItem('rkk.dev.selectedAdminId') || MOCK_ADMIN_PERSONAS[0].id
+    localStorage.getItem('rkk.dev.selectedAdminId') || ''
   );
-  const [selectedAdmin, setSelectedAdmin] = useState(MOCK_ADMIN_PERSONAS[0]);
+  const [selectedAdmin, setSelectedAdmin] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const found = MOCK_ADMIN_PERSONAS.find(a => a.id === selectedAdminId);
-    if (found) {
-      setSelectedAdmin(found);
-      localStorage.setItem('rkk.dev.selectedAdminId', selectedAdminId);
-    } else {
-      setSelectedAdmin(MOCK_ADMIN_PERSONAS[0]);
-      setSelectedAdminId(MOCK_ADMIN_PERSONAS[0].id);
-      localStorage.setItem('rkk.dev.selectedAdminId', MOCK_ADMIN_PERSONAS[0].id);
+    const fetchAdmins = async () => {
+      try {
+        setLoading(true);
+        const response = await adminService.getAdmins();
+        if (response.success) {
+          const adminList = response.data.map(admin => ({
+            ...admin,
+            // Ensure consistent display fields for topbar
+            photo: admin.avatar || `https://i.pravatar.cc/150?u=${admin.id}`,
+            role: 'Admin' // Strictly just "Admin" as requested
+          }));
+          setAdmins(adminList);
+
+          // Restore selection from localStorage or pick first
+          const savedId = localStorage.getItem('rkk.dev.selectedAdminId');
+          const found = adminList.find(a => a.id === savedId);
+          
+          if (found) {
+            setSelectedAdmin(found);
+            setSelectedAdminId(found.id);
+          } else if (adminList.length > 0) {
+            setSelectedAdmin(adminList[0]);
+            setSelectedAdminId(adminList[0].id);
+            localStorage.setItem('rkk.dev.selectedAdminId', adminList[0].id);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch admins:', err);
+        setError('Belum ada data Admin. Jalankan seed atau buat Admin terlebih dahulu.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdmins();
+  }, []);
+
+  useEffect(() => {
+    if (admins.length > 0) {
+      const found = admins.find(a => a.id === selectedAdminId);
+      if (found) {
+        setSelectedAdmin(found);
+        localStorage.setItem('rkk.dev.selectedAdminId', selectedAdminId);
+      }
     }
-  }, [selectedAdminId]);
+  }, [selectedAdminId, admins]);
 
   const selectAdmin = (id) => {
     setSelectedAdminId(id);
   };
 
   const value = {
-    adminPersonas: MOCK_ADMIN_PERSONAS,
+    admins,
     selectedAdmin,
     selectedAdminId,
     selectAdmin,
+    loading,
+    error
   };
 
   return (

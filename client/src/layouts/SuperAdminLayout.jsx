@@ -9,8 +9,10 @@ import superadminTopbar from "@client/components/ui/topbar/topbar-data/superadmi
 
 import notificationService from "@client/services/mockNotificationService";
 import { dummyNotifications } from "@client/data/mock";
+import { useSuperadminPersona } from "@client/context/SuperadminPersonaContext";
 
 const SuperAdminLayout = () => {
+    const { selectedSuperadmin } = useSuperadminPersona();
     // ➜ THEME STATE
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem("rkk-dashboard-theme") || "light";
@@ -33,7 +35,7 @@ const SuperAdminLayout = () => {
             {/* SIDEBAR */}
             <SidebarBase
                 menu={superadminSidebar}
-                user={superadminTopbar.user}
+                user={selectedSuperadmin}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
             />
@@ -48,12 +50,13 @@ const SuperAdminLayout = () => {
                 {/* TOPBAR */}
                 <TopbarBase
                     title={superadminTopbar.title}
-                    user={superadminTopbar.user}
+                    user={selectedSuperadmin}
                     isCollapsed={isCollapsed}
                     notificationService={notificationService}
                     dummyNotifications={dummyNotifications}
                     theme={theme}
                     onToggleTheme={handleToggleTheme}
+                    showSuperadminSwitcher={true}
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}

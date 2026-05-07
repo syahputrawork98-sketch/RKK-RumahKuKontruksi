@@ -4,11 +4,30 @@ import { FiMonitor, FiChevronDown } from 'react-icons/fi';
 
 const AdminSwitcher = () => {
   const { 
-    adminPersonas, 
+    admins, 
     selectedAdmin, 
     selectedAdminId, 
-    selectAdmin 
+    selectAdmin,
+    loading,
+    error 
   } = useAdminPersona();
+
+  if (loading) {
+    return (
+      <div className="px-4 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-lg animate-pulse">
+        <span className="text-xs text-indigo-400">Loading Admins...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="px-4 py-1.5 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
+        <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider block leading-none mb-1">Error</span>
+        <span className="text-xs text-red-500 font-medium">{error}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="relative group px-4 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-lg flex items-center gap-3 transition-all hover:border-indigo-400">
@@ -32,7 +51,8 @@ const AdminSwitcher = () => {
         value={selectedAdminId || ''}
         onChange={(e) => selectAdmin(e.target.value)}
       >
-        {adminPersonas.map(a => (
+        <option value="" disabled>Pilih Admin...</option>
+        {admins.map(a => (
           <option key={a.id} value={a.id}>
             {a.name} — {a.role}
           </option>

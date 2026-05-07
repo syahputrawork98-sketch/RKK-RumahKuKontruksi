@@ -1,61 +1,126 @@
 /* client/src/styles/dashboard-components.css */
 
 .dashboard-shell {
-  @apply min-h-screen flex bg-[var(--dashboard-bg)] text-[var(--dashboard-text)];
-}
-
-.dashboard-main {
-  @apply flex-1 flex flex-col transition-all duration-300;
-}
-
-.dashboard-page {
-  @apply flex-1 p-8 overflow-x-hidden mt-16;
-}
-
-.dashboard-container {
-  @apply max-w-7xl mx-auto w-full;
-}
-
-.dashboard-card {
-  @apply bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-3xl shadow-sm p-6 transition-all duration-300;
-}
-
-.dashboard-section-header {
-  @apply flex items-center justify-between mb-6;
-}
-
-.dashboard-title {
-  @apply text-2xl font-bold tracking-tight text-[var(--dashboard-text)];
-}
-
-.dashboard-subtitle {
-  @apply text-sm text-[var(--dashboard-text-muted)] mt-1;
-}
-
-.dashboard-table-card {
-  @apply dashboard-card p-0 overflow-hidden;
-}
-
-.dashboard-badge {
-  @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border;
+  min-height: 100vh;
+  background: var(--dashboard-bg);
+  color: var(--dashboard-text);
+  display: flex;
 }
 
 .dashboard-sidebar {
-  @apply fixed top-0 left-0 h-screen bg-[var(--dashboard-sidebar-bg)] text-[var(--dashboard-sidebar-text)] border-r border-[var(--dashboard-sidebar-border)] z-50 transition-all duration-300;
+  background: var(--dashboard-sidebar-bg);
+  color: var(--dashboard-sidebar-text);
+  border-right: 1px solid var(--dashboard-sidebar-border);
+  transition: all 300ms ease;
+}
+
+.dashboard-sidebar-header {
+  border-bottom: 1px solid var(--dashboard-sidebar-border);
+}
+
+.dashboard-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  color: var(--dashboard-sidebar-text);
+  text-decoration: none;
+  transition: all 180ms ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dashboard-sidebar-item:hover {
+  background: var(--dashboard-sidebar-hover-bg);
+}
+
+.dashboard-sidebar-item-active {
+  background: var(--dashboard-sidebar-active-bg);
+  color: var(--dashboard-sidebar-active-text);
+}
+
+.dashboard-sidebar-muted {
+  color: var(--dashboard-sidebar-muted);
+  font-size: 0.75rem;
 }
 
 .dashboard-topbar {
-  @apply fixed top-0 right-0 h-16 bg-[var(--dashboard-topbar-bg)] backdrop-blur-md border-b border-[var(--dashboard-border)] z-40 transition-all duration-300;
+  background: var(--dashboard-topbar-bg);
+  color: var(--dashboard-topbar-text);
+  border-bottom: 1px solid var(--dashboard-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.dashboard-main {
+  min-height: 100vh;
+  background: var(--dashboard-bg);
+  color: var(--dashboard-text);
+  transition: margin 300ms ease;
+}
+
+.dashboard-page {
+  padding: 1.5rem;
+}
+
+.dashboard-card {
+  background: var(--dashboard-surface);
+  color: var(--dashboard-text);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+}
+
+.dashboard-muted-text {
+  color: var(--dashboard-muted);
 }
 
 .dashboard-icon-button {
-  @apply p-2.5 rounded-full transition-all duration-200 text-[var(--dashboard-text-muted)] hover:bg-[var(--dashboard-surface-soft)] hover:text-[var(--dashboard-text)];
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  color: var(--dashboard-text);
+  transition: all 180ms ease;
+  cursor: pointer;
 }
 
-.dashboard-primary-button {
-  @apply bg-[var(--dashboard-primary)] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 active:scale-95 transition-all;
+.dashboard-icon-button:hover {
+  background: var(--dashboard-surface-soft);
 }
 
-.dashboard-secondary-button {
-  @apply bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text)] px-5 py-2.5 rounded-xl font-bold text-sm border border-[var(--dashboard-border)] hover:bg-[var(--dashboard-border)] transition-all;
+.dashboard-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-surface);
+  color: var(--dashboard-text);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 180ms ease;
+  cursor: pointer;
+}
+
+.dashboard-theme-toggle:hover {
+  background: var(--dashboard-surface-soft);
+}
+
+.dashboard-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--dashboard-text);
+}
+
+.dashboard-subtitle {
+  font-size: 0.875rem;
+  color: var(--dashboard-muted);
 }

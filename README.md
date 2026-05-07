@@ -6,8 +6,8 @@ Ini adalah repository final utama untuk proyek **RumahKu Kontruksi**. Repository
 
 ```text
 RKK-RumahKuKontruksi/
-├── client/         # Frontend Vite React (Dari RumahKuKontruksi-Dev)
-├── server/         # Backend Express (Placeholder untuk migrasi)
+├── client/         # Frontend Vite React
+├── server/         # Backend Express API & Prisma Data Service
 ├── docs/           # Dokumentasi Terstruktur
 ├── README.md       # File ini
 └── .gitignore      # Konfigurasi Git ignore root
@@ -17,25 +17,23 @@ RKK-RumahKuKontruksi/
 Kami menggunakan sistem dokumentasi terstruktur untuk mengelola proyek ini:
 - **[Pusat Dokumentasi](docs/README.md)** - Mulai dari sini.
 - **[Overview Proyek](docs/project/overview.md)**
-- **[Status Frontend](docs/frontend/current-state.md)**
-- **[Audit UI/UX](docs/frontend/ui-ux-audit.md)**
+- **[Status Backend](docs/backend/README.md)** - Detail implementasi API v0.
 - **[Rencana Kerja (Roadmap)](docs/project/roadmap.md)**
-- **[Perencanaan Backend](docs/backend/README.md)**
 
-## Cara Menjalankan Frontend
+## Cara Menjalankan Aplikasi
 
-1. Pindah ke direktori client:
-   ```bash
-   cd client
-   ```
-2. Install dependensi:
-   ```bash
-   npm install
-   ```
-3. Jalankan server pengembangan (Vite):
-   ```bash
-   npm run dev
-   ```
+### Frontend (Client)
+1. `cd client`
+2. `npm install`
+3. `npm run dev`
+
+### Backend (Server)
+1. `cd server`
+2. `npm install`
+3. `cp .env.example .env` (Lalu sesuaikan konfigurasi DB)
+4. `npx prisma migrate dev`
+5. `npm run db:seed`
+6. `npm run dev`
 
 ## Status Proyek
-Saat ini tim sedang fokus pada **Audit UI/UX** dan **Inventarisasi Komponen** pada sisi frontend. Seluruh kode sumber frontend berasal dari `RumahKuKontruksi-Dev/client`.
+Saat ini proyek telah memasuki tahap **Pengembangan Backend**. Backend Data Service v0 sudah tersedia dan disiapkan untuk menggantikan mock data frontend secara bertahap. Fokus saat ini adalah menstabilkan backend CRUD inti sebelum integrasi frontend penuh.

@@ -54,6 +54,16 @@ Setiap modul akan mengikuti pola:
 - `module-name.repository.js`: Komunikasi dengan database melalui Prisma.
 - `module-name.validation.js`: Validasi input request (misal: Joi atau Zod).
 
+## Current Implemented Structure (v0)
+Saat ini backend telah mengimplementasikan modul dasar berikut:
+- **Module Customers**: Full CRUD (Create, Read, Update, Delete) dengan validasi data dan pengecekan duplikasi email.
+- **Module Projects**: Read-only access untuk data proyek, tahapan proyek (stages), dan RAB (approved plan).
+
+**Future Modules (Planned)**:
+- **Auth, Users, Roles**: Belum diimplementasikan (Pending).
+- **Upload, Payments, Documents**: Belum diimplementasikan (Pending).
+- **Workflow & Approval Engine**: Belum diimplementasikan (Pending).
+
 ## Keputusan Framework
 **RKK tidak menggunakan Next.js untuk backend.**
 

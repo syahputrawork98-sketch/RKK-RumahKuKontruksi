@@ -1,22 +1,22 @@
 # Backend Documentation Center
 
-Pusat dokumentasi perencanaan dan blueprint backend untuk **RumahKu Kontruksi**.
+Pusat dokumentasi perencanaan dan blueprint backend untuk **RumahKu Konstruksi**.
 
-> [!IMPORTANT]
-> **Status Backend**: Belum dieksekusi / Masih dalam tahap perencanaan.  
-> Prioritas saat ini adalah penyelesaian UI/UX dan Mock Data pada sisi Frontend.  
-> **Catatan**: Tidak diperbolehkan memulai implementasi kode backend sebelum ada instruksi khusus.
+> [!NOTE]
+> **Status Backend**: Implemented v0 (Core Data Service).  
+> Backend versi awal sudah aktif dan melayani data riil untuk entitas Customers dan Projects.
+> **Database**: PostgreSQL aktif di port 5433 (Dev).
 
-## Planned Technology Stack
-- **Runtime**: Node.js
+## Technology Stack (Current)
+- **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
 - **Language**: JavaScript
-- **Database**: PostgreSQL
+- **Database**: PostgreSQL (v18+)
 - **ORM**: Prisma ORM
 - **Architecture**: Modular Monolith
-- **Auth**: JWT atau Supabase Auth (Pending Decision)
+- **Auth**: Pending (Belum diimplementasikan)
 
-**Status**: Documentation Only (Not implemented yet)
+**Status**: Implemented v0 (Core Data Service)
 
 ## Daftar Blueprint Backend
 Dokumentasi ini menjadi acuan utama saat tahap pengembangan backend dimulai nanti:

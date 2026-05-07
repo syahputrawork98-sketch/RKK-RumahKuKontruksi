@@ -7,8 +7,8 @@
 Repository **RKK-RumahKuKontruksi** adalah repository final utama yang menggabungkan seluruh hasil pengembangan terbaik.
 
 ## Komponen Utama
-- **Frontend**: Menggunakan basis dari `RumahKuKontruksi-Dev/client` (Vite React). Ini adalah UI/UX final yang akan dipoles lebih lanjut.
-- **Backend**: Akan dimigrasikan dari `RumahKuKontruksi-Dev/server` setelah tahap pemantapan UI/UX frontend dan penyelarasan mock data selesai.
+- **Frontend**: Menggunakan Vite React. Tahap poles UI/UX dan audit komponen.
+- **Backend**: Express.js + Prisma + PostgreSQL (Implemented v0). Data service awal untuk Customers dan Projects sudah aktif.
 
 ## Fokus Saat Ini
-Fokus utama tim saat ini adalah **Audit UI/UX** dan **Stabilisasi Frontend** menggunakan mock data terpusat sebelum melakukan integrasi backend penuh.
+Fokus utama tim saat ini adalah **menstabilkan backend CRUD inti sebelum integrasi frontend bertahap**. Frontend saat ini masih berjalan menggunakan mock data sebagai basis UI/UX utama.

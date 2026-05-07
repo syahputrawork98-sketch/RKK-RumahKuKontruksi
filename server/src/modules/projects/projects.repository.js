@@ -40,6 +40,12 @@ export const findById = async (id) => {
             }
           }
         }
+      },
+      rabCategories: {
+        orderBy: { order: 'asc' }
+      },
+      rabItems: {
+        orderBy: { id: 'asc' }
       }
     },
   });

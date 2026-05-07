@@ -1,12 +1,13 @@
 import * as ProjectRepository from './projects.repository.js';
 import * as CustomerRepository from '../customers/customers.repository.js';
+import { serializeDecimal } from '../../utils/decimalHelper.js';
 
 export const getProjects = async (req, res, next) => {
   try {
     const projects = await ProjectRepository.findAll();
     res.json({
       success: true,
-      data: projects,
+      data: serializeDecimal(projects),
     });
   } catch (error) {
     next(error);
@@ -27,7 +28,7 @@ export const getProjectById = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: project,
+      data: serializeDecimal(project),
     });
   } catch (error) {
     next(error);
@@ -50,7 +51,7 @@ export const getProjectStages = async (req, res, next) => {
     const stages = await ProjectRepository.findStagesByProjectId(id);
     res.json({
       success: true,
-      data: stages,
+      data: serializeDecimal(stages),
     });
   } catch (error) {
     next(error);
@@ -81,7 +82,7 @@ export const getProjectRab = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: rab,
+      data: serializeDecimal(rab),
     });
   } catch (error) {
     next(error);

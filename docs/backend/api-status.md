@@ -68,6 +68,20 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
 
+## Postponed / Not Implemented Operational APIs
+
+The following APIs are intentionally postponed and should not be implemented before Project/Stage/Progress/RAB workflow is clarified:
+
+- `GET/POST /daily-reports`: Laporan harian mandor (NOT IMPLEMENTED)
+- `GET/POST /weekly-reports`: Laporan mingguan pengawas (NOT IMPLEMENTED)
+- `GET/POST /material-requests`: Permintaan material (NOT IMPLEMENTED)
+- `GET/POST /field-issues`: Kendala lapangan (NOT IMPLEMENTED)
+- `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
+- `POST /progress-verifications`: Verifikasi progres oleh pengawas (NOT IMPLEMENTED)
+- `GET/POST /tasks`: Manajemen tugas harian (NOT IMPLEMENTED)
+
+*These endpoints are intentionally postponed to ensure data consistency with the core Project and RAB modules.*
+
 ## Notes
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role belum dilakukan di sisi server.

@@ -5,7 +5,7 @@
 - **Environment**: Localhost only
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
-- **Fokus Saat Ini**: Integrasi data database lokal untuk role Pengawas dan Mandor serta pembersihan dependensi mock data pada role tersebut.
+- **Fokus Saat Ini**: Integrasi data database lokal untuk role Pengawas, Mandor, dan Arsitek (Profil/Dashboard) serta pembersihan dependensi mock data pada role tersebut.
 
 ## Backend Status (Local API)
 

@@ -56,6 +56,7 @@ model Project {
   stages                ProjectStage[]
   customer              Customer       @relation(fields: [customerId], references: [id])
   supervisor            Supervisor?    @relation(fields: [supervisorId], references: [id])
+  foreman               Foreman?       @relation(fields: [foremanId], references: [id])
   rabCategories         RabCategory[]
   rabItems              RabItem[]
   rabPlans              RabPlan[]
@@ -94,7 +95,7 @@ model SupervisorCertificate {
   expiredAt         DateTime?  @map("expired_at")
   fileUrl           String?    @map("file_url")
   fileType          String?    @map("file_type")
-  status            String     @default("valid")
+  status             String     @default("valid")
   createdAt         DateTime   @default(now()) @map("created_at")
   updatedAt         DateTime   @updatedAt @map("updated_at")
   deletedAt         DateTime?  @map("deleted_at")
@@ -119,6 +120,71 @@ model SupervisorExperience {
   supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
 
   @@map("supervisor_experiences")
+}
+
+model Foreman {
+  id                 String               @id @default(cuid())
+  userId             String?              @map("user_id")
+  name               String
+  email              String?              @unique
+  phone              String?
+  avatar             String?
+  vendorType         String?              @map("vendor_type")
+  companyName        String?              @map("company_name")
+  address            String?
+  specialization     String?
+  experienceYears    Int?                 @map("experience_years")
+  skillTags          Json?                @map("skill_tags")
+  teamSummary        Json?                @map("team_summary")
+  maxProjectCapacity Int                  @default(2) @map("max_project_capacity")
+  status             String               @default("active")
+  joinedAt           DateTime?            @map("joined_at")
+  notes              String?
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+  deletedAt          DateTime?            @map("deleted_at")
+  certificates       ForemanCertificate[]
+  experiences        ForemanExperience[]
+  projects           Project[]
+
+  @@map("foremen")
+}
+
+model ForemanCertificate {
+  id                String    @id @default(cuid())
+  foremanId         String    @map("foreman_id")
+  title             String
+  issuer            String
+  certificateNumber String?   @map("certificate_number")
+  issuedAt          DateTime? @map("issued_at")
+  expiredAt         DateTime? @map("expired_at")
+  fileUrl           String?   @map("file_url")
+  fileType          String?   @map("file_type")
+  status            String    @default("valid")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  deletedAt         DateTime? @map("deleted_at")
+  foreman           Foreman   @relation(fields: [foremanId], references: [id])
+
+  @@map("foreman_certificates")
+}
+
+model ForemanExperience {
+  id          String    @id @default(cuid())
+  foremanId   String    @map("foreman_id")
+  projectName String    @map("project_name")
+  companyName String?   @map("company_name")
+  role        String?
+  location    String?
+  startYear   Int?      @map("start_year")
+  endYear     Int?      @map("end_year")
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  foreman     Foreman   @relation(fields: [foremanId], references: [id])
+
+  @@map("foreman_experiences")
 }
 
 model ProjectStage {

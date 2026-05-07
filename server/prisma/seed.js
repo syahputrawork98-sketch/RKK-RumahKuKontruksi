@@ -1,4 +1,3 @@
-// server/prisma/seed.js
 import { PrismaClient } from '@prisma/client';
 import { mockCustomers } from '../../client/src/data/mock/customers.js';
 import { mockProjects } from '../../client/src/data/mock/projects.js';
@@ -6,6 +5,8 @@ import { mockProjectStages } from '../../client/src/data/mock/projectStages.js';
 import { mockRabPlans } from '../../client/src/data/mock/rabPlans.js';
 import { mockRabCategories } from '../../client/src/data/mock/rabCategories.js';
 import { mockRabItems } from '../../client/src/data/mock/rabItems.js';
+import { mockForemen } from '../../client/src/data/mock/foremen.js';
+import { mockForemanCertificates } from '../../client/src/data/mock/foremanCertificates.js';
 
 const prisma = new PrismaClient();
 
@@ -105,6 +106,56 @@ async function main() {
       await prisma.supervisorExperience.create({ data: exp });
   }
 
+  // 0.5 Foremen
+  console.log('Seeding foremen...');
+  for (const f of mockForemen) {
+    await prisma.foreman.upsert({
+      where: { id: f.id },
+      update: {},
+      create: {
+        id: f.id,
+        userId: f.userId,
+        name: f.name,
+        email: f.email,
+        phone: f.phone,
+        avatar: f.avatar,
+        vendorType: f.vendorType,
+        companyName: f.companyName,
+        address: f.address,
+        specialization: f.specialization,
+        experienceYears: f.experienceYears,
+        skillTags: f.skillTags,
+        teamSummary: f.teamSummary,
+        maxProjectCapacity: f.maxProjectCapacity,
+        status: f.status,
+        joinedAt: f.joinedAt ? new Date(f.joinedAt) : null,
+        notes: f.notes
+      }
+    });
+  }
+
+  // Clear related to avoid duplicates
+  await prisma.foremanCertificate.deleteMany({});
+  await prisma.foremanExperience.deleteMany({});
+
+  console.log('Seeding foreman certificates...');
+  for (const cert of mockForemanCertificates) {
+    await prisma.foremanCertificate.create({
+      data: {
+        id: cert.id,
+        foremanId: cert.foremanId,
+        title: cert.title,
+        issuer: cert.issuer,
+        certificateNumber: cert.certificateNumber,
+        issuedAt: cert.issuedAt ? new Date(cert.issuedAt) : null,
+        expiredAt: cert.expiredAt ? new Date(cert.expiredAt) : null,
+        fileUrl: cert.fileUrl,
+        fileType: cert.fileType,
+        status: cert.status
+      }
+    });
+  }
+
   // 1. Customers
   console.log('Seeding customers...');
   for (const c of mockCustomers) {
@@ -151,7 +202,8 @@ async function main() {
     await prisma.project.upsert({
       where: { id: p.id },
       update: {
-          supervisorId: sId
+          supervisorId: sId,
+          foremanId: p.foremanId || null
       },
       create: {
         id: p.id,
@@ -171,7 +223,7 @@ async function main() {
         sourceDesignRequestId: p.sourceDesignRequestId,
         adminId: p.adminId,
         supervisorId: sId,
-        foremanId: p.foremanId,
+        foremanId: p.foremanId || null,
       },
     });
   }

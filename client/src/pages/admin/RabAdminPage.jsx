@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiFileText, FiChevronRight, FiSearch } from "react-icons/fi";
+import { FiFileText, FiChevronRight, FiSearch, FiFolder, FiCheckCircle, FiClock } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
@@ -22,14 +22,23 @@ const RabAdminPage = () => {
             setLoading(false);
         } catch (err) {
             console.error("Error fetching projects for RAB:", err);
-            setError("Gagal memuat data proyek untuk RAB.");
+            setError("Gagal memuat data proyek untuk RAB. Pastikan backend aktif.");
             setLoading(false);
         }
     };
 
+    const formatCurrency = (val) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(val || 0);
+    };
+
     const filteredProjects = projects.filter(prj => 
         prj.projectCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prj.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        prj.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        prj.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     if (loading) return <RoleDataState type="loading" message="Memuat data RAB proyek..." />;
@@ -37,55 +46,80 @@ const RabAdminPage = () => {
 
     return (
         <div className="animate-fadeIn space-y-6">
-            <div>
-                <h2 className="text-2xl font-extrabold tracking-tight">RAB Proyek</h2>
-                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Manajemen Rencana Anggaran Biaya seluruh proyek.</p>
+            <div className="flex justify-between items-end">
+                <div>
+                    <h2 className="text-2xl font-black tracking-tight">Rencana Anggaran Biaya (RAB)</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Manajemen anggaran dan item pekerjaan seluruh proyek.</p>
+                </div>
             </div>
 
             <div className="dashboard-card">
-                <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="flex flex-col md:flex-row gap-4 mb-8">
                     <div className="flex-1 relative">
                         <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--dashboard-text-soft)]" />
                         <input 
                             type="text" 
-                            placeholder="Cari proyek berdasarkan kode atau nama..." 
+                            placeholder="Cari proyek berdasarkan kode, nama, atau customer..." 
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                            className="w-full pl-11 pr-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 shadow-sm"
                         />
                     </div>
                 </div>
 
                 <div className="overflow-x-auto">
                     {filteredProjects.length > 0 ? (
-                        <table className="w-full text-left border-collapse">
+                        <table className="w-full text-left border-separate border-spacing-y-3">
                             <thead>
-                                <tr className="border-b border-[var(--dashboard-border)]">
-                                    <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Proyek</th>
-                                    <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Total Estimasi</th>
-                                    <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2 text-right">Aksi</th>
+                                <tr className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">
+                                    <th className="pb-2 px-4">Informasi Proyek</th>
+                                    <th className="pb-2 px-4">Anggaran (Budget)</th>
+                                    <th className="pb-2 px-4">Status RAB</th>
+                                    <th className="pb-2 px-4 text-right">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredProjects.map((prj) => (
-                                    <tr key={prj.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors">
-                                        <td className="py-4 px-2">
-                                            <div className="flex flex-col">
-                                                <span className="text-sm font-black text-[var(--dashboard-primary)]">{prj.projectCode}</span>
-                                                <span className="text-[10px] text-[var(--dashboard-text-soft)] font-bold">{prj.name}</span>
+                                    <tr key={prj.id} className="group hover:bg-[var(--dashboard-surface-soft)] transition-all">
+                                        <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)] group-hover:bg-transparent rounded-l-2xl border-y border-l border-[var(--dashboard-border)]">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-xl bg-white border border-[var(--dashboard-border)] flex items-center justify-center text-[var(--dashboard-primary)] shadow-sm">
+                                                    <FiFolder size={20} />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-black text-[var(--dashboard-primary)]">{prj.projectCode}</span>
+                                                    <span className="text-sm font-extrabold">{prj.name}</span>
+                                                    <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">{prj.customer?.name}</span>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td className="py-4 px-2">
-                                            <span className="text-sm font-black text-emerald-600">
-                                                {prj.budget ? `Rp ${prj.budget.toLocaleString("id-ID")}` : "-"}
-                                            </span>
+                                        <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)] group-hover:bg-transparent border-y border-[var(--dashboard-border)]">
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-black text-emerald-600">
+                                                    {formatCurrency(prj.budgetTotal)}
+                                                </span>
+                                                <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase">Total Proyek</span>
+                                            </div>
                                         </td>
-                                        <td className="py-4 px-2 text-right">
+                                        <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)] group-hover:bg-transparent border-y border-[var(--dashboard-border)]">
+                                            <div className="flex items-center gap-2">
+                                                {prj.budgetTotal > 0 ? (
+                                                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full text-[10px] font-black uppercase tracking-widest">
+                                                        <FiCheckCircle /> TERSEDIA
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-600 border border-amber-100 rounded-full text-[10px] font-black uppercase tracking-widest">
+                                                        <FiClock /> BELUM ADA
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)] group-hover:bg-transparent rounded-r-2xl border-y border-r border-[var(--dashboard-border)] text-right">
                                             <Link 
                                                 to={`/admin/rab/${prj.id}`}
-                                                className="inline-flex items-center gap-1 text-xs font-black text-[var(--dashboard-primary)] hover:underline"
+                                                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-[var(--dashboard-border)] text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-primary)] rounded-xl shadow-sm hover:bg-[var(--dashboard-primary)] hover:text-white transition-all"
                                             >
-                                                DETAIL RAB
+                                                KELOLA RAB
                                                 <FiChevronRight />
                                             </Link>
                                         </td>

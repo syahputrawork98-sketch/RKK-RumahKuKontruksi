@@ -14,51 +14,33 @@ Backend saat ini beroperasi sebagai **Core Data Service** untuk lingkungan penge
 | Module | Base Endpoint | Status | Notes |
 | :--- | :--- | :--- | :--- |
 | **Health** | `/api/health` | DONE | Server health check |
-| **Customers** | `/api/customers` | CRUD Available | Manajemen data pelanggan |
-| **Projects** | `/api/projects` | CRUD/Filter Available | Mendukung filter `supervisorId` dan `foremanId` |
-| **Supervisors** | `/api/supervisors` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
-| **Foremen** | `/api/foremen` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
-| **Architects** | `/api/architects` | CRUD Available | Termasuk sub-modul Sertifikat & Pengalaman |
-| **Auth** | `/api/auth` | **NOT IMPLEMENTED** | Ditunda untuk fokus pada integrasi data |
+| **Customers** | `/api/customers` | CRUD | Manajemen data pelanggan |
+| **Projects** | `/api/projects` | CRUD | Mendukung filter `supervisorId` dan `foremanId` |
+| **Supervisors** | `/api/supervisors` | CRUD | Termasuk Sertifikat & Pengalaman |
+| **Foremen** | `/api/foremen` | CRUD | Termasuk Sertifikat & Pengalaman |
+| **Architects** | `/api/architects` | CRUD | Termasuk Sertifikat & Pengalaman |
+| **Admins** | `/api/admins` | CRUD | Manajemen data Admin |
+| **Superadmins** | `/api/superadmins` | CRUD | Manajemen data Superadmin |
 
-## Not Implemented Yet
-Fitur-fitur berikut masih dalam antrean pengembangan dan sengaja ditunda:
-- Sistem Autentikasi (Login/JWT/Session) asli.
-- Role Guard & Permission di sisi server.
-- Modul Operasional (Laporan Harian, Laporan Mingguan, Request Material, Kendala, Verifikasi).
-- Alur Kerja Desain (Design Request, Design File, Design Revision, Design Review).
-- Sistem Notifikasi Real-time.
-- Sistem Penyimpanan File/Upload Dokumentasi & Desain.
-- Hardening untuk lingkungan produksi.
+## Experimental Backend Drafts
+Modul berikut sudah memiliki draf backend awal (route/model/service), namun belum dianggap final dan belum siap untuk produksi.
+- **Material Requests**: (`/api/material-requests`). Status: *Experimental*. RBAC dan alur persetujuan bertingkat belum final.
 
 ## Postponed Operational Modules
+Modul berikut benar-benar belum tersedia di sisi backend:
+- Laporan Harian/Mingguan & Tugas Harian.
+- Kendala Lapangan & Dokumentasi Proyek.
+- Alur Verifikasi Progres & Pembayaran.
+- Alur Kerja Desain (Request, File, Revisi, Review).
+- Sistem Notifikasi.
 
-The following modules are intentionally not implemented yet:
-- daily reports
-- weekly reports
-- material requests
-- field issues
-- documentation uploads
-- daily tasks
-- progress verification workflow
-- design requests
-- design files
-- design revisions
-- design comments/reviews
-
-### Reason
-These modules depend on a stable Project/Stage/Progress/RAB workflow and will be designed later to avoid data model mismatch and rework.
-
-*Modul operasional ini belum dibuat secara sengaja karena membutuhkan desain relasi yang matang dengan Project, Stage, Progress, RAB, dan workflow lapangan. Modul ini akan dikerjakan setelah struktur Project lebih stabil.*
+## Dokumentasi Teknis
+- [**Backend Roles & Data Scope**](./roles/README.md): Aturan akses data per peran.
+- [**Backend Checklist per Workflow**](./checklist/README.md): Panduan implementasi atomik.
+- [**API Status & Endpoint List**](./api-status.md): Daftar endpoint rill yang tersedia.
+- [**Role & Permission Matrix**](./role-permission-matrix.md): Rencana hak akses (Blueprint).
 
 ## Technology Stack
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
-- **Database**: PostgreSQL (Prisma ORM)
-- **Validation**: Joi / Custom Validation logic
-
-## Referensi API
-- [**API Status & Endpoint List**](./api-status.md): Daftar endpoint yang benar-benar tersedia sekarang.
-- [**Database Entity Plan**](./database-entity-plan.md): Relasi model database saat ini.
-- [**Role & Permission Matrix**](./role-permission-matrix.md): Rencana hak akses (Draft).
-- [**Backend To-Do**](./backend-todo.md): Antrean tugas pengembangan backend.
+- **ORM**: Prisma (PostgreSQL)

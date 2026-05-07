@@ -1,9 +1,10 @@
-// client/src/components/ui/sidebar/SidebarDropdown.jsx
-import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
 
-const SidebarDropdown = ({ icon: Icon, label, items, active, collapsed }) => {
-    const [open, setOpen] = useState(active);
+const SidebarDropdown = ({ icon: Icon, label, items, collapsed }) => {
+    const location = useLocation();
+    const isChildActive = items.some(item => location.pathname === item.href);
+    const [open, setOpen] = useState(isChildActive);
 
     return (
         <div className="select-none">
@@ -11,29 +12,22 @@ const SidebarDropdown = ({ icon: Icon, label, items, active, collapsed }) => {
             <button
                 onClick={() => setOpen(!open)}
                 className={`
-                    flex items-center justify-between w-full p-3.5 rounded-xl 
-                    transition-all duration-200 group
-                    ${active 
-                        ? "bg-white/5 text-white border border-white/5 shadow-xs" 
-                        : "text-slate-400 hover:bg-white/5 hover:text-white"}
+                    dashboard-sidebar-item w-full flex items-center justify-between border-none
+                    ${isChildActive ? "dashboard-sidebar-item-active" : ""}
                 `}
             >
                 {/* ICON + LABEL */}
                 <div className="flex items-center gap-3">
-                    <div className={`
-                        flex items-center justify-center transition-colors
-                        ${active ? "text-[var(--dashboard-primary)]" : "group-hover:text-[var(--dashboard-primary)]"}
-                    `}>
+                    <div className="flex items-center justify-center">
                         <Icon size={20} />
                     </div>
-                    {!collapsed && <span className="font-medium text-sm tracking-wide">{label}</span>}
+                    {!collapsed && <span className="font-semibold tracking-wide">{label}</span>}
                 </div>
 
                 {/* CHEVRON */}
                 {!collapsed && (
                     <FiChevronDown
-                        className={`text-lg transition-transform duration-300 ${open ? "rotate-180" : ""
-                            }`}
+                        className={`text-lg transition-transform duration-300 ${open ? "rotate-180" : ""}`}
                     />
                 )}
             </button>
@@ -42,18 +36,23 @@ const SidebarDropdown = ({ icon: Icon, label, items, active, collapsed }) => {
             {!collapsed && (
                 <div
                     className={`
-                        ml-4 mt-1 flex flex-col gap-1 overflow-hidden transition-all duration-300 border-l border-white/10 pl-6
+                        ml-6 mt-1 flex flex-col gap-1 overflow-hidden transition-all duration-300 border-l border-[var(--dashboard-sidebar-border)] pl-4
                         ${open ? "max-h-96 opacity-100 py-2" : "max-h-0 opacity-0"}
                     `}
                 >
                     {items.map((item, idx) => (
-                        <a
+                        <NavLink
                             key={idx}
-                            href={item.href}
-                            className="p-2.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-white/5 hover:text-white transition-all duration-200"
+                            to={item.href}
+                            className={({ isActive }) => `
+                                px-4 py-2.5 text-xs font-bold rounded-xl transition-all duration-200
+                                ${isActive 
+                                    ? "bg-[var(--dashboard-sidebar-active-bg)] text-[var(--dashboard-sidebar-active-text)]" 
+                                    : "text-[var(--dashboard-sidebar-muted)] hover:bg-[var(--dashboard-sidebar-hover-bg)] hover:text-[var(--dashboard-sidebar-text)]"}
+                            `}
                         >
                             {item.label}
-                        </a>
+                        </NavLink>
                     ))}
                 </div>
             )}

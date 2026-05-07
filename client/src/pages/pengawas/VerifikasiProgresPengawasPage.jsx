@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiCheckCircle, FiHistory, FiInfo, FiAlertCircle, FiArrowLeft } from "react-icons/fi";
+import { FiCheckCircle, FiActivity, FiInfo, FiAlertCircle, FiArrowLeft } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
@@ -271,7 +271,7 @@ const VerifikasiProgresPengawasPage = () => {
                     <div className="space-y-6">
                         <div className="dashboard-card">
                             <h3 className="text-sm font-black mb-6 uppercase tracking-widest flex items-center gap-2">
-                                <FiHistory /> Riwayat Verifikasi
+                                <FiActivity /> Riwayat Verifikasi
                             </h3>
                             <div className="space-y-6 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-0.5 before:bg-[var(--dashboard-border)]">
                                 {history.map((log, idx) => (

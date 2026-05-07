@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const ProyekAktifMandorPage = () => {
     const { selectedForemanId } = useForemanPersona();
     const [activeSubtab, setActiveSubtab] = useState("today");
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const subtabs = [
         { id: "today", label: "Aktif Hari Ini" },
@@ -26,12 +28,14 @@ const ProyekAktifMandorPage = () => {
             }
             try {
                 setLoading(true);
+                setError(null);
                 const response = await projectService.getProjects({ foremanId: selectedForemanId });
                 if (response.success) {
                     setProjects(response.data);
                 }
-            } catch (error) {
-                console.error("Failed to fetch projects:", error);
+            } catch (err) {
+                console.error("Failed to fetch projects:", err);
+                setError("Gagal memuat daftar proyek aktif.");
             } finally {
                 setLoading(false);
             }
@@ -48,11 +52,21 @@ const ProyekAktifMandorPage = () => {
         );
     }
 
-    if (loading && projects.length === 0) {
+    if (loading && projects.length === 0 && !error) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
             </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <RoleDataState 
+                type="error"
+                title={error}
+                onRetry={() => window.location.reload()}
+            />
         );
     }
 

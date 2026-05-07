@@ -16,11 +16,13 @@ import {
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DashboardMandor = () => {
     const { selectedForeman, selectedForemanId } = useForemanPersona();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -30,12 +32,14 @@ const DashboardMandor = () => {
             }
             try {
                 setLoading(true);
+                setError(null);
                 const response = await projectService.getProjects({ foremanId: selectedForemanId });
                 if (response.success) {
                     setProjects(response.data);
                 }
-            } catch (error) {
-                console.error("Failed to fetch dashboard data:", error);
+            } catch (err) {
+                console.error("Failed to fetch dashboard data:", err);
+                setError("Gagal mengambil data operasional dari database.");
             } finally {
                 setLoading(false);
             }
@@ -46,6 +50,7 @@ const DashboardMandor = () => {
 
     const stats = [
         { label: "Proyek Aktif", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
+        // TODO: replace static/mock data after operational backend is implemented
         { label: "Tugas Hari Ini", value: 0, icon: FiList, color: "#0EA5E9" },
         { label: "Progress Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#16A34A" },
         { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#F59E0B" },
@@ -61,11 +66,21 @@ const DashboardMandor = () => {
         );
     }
 
-    if (loading && projects.length === 0) {
+    if (loading && projects.length === 0 && !error) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
             </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <RoleDataState 
+                type="error"
+                title={error}
+                onRetry={() => window.location.reload()}
+            />
         );
     }
 
@@ -131,6 +146,7 @@ const DashboardMandor = () => {
                             </div>
                             <div className="flex items-end gap-2">
                                 <span className="text-3xl font-black">0</span>
+                                {/* TODO: replace static/mock data after operational backend is implemented */}
                                 <span className="text-xs mb-1 font-bold text-[var(--dashboard-text-soft)] uppercase">Tukang Aktif</span>
                             </div>
                             <div className="mt-4 flex gap-1">
@@ -147,6 +163,7 @@ const DashboardMandor = () => {
                     
                     <div className="dashboard-card">
                         <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-text-soft)]">Kendala Aktif</h3>
+                        {/* TODO: replace static/mock data after operational backend is implemented */}
                         <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
                             Tidak ada kendala aktif
                         </div>

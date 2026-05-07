@@ -3,6 +3,7 @@ import { FiUser, FiMonitor, FiUsers, FiInfo, FiLayers, FiAward, FiBriefcase } fr
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import foremanService from "../../services/foremanService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const PengaturanMandorPage = () => {
     const { selectedForeman, selectedForemanId } = useForemanPersona();
@@ -10,20 +11,23 @@ const PengaturanMandorPage = () => {
     const [certificates, setCertificates] = useState([]);
     const [experiences, setExperiences] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDetails = async () => {
             if (!selectedForemanId) return;
             try {
                 setIsLoading(true);
+                setError(null);
                 const [certs, exps] = await Promise.all([
                     foremanService.getCertificates(selectedForemanId),
                     foremanService.getExperiences(selectedForemanId)
                 ]);
                 if (certs.success) setCertificates(certs.data);
                 if (exps.success) setExperiences(exps.data);
-            } catch (error) {
-                console.error("Failed to fetch foreman details:", error);
+            } catch (err) {
+                console.error("Failed to fetch foreman details:", err);
+                setError("Gagal memuat detail profil mandor.");
             } finally {
                 setIsLoading(false);
             }
@@ -36,6 +40,16 @@ const PengaturanMandorPage = () => {
         { id: "sertifikasi", label: "Sertifikasi", icon: FiAward },
         { id: "pengalaman", label: "Pengalaman", icon: FiBriefcase },
     ];
+
+    if (error) {
+        return (
+            <RoleDataState 
+                type="error"
+                title={error}
+                onRetry={() => window.location.reload()}
+            />
+        );
+    }
 
     if (!selectedForemanId && !isLoading) {
         return (

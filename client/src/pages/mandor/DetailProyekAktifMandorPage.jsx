@@ -1,7 +1,21 @@
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { 
+    FiArrowLeft, 
+    FiInfo, 
+    FiList, 
+    FiActivity, 
+    FiUsers, 
+    FiShoppingCart, 
+    FiCamera, 
+    FiAlertTriangle, 
+    FiMapPin, 
+    FiClock 
+} from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
-import { useEffect } from "react";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailProyekAktifMandorPage = () => {
     const { projectId } = useParams();
@@ -10,6 +24,7 @@ const DetailProyekAktifMandorPage = () => {
     const [activeTab, setActiveTab] = useState("overview");
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -19,12 +34,22 @@ const DetailProyekAktifMandorPage = () => {
             }
             try {
                 setIsLoading(true);
+                setError(null);
                 const response = await projectService.getProjectById(projectId);
                 if (response.success) {
-                    setProject(response.data);
+                    const projectData = response.data;
+                    // Validate that project belongs to this foreman
+                    if (projectData.foremanId !== selectedForemanId) {
+                        setError("Proyek ini tidak ditugaskan kepada Anda.");
+                    } else {
+                        setProject(projectData);
+                    }
+                } else {
+                    setError("Proyek tidak ditemukan.");
                 }
-            } catch (error) {
-                console.error("Failed to fetch project detail:", error);
+            } catch (err) {
+                console.error("Failed to fetch project detail:", err);
+                setError("Gagal mengambil detail proyek dari database.");
             } finally {
                 setIsLoading(false);
             }
@@ -59,10 +84,38 @@ const DetailProyekAktifMandorPage = () => {
         );
     }
 
+    if (error) {
+        return (
+            <div className="animate-fadeIn">
+                <button 
+                    onClick={() => navigate("/mandor/proyek-aktif")}
+                    className="mb-6 p-2 bg-[var(--dashboard-surface-soft)] hover:bg-[var(--dashboard-border)] rounded-xl transition-all inline-flex items-center gap-2 text-xs font-bold"
+                >
+                    <FiArrowLeft size={16} /> KEMBALI
+                </button>
+                <RoleDataState 
+                    type="error"
+                    title={error}
+                    onRetry={() => window.location.reload()}
+                />
+            </div>
+        );
+    }
+
     if (!project) {
         return (
-            <div className="dashboard-card p-20 text-center text-slate-400 font-medium">
-                Proyek tidak ditemukan atau Anda tidak memiliki akses.
+            <div className="animate-fadeIn">
+                <button 
+                    onClick={() => navigate("/mandor/proyek-aktif")}
+                    className="mb-6 p-2 bg-[var(--dashboard-surface-soft)] hover:bg-[var(--dashboard-border)] rounded-xl transition-all inline-flex items-center gap-2 text-xs font-bold"
+                >
+                    <FiArrowLeft size={16} /> KEMBALI
+                </button>
+                <RoleDataState 
+                    type="empty"
+                    title="Proyek Tidak Ditemukan"
+                    description="Proyek yang Anda cari tidak tersedia atau Anda tidak memiliki akses ke proyek ini."
+                />
             </div>
         );
     }

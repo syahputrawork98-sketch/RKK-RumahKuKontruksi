@@ -4,7 +4,7 @@
 **Alur Laporan Mingguan Pengawas (RKK Internal Reporting Workflow)**
 
 ## 2. Tujuan Alur
-Alur ini bertujuan untuk mengatur mekanisme pelaporan resmi dari sisi Pengawas kepada Admin sebagai bentuk evaluasi dan rekapitulasi performa proyek dalam periode mingguan. Laporan ini menjadi instrumen kontrol kualitas, monitoring kendala, dan dasar bagi Admin untuk memberikan informasi progres yang akurat kepada Konsumen.
+Alur ini bertujuan untuk mengatur mekanisme pelaporan resmi dari Pengawas kepada Admin sebagai rekapitulasi performa proyek mingguan. Laporan ini merupakan **rekap/evaluasi** berbasis Jurnal Mandor yang sudah *Approved*. Tujuannya adalah kontrol kualitas dan penyediaan narasi progres resmi yang akan dipublikasikan ke Konsumen.
 
 ## 3. Aktor yang Terlibat
 ### Pengawas
@@ -18,16 +18,16 @@ Alur ini bertujuan untuk mengatur mekanisme pelaporan resmi dari sisi Pengawas k
 *   Mengontrol publikasi ringkasan laporan kepada Konsumen.
 
 ### Mandor
-*   Tidak membuat laporan mingguan.
-*   Data aktivitas/jurnal mandor hanya menjadi referensi bagi Pengawas dalam menyusun laporan ini.
+*   Mandor tidak membuat laporan mingguan.
+*   Jurnal Mingguan Mandor yang sudah **Approved/Locked** adalah data primer wajib bagi Pengawas dalam menyusun laporan ini. Pengawas tidak perlu melakukan input ulang aktivitas harian.
 
 ### Konsumen
 *   Tidak memiliki akses ke laporan internal penuh.
 *   Hanya menerima ringkasan progres yang sudah dipilah dan diterbitkan oleh Admin.
 
 ## 4. Prinsip Dasar
-*   **Milik Pengawas**: Laporan ini adalah tanggung jawab profesional Pengawas sebagai representasi teknis RKK.
-*   **Evaluasi Resmi**: Bukan sekadar catatan aktivitas, melainkan evaluasi terhadap pencapaian, kendala, dan kualitas pekerjaan selama seminggu.
+*   **Evaluasi Resmi**: Bukan sekadar catatan aktivitas, melainkan evaluasi terhadap kualitas, pencapaian, dan kendala.
+*   **Berbasis Data Jurnal**: Laporan ini tidak berdiri sendiri; ia harus menarik data dari jurnal yang sudah tervalidasi agar tidak terjadi duplikasi kerja.
 *   **Privasi Internal**: Berisi catatan teknis dan rekomendasi internal yang sensitif, sehingga tidak semuanya boleh diketahui Konsumen.
 *   **Kontrol Admin**: Admin bertindak sebagai filter akhir sebelum informasi dilempar ke pihak luar (Konsumen).
 
@@ -61,8 +61,8 @@ Untuk menyusun laporan yang berkualitas, Pengawas membutuhkan:
 
 ## 8. Alur Utama
 1.  **Pemilihan Proyek**: Pengawas memilih proyek aktif yang diawasi.
-2.  **Persiapan Data**: Sistem menampilkan ringkasan aktivitas dari Jurnal Mandor minggu tersebut sebagai referensi.
-3.  **Penyusunan**: Pengawas mengisi evaluasi, kendala, dan rekomendasi.
+2.  **Penarikan Data Otomatis**: Sistem menampilkan ringkasan aktivitas dari Jurnal Mandor yang sudah *Approved* sebagai basis laporan.
+3.  **Penyusunan Evaluasi**: Pengawas menambahkan evaluasi kualitas, kendala lapangan, rekomendasi teknis minggu depan, dan catatan keselamatan (K3). Pengawas tidak perlu menyalin ulang deskripsi pekerjaan Mandor.
 4.  **Simpan Draf**: Pengawas dapat menyimpan draf jika data belum lengkap.
 5.  **Submit**: Pengawas mengirim laporan ke Admin.
 6.  **Notifikasi**: Admin menerima pemberitahuan adanya laporan mingguan baru.
@@ -91,7 +91,7 @@ Untuk menyusun laporan yang berkualitas, Pengawas membutuhkan:
 
 ## 12. Potensi Tabrakan atau Kejanggalan
 1.  **Risiko Tertukar**: Laporan mingguan dianggap sama dengan jurnal harian/mingguan mandor. *Pencegahan: Penamaan menu dan struktur data yang berbeda tajam.*
-2.  **Risiko Verifikasi Ganda**: Laporan mingguan dianggap sebagai verifikasi progres final untuk pembayaran. *Pencegahan: Penegasan bahwa progres di laporan ini bersifat informatif, bukan finansial.*
+2.  **Single Source of Truth**: Data progress di laporan ini harus identik dengan progress di Jurnal Approved. Laporan ini dilarang menciptakan angka progress baru yang berbeda dari jurnal yang sudah diverifikasi.
 3.  **Kebocoran Data**: Seluruh isi laporan internal (termasuk keluhan mandor atau catatan sensitif) tampil ke Konsumen. *Pencegahan: Adanya field khusus `customerVisibleSummary` yang wajib diisi/diedit oleh Admin.*
 4.  **Edit Tanpa Histori**: Pengawas mengubah data setelah laporan dinyatakan `reviewed`. *Pencegahan: Sistem mengunci laporan setelah status mencapai `reviewed`.*
 5.  **Ketidakjelasan Periode**: Laporan dibuat tanpa rentang tanggal yang standar (Senin-Minggu). *Pencegahan: Validasi sistem untuk memilih minggu berdasarkan kalender.*

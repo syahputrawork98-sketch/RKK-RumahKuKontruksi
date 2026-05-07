@@ -183,6 +183,12 @@ Alur Change Order dapat dimulai dari beberapa kondisi:
 
 Setiap trigger harus dicatat sebagai Change Order Request.
 
+### 4.1 Hubungan dengan Rekomendasi Teknis Pengawas
+Rekomendasi teknis dari Pengawas tidak otomatis menjadi Change Order. Klasifikasi dampak rekomendasi:
+- **No Cost Impact**: Dicatat sebagai catatan teknis, pekerjaan lanjut, **bukan** Change Order.
+- **Possible Cost Impact**: Admin diberi notifikasi, review diperlukan, berpotensi menjadi Change Order.
+- **Must Become Change Order**: Pekerjaan **dilarang** lanjut sebelum alur Change Order ini selesai disetujui.
+
 ---
 
 ## 5. Jenis Perubahan

@@ -1,7 +1,7 @@
 # Alur Pengajuan Pembayaran Mandor Berdasarkan Kategori Pekerjaan
 
 ## 1. Definisi Alur
-Alur ini digunakan ketika Mandor mengajukan pencairan pembayaran kepada RKK berdasarkan kategori pekerjaan yang sudah disepakati sebelumnya dalam kontrak atau kesepakatan kerja. Pembayaran dilakukan berdasarkan progres pekerjaan aktual di lapangan yang telah diverifikasi oleh Pengawas.
+Alur ini digunakan ketika Mandor mengajukan pencairan pembayaran kepada RKK berdasarkan kategori pekerjaan yang sudah disepakati. Pembayaran **wajib** menggunakan progress terverifikasi oleh Pengawas sebagai **Single Source of Truth**. Alur pembayaran tidak boleh menciptakan atau mengubah data progress proyek secara mandiri.
 
 Contoh kategori pekerjaan meliputi:
 *   Bouwplank / bowplang
@@ -43,22 +43,21 @@ Mengatur jendela waktu pengajuan (lock/unlock), menghitung nominal secara otomat
 
 ### Periode Pengajuan Mandor
 Tombol pengajuan di aplikasi hanya aktif pada:
-**Jumat pukul 15.00 s/d Minggu pukul 17.00**
+**Sabtu pukul 15.00 s/d Minggu pukul 22.00**
 
-*   **Sebelum Jendela Dibuka**: Tombol disabled dengan pesan: *"Pengajuan pembayaran belum dibuka. Pengajuan dibuka setiap Jumat pukul 15.00 sampai Minggu pukul 17.00."*
-*   **Setelah Jendela Ditutup**: Tombol disabled dengan pesan: *"Periode pengajuan minggu ini sudah ditutup. Silakan ajukan pada periode berikutnya."*
+*Syarat Utama*: Jurnal Mingguan pada kategori terkait harus sudah berstatus **Approved** oleh Pengawas.
 
-### Periode Review Pengawas
-Pengawas melakukan pengecekan dan verifikasi pada:
-**Sabtu s/d Minggu**
+### Periode Review Pengawas (Verifikasi Lapangan)
+Pengawas melakukan pengecekan, verifikasi jurnal, dan inspeksi fisik pada:
+**Jumat s/d Sabtu Siang**
 
-### Jadwal Pembayaran
-RKK melakukan pencairan dana (transfer) pada:
+### Jadwal Validasi Admin & Pembayaran
+Admin melakukan validasi final dan proses transfer (Disbursement) pada:
 **Senin**
 
 Hanya pengajuan yang memenuhi kriteria berikut yang akan dibayar pada hari Senin:
-1.  Masuk dalam periode pengajuan yang benar.
-2.  Telah diverifikasi oleh Pengawas.
+1.  Jurnal Mingguan sudah *Approved* (sebagai dasar progress).
+2.  Pengajuan masuk dalam jendela waktu Sabtu-Minggu.
 3.  Telah divalidasi dan disetujui oleh Admin/RKK.
 4.  Lengkap secara administrasi dan tidak melebihi pagu kategori.
 
@@ -159,7 +158,7 @@ Ini adalah alur yang berbeda. Pembayaran Konsumen adalah pendapatan (Income), se
 Pemisahan tegas antara Biaya Upah (Alur ini) dan Biaya Logistik/Material. Permintaan semen, besi, dll masuk ke alur material, bukan alur pembayaran kategori ini.
 
 ### Relasi dengan Progress Proyek
-Progres yang diverifikasi di alur ini secara otomatis mengupdate data progres internal proyek. Namun, tampilan progres untuk Konsumen bisa saja berbeda (lebih disederhanakan) sesuai kebijakan Admin.
+Progress terverifikasi oleh Pengawas adalah satu-satunya sumber data progress resmi. Alur pembayaran hanya membaca data tersebut. Jika terjadi perbedaan klaim, yang digunakan adalah angka verifikasi Pengawas.
 
 ### Relasi dengan Jurnal Mingguan Mandor (`jurnal-mingguan-mandor.md`)
 Jurnal Mingguan yang sudah berstatus `Approved` atau `Locked` berfungsi sebagai bukti pendukung utama untuk pengajuan pembayaran. Mandor wajib melampirkan referensi jurnal terkait saat mengajukan pembayaran kategori tertentu.

@@ -8,7 +8,15 @@
 Pengawas adalah staf internal RKK (RumahKu Kontruksi) yang bertugas sebagai representasi teknis dan kontrol kualitas di lokasi proyek (lapangan). Pengawas memastikan bahwa apa yang dikerjakan oleh Mandor sesuai dengan Gambar Kerja, Rencana Anggaran Biaya (RAB), dan standar kualitas RKK.
 
 ## Posisi Pengawas dalam Alur Proyek
-Pengawas mulai terlibat aktif ketika proyek telah mencapai status **Active** atau siap dieksekusi di lapangan. Pengawas berada di antara Admin (kantor) dan Mandor (lapangan), bertindak sebagai "mata dan telinga" sistem untuk memantau kondisi aktual.
+Pengawas mulai terlibat aktif ketika proyek telah mencapai status **Active**. 
+
+**Syarat Proyek Menjadi Active (Pre-Active Requirements):**
+Proyek tidak boleh diubah statusnya menjadi **Active** sebelum:
+1.  **Mandor Pelaksana** sudah ditetapkan/assigned.
+2.  **Pengawas Proyek** sudah ditetapkan/assigned.
+3.  **RAB & Scope Baseline** sudah terkunci (*Locked*).
+4.  **Jadwal Mulai** dan **Target Selesai** sudah ditentukan.
+5.  **Dokumen Kontrak & Gambar Kerja** sudah disetujui Admin.
 
 ## Tanggung Jawab Utama
 - **Kontrol Kualitas**: Memastikan material dan metode kerja sesuai standar.
@@ -28,21 +36,15 @@ Pengawas mulai terlibat aktif ketika proyek telah mencapai status **Active** ata
 8. **Penanganan Kendala**: Jika ada ketidaksesuaian rencana, Pengawas membuat catatan atau rekomendasi teknis untuk dilaporkan ke Admin.
 9. **Koordinasi Terbatas**: Pengawas berkoordinasi dengan Mandor mengenai teknis pekerjaan, namun tetap menjaga jarak instruksi yang bersifat mengubah biaya/kontrak.
 
-## Rekomendasi Teknis Lapangan
-Pengawas diperbolehkan memberikan rekomendasi perubahan teknis terbatas jika kondisi aktual lapangan membutuhkan penyesuaian mendesak agar pekerjaan tidak terhenti.
+**Klasifikasi Dampak Rekomendasi Teknis**:
+Setiap rekomendasi harus diklasifikasikan berdasarkan dampaknya:
+1.  **No Cost Impact (Penyesuaian Teknis Murni)**: Pekerjaan boleh dilanjutkan. Dicatat sebagai catatan teknis di laporan.
+2.  **Possible Cost Impact**: Admin wajib diberi notifikasi. Perlu review Admin sebelum diklaim sebagai biaya tambahan.
+3.  **Must Become Change Order**: Jika dampak biaya atau perubahan scope signifikan, pekerjaan **dilarang** dilanjutkan sebelum ada approval resmi [Change Order](./alur-change-order-perubahan-rab-pekerjaan-tambahan.md).
 
-**Contoh Rekomendasi Teknis yang Diperbolehkan**:
-- Penyesuaian ukuran minor (misal: pergeseran titik lampu atau pipa < 10cm karena struktur).
-- Penyesuaian metode kerja (misal: urutan pengecoran yang lebih efisien).
-- Catatan kondisi tanah atau struktur aktual yang berbeda dari asumsi desain.
-- Rekomendasi solusi teknis untuk mengatasi kendala fisik kecil di lapangan.
-
-**Batasan Rekomendasi**:
-- Harus dicatat dalam sistem dengan alasan teknis yang jelas.
-- Dilaporkan kepada Admin untuk pencatatan administratif.
-- **Tidak otomatis** menjadi persetujuan biaya tambahan.
-- **Tidak boleh** mengganti spesifikasi material tanpa prosedur Change Order.
-- **Tidak boleh** menyetujui permintaan Konsumen/perwakilan Konsumen (PIC) secara langsung jika di luar scope.
+**Batasan Ketat**:
+- Pengawas boleh memberi rekomendasi teknis, namun **dilarang menyetujui biaya tambahan** atau mengubah kontrak secara sepihak.
+- Keputusan akhir biaya selalu berada di tangan Admin.
 
 ## Yang Boleh Dilakukan di Aplikasi
 - Melihat Dashboard Pengawas dengan ringkasan statistik proyek yang diawasi.

@@ -1,7 +1,7 @@
 # Alur Progress Proyek ke Konsumen
 
 ## 1. Ringkasan Alur
-Alur progress proyek ke konsumen menjelaskan mekanisme penyampaian informasi kemajuan pekerjaan fisik dari lapangan hingga tampil di dashboard konsumen secara resmi. Informasi yang ditampilkan bukan merupakan data mentah, melainkan data yang telah melewati proses verifikasi oleh Pengawas dan filter publikasi oleh Admin.
+Alur progress proyek ke konsumen menjelaskan mekanisme penyampaian informasi kemajuan pekerjaan fisik dari lapangan hingga tampil di dashboard konsumen secara resmi. Informasi yang ditampilkan harus **akurat, jujur, dan terverifikasi**, namun dikemas dalam narasi yang profesional untuk Konsumen.
 
 ## 2. Tujuan Alur
 *   Menjamin akurasi data progress yang diterima oleh Konsumen.
@@ -46,7 +46,8 @@ Alur progress proyek ke konsumen menjelaskan mekanisme penyampaian informasi kem
 ## 4. Prinsip Utama Alur
 *   **Verify-then-Publish**: Data lapangan harus diverifikasi Pengawas sebelum bisa dipublikasikan Admin.
 *   **Data Isolation**: Memisahkan catatan internal RKK (kendala teknis, konflik vendor) dari catatan publik Konsumen.
-*   **Single Source of Truth**: Progress publik harus bersumber dari data yang sudah diverifikasi, bukan estimasi bebas.
+*   **Single Source of Truth**: Progress publik harus bersumber dari data yang sudah diverifikasi Pengawas.
+*   **Prinsip Kejujuran**: Meskipun informasi diringkas, sistem dilarang menyembunyikan keterlambatan atau kegagalan milestone secara sengaja. Data publik harus mencerminkan realitas progres fisik.
 
 ## 5. Alur Utama
 1.  Mandor membuat laporan progress lapangan dan mengunggah foto.

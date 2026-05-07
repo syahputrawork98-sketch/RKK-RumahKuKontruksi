@@ -11,7 +11,14 @@ Mandor adalah mitra pelaksana lapangan RKK (RumahKu Kontruksi) yang memimpin tim
 Jurnal Mingguan yang sudah berstatus `Approved` atau `Locked` berfungsi sebagai bukti pendukung utama untuk pengajuan pembayaran. Mandor wajib melampirkan referensi jurnal terkait saat mengajukan pembayaran kategori tertentu.
 
 ## Posisi Mandor dalam Alur Proyek
-Mandor masuk ke dalam alur proyek setelah Admin mempublikasikan peluang pekerjaan melalui **Project Posting**. Mandor berperan sebagai pihak yang mengajukan penawaran, mengeksekusi pekerjaan fisik, dan berkoordinasi langsung dengan Pengawas di lapangan.
+Mandor mulai terlibat penuh ketika proyek sudah berstatus **Active**.
+
+**Syarat Proyek Aktif (Pre-Active Requirements):**
+Proyek tidak akan diaktifkan sebelum:
+1.  **Mandor Pelaksana** sudah ditunjuk secara resmi.
+2.  **Pengawas Proyek** sudah ditunjuk.
+3.  **RAB & Scope** sudah dikunci (*Locked*).
+4.  **Kontrak & DP** sudah diselesaikan oleh Konsumen.
 
 ## Status Kemitraan Mandor
 Dalam sistem RKK, Mandor memiliki satu role otentikasi utama yaitu **Mandor**, namun dapat dibedakan berdasarkan status kemitraannya:
@@ -64,6 +71,7 @@ Admin dapat mempublikasikan proyek ke bursa internal RKK agar bisa dilihat oleh 
 - **Ganti Material**: Tidak boleh mengganti spesifikasi material tanpa Change Order yang disetujui.
 - **Approval Langsung**: Dilarang menyetujui permintaan tambahan dari Konsumen/PIC di lapangan tanpa melalui sistem/Pengawas.
 - **Keputusan Biaya**: Mandor tidak berwenang menentukan termin pembayaran atau biaya tambahan proyek.
+- **Rekomendasi Teknis vs Biaya**: Mandor wajib memahami bahwa rekomendasi teknis dari Pengawas (misal: pergeseran posisi item) **tidak otomatis** berarti persetujuan biaya tambahan. Jika rekomendasi tersebut berdampak pada biaya/scope, Mandor dilarang mengerjakannya sebelum ada status **Change Order** resmi.
 - **Pembelian Besar**: Tidak boleh melakukan pembelian material skala besar tanpa koordinasi/approval sistem.
 - **Self-Approval**: Tidak boleh menetapkan dirinya sendiri sebagai pemenang penawaran.
 - **Lompati Alur**: Dilarang memulai pekerjaan fisik di lapangan sebelum status di sistem resmi menjadi pelaksana.

@@ -58,7 +58,7 @@ Pembayaran tidak dilakukan secara penuh di awal, melainkan bertahap untuk menjag
 - **RAB**: Dasar perhitungan nilai total pekerjaan.
 - **Termin**: Pembagian tagihan berdasarkan kesepakatan kontrak.
 - **Progress**: Kondisi fisik nyata di lapangan.
-- **Transparansi**: Konsumen dapat melihat nilai pekerjaan dan status pembayaran termin, namun **tidak melihat** margin keuntungan internal atau detail subsidi silang operasional RKK.
+- **Transparansi & Kejujuran**: Konsumen menerima ringkasan yang mudah dipahami, namun **tidak boleh dimanipulasi**. Jika terjadi keterlambatan atau kendala signifikan, Konsumen tetap harus mendapatkan informasi yang jujur melalui narasi yang profesional.
 
 ## Jika Pembayaran Termin Terlambat
 Jika pembayaran termin tidak dilakukan sesuai jadwal:

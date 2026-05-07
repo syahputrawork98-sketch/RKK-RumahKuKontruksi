@@ -78,10 +78,13 @@ Jurnal harus dikaitkan dengan kategori pekerjaan spesifik agar terstruktur. Cont
 *   Instalasi Listrik / Plumbing
 *   Finishing / Lantai
 
-## Deadline dan Periode Jurnal
-*   **Periode Standar**: Senin - Jumat (atau sesuai jadwal proyek).
-*   **Deadline Submit**: Jumat sore atau Sabtu pagi (sebelum jendela pengajuan pembayaran dibuka).
-*   **Fleksibilitas**: Batas waktu dapat disesuaikan per proyek oleh Admin.
+## Jadwal dan Siklus Mingguan
+Untuk menjaga kelancaran verifikasi dan pembayaran, siklus berikut ditetapkan:
+*   **Senin - Jumat Siang**: Mandor mengisi draf jurnal secara bertahap.
+*   **Jumat pukul 12.00 (Deadline)**: Batas akhir Mandor melakukan *Submit* jurnal.
+*   **Jumat Siang - Sabtu Sore**: Jendela waktu Pengawas melakukan review, inspeksi lapangan, dan *Approval*.
+*   **Sabtu Sore - Minggu**: Jurnal yang sudah *Approved* siap menjadi dasar pengajuan pembayaran Mandor.
+*   *Catatan*: Jurnal yang terlambat di-submit atau terlambat di-approve akan menggeser siklus pembayaran ke minggu berikutnya.
 
 ## Status Jurnal
 1.  **Draft**: Masih dalam pengisian oleh Mandor.
@@ -99,9 +102,9 @@ Jurnal harus dikaitkan dengan kategori pekerjaan spesifik agar terstruktur. Cont
 
 ## Hubungan dengan Progress Proyek
 Jurnal mencatat dua jenis progres:
-1.  **Progress Klaim Mandor**: Persentase menurut Mandor.
-2.  **Progress Terverifikasi Pengawas**: Persentase resmi yang diakui sistem setelah inspeksi.
-*Angka yang digunakan untuk monitoring utama dan pembayaran adalah angka verifikasi Pengawas.*
+1.  **Progress Klaim Mandor**: Persentase menurut Mandor (hanya klaim awal, bukan data resmi).
+2.  **Progress Terverifikasi Pengawas**: Persentase resmi yang menjadi **Single Source of Truth** untuk seluruh sistem (pembayaran, monitoring, dan publikasi).
+*Data progress resmi hanya lahir dari verifikasi Pengawas.*
 
 ## Hubungan dengan Pengajuan Pembayaran Mandor
 *   Hanya jurnal dengan status **Approved** atau **Locked** yang dapat dijadikan bukti pendukung dalam [Alur Pengajuan Pembayaran Mandor](payment-foreman.md).

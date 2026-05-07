@@ -11,6 +11,7 @@ Admin adalah satu role internal RKK yang bertindak sebagai penanggung jawab admi
 - Admin bukan Admin Proyek, Admin Keuangan, Admin Operasional, atau Admin Lapangan.
 - Admin adalah **satu role tunggal** (Admin).
 - Admin adalah penjaga alur agar tidak ada proses yang melompati status atau dokumen yang tidak tercatat.
+- **Filosofi Approval**: Admin fokus pada pengecualian (*Exceptions*), keputusan finansial, dan interaksi konsumen. Admin tidak perlu memberikan approval manual untuk setiap aktivitas lapangan normal yang sudah tervalidasi oleh Pengawas.
 
 ## Posisi Admin dalam Alur RKK
 Admin berada di pusat koordinasi administratif. Admin menghubungkan kebutuhan Konsumen dengan kesiapan tim teknis (Arsitek, Pengawas, Mandor) melalui validasi dokumen, kontrak, dan status pembayaran.
@@ -41,6 +42,20 @@ Admin bertanggung jawab penuh atas administrasi proyek yang dipegang, meliputi:
 - Publikasi *Project Posting* untuk Mandor dan seleksi penawaran (sebagai rencana fitur).
 - Menjaga agar tidak ada pekerjaan lapangan tanpa dokumen legal dan finansial yang sah.
 
+### Fokus Approval Admin
+Admin **Wajib** memberikan Approval manual untuk:
+*   Pencairan pembayaran/transfer (Disbursement).
+*   *Material Request* yang melebihi budget/RAB (>5%).
+*   *Change Order* (Perubahan biaya/scope).
+*   Publikasi ringkasan progres ke Konsumen.
+*   Aktivasi dan Penutupan proyek.
+
+Admin cukup menerima **Notifikasi** (Tanpa Approval Manual) untuk:
+*   Jurnal Mingguan yang sudah *Approved* secara normal oleh Pengawas.
+*   Progress rutin yang sesuai dengan rencana jadwal.
+*   Laporan mingguan Pengawas tanpa kendala kritikal.
+*   *Material Request* urgent/kecil yang sesuai limit operasional.
+
 ## Alur Utama Admin
 1. **Pendaftaran & Akses**: Admin terdaftar di sistem dan dapat dipilih melalui selector (topbar) pada fase local development.
 2. **Dashboard**: Admin memantau daftar proyek dan kapasitas proyek aktif yang sedang dipegang.
@@ -68,14 +83,13 @@ Admin adalah pintu awal masuknya data. Pengajuan dibagi menjadi dua jalur utama:
 - Admin memastikan proyek tidak masuk tahap eksekusi tanpa kontrak sah dan DP.
 
 ## Admin dan Aktivasi Proyek
-Admin bertanggung jawab memastikan proyek hanya bisa masuk status **Aktif** jika:
-- Identitas Konsumen valid.
-- Gambar Kerja tersedia dan disetujui.
-- RAB Final terkunci (Locked).
-- Kontrak disepakati kedua belah pihak.
-- DP (Down Payment) sudah diterima.
+Admin bertanggung jawab memastikan proyek hanya bisa masuk status **Aktif** jika syarat berikut terpenuhi secara kumulatif:
+1.  **Personil Lapangan**: Mandor pelaksana dan Pengawas proyek sudah ditugaskan (*Assigned*).
+2.  **Legalitas**: Kontrak disepakati dan Gambar Kerja disetujui.
+3.  **Finansial**: DP (Down Payment) sudah diterima.
+4.  **Baseline**: RAB Final sudah terkunci (*Locked*) dan jadwal mulai sudah ditentukan.
 
-**Prinsip**: Kontrak Sah + DP Diterima + RAB Final Terkunci + Gambar Kerja Disetujui = Proyek Boleh Aktivasi.
+**Prinsip**: Kontrak Sah + DP Diterima + RAB Final Terkunci + Personil Assigned = Proyek Boleh Aktif.
 
 ## Admin dan Pembayaran Bertahap
 Admin mengelola status administratif pembayaran, bukan sebagai pemegang dana langsung.

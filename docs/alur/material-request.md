@@ -18,8 +18,28 @@ Bukan sekadar pencatatan, fitur ini berfungsi sebagai instrumen kontrol:
 - **Admin**: Verifikator budget dan pengelola pengadaan/pembelian material.
 - **Sistem**: Penghitung otomatis deviasi (estimasi vs aktual) dan pemberi peringatan (warning).
 
+## Jalur Pengajuan (Normal vs Urgent)
+
+### A. Material Request Normal
+Digunakan untuk kebutuhan rutin yang sudah terencana dalam RAB.
+1. **Mandor membuat Draft**: Memilih proyek, tahap, dan item dari RAB.
+2. **Submit Request**: Menunggu antrean verifikasi.
+3. **Verifikasi Pengawas**: Pengecekan lapangan normal.
+4. **Approval Admin**: Admin memproses pembelian/logistik.
+5. **Pengiriman & Penerimaan**: Alur pengadaan standar.
+
+### B. Material Request Urgent / Kecil
+Digunakan untuk kebutuhan mendesak atau item kecil agar pekerjaan tidak terhenti.
+1. **Mandor submit Urgent**: Menandai request sebagai `Urgent`.
+2. **Verifikasi Cepat Pengawas**: Pengawas mendapat notifikasi prioritas tinggi.
+3. **Approval/Ratifikasi Admin**: Admin memberikan persetujuan cepat atau ratifikasi sesuai limit operasional internal.
+4. **Catatan Penting**:
+   - Mandor **tetap dilarang** melakukan pembelian bebas tanpa approval sistem.
+   - Tetap memiliki *Audit Trail* yang lengkap.
+   - Hanya untuk item yang benar-benar krusial bagi kelanjutan kerja.
+
 ## Alur Utama
-1. **Mandor membuat Draft**: Memilih proyek, tahap (*stage*), dan daftar item material.
+1. **Pembuatan Request**: Mandor memilih proyek, tahap (*stage*), dan daftar item material.
 2. **Pengecekan Sistem**: Sistem menampilkan sisa estimasi dari RAB untuk item terkait.
 3. **Submit Request**: Jika melebihi estimasi (>5%), Mandor wajib mengisi alasan tambahan (*justification*).
 4. **Verifikasi Pengawas**: Pengawas meninjau kondisi lapangan. Bisa *Approve*, *Reject*, atau *Minta Revisi*.

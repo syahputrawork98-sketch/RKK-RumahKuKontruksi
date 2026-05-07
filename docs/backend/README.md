@@ -3,8 +3,8 @@
 Pusat dokumentasi perencanaan dan blueprint backend untuk **RumahKu Konstruksi**.
 
 > [!NOTE]
-> **Status Backend**: Implemented v0 (Core Data Service).  
-> Backend versi awal sudah aktif dan melayani data riil untuk entitas Customers dan Projects.
+> **Status Backend**: Implemented v0.1 (Core Data Service & Integration).  
+> Backend sudah aktif dan melayani data riil untuk Customers dan Projects, serta sudah terhubung ke Frontend (Halaman Konsumen).
 > **Database**: PostgreSQL aktif di port 5433 (Dev).
 
 ## Technology Stack (Current)

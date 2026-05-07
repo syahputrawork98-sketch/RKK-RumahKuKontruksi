@@ -7,14 +7,6 @@ import { useLocation } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import SidebarDropdown from "./SidebarDropdown";
 
-// client/src/components/ui/sidebar/SidebarBase.jsx
-
-import React from "react";
-import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
-
-import SidebarItem from "./SidebarItem";
-import SidebarDropdown from "./SidebarDropdown";
 
 /*
     ➤ PERUBAHAN BESAR:

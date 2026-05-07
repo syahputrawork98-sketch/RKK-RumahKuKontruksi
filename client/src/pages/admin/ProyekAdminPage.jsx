@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiPlus, FiSearch, FiFilter, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const ProyekAdminPage = () => {
+    const [activeSubtab, setActiveSubtab] = useState("daftar");
+
     const projects = [
         { id: 1, kode: "PRJ-001", customer: "Bpk. Budi Santoso", type: "Rumah Tinggal", status: "Pengerjaan", progress: 65, value: "Rp 750.000.000" },
         { id: 2, kode: "PRJ-002", customer: "Ibu Maria Ulfa", type: "Ruko 2 Lantai", status: "Persiapan", progress: 12, value: "Rp 1.200.000.000" },
         { id: 3, kode: "PRJ-003", customer: "PT. Maju Jaya", type: "Gudang Logistik", status: "Finishing", progress: 92, value: "Rp 3.500.000.000" },
         { id: 4, kode: "PRJ-004", customer: "Bpk. Rian Aditya", type: "Renovasi Atap", status: "Terhenti", progress: 45, value: "Rp 85.000.000" },
+    ];
+
+    const subtabs = [
+        { id: "daftar", label: "Daftar Proyek" },
+        { id: "create", label: "Buat Proyek", isLink: true, href: "/admin/proyek/create" },
+        { id: "tindak-lanjut", label: "Perlu Tindak Lanjut" },
+        { id: "arsip", label: "Arsip" },
     ];
 
     const getStatusColor = (status) => {
@@ -34,6 +43,33 @@ const ProyekAdminPage = () => {
                     <FiPlus size={18} />
                     Buat Proyek Baru
                 </Link>
+            </div>
+
+            {/* SUBTABS */}
+            <div className="flex items-center gap-2 border-b border-[var(--dashboard-border)] pb-0">
+                {subtabs.map((tab) => (
+                    tab.isLink ? (
+                        <Link
+                            key={tab.id}
+                            to={tab.href}
+                            className="px-6 py-3 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] hover:text-[var(--dashboard-primary)] transition-all border-b-2 border-transparent hover:border-[var(--dashboard-primary)]/30"
+                        >
+                            {tab.label}
+                        </Link>
+                    ) : (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveSubtab(tab.id)}
+                            className={`px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-b-2 ${
+                                activeSubtab === tab.id 
+                                ? "text-[var(--dashboard-primary)] border-[var(--dashboard-primary)]" 
+                                : "text-[var(--dashboard-text-soft)] border-transparent hover:text-[var(--dashboard-text)] hover:border-[var(--dashboard-border)]"
+                            }`}
+                        >
+                            {tab.label}
+                        </button>
+                    )
+                ))}
             </div>
 
             <div className="dashboard-card">

@@ -1,9 +1,9 @@
-// client/src/components/ui/topbar-data/superadmin.js
+// client/src/components/ui/topbar/topbar-data/admin.js
 export default {
-  title: "Admin Dashboard",
-  user: {
-    name: "Admin",
-    role: "Admin",
-    photo: "https://placehold.co/40",
-  },
+    title: "Admin Panel",
+    user: {
+        name: "Administrator Proyek",
+        role: "Admin Proyek",
+        photo: "https://placehold.co/200x200",
+    },
 };

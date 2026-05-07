@@ -15,7 +15,7 @@ import SidebarDropdown from "./SidebarDropdown";
         isCollapsed
         setIsCollapsed
 */
-const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
+const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed, panelLabel = "Superadmin Panel" }) => {
     const location = useLocation();
 
     return (
@@ -31,7 +31,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
                         </div>
                         <div className="flex flex-col">
                             <h1 className="text-lg font-extrabold leading-none tracking-tight">RKK</h1>
-                            <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest mt-1">Superadmin Panel</span>
+                            <span className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-widest mt-1">{panelLabel}</span>
                         </div>
                     </div>
                 ) : (
@@ -110,7 +110,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed }) => {
 
                     {!isCollapsed && (
                         <div className="flex-1 overflow-hidden">
-                            <p className="font-bold text-sm truncate text-[var(--dashboard-text)]">{user?.name ?? "Superadmin"}</p>
+                            <p className="font-bold text-sm truncate text-[var(--dashboard-text)]">{user?.name ?? "User Profile"}</p>
                             <p className="text-[10px] text-[var(--dashboard-primary)] font-bold uppercase tracking-wider truncate">
                                 {user?.role ?? "Role"}
                             </p>

@@ -33,10 +33,16 @@ const AdminLayout = () => {
                 user={adminTopbar.user}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
+                panelLabel="Admin Panel"
             />
 
             {/* MAIN CONTENT AREA */}
-            <div className="dashboard-main flex-1 flex flex-col transition-all duration-300">
+            <div 
+                className="dashboard-main flex-1 flex flex-col transition-all duration-300"
+                style={{
+                    marginLeft: isCollapsed ? "5rem" : "18rem",
+                }}
+            >
                 {/* TOPBAR */}
                 <TopbarBase
                     title={adminTopbar.title}
@@ -49,8 +55,10 @@ const AdminLayout = () => {
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}
-                <main className="dashboard-page flex-1 p-6 overflow-y-auto">
-                    <Outlet />
+                <main className="dashboard-page flex-1 mt-16 p-6 overflow-y-auto">
+                    <div className="dashboard-container">
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>

@@ -1,18 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiUsers, FiUserPlus, FiActivity, FiTool } from "react-icons/fi";
 
 const PenugasanTimAdminPage = () => {
+    const [activeSubtab, setActiveSubtab] = useState("sudah-ditugaskan");
+
     const assignments = [
         { id: 1, project: "PRJ-001 - Renovasi Budi", supervisor: "Budi (Senior)", foreman: "Ahmad (Mitra A)", status: "Active" },
         { id: 2, project: "PRJ-002 - Ruko Maria", supervisor: "Candra (Junior)", foreman: "Hendra (Mitra B)", status: "Pending" },
         { id: 3, project: "PRJ-003 - Gudang MJ", supervisor: "Budi (Senior)", foreman: "Yusuf (Mitra C)", status: "Active" },
     ];
 
+    const subtabs = [
+        { id: "belum-ditugaskan", label: "Belum Ditugaskan" },
+        { id: "sudah-ditugaskan", label: "Sudah Ditugaskan" },
+        { id: "kapasitas", label: "Kapasitas Tim" },
+    ];
+
     return (
         <div className="animate-fadeIn space-y-6">
-            <div>
-                <h2 className="text-2xl font-extrabold tracking-tight">Penugasan Tim</h2>
-                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Manajemen penugasan Pengawas dan Mandor pada setiap proyek.</p>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Penugasan Tim</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Manajemen penugasan Pengawas dan Mandor pada setiap proyek.</p>
+                </div>
+            </div>
+
+            {/* SUBTABS */}
+            <div className="flex items-center gap-2 border-b border-[var(--dashboard-border)] pb-0">
+                {subtabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveSubtab(tab.id)}
+                        className={`px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-b-2 ${
+                            activeSubtab === tab.id 
+                            ? "text-[var(--dashboard-primary)] border-[var(--dashboard-primary)]" 
+                            : "text-[var(--dashboard-text-soft)] border-transparent hover:text-[var(--dashboard-text)] hover:border-[var(--dashboard-border)]"
+                        }`}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

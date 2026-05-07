@@ -75,21 +75,29 @@ Daftar progres implementasi fitur frontend RKK.
 
 ## Arsitek
 - [x] Arsitek Layout & Sidebar (Shell Expanded)
-- [x] Dashboard Kapasitas Desain (Mock)
+- [x] Dashboard Kapasitas Desain (Implemented - DB)
+- [x] Manajemen Profil & Sertifikasi (Implemented - DB)
 - [x] Manajemen Permintaan Desain (Mock)
 - [ ] Integrasi rill data Brief Desain
+- [ ] Integrasi rill data Alur Kerja Desain
+- [x] Architect Persona Switcher (Dev Mode)
 
 ## Pengawas
 - [x] Pengawas Layout & Sidebar (Shell Expanded)
-- [x] Dashboard Monitoring Lapangan (Mock)
-- [x] Monitoring List Proyek Lapangan (Mock)
-- [ ] Form Verifikasi Tahapan Proyek
+- [x] Dashboard Monitoring Lapangan (Implemented - DB)
+- [x] Monitoring List Proyek Lapangan (Implemented - DB)
+- [x] Manajemen Profil & Pengalaman (Implemented - DB)
+- [x] Supervisor Persona Switcher (Dev Mode)
+- [ ] Form Verifikasi Tahapan Proyek (Backend Pending)
 
 ## Mandor
 - [x] Mandor Layout & Sidebar (Shell Expanded)
-- [x] Dashboard Operasional Mandor (Mock)
-- [x] Laporan Harian (Logbook Shell)
-- [ ] Request Material Proyek (Backend Sync)
+- [x] Dashboard Operasional Mandor (Implemented - DB)
+- [x] Monitoring List Proyek Aktif (Implemented - DB)
+- [x] Manajemen Profil & Sertifikasi (Implemented - DB)
+- [x] Foreman Persona Switcher (Dev Mode)
+- [x] Laporan Harian (Logbook Shell - Postponed)
+- [ ] Request Material Proyek (Backend Pending)
 
 ---
 *Status: 7 Mei 2026*

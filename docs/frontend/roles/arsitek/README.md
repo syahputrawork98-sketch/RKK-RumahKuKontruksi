@@ -1,7 +1,7 @@
 # Role: Arsitek
 
 ## Status Umum
-Role Arsitek saat ini dalam tahap **Shell Expanded / Mock-First**. Seluruh navigasi utama, layout bertema (Light/Dark), dan halaman shell profesional telah tersedia untuk memandu pengembangan alur kerja desain pra-proyek.
+Role Arsitek saat ini dalam tahap **Database-Backed v1 (Dashboard & Pengaturan)**. Data profil dan kapasitas ditarik dari database rill melalui **Persona Switcher (Dev Mode)**. Untuk modul alur kerja desain (Permintaan Desain, Revisi, dsb), sistem masih menggunakan data mock sementara.
 
 ## Fungsi Utama Role
 Arsitek bertanggung jawab menangani fase pra-proyek/desain sebelum RAB dan implementasi lapangan dimulai. Tugas utama meliputi pembuatan konsep, gambar kerja, manajemen revisi, dan finalisasi desain (handover).
@@ -10,14 +10,26 @@ Arsitek bertanggung jawab menangani fase pra-proyek/desain sebelum RAB dan imple
 
 | Halaman | Route | File/Component | Status | Catatan |
 |---|---|---|---|---|
-| Dashboard | `/arsitek/dashboard` | `DashboardArsitek.jsx` | **Done (Mock)** | Ringkasan kapasitas & desain aktif. |
-| Permintaan Desain | `/arsitek/permintaan-desain` | `PermintaanDesainArsitekPage.jsx` | **Done (Mock)** | List permintaan dengan subtab status. |
-| Detail Permintaan | `/arsitek/permintaan-desain/:id` | `DetailPermintaanDesainArsitekPage.jsx` | **Done (Mock)** | Detail brief, timeline, & file desain. |
+| Dashboard | `/arsitek/dashboard` | `DashboardArsitek.jsx` | **Implemented (DB)** | Ringkasan profil & kapasitas dari database. |
+| Permintaan Desain | `/arsitek/permintaan-desain` | `PermintaanDesainArsitekPage.jsx` | **Done (Mock)** | List permintaan desain (Mock-First). |
+| Detail Permintaan | `/arsitek/permintaan-desain/:id` | `DetailPermintaanDesainArsitekPage.jsx` | **Done (Mock)** | Detail brief & file desain (Mock-First). |
 | Desain Aktif | `/arsitek/desain-aktif` | `DesainAktifArsitekPage.jsx` | **Done (Mock)** | Fokus pengerjaan desain berjalan. |
 | File Desain | `/arsitek/file-desain` | `FileDesainArsitekPage.jsx` | **Done (Mock)** | Repositori dokumen desain. |
 | Revisi Desain | `/arsitek/revisi` | `RevisiDesainArsitekPage.jsx` | **Done (Mock)** | Monitoring catatan revisi customer. |
 | Riwayat Desain | `/arsitek/riwayat` | `RiwayatDesainArsitekPage.jsx` | **Done (Mock)** | Arsip desain selesai/batal. |
-| Pengaturan | `/arsitek/pengaturan` | `PengaturanArsitekPage.jsx` | **Done (Mock)** | Profil & preferensi tampilan. |
+| Pengaturan | `/arsitek/pengaturan` | `PengaturanArsitekPage.jsx` | **Implemented (DB)** | Profil, Sertifikasi, & Pengalaman rill DB. |
+
+## Komponen Terkait
+- `ArsitekLayout.jsx`: Sidebar navigasi & Topbar khusus Arsitek.
+- `DashboardStats.jsx`: Widget statistik dashboard.
+- `ArchitectPersonaContext.jsx`: Manajemen persona arsitek di frontend.
+- `architectService.js`: Service API untuk data arsitek (`/api/architects`).
+
+## Data Source Policy
+- **Source of Truth (Profile)**: Data profil, sertifikat, dan pengalaman ditarik dari database lokal berdasarkan `architectId`.
+- **Mock Data (Workflow)**: Halaman alur kerja desain (permintaan, file, revisi) masih menggunakan `mockDesignRequests` hingga backend modul terkait diimplementasikan.
+- **No Persona Selected**: UI menampilkan `RolePersonaEmptyState` pada Dashboard dan Pengaturan jika persona belum dipilih.
+- **Data Consistency**: Data profil utama dilarang fallback ke `mockArchitects`.
 
 ## Business Rules (Penting)
 *   **Aturan Revisi**: Konsumen mendapatkan **3 revisi gratis**. Revisi ke-4 dan seterusnya dikenakan biaya tambahan yang tercatat di sistem.
@@ -34,30 +46,22 @@ Arsitek bertanggung jawab menangani fase pra-proyek/desain sebelum RAB dan imple
 | `ready_to_convert` | Finalisasi selesai, siap menjadi Proyek. | Tidak |
 | `converted_to_project` | Sudah menjadi proyek konstruksi. | Tidak |
 
-## Komponen Terkait
-- `ArsitekLayout.jsx`: Sidebar navigasi & Topbar khusus Arsitek.
-- `DashboardStats.jsx`: Widget statistik dashboard.
-
-## Data / Mock Data (Mock-First)
-- **Design Requests**: Menggunakan `mockDesignRequests` di `src/data/mock/designRequests.js`.
-- **Design Files**: Dokumentasi gambar teknis (Denah, 3D, Detail).
-- **Design Revisions**: Pelacakan riwayat revisi dan biaya tambahan.
-
 ## Sudah Dikerjakan
 - [x] Struktur layout dan navigasi sidebar Arsitek.
 - [x] Sinkronisasi tema Light/Dark global.
 - [x] Routing lengkap (8 route aktif).
-- [x] Halaman shell profesional untuk seluruh modul Arsitek.
+- [x] Integrasi Database-Backed v1 untuk Dashboard dan Pengaturan.
+- [x] Implementasi Persona Switcher khusus Arsitek.
 
 ## Belum Dikerjakan
-- [ ] Integrasi API Backend rill.
+- [ ] Integrasi API Backend untuk Alur Kerja Desain (Design Requests).
 - [ ] Fitur Upload File Desain rill.
 - [ ] Sistem Komentar/Review rill pada gambar desain.
 
 ## Batasan Saat Ini
-- **UI-Only / Mock-First**: Seluruh data dan aksi masih bersifat simulasi.
-- **No Auth**: Belum ada sistem login/izin akses.
-- **Backend v0**: Data belum sinkron dengan database rill.
+- **Hybrid Data**: Campuran antara data rill (Profil) dan data mock (Workflow Desain).
+- **No Auth**: Belum ada sistem login/izin akses (menggunakan Persona Selector).
+- **Local Dev Only**: Dioptimalkan untuk pengembangan di localhost.
 
 ## Prioritas Berikutnya
 1. Implementasi alur "Permintaan Desain" dari data backend.

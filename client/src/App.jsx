@@ -29,7 +29,7 @@ import DataAdmin from "./pages/superadmin/DataAdminPage";
 import DataPengawas from "./pages/superadmin/DataPengawasPage";
 import DataMandor from "./pages/superadmin/DataMandorPage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
-import PlaceholderPage from "./pages/superadmin/PlaceholderPage";
+import PlaceholderPage from "./components/ui/PlaceholderPage";
 
 // ===== HALAMAN ADMIN =====
 import AdminLayout from "./layouts/AdminLayout";
@@ -139,22 +139,32 @@ function App() {
             }
           >
             <Route path="dashboard" element={<DashboardSuperadmin />} />
+            
+            {/* DATA MASTER */}
             <Route path="data-admin" element={<DataAdmin />} />
+            <Route path="data-superadmin" element={<PlaceholderPage title="Data Master Superadmin" description="Manajemen akun superadmin dan hak akses sistem global." status="Planned" dos={["Melihat daftar superadmin", "Mengelola hak akses global"]} donts={["Menghapus akun utama", "Mengubah log audit"]} />} />
+            <Route path="data-konsumen" element={<PlaceholderPage title="Manajemen Konsumen" description="Halaman untuk mengelola data konsumen retail dan korporat." status="Partial" dos={["Melihat data konsumen", "Validasi profil"]} donts={["Menghapus data transaksi", "Mengubah saldo/tagihan secara manual"]} />} />
             <Route path="data-pengawas" element={<DataPengawas />} />
             <Route path="data-mandor" element={<DataMandor />} />
+            <Route path="data-arsitek" element={<PlaceholderPage title="Manajemen Arsitek" description="Halaman untuk mengelola data mitra arsitek dan desain proyek." status="Partial" dos={["Melihat data arsitek", "Monitoring kapasitas desain"]} donts={["Mengambil keputusan desain", "Memberi instruksi teknis langsung"]} />} />
+            <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." status="Planned" dos={["Melihat data legalitas", "Mengelola PIC internal"]} donts={["Mengubah struktur organisasi resmi", "Menghapus dokumen legal yang sudah aktif"]} />} />
             
-            {/* PLACEHOLDERS */}
-            <Route path="data-arsitek" element={<PlaceholderPage title="Manajemen Arsitek" description="Halaman untuk mengelola data mitra arsitek dan desain proyek." />} />
-            <Route path="data-konsumen" element={<PlaceholderPage title="Manajemen Konsumen" description="Halaman untuk mengelola data konsumen retail dan korporat." />} />
-            <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." />} />
-            <Route path="proyek" element={<PlaceholderPage title="Monitoring Proyek" description="Halaman monitoring status seluruh proyek konstruksi." />} />
-            <Route path="progres-proyek" element={<PlaceholderPage title="Laporan Progres" description="Halaman monitoring progres lapangan dari seluruh proyek." />} />
-            <Route path="rab" element={<PlaceholderPage title="Monitoring RAB" description="Halaman monitoring rencana anggaran biaya seluruh proyek." />} />
-            <Route path="pembayaran/konsumen" element={<PlaceholderPage title="Tagihan Konsumen" description="Halaman monitoring invoice dan pembayaran dari konsumen." />} />
-            <Route path="pembayaran/mandor" element={<PlaceholderPage title="Opname Mandor" description="Halaman monitoring pengajuan pembayaran dan opname mandor." />} />
-            <Route path="pembayaran/arsitek" element={<PlaceholderPage title="Fee Arsitek" description="Halaman monitoring pembayaran fee desain untuk mitra arsitek." />} />
+            {/* PROYEK GLOBAL */}
+            <Route path="proyek" element={<PlaceholderPage title="Monitoring Proyek Global" description="Halaman monitoring status seluruh proyek konstruksi di sistem." status="Partial" dos={["Melihat status global", "Filter proyek per admin"]} donts={["Mengubah progress teknis", "Mengintervensi jadwal lapangan"]} />} />
+            <Route path="proyek/aktif" element={<PlaceholderPage title="Proyek Aktif Global" description="Daftar seluruh proyek yang sedang dalam masa konstruksi." status="Planned" />} />
+            <Route path="proyek/relasi" element={<PlaceholderPage title="Relasi Admin-Proyek" description="Pemetaan penugasan Admin terhadap proyek-proyek aktif." status="Planned" />} />
+            
+            <Route path="kapasitas-admin" element={<PlaceholderPage title="Kapasitas Admin" description="Monitoring beban kerja Admin (maksimal 3 proyek aktif)." status="Planned" dos={["Melihat utilisasi admin", "Distribusi beban kerja"]} donts={["Menugaskan admin > 3 proyek aktif", "Mengabaikan overload alert"]} />} />
+
+            {/* MONITORING GLOBAL */}
+            <Route path="progres-proyek" element={<PlaceholderPage title="Laporan Progres Global" description="Halaman monitoring progres lapangan dari seluruh proyek." status="Partial" />} />
+            <Route path="pembayaran" element={<PlaceholderPage title="Pembayaran Global" description="Monitoring arus kas global, tagihan konsumen, dan opname mandor." status="Planned" />} />
+            <Route path="monitoring/material" element={<PlaceholderPage title="Monitoring Material Request" description="Audit global permintaan material dari seluruh proyek." status="Planned" />} />
+            <Route path="monitoring/laporan-pengawas" element={<PlaceholderPage title="Audit Laporan Pengawas" description="Review global terhadap konsistensi laporan mingguan pengawas." status="Planned" />} />
+            
+            <Route path="eskalasi" element={<PlaceholderPage title="Eskalasi & Koreksi Data" description="Pusat penanganan kendala yang tidak bisa diselesaikan Admin." status="Planned" dos={["Koreksi data salah input", "Override status macet"]} donts={["Menghapus bukti audit", "Mengubah nilai kontrak tanpa addendum"]} />} />
             <Route path="log-aktivitas" element={<LogAktivitas />} />
-            <Route path="pengaturan" element={<PlaceholderPage title="Pengaturan Sistem" description="Halaman konfigurasi parameter sistem dan backup data." />} />
+            <Route path="pengaturan" element={<PlaceholderPage title="Pengaturan Sistem" description="Halaman konfigurasi parameter sistem dan backup data." status="Planned" />} />
           </Route>
 
           {/* ================== ADMIN LAYOUT ================== */}
@@ -169,17 +179,46 @@ function App() {
             }
           >
             <Route path="dashboard" element={<DashboardAdmin />} />
+            
+            {/* KONSUMEN & PENGAJUAN */}
+            <Route path="konsumen/data" element={<PlaceholderPage title="Data Konsumen" description="Daftar konsumen yang ditangani oleh Admin ini." status="Partial" />} />
+            <Route path="konsumen/pengajuan-desain" element={<PlaceholderPage title="Pengajuan Desain" description="Drafting dan verifikasi permintaan desain baru." status="Planned" />} />
+            <Route path="konsumen/pengajuan-konstruksi" element={<PlaceholderPage title="Pengajuan Konstruksi" description="Proses konversi desain menjadi proyek konstruksi." status="Planned" />} />
+            <Route path="konsumen/validasi" element={<PlaceholderPage title="Validasi Pengajuan" description="Checklist verifikasi administrasi pengajuan konsumen." status="Planned" />} />
+
+            {/* MANAJEMEN PROYEK */}
             <Route path="proyek" element={<ProyekAdminPage />} />
             <Route path="proyek/create" element={<CreateProyekAdminPage />} />
+            <Route path="proyek/aktivasi" element={<PlaceholderPage title="Aktivasi Proyek" description="Final checklist sebelum proyek dinyatakan aktif/mulai kerja." status="Planned" dos={["Validasi DP", "Checklist dokumen awal"]} donts={["Aktivasi tanpa kontrak TTD", "Aktivasi tanpa penugasan tim"]} />} />
             <Route path="proyek/:projectId" element={<DetailProyekAdminPage />} />
+            <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
+            <Route path="proyek/penutupan" element={<PlaceholderPage title="Penutupan Proyek" description="Proses serah terima kunci dan penutupan administrasi proyek." status="Planned" />} />
+
+            {/* DOKUMEN & RAB */}
             <Route path="rab" element={<RabAdminPage />} />
             <Route path="rab/:projectId" element={<DetailRabAdminPage />} />
-            <Route path="pembayaran" element={<PembayaranAdminPage />} />
-            <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
+            <Route path="dokumen/gambar-kerja" element={<PlaceholderPage title="Arsip Gambar Kerja" description="Manajemen file gambar kerja final untuk lapangan." status="Planned" />} />
+            <Route path="dokumen/kontrak" element={<PlaceholderPage title="Manajemen Kontrak" description="Pusat dokumen kontrak konsumen dan mitra." status="Planned" />} />
+            <Route path="dokumen/final" element={<PlaceholderPage title="Dokumen Final / BAST" description="Arsip Berita Acara Serah Terima dan dokumen legalitas akhir." status="Planned" />} />
+            <Route path="dokumen/change-order" element={<PlaceholderPage title="Change Order (CO)" description="Pencatatan perubahan pekerjaan dan biaya selama proyek." status="Planned" dos={["Mencatat pekerjaan tambah/kurang", "Evaluasi dampak biaya"]} donts={["CO tanpa verifikasi pengawas", "CO tanpa persetujuan konsumen"]} />} />
+
+            {/* MONITORING LAPANGAN */}
             <Route path="laporan-progress" element={<LaporanProgressAdminPage />} />
-            <Route path="request-material" element={<RequestMaterialAdminPage />} />
+            <Route path="monitoring/jurnal-mandor" element={<PlaceholderPage title="Jurnal Mandor Approved" description="Daftar jurnal harian/mingguan mandor yang sudah diverifikasi pengawas." status="Planned" />} />
             <Route path="laporan-mingguan-pengawas" element={<LaporanMingguanPengawasAdminPage />} />
             <Route path="laporan-mingguan-pengawas/:reportId" element={<DetailLaporanMingguanPengawasAdminPage />} />
+            <Route path="request-material" element={<RequestMaterialAdminPage />} />
+            <Route path="monitoring/kendala" element={<PlaceholderPage title="Kendala & Eskalasi" description="Daftar kendala lapangan yang memerlukan keputusan Admin." status="Planned" />} />
+            
+            <Route path="publikasi" element={<PlaceholderPage title="Publikasi Progress" description="Pusat kendali laporan yang bisa dilihat oleh Konsumen." status="Planned" dos={["Filter foto proyek", "Review narasi progress", "Publish ke timeline konsumen"]} donts={["Publish foto mentah tanpa filter", "Publish internal dispute"]} />} />
+
+            {/* PEMBAYARAN */}
+            <Route path="pembayaran/konsumen" element={<PlaceholderPage title="Pembayaran Konsumen" description="Monitoring invoice dan bukti bayar dari konsumen." status="Planned" />} />
+            <Route path="pembayaran/mandor" element={<PlaceholderPage title="Pembayaran Mandor" description="Proses opname dan disbursement untuk mitra mandor." status="Planned" />} />
+            <Route path="pembayaran/validasi" element={<PlaceholderPage title="Validasi Disbursement" description="Verifikasi akhir sebelum dana dicairkan ke mitra." status="Planned" />} />
+            <Route path="pembayaran/riwayat" element={<PlaceholderPage title="Riwayat Pembayaran" description="Arsip seluruh transaksi keuangan proyek." status="Planned" />} />
+            <Route path="pembayaran" element={<PembayaranAdminPage />} /> {/* Legacy mapping */}
+
             <Route path="pengaturan" element={<PengaturanAdminPage />} />
           </Route>
 
@@ -197,14 +236,21 @@ function App() {
             <Route path="dashboard" element={<DashboardPengawas />} />
             <Route path="proyek" element={<ProyekDiawasiPengawasPage />} />
             <Route path="proyek/:projectId" element={<DetailProyekDiawasiPengawasPage />} />
+            
+            {/* DETAIL TEKNIS */}
+            <Route path="teknis/gambar-kerja" element={<PlaceholderPage title="Gambar Kerja (Technical)" description="Akses gambar kerja terbaru untuk pengawasan lapangan." status="Planned" />} />
+            <Route path="teknis/rab-baseline" element={<PlaceholderPage title="RAB & Scope Baseline" description="Acuan pekerjaan sesuai kontrak untuk verifikasi progress." status="Planned" />} />
+            <Route path="teknis/jadwal" element={<PlaceholderPage title="Jadwal / Kurva S" description="Monitoring timeline dan deviasi waktu proyek." status="Planned" />} />
+            
+            <Route path="jurnal-mandor" element={<JurnalMandorPengawasPage />} />
+            <Route path="jurnal-mandor/:journalId" element={<DetailJurnalMandorPengawasPage />} />
             <Route path="verifikasi-progres" element={<VerifikasiProgresPengawasPage />} />
-            <Route path="dokumentasi" element={<DokumentasiLapanganPengawasPage />} />
             <Route path="laporan-mingguan" element={<LaporanMingguanPengawasPage />} />
             <Route path="laporan-mingguan/create" element={<CreateLaporanMingguanPengawasPage />} />
             <Route path="laporan-mingguan/:reportId" element={<DetailLaporanMingguanPengawasPage />} />
             <Route path="request-material" element={<RequestMaterialPengawasPage />} />
-            <Route path="jurnal-mandor" element={<JurnalMandorPengawasPage />} />
-            <Route path="jurnal-mandor/:journalId" element={<DetailJurnalMandorPengawasPage />} />
+            <Route path="kendala" element={<PlaceholderPage title="Kendala & Rekomendasi" description="Pelaporan kendala teknis dan pemberian rekomendasi solusi." status="Planned" dos={["Melaporkan kendala teknis", "Memberi rekomendasi perbaikan"]} donts={["Menyetujui biaya tambahan", "Mengubah desain tanpa instruksi"]} />} />
+            <Route path="dokumentasi" element={<DokumentasiLapanganPengawasPage />} />
             <Route path="pengaturan" element={<PengaturanPengawasPage />} />
           </Route>
 
@@ -222,15 +268,31 @@ function App() {
             <Route path="dashboard" element={<DashboardMandor />} />
             <Route path="proyek-aktif" element={<ProyekAktifMandorPage />} />
             <Route path="proyek-aktif/:projectId" element={<DetailProyekAktifMandorPage />} />
-            <Route path="tugas-harian" element={<TugasHarianMandorPage />} />
-            <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
-            <Route path="request-material" element={<RequestMaterialMandorPage />} />
-            <Route path="dokumentasi" element={<DokumentasiLapanganMandorPage />} />
-            <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
+            
+            {/* INFORMASI KERJA */}
+            <Route path="info/rab" element={<PlaceholderPage title="RAB & Scope Mandor" description="Daftar pekerjaan dan volume yang menjadi tanggung jawab Mandor." status="Planned" />} />
+            <Route path="info/gambar-kerja" element={<PlaceholderPage title="Gambar Kerja Lapangan" description="Akses visual gambar kerja untuk panduan pengerjaan fisik." status="Planned" />} />
+            <Route path="info/jadwal" element={<PlaceholderPage title="Jadwal Kerja Mandor" description="Target harian/mingguan yang harus dicapai di lapangan." status="Planned" />} />
+
             <Route path="jurnal-mingguan" element={<JurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/create" element={<CreateJurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/:journalId" element={<DetailJurnalMingguanMandorPage />} />
+            <Route path="request-material" element={<RequestMaterialMandorPage />} />
+            <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
+            <Route path="dokumentasi" element={<DokumentasiLapanganMandorPage />} />
+            
+            {/* PELUANG PROYEK */}
+            <Route path="peluang/posting" element={<PlaceholderPage title="Project Posting" description="Daftar proyek baru yang mencari mitra mandor." status="Planned" />} />
+            <Route path="peluang/penawaran" element={<PlaceholderPage title="Penawaran Saya" description="Daftar bidding/penawaran yang sedang diajukan ke RKK." status="Planned" />} />
+            <Route path="peluang/riwayat" element={<PlaceholderPage title="Riwayat Penawaran" description="Arsip seluruh penawaran proyek yang pernah diikuti." status="Planned" />} />
+            
+            <Route path="pembayaran" element={<PlaceholderPage title="Status Pembayaran" description="Monitoring pengajuan opname dan status pembayaran dari RKK." status="Planned" dos={["Melihat riwayat bayar", "Cek status opname"]} donts={["Menagih langsung ke konsumen", "Memanipulasi progres untuk pembayaran"]} />} />
+
             <Route path="pengaturan" element={<PengaturanMandorPage />} />
+            
+            {/* DEPRECATED ROUTES */}
+            <Route path="tugas-harian" element={<TugasHarianMandorPage />} />
+            <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
           </Route>
 
           {/* ================== ARSITEK LAYOUT ================== */}
@@ -245,11 +307,21 @@ function App() {
             }
           >
             <Route path="dashboard" element={<DashboardArsitek />} />
-            <Route path="permintaan-desain" element={<PermintaanDesainArsitekPage />} />
+            <Route path="brief-desain" element={<PermintaanDesainArsitekPage />} />
+            <Route path="permintaan-desain" element={<PermintaanDesainArsitekPage />} /> {/* Legacy mapping */}
             <Route path="permintaan-desain/:requestId" element={<DetailPermintaanDesainArsitekPage />} />
             <Route path="desain-aktif" element={<DesainAktifArsitekPage />} />
-            <Route path="file-desain" element={<FileDesainArsitekPage />} />
+            
+            {/* TAHAPAN DESAIN */}
+            <Route path="tahapan/konsep" element={<PlaceholderPage title="Tahapan: Konsep Awal" description="Eksplorasi ide dan konsep dasar sesuai brief konsumen." status="Planned" />} />
+            <Route path="tahapan/denah" element={<PlaceholderPage title="Tahapan: Denah" description="Pembuatan denah ruang dan sirkulasi bangunan." status="Planned" />} />
+            <Route path="tahapan/3d" element={<PlaceholderPage title="Tahapan: Tampak / 3D" description="Visualisasi 3D eksterior dan interior bangunan." status="Planned" />} />
+            <Route path="tahapan/gambar-kerja" element={<PlaceholderPage title="Tahapan: Gambar Kerja" description="Pembuatan DED (Detail Engineering Design) untuk konstruksi." status="Planned" />} />
+            
             <Route path="revisi" element={<RevisiDesainArsitekPage />} />
+            <Route path="file-desain" element={<FileDesainArsitekPage />} />
+            <Route path="final-approved" element={<PlaceholderPage title="Final Approved Design" description="Arsip desain yang sudah disetujui konsumen dan siap bangun." status="Planned" dos={["Melihat desain final", "Download paket dokumen"]} donts={["Mengubah desain yang sudah approved", "Menghapus history versi"]} />} />
+            <Route path="evaluasi" element={<PlaceholderPage title="Evaluasi Teknis" description="Review kesesuaian desain dengan standar teknis RKK." status="Planned" />} />
             <Route path="riwayat" element={<RiwayatDesainArsitekPage />} />
             <Route path="pengaturan" element={<PengaturanArsitekPage />} />
           </Route>

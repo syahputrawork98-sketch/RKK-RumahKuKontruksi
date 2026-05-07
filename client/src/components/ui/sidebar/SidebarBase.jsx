@@ -80,6 +80,12 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed, panelLabel = "Su
 
                     if (item.type === "dropdown") {
                         const isChildActive = item.items.some(child => location.pathname === child.href);
+                        
+                        // Check if activeStartsWith is string or array
+                        const matchesPath = Array.isArray(item.activeStartsWith)
+                            ? item.activeStartsWith.some(path => location.pathname.startsWith(path))
+                            : location.pathname.startsWith(item.activeStartsWith);
+
                         return (
                             <SidebarDropdown
                                 key={index}
@@ -87,7 +93,7 @@ const SidebarBase = ({ menu, user, isCollapsed, setIsCollapsed, panelLabel = "Su
                                 label={item.label}
                                 items={item.items}
                                 collapsed={isCollapsed}
-                                active={isChildActive || location.pathname.startsWith(item.activeStartsWith)}
+                                active={isChildActive || matchesPath}
                             />
                         );
                     }

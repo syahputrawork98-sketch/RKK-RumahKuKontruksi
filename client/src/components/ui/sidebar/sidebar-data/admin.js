@@ -2,11 +2,10 @@
 import {
     FiHome,
     FiLayers,
-    FiFileText,
+    FiActivity,
     FiCreditCard,
-    FiUsers,
-    FiBarChart2,
-    FiSettings
+    FiSettings,
+    FiSearch
 } from "react-icons/fi";
 
 export default [
@@ -19,22 +18,22 @@ export default [
     {
         type: "dropdown",
         icon: FiLayers,
-        label: "Proyek",
-        activeStartsWith: "/admin/proyek",
+        label: "Manajemen Proyek",
+        activeStartsWith: ["/admin/proyek", "/admin/rab", "/admin/penugasan-tim"],
         items: [
             { label: "Daftar Proyek", href: "/admin/proyek" },
             { label: "Buat Proyek", href: "/admin/proyek/create" },
             { label: "RAB Proyek", href: "/admin/rab" },
-            { label: "Laporan Progress", href: "/admin/laporan-progress" },
+            { label: "Penugasan Tim", href: "/admin/penugasan-tim" },
         ],
     },
     {
         type: "dropdown",
-        icon: FiUsers,
-        label: "Tim & Penugasan",
-        activeStartsWith: "/admin/penugasan-tim",
+        icon: FiActivity,
+        label: "Monitoring",
+        activeStartsWith: "/admin/laporan-progress",
         items: [
-            { label: "Penugasan Tim", href: "/admin/penugasan-tim" },
+            { label: "Laporan Progress", href: "/admin/laporan-progress" },
         ],
     },
     {

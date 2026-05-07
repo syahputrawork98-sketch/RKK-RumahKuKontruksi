@@ -2,7 +2,8 @@ import {
   Building2,
   CheckCircle2,
   Users,
-  Hammer,
+  HardHat,
+  PenTool,
   FolderPlus,
   MessageSquare,
 } from "lucide-react";
@@ -27,13 +28,14 @@ const DashboardSuperadmin = () => {
       color: "#16A34A",
     },
     { label: "Total Klien", value: 18, icon: Users, color: "#0EA5A4" },
-    { label: "Jumlah Tukang", value: 55, icon: Hammer, color: "#F59E0B" },
+    { label: "Mitra Mandor", value: 55, icon: HardHat, color: "#F59E0B" },
+    { label: "Mitra Arsitek", value: 8, icon: PenTool, color: "#2563EB" },
   ];
 
   const activities = [
     {
       id: 1,
-      text: "Tukang A memperbarui progres proyek PRJ-002",
+      text: "Mitra Mandor A memperbarui progres proyek PRJ-002",
       time: "2 jam lalu",
     },
     {
@@ -75,7 +77,7 @@ const DashboardSuperadmin = () => {
   const weeklySummary = [
     { label: "Proyek Baru", value: 3, icon: FolderPlus, color: "#2563EB" },
     { label: "Proyek Selesai", value: 5, icon: CheckCircle2, color: "#16A34A" },
-    { label: "Tukang Aktif", value: 12, icon: Hammer, color: "#F59E0B" },
+    { label: "Mitra Mandor Aktif", value: 12, icon: HardHat, color: "#F59E0B" },
     { label: "Pesan Masuk", value: 9, icon: MessageSquare, color: "#7C3AED" },
   ];
 

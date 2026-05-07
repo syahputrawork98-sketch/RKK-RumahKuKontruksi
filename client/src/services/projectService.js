@@ -9,10 +9,13 @@ const projectService = {
    * @returns {Promise<Object>}
    */
   async getProjects(params = {}) {
-    let endpoint = '/projects';
-    if (params.supervisorId) {
-      endpoint += `?supervisorId=${params.supervisorId}`;
-    }
+    const queryParams = new URLSearchParams();
+    if (params.supervisorId) queryParams.append('supervisorId', params.supervisorId);
+    if (params.foremanId) queryParams.append('foremanId', params.foremanId);
+    
+    const queryString = queryParams.toString();
+    const endpoint = `/projects${queryString ? `?${queryString}` : ''}`;
+    
     return apiClient.get(endpoint);
   },
 

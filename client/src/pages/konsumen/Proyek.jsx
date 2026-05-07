@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCustomerProjects } from "../../data/mock/helpers";
+import projectService from "../../services/projectService";
 
 const Proyek = () => {
   const navigate = useNavigate();
-  // Assume customer-001 is logged in
-  const proyekList = getCustomerProjects("customer-001");
+  const [proyekList, setProyekList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const response = await projectService.getProjects();
+        // For now, filtering is handled by backend or we filter here if needed.
+        // Assuming the API returns all for now, or just the ones relevant.
+        // The mock used "customer-001".
+        const filtered = response.data.filter(p => p.customerId === "customer-001");
+        setProyekList(filtered);
+        setError(null);
+      } catch (err) {
+        setError("Gagal mengambil data proyek. Pastikan server backend sudah jalan.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   // Status mapping for visual consistency
   const getStatusConfig = (status) => {
@@ -32,104 +55,138 @@ const Proyek = () => {
     return diffDays;
   };
 
+  if (loading) {
+    return (
+      <div className="container mx-auto px-6 py-10 flex flex-col items-center justify-center min-h-[400px]">
+        <span className="loading loading-spinner loading-lg text-teal-600"></span>
+        <p className="mt-4 text-gray-500">Memuat data proyek...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-6 py-10 text-center">
+        <div className="bg-red-50 p-6 rounded-lg border border-red-100 inline-block">
+          <h2 className="text-xl font-bold text-red-700 mb-2">Error</h2>
+          <p className="text-red-600">{error}</p>
+          <button 
+            className="btn btn-sm bg-red-600 hover:bg-red-700 text-white border-none mt-4"
+            onClick={() => window.location.reload()}
+          >
+            Coba Lagi
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-6 py-10">
       <h1 className="text-2xl font-bold mb-6 text-teal-700">Daftar Proyek Saya</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {proyekList.map((proyek) => {
-          const config = getStatusConfig(proyek.status);
-          
-          return (
-            <div
-              key={proyek.id}
-              className="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300"
-            >
-              {/* Gambar proyek */}
-              <img
-                src={proyek.heroImage}
-                alt={proyek.name}
-                className="w-full h-48 object-cover"
-              />
+      {proyekList.length === 0 ? (
+        <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg p-10 text-center">
+          <p className="text-gray-500">Anda belum memiliki proyek aktif.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {proyekList.map((proyek) => {
+            const config = getStatusConfig(proyek.status);
+            
+            return (
+              <div
+                key={proyek.id}
+                className="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300"
+              >
+                {/* Gambar proyek */}
+                <img
+                  src={proyek.heroImage || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=2070"}
+                  alt={proyek.name}
+                  className="w-full h-48 object-cover"
+                />
 
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                {/* Header proyek */}
-                <div className="mb-4">
-                  <h2 className="text-xl font-bold text-teal-700 line-clamp-1">{proyek.name}</h2>
-                  <p className="text-sm text-gray-500 flex items-center gap-1">
-                    <span className="truncate">{proyek.location}</span>
-                  </p>
-                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  {/* Header proyek */}
+                  <div className="mb-4">
+                    <h2 className="text-xl font-bold text-teal-700 line-clamp-1">{proyek.name}</h2>
+                    <p className="text-sm text-gray-500 flex items-center gap-1">
+                      <span className="truncate">{proyek.location || "Lokasi belum ditentukan"}</span>
+                    </p>
+                  </div>
 
-                {/* Detail proyek */}
-                <div className="mb-4 space-y-2 text-sm text-gray-700">
-                  <div className="flex justify-between">
-                    <span className="font-semibold">Kode:</span> 
-                    <span className="font-mono bg-gray-100 px-1 rounded">{proyek.projectCode}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-semibold">Mandor:</span> 
-                    <span>{proyek.foremanName}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-semibold">Pengawas:</span> 
-                    <span>{proyek.supervisorName}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-semibold">Periode:</span> 
-                    <span className="text-xs">{proyek.startDate} - {proyek.estimatedEndDate}</span>
-                  </div>
-                  
-                  {proyek.status === "Berjalan" && (
-                    <div className="flex justify-between text-teal-600">
-                      <span className="font-semibold">Hari Berjalan:</span> 
-                      <span>{hitungHariBerjalan(proyek.startDate)} hari</span>
+                  {/* Detail proyek */}
+                  <div className="mb-4 space-y-2 text-sm text-gray-700">
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Kode:</span> 
+                      <span className="font-mono bg-gray-100 px-1 rounded">{proyek.projectCode}</span>
                     </div>
-                  )}
-                  
-                  <div className="pt-2 border-t border-gray-100">
-                    <div className="flex justify-between mb-1">
-                      <span className="font-semibold">Nilai Proyek:</span> 
-                      <span className="font-bold text-teal-700">Rp {proyek.budgetTotal?.toLocaleString()}</span>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Mandor:</span> 
+                      <span>{proyek.foremanName || "-"}</span>
                     </div>
-                    <div className="flex justify-between text-xs text-gray-500">
-                      <span>Terbayar:</span> 
-                      <span>Rp {proyek.paidAmount?.toLocaleString()}</span>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Pengawas:</span> 
+                      <span>{proyek.supervisorName || "-"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Periode:</span> 
+                      <span className="text-xs">
+                        {proyek.startDate ? new Date(proyek.startDate).toLocaleDateString('id-ID') : '-'} - {proyek.estimatedEndDate ? new Date(proyek.estimatedEndDate).toLocaleDateString('id-ID') : '-'}
+                      </span>
+                    </div>
+                    
+                    {proyek.status === "Berjalan" && proyek.startDate && (
+                      <div className="flex justify-between text-teal-600">
+                        <span className="font-semibold">Hari Berjalan:</span> 
+                        <span>{hitungHariBerjalan(proyek.startDate)} hari</span>
+                      </div>
+                    )}
+                    
+                    <div className="pt-2 border-t border-gray-100">
+                      <div className="flex justify-between mb-1">
+                        <span className="font-semibold">Nilai Proyek:</span> 
+                        <span className="font-bold text-teal-700">Rp {Number(proyek.budgetTotal || 0).toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-500">
+                        <span>Terbayar:</span> 
+                        <span>Rp {Number(proyek.paidAmount || 0).toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="mt-4">
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="font-medium">Progres Lapangan</span>
+                        <span className="font-bold">{proyek.progress}%</span>
+                      </div>
+                      <progress
+                        className={`progress w-full h-2 ${config.progress}`}
+                        value={proyek.progress}
+                        max="100"
+                      ></progress>
                     </div>
                   </div>
 
-                  {/* Progress bar */}
-                  <div className="mt-4">
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="font-medium">Progres Lapangan</span>
-                      <span className="font-bold">{proyek.progress}%</span>
-                    </div>
-                    <progress
-                      className={`progress w-full h-2 ${config.progress}`}
-                      value={proyek.progress}
-                      max="100"
-                    ></progress>
+                  {/* Footer card: status & button */}
+                  <div className="flex justify-between items-center mt-auto pt-4">
+                    <span className={`badge px-3 py-3 border-none text-white ${config.badge}`}>
+                      {proyek.status}
+                    </span>
+
+                    <button
+                      className="btn btn-sm bg-teal-600 hover:bg-teal-700 text-white border-none"
+                      onClick={() => navigate(`/konsumen/TimelineProyek?projectId=${proyek.id}`, { state: { projectId: proyek.id } })}
+                    >
+                      Lihat Detail
+                    </button>
                   </div>
-                </div>
-
-                {/* Footer card: status & button */}
-                <div className="flex justify-between items-center mt-auto pt-4">
-                  <span className={`badge px-3 py-3 border-none text-white ${config.badge}`}>
-                    {proyek.status}
-                  </span>
-
-                  <button
-                    className="btn btn-sm bg-teal-600 hover:bg-teal-700 text-white border-none"
-                    onClick={() => navigate(`/konsumen/TimelineProyek?projectId=${proyek.id}`, { state: { projectId: proyek.id } })}
-                  >
-                    Lihat Detail
-                  </button>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Card untuk pengajuan proyek baru */}
       <div

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
-import { getFullProjectDetails, getCustomerProjects } from "../../data/mock/helpers";
+import projectService from "../../services/projectService";
 import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser } from "react-icons/fi";
 
 const TimelineProyek = () => {
@@ -11,21 +11,97 @@ const TimelineProyek = () => {
   const queryProjectId = queryParams.get("projectId");
   const stateProjectId = location.state?.projectId;
   
-  // Default to first project if none provided
-  const myProjects = getCustomerProjects("customer-001");
-  const defaultProjectId = myProjects.length > 0 ? myProjects[0].id : null;
-  
-  const projectId = queryProjectId || stateProjectId || defaultProjectId;
-  const project = getFullProjectDetails(projectId);
+  const projectId = queryProjectId || stateProjectId;
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!project) {
+  useEffect(() => {
+    const fetchProjectDetail = async () => {
+      if (!projectId) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await projectService.getProjectById(projectId);
+        const raw = response.data;
+
+        // Map backend data to frontend structure
+        const mappedProject = {
+          ...raw,
+          startDate: raw.startDate ? new Date(raw.startDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-',
+          estimatedEndDate: raw.estimatedEndDate ? new Date(raw.estimatedEndDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-',
+          budget: {
+            total: Number(raw.budgetTotal || 0),
+            paid: Number(raw.paidAmount || 0),
+            remaining: Number(raw.remainingAmount || 0)
+          },
+          // Map stages to timeline
+          timeline: (raw.stages || []).map(s => ({
+            id: s.id,
+            title: s.title,
+            status: s.status, // in-progress, completed, etc
+            date: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : '-',
+            progress: s.progress,
+            isVerified: s.isVerified,
+            note: s.note,
+            description: s.description
+          })),
+          // Mock team for now as backend doesn't have full team detail yet in relations
+          team: {
+            admin: {
+              name: "Admin RKK",
+              role: "Administrator",
+              avatar: "https://i.pravatar.cc/150?u=admin",
+              status: "Online"
+            },
+            supervisor: {
+              name: raw.supervisorName || "Budi Santoso",
+              role: "Pengawas Lapangan",
+              avatar: "https://i.pravatar.cc/150?u=supervisor",
+              status: "Di Lapangan"
+            },
+            foreman: {
+              name: raw.foremanName || "Mulyadi",
+              role: "Mandor Proyek",
+              avatar: "https://i.pravatar.cc/150?u=foreman",
+              status: "Aktif"
+            }
+          }
+        };
+
+        setProject(mappedProject);
+        setError(null);
+      } catch (err) {
+        setError("Gagal memuat detail proyek.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjectDetail();
+  }, [projectId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
+        <span className="loading loading-spinner loading-lg text-teal-600"></span>
+        <p className="mt-4 text-gray-500">Memuat detail proyek...</p>
+      </div>
+    );
+  }
+
+  if (!project || error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
         <div className="text-center max-w-md">
           <FiMapPin className="text-gray-300 mx-auto mb-4" size={48} />
-          <h2 className="text-xl font-bold text-gray-700">Proyek tidak ditemukan</h2>
+          <h2 className="text-xl font-bold text-gray-700">{error || "Proyek tidak ditemukan"}</h2>
           <p className="text-gray-500 mt-2">Data proyek yang Anda cari tidak tersedia atau ID tidak valid.</p>
-          <Link to="/konsumen/proyek" className="btn btn-teal mt-6">Kembali ke Daftar Proyek</Link>
+          <Link to="/konsumen/proyek" className="btn bg-teal-600 hover:bg-teal-700 text-white mt-6">Kembali ke Daftar Proyek</Link>
         </div>
       </div>
     );

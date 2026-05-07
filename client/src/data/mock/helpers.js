@@ -73,7 +73,7 @@ export const getFullProjectDetails = (projectId) => {
     team: {
       admin: {
         name: admin?.name || "N/A",
-        role: "Admin Proyek",
+        role: "Admin",
         avatar: admin?.avatar || "https://i.pravatar.cc/150",
         status: admin?.status === "active" ? "Aktif" : "Nonaktif",
       },

@@ -54,7 +54,7 @@ const SuperadminSwitcher = () => {
         <option value="" disabled>Pilih Superadmin...</option>
         {superadmins.map(sa => (
           <option key={sa.id} value={sa.id}>
-            {sa.name}
+            {sa.name} — {sa.role}
           </option>
         ))}
       </select>

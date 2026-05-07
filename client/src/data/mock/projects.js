@@ -236,8 +236,8 @@ export const activeCustomerProject = {
   },
   team: {
     admin: {
-      name: "Rina Maharani",
-      role: "Admin Proyek",
+      name: "Budi Santoso",
+      role: "Admin",
       avatar: "https://i.pravatar.cc/150?u=admin-001",
       status: "Aktif"
     },

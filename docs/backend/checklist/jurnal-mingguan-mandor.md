@@ -3,43 +3,44 @@
 ## Source Alur
 - [docs/alur/jurnal-mingguan-mandor.md](../../alur/jurnal-mingguan-mandor.md)
 
+## Status Saat Ini
+**Backend Pending**. Modul pelaporan mingguan mandor belum tersedia.
+
 ## Tujuan Backend
-Mengelola catatan aktivitas mingguan dari Mandor sebagai bukti pengerjaan fisik dan klaim progres awal.
+Menampung data aktivitas mingguan, penggunaan tenaga kerja, dan klaim progres dari Mandor sebagai bahan evaluasi Pengawas.
 
 ## Entity / Model
-- [ ] Model `WeeklyJournal`: `id`, `projectId`, `foremanId`, `weekStartDate`, `weekEndDate`, `status`, `mandorProgressClaim`, `supervisorVerifiedProgress`, `notes`.
-- [ ] Model `JournalEntry`: `id`, `journalId`, `date`, `description`, `workerCount`, `materialNotes`.
-- [ ] Model `JournalPhoto`: `id`, `journalEntryId`, `imageUrl`, `caption`.
+- [ ] Model `WeeklyJournal`: `id`, `projectId`, `foremanId`, `weekNumber`, `status`, `notes`.
+- [ ] Model `JournalActivity`: `id`, `journalId`, `description`, `category`.
+- [ ] Model `JournalLabor`: `id`, `journalId`, `laborType`, `count`.
 
 ## API / Service
-- [ ] `POST /api/journals`: Membuat draf jurnal baru.
-- [ ] `POST /api/journals/:id/entries`: Menambah catatan harian ke dalam jurnal mingguan.
-- [ ] `PATCH /api/journals/:id/submit`: Mengirim jurnal ke Pengawas.
-- [ ] `PATCH /api/journals/:id/review`: Approve/Revision/Reject oleh Pengawas.
+- [ ] `POST /api/journals/foreman`: Kirim jurnal mingguan.
+- [ ] `GET /api/journals/foreman/:id`: Detail jurnal.
+- [ ] `PATCH /api/journals/foreman/:id/status`: Update status oleh Pengawas.
 
 ## Status Flow
-- [ ] `draft` -> `submitted` -> `under_review` -> `approved` / `revision_requested` / `rejected`.
-- [ ] `approved` -> `locked` (setelah digunakan untuk pembayaran).
+- [ ] `draft` -> `submitted` -> `reviewed` -> `approved` / `revision_required`.
 
 ## Business Rules
-- [ ] **Klaim Mandor vs Verifikasi**: `mandorProgressClaim` bukan progres resmi proyek.
-- [ ] **Deadline**: Submit maksimal Jumat pukul 12.00 (Business Rule).
-- [ ] **Locking**: Jurnal tidak bisa diedit jika status `submitted`, `approved`, atau `locked`.
+- [ ] Mandor hanya bisa mengirim jurnal untuk proyek yang ditugaskan kepadanya.
+- [ ] Jurnal mingguan menjadi syarat awal pengajuan pembayaran Mandor.
 
 ## Permission / Role Rules
-- [ ] **Mandor**: Hanya bisa melihat/mengelola jurnal milik proyeknya sendiri.
-- [ ] **Pengawas**: Hanya bisa mereview jurnal proyek yang dia awasi.
+- [ ] **Mandor**: Membuat dan mengedit jurnal status `draft` atau `revision_required`.
+- [ ] **Pengawas**: Mereview dan mengubah status menjadi `approved` atau `revision_required`.
 
 ## Validation
-- [ ] Minimal 1 foto per entry jurnal.
-- [ ] Range tanggal jurnal harus dalam periode proyek aktif.
+- [ ] Pengiriman jurnal hanya diperbolehkan di akhir minggu pengerjaan.
+- [ ] Wajib mengisi minimal satu aktivitas kerja.
 
 ## Audit Trail / History
-- [ ] History status jurnal: Siapa yang mengubah status dan kapan.
+- [ ] Catat log perubahan status dan catatan revisi dari Pengawas.
 
 ## Integrasi dengan Alur Lain
-- [ ] Jurnal `approved` menjadi syarat untuk [Payment Foreman](./payment-foreman.md).
+- [ ] Menjadi input bagi [Laporan Mingguan Pengawas](./laporan-mingguan-pengawas.md).
+- [ ] Dasar referensi untuk [Payment Foreman](./payment-foreman.md).
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Kompresi gambar otomatis di sisi server.
-- [ ] Export jurnal ke PDF.
+- [ ] Integrasi otomatis dengan absensi pekerja harian.
+- [ ] Perhitungan otomatis produktivitas tenaga kerja.

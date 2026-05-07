@@ -1,40 +1,42 @@
-# Backend Checklist - Progress Proyek ke Konsumen
+# Backend Checklist - Publikasi Progres ke Konsumen
 
 ## Source Alur
 - [docs/alur/alur-progress-proyek-ke-konsumen.md](../../alur/alur-progress-proyek-ke-konsumen.md)
 
+## Status Saat Ini
+**Backend Pending**. Mekanisme publikasi data progres ke publik/konsumen belum tersedia.
+
 ## Tujuan Backend
-Mengelola publikasi data progres dan dokumentasi foto yang bisa dilihat oleh Konsumen secara transparan dan jujur.
+Menyediakan data progres resmi yang telah disaring dan dipublikasikan oleh Admin agar dapat dikonsumsi oleh dashboard Konsumen.
 
 ## Entity / Model
-- [ ] Model `CustomerUpdate`: `id`, `projectId`, `reportId` (optional ref), `status` (published/archived), `narration`, `publishedAt`.
-- [ ] Model `CustomerUpdatePhoto`: `id`, `updateId`, `imageUrl`, `caption`.
+- [ ] Model `CustomerProjectView`: `id`, `projectId`, `publishedProgress`, `publishedAt`, `notesToCustomer`.
+- [ ] Model `ProjectDocumentation`: `id`, `projectId`, `fileUrl`, `isVisibleToCustomer`.
 
 ## API / Service
-- [ ] `POST /api/customer-updates/publish`: Admin memilih data dari laporan Pengawas untuk dipublish.
-- [ ] `GET /api/customer/projects/:id/updates`: Konsumen mengambil data progres resmi.
+- [ ] `PATCH /api/projects/:id/publish-progress`: Admin mempublikasikan progres ke konsumen.
+- [ ] `GET /api/customer/project-status`: Endpoint khusus dashboard Konsumen.
 
 ## Status Flow
-- [ ] `not_published` -> `published_to_customer`.
+- [ ] `unverified` (Mandor) -> `verified` (Pengawas) -> `published` (Admin).
 
 ## Business Rules
-- [ ] **Verify-then-Publish**: Data tidak bisa dipublish jika belum diverifikasi Pengawas.
-- [ ] **Honesty Principle**: Jika ada delay signifikan, data progres tetap harus mencerminkan kondisi riil (tidak boleh dimanipulasi).
-- [ ] **Data Isolation**: Catatan internal Pengawas/Admin tidak boleh bocor ke tabel `CustomerUpdate`.
+- [ ] **Data Filtering**: Konsumen tidak boleh melihat progres mentah yang belum diverifikasi Pengawas.
+- [ ] Progres yang tampil di dashboard Konsumen adalah `publishedProgress` yang ditetapkan Admin.
 
 ## Permission / Role Rules
-- [ ] Hanya **Admin** yang berhak melakukan publikasi ke dashboard Konsumen.
-- [ ] **Konsumen** hanya memiliki hak `Read` pada data yang berstatus `published`.
+- [ ] **Admin**: Satu-satunya role yang boleh memicu aksi `publish`.
+- [ ] **Konsumen**: Hanya memiliki hak akses baca pada data yang telah dipublikasikan.
 
 ## Validation
-- [ ] Narasi publik tidak boleh kosong.
+- [ ] `publishedProgress` tidak boleh melebihi `verifiedProgress` dari Pengawas.
 
 ## Audit Trail / History
-- [ ] Catat siapa Admin yang menekan tombol publish.
+- [ ] Catat log setiap kali Admin melakukan publikasi progres baru.
 
 ## Integrasi dengan Alur Lain
-- [ ] Mengambil data dari [Laporan Mingguan Pengawas](./laporan-mingguan-pengawas.md).
+- [ ] Mengambil sumber data dari [Verifikasi Progres Proyek](./project-progress.md).
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Integrasi ke WhatsApp/Email Notification ke Konsumen.
-- [ ] Komentar/Interaksi dari Konsumen pada setiap update.
+- [ ] Notifikasi otomatis (Push/WA) ke Konsumen saat progres baru dipublish.
+- [ ] Fitur chat interaktif Konsumen di dalam dashboard progres.

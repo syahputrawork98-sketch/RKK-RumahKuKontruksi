@@ -3,39 +3,41 @@
 ## Source Alur
 - [docs/alur/alur-laporan-mingguan-pengawas.md](../../alur/alur-laporan-mingguan-pengawas.md)
 
+## Status Saat Ini
+**Backend Pending**. Modul evaluasi mingguan pengawas belum tersedia.
+
 ## Tujuan Backend
-Menghasilkan laporan evaluasi mingguan dari Pengawas kepada Admin yang merangkum aktivitas dan progres lapangan.
+Menghasilkan laporan resmi mingguan dari Pengawas kepada Admin yang merangkum progres verified, kendala, dan evaluasi performa Mandor.
 
 ## Entity / Model
-- [ ] Model `SupervisorWeeklyReport`: `id`, `projectId`, `supervisorId`, `weekStartDate`, `weekEndDate`, `status`, `evaluation`, `technicalIssues`, `recommendations`, `internalNotes`, `customerVisibleSummary`.
+- [ ] Model `SupervisorWeeklyReport`: `id`, `projectId`, `supervisorId`, `weekNumber`, `overallProgress`, `evaluation`, `recommendation`.
+- [ ] Relasi ke `ProgressVerificationLog` pada minggu terkait.
 
 ## API / Service
-- [ ] `GET /api/reports/auto-populate`: Menarik data dari Jurnal Mandor yang sudah `approved` untuk periode tertentu.
-- [ ] `POST /api/reports`: Membuat draf laporan.
-- [ ] `PATCH /api/reports/:id/submit`: Kirim ke Admin.
-- [ ] `PATCH /api/reports/:id/review`: Admin menandai laporan sebagai `reviewed`.
+- [ ] `POST /api/reports/supervisor`: Membuat laporan mingguan.
+- [ ] `GET /api/reports/supervisor/project/:projectId`: Riwayat laporan per proyek.
 
 ## Status Flow
-- [ ] `draft` -> `submitted` -> `reviewed` -> `published` (ke Konsumen).
+- [ ] `submitted` -> `reviewed_by_admin`.
 
 ## Business Rules
-- [ ] **Bukan Input Ulang**: Sistem harus mampu menarik ringkasan pekerjaan dari Jurnal Mandor secara otomatis.
-- [ ] **Single Source of Truth**: Data progres di laporan harus identik dengan progres di Jurnal yang sudah diverifikasi.
-- [ ] Laporan hanya bisa dibuat jika Jurnal Mandor pada minggu tersebut sudah `approved`.
+- [ ] **Data Consistency**: Laporan harus merangkum data progres yang sudah diverifikasi (Verified Progress).
+- [ ] Pengawas wajib memberikan rating/evaluasi terhadap kualitas pengerjaan Mandor minggu tersebut.
 
 ## Permission / Role Rules
-- [ ] **Pengawas**: Membuat dan submit laporan.
-- [ ] **Admin**: Mereview dan menentukan bagian mana yang tampil ke Konsumen.
+- [ ] **Pengawas**: Inisiator laporan.
+- [ ] **Admin**: Viewer dan reviewer laporan untuk kepentingan manajemen.
 
 ## Validation
-- [ ] `weekStartDate` dan `weekEndDate` harus valid (Senin - Minggu).
+- [ ] Laporan hanya bisa dibuat jika sudah ada verifikasi progres di minggu terkait.
 
 ## Audit Trail / History
-- [ ] Log review Admin.
+- [ ] Simpan versi laporan jika terjadi koreksi data teknis.
 
 ## Integrasi dengan Alur Lain
-- [ ] Menjadi sumber narasi untuk [Progress to Customer](./progress-to-customer.md).
+- [ ] Menggunakan data dari [Verifikasi Progres Proyek](./project-progress.md).
+- [ ] Menjadi bahan pertimbangan Admin untuk [Progress to Customer](./progress-to-customer.md).
 
 ## Tidak Dikerjakan di Fase Ini
-- [ ] Penomoran dokumen otomatis secara serial.
-- [ ] Tanda tangan digital.
+- [ ] Generasi otomatis file PDF laporan resmi.
+- [ ] Distribusi otomatis laporan ke email pemangku kepentingan.

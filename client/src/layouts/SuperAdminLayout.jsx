@@ -17,7 +17,7 @@ const SuperAdminLayout = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-slate-50">
+        <div className="dashboard-shell">
 
             {/* SIDEBAR */}
             <SidebarBase
@@ -29,7 +29,7 @@ const SuperAdminLayout = () => {
 
             {/* MAIN CONTENT AREA */}
             <div
-                className="flex-1 flex flex-col transition-all duration-300"
+                className="dashboard-main"
                 style={{
                     marginLeft: isCollapsed ? "5rem" : "18rem",
                 }}
@@ -45,8 +45,8 @@ const SuperAdminLayout = () => {
                 />
 
                 {/* PAGE CONTENT VIA OUTLET */}
-                <main className="flex-1 p-8 mt-16 overflow-x-hidden">
-                    <div className="max-w-7xl mx-auto">
+                <main className="dashboard-page">
+                    <div className="dashboard-container">
                         <Outlet />
                     </div>
                 </main>

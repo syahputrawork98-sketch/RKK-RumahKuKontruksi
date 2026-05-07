@@ -26,6 +26,7 @@ export default [
             { label: "Admin", href: "/superadmin/data-admin" },
             { label: "Pengawas", href: "/superadmin/data-pengawas" },
             { label: "Mandor", href: "/superadmin/data-mandor" },
+            { label: "Arsitek", href: "/superadmin/data-arsitek" },
             { label: "Konsumen", href: "/superadmin/data-konsumen" },
             { label: "Perusahaan & PIC", href: "/superadmin/data-perusahaan" },
         ],
@@ -56,6 +57,7 @@ export default [
         items: [
             { label: "Pembayaran Konsumen", href: "/superadmin/pembayaran/konsumen" },
             { label: "Pembayaran Mandor", href: "/superadmin/pembayaran/mandor" },
+            { label: "Pembayaran Arsitek", href: "/superadmin/pembayaran/arsitek" },
         ],
     },
     {

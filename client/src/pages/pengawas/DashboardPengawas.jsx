@@ -19,7 +19,7 @@ import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DashboardPengawas = () => {
-    const { selectedSupervisor, selectedSupervisorId, selectSupervisor, supervisors } = useSupervisorPersona();
+    const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -50,27 +50,25 @@ const DashboardPengawas = () => {
 
     const stats = [
         { label: "Proyek Diawasi", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
-        // TODO: replace static/mock data after operational backend is implemented
-        { label: "Butuh Verifikasi", value: 0, icon: FiCheckSquare, color: "#F59E0B" },
-        { label: "Progres Rata-rata", value: projects.length > 0 ? `${Math.round(projects.reduce((acc, p) => acc + (p.progress || 0), 0) / projects.length)}%` : "0%", icon: FiActivity, color: "#0EA5E9" },
-        { label: "Dokumentasi Baru", value: 0, icon: FiCamera, color: "#16A34A" },
-        { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#E11428" },
+        // Phase 1: Operational backend for verification triggers is pending
+        { label: "Butuh Verifikasi", value: 0, icon: FiCheckSquare, color: "#F59E0B", subLabel: "Backend Pending" },
+        { 
+            label: "Progres Rata-rata", 
+            value: projects.length > 0 
+                ? `${Math.round(projects.reduce((acc, p) => acc + (p.verifiedProgress !== undefined && p.verifiedProgress !== null ? p.verifiedProgress : p.progress || 0), 0) / projects.length)}%` 
+                : "0%", 
+            icon: FiActivity, 
+            color: "#0EA5E9" 
+        },
+        { label: "Dokumentasi Baru", value: 0, icon: FiCamera, color: "#16A34A", subLabel: "Backend Pending" },
+        { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#E11428", subLabel: "Backend Pending" },
     ];
-
-    // ... rest of the priorityProjects and recentActivities remain same for structure
 
     if (!selectedSupervisorId && !isLoading) {
         return (
             <RolePersonaEmptyState 
                 title="Pilih Persona Pengawas Terlebih Dahulu"
                 description="Pilih akun Pengawas untuk melihat data proyek dan aktivitas pengawasan yang sedang berjalan."
-                actionLabel="Pilih Pengawas"
-                onAction={() => {
-                    // This could open a modal or redirect to a persona picker
-                    // For now, let's just use the first available if none is selected, 
-                    // but the requirement is to show empty state.
-                    console.log("Redirect to persona picker or show selection modal");
-                }}
             />
         );
     }
@@ -107,18 +105,19 @@ const DashboardPengawas = () => {
                     <div className="dashboard-card">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold">Proyek Prioritas Hari Ini</h3>
-                            <button className="text-xs font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
+                            <a href="/pengawas/proyek" className="text-xs font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</a>
                         </div>
                         <div className="space-y-4">
                             {projects.length > 0 ? projects.slice(0, 3).map((prj) => {
                                 const statusMapping = {
-                                    active: { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
-                                    needs_verification: { text: "Butuh Verifikasi", color: "bg-amber-500/10 text-amber-500" },
-                                    delayed: { text: "Terlambat", color: "bg-red-500/10 text-red-500" },
-                                    completed: { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
+                                    'active': { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
+                                    'Berjalan': { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
+                                    'planning': { text: "Perencanaan", color: "bg-amber-500/10 text-amber-500" },
+                                    'Selesai': { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
+                                    'completed': { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
                                 };
-                                const prjStatus = prj.status === 'Berjalan' ? 'active' : prj.status === 'Selesai' ? 'completed' : 'needs_verification';
-                                const statusLabel = statusMapping[prjStatus] || { text: prj.status, color: "bg-slate-500/10 text-slate-500" };
+                                const statusLabel = statusMapping[prj.status] || { text: prj.status, color: "bg-slate-500/10 text-slate-500" };
+                                const displayProgress = prj.verifiedProgress !== undefined && prj.verifiedProgress !== null ? prj.verifiedProgress : prj.progress || 0;
 
                                 return (
                                     <div key={prj.id} className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] hover:border-[var(--dashboard-primary)]/30 transition-all flex flex-col md:flex-row justify-between gap-4">
@@ -134,11 +133,11 @@ const DashboardPengawas = () => {
                                         </div>
                                         <div className="md:w-48 flex flex-col justify-center">
                                             <div className="flex justify-between text-[10px] font-black uppercase mb-1">
-                                                <span>Progress</span>
-                                                <span>{prj.progress}%</span>
+                                                <span>Verified Progress</span>
+                                                <span>{displayProgress}%</span>
                                             </div>
                                             <div className="w-full h-1.5 bg-white/50 dark:bg-black/20 rounded-full overflow-hidden">
-                                                <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.progress}%` }} />
+                                                <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${displayProgress}%` }} />
                                             </div>
                                         </div>
                                         <div className="flex items-center">
@@ -157,28 +156,32 @@ const DashboardPengawas = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="dashboard-card bg-slate-800 text-white p-6 relative overflow-hidden">
                             <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Mingguan</h3>
-                            <p className="text-2xl font-black mb-1">Belum Terkirim</p>
-                            <p className="text-[10px] opacity-70">Minggu Ke-18: {projects.length} Proyek</p>
-                            <button className="mt-4 px-4 py-2 bg-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest">Buat Laporan</button>
+                            <p className="text-2xl font-black mb-1">Data Real-time</p>
+                            <p className="text-[10px] opacity-70">Monitor aktivitas lapangan setiap minggu</p>
+                            <a href="/pengawas/laporan-mingguan" className="mt-4 inline-block px-4 py-2 bg-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest">Buka Modul</a>
                             <FiFileText className="absolute -right-4 -bottom-4 text-white/10 w-24 h-24" />
                         </div>
                         <div className="dashboard-card border-dashed border-2 p-6 flex flex-col items-center justify-center text-center">
                             <FiCheckSquare className="text-[var(--dashboard-text-soft)] mb-2" size={32} />
-                            {/* TODO: replace static/mock data after operational backend is implemented */}
-                            <p className="text-xs font-bold">0 Tahapan Menunggu Verifikasi</p>
-                            <button className="mt-3 text-[10px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Periksa Sekarang</button>
+                            <p className="text-xs font-bold uppercase tracking-widest">Verifikasi Progress</p>
+                            <p className="text-[10px] text-slate-400 mt-1 uppercase font-bold italic">Source of Truth DB-Backed</p>
+                            <a href="/pengawas/verifikasi-progres" className="mt-3 text-[10px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Periksa Sekarang</a>
                         </div>
                     </div>
                 </div>
 
                 <div className="space-y-6">
-                    <DashboardActivity activities={[]} title="Aktivitas Lapangan" />
+                    <div className="dashboard-card">
+                        <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-primary)]">Aktivitas Lapangan</h3>
+                        <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
+                            Belum tersedia / Backend Pending
+                        </div>
+                    </div>
                     
                     <div className="dashboard-card">
                         <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-primary)]">Dokumentasi Terbaru</h3>
-                        {/* TODO: replace static/mock data after operational backend is implemented */}
                         <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
-                            Belum ada dokumentasi
+                            Belum tersedia / Backend Pending
                         </div>
                     </div>
                 </div>

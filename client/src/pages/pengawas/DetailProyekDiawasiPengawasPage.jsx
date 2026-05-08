@@ -139,7 +139,12 @@ const DetailProyekDiawasiPengawasPage = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button className="px-5 py-2.5 bg-amber-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-500/20 hover:scale-[1.02] transition-all">Verifikasi Progress</button>
+                    <button 
+                        onClick={() => navigate("/pengawas/verifikasi-progres")}
+                        className="px-5 py-2.5 bg-amber-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-500/20 hover:scale-[1.02] transition-all"
+                    >
+                        Verifikasi Progress
+                    </button>
                 </div>
             </div>
 
@@ -196,30 +201,38 @@ const DetailProyekDiawasiPengawasPage = () => {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Progres Keseluruhan</h4>
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Progres Resmi (Source of Truth)</h4>
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-xs font-black uppercase">
-                                            <span>Selesai</span>
-                                            <span>{project.progress}%</span>
+                                            <span>Terverifikasi</span>
+                                            <span>{project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%</span>
                                         </div>
                                         <div className="w-full h-3 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden p-0.5 border border-[var(--dashboard-border)]">
-                                            <div className="h-full bg-linear-to-r from-[var(--dashboard-primary)] to-emerald-400 rounded-full" style={{ width: `${project.progress}%` }} />
+                                            <div className="h-full bg-linear-to-r from-[var(--dashboard-primary)] to-emerald-400 rounded-full" style={{ width: `${project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%` }} />
                                         </div>
+                                        <p className="text-[9px] text-[var(--dashboard-text-soft)] font-bold italic mt-1 uppercase">
+                                            Update Terakhir: {project.verifiedProgressUpdatedAt ? new Date(project.verifiedProgressUpdatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Belum ada verifikasi'}
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div className="p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl flex gap-3">
                                     <FiInfo className="text-blue-500 shrink-0 mt-0.5" />
-                                    <p className="text-[10px] font-medium leading-relaxed italic text-blue-800">
-                                        "Minggu ini fokus pada penyelesaian pemasangan keramik lantai 1 dan persiapan instalasi kelistrikan plafon."
+                                    <p className="text-[10px] font-medium leading-relaxed italic text-blue-800 uppercase tracking-tighter">
+                                        "Informasi laporan harian dan progres teknis detail sedang disinkronisasi dari database operasional."
                                     </p>
                                 </div>
                             </div>
                         )}
                         {activeTab !== "overview" && (
-                            <div className="flex flex-col items-center justify-center h-full py-12 text-[var(--dashboard-text-soft)] italic opacity-50">
-                                <p className="text-sm font-bold">Modul {activeTab.toUpperCase()} sedang disiapkan...</p>
-                                <p className="text-[10px] mt-2 tracking-widest">Site Supervisor Role Dashboard v1.0</p>
+                            <div className="flex flex-col items-center justify-center h-full py-20 text-center space-y-4">
+                                <div className="p-6 bg-[var(--dashboard-surface-soft)] rounded-full text-[var(--dashboard-text-soft)] opacity-30">
+                                    <FiActivity size={48} />
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-sm font-black uppercase tracking-widest text-[var(--dashboard-text)]">Modul {activeTab} Belum Tersedia</p>
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase italic tracking-tighter">Dalam tahap pengembangan backend (Local Development CRUD Integration)</p>
+                                </div>
                             </div>
                         )}
                     </div>

@@ -234,14 +234,25 @@ const VerifikasiProgresPengawasPage = () => {
                                         Catatan Verifikasi Lapangan
                                     </label>
                                     <textarea 
-                                        value={notes}
-                                        onChange={(e) => setNotes(e.target.value)}
-                                        placeholder="Tuliskan temuan atau bukti fisik yang mendasari kenaikan progres ini..."
-                                        className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none min-h-[120px] transition-all"
-                                        required
-                                    />
-                                    <p className="text-[10px] text-[var(--dashboard-text-soft)] italic">Minimal 10 karakter.</p>
-                                </div>
+                                         value={notes}
+                                         onChange={(e) => setNotes(e.target.value)}
+                                         placeholder="Tuliskan temuan atau bukti fisik yang mendasari kenaikan progres ini..."
+                                         className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none min-h-[120px] transition-all"
+                                         required
+                                     />
+                                     <div className="flex justify-between items-center">
+                                         <p className="text-[10px] text-[var(--dashboard-text-soft)] italic">Minimal 10 karakter.</p>
+                                         <p className="text-[9px] font-black text-amber-600 uppercase tracking-tighter flex items-center gap-1">
+                                             <FiAlertCircle size={12} /> Progress tidak dapat diturunkan setelah diverifikasi
+                                         </p>
+                                     </div>
+                                 </div>
+
+                                 <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
+                                     <p className="text-[10px] font-bold text-emerald-800 leading-relaxed uppercase tracking-widest">
+                                         Catatan: Nilai ini akan menjadi "Official Progress" yang tampil di Dashboard Admin dan Konsumen.
+                                     </p>
+                                 </div>
 
                                 <div className="pt-4 flex gap-4">
                                     <button 

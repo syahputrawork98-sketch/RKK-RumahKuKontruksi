@@ -9,17 +9,18 @@ import RoleDataState from "../../components/common/RoleDataState";
 
 const ProyekDiawasiPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
-    const [activeSubtab, setActiveSubtab] = useState("aktif");
+    const [activeSubtab, setActiveSubtab] = useState("semua");
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     const subtabs = [
+        { id: "semua", label: "Semua" },
         { id: "aktif", label: "Aktif" },
-        { id: "needs_verification", label: "Butuh Verifikasi" },
-        { id: "delayed", label: "Terlambat" },
-        { id: "completed", label: "Selesai" },
+        { id: "selesai", label: "Selesai" },
+        { id: "deadline", label: "Mendekati Deadline" },
+        { id: "tim_kurang", label: "Tim Belum Lengkap" },
     ];
 
     useEffect(() => {
@@ -49,22 +50,41 @@ const ProyekDiawasiPengawasPage = () => {
     const getStatusLabel = (status) => {
         const mapping = {
             'Berjalan': { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
+            'active': { text: "Aktif", color: "bg-emerald-500/10 text-emerald-500" },
             'planning': { text: "Perencanaan", color: "bg-blue-500/10 text-blue-500" },
             'Selesai': { text: "Selesai", color: "bg-slate-500/10 text-slate-500" },
+            'completed': { text: "Selesai", color: "bg-slate-500/10 text-slate-500" },
         };
         return mapping[status] || { text: status, color: "bg-slate-500/10 text-slate-500" };
     };
 
     // Filter projects by subtab and search query
     const filteredProjects = projects.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                             p.projectCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        const matchesSearch = (p.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             (p.projectCode || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
                              (p.customer?.name || '').toLowerCase().includes(searchQuery.toLowerCase());
         
-        if (activeSubtab === "aktif") return matchesSearch && p.status === "Berjalan";
-        if (activeSubtab === "completed") return matchesSearch && p.status === "Selesai";
-        // needs_verification and delayed are mock status for now as DB doesn't have it explicitly
-        return matchesSearch; 
+        if (!matchesSearch) return false;
+
+        const isAktif = p.status === "Berjalan" || p.status === "active";
+        const isSelesai = p.status === "Selesai" || p.status === "completed";
+
+        if (activeSubtab === "aktif") return isAktif;
+        if (activeSubtab === "selesai") return isSelesai;
+        
+        if (activeSubtab === "deadline") {
+            if (!p.estimatedEndDate) return false;
+            const deadline = new Date(p.estimatedEndDate);
+            const now = new Date();
+            const diffDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+            return isAktif && diffDays <= 14 && diffDays >= 0; // Deadline within 2 weeks
+        }
+
+        if (activeSubtab === "tim_kurang") {
+            return !p.foremanId || !p.adminId;
+        }
+
+        return true; // "semua"
     });
 
     if (!selectedSupervisorId && !isLoading) {
@@ -160,9 +180,14 @@ const ProyekDiawasiPengawasPage = () => {
                                         </td>
                                         <td className="py-4 px-2 w-32">
                                             <div className="flex flex-col gap-1">
-                                                <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{prj.progress || 0}%</span>
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)]">
+                                                        {prj.verifiedProgress !== undefined && prj.verifiedProgress !== null ? prj.verifiedProgress : prj.progress || 0}%
+                                                    </span>
+                                                    <span className="text-[8px] font-bold text-slate-400 uppercase">Verified</span>
+                                                </div>
                                                 <div className="w-full h-1 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
-                                                    <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.progress || 0}%` }} />
+                                                    <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.verifiedProgress !== undefined && prj.verifiedProgress !== null ? prj.verifiedProgress : prj.progress || 0}%` }} />
                                                 </div>
                                             </div>
                                         </td>

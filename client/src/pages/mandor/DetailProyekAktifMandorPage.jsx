@@ -208,11 +208,11 @@ const DetailProyekAktifMandorPage = () => {
 
                                 <div className="space-y-4 pt-4 border-t border-[var(--dashboard-border)]">
                                     <div className="flex justify-between items-end mb-2">
-                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Progress Akumulatif</h4>
-                                        <span className="text-2xl font-black">{project.progress}%</span>
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Progress Akumulatif (Resmi)</h4>
+                                        <span className="text-2xl font-black">{project.verifiedProgress || 0}%</span>
                                     </div>
                                     <div className="w-full h-4 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden p-1 border border-[var(--dashboard-border)] shadow-inner">
-                                        <div className="h-full bg-linear-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-1000" style={{ width: `${project.progress}%` }} />
+                                        <div className="h-full bg-linear-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-1000" style={{ width: `${project.verifiedProgress || 0}%` }} />
                                     </div>
                                 </div>
                             </div>

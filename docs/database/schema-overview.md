@@ -43,9 +43,9 @@ Workflow pengadaan material proyek.
 - **MaterialRequestItem**: Detail material, kuantitas, dan unit.
 - **MaterialRequestHistory**: Audit trail perubahan status pengajuan.
 
-## Domain 7: Progress Verification
-Sistem audit progress resmi.
-- **ProgressVerificationLog**: Log setiap kali Pengawas melakukan verifikasi progress lapangan yang mengubah nilai progress di level Project.
+## Domain 7: Progress Verification (Source of Truth)
+Sistem audit progress resmi yang menjadi satu-satunya acuan progres fisik proyek.
+- **ProgressVerificationLog**: Log audit setiap kali Pengawas melakukan verifikasi progress lapangan. Aksi ini secara langsung memperbarui `Project.verifiedProgress`.
 
 ---
 **Status**: Generated from Prisma Schema v1.0

@@ -20,25 +20,26 @@
 | **Foremen** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
-| **Daily/Weekly Reports** | CRUD Available | Supervisor Weekly Reports with Admin Review flow |
-| **Material Requests**| CRUD Available | Basic Material Request & Admin Oversight |
+| **Weekly Journals** | CRUD Available | Foreman Weekly Journals (Activities + Photos) |
+| **Weekly Reports** | CRUD Available | Supervisor Weekly Reports with Admin Review flow |
+| **Material Requests**| Experimental | Backend Draft & Partial Frontend Integration |
 | **Verification** | DONE | Official Progress Verification Log (SOT) |
 
 ## Operational Modules Progress
-Modul operasional (Progress Monitoring, Report Review, Material Request) telah dipindahkan ke database (DB-Backed v2). Admin sekarang dapat memonitor lapangan secara real-time dan melakukan publikasi ringkasan ke portal konsumen.
+Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Admin sekarang dapat memonitor progres resmi (Source of Truth) secara real-time berdasarkan verifikasi Pengawas.
 
 ## Frontend Role Status
 
 | Role | Data Source | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| **Pengawas** | Backend/Database | DB-Backed v1 | Full Operational Flow |
-| **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow |
+| **Pengawas** | Backend/Database | DB-Backed v1 | Full Operational Flow (Progress, Reports, Journals) |
+| **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals) |
 | **Arsitek** | Backend/Database | DB-Backed v1 | Profile/Dashboard only |
-| **Admin** | Backend/Database | DB-Backed v3 | Monitoring & Review: Verified Progress, Report Review, Publication |
-| **Superadmin** | Mock/Partial | UI Shell Available | Backend integration pending |
-| **Konsumen** | Mock/Partial | UI Shell Available | Backend integration pending |
+| **Admin** | Backend/Database | DB-Backed v1 | Monitoring & Review: Verified Progress, Report Review |
+| **Superadmin** | Mock/Partial | UI Shell Available | Backend integration for user management only |
+| **Konsumen** | Mock/Partial | UI Shell Available | Backend integration for Profile/Projects only |
 
 ## Next Recommended Actions
-1. **Fase 4 - Final Admin Polish**: Implementasi placeholder pembayaran dan ekspor laporan PDF.
-2. **Customer Portal Integration**: Hubungkan data "Published Reports" ke timeline konsumen yang saat ini masih mock.
-3. **QA Operasional**: Simulasi alur penuh dari Mandor (Jurnal) -> Pengawas (Laporan) -> Admin (Review & Publish).
+1. **Fase 4 - Customer Portal Integration**: Hubungkan data "Verified Progress" ke timeline konsumen yang saat ini masih mock.
+2. **Material Request Polish**: Finalisasi alur transisi status dan validasi kuantitas terhadap RAB.
+3. **QA Operasional**: Simulasi alur penuh dari Mandor (Jurnal) -> Pengawas (Review Journal + Report) -> Admin (Review Report).

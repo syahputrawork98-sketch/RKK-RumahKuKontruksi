@@ -4,6 +4,7 @@ import AdminFilters from "./AdminFilters";
 import AdminRow from "./AdminRow";
 import AdminFormModal from "./AdminFormModal";
 import AdminDetailDrawer from "./AdminDetailDrawer";
+import adminService from "../../services/adminService";
 
 export default function AdminTable({ data }) {
   const [admins, setAdmins] = useState(() => data);
@@ -48,34 +49,43 @@ export default function AdminTable({ data }) {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (admin) => {
-    if (!confirm(`Hapus admin ${admin.nama}?`)) return;
-    setAdmins((prev) =>
-      prev.filter((item) => item.id !== admin.id)
-    );
+  const handleDelete = async (admin) => {
+    if (!confirm(`Hapus admin ${admin.name}?`)) return;
+    try {
+      await adminService.deleteAdmin(admin.id);
+      setAdmins((prev) => prev.filter((item) => item.id !== admin.id));
+      alert("Admin berhasil dinonaktifkan.");
+    } catch (err) {
+      console.error("AdminTable: Failed to delete admin", err);
+      alert("Gagal menghapus admin. Silakan coba lagi.");
+    }
   };
 
-  const handleSubmitForm = (formData) => {
-    if (editingAdmin) {
-      setAdmins((prev) =>
-        prev.map((item) =>
-          item.id === editingAdmin.id
-            ? { ...item, ...formData }
-            : item
-        )
-      );
-    } else {
-      const newAdmin = {
-        ...formData,
-        id_admin: `ADM-${String(admins.length + 1).padStart(3, "0")}`,
-        tanggal_dibuat: new Date(),
-        terakhir_login: new Date(),
-      };
-      setAdmins((prev) => [...prev, newAdmin]);
+  const handleSubmitForm = async (formData) => {
+    try {
+      if (editingAdmin) {
+        const response = await adminService.updateAdmin(editingAdmin.id, formData);
+        if (response.success) {
+          setAdmins((prev) =>
+            prev.map((item) =>
+              item.id === editingAdmin.id ? { ...item, ...response.data } : item
+            )
+          );
+          alert("Data admin berhasil diperbarui.");
+        }
+      } else {
+        const response = await adminService.createAdmin(formData);
+        if (response.success) {
+          setAdmins((prev) => [...prev, response.data]);
+          alert("Admin baru berhasil ditambahkan.");
+        }
+      }
+      setIsFormOpen(false);
+      setEditingAdmin(null);
+    } catch (err) {
+      console.error("AdminTable: Failed to save admin", err);
+      alert(err.response?.data?.message || "Gagal menyimpan data admin. Pastikan email unik.");
     }
-
-    setIsFormOpen(false);
-    setEditingAdmin(null);
   };
 
   return (

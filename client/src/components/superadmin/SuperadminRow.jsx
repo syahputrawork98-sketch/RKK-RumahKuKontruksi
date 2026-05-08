@@ -1,8 +1,9 @@
-// client/src/components/admin/AdminRow.jsx
+import React from "react";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import { FiShield } from "react-icons/fi";
 
-export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
-  const initials = (admin.name || "A").charAt(0).toUpperCase();
+export default function SuperadminRow({ admin, onEdit, onDelete, onDetail }) {
+  const initials = (admin.name || "S").charAt(0).toUpperCase();
 
   return (
     <tr className="hover:bg-[var(--dashboard-surface-soft)] transition-colors group">
@@ -15,7 +16,7 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
               className="w-10 h-10 rounded-xl object-cover ring-2 ring-[var(--dashboard-border-soft)] group-hover:ring-[var(--dashboard-primary)]/30 transition-all"
             />
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-sm ring-2 ring-[var(--dashboard-border-soft)] group-hover:ring-[var(--dashboard-primary)]/30 transition-all">
+            <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center text-rose-600 font-black text-sm ring-2 ring-[var(--dashboard-border-soft)] group-hover:ring-[var(--dashboard-primary)]/30 transition-all">
               {initials}
             </div>
           )}
@@ -32,14 +33,9 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
             {admin.name || "-"}
           </span>
           <div className="flex items-center gap-1 mt-2">
-            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-emerald-100 text-emerald-700">
-              Staff Admin
+            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-rose-100 text-rose-700 flex items-center gap-1">
+              <FiShield size={8} /> Root Admin
             </span>
-            {admin.status !== 'active' && (
-              <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-slate-100 text-slate-500">
-                Nonaktif
-              </span>
-            )}
           </div>
         </div>
       </td>
@@ -55,10 +51,14 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
         </div>
       </td>
 
-      <td className="px-6 py-4 max-w-xs">
-        <p className="text-xs text-[var(--dashboard-text-muted)] truncate" title={admin._count?.projects}>
-          {admin._count?.projects ?? 0} proyek terhubung
-        </p>
+      <td className="px-6 py-4 text-center">
+        <span className={`px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest ${
+          admin.status === 'active' 
+            ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
+            : "bg-slate-50 text-slate-400 border border-slate-100"
+        }`}>
+          {admin.status === 'active' ? "Aktif" : "Nonaktif"}
+        </span>
       </td>
 
       <td className="px-6 py-4">
@@ -72,16 +72,8 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
         </div>
       </td>
 
-      <td className="px-6 py-4 text-right">
+      <td className="px-6 py-4">
         <div className="flex items-center justify-center gap-2">
-          <button
-            title="Detail"
-            onClick={() => onDetail(admin)}
-            className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-primary)]"
-          >
-            <Eye size={16} />
-          </button>
-
           <button
             title="Edit"
             onClick={() => onEdit(admin)}

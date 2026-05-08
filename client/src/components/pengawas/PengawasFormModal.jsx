@@ -1,31 +1,46 @@
-// client/src/components/pengawas/PengawasFormModal.jsx
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
 export default function PengawasFormModal({ isOpen, onClose, onSubmit, initialData }) {
     const [form, setForm] = useState({
-        nama_lengkap: "",
-        nik: "",
-        no_telp: "",
-        alamat: "",
-        foto: "",
-        status_aktif: true,
+        name: "",
+        email: "",
+        phone: "",
+        city: "",
+        status: "active",
+        avatar: "",
+        specialization: ""
     });
 
     useEffect(() => {
         if (initialData) {
             setForm({
-                ...initialData,
-                status_aktif: initialData.status_aktif !== false,
+                name: initialData.name || "",
+                email: initialData.email || "",
+                phone: initialData.phone || "",
+                city: initialData.city || "",
+                status: initialData.status || "active",
+                avatar: initialData.avatar || "",
+                specialization: initialData.specialization || ""
+            });
+        } else {
+            setForm({
+                name: "",
+                email: "",
+                phone: "",
+                city: "",
+                status: "active",
+                avatar: "",
+                specialization: ""
             });
         }
-    }, [initialData]);
+    }, [initialData, isOpen]);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: value,
         }));
     };
 
@@ -38,13 +53,13 @@ export default function PengawasFormModal({ isOpen, onClose, onSubmit, initialDa
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-            <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 animate-in fade-in zoom-in">
+            <div className="bg-[var(--dashboard-surface)] w-full max-w-lg rounded-2xl shadow-2xl p-6 border border-[var(--dashboard-border)] overflow-y-auto max-h-[90vh]">
                 {/* HEADER */}
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
                         {initialData ? "Edit Pengawas" : "Tambah Pengawas Baru"}
                     </h2>
-                    <button onClick={onClose}>
+                    <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-colors text-[var(--dashboard-text-soft)]">
                         <X size={20} />
                     </button>
                 </div>
@@ -52,87 +67,104 @@ export default function PengawasFormModal({ isOpen, onClose, onSubmit, initialDa
                 {/* FORM */}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium">Nama Lengkap</label>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Nama Lengkap</label>
                         <input
                             type="text"
-                            name="nama_lengkap"
-                            value={form.nama_lengkap}
+                            name="name"
+                            value={form.name}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                             required
+                            placeholder="Contoh: Ahmad Subarjo"
                         />
                     </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                                placeholder="ahmad@email.com"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Nomor HP</label>
+                            <input
+                                type="text"
+                                name="phone"
+                                value={form.phone}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                                placeholder="0812..."
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="block text-sm font-medium">NIK</label>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Kota / Wilayah</label>
                         <input
                             type="text"
-                            name="nik"
-                            value={form.nik}
+                            name="city"
+                            value={form.city}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                            placeholder="Contoh: Jakarta Selatan"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Nomor HP</label>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Spesialisasi</label>
                         <input
                             type="text"
-                            name="no_telp"
-                            value={form.no_telp}
+                            name="specialization"
+                            value={form.specialization}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                            placeholder="Contoh: Struktur, Arsitektur, dll"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Alamat</label>
-                        <textarea
-                            name="alamat"
-                            value={form.alamat}
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Status</label>
+                        <select
+                            name="status"
+                            value={form.status}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
-                        />
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                        >
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Nonaktif</option>
+                        </select>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Link Foto (URL)</label>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Link Foto Profil (URL)</label>
                         <input
                             type="text"
-                            name="foto"
-                            value={form.foto}
+                            name="avatar"
+                            value={form.avatar}
                             onChange={handleChange}
-                            placeholder="https://example.com/foto.jpg"
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
+                            placeholder="https://images.unsplash.com/..."
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                         />
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            name="status_aktif"
-                            checked={form.status_aktif}
-                            onChange={handleChange}
-                            id="status_aktif"
-                            className="h-4 w-4"
-                        />
-                        <label htmlFor="status_aktif" className="text-sm font-medium">
-                            Aktif
-                        </label>
-                    </div>
-
-                    {/* ACTION BUTTON */}
-                    <div className="flex justify-end gap-3 pt-2">
+                    <div className="flex items-center gap-3 pt-4">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 border rounded-lg hover:bg-slate-50"
+                            className="flex-1 px-4 py-3 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-soft)] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[var(--dashboard-border-soft)] transition-colors"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+                            className="flex-1 px-4 py-3 bg-amber-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-amber-700 transition-colors shadow-lg shadow-amber-600/20"
                         >
                             {initialData ? "Simpan Perubahan" : "Tambah Pengawas"}
                         </button>

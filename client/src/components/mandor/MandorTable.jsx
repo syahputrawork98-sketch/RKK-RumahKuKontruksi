@@ -1,14 +1,14 @@
-// client/src/components/mandor/MandorTable.jsx
 import React, { useState, useEffect } from "react";
 import MandorFilters from "./MandorFilters";
 import MandorRow from "./MandorRow";
 import MandorFormModal from "./MandorFormModal";
 import MandorDetailDrawer from "./MandorDetailDrawer";
+import foremanService from "../../services/foremanService";
 
 export default function MandorTable({ data }) {
   const [mandors, setMandors] = useState([]);
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("all"); // aktif / non-aktif / all
+  const [status, setStatus] = useState("all"); 
   const [sort, setSort] = useState("name-asc");
 
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -23,36 +23,25 @@ export default function MandorTable({ data }) {
     .filter((m) => {
       const query = search.toLowerCase();
       return (
-        m.nama_lengkap.toLowerCase().includes(query) ||
-        m.email?.toLowerCase().includes(query) ||
-        m.nik.toLowerCase().includes(query)
+        (m.name || "").toLowerCase().includes(query) ||
+        (m.email || "").toLowerCase().includes(query)
       );
     })
     .filter((m) => {
       if (status === "all") return true;
-      if (status === "aktif") return m.status_aktif;
-      if (status === "non-aktif") return !m.status_aktif;
-      return true;
+      return m.status === status;
     });
 
   const sortedMandors = [...filteredMandors].sort((a, b) => {
     switch (sort) {
       case "name-asc":
-        return a.nama_lengkap.localeCompare(b.nama_lengkap);
+        return (a.name || "").localeCompare(b.name || "");
       case "name-desc":
-        return b.nama_lengkap.localeCompare(a.nama_lengkap);
-      case "pengalaman-asc":
-        return (a.pengalaman_tahun || 0) - (b.pengalaman_tahun || 0);
-      case "pengalaman-desc":
-        return (b.pengalaman_tahun || 0) - (a.pengalaman_tahun || 0);
+        return (b.name || "").localeCompare(a.name || "");
       case "newest":
-        return (
-          new Date(b.tanggal_ditambahkan) - new Date(a.tanggal_ditambahkan)
-        );
+        return new Date(b.createdAt) - new Date(a.createdAt);
       case "oldest":
-        return (
-          new Date(a.tanggal_ditambahkan) - new Date(b.tanggal_ditambahkan)
-        );
+        return new Date(a.createdAt) - new Date(b.createdAt);
       default:
         return 0;
     }
@@ -68,30 +57,41 @@ export default function MandorTable({ data }) {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (mandor) => {
-    if (!confirm(`Hapus mandor ${mandor.nama_lengkap}?`)) return;
-    setMandors((prev) => prev.filter((m) => m.id_mandor !== mandor.id_mandor));
+  const handleDelete = async (mandor) => {
+    if (!confirm(`Hapus/Nonaktifkan mandor ${mandor.name}?`)) return;
+    try {
+      await foremanService.deleteForeman(mandor.id);
+      setMandors((prev) => prev.filter((m) => m.id !== mandor.id));
+      alert("Mandor berhasil dinonaktifkan.");
+    } catch (err) {
+      console.error("MandorTable: Failed to delete foreman", err);
+      alert("Gagal menghapus mandor. Silakan coba lagi.");
+    }
   };
 
-  const handleSubmitForm = (formData) => {
-    if (editingMandor) {
-      setMandors((prev) =>
-        prev.map((m) =>
-          m.id_mandor === editingMandor.id_mandor ? { ...m, ...formData } : m
-        )
-      );
-    } else {
-      const newMandor = {
-        ...formData,
-        id_mandor: mandors.length + 1, // sementara, nanti dari API/db
-        kode_mandor: `MDR${String(mandors.length + 1).padStart(4, "0")}`,
-        tanggal_ditambahkan: new Date(),
-        status_aktif: true,
-      };
-      setMandors((prev) => [...prev, newMandor]);
+  const handleSubmitForm = async (formData) => {
+    try {
+      if (editingMandor) {
+        const response = await foremanService.updateForeman(editingMandor.id, formData);
+        if (response.success) {
+          setMandors((prev) =>
+            prev.map((m) => (m.id === editingMandor.id ? { ...m, ...response.data } : m))
+          );
+          alert("Data mandor berhasil diperbarui.");
+        }
+      } else {
+        const response = await foremanService.createForeman(formData);
+        if (response.success) {
+          setMandors((prev) => [...prev, response.data]);
+          alert("Mandor baru berhasil ditambahkan.");
+        }
+      }
+      setIsFormOpen(false);
+      setEditingMandor(null);
+    } catch (err) {
+      console.error("MandorTable: Failed to save foreman", err);
+      alert(err.response?.data?.message || "Gagal menyimpan data mandor. Pastikan email unik.");
     }
-    setIsFormOpen(false);
-    setEditingMandor(null);
   };
 
   return (
@@ -150,7 +150,7 @@ export default function MandorTable({ data }) {
               ) : (
                 sortedMandors.map((mandor) => (
                   <MandorRow
-                    key={mandor.id_mandor}
+                    key={mandor.id}
                     mandor={mandor}
                     onEdit={() => handleEdit(mandor)}
                     onDelete={() => handleDelete(mandor)}

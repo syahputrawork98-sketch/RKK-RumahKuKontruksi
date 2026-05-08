@@ -53,12 +53,6 @@ export default function DataMandorPage() {
 
       {/* TABLE COMPONENT */}
       <MandorTable data={dataMandor} />
-
-      {/* Hold State */}
-      <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200 text-center">
-        <p className="text-[10px] font-bold text-blue-700 uppercase tracking-widest">Fase Local CRUD</p>
-        <p className="text-xs text-blue-600">Pendaftaran mandor baru saat ini masih dilakukan melalui proses verifikasi tim operasional.</p>
-      </div>
     </div>
   );
 }

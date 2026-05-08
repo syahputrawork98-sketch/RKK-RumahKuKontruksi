@@ -1,9 +1,9 @@
-// client/src/components/pengawas/PengawasTable.jsx
 import React, { useState, useEffect } from "react";
 import PengawasFilters from "./PengawasFilters";
 import PengawasRow from "./PengawasRow";
 import PengawasFormModal from "./PengawasFormModal";
 import PengawasDetailDrawer from "./PengawasDetailDrawer";
+import supervisorService from "../../services/supervisorService";
 
 export default function PengawasTable({ data }) {
   const [pengawas, setPengawas] = useState([]);
@@ -23,27 +23,25 @@ export default function PengawasTable({ data }) {
     .filter((item) => {
       const query = search.toLowerCase();
       return (
-        item.nama_lengkap.toLowerCase().includes(query) ||
-        (item.nik && item.nik.includes(query))
+        (item.name || "").toLowerCase().includes(query) ||
+        (item.email || "").toLowerCase().includes(query)
       );
     })
     .filter((item) => {
       if (status === "all") return true;
-      if (status === "aktif") return item.status_aktif !== false;
-      if (status === "nonaktif") return item.status_aktif === false;
-      return true;
+      return item.status === status;
     });
 
   const sortedPengawas = [...filteredPengawas].sort((a, b) => {
     switch (sort) {
       case "name-asc":
-        return a.nama_lengkap.localeCompare(b.nama_lengkap);
+        return (a.name || "").localeCompare(b.name || "");
       case "name-desc":
-        return b.nama_lengkap.localeCompare(a.nama_lengkap);
+        return (b.name || "").localeCompare(a.name || "");
       case "newest":
-        return new Date(b.tanggal_bergabung) - new Date(a.tanggal_bergabung);
+        return new Date(b.createdAt) - new Date(a.createdAt);
       case "oldest":
-        return new Date(a.tanggal_bergabung) - new Date(b.tanggal_bergabung);
+        return new Date(a.createdAt) - new Date(b.createdAt);
       default:
         return 0;
     }
@@ -59,33 +57,43 @@ export default function PengawasTable({ data }) {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (pengawas) => {
-    if (!confirm(`Hapus pengawas ${pengawas.nama_lengkap}?`)) return;
-    setPengawas((prev) =>
-      prev.filter((item) => item.id_pengawas !== pengawas.id_pengawas)
-    );
+  const handleDelete = async (pengawas) => {
+    if (!confirm(`Hapus/Nonaktifkan pengawas ${pengawas.name}?`)) return;
+    try {
+      await supervisorService.deleteSupervisor(pengawas.id);
+      setPengawas((prev) => prev.filter((item) => item.id !== pengawas.id));
+      alert("Pengawas berhasil dinonaktifkan.");
+    } catch (err) {
+      console.error("PengawasTable: Failed to delete supervisor", err);
+      alert("Gagal menghapus pengawas. Silakan coba lagi.");
+    }
   };
 
-  const handleSubmitForm = (formData) => {
-    if (editingPengawas) {
-      setPengawas((prev) =>
-        prev.map((item) =>
-          item.id_pengawas === editingPengawas.id_pengawas
-            ? { ...item, ...formData }
-            : item
-        )
-      );
-    } else {
-      const newPengawas = {
-        ...formData,
-        id_pengawas: `PGW-${String(pengawas.length + 1).padStart(4, "0")}`,
-        tanggal_bergabung: new Date(),
-      };
-      setPengawas((prev) => [...prev, newPengawas]);
+  const handleSubmitForm = async (formData) => {
+    try {
+      if (editingPengawas) {
+        const response = await supervisorService.updateSupervisor(editingPengawas.id, formData);
+        if (response.success) {
+          setPengawas((prev) =>
+            prev.map((item) =>
+              item.id === editingPengawas.id ? { ...item, ...response.data } : item
+            )
+          );
+          alert("Data pengawas berhasil diperbarui.");
+        }
+      } else {
+        const response = await supervisorService.createSupervisor(formData);
+        if (response.success) {
+          setPengawas((prev) => [...prev, response.data]);
+          alert("Pengawas baru berhasil ditambahkan.");
+        }
+      }
+      setIsFormOpen(false);
+      setEditingPengawas(null);
+    } catch (err) {
+      console.error("PengawasTable: Failed to save supervisor", err);
+      alert(err.response?.data?.message || "Gagal menyimpan data pengawas. Pastikan email unik.");
     }
-
-    setIsFormOpen(false);
-    setEditingPengawas(null);
   };
 
   return (
@@ -143,7 +151,7 @@ export default function PengawasTable({ data }) {
               ) : (
                 sortedPengawas.map((pgw) => (
                   <PengawasRow
-                    key={pgw.id_pengawas}
+                    key={pgw.id}
                     pengawas={pgw}
                     onEdit={() => handleEdit(pgw)}
                     onDelete={() => handleDelete(pgw)}

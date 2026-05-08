@@ -53,12 +53,6 @@ export default function DataAdminPage() {
 
       {/* TABLE COMPONENT */}
       <AdminTable data={dataAdmin} />
-      
-      {/* Hold State for Create/Edit if not yet fully implemented in Superadmin view */}
-      <div className="mt-6 p-4 bg-amber-50 rounded-xl border border-amber-200 text-center">
-        <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Fase Local CRUD</p>
-        <p className="text-xs text-amber-600">Fitur tambah/edit admin melalui panel Superadmin masih dalam pengembangan.</p>
-      </div>
     </div>
   );
 }

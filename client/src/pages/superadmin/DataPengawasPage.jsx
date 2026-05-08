@@ -53,12 +53,6 @@ export default function DataPengawasPage() {
 
       {/* TABLE COMPONENT */}
       <PengawasTable data={dataPengawas} />
-
-      {/* Hold State */}
-      <div className="mt-6 p-4 bg-amber-50 rounded-xl border border-amber-200 text-center">
-        <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Fase Local CRUD</p>
-        <p className="text-xs text-amber-600">Manajemen sertifikasi dan penugasan pengawas dilakukan melalui dashboard Admin Proyek.</p>
-      </div>
     </div>
   );
 }

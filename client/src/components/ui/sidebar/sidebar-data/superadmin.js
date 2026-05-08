@@ -33,6 +33,7 @@ export default [
             { label: "Pengawas", href: "/superadmin/data-pengawas" },
             { label: "Mandor", href: "/superadmin/data-mandor" },
             { label: "Arsitek", href: "/superadmin/data-arsitek" },
+            { label: "Pengajuan Desain", href: "/superadmin/data-pengajuan-desain" },
             { label: "Perusahaan & PIC", href: "/superadmin/data-perusahaan" },
         ],
     },

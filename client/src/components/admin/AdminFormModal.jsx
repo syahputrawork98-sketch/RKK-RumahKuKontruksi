@@ -1,10 +1,42 @@
-// client/src/components/admin/AdminFormModal.jsx
-// NOTE: Fase Local CRUD — Fitur tambah/edit admin belum terhubung ke backend.
-// Formulir ini ditampilkan sebagai preview saja, tombol submit dinonaktifkan.
-import React from "react";
-import { X, Lock } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X } from "lucide-react";
 
-export default function AdminFormModal({ isOpen, onClose }) {
+export default function AdminFormModal({ isOpen, onClose, onSubmit, initialData }) {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        status: "active"
+    });
+
+    useEffect(() => {
+        if (initialData) {
+            setFormData({
+                name: initialData.name || "",
+                email: initialData.email || "",
+                phone: initialData.phone || "",
+                status: initialData.status || "active"
+            });
+        } else {
+            setFormData({
+                name: "",
+                email: "",
+                phone: "",
+                status: "active"
+            });
+        }
+    }, [initialData, isOpen]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSubmit(formData);
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -13,7 +45,7 @@ export default function AdminFormModal({ isOpen, onClose }) {
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                        Tambah Admin Baru
+                        {initialData ? "Edit Admin" : "Tambah Admin Baru"}
                     </h2>
                     <button
                         onClick={onClose}
@@ -23,32 +55,82 @@ export default function AdminFormModal({ isOpen, onClose }) {
                     </button>
                 </div>
 
-                {/* HOLD STATE NOTICE */}
-                <div className="flex flex-col items-center justify-center py-10 text-center space-y-4">
-                    <div className="w-16 h-16 rounded-2xl bg-amber-50 border-2 border-amber-100 flex items-center justify-center text-amber-500">
-                        <Lock size={28} />
-                    </div>
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <p className="text-[10px] font-black text-amber-700 uppercase tracking-widest mb-1">
-                            Status: Hold (Fase Local CRUD)
-                        </p>
-                        <h3 className="font-bold text-[var(--dashboard-text)] text-sm">Fitur Dalam Pengembangan</h3>
-                        <p className="text-[11px] text-[var(--dashboard-text-soft)] mt-2 max-w-xs mx-auto leading-relaxed">
-                            Tambah dan edit admin melalui panel Superadmin akan diaktifkan setelah modul Backend Auth selesai diimplementasikan.
-                        </p>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">
+                            Nama Lengkap
+                        </label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                            placeholder="Contoh: John Doe"
+                        />
                     </div>
-                </div>
 
-                {/* CLOSE ACTION */}
-                <div className="flex justify-center mt-2">
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="px-6 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:opacity-90 transition-opacity"
-                    >
-                        Tutup
-                    </button>
-                </div>
+                    <div>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                            placeholder="email@rkk.co.id"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">
+                            Nomor Telepon
+                        </label>
+                        <input
+                            type="text"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                            placeholder="08123456789"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">
+                            Status
+                        </label>
+                        <select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                        >
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Nonaktif</option>
+                        </select>
+                    </div>
+
+                    <div className="pt-4 flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="flex-1 px-4 py-3 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-soft)] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[var(--dashboard-border-soft)] transition-colors"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            className="flex-1 px-4 py-3 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:opacity-90 transition-opacity"
+                        >
+                            {initialData ? "Simpan" : "Tambah"}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     );

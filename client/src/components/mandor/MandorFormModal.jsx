@@ -1,33 +1,49 @@
-// client/src/components/mandor/MandorFormModal.jsx
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
 export default function MandorFormModal({ isOpen, onClose, onSubmit, initialData }) {
     const [form, setForm] = useState({
-        nama_lengkap: "",
-        nik: "",
+        name: "",
         email: "",
-        no_hp: "",
-        alamat: "",
-        pengalaman_tahun: 0,
-        status_aktif: true,
-        foto: "",
+        phone: "",
+        address: "",
+        experienceYears: 0,
+        status: "active",
+        avatar: "",
+        specialization: ""
     });
 
     useEffect(() => {
         if (initialData) {
             setForm({
-                ...initialData,
-                pengalaman_tahun: initialData.pengalaman_tahun || 0,
+                name: initialData.name || "",
+                email: initialData.email || "",
+                phone: initialData.phone || "",
+                address: initialData.address || "",
+                experienceYears: initialData.experienceYears || 0,
+                status: initialData.status || "active",
+                avatar: initialData.avatar || "",
+                specialization: initialData.specialization || ""
+            });
+        } else {
+            setForm({
+                name: "",
+                email: "",
+                phone: "",
+                address: "",
+                experienceYears: 0,
+                status: "active",
+                avatar: "",
+                specialization: ""
             });
         }
-    }, [initialData]);
+    }, [initialData, isOpen]);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: name === "experienceYears" ? parseInt(value) || 0 : value,
         }));
     };
 
@@ -40,122 +56,132 @@ export default function MandorFormModal({ isOpen, onClose, onSubmit, initialData
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-            <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 animate-in fade-in zoom-in">
+            <div className="bg-[var(--dashboard-surface)] w-full max-w-lg rounded-2xl shadow-2xl p-6 border border-[var(--dashboard-border)] overflow-y-auto max-h-[90vh]">
                 {/* HEADER */}
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
                         {initialData ? "Edit Mandor" : "Tambah Mandor Baru"}
                     </h2>
-                    <button onClick={onClose}>
+                    <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-colors text-[var(--dashboard-text-soft)]">
                         <X size={20} />
                     </button>
                 </div>
 
                 {/* FORM */}
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium">Nama Lengkap</label>
-                        <input
-                            type="text"
-                            name="nama_lengkap"
-                            value={form.nama_lengkap}
-                            onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
-                            required
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="md:col-span-2">
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Nama Lengkap</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={form.name}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                required
+                                placeholder="Contoh: Budi Santoso"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                placeholder="budi@email.com"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">No HP</label>
+                            <input
+                                type="text"
+                                name="phone"
+                                value={form.phone}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                placeholder="0812..."
+                            />
+                        </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">NIK</label>
-                        <input
-                            type="text"
-                            name="nik"
-                            value={form.nik}
-                            onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={form.email}
-                            onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium">No HP</label>
-                        <input
-                            type="text"
-                            name="no_hp"
-                            value={form.no_hp}
-                            onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium">Alamat</label>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Alamat</label>
                         <textarea
-                            name="alamat"
-                            value={form.alamat}
+                            name="address"
+                            value={form.address}
                             onChange={handleChange}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
+                            rows="2"
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none"
+                            placeholder="Alamat lengkap mitra..."
                         />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Spesialisasi</label>
+                            <input
+                                type="text"
+                                name="specialization"
+                                value={form.specialization}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                placeholder="Contoh: Sipil, Finishing, dll"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Pengalaman (Tahun)</label>
+                            <input
+                                type="number"
+                                name="experienceYears"
+                                value={form.experienceYears}
+                                onChange={handleChange}
+                                min={0}
+                                className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                            />
+                        </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Pengalaman (Tahun)</label>
-                        <input
-                            type="number"
-                            name="pengalaman_tahun"
-                            value={form.pengalaman_tahun}
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Status</label>
+                        <select
+                            name="status"
+                            value={form.status}
                             onChange={handleChange}
-                            min={0}
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            name="status_aktif"
-                            checked={form.status_aktif}
-                            onChange={handleChange}
-                            className="h-4 w-4"
-                        />
-                        <label className="text-sm font-medium">Aktif</label>
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                        >
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Nonaktif</option>
+                        </select>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Link Foto (URL)</label>
+                        <label className="block text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-1">Link Foto Profil (URL)</label>
                         <input
                             type="text"
-                            name="foto"
-                            value={form.foto}
+                            name="avatar"
+                            value={form.avatar}
                             onChange={handleChange}
-                            placeholder="https://example.com/foto.jpg"
-                            className="w-full border rounded-lg px-3 py-2 focus:border-emerald-600 focus:ring-emerald-600"
+                            placeholder="https://images.unsplash.com/..."
+                            className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border-soft)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                         />
                     </div>
 
-                    {/* ACTION BUTTON */}
-                    <div className="flex justify-end gap-3 pt-2">
+                    <div className="flex items-center gap-3 pt-4">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 border rounded-lg hover:bg-slate-50"
+                            className="flex-1 px-4 py-3 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-soft)] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[var(--dashboard-border-soft)] transition-colors"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+                            className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
                         >
                             {initialData ? "Simpan Perubahan" : "Tambah Mandor"}
                         </button>

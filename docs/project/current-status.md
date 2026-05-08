@@ -5,7 +5,9 @@
 - **Environment**: Localhost only
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
+- **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
 - **Fokus Saat Ini**: Integrasi data database lokal untuk role Pengawas, Mandor, dan Arsitek (Profil/Dashboard) serta pembersihan dependensi mock data pada role tersebut.
+
 
 ## Backend Status (Local API)
 

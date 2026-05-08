@@ -12,6 +12,8 @@ import weeklyJournalRoutes from './modules/weekly-journals/weekly-journals.route
 import supervisorWeeklyReportRoutes from './modules/supervisor-weekly-reports/supervisor-weekly-reports.routes.js';
 import projectStageRoutes from './modules/project-stages/project-stages.routes.js';
 import rabRoutes from './modules/rab/rab.routes.js';
+import designRequestRoutes from './modules/design-requests/design-requests.routes.js';
+import designTenderRoutes from './modules/design-tenders/design-tenders.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -37,6 +39,8 @@ app.use('/api/weekly-journals', weeklyJournalRoutes);
 app.use('/api/supervisor-weekly-reports', supervisorWeeklyReportRoutes);
 app.use('/api/project-stages', projectStageRoutes);
 app.use('/api/rab', rabRoutes);
+app.use('/api/design-requests', designRequestRoutes);
+app.use('/api/design-tenders', designTenderRoutes);
 
 // Error Handler
 app.use(errorHandler);

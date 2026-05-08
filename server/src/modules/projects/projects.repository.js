@@ -110,6 +110,13 @@ export const findById = async (id) => {
           name: true,
           avatar: true
         }
+      },
+      designRequests: {
+        select: {
+          id: true,
+          title: true,
+          status: true
+        }
       }
     },
   });

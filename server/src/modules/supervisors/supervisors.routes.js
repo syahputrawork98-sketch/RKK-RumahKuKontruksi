@@ -9,6 +9,7 @@ router.get('/:id', SupervisorController.getSupervisorById);
 router.post('/', SupervisorController.createSupervisor);
 router.patch('/:id', SupervisorController.updateSupervisor);
 router.delete('/:id', SupervisorController.deleteSupervisor);
+router.get('/:id/stats', SupervisorController.getSupervisorStats);
 
 // Certificates
 router.get('/:id/certificates', SupervisorController.getCertificates);

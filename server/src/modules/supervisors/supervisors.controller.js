@@ -173,3 +173,16 @@ export const deleteExperience = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getSupervisorStats = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const stats = await SupervisorRepository.getStats(id);
+    res.json({
+      success: true,
+      data: stats
+    });
+  } catch (error) {
+    next(error);
+  }
+};

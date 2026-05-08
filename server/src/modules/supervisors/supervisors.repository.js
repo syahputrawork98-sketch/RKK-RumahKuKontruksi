@@ -97,3 +97,41 @@ export const softDeleteExperience = async (id) => {
     data: { deletedAt: new Date() }
   });
 };
+
+export const getStats = async (supervisorId) => {
+  const [projectsCount, journals, materialRequests, weeklyReports, projects] = await Promise.all([
+    prisma.project.count({
+      where: { supervisorId, status: 'active' }
+    }),
+    prisma.weeklyJournal.groupBy({
+      by: ['status'],
+      where: { supervisorId },
+      _count: { _all: true }
+    }),
+    prisma.materialRequest.groupBy({
+      by: ['status'],
+      where: { supervisorId },
+      _count: { _all: true }
+    }),
+    prisma.supervisorWeeklyReport.groupBy({
+      by: ['status'],
+      where: { supervisorId },
+      _count: { _all: true }
+    }),
+    prisma.project.findMany({
+      where: { supervisorId, status: 'active' },
+      select: { verifiedProgress: true }
+    })
+  ]);
+
+  const totalVerifiedProgress = projects.reduce((acc, p) => acc + (p.verifiedProgress || 0), 0);
+  const avgProgress = projects.length > 0 ? totalVerifiedProgress / projects.length : 0;
+
+  return {
+    activeProjects: projectsCount,
+    journals,
+    materialRequests,
+    weeklyReports,
+    avgProgress
+  };
+};

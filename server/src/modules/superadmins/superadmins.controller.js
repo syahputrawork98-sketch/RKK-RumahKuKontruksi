@@ -96,3 +96,15 @@ export const deleteSuperadmin = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getGlobalStats = async (req, res, next) => {
+  try {
+    const stats = await SuperadminRepository.getStats();
+    res.json({
+      success: true,
+      data: stats
+    });
+  } catch (error) {
+    next(error);
+  }
+};

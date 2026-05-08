@@ -39,3 +39,45 @@ export const softDelete = async (id) => {
     }
   });
 };
+
+export const getStats = async () => {
+  const [
+    adminCount,
+    supervisorCount,
+    foremanCount,
+    architectCount,
+    customerCount,
+    projectRunningCount,
+    projectFinishedCount
+  ] = await Promise.all([
+    prisma.admin.count({ where: { deletedAt: null } }),
+    prisma.supervisor.count({ where: { deletedAt: null } }),
+    prisma.foreman.count({ where: { deletedAt: null } }),
+    prisma.architect.count({ where: { deletedAt: null } }),
+    prisma.customer.count(),
+    prisma.project.count({ 
+      where: { 
+        status: { 
+          in: ['active', 'ongoing', 'berjalan', 'Active', 'Ongoing', 'Berjalan'] 
+        } 
+      } 
+    }),
+    prisma.project.count({ 
+      where: { 
+        status: { 
+          in: ['finish', 'selesai', 'Finished', 'Selesai'] 
+        } 
+      } 
+    })
+  ]);
+
+  return {
+    admins: adminCount,
+    supervisors: supervisorCount,
+    foremen: foremanCount,
+    architects: architectCount,
+    customers: customerCount,
+    projectsRunning: projectRunningCount,
+    projectsFinished: projectFinishedCount
+  };
+};

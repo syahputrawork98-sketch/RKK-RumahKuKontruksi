@@ -24,7 +24,8 @@
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
 | **Weekly Journals** | CRUD Available | Foreman Weekly Journals (Activities + Photos) |
 | **Weekly Reports** | CRUD Available | Supervisor Weekly Reports with Admin Review flow |
-| **Material Requests**| Experimental | Backend Draft & Partial Frontend Integration |
+| **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
+| **Material Requests**| DONE | Local DB-Backed with Status Approval Flow |
 | **Verification** | DONE | Official Progress Verification Log (SOT) |
 | **Design Request** | DONE | Consumer Request, Admin Management, Status Workflow |
 | **Design Tender** | DONE | 30/70 Split, Architect Bidding, Admin Awarding |
@@ -32,6 +33,23 @@
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Admin sekarang dapat memonitor progres resmi (Source of Truth) secara real-time berdasarkan verifikasi Pengawas.
+
+### Project Activation Flow (Final)
+1. **Planning Mode**: Proyek hasil bridge atau manual berstatus `planning` (Persiapan). Pada fase ini, proyek belum dianggap aktif.
+2. **Readiness Requirements**: Aktivasi membutuhkan data lengkap: Customer, Mandor, Pengawas, minimal 1 Stage, minimal 1 RAB Plan, Total RAB > 0, dan tanggal jadwal.
+3. **Activation Gate**: Backend menolak aktivasi (`PATCH /activate`) jika syarat di atas belum terpenuhi.
+4. **Success Status**: Setelah aktivasi berhasil, status proyek berubah menjadi `Berjalan` (active/ongoing).
+5. **Downstream Impact**: Modul *Material Request* hanya dapat digunakan jika proyek sudah berstatus `Berjalan`.
+
+### Scope Guard (Safety First)
+Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis demi menjaga kontrol administratif:
+- RAB otomatis (Harus diinput/import manual).
+- Stages otomatis (Harus direncanakan manual).
+- Penugasan Mandor/Pengawas otomatis.
+- Aktivasi otomatis (Harus melalui tombol aktivasi oleh Admin).
+- Sistem Pembayaran (Escrow/Payment Gateway).
+- Dokumen Legal Otomatis (SPK, Kontrak).
+- Auth Production (Login/Register rill masih ditunda).
 
 ## Frontend Role Status
 

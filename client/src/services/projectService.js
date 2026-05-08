@@ -122,6 +122,15 @@ const projectService = {
    */
   async activateProject(id, data) {
     return apiClient.patch(`/projects/${id}/activate`, data);
+  },
+
+  /**
+   * Get material requests for a specific project
+   * @param {string} projectId 
+   * @returns {Promise<Object>}
+   */
+  async getProjectMaterialRequests(projectId) {
+    return apiClient.get(`/material-requests?projectId=${projectId}`);
   }
 };
 

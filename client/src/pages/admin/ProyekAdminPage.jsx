@@ -40,7 +40,7 @@ const ProyekAdminPage = () => {
     const getStatusColor = (status) => {
         const s = status?.toLowerCase();
         if (s?.includes("active") || s?.includes("ongoing") || s?.includes("berjalan")) return "bg-emerald-500/10 text-emerald-500";
-        if (s?.includes("persiapan") || s?.includes("plan")) return "bg-blue-500/10 text-blue-500";
+        if (s?.includes("persiapan") || s?.includes("plan") || s?.includes("planning")) return "bg-blue-500/10 text-blue-500";
         if (s?.includes("finish") || s?.includes("selesai")) return "bg-purple-500/10 text-purple-500";
         if (s?.includes("stop") || s?.includes("terhenti")) return "bg-red-500/10 text-red-500";
         return "bg-slate-500/10 text-slate-500";
@@ -49,7 +49,7 @@ const ProyekAdminPage = () => {
     const subtabs = [
         { id: "all", label: "Semua", count: projects.length },
         { id: "active", label: "Aktif", count: projects.filter(p => p.status?.toLowerCase().includes('active') || p.status?.toLowerCase().includes('ongoing') || p.status?.toLowerCase().includes('berjalan')).length },
-        { id: "persiapan", label: "Persiapan", count: projects.filter(p => p.status?.toLowerCase().includes('persiapan') || p.status?.toLowerCase().includes('plan')).length },
+        { id: "persiapan", label: "Persiapan", count: projects.filter(p => p.status?.toLowerCase().includes('persiapan') || p.status?.toLowerCase().includes('plan') || p.status?.toLowerCase().includes('planning')).length },
         { id: "selesai", label: "Selesai", count: projects.filter(p => p.status?.toLowerCase().includes('finish') || p.status?.toLowerCase().includes('selesai')).length },
     ];
 
@@ -62,7 +62,7 @@ const ProyekAdminPage = () => {
 
         const s = prj.status?.toLowerCase();
         if (activeSubtab === "active") return s.includes('active') || s.includes('ongoing') || s.includes('berjalan');
-        if (activeSubtab === "persiapan") return s.includes('persiapan') || s.includes('plan');
+        if (activeSubtab === "persiapan") return s.includes('persiapan') || s.includes('plan') || s.includes('planning');
         if (activeSubtab === "selesai") return s.includes('finish') || s.includes('selesai');
         return true;
     });

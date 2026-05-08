@@ -213,3 +213,13 @@ export const getForemanProjects = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getForemanStats = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const stats = await ForemanRepository.getStats(id);
+    res.json({ success: true, data: stats });
+  } catch (error) {
+    next(error);
+  }
+};

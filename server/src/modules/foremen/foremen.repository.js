@@ -109,3 +109,27 @@ export const findProjectsByForemanId = async (foremanId) => {
     }
   });
 };
+
+export const getStats = async (foremanId) => {
+  const [projectsCount, journals, materialRequests] = await Promise.all([
+    prisma.project.count({
+      where: { foremanId, status: 'active' }
+    }),
+    prisma.weeklyJournal.groupBy({
+      by: ['status'],
+      where: { foremanId },
+      _count: { _all: true }
+    }),
+    prisma.materialRequest.groupBy({
+      by: ['status'],
+      where: { foremanId },
+      _count: { _all: true }
+    })
+  ]);
+
+  return {
+    activeProjects: projectsCount,
+    journals,
+    materialRequests
+  };
+};

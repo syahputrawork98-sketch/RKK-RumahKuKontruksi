@@ -22,7 +22,8 @@ router.post('/:id/experiences', ForemanController.createExperience);
 router.patch('/experiences/:experienceId', ForemanController.updateExperience);
 router.delete('/experiences/:experienceId', ForemanController.deleteExperience);
 
-// Projects
+// Projects & Stats
 router.get('/:id/projects', ForemanController.getForemanProjects);
+router.get('/:id/stats', ForemanController.getForemanStats);
 
 export default router;

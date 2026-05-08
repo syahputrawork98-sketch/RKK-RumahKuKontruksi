@@ -13,18 +13,19 @@ Daftar modul fungsional yang direncanakan untuk backend RumahKu Kontruksi.
 | **Project Phase** | Manajemen tahapan proyek. | **Partial** | **Read-Only** aktif. |
 | **Estimation / RAB** | Pengelolaan Rencana Anggaran Biaya. | **Partial** | **Read-Only** (3 levels) aktif. |
 | **Contract Module** | Manajemen dokumen kontrak. | PLANNED | - |
-| **Material Request** | Permintaan material lapangan. | PLANNED | - |
+| **Material Request** | Permintaan material lapangan. | **Experimental** | **Backend Draft** (Prisma + API). |
 | **Procurement** | Pengadaan material. | PLANNED | - |
 | **Daily Report** | Laporan aktivitas harian. | PLANNED | - |
-| **Weekly Report** | Rekapitulasi mingguan. | PLANNED | - |
-| **Progress Module** | Perhitungan progres fisik. | PLANNED | - |
+| **Weekly Journal** | Jurnal aktivitas mandor (Weekly). | **Implemented v1** | **Full CRUD** (Prisma + API) aktif. |
+| **Weekly Report** | Rekapitulasi mingguan Pengawas. | **Implemented v1** | **Full CRUD** (Prisma + API) aktif. |
+| **Progress Module** | Perhitungan progres fisik resmi. | **Implemented v1** | **DB-Backed (Project.verifiedProgress)**. |
 | **Payment / Termin** | Manajemen termin pembayaran. | PLANNED | - |
 | **Finance Module** | Arus kas internal. | PLANNED | - |
 | **File Upload** | Penyimpanan dokumen/media. | PLANNED | - |
-| **Approval Module** | Mesin persetujuan berjenjang. | PLANNED | - |
+| **Approval Module** | Mesin persetujuan berjenjang. | **Implemented v1** | Terintegrasi di Journal/Report. |
 | **Notification** | Notifikasi sistem. | PLANNED | - |
-| **Audit Log** | Pencatatan aktivitas user. | PLANNED | - |
-| **Dashboard** | Agregasi data statistik. | PLANNED | - |
+| **Audit Log** | Pencatatan aktivitas user. | **Partial** | History di Material Request. |
+| **Dashboard** | Agregasi data statistik. | **Partial** | Terintegrasi di role dashboard. |
 | **Reference Data** | Manajemen data master. | PLANNED | - |
 
 > [!NOTE]

@@ -100,37 +100,42 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /superadmins/:id`: Update data Superadmin.
 - `DELETE /superadmins/:id`: Hapus Superadmin.
 
-## Material Requests (Experimental Backend Draft)
-- `GET /api/material-requests`: Ambil semua pengajuan material.
-- `GET /api/material-requests/:id`: Ambil detail pengajuan material.
-- `POST /api/material-requests`: Membuat pengajuan material baru.
-- `PATCH /api/material-requests/:id/status`: Update status pengajuan.
-- `GET /api/material-requests/project/:projectId`: List pengajuan per proyek.
-- **Catatan**: 
-  - Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
-  - Sistem *Audit Trail* (History) sudah mulai ada namun belum final.
-  - Validasi role/RBAC dan transisi status belum diperketat secara final.
-  - Jalur Normal vs Urgent belum diimplementasikan secara spesifik di backend.
-  - **Status**: *Experimental Backend Draft* (Tidak untuk penggunaan produksi).
-
-- **Status**: *Implemented Local Backend v1 / Frontend Pending*.
-
-## Supervisor Weekly Reports (Implemented Local Backend v1)
-- `GET /api/supervisor-weekly-reports/context`: Ambil data pendukung pembuatan laporan (project info, progress snapshot, approved journals).
-- `GET /api/supervisor-weekly-reports`: Ambil list laporan (dukung filter role/project/status/period).
-- `GET /api/supervisor-weekly-reports/:id`: Ambil detail laporan lengkap dengan journals, notes, dan review logs.
-- `POST /api/supervisor-weekly-reports`: Membuat draft laporan baru (Role: Pengawas).
-- `PATCH /api/supervisor-weekly-reports/:id`: Memperbarui draft/revisi laporan.
-- `POST /api/supervisor-weekly-reports/:id/submit`: Mengirim laporan ke Admin (Status: submitted).
-- `POST /api/supervisor-weekly-reports/:id/review`: Review laporan oleh Admin (Aksi: start_admin_review, approve, request_revision, reject).
+## Weekly Journals (Implemented Local Backend v1)
+- `GET /weekly-journals`: Ambil list jurnal (dukung filter actorRole/actorId/foremanId/status).
+- `GET /weekly-journals/:id`: Ambil detail jurnal lengkap dengan activities dan photos.
+- `POST /weekly-journals`: Membuat draft jurnal baru (Role: Mandor).
+- `PATCH /weekly-journals/:id`: Memperbarui draft/revisi jurnal.
+- `POST /weekly-journals/:id/submit`: Mengirim jurnal ke Pengawas (Status: submitted).
+- `POST /weekly-journals/:id/review`: Review jurnal oleh Pengawas (Aksi: approve, request_revision, reject).
 
 **Catatan**:
-- Actor masih menggunakan payload/query local dev (`actorRole`, `actorId`).
-- Belum menggunakan JWT/RBAC produksi.
+- Actor menggunakan payload local dev (`actorRole`, `actorId`).
+- Mendukung snapshot progress verifikasi saat jurnal dikunci.
+- **Status**: *Implemented Local Backend v1 / Frontend Integrated*.
+
+## Supervisor Weekly Reports (Implemented Local Backend v1)
+- `GET /supervisor-weekly-reports/context`: Ambil data pendukung pembuatan laporan.
+- `GET /supervisor-weekly-reports`: Ambil list laporan (dukung filter role/project/status/period).
+- `GET /supervisor-weekly-reports/:id`: Ambil detail laporan lengkap.
+- `POST /supervisor-weekly-reports`: Membuat draft laporan baru (Role: Pengawas).
+- `PATCH /supervisor-weekly-reports/:id`: Memperbarui draft/revisi laporan.
+- `POST /supervisor-weekly-reports/:id/submit`: Mengirim laporan ke Admin (Status: submitted).
+- `POST /supervisor-weekly-reports/:id/review`: Review laporan oleh Admin.
+
+**Catatan**:
 - Laporan tidak mengubah `Project.verifiedProgress`.
-- Laporan tidak publish ke Konsumen secara otomatis.
-- Laporan tidak membuat Payment otomatis.
-- **Status**: *Implemented Local Backend v1 / Frontend Pending*.
+- **Status**: *Implemented Local Backend v1 / Frontend Integrated*.
+
+## Material Requests (Experimental Backend Draft)
+- `GET /material-requests`: Ambil semua pengajuan material.
+- `GET /material-requests/:id`: Ambil detail pengajuan material.
+- `POST /material-requests`: Membuat pengajuan material baru.
+- `PATCH /material-requests/:id/status`: Update status pengajuan.
+- `GET /material-requests/project/:projectId`: List pengajuan per proyek.
+
+**Catatan**: 
+- Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
+- **Status**: *Experimental Backend Draft / Partially Integrated*.
 
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.

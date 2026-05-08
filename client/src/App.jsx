@@ -19,6 +19,7 @@ import Contact from "./modules/guest/Contact";
 import KonsumenLayout from "./layouts/KonsumenLayout";
 import TimelineProyek from "./pages/konsumen/TimelineProyek";
 import DetailTimelineProyek from "./pages/konsumen/DetailTimelineProyek";
+import DesignRequestCustomerPage from "./pages/konsumen/DesignRequestCustomerPage";
 import Proyek from "./pages/konsumen/Proyek";
 import Profil from "./pages/konsumen/Profil";
 import DashboardKonsumen from "./pages/konsumen/DashboardKonsumen";
@@ -30,6 +31,9 @@ import DashboardSuperadmin from "./pages/superadmin/DashboardSuperadmin";
 import DataAdmin from "./pages/superadmin/DataAdminPage";
 import DataPengawas from "./pages/superadmin/DataPengawasPage";
 import DataMandor from "./pages/superadmin/DataMandorPage";
+import DataSuperadmin from "./pages/superadmin/DataSuperadminPage";
+import DataKonsumen from "./pages/superadmin/DataKonsumenPage";
+import DataArsitek from "./pages/superadmin/DataArsitekPage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -49,6 +53,7 @@ import LaporanProgressAdminPage from "./pages/admin/LaporanProgressAdminPage";
 import RequestMaterialAdminPage from "./pages/admin/RequestMaterialAdminPage";
 import PengaturanAdminPage from "./pages/admin/PengaturanAdminPage";
 import CustomerAdminPage from "./pages/admin/CustomerAdminPage";
+import DesignRequestAdminPage from "./pages/admin/DesignRequestAdminPage";
 import AktivasiProyekAdminPage from "./pages/admin/AktivasiProyekAdminPage";
 import PublikasiKonsumenAdminPage from "./pages/admin/PublikasiKonsumenAdminPage";
 
@@ -135,6 +140,7 @@ function App() {
             <Route path="proyek" element={<Proyek />} />
             <Route path="timeline-proyek" element={<TimelineProyek />} />
             <Route path="timeline-proyek/:stageId" element={<DetailTimelineProyek />} />
+            <Route path="permintaan-desain" element={<DesignRequestCustomerPage />} />
             
             {/* Alias Route Lama (Compatibility) */}
             <Route path="TimelineProyek" element={<TimelineProyek />} />
@@ -163,11 +169,12 @@ function App() {
             
             {/* DATA MASTER */}
             <Route path="data-admin" element={<DataAdmin />} />
-            <Route path="data-superadmin" element={<PlaceholderPage title="Data Master Superadmin" description="Manajemen akun superadmin dan hak akses sistem global." status="Planned" dos={["Melihat daftar superadmin", "Mengelola hak akses global"]} donts={["Menghapus akun utama", "Mengubah log audit"]} />} />
-            <Route path="data-konsumen" element={<PlaceholderPage title="Manajemen Konsumen" description="Halaman untuk mengelola data konsumen retail dan korporat." status="Partial" dos={["Melihat data konsumen", "Validasi profil"]} donts={["Menghapus data transaksi", "Mengubah saldo/tagihan secara manual"]} />} />
+            <Route path="data-superadmin" element={<DataSuperadmin />} />
+            <Route path="data-konsumen" element={<DataKonsumen />} />
             <Route path="data-pengawas" element={<DataPengawas />} />
             <Route path="data-mandor" element={<DataMandor />} />
-            <Route path="data-arsitek" element={<PlaceholderPage title="Manajemen Arsitek" description="Halaman untuk mengelola data mitra arsitek dan desain proyek." status="Partial" dos={["Melihat data arsitek", "Monitoring kapasitas desain"]} donts={["Mengambil keputusan desain", "Memberi instruksi teknis langsung"]} />} />
+            <Route path="data-arsitek" element={<DataArsitek />} />
+            <Route path="data-pengajuan-desain" element={<DesignRequestAdminPage />} />
             <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." status="Planned" dos={["Melihat data legalitas", "Mengelola PIC internal"]} donts={["Mengubah struktur organisasi resmi", "Menghapus dokumen legal yang sudah aktif"]} />} />
             
             {/* PROYEK GLOBAL */}
@@ -203,7 +210,7 @@ function App() {
             
             {/* KONSUMEN & PENGAJUAN */}
             <Route path="konsumen/data" element={<CustomerAdminPage />} />
-            <Route path="konsumen/pengajuan-desain" element={<PlaceholderPage title="Pengajuan Desain" description="Drafting dan verifikasi permintaan desain baru." status="Planned" />} />
+            <Route path="konsumen/pengajuan-desain" element={<DesignRequestAdminPage />} />
             <Route path="konsumen/pengajuan-konstruksi" element={<PlaceholderPage title="Pengajuan Konstruksi" description="Proses konversi desain menjadi proyek konstruksi." status="Planned" />} />
             <Route path="konsumen/validasi" element={<PlaceholderPage title="Validasi Pengajuan" description="Checklist verifikasi administrasi pengajuan konsumen." status="Planned" />} />
 

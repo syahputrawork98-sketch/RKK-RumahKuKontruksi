@@ -15,6 +15,25 @@ export const getStagesByProject = async (req, res, next) => {
   }
 };
 
+export const getStageById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const stage = await ProjectStageRepository.findById(id);
+    if (!stage) {
+      return res.status(404).json({
+        success: false,
+        message: 'Stage not found',
+      });
+    }
+    res.json({
+      success: true,
+      data: serializeDecimal(stage),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createStage = async (req, res, next) => {
   try {
     const { projectId } = req.params;

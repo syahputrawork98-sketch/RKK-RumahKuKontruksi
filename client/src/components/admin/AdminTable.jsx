@@ -20,22 +20,19 @@ export default function AdminTable({ data }) {
   const [detailAdmin, setDetailAdmin] = useState(null);
 
   const filteredAdmins = admins.filter((item) =>
-    item.nama_lengkap.toLowerCase().includes(search.toLowerCase())
+    (item.name || "").toLowerCase().includes(search.toLowerCase())
   );
-  // .filter((item) => role === "all" || item.role.toLowerCase().startsWith( === role);
 
   const sortedAdmins = [...filteredAdmins].sort((a, b) => {
     switch (sort) {
       case "name-asc":
-        return a.nama_lengkap.localeCompare(b.nama_lengkap);
+        return (a.name || "").localeCompare(b.name || "");
       case "name-desc":
-        return b.nama_lengkap.localeCompare(a.nama_lengkap);
+        return (b.name || "").localeCompare(a.name || "");
       case "newest":
-        return new Date(b.tanggal_bergabung) - new Date(a.tanggal_bergabung);
+        return new Date(b.createdAt) - new Date(a.createdAt);
       case "oldest":
-        return new Date(a.tanggal_bergabung) - new Date(b.tanggal_bergabung);
-      //   case "last-login":
-      //     return new Date(b.terakhir_login) - new Date(a.terakhir_login);
+        return new Date(a.createdAt) - new Date(b.createdAt);
       default:
         return 0;
     }
@@ -54,7 +51,7 @@ export default function AdminTable({ data }) {
   const handleDelete = (admin) => {
     if (!confirm(`Hapus admin ${admin.nama}?`)) return;
     setAdmins((prev) =>
-      prev.filter((item) => item.id_admin !== admin.id_admin)
+      prev.filter((item) => item.id !== admin.id)
     );
   };
 
@@ -62,7 +59,7 @@ export default function AdminTable({ data }) {
     if (editingAdmin) {
       setAdmins((prev) =>
         prev.map((item) =>
-          item.id_admin === editingAdmin.id_admin
+          item.id === editingAdmin.id
             ? { ...item, ...formData }
             : item
         )
@@ -134,7 +131,7 @@ export default function AdminTable({ data }) {
               ) : (
                 sortedAdmins.map((admin) => (
                   <AdminRow
-                    key={admin.id_admin}
+                    key={admin.id}
                     admin={admin}
                     onEdit={() => handleEdit(admin)}
                     onDelete={() => handleDelete(admin)}

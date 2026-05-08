@@ -1,175 +1,109 @@
 // client/src/components/admin/AdminDetailDrawer.jsx
-import { useState } from "react";
-import {
-  X,
-  Mail,
-  Phone,
-  MapPin,
-  User,
-  Calendar,
-  FileText,
-  Clock,
-  Activity,
-} from "lucide-react";
+import { X, Mail, Phone, User, Calendar, Clock, Briefcase } from "lucide-react";
 
 export default function AdminDetailDrawer({ isOpen, onClose, admin }) {
-  const [activeTab, setActiveTab] = useState("profile");
-
   if (!isOpen || !admin) return null;
+
+  const initials = (admin.name || "A").charAt(0).toUpperCase();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-2xl p-6 relative shadow-lg overflow-y-auto max-h-[90vh]">
+      <div className="bg-[var(--dashboard-surface)] rounded-2xl w-full max-w-lg p-6 relative shadow-2xl overflow-y-auto max-h-[90vh]">
         {/* CLOSE BUTTON */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-slate-700"
+          className="absolute top-4 right-4 text-[var(--dashboard-text-soft)] hover:text-[var(--dashboard-text)] p-1 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-all"
         >
-          <X size={24} />
+          <X size={20} />
         </button>
 
-        {/* HEADER */}
-        <h2 className="text-heading-s-bold text-primary-main mb-4 text-center">
-          Detail Admin
-        </h2>
-
-        {/* PROFILE IMAGE */}
-        <div className="flex flex-col items-center mb-6">
-          <img
-            src={
-              admin.foto !== "NULL" ? admin.foto : `https://placehold.co/150`
-            }
-            alt={admin.nama_lengkap}
-            className="w-24 h-24 rounded-full object-cover mb-3"
-          />
-          <h3 className="text-l-bold text-primary-main">
-            {admin.nama_lengkap}
-          </h3>
-          <span className="text-slate-500">{admin.kode_admin}</span>
-        </div>
-
-        {/* TABS */}
-        <div className="flex justify-center gap-4 mb-4 border-b border-slate-200">
-          <button
-            onClick={() => setActiveTab("profile")}
-            className={`py-2 px-4 font-medium ${
-              activeTab === "profile"
-                ? "border-b-2 border-emerald-600 text-emerald-600"
-                : "text-slate-500"
-            }`}
-          >
-            Profil
-          </button>
-          <button
-            onClick={() => setActiveTab("akun")}
-            className={`py-2 px-4 font-medium ${
-              activeTab === "akun"
-                ? "border-b-2 border-emerald-600 text-emerald-600"
-                : "text-slate-500"
-            }`}
-          >
-            Akun
-          </button>
-          <button
-            onClick={() => setActiveTab("aktivitas")}
-            className={`py-2 px-4 font-medium ${
-              activeTab === "aktivitas"
-                ? "border-b-2 border-emerald-600 text-emerald-600"
-                : "text-slate-500"
-            }`}
-          >
-            Aktivitas
-          </button>
-        </div>
-
-        {/* TAB CONTENT */}
-        <div className="space-y-3 text-slate-700 text-sm">
-          {activeTab === "profile" && (
-            <div className="grid grid-cols-1 gap-3">
-              <div className="flex items-center space-x-2">
-                <User size={16} />
-                <span>
-                  <strong>NIK:</strong> {admin.nik || "-"}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone size={16} />
-                <span>
-                  <strong>No HP:</strong> {admin.no_telp || "-"}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <MapPin size={16} />
-                <span>
-                  <strong>Alamat:</strong> {admin.alamat || "-"}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Calendar size={16} />
-                <span>
-                  <strong>Tanggal Bergabung:</strong>{" "}
-                  {new Date(admin.tanggal_bergabung).toLocaleDateString()}
-                </span>
-              </div>
+        {/* PROFILE HEADER */}
+        <div className="flex flex-col items-center mb-6 pt-2">
+          {admin.avatar ? (
+            <img
+              src={admin.avatar}
+              alt={admin.name}
+              className="w-24 h-24 rounded-2xl object-cover mb-3 border-4 border-[var(--dashboard-border)]"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-2xl bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-3xl mb-3 border-4 border-[var(--dashboard-border)]">
+              {initials}
             </div>
           )}
+          <h3 className="text-lg font-black text-[var(--dashboard-text)]">{admin.name || "-"}</h3>
+          <span className="text-[10px] font-black px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full uppercase tracking-widest mt-1">
+            Staff Admin
+          </span>
+          <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest mt-1 ${admin.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
+            {admin.status === 'active' ? 'Aktif' : 'Nonaktif'}
+          </span>
+        </div>
 
-          {activeTab === "akun" && (
-            <div className="grid grid-cols-1 gap-3">
-              <div className="flex items-center space-x-2">
-                <Clock size={16} />
-                <span>
-                  <strong>Created At:</strong>{" "}
-                  {new Date(admin.created_at).toLocaleString()}
-                </span>
+        {/* DETAIL INFO */}
+        <div className="space-y-3 text-sm">
+          <div className="grid grid-cols-1 gap-3">
+            <div className="flex items-center gap-3 p-3 bg-[var(--dashboard-surface-soft)] rounded-xl">
+              <Mail size={16} className="text-[var(--dashboard-primary)] shrink-0" />
+              <div>
+                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Email</p>
+                <p className="text-xs font-bold text-[var(--dashboard-text)]">{admin.email || "-"}</p>
               </div>
-              <div className="flex items-center space-x-2">
-                <FileText size={16} />
-                <span>
-                  <strong>Updated At:</strong>{" "}
-                  {new Date(admin.updated_at).toLocaleString()}
-                </span>
+            </div>
+
+            <div className="flex items-center gap-3 p-3 bg-[var(--dashboard-surface-soft)] rounded-xl">
+              <Phone size={16} className="text-[var(--dashboard-primary)] shrink-0" />
+              <div>
+                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">No. Telepon</p>
+                <p className="text-xs font-bold text-[var(--dashboard-text)]">{admin.phone || "-"}</p>
               </div>
-              {admin.status_akun && (
-                <div className="flex items-center space-x-2">
-                  <User size={16} />
-                  <span>
-                    <strong>Status Akun:</strong> {admin.status_akun}
-                  </span>
+            </div>
+
+            <div className="flex items-center gap-3 p-3 bg-[var(--dashboard-surface-soft)] rounded-xl">
+              <Briefcase size={16} className="text-[var(--dashboard-primary)] shrink-0" />
+              <div>
+                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Proyek Terhubung</p>
+                <p className="text-xs font-bold text-[var(--dashboard-text)]">{admin._count?.projects ?? 0} proyek</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex items-center gap-3 p-3 bg-[var(--dashboard-surface-soft)] rounded-xl">
+                <Calendar size={16} className="text-[var(--dashboard-primary)] shrink-0" />
+                <div>
+                  <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Bergabung</p>
+                  <p className="text-xs font-bold text-[var(--dashboard-text)]">
+                    {admin.createdAt
+                      ? new Date(admin.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+                      : "-"}
+                  </p>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
 
-          {activeTab === "aktivitas" && (
-            <div className="grid grid-cols-1 gap-3">
-              {/* Contoh history aktivitas bisa di-pass lewat props */}
-              {admin.history && admin.history.length > 0 ? (
-                admin.history.map((item, idx) => (
-                  <div key={idx} className="flex items-start space-x-2">
-                    <Activity size={16} className="mt-1" />
-                    <div>
-                      <div className="text-slate-800">{item.kegiatan}</div>
-                      <div className="text-slate-400 text-xs">
-                        {new Date(item.tanggal).toLocaleString()}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center text-slate-400">
-                  Belum ada aktivitas
+              <div className="flex items-center gap-3 p-3 bg-[var(--dashboard-surface-soft)] rounded-xl">
+                <Clock size={16} className="text-[var(--dashboard-primary)] shrink-0" />
+                <div>
+                  <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Diperbarui</p>
+                  <p className="text-xs font-bold text-[var(--dashboard-text)]">
+                    {admin.updatedAt
+                      ? new Date(admin.updatedAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
+                      : "-"}
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
-          )}
+          </div>
+
+          <div className="p-3 bg-amber-50 border border-amber-100 rounded-xl mt-2">
+            <p className="text-[9px] font-black text-amber-700 uppercase tracking-widest">Fase Local CRUD</p>
+            <p className="text-[10px] text-amber-600 mt-0.5">Edit/Hapus admin melalui panel Superadmin masih dalam pengembangan.</p>
+          </div>
         </div>
 
-        {/* CLOSE BUTTON */}
+        {/* CLOSE ACTION */}
         <div className="mt-6 text-center">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
+            className="px-6 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:opacity-90 transition-opacity"
           >
             Tutup
           </button>

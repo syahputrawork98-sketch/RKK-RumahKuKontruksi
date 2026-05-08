@@ -1,34 +1,41 @@
-// client/src/pages/superadmin/DataMandorPage.jsx
 import { useEffect, useState } from "react";
 import MandorTable from "../../components/mandor/MandorTable";
+import foremanService from "../../services/foremanService";
+import RoleDataState from "../../components/common/RoleDataState";
+import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 export default function DataMandorPage() {
+  const { selectedSuperadminId } = useSuperadminPersona();
   const [dataMandor, setDataMandor] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchDataMandor = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/mandor", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-
-      if (!response.ok) {
-        if (result.success === false) throw new Error(result.message);
-      }
-
-      setDataMandor(result.data);
+      setLoading(true);
+      setError(null);
+      const response = await foremanService.getForemen();
+      setDataMandor(response.data || []);
     } catch (err) {
-      console.log(err);
+      console.error("DataMandorPage: Failed to fetch foremen", err);
+      setError("Gagal memuat data Mitra Mandor. Pastikan koneksi database aktif.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchDataMandor();
-  }, []);
+    if (selectedSuperadminId) {
+        fetchDataMandor();
+    }
+  }, [selectedSuperadminId]);
+
+  if (!selectedSuperadminId) {
+    return <RoleDataState type="empty" message="Pilih persona Superadmin untuk mengelola data Mandor." />;
+  }
+
+  if (loading) return <RoleDataState type="loading" message="Memuat data Mandor..." />;
+  if (error) return <RoleDataState type="error" message={error} onRetry={fetchDataMandor} />;
 
   return (
     <div className="animate-fadeIn">
@@ -46,6 +53,12 @@ export default function DataMandorPage() {
 
       {/* TABLE COMPONENT */}
       <MandorTable data={dataMandor} />
+
+      {/* Hold State */}
+      <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200 text-center">
+        <p className="text-[10px] font-bold text-blue-700 uppercase tracking-widest">Fase Local CRUD</p>
+        <p className="text-xs text-blue-600">Pendaftaran mandor baru saat ini masih dilakukan melalui proses verifikasi tim operasional.</p>
+      </div>
     </div>
   );
 }

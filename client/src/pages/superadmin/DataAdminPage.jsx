@@ -1,34 +1,42 @@
-// client/src/pages/superadmin/DataAdminPage.jsx
 import { useEffect, useState } from "react";
 import AdminTable from "../../components/admin/AdminTable";
+import adminService from "../../services/adminService";
+import RoleDataState from "../../components/common/RoleDataState";
+import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 export default function DataAdminPage() {
+  const { selectedSuperadminId } = useSuperadminPersona();
   const [dataAdmin, setDataAdmin] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchAdmins = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/admin", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-
-      if (!response.ok) {
-        if (result.success === false) throw new Error(result.message);
-      }
-
-      setDataAdmin(result.data);
+      setLoading(true);
+      setError(null);
+      const response = await adminService.getAdmins();
+      setDataAdmin(response.data || []);
     } catch (err) {
-      console.log(err);
+      console.error("DataAdminPage: Failed to fetch admins", err);
+      setError("Gagal memuat data Admin. Pastikan koneksi database aktif.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAdmins();
-  }, []);
+    if (selectedSuperadminId) {
+      fetchAdmins();
+    }
+  }, [selectedSuperadminId]);
+
+  if (!selectedSuperadminId) {
+    return <RoleDataState type="empty" message="Pilih persona Superadmin untuk mengelola data Admin." />;
+  }
+
+  if (loading) return <RoleDataState type="loading" message="Memuat data Admin..." />;
+  if (error) return <RoleDataState type="error" message={error} onRetry={fetchAdmins} />;
+
   return (
     <div className="animate-fadeIn">
       {/* PAGE HEADER */}
@@ -45,6 +53,12 @@ export default function DataAdminPage() {
 
       {/* TABLE COMPONENT */}
       <AdminTable data={dataAdmin} />
+      
+      {/* Hold State for Create/Edit if not yet fully implemented in Superadmin view */}
+      <div className="mt-6 p-4 bg-amber-50 rounded-xl border border-amber-200 text-center">
+        <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Fase Local CRUD</p>
+        <p className="text-xs text-amber-600">Fitur tambah/edit admin melalui panel Superadmin masih dalam pengembangan.</p>
+      </div>
     </div>
   );
 }

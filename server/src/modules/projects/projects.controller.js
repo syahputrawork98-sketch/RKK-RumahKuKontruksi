@@ -390,6 +390,7 @@ export const verifyProjectProgress = async (req, res, next) => {
 export const getProjectProgressHistory = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { adminId } = req.query;
     
     // Check project existence
     const project = await ProjectRepository.findById(id);
@@ -397,6 +398,14 @@ export const getProjectProgressHistory = async (req, res, next) => {
       return res.status(404).json({
         success: false,
         message: 'Project tidak ditemukan.'
+      });
+    }
+
+    // Ownership check for admin
+    if (adminId && project.adminId !== adminId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses ke riwayat progress proyek ini.'
       });
     }
 
@@ -408,6 +417,80 @@ export const getProjectProgressHistory = async (req, res, next) => {
         currentProgress: project.verifiedProgress,
         history: serializeDecimal(history)
       }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const activateProject = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { adminId } = req.body;
+
+    if (!adminId) {
+      return res.status(400).json({
+        success: false,
+        message: 'adminId is required for activation',
+      });
+    }
+
+    const project = await ProjectRepository.findById(id);
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project not found',
+      });
+    }
+
+    // Ownership check
+    if (project.adminId !== adminId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses untuk mengaktifkan project ini.',
+      });
+    }
+
+    // Already active check
+    if (project.status === 'active' || project.status === 'ongoing') {
+      return res.status(400).json({
+        success: false,
+        message: 'Project sudah aktif.',
+      });
+    }
+
+    // Readiness check
+    const missing = [];
+    if (!project.customerId) missing.push("Customer belum terhubung");
+    if (!project.supervisorId) missing.push("Pengawas belum ditugaskan");
+    if (!project.foremanId) missing.push("Mandor belum ditugaskan");
+    if (project._count.stages === 0) missing.push("Tahapan pekerjaan belum dibuat");
+    if (project._count.rabPlans === 0) missing.push("RAB Plan belum dibuat");
+    
+    // Check if there is an approved or any RabPlan with totalAmount > 0
+    const hasValidRab = project.rabPlans && project.rabPlans.length > 0 && parseFloat(project.rabPlans[0].totalAmount) > 0;
+    if (!hasValidRab) missing.push("Total RAB harus lebih dari 0");
+    
+    if (!project.startDate) missing.push("Tanggal mulai belum tersedia");
+    if (!project.estimatedEndDate) missing.push("Estimasi selesai belum tersedia");
+
+    if (missing.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Project belum siap diaktifkan.',
+        missing
+      });
+    }
+
+    // Update status to active
+    const updatedProject = await ProjectRepository.update(id, {
+      status: 'active'
+    });
+
+    res.json({
+      success: true,
+      message: 'Project berhasil diaktifkan.',
+      data: serializeDecimal(updatedProject),
     });
   } catch (error) {
     next(error);

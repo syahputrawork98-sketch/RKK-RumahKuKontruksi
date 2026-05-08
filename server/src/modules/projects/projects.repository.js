@@ -17,8 +17,42 @@ export const findAll = async (filters = {}) => {
     include: {
       customer: {
         select: {
+          id: true,
           name: true,
           avatar: true,
+        }
+      },
+      admin: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      supervisor: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      foreman: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      rabPlans: {
+        select: {
+          id: true,
+          status: true,
+          totalAmount: true
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 1
+      },
+      _count: {
+        select: {
+          rabPlans: true,
+          stages: true
         }
       }
     },
@@ -41,7 +75,7 @@ export const findById = async (id) => {
         orderBy: { order: 'asc' }
       },
       rabPlans: {
-        where: { status: 'approved' },
+        orderBy: { createdAt: 'desc' },
         include: {
           categories: {
             orderBy: { order: 'asc' },
@@ -53,13 +87,21 @@ export const findById = async (id) => {
           }
         }
       },
-      rabCategories: {
-        orderBy: { order: 'asc' }
-      },
-      rabItems: {
-        orderBy: { id: 'asc' }
-      },
       supervisor: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true
+        }
+      },
+      foreman: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true
+        }
+      },
+      admin: {
         select: {
           id: true,
           name: true,

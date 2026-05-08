@@ -110,6 +110,16 @@ const projectService = {
     const endpoint = `/projects/${projectId}/progress-history${queryString ? `?${queryString}` : ''}`;
     
     return apiClient.get(endpoint);
+  },
+
+  /**
+   * Activate project (Admin only)
+   * @param {string} id 
+   * @param {Object} data - { adminId }
+   * @returns {Promise<Object>}
+   */
+  async activateProject(id, data) {
+    return apiClient.patch(`/projects/${id}/activate`, data);
   }
 };
 

@@ -48,6 +48,7 @@ import LaporanProgressAdminPage from "./pages/admin/LaporanProgressAdminPage";
 import RequestMaterialAdminPage from "./pages/admin/RequestMaterialAdminPage";
 import PengaturanAdminPage from "./pages/admin/PengaturanAdminPage";
 import CustomerAdminPage from "./pages/admin/CustomerAdminPage";
+import AktivasiProyekAdminPage from "./pages/admin/AktivasiProyekAdminPage";
 import PublikasiKonsumenAdminPage from "./pages/admin/PublikasiKonsumenAdminPage";
 
 // ===== HALAMAN PENGAWAS =====
@@ -205,7 +206,7 @@ function App() {
             {/* MANAJEMEN PROYEK */}
             <Route path="proyek" element={<ProyekAdminPage />} />
             <Route path="proyek/create" element={<CreateProyekAdminPage />} />
-            <Route path="proyek/aktivasi" element={<PlaceholderPage title="Aktivasi Proyek" description="Final checklist sebelum proyek dinyatakan aktif/mulai kerja." status="Planned" dos={["Validasi DP", "Checklist dokumen awal"]} donts={["Aktivasi tanpa kontrak TTD", "Aktivasi tanpa penugasan tim"]} />} />
+            <Route path="proyek/aktivasi" element={<AktivasiProyekAdminPage />} />
             <Route path="proyek/:projectId" element={<DetailProyekAdminPage />} />
             <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
             <Route path="proyek/penutupan" element={<PlaceholderPage title="Penutupan Proyek" description="Proses serah terima kunci dan penutupan administrasi proyek." status="Planned" />} />

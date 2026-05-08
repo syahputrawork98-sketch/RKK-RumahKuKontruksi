@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { 
     FiArrowLeft, 
@@ -24,12 +24,14 @@ import {
     FiMail
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 import projectStageService from "../../services/projectStageService";
 import rabService from "../../services/rabService";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailProyekAdminPage = () => {
     const { projectId } = useParams();
+    const { selectedAdminId } = useAdminPersona();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("overview");
     const [loading, setLoading] = useState(true);
@@ -106,8 +108,33 @@ const DetailProyekAdminPage = () => {
         }
     };
 
+    if (!selectedAdminId) return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
     if (loading) return <RoleDataState type="loading" message="Memuat detail proyek..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjectData} />;
+    
+    if (project && project.adminId !== selectedAdminId) {
+        return (
+            <div className="p-8 text-center space-y-6 bg-white rounded-3xl border border-red-100 animate-fadeIn max-w-md mx-auto my-20 shadow-xl shadow-red-500/5">
+                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto text-red-500 mb-2">
+                    <FiAlertCircle size={40} />
+                </div>
+                <div>
+                    <h2 className="text-xl font-black text-slate-800">Akses Ditolak</h2>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Forbidden Access</p>
+                    <p className="text-sm text-slate-500 mt-4 leading-relaxed">
+                        Anda tidak memiliki izin untuk melihat detail proyek ini. Proyek ini bukan di bawah tanggung jawab persona Anda.
+                    </p>
+                </div>
+                <button 
+                    onClick={() => navigate("/admin/proyek")} 
+                    className="w-full py-3 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-slate-800/20"
+                >
+                    Kembali ke Daftar Proyek
+                </button>
+            </div>
+        );
+    }
+
     if (!project) return <RoleDataState type="empty" message="Data proyek tidak tersedia." />;
 
     const tabs = [
@@ -182,6 +209,14 @@ const DetailProyekAdminPage = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
+                    {(project.status !== 'active' && project.status !== 'ongoing') && isReady && (
+                        <Link 
+                            to="/admin/proyek/aktivasi"
+                            className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 mr-2 animate-pulse"
+                        >
+                            Aktifkan Proyek
+                        </Link>
+                    )}
                     <Link 
                         to={`/admin/proyek/edit/${project.id}`}
                         className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-xs font-bold hover:bg-[var(--dashboard-border)] transition-all"

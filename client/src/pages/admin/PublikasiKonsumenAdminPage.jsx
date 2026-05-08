@@ -10,22 +10,25 @@ import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorRe
 
 const PublikasiKonsumenAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
-    const [reports, setReports] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [actionLoading, setActionLoading] = useState(false);
-
-    // Filter states
     const [statusFilter, setStatusFilter] = useState("reviewed");
+    const [showConfirmModal, setShowConfirmModal] = useState({ show: false, reportId: null });
+    const [showPreviewModal, setShowPreviewModal] = useState({ show: false, report: null });
+    const [successMessage, setSuccessMessage] = useState("");
 
     const fetchReports = async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setLoading(true);
             setError(null);
             const params = {
                 actorRole: "admin",
-                actorId: selectedAdminId || "admin-1",
+                actorId: selectedAdminId,
             };
             
             if (statusFilter !== "all") {
@@ -48,25 +51,46 @@ const PublikasiKonsumenAdminPage = () => {
         fetchReports();
     }, [selectedAdminId, statusFilter]);
 
-    const handlePublish = async (reportId) => {
-        if (!window.confirm("Apakah Anda yakin ingin mempublikasikan ringkasan laporan ini ke Konsumen?")) return;
+    const handlePublishRequest = (reportId, summary) => {
+        if (!selectedAdminId) return;
+        if (!summary || summary.length < 20) {
+            setError("Ringkasan Konsumen minimal 20 karakter sebelum dipublish.");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+        setShowConfirmModal({ show: true, reportId });
+    };
 
+    const executePublish = async () => {
+        const { reportId } = showConfirmModal;
+        setShowConfirmModal({ show: false, reportId: null });
+        
         setActionLoading(true);
+        setError(null);
         try {
             const response = await supervisorWeeklyReportService.publishSupervisorWeeklyReport(reportId, {
                 actorRole: "admin",
-                actorId: selectedAdminId || "admin-1",
+                actorId: selectedAdminId,
             });
             if (response.success) {
-                alert("Laporan berhasil dipublikasikan ke Konsumen.");
+                setSuccessMessage("Laporan berhasil dipublikasikan ke Konsumen.");
                 fetchReports();
+                setTimeout(() => setSuccessMessage(""), 5000);
             }
         } catch (err) {
-            alert(err.message || "Gagal mempublikasikan laporan.");
+            setError(err.response?.data?.message || err.message || "Gagal mempublikasikan laporan.");
         } finally {
             setActionLoading(false);
         }
     };
+
+    const handlePreview = (report) => {
+        setShowPreviewModal({ show: true, report });
+    };
+
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
+    }
 
     const filteredReports = reports.filter(r => 
         r.project?.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -99,7 +123,21 @@ const PublikasiKonsumenAdminPage = () => {
                 </div>
             </div>
 
-            {/* Warning/Info */}
+            {error && (
+                <div className="bg-red-50 border border-red-100 rounded-2xl p-4 flex gap-3 items-center animate-shake">
+                    <FiAlertCircle className="text-red-500 flex-shrink-0" />
+                    <p className="text-xs font-bold text-red-700">{error}</p>
+                    <button onClick={() => setError(null)} className="ml-auto text-red-400 hover:text-red-600"><FiX /></button>
+                </div>
+            )}
+
+            {successMessage && (
+                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex gap-3 items-center animate-fadeIn">
+                    <FiCheckCircle className="text-emerald-500 flex-shrink-0" />
+                    <p className="text-xs font-bold text-emerald-700">{successMessage}</p>
+                    <button onClick={() => setSuccessMessage("")} className="ml-auto text-emerald-400 hover:text-emerald-600"><FiX /></button>
+                </div>
+            )}
             <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 flex gap-3 items-start text-amber-800">
                 <FiInfo className="mt-0.5 flex-shrink-0" />
                 <div className="text-[11px] font-medium leading-relaxed">
@@ -171,14 +209,14 @@ const PublikasiKonsumenAdminPage = () => {
                                 <div className="flex flex-row md:flex-col justify-end gap-3 md:w-48">
                                     <button 
                                         className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
-                                        onClick={() => window.location.href = `/admin/laporan-mingguan-pengawas/${report.id}`}
+                                        onClick={() => handlePreview(report)}
                                     >
-                                        <FiEye /> Detail
+                                        <FiEye /> Preview
                                     </button>
                                     
                                     {report.status === 'reviewed' && (
                                         <button 
-                                            onClick={() => handlePublish(report.id)}
+                                            onClick={() => handlePublishRequest(report.id, report.customerSummaryDraft)}
                                             disabled={actionLoading || !report.customerSummaryDraft}
                                             className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 shadow-lg shadow-emerald-500/20"
                                         >
@@ -197,6 +235,97 @@ const PublikasiKonsumenAdminPage = () => {
                     ))
                 )}
             </div>
+            {/* Preview Modal */}
+            {showPreviewModal.show && showPreviewModal.report && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-fadeIn" onClick={() => setShowPreviewModal({ show: false, report: null })}></div>
+                    <div className="relative bg-white rounded-3xl max-w-lg w-full shadow-2xl animate-scaleIn overflow-hidden">
+                        <div className="bg-slate-800 p-6 text-white flex justify-between items-center">
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Preview Tampilan Konsumen</p>
+                                <h3 className="text-lg font-black">{showPreviewModal.report.project?.name}</h3>
+                            </div>
+                            <button onClick={() => setShowPreviewModal({ show: false, report: null })} className="p-2 hover:bg-white/10 rounded-full transition-all">
+                                <FiX />
+                            </button>
+                        </div>
+                        <div className="p-8 space-y-6">
+                            <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl">
+                                <div className="flex justify-between items-center mb-4">
+                                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Update Progress</span>
+                                    <span className="text-2xl font-black text-blue-800">{showPreviewModal.report.verifiedProgressSnapshot}%</span>
+                                </div>
+                                <div className="w-full h-2 bg-blue-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-blue-600" style={{ width: `${showPreviewModal.report.verifiedProgressSnapshot}%` }}></div>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ringkasan Proyek</span>
+                                <p className="text-sm font-medium text-slate-700 leading-relaxed italic bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                    "{showPreviewModal.report.customerSummaryDraft}"
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-t pt-4">
+                                <div className="flex items-center gap-1"><FiCalendar /> {new Date(showPreviewModal.report.weekEndDate).toLocaleDateString()}</div>
+                                <div className="flex items-center gap-1"><FiCheckCircle className="text-emerald-500" /> Official Update</div>
+                            </div>
+                        </div>
+                        <div className="p-6 bg-slate-50 border-t flex justify-end gap-3">
+                            <button 
+                                onClick={() => setShowPreviewModal({ show: false, report: null })}
+                                className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
+                            >
+                                Tutup
+                            </button>
+                            {showPreviewModal.report.status === 'reviewed' && (
+                                <button 
+                                    onClick={() => {
+                                        setShowPreviewModal({ show: false, report: null });
+                                        handlePublishRequest(showPreviewModal.report.id, showPreviewModal.report.customerSummaryDraft);
+                                    }}
+                                    className="px-6 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20"
+                                >
+                                    Publish Sekarang
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Confirmation Modal */}
+            {showConfirmModal.show && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-fadeIn" onClick={() => setShowConfirmModal({ show: false, reportId: null })}></div>
+                    <div className="relative bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-scaleIn text-center space-y-6">
+                        <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+                            <FiSend size={40} />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black text-slate-800">Publikasikan Laporan?</h3>
+                            <p className="text-sm text-slate-500 mt-2 leading-relaxed">
+                                Ringkasan laporan ini akan dapat dilihat oleh Konsumen pada timeline mereka.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <button 
+                                onClick={() => setShowConfirmModal({ show: false, reportId: null })}
+                                className="py-3 bg-slate-100 text-slate-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all"
+                            >
+                                Batal
+                            </button>
+                            <button 
+                                onClick={executePublish}
+                                className="py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20"
+                            >
+                                Ya, Publish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

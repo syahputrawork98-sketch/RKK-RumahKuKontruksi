@@ -13,11 +13,16 @@ const LaporanMingguanPengawasAdminPage = () => {
     const [statusFilter, setStatusFilter] = useState("submitted");
 
     const fetchReports = useCallback(async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setLoading(true);
             const params = {
                 actorRole: "admin",
-                actorId: selectedAdminId || "admin-1", // Fallback for dev if context not fully ready
+                actorId: selectedAdminId,
             };
             
             if (statusFilter !== "all") {
@@ -39,6 +44,15 @@ const LaporanMingguanPengawasAdminPage = () => {
     useEffect(() => {
         fetchReports();
     }, [fetchReports]);
+
+    if (!selectedAdminId) {
+        return (
+            <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-slate-200 animate-fadeIn">
+                <FiInfo size={48} className="mx-auto text-slate-200 mb-4" />
+                <p className="text-sm font-black uppercase tracking-widest text-slate-400 italic">Pilih Admin persona terlebih dahulu di Topbar.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="animate-fadeIn space-y-6">

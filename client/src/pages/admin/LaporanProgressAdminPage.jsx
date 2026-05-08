@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
     FiActivity, FiSearch, FiExternalLink, FiUser, 
     FiCalendar, FiClock, FiX, FiInfo, FiTrendingUp 
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 import progressService from "../../services/progressService";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const LaporanProgressAdminPage = () => {
+    const { selectedAdminId } = useAdminPersona();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,10 +20,16 @@ const LaporanProgressAdminPage = () => {
     const [history, setHistory] = useState([]);
     const [historyLoading, setHistoryLoading] = useState(false);
 
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setLoading(true);
-            const response = await projectService.getProjects();
+            setError(null);
+            const response = await projectService.getProjects({ adminId: selectedAdminId });
             if (response.success) {
                 setProjects(response.data);
             }
@@ -31,12 +39,12 @@ const LaporanProgressAdminPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [selectedAdminId]);
 
     const fetchHistory = async (projectId) => {
         try {
             setHistoryLoading(true);
-            const response = await progressService.getProjectProgressHistory(projectId);
+            const response = await progressService.getProjectProgressHistory(projectId, selectedAdminId);
             if (response.success) {
                 setHistory(response.data.history);
             }
@@ -49,7 +57,11 @@ const LaporanProgressAdminPage = () => {
 
     useEffect(() => {
         fetchProjects();
-    }, []);
+    }, [fetchProjects]);
+
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
+    }
 
     const handleOpenHistory = (project) => {
         setSelectedProject(project);

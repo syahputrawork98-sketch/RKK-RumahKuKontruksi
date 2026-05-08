@@ -18,17 +18,24 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState("");
+    const [showConfirmModal, setShowConfirmModal] = useState({ show: false, action: null, title: "", message: "" });
     
     // Form States
     const [adminNote, setAdminNote] = useState("");
     const [customerSummaryDraft, setCustomerSummaryDraft] = useState("");
 
     const fetchDetail = useCallback(async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setLoading(true);
             const response = await supervisorWeeklyReportService.getSupervisorWeeklyReportById(reportId, {
                 actorRole: "admin",
-                actorId: selectedAdminId || "admin-1"
+                actorId: selectedAdminId
             });
             if (response.success) {
                 setReport(response.data);
@@ -47,61 +54,122 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
         fetchDetail();
     }, [fetchDetail]);
 
-    const handleAction = async (action) => {
+    const handleActionRequest = (action) => {
+        if (!selectedAdminId) return;
+
+        // Validation before showing modal
         if (["request_revision", "reject"].includes(action) && !adminNote) {
             setError("Catatan review wajib diisi untuk revisi atau penolakan.");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
 
-        if (!window.confirm(`Apakah Anda yakin ingin melakukan tindakan ini?`)) return;
+        if (action === "reviewed" && customerSummaryDraft && customerSummaryDraft.length < 20) {
+            setError("Ringkasan Konsumen minimal 20 karakter sebelum ditandai Reviewed.");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
 
+        let title = "";
+        let message = "";
+
+        switch (action) {
+            case "start_admin_review":
+                title = "Mulai Review";
+                message = "Tandai laporan ini sedang dalam proses peninjauan Admin?";
+                break;
+            case "reviewed":
+                title = "Selesai Review";
+                message = "Apakah Anda yakin laporan ini sudah valid dan siap dipublish?";
+                break;
+            case "request_revision":
+                title = "Minta Revisi";
+                message = "Kirim permintaan perbaikan ke Pengawas dengan catatan yang Anda berikan?";
+                break;
+            case "reject":
+                title = "Tolak Laporan";
+                message = "Apakah Anda yakin ingin menolak laporan ini secara permanen?";
+                break;
+            case "publish":
+                title = "Publikasikan";
+                message = "Publikasikan ringkasan laporan ini ke Timeline Konsumen?";
+                break;
+        }
+
+        setShowConfirmModal({ show: true, action, title, message });
+    };
+
+    const executeAction = async () => {
+        const { action } = showConfirmModal;
+        setShowConfirmModal({ ...showConfirmModal, show: false });
+        
         setActionLoading(true);
         setError(null);
+        setSuccessMessage("");
+        
         try {
-            const response = await supervisorWeeklyReportService.reviewSupervisorWeeklyReport(reportId, {
-                actorRole: "admin",
-                actorId: selectedAdminId || "admin-1",
-                action,
-                adminNote,
-                customerSummaryDraft
-            });
+            let response;
+            if (action === "publish") {
+                response = await supervisorWeeklyReportService.publishSupervisorWeeklyReport(reportId, {
+                    actorRole: "admin",
+                    actorId: selectedAdminId
+                });
+            } else {
+                response = await supervisorWeeklyReportService.reviewSupervisorWeeklyReport(reportId, {
+                    actorRole: "admin",
+                    actorId: selectedAdminId,
+                    action,
+                    adminNote,
+                    customerSummaryDraft
+                });
+            }
+
             if (response.success) {
-                alert("Berhasil memperbarui status laporan.");
+                setSuccessMessage(action === "publish" ? "Laporan berhasil dipublikasikan." : "Status laporan berhasil diperbarui.");
                 fetchDetail();
+                setTimeout(() => setSuccessMessage(""), 5000);
             }
         } catch (err) {
-            setError(err.message || "Gagal melakukan review.");
+            setError(err.response?.data?.message || err.message || "Gagal melakukan aksi.");
         } finally {
             setActionLoading(false);
         }
     };
 
-    const handlePublish = async () => {
-        if (!customerSummaryDraft) {
-            setError("Ringkasan konsumen wajib diisi sebelum publikasi.");
-            return;
-        }
+    if (!selectedAdminId) {
+        return (
+            <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-slate-200 animate-fadeIn">
+                <FiInfo size={48} className="mx-auto text-slate-200 mb-4" />
+                <p className="text-sm font-black uppercase tracking-widest text-slate-400 italic">Pilih Admin persona terlebih dahulu di Topbar.</p>
+            </div>
+        );
+    }
 
-        if (!window.confirm("Publikasikan laporan ini ke Konsumen?")) return;
+    if (loading) return <div className="p-12 text-center text-sm italic font-bold text-slate-400 uppercase tracking-widest animate-pulse">MEMUAT DETAIL LAPORAN...</div>;
+    
+    if (report && report.project?.adminId !== selectedAdminId) {
+        return (
+            <div className="p-8 text-center space-y-6 bg-white rounded-3xl border border-red-100 animate-fadeIn max-w-md mx-auto my-20 shadow-xl shadow-red-500/5">
+                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto text-red-500 mb-2">
+                    <FiAlertCircle size={40} />
+                </div>
+                <div>
+                    <h2 className="text-xl font-black text-slate-800">Akses Ditolak</h2>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Forbidden Access</p>
+                    <p className="text-sm text-slate-500 mt-4 leading-relaxed">
+                        Anda tidak memiliki izin untuk meninjau laporan ini. Proyek terkait bukan di bawah tanggung jawab persona Anda.
+                    </p>
+                </div>
+                <button 
+                    onClick={() => navigate("/admin/laporan-mingguan-pengawas")} 
+                    className="w-full py-3 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-slate-800/20"
+                >
+                    Kembali ke Daftar Laporan
+                </button>
+            </div>
+        );
+    }
 
-        setActionLoading(true);
-        try {
-            const response = await supervisorWeeklyReportService.publishSupervisorWeeklyReport(reportId, {
-                actorRole: "admin",
-                actorId: selectedAdminId || "admin-1"
-            });
-            if (response.success) {
-                alert("Laporan berhasil dipublikasikan.");
-                fetchDetail();
-            }
-        } catch (err) {
-            setError(err.message || "Gagal mempublikasikan laporan.");
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    if (loading) return <div className="p-12 text-center text-sm italic font-bold text-slate-400">MEMUAT DETAIL LAPORAN...</div>;
     if (!report) return <div className="p-12 text-center text-red-500 font-bold uppercase tracking-widest">Laporan Tidak Ditemukan.</div>;
 
     const canReview = report.status === "submitted" || report.status === "under_admin_review" || report.status === "approved" || report.status === "reviewed";
@@ -131,7 +199,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                 <div className="flex items-center gap-2">
                     {report.status === 'submitted' && (
                         <button 
-                            onClick={() => handleAction('start_admin_review')}
+                            onClick={() => handleActionRequest('start_admin_review')}
                             disabled={actionLoading}
                             className="px-6 py-2 bg-slate-800 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-900 disabled:opacity-50 transition-all shadow-lg shadow-slate-800/20"
                         >
@@ -140,7 +208,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                     )}
                     {report.status === 'reviewed' && (
                         <button 
-                            onClick={handlePublish}
+                            onClick={() => handleActionRequest('publish')}
                             disabled={actionLoading}
                             className="px-6 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 disabled:opacity-50 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2"
                         >
@@ -154,6 +222,15 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                 <div className="bg-red-50 border border-red-100 rounded-2xl p-4 flex gap-3 items-center animate-shake">
                     <FiAlertCircle className="text-red-500 flex-shrink-0" />
                     <p className="text-xs font-bold text-red-700">{error}</p>
+                    <button onClick={() => setError(null)} className="ml-auto text-red-400 hover:text-red-600"><FiX /></button>
+                </div>
+            )}
+
+            {successMessage && (
+                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex gap-3 items-center animate-fadeIn">
+                    <FiCheck className="text-emerald-500 flex-shrink-0" />
+                    <p className="text-xs font-bold text-emerald-700">{successMessage}</p>
+                    <button onClick={() => setSuccessMessage("")} className="ml-auto text-emerald-400 hover:text-emerald-600"><FiX /></button>
                 </div>
             )}
 
@@ -266,28 +343,43 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                 />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-2 pt-2">
-                                <button 
-                                    onClick={() => handleAction('reviewed')}
-                                    disabled={actionLoading}
-                                    className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all disabled:opacity-50"
-                                >
-                                    <FiCheck /> Selesai Review
-                                </button>
-                                <button 
-                                    onClick={() => handleAction('request_revision')}
-                                    disabled={actionLoading}
-                                    className="flex items-center justify-center gap-2 py-2.5 bg-white border-2 border-amber-500 text-amber-600 rounded-xl font-bold text-[9px] uppercase tracking-widest transition-all disabled:opacity-50"
-                                >
-                                    <FiRefreshCw /> Revisi
-                                </button>
-                                <button 
-                                    onClick={() => handleAction('reject')}
-                                    disabled={actionLoading}
-                                    className="flex items-center justify-center gap-2 py-2.5 bg-white border-2 border-red-500 text-red-600 rounded-xl font-bold text-[9px] uppercase tracking-widest transition-all disabled:opacity-50"
-                                >
-                                    <FiX /> Tolak
-                                </button>
+                             <div className="grid grid-cols-2 gap-2 pt-2">
+                                {report.status !== 'reviewed' && report.status !== 'published' && (
+                                    <button 
+                                        onClick={() => handleActionRequest('reviewed')}
+                                        disabled={actionLoading}
+                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all disabled:opacity-50"
+                                    >
+                                        <FiCheck /> Selesai Review
+                                    </button>
+                                )}
+                                {(report.status === 'submitted' || report.status === 'under_admin_review') && (
+                                    <>
+                                        <button 
+                                            onClick={() => handleActionRequest('request_revision')}
+                                            disabled={actionLoading}
+                                            className="flex items-center justify-center gap-2 py-2.5 bg-white border-2 border-amber-500 text-amber-600 rounded-xl font-bold text-[9px] uppercase tracking-widest transition-all disabled:opacity-50"
+                                        >
+                                            <FiRefreshCw /> Revisi
+                                        </button>
+                                        <button 
+                                            onClick={() => handleActionRequest('reject')}
+                                            disabled={actionLoading}
+                                            className="flex items-center justify-center gap-2 py-2.5 bg-white border-2 border-red-500 text-red-600 rounded-xl font-bold text-[9px] uppercase tracking-widest transition-all disabled:opacity-50"
+                                        >
+                                            <FiX /> Tolak
+                                        </button>
+                                    </>
+                                )}
+                                {report.status === 'reviewed' && (
+                                     <button 
+                                        onClick={() => handleActionRequest('publish')}
+                                        disabled={actionLoading}
+                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+                                    >
+                                        <FiSend /> Publish Konsumen
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
@@ -319,6 +411,35 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                     </div>
                 </div>
             </div>
+            {/* Confirmation Modal */}
+            {showConfirmModal.show && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-fadeIn" onClick={() => setShowConfirmModal({ ...showConfirmModal, show: false })}></div>
+                    <div className="relative bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-scaleIn text-center space-y-6">
+                        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-800">
+                            <FiAlertCircle size={40} />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black text-slate-800">{showConfirmModal.title}</h3>
+                            <p className="text-sm text-slate-500 mt-2 leading-relaxed">{showConfirmModal.message}</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <button 
+                                onClick={() => setShowConfirmModal({ ...showConfirmModal, show: false })}
+                                className="py-3 bg-slate-100 text-slate-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all"
+                            >
+                                Batal
+                            </button>
+                            <button 
+                                onClick={executeAction}
+                                className="py-3 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-slate-800/20"
+                            >
+                                Ya, Lanjutkan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

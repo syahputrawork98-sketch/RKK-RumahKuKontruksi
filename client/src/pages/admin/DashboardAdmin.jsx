@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
     FiLayers, 
     FiActivity, 
@@ -23,43 +23,49 @@ import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const DashboardAdmin = () => {
+    const { selectedAdminId } = useAdminPersona();
+    const [stats, setStats] = useState({
+        activeProjects: 0,
+        totalCustomers: 0,
+        pendingReports: 0,
+        unprocessedRequests: 0,
+        totalRevenue: 0,
+        completedProjects: 0
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [stats, setStats] = useState(null);
 
-    const { selectedAdminId } = useAdminPersona();
+    const fetchStats = useCallback(async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
+        }
 
-    useEffect(() => {
-        if (selectedAdminId) {
-            fetchDashboardData();
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await adminService.getDashboardStats({ adminId: selectedAdminId });
+            if (response.success) {
+                setStats(response.data);
+            }
+        } catch (err) {
+            console.error("Dashboard error:", err);
+            setError("Gagal memuat data dashboard. Pastikan backend berjalan.");
+        } finally {
+            setLoading(false);
         }
     }, [selectedAdminId]);
 
-    const fetchDashboardData = async () => {
-        if (!selectedAdminId) return;
-        try {
-            setLoading(true);
-            const res = await adminService.getDashboardStats({ adminId: selectedAdminId });
-            setStats(res.data);
-            setLoading(false);
-        } catch (err) {
-            console.error("Error fetching dashboard data:", err);
-            setError("Gagal memuat data dashboard. Pastikan server backend berjalan.");
-            setLoading(false);
-        }
-    };
+    useEffect(() => {
+        fetchStats();
+    }, [fetchStats]);
 
     if (!selectedAdminId) {
-        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar untuk mensimulasikan login." />;
+        return <RoleDataState type="empty" message="Silakan pilih Admin persona di Topbar untuk melihat dashboard." />;
     }
 
-    if (loading) {
-        return <RoleDataState type="loading" message="Memuat data dashboard..." />;
-    }
-
-    if (error) {
-        return <RoleDataState type="error" message={error} onRetry={fetchDashboardData} />;
-    }
+    if (loading) return <RoleDataState type="loading" message="Menganalisis data dashboard..." />;
+    if (error) return <RoleDataState type="error" message={error} onRetry={fetchStats} />;
 
     if (!stats) return <RoleDataState type="empty" message="Data dashboard tidak tersedia." />;
 

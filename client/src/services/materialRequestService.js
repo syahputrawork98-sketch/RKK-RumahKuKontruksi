@@ -11,9 +11,9 @@ const materialRequestService = {
     }
   },
 
-  getRequestById: async (id) => {
+  getRequestById: async (id, params = {}) => {
     try {
-      const response = await apiClient.get(`/material-requests/${id}`);
+      const response = await apiClient.get(`/material-requests/${id}`, { params });
       return { success: true, data: response.data };
     } catch (error) {
       console.error('Error fetching material request details:', error);

@@ -17,16 +17,13 @@ Arsitek berada di garis depan alur produksi RKK (Tahap Pra-Konstruksi). Arsitek 
 - **Revisi & Sinkronisasi**: Melakukan perbaikan desain berdasarkan masukan sistem/konsumen sesuai batas revisi.
 - **Evaluasi Teknis**: Memberikan tinjauan ahli jika terjadi permintaan perubahan (Change Order) di kemudian hari.
 
-## Alur Utama Arsitek
-1. **Registrasi & Akses**: Arsitek terdaftar di database sistem dan mengakses Dashboard Arsitek.
-2. **Manajemen Profil**: Arsitek mengelola portofolio, keahlian, dan data profil profesionalnya.
-3. **Penerimaan Brief**: Arsitek menerima notifikasi penugasan brief desain dari Admin.
-4. **Analisis Kebutuhan**: Mempelajari data lahan, kebutuhan ruang, referensi gaya desain, dan batasan anggaran yang diajukan konsumen.
-5. **Pembuatan Konsep**: Arsitek mengunggah konsep awal desain untuk ditinjau.
-6. **Alur Revisi**: Jika ada catatan, Arsitek melakukan perbaikan hingga tahap tersebut disetujui (Approved).
-7. **Detailing**: Setelah konsep/denah disetujui, Arsitek melanjutkan ke tahap Tampak 3D dan Gambar Kerja.
-8. **Final Approval**: Gambar kerja yang sudah disetujui Admin/Sistem dikunci sebagai **Final Approved**.
-9. **Dukungan Teknis**: Memberikan evaluasi teknis jika ditemukan kondisi lapangan yang memerlukan penyesuaian desain.
+## Alur Utama Arsitek (Implemented)
+1. **Peluang Desain**: Arsitek melihat daftar peluang desain (`DesignTender`) yang dipublish oleh Admin.
+2. **Submit Penawaran**: Arsitek mengajukan penawaran harga (`DesignTenderBid`) sesuai budget 70% yang disediakan.
+3. **Penerimaan Brief**: Jika terpilih (`awarded`), Arsitek menerima penugasan (`assigned`) pada `DesignRequest` tersebut.
+4. **Analisis Kebutuhan**: Mempelajari data lahan, kebutuhan ruang, dan batasan anggaran dari konsumen.
+5. **Update Progress**: Arsitek memperbarui status pengerjaan desain di sistem (e.g., `in_review`, `approved`).
+6. **Final Approval**: Desain yang sudah disetujui Admin/Konsumen dikunci untuk kemudian dikonversi menjadi proyek konstruksi.
 
 ## Tahapan Desain dan Versioning
 Tahapan desain dalam alur RKK dibagi menjadi beberapa fase kunci:
@@ -71,15 +68,15 @@ Arsitek berperan sebagai penilai kelayakan teknis jika terjadi permintaan peruba
 - **Self-Approval**: Tidak boleh memberikan persetujuan final atas desainnya sendiri.
 
 ## Status Implementasi Saat Ini
-- **Data Arsitek DB-backed**: Partial (Fondasi database sudah tersedia).
-- **Dashboard Arsitek**: Partial.
-- **Pengaturan/Profil Arsitek**: Partial.
-- **Edit Profil Arsitek sendiri**: Tersedia.
-- **Brief Desain dari Sistem**: Planned.
-- **Workflow Tahapan Desain & Versioning**: Planned.
-- **Review/Revisi Desain Sistem**: Planned.
+- **Data Arsitek DB-backed**: ✅ Implemented (Database & Persona).
+- **Dashboard Arsitek**: ✅ Implemented.
+- **Peluang Desain (Design Tender)**: ✅ Implemented.
+- **Submit Bid & Awarding**: ✅ Implemented.
+- **DesignRequest Management**: ✅ Implemented (CRUD & Status).
+- **Edit Profil Arsitek**: ✅ Implemented.
+- **Workflow Tahapan Desain**: 🔄 Partial (Status updates only, no file upload yet).
 - **Upload File Desain Production**: Postponed.
-- **Final Approved Desain**: Planned.
+- **Final Approved Desain**: ✅ Implemented (Status logic).
 - **Evaluasi Teknis Change Order**: Planned.
 - **Change Order Final**: Do Not Build Yet.
 - **Auth/JWT/Session/Role Guard**: Do Not Build Yet.

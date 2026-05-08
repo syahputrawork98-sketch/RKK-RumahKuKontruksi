@@ -67,6 +67,7 @@ const CustomerTopbar = () => {
       icon: <FaStream />,
       aliases: ["/konsumen/TimelineProyek", "/konsumen/timeline"] 
     },
+    { name: "Permintaan Desain", path: "/konsumen/permintaan-desain", icon: <FaProjectDiagram /> },
     { name: "Pembayaran", path: "/konsumen/pembayaran", icon: <FaWallet /> },
     { name: "Dokumen", path: "/konsumen/dokumen", icon: <FaFileAlt /> },
   ];

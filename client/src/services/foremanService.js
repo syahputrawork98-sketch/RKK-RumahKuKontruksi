@@ -6,6 +6,10 @@ const foremanService = {
     return apiClient.get('/foremen');
   },
 
+  getForemen(params) {
+    return apiClient.get('/foremen', { params });
+  },
+
   getForemanById(id) {
     return apiClient.get(`/foremen/${id}`);
   },

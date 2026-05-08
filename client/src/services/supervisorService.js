@@ -6,6 +6,10 @@ const supervisorService = {
     return apiClient.get('/supervisors');
   },
 
+  getSupervisors(params) {
+    return apiClient.get('/supervisors', { params });
+  },
+
   getSupervisorById(id) {
     return apiClient.get(`/supervisors/${id}`);
   },
@@ -14,8 +18,16 @@ const supervisorService = {
     return apiClient.get(`/supervisors/${id}/stats`);
   },
 
+  createSupervisor(data) {
+    return apiClient.post('/supervisors', data);
+  },
+
   updateSupervisor(id, data) {
     return apiClient.patch(`/supervisors/${id}`, data);
+  },
+
+  deleteSupervisor(id) {
+    return apiClient.delete(`/supervisors/${id}`);
   },
 
   // Certificates

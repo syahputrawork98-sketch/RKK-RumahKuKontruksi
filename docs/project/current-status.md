@@ -40,8 +40,10 @@ Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) te
 | **Admin** | Backend/Database | DB-Backed v1 | Monitoring & Review: Verified Progress, Report Review |
 | **Superadmin** | Mock/Partial | UI Shell Available | Backend integration for user management only |
 | **Konsumen** | Mock/Partial | UI Shell Available | Backend integration for Profile/Projects only |
+| **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
-1. **Fase 4 - Customer Portal Integration**: Hubungkan data "Verified Progress" ke timeline konsumen yang saat ini masih mock.
-2. **Material Request Polish**: Finalisasi alur transisi status dan validasi kuantitas terhadap RAB.
-3. **QA Operasional**: Simulasi alur penuh dari Mandor (Jurnal) -> Pengawas (Review Journal + Report) -> Admin (Review Report).
+1. **Fase 4 - Admin Feature Stabilization**: Bersihkan mockup "Recent Activity" di Dashboard Admin dan integrasikan pencatatan log aktivitas di backend.
+2. **Customer Portal Integration**: Hubungkan data "Verified Progress" ke timeline konsumen yang saat ini masih mock.
+3. **Material Request Polish**: Finalisasi alur transisi status dan validasi kuantitas terhadap RAB.
+4. **QA Operasional Penuh**: Simulasi alur penuh dari Mandor (Jurnal) -> Pengawas (Review Journal + Report) -> Admin (Review Report).

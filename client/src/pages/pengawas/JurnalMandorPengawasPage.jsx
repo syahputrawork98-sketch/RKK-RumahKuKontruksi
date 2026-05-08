@@ -5,7 +5,7 @@ import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
-import WeeklyJournalStatusBadge from "../../components/weekly-journals/WeeklyJournalStatusBadge";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const JurnalMandorPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
@@ -117,7 +117,7 @@ const JurnalMandorPengawasPage = () => {
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{journal.project?.projectCode}</span>
-                                    <WeeklyJournalStatusBadge status={journal.status} />
+                                    <StatusBadge type="journal" status={journal.status} />
                                 </div>
                                 <h3 className="text-lg font-black leading-tight group-hover:text-[var(--dashboard-primary)] transition-colors">{journal.project?.name}</h3>
                                 <div className="flex items-center gap-4 mt-1">

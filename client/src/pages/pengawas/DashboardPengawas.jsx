@@ -14,6 +14,7 @@ import {
 } from "@client/components/ui/dashboard";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
+import supervisorService from "../../services/supervisorService";
 
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
@@ -21,6 +22,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 const DashboardPengawas = () => {
     const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
     const [projects, setProjects] = useState([]);
+    const [statsData, setStatsData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -33,9 +35,17 @@ const DashboardPengawas = () => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
-                if (response.success) {
-                    setProjects(response.data);
+                
+                const [projRes, statsRes] = await Promise.all([
+                    projectService.getProjects({ supervisorId: selectedSupervisorId }),
+                    supervisorService.getSupervisorStats(selectedSupervisorId)
+                ]);
+
+                if (projRes.success) {
+                    setProjects(projRes.data);
+                }
+                if (statsRes.success) {
+                    setStatsData(statsRes.data);
                 }
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);
@@ -48,20 +58,39 @@ const DashboardPengawas = () => {
         fetchDashboardData();
     }, [selectedSupervisorId]);
 
+    const getCountByStatus = (arr, status) => {
+        if (!arr || !Array.isArray(arr)) return 0;
+        const item = arr.find(i => i.status === status);
+        return item ? item._count._all : 0;
+    };
+
     const stats = [
-        { label: "Proyek Diawasi", value: projects.length, icon: FiLayers, color: "#1A4D2E" },
-        // Phase 1: Operational backend for verification triggers is pending
-        { label: "Butuh Verifikasi", value: 0, icon: FiCheckSquare, color: "#F59E0B", subLabel: "Backend Pending" },
+        { 
+            label: "Proyek Diawasi", 
+            value: statsData?.activeProjects || projects.length, 
+            icon: FiLayers, 
+            color: "#1A4D2E" 
+        },
+        { 
+            label: "Review Jurnal", 
+            value: getCountByStatus(statsData?.journals, 'submitted'), 
+            icon: FiCheckSquare, 
+            color: "#F59E0B",
+            subLabel: "Menunggu Review" 
+        },
         { 
             label: "Progres Rata-rata", 
-            value: projects.length > 0 
-                ? `${Math.round(projects.reduce((acc, p) => acc + (p.verifiedProgress !== undefined && p.verifiedProgress !== null ? p.verifiedProgress : p.progress || 0), 0) / projects.length)}%` 
-                : "0%", 
+            value: statsData ? `${Math.round(statsData.avgProgress)}%` : "0%", 
             icon: FiActivity, 
             color: "#0EA5E9" 
         },
-        { label: "Dokumentasi Baru", value: 0, icon: FiCamera, color: "#16A34A", subLabel: "Backend Pending" },
-        { label: "Request Material", value: 0, icon: FiShoppingCart, color: "#E11428", subLabel: "Backend Pending" },
+        { 
+            label: "Request Material", 
+            value: getCountByStatus(statsData?.materialRequests, 'submitted'), 
+            icon: FiShoppingCart, 
+            color: "#E11428",
+            subLabel: "Butuh Approval" 
+        },
     ];
 
     if (!selectedSupervisorId && !isLoading) {
@@ -95,7 +124,7 @@ const DashboardPengawas = () => {
         <div className="animate-fadeIn space-y-6">
             <DashboardHeader 
                 title={`Halo, ${selectedSupervisor?.name || 'Pengawas'}`}
-                subtitle={`Anda sedang mengawasi ${projects.length} proyek aktif hari ini.`}
+                subtitle={`Anda sedang mengawasi ${statsData?.activeProjects || projects.length} proyek aktif hari ini.`}
             />
             
             <DashboardStats stats={stats} />

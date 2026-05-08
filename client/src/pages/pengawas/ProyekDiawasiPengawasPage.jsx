@@ -6,6 +6,7 @@ import projectService from "../../services/projectService";
 
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const ProyekDiawasiPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
@@ -174,9 +175,7 @@ const ProyekDiawasiPengawasPage = () => {
                                             </div>
                                         </td>
                                         <td className="py-4 px-2">
-                                            <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${getStatusLabel(prj.status).color}`}>
-                                                {getStatusLabel(prj.status).text}
-                                            </span>
+                                            <StatusBadge type="project" status={prj.status} />
                                         </td>
                                         <td className="py-4 px-2 w-32">
                                             <div className="flex flex-col gap-1">

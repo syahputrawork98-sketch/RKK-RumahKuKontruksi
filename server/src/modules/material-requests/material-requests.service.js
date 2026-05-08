@@ -11,6 +11,7 @@ export const getAllRequests = async (filters = {}) => {
       ...(foremanId && { foremanId }),
       ...(supervisorId && { supervisorId }),
       ...(status && { status }),
+      ...(filters.adminId && { project: { adminId: filters.adminId } }),
     },
     include: {
       project: { select: { name: true, projectCode: true } },

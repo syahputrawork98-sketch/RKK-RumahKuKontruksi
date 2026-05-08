@@ -12,6 +12,8 @@ export const getReports = async (req, res, next) => {
     // Basic RBAC for local development
     if (actorRole === 'pengawas') {
       filters.supervisorId = actorId;
+    } else if (actorRole === 'admin') {
+      filters.adminId = actorId;
     } else if (actorRole !== 'admin' && actorRole !== 'superadmin') {
       if (actorRole) {
         return res.status(403).json({
@@ -50,6 +52,13 @@ export const getReportById = async (req, res, next) => {
       return res.status(403).json({
         success: false,
         message: 'You can only view your own reports.'
+      });
+    }
+
+    if (actorRole === 'admin' && report.project.adminId !== actorId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses ke laporan ini.'
       });
     }
 
@@ -366,6 +375,13 @@ export const reviewReport = async (req, res, next) => {
       });
     }
 
+    if (actorRole === 'admin' && report.project.adminId !== actorId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses untuk mereview laporan ini.'
+      });
+    }
+
     if (report.status !== 'submitted' && report.status !== 'under_admin_review') {
       return res.status(400).json({
         success: false,
@@ -429,6 +445,10 @@ export const publishReport = async (req, res, next) => {
 
     if (actorRole !== 'admin' && actorRole !== 'superadmin') {
       return res.status(403).json({ success: false, message: 'Only admins can publish reports.' });
+    }
+
+    if (actorRole === 'admin' && report.project.adminId !== actorId) {
+      return res.status(403).json({ success: false, message: 'Anda tidak memiliki akses untuk mempublish laporan ini.' });
     }
 
     if (report.status !== 'reviewed' && report.status !== 'approved') {

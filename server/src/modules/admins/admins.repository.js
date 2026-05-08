@@ -12,12 +12,20 @@ export const findAll = async () => {
   });
 };
 
-export const findById = async (id) => {
+export const findById = async (id, filters = {}) => {
+  const where = { id, deletedAt: null };
+  const projectWhere = { status: { notIn: ['Selesai', 'Cancelled'] } };
+
+  if (filters.status) projectWhere.status = filters.status;
+  if (filters.adminId) {
+    projectWhere.adminId = filters.adminId;
+  }
+
   return await prisma.admin.findUnique({
-    where: { id, deletedAt: null },
+    where,
     include: {
       projects: {
-        where: { status: { notIn: ['Selesai', 'Cancelled'] } }
+        where: projectWhere
       },
       _count: {
         select: { projects: true }
@@ -106,7 +114,7 @@ export const getStats = async (adminId = null) => {
     }),
     prisma.materialRequest.groupBy({
       by: ['status'],
-      where: adminId ? { adminId } : {},
+      where: adminId ? { project: { adminId } } : {},
       _count: { _all: true }
     })
   ]);

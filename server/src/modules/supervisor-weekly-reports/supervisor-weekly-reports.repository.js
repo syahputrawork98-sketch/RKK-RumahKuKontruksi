@@ -5,6 +5,9 @@ export const findReports = async (filters = {}) => {
   if (filters.projectId) where.projectId = filters.projectId;
   if (filters.supervisorId) where.supervisorId = filters.supervisorId;
   if (filters.status) where.status = filters.status;
+  if (filters.adminId) {
+    where.project = { adminId: filters.adminId };
+  }
   
   if (filters.weekStartDate) {
     where.weekStartDate = {

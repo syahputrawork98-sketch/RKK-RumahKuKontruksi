@@ -7,6 +7,7 @@ export const getAllRequests = async (req, res, next) => {
       foremanId: req.query.foremanId,
       supervisorId: req.query.supervisorId,
       status: req.query.status,
+      adminId: req.query.adminId,
     };
     const requests = await materialRequestService.getAllRequests(filters);
     res.json(requests);
@@ -17,10 +18,22 @@ export const getAllRequests = async (req, res, next) => {
 
 export const getRequestById = async (req, res, next) => {
   try {
-    const request = await materialRequestService.getRequestById(req.params.id);
+    const { id } = req.params;
+    const { adminId } = req.query;
+
+    const request = await materialRequestService.getRequestById(id);
     if (!request) {
       return res.status(404).json({ message: 'Material request not found' });
     }
+
+    // Ownership check for admin
+    if (adminId && request.project.adminId !== adminId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses ke permintaan material ini.'
+      });
+    }
+
     res.json(request);
   } catch (error) {
     next(error);
@@ -41,7 +54,20 @@ export const updateStatus = async (req, res, next) => {
     const { id } = req.params;
     const { status, actorId, actorRole, note, adminId, ...otherData } = req.body;
     
-    const request = await materialRequestService.updateRequestStatus(id, {
+    const request = await materialRequestService.getRequestById(id);
+    if (!request) {
+      return res.status(404).json({ message: 'Material request not found' });
+    }
+
+    // Ownership check for admin
+    if (actorRole === 'admin' && adminId && request.project.adminId !== adminId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses untuk mengubah status permintaan ini.'
+      });
+    }
+
+    const updated = await materialRequestService.updateRequestStatus(id, {
       status,
       actorId,
       actorRole,
@@ -50,7 +76,7 @@ export const updateStatus = async (req, res, next) => {
       ...otherData
     });
     
-    res.json(request);
+    res.json(updated);
   } catch (error) {
     next(error);
   }

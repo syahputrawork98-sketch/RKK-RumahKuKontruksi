@@ -3,11 +3,14 @@
 import React from "react";
 import { Calendar, Clock } from "lucide-react";
 
-export const DashboardHeader = () => (
+export const DashboardHeader = ({ 
+    title = "Dashboard", 
+    subtitle = "Monitoring operasional, finansial, dan aktivitas tim RKK secara real-time." 
+}) => (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
         <div>
-            <h1 className="dashboard-title text-4xl tracking-tight">Dashboard Superadmin</h1>
-            <p className="dashboard-subtitle text-lg">Monitoring operasional, finansial, dan aktivitas tim RKK secara real-time.</p>
+            <h1 className="dashboard-title text-4xl tracking-tight">{title}</h1>
+            <p className="dashboard-subtitle text-lg">{subtitle}</p>
         </div>
 
         <div className="flex items-center gap-4">

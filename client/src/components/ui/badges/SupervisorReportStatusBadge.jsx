@@ -11,8 +11,11 @@ const SupervisorReportStatusBadge = ({ status }) => {
                 return { label: 'Sedang Direview', className: 'bg-indigo-100 text-indigo-700 border-indigo-200' };
             case 'revision_requested':
                 return { label: 'Revisi Diminta', className: 'bg-amber-100 text-amber-700 border-amber-200' };
+            case 'reviewed':
             case 'approved':
-                return { label: 'Disetujui', className: 'bg-green-100 text-green-700 border-green-200' };
+                return { label: 'Internal Reviewed', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            case 'published':
+                return { label: 'Terbit ke Konsumen', className: 'bg-green-600 text-white border-green-700' };
             case 'rejected':
                 return { label: 'Ditolak', className: 'bg-red-100 text-red-700 border-red-200' };
             case 'locked':

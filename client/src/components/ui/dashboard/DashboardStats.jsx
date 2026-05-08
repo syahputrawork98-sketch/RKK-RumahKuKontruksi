@@ -31,7 +31,11 @@ export const DashboardStats = ({ stats }) => (
                         <p className="dashboard-subtitle font-bold text-xs uppercase tracking-tight">{item.label}</p>
                         <div className="flex items-baseline gap-2 mt-1">
                             <h2 className="dashboard-title text-3xl font-extrabold">{item.value}</h2>
-                            <span className="text-[10px] text-emerald-500 font-bold">+12%</span>
+                            {item.trend && (
+                                <span className={`text-[10px] font-bold ${item.trend.startsWith('+') ? 'text-emerald-500' : 'text-rose-500'}`}>
+                                    {item.trend}
+                                </span>
+                            )}
                         </div>
                     </div>
 

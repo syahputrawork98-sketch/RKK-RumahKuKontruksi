@@ -6,16 +6,29 @@ import { FiAlertCircle, FiInbox } from "react-icons/fi";
  * for role-specific dashboards/pages.
  */
 const RoleDataState = ({ 
-    type = "empty", // "empty" or "error"
+    type = "empty", // "empty", "error", or "loading"
     title, 
     description, 
     icon: Icon,
     onRetry,
-    retryLabel = "Coba Lagi"
+    retryLabel = "Coba Lagi",
+    message // backwards compatibility for some usages
 }) => {
     const isError = type === "error";
+    const isLoading = type === "loading";
     const DefaultIcon = isError ? FiAlertCircle : FiInbox;
     const finalIcon = Icon || DefaultIcon;
+
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center p-20 text-center animate-fadeIn gap-4">
+                <div className="w-10 h-10 border-4 border-[var(--dashboard-primary)] border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                    {message || description || "Sedang memuat data..."}
+                </p>
+            </div>
+        );
+    }
 
     const defaultTitle = isError 
         ? "Gagal Mengambil Data" 

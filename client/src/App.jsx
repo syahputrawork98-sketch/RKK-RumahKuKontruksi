@@ -21,6 +21,7 @@ import TimelineProyek from "./pages/konsumen/TimelineProyek";
 import DetailTimelineProyek from "./pages/konsumen/DetailTimelineProyek";
 import Proyek from "./pages/konsumen/Proyek";
 import Profil from "./pages/konsumen/Profil";
+import DashboardKonsumen from "./pages/konsumen/DashboardKonsumen";
 import PlaceholderKonsumenPage from "./pages/konsumen/PlaceholderKonsumenPage";
 
 // ===== HALAMAN SUPER ADMIN =====
@@ -97,6 +98,7 @@ import { ForemanPersonaProvider } from "./context/ForemanPersonaContext";
 import { ArchitectPersonaProvider } from "./context/ArchitectPersonaContext";
 import { AdminPersonaProvider } from "./context/AdminPersonaContext";
 import { SuperadminPersonaProvider } from "./context/SuperadminPersonaContext";
+import { CustomerPersonaProvider } from "./context/CustomerPersonaContext";
 
 function App() {
   return (
@@ -120,12 +122,14 @@ function App() {
             path="/konsumen" 
             element={
               <DevRouteGuard allowedRolePrefix="/konsumen">
-                <KonsumenLayout />
+                <CustomerPersonaProvider>
+                  <KonsumenLayout />
+                </CustomerPersonaProvider>
               </DevRouteGuard>
             }
           >
-            <Route index element={<PlaceholderKonsumenPage title="Dashboard Konsumen" description="Selamat datang di Customer Portal RKK. Di sini Anda dapat melihat ringkasan status seluruh proyek Anda." status="Planned" dos={["Melihat ringkasan progress", "Melihat notifikasi terbaru", "Akses cepat ke proyek aktif"]} donts={["Mengubah data teknis", "Melihat log internal pengawas"]} notes="Data yang ditampilkan adalah data yang telah divalidasi dan dipublish oleh Admin RKK." />} />
-            <Route path="dashboard" element={<PlaceholderKonsumenPage title="Dashboard Konsumen" description="Selamat datang di Customer Portal RKK. Di sini Anda dapat melihat ringkasan status seluruh proyek Anda." status="Planned" dos={["Melihat ringkasan progress", "Melihat notifikasi terbaru", "Akses cepat ke proyek aktif"]} donts={["Mengubah data teknis", "Melihat log internal pengawas"]} notes="Data yang ditampilkan adalah data yang telah divalidasi dan dipublish oleh Admin RKK." />} />
+            <Route index element={<DashboardKonsumen />} />
+            <Route path="dashboard" element={<DashboardKonsumen />} />
             
             {/* Proyek & Timeline */}
             <Route path="proyek" element={<Proyek />} />

@@ -48,7 +48,9 @@ export const DashboardProjectsTable = ({ projects }) => (
                             <td className="px-6 py-4">
                                 <span className={`
                                     px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                    ${p.status === "Berjalan" ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"}
+                                    ${(p.status === "active" || p.status === "Berjalan") ? "bg-emerald-100 text-emerald-700" : 
+                                      p.status === "Selesai" ? "bg-blue-100 text-blue-700" : 
+                                      "bg-orange-100 text-orange-700"}
                                 `}>
                                     {p.status}
                                 </span>

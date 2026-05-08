@@ -24,7 +24,7 @@ import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const DashboardAdmin = () => {
     const { selectedAdminId } = useAdminPersona();
-    const [stats, setStats] = useState({
+    const [stats, setStats] = React.useState({
         activeProjects: 0,
         totalCustomers: 0,
         pendingReports: 0,
@@ -32,10 +32,10 @@ const DashboardAdmin = () => {
         totalRevenue: 0,
         completedProjects: 0
     });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
 
-    const fetchStats = useCallback(async () => {
+    const fetchStats = React.useCallback(async () => {
         if (!selectedAdminId) {
             setLoading(false);
             return;
@@ -49,14 +49,14 @@ const DashboardAdmin = () => {
                 setStats(response.data);
             }
         } catch (err) {
-            console.error("Dashboard error:", err);
-            setError("Gagal memuat data dashboard. Pastikan backend berjalan.");
+            console.error("Failed to fetch dashboard stats:", err);
+            setError("Gagal memuat data statistik.");
         } finally {
             setLoading(false);
         }
     }, [selectedAdminId]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         fetchStats();
     }, [fetchStats]);
 

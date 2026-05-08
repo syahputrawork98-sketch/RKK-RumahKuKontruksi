@@ -1,4 +1,5 @@
-import { Prisma } from '@prisma/client';
+import pkg from '@prisma/client';
+const { Prisma } = pkg;
 import prisma from '../../config/prisma.js';
 
 // Plan

@@ -6,7 +6,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const ProyekAdminPage = () => {
-    const [activeSubtab, setActiveSubtab] = useState("daftar");
+    const [activeSubtab, setActiveSubtab] = useState("all");
     const { selectedAdminId } = useAdminPersona();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -36,26 +36,35 @@ const ProyekAdminPage = () => {
         fetchProjects();
     }, [fetchProjects]);
 
-    const subtabs = [
-        { id: "daftar", label: "Daftar Proyek" },
-        { id: "create", label: "Buat Proyek", isLink: true, href: "/admin/proyek/create" },
-        { id: "arsip", label: "Arsip" },
-    ];
-
     const getStatusColor = (status) => {
         const s = status?.toLowerCase();
-        if (s?.includes("active") || s?.includes("ongoing") || s?.includes("pengerjaan")) return "bg-emerald-500/10 text-emerald-500";
+        if (s?.includes("active") || s?.includes("ongoing") || s?.includes("berjalan")) return "bg-emerald-500/10 text-emerald-500";
         if (s?.includes("persiapan") || s?.includes("plan")) return "bg-blue-500/10 text-blue-500";
         if (s?.includes("finish") || s?.includes("selesai")) return "bg-purple-500/10 text-purple-500";
         if (s?.includes("stop") || s?.includes("terhenti")) return "bg-red-500/10 text-red-500";
         return "bg-slate-500/10 text-slate-500";
     };
 
-    const filteredProjects = projects.filter(prj => 
-        prj.projectCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prj.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prj.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const subtabs = [
+        { id: "all", label: "Semua", count: projects.length },
+        { id: "active", label: "Aktif", count: projects.filter(p => p.status?.toLowerCase().includes('active') || p.status?.toLowerCase().includes('ongoing') || p.status?.toLowerCase().includes('berjalan')).length },
+        { id: "persiapan", label: "Persiapan", count: projects.filter(p => p.status?.toLowerCase().includes('persiapan') || p.status?.toLowerCase().includes('plan')).length },
+        { id: "selesai", label: "Selesai", count: projects.filter(p => p.status?.toLowerCase().includes('finish') || p.status?.toLowerCase().includes('selesai')).length },
+    ];
+
+    const filteredProjects = projects.filter(prj => {
+        const matchesSearch = prj.projectCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             prj.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             prj.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        if (!matchesSearch) return false;
+
+        const s = prj.status?.toLowerCase();
+        if (activeSubtab === "active") return s.includes('active') || s.includes('ongoing') || s.includes('berjalan');
+        if (activeSubtab === "persiapan") return s.includes('persiapan') || s.includes('plan');
+        if (activeSubtab === "selesai") return s.includes('finish') || s.includes('selesai');
+        return true;
+    });
 
     if (!selectedAdminId) {
         return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
@@ -83,27 +92,20 @@ const ProyekAdminPage = () => {
             {/* SUBTABS */}
             <div className="flex items-center gap-2 border-b border-[var(--dashboard-border)] pb-0">
                 {subtabs.map((tab) => (
-                    tab.isLink ? (
-                        <Link
-                            key={tab.id}
-                            to={tab.href}
-                            className="px-6 py-3 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] hover:text-[var(--dashboard-primary)] transition-all border-b-2 border-transparent hover:border-[var(--dashboard-primary)]/30"
-                        >
-                            {tab.label}
-                        </Link>
-                    ) : (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveSubtab(tab.id)}
-                            className={`px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-b-2 ${
-                                activeSubtab === tab.id 
-                                ? "text-[var(--dashboard-primary)] border-[var(--dashboard-primary)]" 
-                                : "text-[var(--dashboard-text-soft)] border-transparent hover:text-[var(--dashboard-text)] hover:border-[var(--dashboard-border)]"
-                            }`}
-                        >
-                            {tab.label}
-                        </button>
-                    )
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveSubtab(tab.id)}
+                        className={`px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
+                            activeSubtab === tab.id 
+                            ? "text-[var(--dashboard-primary)] border-[var(--dashboard-primary)]" 
+                            : "text-[var(--dashboard-text-soft)] border-transparent hover:text-[var(--dashboard-text)] hover:border-[var(--dashboard-border)]"
+                        }`}
+                    >
+                        {tab.label}
+                        <span className={`px-1.5 py-0.5 rounded-md text-[8px] ${activeSubtab === tab.id ? 'bg-[var(--dashboard-primary)]/10 text-[var(--dashboard-primary)]' : 'bg-slate-100 text-slate-500'}`}>
+                            {tab.count}
+                        </span>
+                    </button>
                 ))}
             </div>
 
@@ -162,12 +164,12 @@ const ProyekAdminPage = () => {
                                         <td className="py-4 px-2 w-48">
                                             <div className="flex flex-col gap-1.5">
                                                 <div className="flex justify-between items-center text-[10px] font-bold">
-                                                    <span>{prj.progress}%</span>
+                                                    <span>{prj.verifiedProgress || 0}%</span>
                                                 </div>
                                                 <div className="w-full h-1.5 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
                                                     <div 
                                                         className="h-full bg-[var(--dashboard-primary)] transition-all duration-500" 
-                                                        style={{ width: `${prj.progress}%` }}
+                                                        style={{ width: `${prj.verifiedProgress || 0}%` }}
                                                     />
                                                 </div>
                                             </div>

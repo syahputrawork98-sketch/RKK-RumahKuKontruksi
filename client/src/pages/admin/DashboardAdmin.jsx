@@ -99,7 +99,7 @@ const DashboardAdmin = () => {
     const formattedProjects = recentProjects.map(p => ({
         kode: p.projectCode || "PRJ-???",
         name: p.name,
-        progress: p.progress || 0,
+        progress: p.verifiedProgress || 0,
         status: p.status,
         nilai: p.budgetTotal ? `Rp ${(parseFloat(p.budgetTotal) / 1000000).toFixed(0)}jt` : "-"
     }));

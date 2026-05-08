@@ -24,7 +24,7 @@ export const getAllRequests = async (filters = {}) => {
 };
 
 export const getRequestById = async (id) => {
-  return await prisma.materialRequest.findUnique({
+  const request = await prisma.materialRequest.findUnique({
     where: { id },
     include: {
       project: true,
@@ -41,6 +41,39 @@ export const getRequestById = async (id) => {
       },
     },
   });
+
+  if (!request) return null;
+
+  // Enhance items with remaining RAB info
+  const enhancedItems = await Promise.all(request.items.map(async (item) => {
+    if (!item.rabItemId) return { ...item, remainingRabQty: 0, totalApprovedQty: 0 };
+
+    const approvedItems = await prisma.materialRequestItem.findMany({
+      where: {
+        rabItemId: item.rabItemId,
+        materialRequest: {
+          id: { not: request.id },
+          status: { in: ['approved_by_admin', 'processing', 'delivered', 'received', 'completed'] }
+        }
+      },
+      select: { requestedQty: true }
+    });
+
+    const totalApprovedQty = approvedItems.reduce((sum, i) => sum + parseFloat(i.requestedQty), 0);
+    const rabQty = parseFloat(item.rabItem.volume);
+    const remainingRabQty = Math.max(0, rabQty - totalApprovedQty);
+
+    return {
+      ...item,
+      totalApprovedQty,
+      remainingRabQty
+    };
+  }));
+
+  return {
+    ...request,
+    items: enhancedItems
+  };
 };
 
 export const createRequest = async (data) => {
@@ -114,7 +147,6 @@ export const createRequest = async (data) => {
           note: item.note,
           isAdditionalMaterial: item.isAdditionalMaterial || false,
           additionalReason: item.additionalReason || null,
-          // In real implementation, we would calculate estimations here
           estimatedQtyFromRab: item.estimatedQtyFromRab || 0,
         })),
       });
@@ -139,8 +171,32 @@ export const createRequest = async (data) => {
 export const updateRequestStatus = async (id, data) => {
   const { status, actorId, actorRole, note, adminId, ...otherData } = data;
   
-  const currentRequest = await prisma.materialRequest.findUnique({ where: { id } });
+  const currentRequest = await getRequestById(id);
   if (!currentRequest) throw new Error('Request not found');
+
+  // Logic validation for APPROVAL
+  const isApproving = ['approved_by_supervisor', 'approved_by_admin'].includes(status);
+  
+  if (isApproving) {
+    // 1. Project Status Check
+    const allowedStatuses = ['active', 'ongoing', 'Berjalan'];
+    if (!allowedStatuses.includes(currentRequest.project.status)) {
+      throw new Error(`Approval gagal: Proyek dalam status ${currentRequest.project.status}. Hanya proyek aktif yang bisa diproses logistiknya.`);
+    }
+
+    // 2. RAB Quantity Check (Only for Admin approval or Supervisor if strict)
+    for (const item of currentRequest.items) {
+      if (item.rabItemId) {
+        const requestedQty = parseFloat(item.requestedQty);
+        const rabQty = parseFloat(item.rabItem.volume);
+        
+        // Use our enhanced info from getRequestById
+        if (requestedQty > item.remainingRabQty) {
+          throw new Error(`Batas RAB terlampaui untuk ${item.materialName}. Diminta: ${requestedQty}, Sisa RAB: ${item.remainingRabQty} ${item.unit}.`);
+        }
+      }
+    }
+  }
 
   const updateData = { 
     status,

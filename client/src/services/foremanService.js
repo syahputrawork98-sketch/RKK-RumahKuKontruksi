@@ -59,6 +59,10 @@ const foremanService = {
   // Projects
   getForemanProjects(foremanId) {
     return apiClient.get(`/foremen/${foremanId}/projects`);
+  },
+
+  getForemanStats(foremanId) {
+    return apiClient.get(`/foremen/${foremanId}/stats`);
   }
 };
 

@@ -24,6 +24,10 @@ export const superadminService = {
   deleteSuperadmin: async (id) => {
     const response = await apiClient.delete(`/superadmins/${id}`);
     return response.data;
+  },
+  getGlobalStats: async () => {
+    const response = await apiClient.get('/superadmins/stats/global');
+    return response.data;
   }
 };
 

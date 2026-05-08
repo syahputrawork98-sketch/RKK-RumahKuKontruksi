@@ -14,6 +14,10 @@ const architectService = {
     return apiClient.get(`/architects/${id}`);
   },
 
+  getArchitectStats(id) {
+    return apiClient.get(`/architects/${id}/stats`);
+  },
+
   createArchitect(data) {
     return apiClient.post('/architects', data);
   },

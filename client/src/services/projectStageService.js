@@ -12,6 +12,15 @@ const projectStageService = {
   async getStagesByProject(projectId) {
     return apiClient.get(`/project-stages/project/${projectId}`);
   },
+  
+  /**
+   * Get stage by ID
+   * @param {string} stageId 
+   * @returns {Promise<Object>}
+   */
+  async getStageById(stageId) {
+    return apiClient.get(`/project-stages/${stageId}`);
+  },
 
   /**
    * Create a new stage for a project

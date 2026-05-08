@@ -9,6 +9,10 @@ const supervisorService = {
   getSupervisorById(id) {
     return apiClient.get(`/supervisors/${id}`);
   },
+  
+  getSupervisorStats(id) {
+    return apiClient.get(`/supervisors/${id}/stats`);
+  },
 
   updateSupervisor(id, data) {
     return apiClient.patch(`/supervisors/${id}`, data);

@@ -13,6 +13,8 @@ const projectService = {
     if (params.supervisorId) queryParams.append('supervisorId', params.supervisorId);
     if (params.foremanId) queryParams.append('foremanId', params.foremanId);
     if (params.adminId) queryParams.append('adminId', params.adminId);
+    if (params.customerId) queryParams.append('customerId', params.customerId);
+    if (params.status) queryParams.append('status', params.status);
     
     const queryString = queryParams.toString();
     const endpoint = `/projects${queryString ? `?${queryString}` : ''}`;

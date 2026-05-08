@@ -70,6 +70,8 @@ const RequestMaterialAdminPage = () => {
         if (response.success) {
             setSelectedRequest(null);
             fetchRequests();
+        } else {
+            alert(response.message || "Gagal memperbarui status.");
         }
         setActionLoading(false);
     };
@@ -244,17 +246,64 @@ const RequestMaterialAdminPage = () => {
                             <div className="space-y-4">
                                 <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b pb-2">Daftar Material</h4>
                                 <div className="space-y-2">
-                                    {selectedRequest.items?.map((item, idx) => (
-                                        <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
-                                            <div>
-                                                <p className="text-xs font-black text-slate-800">{item.materialName}</p>
-                                                <p className="text-[10px] text-slate-500 font-bold uppercase">{item.note || 'Tanpa Catatan'}</p>
+                                    {selectedRequest.items?.map((item, idx) => {
+                                        const isOverLimit = item.rabItemId && (parseFloat(item.requestedQty) > parseFloat(item.remainingRabQty));
+                                        return (
+                                            <div key={idx} className={`p-4 rounded-2xl border transition-all ${isOverLimit ? 'bg-red-50 border-red-100' : 'bg-slate-50 border-slate-100'}`}>
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <div>
+                                                        <p className="text-xs font-black text-slate-800">{item.materialName}</p>
+                                                        {item.rabItem ? (
+                                                            <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-1.5 py-0.5 rounded">
+                                                                Linked to RAB: {item.rabItem.description}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-[9px] font-black text-amber-600 uppercase tracking-widest bg-amber-50 px-1.5 py-0.5 rounded">
+                                                                Manual Request (No RAB Link)
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="text-sm font-black text-slate-800">{item.requestedQty} {item.unit}</p>
+                                                    </div>
+                                                </div>
+
+                                                {item.rabItem && (
+                                                    <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-200/50 mt-2">
+                                                        <div className="text-center">
+                                                            <p className="text-[8px] font-black text-slate-400 uppercase">Total RAB</p>
+                                                            <p className="text-[10px] font-black text-slate-700">{item.rabItem.volume} {item.unit}</p>
+                                                        </div>
+                                                        <div className="text-center border-x border-slate-200/50">
+                                                            <p className="text-[8px] font-black text-slate-400 uppercase">Sudah Disetujui</p>
+                                                            <p className="text-[10px] font-black text-slate-700">{item.totalApprovedQty} {item.unit}</p>
+                                                        </div>
+                                                        <div className="text-center">
+                                                            <p className="text-[8px] font-black text-slate-400 uppercase">Sisa Kuota</p>
+                                                            <p className={`text-[10px] font-black ${isOverLimit ? 'text-red-500' : 'text-emerald-600'}`}>
+                                                                {item.remainingRabQty} {item.unit}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {isOverLimit && (
+                                                    <div className="mt-3 flex items-center gap-2 p-2 bg-red-100/50 rounded-xl border border-red-200">
+                                                        <FiAlertCircle className="text-red-500 flex-shrink-0" size={12} />
+                                                        <p className="text-[9px] font-black text-red-700 uppercase tracking-tight leading-none">
+                                                            Peringatan: Jumlah melebihi sisa kuota RAB!
+                                                        </p>
+                                                    </div>
+                                                )}
+
+                                                {item.note && (
+                                                    <p className="text-[9px] text-slate-500 font-bold uppercase mt-2 italic border-t border-slate-100 pt-2">
+                                                        Ket: {item.note}
+                                                    </p>
+                                                )}
                                             </div>
-                                            <div className="text-right">
-                                                <p className="text-xs font-black text-slate-800">{item.requestedQty} {item.unit}</p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
 

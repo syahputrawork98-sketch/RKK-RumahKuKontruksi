@@ -6,6 +6,7 @@ const router = express.Router();
 // Architect routes
 router.get('/', ArchitectController.getArchitects);
 router.get('/:id', ArchitectController.getArchitectById);
+router.get('/:id/stats', ArchitectController.getArchitectStats);
 router.post('/', ArchitectController.createArchitect);
 router.patch('/:id', ArchitectController.updateArchitect);
 router.delete('/:id', ArchitectController.deleteArchitect);

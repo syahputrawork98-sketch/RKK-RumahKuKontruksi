@@ -89,3 +89,20 @@ export const softDeleteExperience = async (id) => {
     data: { deletedAt: new Date() }
   });
 };
+
+export const getStats = async (id) => {
+  // Since DesignRequest model is not yet implemented in the schema,
+  // we return 0 for operational counts but fetch the real capacity.
+  const architect = await prisma.architect.findUnique({
+    where: { id, deletedAt: null },
+    select: { maxDesignCapacity: true }
+  });
+
+  return {
+    newRequests: 0,
+    activeDesigns: 0,
+    waitingReview: 0,
+    revisionRequested: 0,
+    maxDesignCapacity: architect?.maxDesignCapacity || 0
+  };
+};

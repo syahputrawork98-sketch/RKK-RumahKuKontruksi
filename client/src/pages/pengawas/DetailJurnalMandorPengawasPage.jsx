@@ -14,6 +14,7 @@ const DetailJurnalMandorPengawasPage = () => {
     const [journal, setJournal] = useState(null);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState(null);
     const [reviewNote, setReviewNote] = useState("");
 
     const fetchJournal = useCallback(async () => {
@@ -29,7 +30,7 @@ const DetailJurnalMandorPengawasPage = () => {
             }
         } catch (err) {
             console.error("Failed to fetch journal detail for supervisor:", err);
-            // setError is removed as per previous step
+            setError("Gagal memuat detail jurnal mandor.");
         } finally {
             setLoading(false);
         }
@@ -81,6 +82,23 @@ const DetailJurnalMandorPengawasPage = () => {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="max-w-2xl mx-auto py-20">
+                <div className="bg-rose-50 border border-rose-100 p-8 rounded-3xl text-center space-y-4">
+                    <FiAlertCircle size={48} className="mx-auto text-rose-500" />
+                    <h3 className="text-lg font-black text-slate-800">{error}</h3>
+                    <button 
+                        onClick={fetchJournal}
+                        className="px-8 py-3 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all"
+                    >
+                        Coba Lagi
+                    </button>
+                </div>
             </div>
         );
     }

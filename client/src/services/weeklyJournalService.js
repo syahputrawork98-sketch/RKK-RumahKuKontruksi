@@ -1,35 +1,27 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+import apiClient from './apiClient';
 
 const getWeeklyJournals = async (params) => {
-  const response = await axios.get(`${API_URL}/weekly-journals`, { params });
-  return response.data;
+  return apiClient.get('/weekly-journals', { params });
 };
 
 const getWeeklyJournalById = async (id, actor) => {
-  const response = await axios.get(`${API_URL}/weekly-journals/${id}`, { params: actor });
-  return response.data;
+  return apiClient.get(`/weekly-journals/${id}`, { params: actor });
 };
 
 const createWeeklyJournal = async (payload) => {
-  const response = await axios.post(`${API_URL}/weekly-journals`, payload);
-  return response.data;
+  return apiClient.post('/weekly-journals', payload);
 };
 
 const updateWeeklyJournal = async (id, payload) => {
-  const response = await axios.patch(`${API_URL}/weekly-journals/${id}`, payload);
-  return response.data;
+  return apiClient.patch(`/weekly-journals/${id}`, payload);
 };
 
 const submitWeeklyJournal = async (id, actor) => {
-  const response = await axios.post(`${API_URL}/weekly-journals/${id}/submit`, actor);
-  return response.data;
+  return apiClient.post(`/weekly-journals/${id}/submit`, actor);
 };
 
 const reviewWeeklyJournal = async (id, payload) => {
-  const response = await axios.post(`${API_URL}/weekly-journals/${id}/review`, payload);
-  return response.data;
+  return apiClient.post(`/weekly-journals/${id}/review`, payload);
 };
 
 export default {
@@ -40,3 +32,4 @@ export default {
   submitWeeklyJournal,
   reviewWeeklyJournal,
 };
+

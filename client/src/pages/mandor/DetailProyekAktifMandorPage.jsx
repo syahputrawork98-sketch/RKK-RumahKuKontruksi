@@ -143,7 +143,7 @@ const DetailProyekAktifMandorPage = () => {
                 </div>
                 <div className="flex items-center gap-2">
                     <button 
-                        onClick={() => navigate("/mandor/jurnal-mingguan/baru")}
+                        onClick={() => navigate("/mandor/jurnal-mingguan/create")}
                         className="px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all"
                     >
                         Lapor Progres

@@ -25,7 +25,7 @@ const DetailJurnalMingguanMandorPage = () => {
     });
 
     const fetchJournal = async () => {
-        if (!selectedForemanId) return;
+        if (!selectedForemanId || !journalId || journalId === 'create' || journalId === 'baru') return;
         try {
             setLoading(true);
             const response = await weeklyJournalService.getWeeklyJournalById(journalId, {

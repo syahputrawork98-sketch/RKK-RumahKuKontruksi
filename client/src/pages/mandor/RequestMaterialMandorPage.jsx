@@ -3,6 +3,7 @@ import { FiPlus, FiSearch, FiFilter, FiChevronRight, FiClock, FiCheckCircle, FiP
 import MaterialRequestForm from "./components/MaterialRequestForm";
 import materialRequestService from "../../services/materialRequestService";
 import StatusBadge from "../../components/common/StatusBadge";
+import RoleDataState from "../../components/common/RoleDataState";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 
 const RequestMaterialMandorPage = () => {
@@ -102,7 +103,7 @@ const RequestMaterialMandorPage = () => {
 
                 {loading ? (
                     <RoleDataState type="loading" />
-                ) : requests.length === 0 ? (
+                ) : (requests || []).length === 0 ? (
                     <RoleDataState 
                         type="empty"
                         title="Belum ada pengajuan material"
@@ -121,7 +122,7 @@ const RequestMaterialMandorPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {requests.map((req) => {
+                                { (requests || []).map((req) => {
                                     const statusInfo = getStatusInfo(req.status);
                                     return (
                                         <tr key={req.id} className="group transition-all">

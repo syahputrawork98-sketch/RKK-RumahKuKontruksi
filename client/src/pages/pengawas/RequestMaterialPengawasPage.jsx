@@ -63,9 +63,14 @@ const RequestMaterialPengawasPage = () => {
                 actorRole: 'SUPERVISOR',
                 note: 'Verifikasi lapangan oke.'
             });
-            if (response.success) fetchRequests();
+            if (response.success) {
+                fetchRequests();
+            } else {
+                alert(response.message || "Gagal menyetujui request.");
+            }
         } catch (err) {
-            alert(err.response?.data?.message || "Gagal menyetujui request.");
+            console.error("Approval error:", err);
+            alert("Terjadi kesalahan sistem saat menyetujui request.");
         }
     };
 

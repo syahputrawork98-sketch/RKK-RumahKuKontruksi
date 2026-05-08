@@ -28,6 +28,7 @@ model Customer {
   createdAt      DateTime  @default(now()) @map("created_at")
   updatedAt      DateTime  @updatedAt @map("updated_at")
   projects       Project[]
+  designRequests DesignRequest[]
 
   @@map("customers")
 }
@@ -47,7 +48,7 @@ model Project {
   paidAmount                Decimal                   @default(0) @map("paid_amount") @db.Decimal(15, 2)
   remainingAmount           Decimal                   @default(0) @map("remaining_amount") @db.Decimal(15, 2)
   heroImage                 String?                   @map("hero_image")
-  sourceDesignRequestId     String?                   @map("source_design_request_id")
+  sourceDesignRequestId     String?                   @unique @map("source_design_request_id")
   adminId                   String?                   @map("admin_id")
   supervisorId              String?                   @map("supervisor_id")
   foremanId                 String?                   @map("foreman_id")
@@ -68,6 +69,7 @@ model Project {
   rabPlans                  RabPlan[]
   weeklyJournals            WeeklyJournal[]
   supervisorWeeklyReports   SupervisorWeeklyReport[]
+  designRequests            DesignRequest[]
 
   @@map("projects")
 }
@@ -311,6 +313,8 @@ model Architect {
   deletedAt         DateTime?              @map("deleted_at")
   certificates      ArchitectCertificate[]
   experiences       ArchitectExperience[]
+  designRequests    DesignRequest[]
+  designTenderBids  DesignTenderBid[]
 
   @@map("architects")
 }
@@ -656,4 +660,80 @@ model SupervisorWeeklyReportReviewLog {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("supervisor_weekly_report_review_logs")
+}
+
+model DesignRequest {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?
+  buildingType    String?   @map("building_type")
+  location        String?
+  estimatedBudget Decimal?  @map("estimated_budget") @db.Decimal(15, 2)
+  status          String    @default("submitted")
+  notes           String?
+
+  customerId      String?   @map("customer_id")
+  projectId       String?   @map("project_id")
+  architectId     String?   @map("architect_id")
+
+  customer        Customer?  @relation(fields: [customerId], references: [id])
+  project         Project?   @relation(fields: [projectId], references: [id])
+  architect       Architect? @relation(fields: [architectId], references: [id])
+  designTender    DesignTender?
+
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  deletedAt       DateTime? @map("deleted_at")
+
+  @@map("design_requests")
+}
+
+model DesignTender {
+  id                   String    @id @default(cuid())
+  designRequestId      String    @unique @map("design_request_id")
+  title                String
+  description          String?
+  status               String    @default("open") // draft, open, closed, awarded, cancelled
+
+  baseDesignFee        Decimal   @map("base_design_fee") @db.Decimal(15, 2)
+  platformFeePercent   Decimal   @default(30) @map("platform_fee_percent") @db.Decimal(5, 2)
+  drafterBudgetPercent Decimal   @default(70) @map("drafter_budget_percent") @db.Decimal(5, 2)
+  platformFeeAmount    Decimal   @map("platform_fee_amount") @db.Decimal(15, 2)
+  drafterBudgetAmount  Decimal   @map("drafter_budget_amount") @db.Decimal(15, 2)
+
+  publishedAt          DateTime? @map("published_at")
+  closedAt             DateTime? @map("closed_at")
+  awardedAt            DateTime? @map("awarded_at")
+
+  selectedBidId        String?   @map("selected_bid_id")
+
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+  deletedAt            DateTime? @map("deleted_at")
+
+  designRequest        DesignRequest     @relation(fields: [designRequestId], references: [id])
+  bids                 DesignTenderBid[]
+
+  @@map("design_tenders")
+}
+
+model DesignTenderBid {
+  id                    String    @id @default(cuid())
+  designTenderId        String    @map("design_tender_id")
+  architectId           String    @map("architect_id")
+
+  bidAmount             Decimal   @map("bid_amount") @db.Decimal(15, 2)
+  message               String?
+  estimatedDurationDays Int?      @map("estimated_duration_days")
+  status                String    @default("submitted") // submitted, selected, rejected, withdrawn
+
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+  deletedAt             DateTime? @map("deleted_at")
+
+  designTender          DesignTender @relation(fields: [designTenderId], references: [id])
+  architect             Architect    @relation(fields: [architectId], references: [id])
+
+  @@unique([designTenderId, architectId])
+  @@map("design_tender_bids")
 }

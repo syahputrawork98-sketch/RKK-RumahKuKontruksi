@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FiPlus, FiSearch, FiFilter, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import projectService from "../../services/projectService";
@@ -7,32 +7,34 @@ import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const ProyekAdminPage = () => {
     const [activeSubtab, setActiveSubtab] = useState("daftar");
+    const { selectedAdminId } = useAdminPersona();
+    const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [projects, setProjects] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const { selectedAdminId } = useAdminPersona();
-
-    useEffect(() => {
-        if (selectedAdminId) {
-            fetchProjects();
+    const fetchProjects = useCallback(async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
         }
-    }, [selectedAdminId]);
 
-    const fetchProjects = async () => {
-        if (!selectedAdminId) return;
         try {
             setLoading(true);
-            const res = await projectService.getProjects({ adminId: selectedAdminId });
-            setProjects(res.data || []);
-            setLoading(false);
+            setError(null);
+            const response = await projectService.getProjects({ adminId: selectedAdminId });
+            setProjects(response.data || []);
         } catch (err) {
             console.error("Error fetching projects:", err);
             setError("Gagal memuat daftar proyek. Pastikan server backend berjalan.");
+        } finally {
             setLoading(false);
         }
-    };
+    }, [selectedAdminId]);
+
+    useEffect(() => {
+        fetchProjects();
+    }, [fetchProjects]);
 
     const subtabs = [
         { id: "daftar", label: "Daftar Proyek" },

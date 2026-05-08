@@ -10,10 +10,10 @@ import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const CreateProyekAdminPage = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
     const { selectedAdminId, selectedAdmin } = useAdminPersona();
+    const [loading, setLoading] = useState(false);
     
     const [options, setOptions] = useState({
         customers: [],
@@ -25,18 +25,31 @@ const CreateProyekAdminPage = () => {
         projectCode: `PRJ-${Date.now().toString().slice(-6)}`,
         name: "",
         customerId: "",
+        adminId: selectedAdminId || "",
         supervisorId: "",
         foremanId: "",
-        budgetTotal: "",
+        location: "",
+        type: "Pembangunan",
+        status: "Persiapan",
+        budgetTotal: 0,
         startDate: "",
-        endDate: "",
-        status: "persiapan",
-        progress: 0
+        estimatedEndDate: "",
+        note: ""
     });
+
+    useEffect(() => {
+        if (selectedAdminId) {
+            setFormData(prev => ({ ...prev, adminId: selectedAdminId }));
+        }
+    }, [selectedAdminId]);
 
     useEffect(() => {
         fetchOptions();
     }, []);
+
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
+    }
 
     const fetchOptions = async () => {
         try {

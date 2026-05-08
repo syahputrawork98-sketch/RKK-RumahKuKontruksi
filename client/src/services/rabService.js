@@ -7,88 +7,97 @@ const rabService = {
   /**
    * Get RAB details for a project
    * @param {string} projectId 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async getRabByProject(projectId) {
-    return apiClient.get(`/rab/project/${projectId}`);
+  async getRabByProject(projectId, params = {}) {
+    return apiClient.get(`/rab/project/${projectId}`, { params });
   },
 
   /**
    * Create a new RAB plan for a project
    * @param {string} projectId 
    * @param {Object} data 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async createRabPlan(projectId, data) {
-    return apiClient.post(`/rab/project/${projectId}/plans`, data);
+  async createRabPlan(projectId, data, params = {}) {
+    return apiClient.post(`/rab/project/${projectId}/plans`, { ...data, ...params });
   },
 
   /**
    * Update an existing RAB plan
    * @param {string} rabPlanId 
    * @param {Object} data 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async updateRabPlan(rabPlanId, data) {
-    return apiClient.patch(`/rab/plans/${rabPlanId}`, data);
+  async updateRabPlan(rabPlanId, data, params = {}) {
+    return apiClient.patch(`/rab/plans/${rabPlanId}`, { ...data, ...params });
   },
 
   /**
    * Create a new category in a RAB plan
    * @param {string} rabPlanId 
    * @param {Object} data 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async createRabCategory(rabPlanId, data) {
-    return apiClient.post(`/rab/plans/${rabPlanId}/categories`, data);
+  async createRabCategory(rabPlanId, data, params = {}) {
+    return apiClient.post(`/rab/plans/${rabPlanId}/categories`, { ...data, ...params });
   },
 
   /**
    * Update an existing category
    * @param {string} categoryId 
    * @param {Object} data 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async updateRabCategory(categoryId, data) {
-    return apiClient.patch(`/rab/categories/${categoryId}`, data);
+  async updateRabCategory(categoryId, data, params = {}) {
+    return apiClient.patch(`/rab/categories/${categoryId}`, { ...data, ...params });
   },
 
   /**
    * Delete a category
    * @param {string} categoryId 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async deleteRabCategory(categoryId) {
-    return apiClient.delete(`/rab/categories/${categoryId}`);
+  async deleteRabCategory(categoryId, params = {}) {
+    return apiClient.delete(`/rab/categories/${categoryId}`, { params });
   },
 
   /**
    * Create a new item in a category
    * @param {string} categoryId 
    * @param {Object} data 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async createRabItem(categoryId, data) {
-    return apiClient.post(`/rab/categories/${categoryId}/items`, data);
+  async createRabItem(categoryId, data, params = {}) {
+    return apiClient.post(`/rab/categories/${categoryId}/items`, { ...data, ...params });
   },
 
   /**
    * Update an existing item
    * @param {string} itemId 
    * @param {Object} data 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async updateRabItem(itemId, data) {
-    return apiClient.patch(`/rab/items/${itemId}`, data);
+  async updateRabItem(itemId, data, params = {}) {
+    return apiClient.patch(`/rab/items/${itemId}`, { ...data, ...params });
   },
 
   /**
    * Delete an item
    * @param {string} itemId 
+   * @param {Object} params - { adminId }
    * @returns {Promise<Object>}
    */
-  async deleteRabItem(itemId) {
-    return apiClient.delete(`/rab/items/${itemId}`);
+  async deleteRabItem(itemId, params = {}) {
+    return apiClient.delete(`/rab/items/${itemId}`, { params });
   }
 };
 

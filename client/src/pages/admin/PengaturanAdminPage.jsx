@@ -1,7 +1,15 @@
 import React from "react";
 import { FiUser, FiMonitor, FiLock, FiInfo } from "react-icons/fi";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const PengaturanAdminPage = () => {
+    const { selectedAdminId, selectedAdmin } = useAdminPersona();
+
+    if (!selectedAdminId) {
+        return <RoleDataState type="empty" message="Silakan pilih Admin persona di Topbar." />;
+    }
+
     return (
         <div className="animate-fadeIn space-y-6">
             <div>
@@ -17,17 +25,19 @@ const PengaturanAdminPage = () => {
                     </div>
                     <div className="space-y-4">
                         <div className="flex items-center gap-4">
-                            <img src="https://placehold.co/80x80" className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--dashboard-primary)]/20" alt="Avatar" />
+                            <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500 border-2 border-indigo-100 shadow-sm font-black text-xl">
+                                {selectedAdmin?.name?.charAt(0) || "A"}
+                            </div>
                             <button className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest">Ubah Foto</button>
                         </div>
                         <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-1">
                                 <label className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Nama Lengkap</label>
-                                <input type="text" readOnly value="Administrator Proyek" className="w-full px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm opacity-70" />
+                                <input type="text" readOnly value={selectedAdmin?.name || ""} className="w-full px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm font-bold opacity-70" />
                             </div>
                             <div className="space-y-1">
                                 <label className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Email</label>
-                                <input type="text" readOnly value="admin@rkk.co.id" className="w-full px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm opacity-70" />
+                                <input type="text" readOnly value={selectedAdmin?.email || ""} className="w-full px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm font-bold opacity-70" />
                             </div>
                         </div>
                     </div>

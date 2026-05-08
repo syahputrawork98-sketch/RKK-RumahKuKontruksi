@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
     FiUsers, 
     FiSearch, 
@@ -44,8 +44,12 @@ const PenugasanTimAdminPage = () => {
             fetchInitialData();
         }
     }, [selectedAdminId]);
+    const fetchInitialData = useCallback(async () => {
+        if (!selectedAdminId) {
+            setLoading(false);
+            return;
+        }
 
-    const fetchInitialData = async () => {
         try {
             setLoading(true);
             const [projRes, admRes, supRes, forRes] = await Promise.all([
@@ -67,7 +71,11 @@ const PenugasanTimAdminPage = () => {
             setError("Gagal memuat data penugasan. Pastikan server backend berjalan.");
             setLoading(false);
         }
-    };
+    }, [selectedAdminId]);
+
+    useEffect(() => {
+        fetchInitialData();
+    }, [fetchInitialData]);
 
     const handleProjectSelect = (id) => {
         const project = projects.find(p => p.id === id);

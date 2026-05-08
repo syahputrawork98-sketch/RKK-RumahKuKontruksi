@@ -33,7 +33,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Detail RAB | `/admin/rab/:id` | Partial | Read data RAB dari DB. |
 | Pembayaran | `/admin/pembayaran` | Shell / Pending | Manajemen termin konsumen. |
 | Penugasan Tim | `/admin/penugasan-tim` | DB-Backed v1 | Assign Pengawas/Mandor. |
-| Laporan Progress | `/admin/laporan-progress` | Shell / Pending | Monitoring progres lapangan. |
+| Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring progres resmi (SOT). |
 | Request Material | `/admin/request-material`| Experimental | Terhubung ke MR Backend Draft. |
 | Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | DB-Backed v1 | List review laporan mingguan Pengawas. |
 | Detail Review | `/admin/laporan-mingguan-pengawas/:id` | DB-Backed v1 | Review, approve, reject laporan Pengawas. |
@@ -45,7 +45,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Dashboard | `/pengawas/dashboard` | DB-Backed v1 | Stats harian lapangan. |
 | Proyek Diawasi | `/pengawas/proyek` | DB-Backed v1 | List proyek per pengawas. |
 | Detail Proyek | `/pengawas/proyek/:id` | DB-Backed v1 | Detail teknis proyek. |
-| Verifikasi Progres | `/pengawas/verifikasi-progres` | Experimental | Validasi progres harian. |
+| Verifikasi Progres | `/pengawas/verifikasi-progres` | DB-Backed v1 | Validasi progres resmi (SOT). |
 | Dokumentasi | `/pengawas/dokumentasi` | Shell / Pending | Galeri fisik lapangan. |
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | DB-Backed v1 | List evaluasi mingguan pengawas. |
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | DB-Backed v1 | Form input evaluasi mingguan. |

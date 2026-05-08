@@ -22,7 +22,8 @@ Status: **Database-Backed v1**
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `supervisorId`.
 - **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock.
 - **Operational Status**: 
-  - Verifikasi progres, dokumentasi, laporan mingguan: **Backend Pending / Experimental**.
+  - Verifikasi progres, laporan mingguan, jurnal mandor: **DB-Backed v1 / Integrated**.
+  - Dokumentasi: **Shell / Backend Pending**.
   - Request material: **Experimental / Backend Draft**.
 
 ### 2. Mandor / Foreman
@@ -35,10 +36,9 @@ Status: **Database-Backed v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
 - **Operational Status**: 
-  - Tugas harian, laporan harian, dokumentasi, kendala lapangan: **Shell / Backend Pending**.
+  - Jurnal Mingguan: **DB-Backed v1 / Integrated**.
+  - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
   - Request material: **Experimental / Backend Draft**.
-37: 
-38: ### 3. Arsitek / Architect
 
 ### 3. Arsitek / Architect
 Status: **Database-Backed v1**
@@ -63,7 +63,8 @@ Status: **Database-Backed v1**
 - **RAB**: Data RAB (Read-First): **Partial**.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Operational Data**: 
-  - Laporan Progress, Pembayaran: **Shell / Backend Pending**.
+  - Laporan Progress Terverifikasi, Review Laporan Pengawas: **DB-Backed v1 / Integrated**.
+  - Pembayaran: **Shell / Backend Pending**.
   - Request Material: **Experimental**.
 
 ---

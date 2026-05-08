@@ -29,6 +29,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
       setLoadingProjects(true);
       try {
         const response = await projectService.getProjects({ foremanId: selectedForemanId });
+        // Filter projects or just let user see all but disable non-active ones later
         setProjects(response.data);
       } catch (error) {
         console.error('Failed to fetch projects:', error);
@@ -51,10 +52,23 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
         setStages(response.data);
         
         // Also fetch RAB to match items
-        const rabResponse = await projectService.getProjectRab(formData.projectId);
-        // Assuming RAB structure has items
-        if (rabResponse.data && rabResponse.data.items) {
-          setRabItems(rabResponse.data.items);
+        try {
+          const rabResponse = await projectService.getProjectRab(formData.projectId);
+          if (rabResponse.data && rabResponse.data.categories) {
+            // Flatten items from all categories
+            const allItems = rabResponse.data.categories.flatMap(cat => 
+              cat.items.map(item => ({
+                ...item,
+                categoryName: cat.name
+              }))
+            );
+            setRabItems(allItems);
+          } else {
+            setRabItems([]);
+          }
+        } catch (rabErr) {
+          console.log('RAB not found or not approved for this project yet.');
+          setRabItems([]);
         }
       } catch (error) {
         console.error('Failed to fetch stages:', error);
@@ -161,10 +175,21 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                 className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 outline-none"
               >
                 <option value="">-- Pilih Proyek --</option>
-                {projects.map(p => (
-                  <option key={p.id} value={p.id}>{p.projectCode} - {p.name}</option>
-                ))}
+                {projects.map(p => {
+                  const isActive = p.status === 'active' || p.status === 'ongoing' || p.status === 'Berjalan';
+                  return (
+                    <option key={p.id} value={p.id}>
+                      {p.projectCode} - {p.name} {!isActive ? `(${p.status === 'planning' || p.status === 'Perencanaan' ? 'Persiapan' : p.status})` : ''}
+                    </option>
+                  );
+                })}
               </select>
+              {formData.projectId && !projects.find(p => p.id === formData.projectId)?.status?.match(/active|ongoing|Berjalan/) && (
+                <div className="mt-2 p-3 bg-amber-50 border border-amber-100 rounded-xl flex items-center gap-2 text-[10px] font-bold text-amber-700 animate-pulse">
+                  <FiAlertCircle />
+                  <span>Proyek masih tahap persiapan. Request material hanya bisa dikirim setelah proyek Aktif/Berjalan.</span>
+                </div>
+              )}
             </div>
 
             {/* STAGE SELECT */}
@@ -270,7 +295,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                       >
                         <option value="">-- Manual / Material Tambahan --</option>
                         {rabItems.map(ri => (
-                          <option key={ri.id} value={ri.id}>{ri.description}</option>
+                          <option key={ri.id} value={ri.id}>{ri.description} ({ri.categoryName})</option>
                         ))}
                       </select>
                     </div>
@@ -362,7 +387,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
           <button
             type="submit"
             onClick={handleSubmit}
-            disabled={loading || !formData.projectId || !formData.stageId}
+            disabled={loading || !formData.projectId || !formData.stageId || !projects.find(p => p.id === formData.projectId)?.status?.match(/active|ongoing|Berjalan/)}
             className="px-8 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
           >
             {loading ? 'Mengirim...' : 'Kirim Pengajuan'}

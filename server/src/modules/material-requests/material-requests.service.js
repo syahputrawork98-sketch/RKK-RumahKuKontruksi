@@ -66,6 +66,27 @@ export const createRequest = async (data) => {
   });
   const requestCode = `REQ-${dateStr}-${(count + 1).toString().padStart(4, '0')}`;
 
+  // Validation
+  const project = await prisma.project.findUnique({
+    where: { id: projectId },
+    select: { status: true, foremanId: true, supervisorId: true }
+  });
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  // Only allow material requests for active/ongoing projects
+  const allowedStatuses = ['active', 'ongoing', 'Berjalan'];
+  if (!allowedStatuses.includes(project.status)) {
+    throw new Error('Material request hanya diperbolehkan untuk proyek yang sudah aktif/berjalan.');
+  }
+
+  // Ensure persona assignment matches
+  if (project.foremanId !== foremanId) {
+    throw new Error('Mandor ini tidak ditugaskan pada proyek ini.');
+  }
+
   return await prisma.$transaction(async (tx) => {
     const request = await tx.materialRequest.create({
       data: {

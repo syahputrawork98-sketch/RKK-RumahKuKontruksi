@@ -79,7 +79,9 @@ export const getStats = async (adminId = null) => {
     projectFinancials, 
     latestProjects,
     reportStats,
-    materialRequestStats
+    materialRequestStats,
+    latestReports,
+    latestMaterialRequests
   ] = await Promise.all([
     prisma.project.groupBy({
       by: ['status'],
@@ -116,6 +118,26 @@ export const getStats = async (adminId = null) => {
       by: ['status'],
       where: adminId ? { project: { adminId } } : {},
       _count: { _all: true }
+    }),
+    prisma.supervisorWeeklyReport.findMany({
+      where: adminId ? { project: { adminId } } : {},
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        project: {
+          select: { name: true, projectCode: true }
+        }
+      }
+    }),
+    prisma.materialRequest.findMany({
+      where: adminId ? { project: { adminId } } : {},
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        project: {
+          select: { name: true, projectCode: true }
+        }
+      }
     })
   ]);
 
@@ -125,6 +147,8 @@ export const getStats = async (adminId = null) => {
     financials: projectFinancials._sum,
     recentProjects: latestProjects,
     reports: reportStats,
-    materialRequests: materialRequestStats
+    materialRequests: materialRequestStats,
+    recentReports: latestReports,
+    recentMaterialRequests: latestMaterialRequests
   };
 };

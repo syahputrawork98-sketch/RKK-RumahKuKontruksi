@@ -1,32 +1,56 @@
-import React, { useState } from "react";
-import { mockCustomers } from "../../data/mock/customers";
+import React, { useState, useEffect } from "react";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
+import customerService from "../../services/customerService";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const Profil = () => {
-  // Assume customer-001 is logged in
-  const customerData = mockCustomers.find(c => c.id === "customer-001");
-
-  // Mock data konsumen
+  const { selectedCustomerId, selectedCustomer } = useCustomerPersona();
   const [user, setUser] = useState({
-    nama: customerData?.name || "Nama Konsumen",
-    email: customerData?.email || "email@example.com",
-    nomor: customerData?.phone || "08xxxxxx",
-    alamat: customerData?.address || "Alamat belum diatur",
-    tanggalBergabung: customerData?.joinedAt || "01 Jan 2024",
-    jenisKelamin: "Pria", // Not in mock data yet, keep default
-    tempatTanggalLahir: "Jakarta, 01 Jan 1990", // Not in mock data yet
-    fotoProfil: customerData?.avatar || "https://i.pravatar.cc/150",
-    idKonsumen: customerData?.id || "RKK-XXX",
-    jumlahProyek: 3, // Could be calculated from mockProjects
+    nama: "",
+    email: "",
+    nomor: "",
+    alamat: "",
+    tanggalBergabung: "",
+    jenisKelamin: "Pria",
+    tempatTanggalLahir: "Jakarta, 01 Jan 1990",
+    fotoProfil: "",
+    idKonsumen: "",
+    jumlahProyek: 0,
     statusAkun: "Aktif",
-    identityNumber: customerData?.identityNumber || "N/A",
-    occupation: customerData?.occupation || "N/A",
-    notes: customerData?.notes || ""
+    identityNumber: "N/A",
+    occupation: "N/A",
+    notes: ""
   });
 
+  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (selectedCustomer) {
+      setUser({
+        nama: selectedCustomer.name || "",
+        email: selectedCustomer.email || "",
+        nomor: selectedCustomer.phone || "",
+        alamat: selectedCustomer.address || "",
+        tanggalBergabung: selectedCustomer.joinedAt ? new Date(selectedCustomer.joinedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : "01 Jan 2024",
+        jenisKelamin: "Pria", 
+        tempatTanggalLahir: "Jakarta, 01 Jan 1990",
+        fotoProfil: selectedCustomer.avatar || `https://ui-avatars.com/api/?name=${selectedCustomer.name}&background=0D9488&color=fff`,
+        idKonsumen: selectedCustomer.id || "RKK-XXX",
+        jumlahProyek: selectedCustomer._count?.projects || 0,
+        statusAkun: "Aktif",
+        identityNumber: selectedCustomer.identityNumber || "N/A",
+        occupation: selectedCustomer.occupation || "N/A",
+        notes: selectedCustomer.notes || ""
+      });
+      setLoading(false);
+    }
+  }, [selectedCustomer]);
+
 
   // Hitung umur dari tanggal lahir
   const hitungUmur = (tanggalLahir) => {
+    if (!tanggalLahir) return "-";
     const lahir = new Date(tanggalLahir);
     const today = new Date();
     let umur = today.getFullYear() - lahir.getFullYear();
@@ -48,6 +72,8 @@ const Profil = () => {
     setIsEditing(false);
     alert("Profil berhasil diperbarui! (hanya frontend mock)");
   };
+
+  if (loading) return <RoleDataState type="loading" message="Memuat profil Anda..." />;
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -192,27 +218,19 @@ const Profil = () => {
           </div>
 
           {/* Tombol Edit / Simpan / Batal */}
-          <div className="mt-6 flex justify-end gap-2">
-            {isEditing ? (
-              <>
-                <button className="btn btn-success" onClick={handleSave}>
-                  Simpan
-                </button>
-                <button
-                  className="btn btn-outline"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Batal
-                </button>
-              </>
-            ) : (
+          <div className="mt-6 flex flex-col items-end gap-3">
+            <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg border border-amber-100">
+                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
+                <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest">Status: Hold (Fase Local CRUD)</span>
+            </div>
+            <div className="flex justify-end gap-2">
               <button
-                className="btn btn-warning text-white"
-                onClick={() => setIsEditing(true)}
+                className="btn btn-warning text-white opacity-50 cursor-not-allowed"
+                disabled
               >
-                Edit Profil
+                Edit Profil (Coming Soon)
               </button>
-            )}
+            </div>
           </div>
         </div>
       </div>

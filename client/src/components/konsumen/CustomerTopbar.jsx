@@ -16,24 +16,47 @@ import {
   FaUserCog
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { mockCustomers } from "../../data/mock/customers";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
+import projectService from "../../services/projectService";
 
 const CustomerTopbar = () => {
+  const { customers, selectedCustomerId, selectedCustomer, handleSelectCustomer, loading: personaLoading } = useCustomerPersona();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [isPersonaListOpen, setIsPersonaListOpen] = useState(false);
+  const [activeProject, setActiveProject] = useState(null);
+  
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Assume customer-001 is logged in for mock purposes
-  const currentUser = mockCustomers.find(c => c.id === "customer-001");
-  
-  // Mock Active Project
-  const activeProject = {
-    name: "Rumah Tinggal Bintaro",
-    id: "project-001",
-    status: "Dalam Proses"
-  };
+  // Fetch first active project for context badge
+  useEffect(() => {
+    const fetchActiveProject = async () => {
+      if (selectedCustomerId) {
+        try {
+          const response = await projectService.getProjects({ 
+            customerId: selectedCustomerId,
+            status: 'active' 
+          });
+          if (response.success && response.data.length > 0) {
+            setActiveProject(response.data[0]);
+          } else {
+            // Try any project if no active one
+            const allProj = await projectService.getProjects({ customerId: selectedCustomerId });
+            if (allProj.success && allProj.data.length > 0) {
+              setActiveProject(allProj.data[0]);
+            } else {
+              setActiveProject(null);
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch context project:", err);
+        }
+      }
+    };
+    fetchActiveProject();
+  }, [selectedCustomerId]);
 
   const navLinks = [
     { name: "Beranda", path: "/konsumen/dashboard", icon: <FaHome /> },
@@ -55,15 +78,14 @@ const CustomerTopbar = () => {
   ];
 
   const handleLogout = () => {
-    // In a real app, clear auth context/storage
     navigate("/sign-in");
   };
 
-  // Close dropdowns on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsUserDropdownOpen(false);
     setIsNotifOpen(false);
+    setIsPersonaListOpen(false);
   }, [location.pathname]);
 
   const isLinkActive = (link) => {
@@ -86,7 +108,7 @@ const CustomerTopbar = () => {
                 alt="RKK Logo"
                 className="w-10 h-10 md:w-12 md:h-12 object-contain rounded-full"
               />
-              <div className="hidden sm:block">
+              <div className="hidden sm:block text-left">
                 <h1 className="text-teal-700 font-bold text-lg leading-tight uppercase tracking-tight">RKK</h1>
                 <p className="text-gray-400 text-[10px] uppercase font-bold tracking-[0.2em]">Customer Portal</p>
               </div>
@@ -95,12 +117,21 @@ const CustomerTopbar = () => {
             <div className="h-8 w-px bg-gray-100 hidden lg:block" />
 
             {/* Project Badge */}
-            <div className="hidden lg:flex items-center gap-2 bg-teal-50 px-3 py-1.5 rounded-full border border-teal-100">
-              <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-              <span className="text-xs font-semibold text-teal-800">
-                Proyek Aktif: <span className="text-teal-600">{activeProject.name}</span>
-              </span>
-            </div>
+            {activeProject ? (
+              <div className="hidden lg:flex items-center gap-2 bg-teal-50 px-3 py-1.5 rounded-full border border-teal-100 max-w-[200px]">
+                <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
+                <span className="text-[10px] font-bold text-teal-800 truncate">
+                  Proyek: <span className="text-teal-600">{activeProject.name}</span>
+                </span>
+              </div>
+            ) : (
+              <div className="hidden lg:flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
+                <div className="w-2 h-2 rounded-full bg-slate-300" />
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                  Belum Ada Proyek Aktif
+                </span>
+              </div>
+            )}
           </div>
 
           {/* --- CENTER: DESKTOP NAV --- */}
@@ -174,13 +205,16 @@ const CustomerTopbar = () => {
                 className="flex items-center gap-2 p-1 md:p-1.5 hover:bg-gray-50 rounded-full transition-all group border border-transparent hover:border-gray-100"
               >
                 <img 
-                  src={currentUser?.avatar || "https://ui-avatars.com/api/?name=User"} 
-                  alt={currentUser?.name} 
+                  src={`https://ui-avatars.com/api/?name=${selectedCustomer?.name || 'User'}&background=0D9488&color=fff`} 
+                  alt={selectedCustomer?.name} 
                   className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-teal-100 group-hover:border-teal-500 transition-colors shadow-sm"
                 />
                 <div className="hidden lg:block text-left mr-1">
-                  <p className="text-xs font-bold text-gray-800 leading-none mb-1">{currentUser?.name?.split(' ')[0]}</p>
-                  <p className="text-[10px] text-teal-600 font-bold uppercase tracking-widest leading-none">Konsumen</p>
+                  <p className="text-xs font-bold text-gray-800 leading-none mb-1">{selectedCustomer?.name?.split(' ')[0] || 'Guest'}</p>
+                  <div className="flex items-center gap-1">
+                    <p className="text-[9px] text-teal-600 font-black uppercase tracking-widest leading-none">Konsumen</p>
+                    <div className="w-1 h-1 bg-teal-300 rounded-full" />
+                  </div>
                 </div>
                 <FaChevronDown className={`text-gray-400 text-xs transition-transform ${isUserDropdownOpen ? "rotate-180" : ""}`} />
               </button>
@@ -193,21 +227,67 @@ const CustomerTopbar = () => {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-20"
+                      className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-20"
                     >
                       <div className="p-4 border-b border-gray-50 bg-gray-50/50">
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Identitas Anda</p>
-                        <p className="font-bold text-gray-800 text-sm truncate">{currentUser?.name}</p>
-                        <p className="text-xs text-gray-500 truncate">{currentUser?.email}</p>
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Akun Aktif</p>
+                          <span className="text-[9px] bg-teal-500 text-white px-1.5 py-0.5 rounded-full font-black uppercase">Local Dev</span>
+                        </div>
+                        <p className="font-bold text-gray-800 text-sm truncate">{selectedCustomer?.name || 'Belum Terpilih'}</p>
+                        <p className="text-xs text-gray-500 truncate italic">{selectedCustomer?.email || '-'}</p>
                       </div>
+
                       <div className="p-2">
-                        <Link to="/konsumen/profil" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-teal-50 hover:text-teal-600 transition-all">
-                          <FaUserCog /> <span>Profil Saya</span>
-                        </Link>
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-teal-50 hover:text-teal-600 transition-all">
-                          <FaQuestionCircle /> <span>Bantuan</span>
+                        <button 
+                          onClick={() => {
+                            setIsPersonaListOpen(!isPersonaListOpen);
+                            // Keep dropdown open when toggling persona list
+                          }}
+                          className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm text-teal-700 bg-teal-50 hover:bg-teal-100 transition-all font-bold"
+                        >
+                          <div className="flex items-center gap-3">
+                            <FaUserCog /> <span>Ganti Persona</span>
+                          </div>
+                          <FaChevronDown className={`text-xs transition-transform ${isPersonaListOpen ? "rotate-180" : ""}`} />
                         </button>
+
+                        <AnimatePresence>
+                          {isPersonaListOpen && (
+                            <motion.div 
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="mt-2 space-y-1 max-h-48 overflow-y-auto pr-1"
+                            >
+                              {customers.map((c) => (
+                                <button
+                                  key={c.id}
+                                  onClick={() => handleSelectCustomer(c.id)}
+                                  className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+                                    selectedCustomerId === c.id 
+                                    ? "bg-teal-600 text-white" 
+                                    : "hover:bg-gray-100 text-gray-600"
+                                  }`}
+                                >
+                                  <div className={`w-1.5 h-1.5 rounded-full ${selectedCustomerId === c.id ? "bg-white" : "bg-teal-400"}`} />
+                                  <span className="truncate">{c.name}</span>
+                                </button>
+                              ))}
+                              {customers.length === 0 && (
+                                <p className="text-[10px] text-gray-400 text-center py-2 italic">Data konsumen tidak tersedia</p>
+                              )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        <div className="h-px bg-gray-50 my-2" />
+
+                        <Link to="/konsumen/profil" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-teal-50 hover:text-teal-600 transition-all">
+                          <FaUserCog /> <span>Detail Profil</span>
+                        </Link>
                       </div>
+
                       <div className="p-2 border-t border-gray-50">
                         <button 
                           onClick={handleLogout}

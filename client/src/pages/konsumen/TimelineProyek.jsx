@@ -41,32 +41,41 @@ const TimelineProyek = () => {
           // Map stages to timeline
           timeline: (raw.stages || []).map(s => ({
             id: s.id,
+            code: s.code || "N/A",
             title: s.title,
-            status: s.status, // in-progress, completed, etc
+            status: s.status === 'completed' || s.isVerified ? 'verified' : (s.status === 'ongoing' || s.status === 'active' ? 'in_progress' : 'pending'),
             date: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : '-',
-            progress: s.progress,
+            startDate: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID') : '-',
+            endDate: s.endDate ? new Date(s.endDate).toLocaleDateString('id-ID') : '-',
+            durationDays: s.startDate && s.endDate ? Math.ceil((new Date(s.endDate) - new Date(s.startDate)) / (1000 * 60 * 60 * 24)) : 0,
+            progress: s.progress || 0,
             isVerified: s.isVerified,
+            verification: {
+              isVerified: s.isVerified,
+              verifiedBy: s.verifiedBy || "Pengawas"
+            },
             note: s.note,
             description: s.description
           })),
+          verifiedProgress: raw.verifiedProgress || 0,
           // Mock team for now as backend doesn't have full team detail yet in relations
           team: {
             admin: {
-              name: "Admin RKK",
+              name: raw.admin?.name || "Admin RKK",
               role: "Administrator",
-              avatar: "https://i.pravatar.cc/150?u=admin",
+              avatar: `https://ui-avatars.com/api/?name=${raw.admin?.name || 'Admin'}&background=0D9488&color=fff`,
               status: "Online"
             },
             supervisor: {
-              name: raw.supervisorName || "Budi Santoso",
+              name: raw.supervisor?.name || "Budi Santoso",
               role: "Pengawas Lapangan",
-              avatar: "https://i.pravatar.cc/150?u=supervisor",
+              avatar: `https://ui-avatars.com/api/?name=${raw.supervisor?.name || 'Supervisor'}&background=F59E0B&color=fff`,
               status: "Di Lapangan"
             },
             foreman: {
-              name: raw.foremanName || "Mulyadi",
+              name: raw.foreman?.name || "Mulyadi",
               role: "Mandor Proyek",
-              avatar: "https://i.pravatar.cc/150?u=foreman",
+              avatar: `https://ui-avatars.com/api/?name=${raw.foreman?.name || 'Mandor'}&background=3B82F6&color=fff`,
               status: "Aktif"
             }
           }
@@ -122,7 +131,7 @@ const TimelineProyek = () => {
       {/* 1. Project Hero Section */}
       <section className="relative h-[450px] overflow-hidden rounded-b-[40px] md:rounded-b-[60px] shadow-2xl">
         <img 
-          src={project.heroImage} 
+          src={project.heroImage || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=2070"} 
           alt={project.name} 
           className="w-full h-full object-cover"
         />
@@ -135,24 +144,19 @@ const TimelineProyek = () => {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-wrap items-center gap-3"
             >
-              <span className="px-4 py-1.5 bg-primary-main text-white text-s-bold rounded-full shadow-lg">
+              <span className="px-4 py-1.5 bg-teal-600 text-white text-[10px] font-bold rounded-full shadow-lg uppercase tracking-wider">
                 Proyek {project.status}
               </span>
-              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md text-white text-s-bold rounded-full border border-white/20">
+              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md text-white text-[10px] font-bold rounded-full border border-white/20 uppercase tracking-wider">
                 {project.type}
               </span>
-              {project.sourceDesignRequestId && (
-                <span className="px-4 py-1.5 bg-secondary-main text-white text-s-bold rounded-full shadow-lg border border-secondary-main/20">
-                  RKK Design Source
-                </span>
-              )}
             </motion.div>
 
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-heading-l-bold md:text-display leading-tight"
+              className="text-3xl md:text-5xl font-black leading-tight"
             >
               {project.name}
             </motion.h1>
@@ -161,16 +165,16 @@ const TimelineProyek = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex flex-wrap items-center gap-6 text-m-medium text-white/90"
+              className="flex flex-wrap items-center gap-6 text-sm font-medium text-white/90"
             >
               <div className="flex items-center gap-2">
-                <FiMapPin className="text-primary-main" /> {project.location}
+                <FiMapPin className="text-teal-400" /> {project.location}
               </div>
               <div className="flex items-center gap-2">
-                <FiCalendar className="text-primary-main" /> Mulai: {project.startDate}
+                <FiCalendar className="text-teal-400" /> Mulai: {project.startDate}
               </div>
               <div className="flex items-center gap-2">
-                <FiClock className="text-primary-main" /> Estimasi: {project.estimatedEndDate}
+                <FiClock className="text-teal-400" /> Estimasi: {project.estimatedEndDate}
               </div>
             </motion.div>
 
@@ -182,14 +186,14 @@ const TimelineProyek = () => {
               className="pt-4"
             >
               <div className="flex justify-between items-end mb-2">
-                <span className="text-m-bold text-white">Progres Keseluruhan</span>
-                <span className="text-heading-s-bold text-primary-main">{project.progress}%</span>
+                <span className="text-sm font-bold text-white uppercase tracking-widest">Progress Resmi (Verified)</span>
+                <span className="text-2xl font-black text-teal-400">{project.verifiedProgress}%</span>
               </div>
-              <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/20 backdrop-blur-sm">
+              <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/20 backdrop-blur-sm shadow-inner">
                 <motion.div 
-                  className="h-full bg-primary-main rounded-full"
+                  className="h-full bg-teal-500 rounded-full shadow-[0_0_15px_rgba(20,184,166,0.5)]"
                   initial={{ width: 0 }}
-                  animate={{ width: `${project.progress}%` }}
+                  animate={{ width: `${project.verifiedProgress}%` }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
                 />
               </div>
@@ -243,9 +247,12 @@ const TimelineProyek = () => {
 
         {/* 3. Team Cards Section */}
         <section className="space-y-6">
-          <h2 className="text-heading-m-bold text-neutral-100 flex items-center gap-3">
-            <FiUser className="text-primary-main" /> Tim Proyek Anda
-          </h2>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-2">
+            <h2 className="text-heading-m-bold text-neutral-100 flex items-center gap-3">
+              <FiUser className="text-primary-main" /> Tim Proyek Anda
+            </h2>
+            <p className="text-[10px] font-black text-neutral-40 uppercase tracking-tighter italic">Informasi representatif fase local development</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Object.entries(project.team).map(([key, member]) => (
               <div key={key} className="bg-white p-6 rounded-[32px] shadow-md border border-neutral-30 flex items-center gap-4">

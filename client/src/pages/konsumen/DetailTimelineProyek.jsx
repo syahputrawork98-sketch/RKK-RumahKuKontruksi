@@ -1,15 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import DetailPekerjaanProyek from "../../components/konsumen/DetailPekerjaanProyek";
-import { getStageByIdFull } from "../../data/mock/helpers";
+import projectStageService from "../../services/projectStageService";
 import { FiArrowLeft } from "react-icons/fi";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailTimelineProyek = () => {
   const { stageId } = useParams();
+  const [stage, setStage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const stage = getStageByIdFull(stageId);
+  useEffect(() => {
+    const fetchStageDetail = async () => {
+      try {
+        setLoading(true);
+        const response = await projectStageService.getStageById(stageId);
+        if (response.success) {
+          setStage(response.data);
+        }
+        setError(null);
+      } catch (err) {
+        console.error("Failed to fetch stage detail:", err);
+        setError("Gagal memuat detail tahapan pekerjaan.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!stage) {
+    if (stageId) fetchStageDetail();
+  }, [stageId]);
+
+  if (loading) return <RoleDataState type="loading" message="Memuat detail tahapan..." />;
+
+  if (error || !stage) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-6 py-20">
         <div className="bg-white rounded-2xl border border-neutral-30 shadow-sm p-10 text-center max-w-md w-full space-y-4">

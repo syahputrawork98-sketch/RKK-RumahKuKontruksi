@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import projectService from "../../services/projectService";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 
 const Proyek = () => {
   const navigate = useNavigate();
+  const { selectedCustomerId } = useCustomerPersona();
   const [proyekList, setProyekList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
+      if (!selectedCustomerId) {
+        setProyekList([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const response = await projectService.getProjects();
-        // For now, filtering is handled by backend or we filter here if needed.
-        // Assuming the API returns all for now, or just the ones relevant.
-        // The mock used "customer-001".
-        const filtered = response.data.filter(p => p.customerId === "customer-001");
-        setProyekList(filtered);
+        const response = await projectService.getProjects({ customerId: selectedCustomerId });
+        setProyekList(response.data || []);
         setError(null);
       } catch (err) {
         setError("Gagal mengambil data proyek. Pastikan server backend sudah jalan.");
@@ -28,7 +32,7 @@ const Proyek = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [selectedCustomerId]);
 
   // Status mapping for visual consistency
   const getStatusConfig = (status) => {

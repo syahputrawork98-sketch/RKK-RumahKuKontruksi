@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { FiSearch, FiFilter, FiChevronRight } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FiSearch, FiFilter } from "react-icons/fi";
+import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const PermintaanDesainArsitekPage = () => {
+    const { selectedArchitectId, loading: personaLoading } = useArchitectPersona();
     const [activeSubtab, setActiveSubtab] = useState("aktif");
 
-    const requests = [
-        { id: "DR-005", customer: "Ibu Siti Aminah", type: "Rumah Minimalis", location: "Bandung, Jawa Barat", status: "assigned", deadline: "12 Mei 2026", progress: 0, revisions: 0 },
-        { id: "DR-004", customer: "Bpk. Heru", type: "Ruko 3 Lantai", location: "Jakarta Selatan", status: "in_design", deadline: "10 Mei 2026", progress: 45, revisions: 1 },
-        { id: "DR-003", customer: "PT. Global Jaya", type: "Interior Kantor", location: "Surabaya, Jawa Timur", status: "revision_requested", deadline: "08 Mei 2026", progress: 85, revisions: 2 },
-        { id: "DR-002", customer: "Bpk. Ahmad", type: "Villa Tropis", location: "Bali", status: "ready_to_convert", deadline: "05 Mei 2026", progress: 100, revisions: 1 },
-    ];
+    // In this phase (Local Development CRUD Integration), 
+    // the DesignRequest model and API are not yet implemented.
+    // We display an empty state to remain "honest" with the database.
+    const requests = [];
 
     const subtabs = [
         { id: "aktif", label: "Aktif" },
@@ -20,23 +21,28 @@ const PermintaanDesainArsitekPage = () => {
         { id: "riwayat", label: "Riwayat" },
     ];
 
-    const getStatusLabel = (status) => {
-        const mapping = {
-            assigned: { text: "Ditugaskan", color: "bg-blue-500/10 text-blue-500" },
-            in_design: { text: "Dalam Desain", color: "bg-emerald-500/10 text-emerald-500" },
-            waiting_customer_review: { text: "Menunggu Review", color: "bg-amber-500/10 text-amber-500" },
-            revision_requested: { text: "Revisi Diminta", color: "bg-red-500/10 text-red-500" },
-            ready_to_convert: { text: "Siap Handover", color: "bg-purple-500/10 text-purple-500" },
-            converted_to_project: { text: "Jadi Proyek", color: "bg-slate-500/10 text-slate-500" },
-        };
-        return mapping[status] || { text: status, color: "bg-slate-500/10 text-slate-500" };
-    };
+    if (personaLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
+    if (!selectedArchitectId) {
+        return (
+            <RolePersonaEmptyState 
+                title="Pilih Persona Arsitek Terlebih Dahulu"
+                description="Pilih akun Arsitek untuk mengelola permintaan desain."
+            />
+        );
+    }
 
     return (
         <div className="animate-fadeIn space-y-6">
             <div>
                 <h2 className="text-2xl font-extrabold tracking-tight">Permintaan Desain</h2>
-                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Kelola seluruh permintaan desain arsitektur dari tahap brief hingga handover.</p>
+                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic uppercase tracking-widest">Manajemen brief dan progres desain arsitektur.</p>
             </div>
 
             {/* SUBTABS */}
@@ -56,84 +62,38 @@ const PermintaanDesainArsitekPage = () => {
                 ))}
             </div>
 
-            <div className="dashboard-card">
+            <div className="dashboard-card min-h-[400px] flex flex-col">
                 {/* FILTERS */}
-                <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="flex flex-col md:flex-row gap-4 mb-8">
                     <div className="flex-1 relative">
                         <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--dashboard-text-soft)]" />
                         <input 
+                            disabled
                             type="text" 
                             placeholder="Cari ID, customer, atau lokasi..." 
-                            className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                            className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm opacity-50 cursor-not-allowed"
                         />
                     </div>
                     <div className="flex items-center gap-2">
-                        <button className="flex items-center gap-2 px-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm font-bold">
+                        <button disabled className="flex items-center gap-2 px-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-xs font-black uppercase tracking-widest opacity-50 cursor-not-allowed">
                             <FiFilter />
                             Filter
                         </button>
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="border-b border-[var(--dashboard-border)]">
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Permintaan</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Customer & Lokasi</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Status</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Deadline</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Progres</th>
-                                <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {requests.map((req) => (
-                                <tr key={req.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors">
-                                    <td className="py-4 px-2">
-                                        <div className="flex flex-col">
-                                            <span className="text-sm font-black text-[var(--dashboard-primary)]">{req.id}</span>
-                                            <span className="text-[10px] text-[var(--dashboard-text-soft)] font-bold uppercase tracking-tighter">{req.type}</span>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2">
-                                        <div className="flex flex-col">
-                                            <span className="text-sm font-bold">{req.customer}</span>
-                                            <span className="text-[10px] text-[var(--dashboard-text-soft)] font-medium">{req.location}</span>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2">
-                                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${getStatusLabel(req.status).color}`}>
-                                            {getStatusLabel(req.status).text}
-                                        </span>
-                                    </td>
-                                    <td className="py-4 px-2">
-                                        <div className="flex flex-col">
-                                            <span className="text-xs font-bold">{req.deadline}</span>
-                                            <span className="text-[9px] text-[var(--dashboard-text-soft)] font-bold uppercase">{req.revisions} Revisi</span>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2 w-32">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{req.progress}%</span>
-                                            <div className="w-full h-1 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
-                                                <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${req.progress}%` }} />
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="py-4 px-2 text-right">
-                                        <Link 
-                                            to={`/arsitek/permintaan-desain/${req.id}`}
-                                            className="inline-flex items-center gap-1 text-xs font-black text-[var(--dashboard-primary)] hover:underline"
-                                        >
-                                            DETAIL
-                                            <FiChevronRight />
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
+                    <RoleDataState 
+                        type="empty"
+                        title="Antrean Desain Kosong"
+                        description="Saat ini belum ada permintaan desain yang masuk atau ditugaskan kepada Anda di database."
+                    />
+                    <div className="mt-4 p-4 bg-amber-50 border border-amber-100 rounded-2xl max-w-md">
+                        <p className="text-[10px] font-bold text-amber-700 uppercase leading-relaxed">
+                            Info: Fitur "Permintaan Desain" masih dalam tahap Hold (Local CRUD Integration) 
+                            karena schema DesignRequest belum diimplementasikan di backend.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

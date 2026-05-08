@@ -182,7 +182,7 @@ const PengaturanArsitekPage = () => {
                         <div>
                             <h4 className="text-sm font-bold uppercase tracking-widest text-[var(--dashboard-text)]">Keamanan & Akses</h4>
                             <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 max-w-md mx-auto">
-                                Manajemen kata sandi dan sesi saat ini dinonaktifkan dalam tahap **Mock-First Development**. Autentikasi akan diimplementasikan pada fase berikutnya.
+                                Manajemen kata sandi dan sesi saat ini dinonaktifkan dalam **Fase Local CRUD**. Persona switcher di Topbar digunakan sebagai pengganti autentikasi untuk tahap pengembangan ini.
                             </p>
                         </div>
                     </div>

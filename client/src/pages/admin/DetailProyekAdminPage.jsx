@@ -177,7 +177,7 @@ const DetailProyekAdminPage = () => {
 
     const getStatusColor = (status) => {
         const s = status?.toLowerCase();
-        if (s?.includes("active") || s?.includes("ongoing") || s?.includes("pengerjaan")) return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+        if (s?.includes("active") || s?.includes("ongoing") || s?.includes("pengerjaan") || s?.includes("berjalan")) return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
         if (s?.includes("persiapan") || s?.includes("plan") || s?.includes("planning")) return "bg-blue-500/10 text-blue-500 border-blue-500/20";
         if (s?.includes("finish") || s?.includes("selesai")) return "bg-purple-500/10 text-purple-500 border-purple-500/20";
         if (s?.includes("stop") || s?.includes("terhenti")) return "bg-red-500/10 text-red-500 border-red-500/20";
@@ -238,7 +238,7 @@ const DetailProyekAdminPage = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    {(project.status !== 'active' && project.status !== 'ongoing') && isReady && (
+                    {(!['active', 'ongoing', 'Berjalan'].includes(project.status)) && isReady && (
                         <Link 
                             to="/admin/proyek/aktivasi"
                             className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 mr-2 animate-pulse"
@@ -711,7 +711,7 @@ const DetailProyekAdminPage = () => {
                     <div className="dashboard-card shadow-sm border-[var(--dashboard-border)]">
                         <h3 className="font-black text-[10px] uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Aksi Cepat Admin</h3>
                         <div className="flex flex-col gap-3">
-                            {(project.status !== 'active' && project.status !== 'ongoing') && (
+                            {(!['active', 'ongoing', 'Berjalan'].includes(project.status)) && (
                                 <Link 
                                     to="/admin/proyek/aktivasi"
                                     className={`w-full py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl text-center flex items-center justify-center

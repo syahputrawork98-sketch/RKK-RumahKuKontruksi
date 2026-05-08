@@ -79,7 +79,7 @@ const AktivasiProyekAdminPage = () => {
             { id: 'admin', label: 'Admin Ditugaskan', status: !!p.adminId },
             { id: 'supervisor', label: 'Pengawas Ditugaskan', status: !!p.supervisorId },
             { id: 'foreman', label: 'Mandor Ditugaskan', status: !!p.foremanId },
-            { id: 'stages', label: 'Tahapan Dibuat', status: (p._count?.stages || 0) > 0 },
+            { id: 'stages', label: 'Tahapan (Stages) Dibuat', status: (p._count?.stages || 0) > 0 },
             { id: 'rab', label: 'RAB Plan Dibuat', status: (p._count?.rabPlans || 0) > 0 },
             { id: 'budget', label: 'Total RAB > 0', status: parseFloat(p.rabPlans?.[0]?.totalAmount || 0) > 0 },
             { id: 'start', label: 'Tanggal Mulai', status: !!p.startDate },
@@ -128,9 +128,9 @@ const AktivasiProyekAdminPage = () => {
         
         if (!matchesSearch) return false;
         
-        if (activeTab === "pending") return !p.readiness.isReady && p.status !== 'active' && p.status !== 'ongoing';
-        if (activeTab === "ready") return p.readiness.isReady && p.status !== 'active' && p.status !== 'ongoing';
-        if (activeTab === "active") return p.status === 'active' || p.status === 'ongoing';
+        if (activeTab === "pending") return !p.readiness.isReady && !['active', 'ongoing', 'Berjalan'].includes(p.status);
+        if (activeTab === "ready") return p.readiness.isReady && !['active', 'ongoing', 'Berjalan'].includes(p.status);
+        if (activeTab === "active") return ['active', 'ongoing', 'Berjalan'].includes(p.status);
         return true;
     });
 
@@ -172,9 +172,9 @@ const AktivasiProyekAdminPage = () => {
                 <div className="flex items-center gap-2 p-1 bg-[var(--dashboard-surface-soft)] rounded-2xl w-fit mb-8">
                     {[
                         { id: 'all', label: 'Semua', count: processedProjects.length },
-                        { id: 'pending', label: 'Perlu Dilengkapi', count: processedProjects.filter(p => !p.readiness.isReady && p.status !== 'active' && p.status !== 'ongoing').length },
-                        { id: 'ready', label: 'Siap Aktivasi', count: processedProjects.filter(p => p.readiness.isReady && p.status !== 'active' && p.status !== 'ongoing').length },
-                        { id: 'active', label: 'Sudah Aktif', count: processedProjects.filter(p => p.status === 'active' || p.status === 'ongoing').length }
+                        { id: 'pending', label: 'Perlu Dilengkapi', count: processedProjects.filter(p => !p.readiness.isReady && !['active', 'ongoing', 'Berjalan'].includes(p.status)).length },
+                        { id: 'ready', label: 'Siap Aktivasi', count: processedProjects.filter(p => p.readiness.isReady && !['active', 'ongoing', 'Berjalan'].includes(p.status)).length },
+                        { id: 'active', label: 'Sudah Aktif', count: processedProjects.filter(p => ['active', 'ongoing', 'Berjalan'].includes(p.status)).length }
                     ].map(tab => (
                         <button
                             key={tab.id}
@@ -224,7 +224,7 @@ const AktivasiProyekAdminPage = () => {
                                             <div className="flex items-center gap-2">
                                                 <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{p.projectCode}</span>
                                                 <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest border ${
-                                                    p.status === 'active' || p.status === 'ongoing' 
+                                                    ['active', 'ongoing', 'Berjalan'].includes(p.status)
                                                     ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
                                                     : 'bg-amber-50 text-amber-600 border-amber-100'
                                                 }`}>
@@ -280,7 +280,7 @@ const AktivasiProyekAdminPage = () => {
 
                                 {/* CARD ACTIONS */}
                                 <div className="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between gap-3">
-                                    {p.status === 'active' || p.status === 'ongoing' ? (
+                                    {['active', 'ongoing', 'Berjalan'].includes(p.status) ? (
                                         <Link 
                                             to={`/admin/proyek/${p.id}`}
                                             className="w-full flex items-center justify-center gap-2 py-3 bg-white border border-[var(--dashboard-border)] text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all"

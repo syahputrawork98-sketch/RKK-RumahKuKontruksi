@@ -451,8 +451,9 @@ export const activateProject = async (req, res, next) => {
       });
     }
 
-    // Already active check
-    if (project.status === 'active' || project.status === 'ongoing') {
+    // Already active check - Support multiple active status labels
+    const activeStatuses = ['active', 'ongoing', 'Berjalan'];
+    if (activeStatuses.includes(project.status)) {
       return res.status(400).json({
         success: false,
         message: 'Project sudah aktif.',
@@ -464,7 +465,7 @@ export const activateProject = async (req, res, next) => {
     if (!project.customerId) missing.push("Customer belum terhubung");
     if (!project.supervisorId) missing.push("Pengawas belum ditugaskan");
     if (!project.foremanId) missing.push("Mandor belum ditugaskan");
-    if (project._count.stages === 0) missing.push("Tahapan pekerjaan belum dibuat");
+    if (project._count.stages === 0) missing.push("Tahapan pekerjaan (Stages) belum dibuat");
     if (project._count.rabPlans === 0) missing.push("RAB Plan belum dibuat");
     
     // Check if there is an approved or any RabPlan with totalAmount > 0
@@ -477,19 +478,19 @@ export const activateProject = async (req, res, next) => {
     if (missing.length > 0) {
       return res.status(400).json({
         success: false,
-        message: 'Project belum siap diaktifkan.',
+        message: 'Project is not ready for activation. Missing requirements found.',
         missing
       });
     }
 
-    // Update status to active
+    // Update status to Berjalan (consistent with local seed and Material Request checks)
     const updatedProject = await ProjectRepository.update(id, {
-      status: 'active'
+      status: 'Berjalan'
     });
 
     res.json({
       success: true,
-      message: 'Project berhasil diaktifkan.',
+      message: 'Project berhasil diaktifkan menjadi status Berjalan.',
       data: serializeDecimal(updatedProject),
     });
   } catch (error) {

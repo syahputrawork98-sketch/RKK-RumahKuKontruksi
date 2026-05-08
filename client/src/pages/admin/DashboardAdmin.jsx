@@ -73,14 +73,27 @@ const DashboardAdmin = () => {
 
     // Calculate derived stats
     const totalProjects = projects.reduce((sum, p) => sum + (p._count?._all || p._count || 0), 0);
-    const activeProjects = projects.find(p => p.status === "active")?._count?._all || 0;
+    const activeProjects = projects.find(p => {
+        const s = p.status?.toLowerCase();
+        return s === "active" || s === "ongoing" || s === "berjalan";
+    })?._count?._all || 0;
     
     // Reports stats
-    const pendingReports = reports?.find(r => r.status === "submitted")?._count?._all || 0;
-    const underReviewReports = reports?.find(r => r.status === "under_admin_review")?._count?._all || 0;
+    const pendingReports = reports?.filter(r => {
+        const s = r.status?.toLowerCase();
+        return s === "submitted" || s === "pending";
+    }).reduce((sum, r) => sum + (r._count?._all || 0), 0);
+
+    const underReviewReports = reports?.find(r => {
+        const s = r.status?.toLowerCase();
+        return s === "under_admin_review" || s === "start_admin_review";
+    })?._count?._all || 0;
     
     // Material stats
-    const pendingMaterials = materialRequests?.find(m => m.status === "approved_by_supervisor")?._count?._all || 0;
+    const pendingMaterials = materialRequests?.find(m => {
+        const s = m.status?.toLowerCase();
+        return s === "approved_by_supervisor";
+    })?._count?._all || 0;
 
     const dashboardStats = [
         { label: "Total Proyek", value: totalProjects, icon: FiLayers, color: "#1A4D2E" },
@@ -89,11 +102,30 @@ const DashboardAdmin = () => {
         { label: "Total Konsumen", value: customers, icon: FiUser, color: "#7C3AED" },
     ];
 
+    // Synthesize real activities from recent data
     const recentActivities = [
-        { id: 1, text: "Monitoring Progress resmi dari Pengawas aktif.", time: "Fase 3" },
-        { id: 2, text: "Review Laporan Mingguan Pengawas terintegrasi.", time: "Baru saja" },
-        { id: 3, text: "Publikasi ke Timeline Konsumen sudah siap.", time: "Update" },
-    ];
+        ...(recentProjects || []).map(p => ({
+            id: `proj-${p.id}`,
+            text: `Proyek Baru: ${p.name}`,
+            time: new Date(p.createdAt).toLocaleDateString(),
+            timestamp: new Date(p.createdAt).getTime(),
+            type: 'project'
+        })),
+        ...(stats.recentReports || []).map(r => ({
+            id: `rep-${r.id}`,
+            text: `Laporan Mingguan: ${r.project?.name}`,
+            time: new Date(r.createdAt).toLocaleDateString(),
+            timestamp: new Date(r.createdAt).getTime(),
+            type: 'report'
+        })),
+        ...(stats.recentMaterialRequests || []).map(m => ({
+            id: `mat-${m.id}`,
+            text: `Request Material: ${m.project?.name}`,
+            time: new Date(m.createdAt).toLocaleDateString(),
+            timestamp: new Date(m.createdAt).getTime(),
+            type: 'material'
+        }))
+    ].sort((a, b) => b.timestamp - a.timestamp).slice(0, 5);
 
     // Format projects for table
     const formattedProjects = recentProjects.map(p => ({
@@ -106,7 +138,7 @@ const DashboardAdmin = () => {
 
     return (
         <div className="animate-fadeIn space-y-6">
-            <DashboardHeader />
+            <DashboardHeader title="Dashboard Admin" />
             
             <DashboardStats stats={dashboardStats} />
 

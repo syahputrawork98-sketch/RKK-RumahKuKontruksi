@@ -64,7 +64,7 @@ const PengaturanAdminPage = () => {
                         <div>
                             <h4 className="text-sm font-bold uppercase tracking-widest">Keamanan & Autentikasi</h4>
                             <p className="text-xs text-[var(--dashboard-text-soft)] mt-1">
-                                Fitur penggantian password dan manajemen sesi akan tersedia setelah modul **Backend Auth** diimplementasikan.
+                                Fitur penggantian password dan manajemen sesi dinonaktifkan dalam **Fase Local CRUD**. Gunakan persona switcher untuk simulasi role.
                             </p>
                         </div>
                     </div>

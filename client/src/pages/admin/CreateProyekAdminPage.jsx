@@ -78,17 +78,24 @@ const CreateProyekAdminPage = () => {
         try {
             setSubmitting(true);
             
-            // Convert types
+            // Construct payload with correct types and field names
             const payload = {
-                ...formData,
-                adminId: selectedAdminId,
+                projectCode: formData.projectCode,
+                name: formData.name,
                 customerId: formData.customerId,
+                adminId: selectedAdminId,
                 supervisorId: formData.supervisorId || null,
                 foremanId: formData.foremanId || null,
-                budgetTotal: parseFloat(formData.budgetTotal),
-                progress: parseInt(formData.progress),
-                remainingAmount: parseFloat(formData.budgetTotal),
-                paidAmount: 0
+                location: formData.location || "",
+                type: formData.type || "Pembangunan",
+                status: formData.status || "Persiapan",
+                budgetTotal: parseFloat(formData.budgetTotal) || 0,
+                progress: 0,
+                remainingAmount: parseFloat(formData.budgetTotal) || 0,
+                paidAmount: 0,
+                startDate: formData.startDate ? new Date(formData.startDate).toISOString() : null,
+                estimatedEndDate: formData.endDate ? new Date(formData.endDate).toISOString() : null,
+                note: formData.note || ""
             };
 
             await projectService.createProject(payload);
@@ -210,6 +217,41 @@ const CreateProyekAdminPage = () => {
                                     type="date" 
                                     className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                                     onChange={(e) => setFormData({...formData, endDate: e.target.value})}
+                                />
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Lokasi Proyek</label>
+                                <input 
+                                    type="text" 
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    placeholder="Alamat lengkap lokasi pembangunan"
+                                    value={formData.location}
+                                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Tipe Proyek</label>
+                                <select 
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
+                                    value={formData.type}
+                                    onChange={(e) => setFormData({...formData, type: e.target.value})}
+                                >
+                                    <option value="Pembangunan">Pembangunan Baru</option>
+                                    <option value="Renovasi">Renovasi</option>
+                                    <option value="Desain">Desain & Arsitek</option>
+                                    <option value="Infrastruktur">Infrastruktur</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Catatan Tambahan</label>
+                                <textarea 
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 min-h-[100px]"
+                                    placeholder="Catatan khusus terkait proyek ini..."
+                                    value={formData.note}
+                                    onChange={(e) => setFormData({...formData, note: e.target.value})}
                                 />
                             </div>
                         </div>

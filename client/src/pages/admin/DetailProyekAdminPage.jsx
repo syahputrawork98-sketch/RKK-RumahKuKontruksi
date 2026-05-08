@@ -21,7 +21,9 @@ import {
     FiClock,
     FiBriefcase,
     FiPhone,
-    FiMail
+    FiMail,
+    FiSave,
+    FiX
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
@@ -56,6 +58,14 @@ const DetailProyekAdminPage = () => {
         order: 0,
         note: ""
     });
+
+    const formatDateShort = (dateString) => {
+        if (!dateString) return "-";
+        return new Date(dateString).toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "short",
+        });
+    };
 
     useEffect(() => {
         if (projectId) {
@@ -174,15 +184,15 @@ const DetailProyekAdminPage = () => {
 
     // Readiness Logic
     const readinessChecks = [
-        { label: "Customer tersedia", status: !!project.customer },
-        { label: "Admin assigned", status: !!project.adminId },
-        { label: "Pengawas assigned", status: !!project.supervisorId },
-        { label: "Mandor assigned", status: !!project.foremanId },
-        { label: "RAB tersedia", status: !!rabPlan },
-        { label: "Minimal satu ProjectStage tersedia", status: stages.length > 0 },
-        { label: "Budget total terisi", status: parseFloat(project.budgetTotal) > 0 },
-        { label: "Start date tersedia", status: !!project.startDate },
-        { label: "Estimated end date tersedia", status: !!project.estimatedEndDate },
+        { label: "Customer terhubung", status: !!project.customerId },
+        { label: "Admin ditugaskan", status: !!project.adminId },
+        { label: "Pengawas ditugaskan", status: !!project.supervisorId },
+        { label: "Mandor ditugaskan", status: !!project.foremanId },
+        { label: "RAB Plan dibuat", status: (project._count?.rabPlans || 0) > 0 },
+        { label: "Tahapan (Stages) dibuat", status: (project._count?.stages || 0) > 0 },
+        { label: "Total RAB > 0", status: parseFloat(project.rabPlans?.[0]?.totalAmount || 0) > 0 },
+        { label: "Tanggal mulai tersedia", status: !!project.startDate },
+        { label: "Estimasi selesai tersedia", status: !!project.estimatedEndDate },
     ];
     const readyCount = readinessChecks.filter(c => c.status).length;
     const isReady = readyCount === readinessChecks.length;
@@ -223,7 +233,7 @@ const DetailProyekAdminPage = () => {
                     >
                         Edit Proyek
                     </Link>
-                    <button className="p-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl hover:bg-[var(--dashboard-border)] transition-all">
+                    <button disabled title="Menu tambahan (Hold)" className="p-2.5 bg-slate-50 border border-slate-100 rounded-xl text-slate-300 cursor-not-allowed">
                         <FiMoreVertical />
                     </button>
                 </div>
@@ -434,7 +444,11 @@ const DetailProyekAdminPage = () => {
                                                             <div className="flex flex-col">
                                                                 <span className="text-xs font-black uppercase tracking-tight">{stg.code}</span>
                                                                 <span className="text-sm font-bold">{stg.title}</span>
-                                                                <span className="text-[10px] text-[var(--dashboard-text-soft)] font-bold">{stg.durationDays || 0} Hari</span>
+                                                                <div className="flex items-center gap-2 text-[9px] text-[var(--dashboard-text-soft)] font-bold uppercase tracking-tighter mt-0.5">
+                                                                    <span>{stg.durationDays || 0} Hari</span>
+                                                                    <span>•</span>
+                                                                    <span>{formatDateShort(stg.startDate)} - {formatDateShort(stg.endDate)}</span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td className="py-4 px-2 text-xs font-bold text-center">W-{stg.week || 1}</td>
@@ -602,9 +616,20 @@ const DetailProyekAdminPage = () => {
                     <div className="dashboard-card shadow-sm border-[var(--dashboard-border)]">
                         <h3 className="font-black text-[10px] uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Aksi Cepat Admin</h3>
                         <div className="flex flex-col gap-3">
-                            <button className="w-full py-4 bg-[var(--dashboard-primary)] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:scale-[1.02] transition-all shadow-xl shadow-[var(--dashboard-primary)]/30">Aktivasi Proyek</button>
-                            <button className="w-full py-4 bg-white border border-[var(--dashboard-border)] text-[var(--dashboard-text)] rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[var(--dashboard-surface-soft)] transition-all shadow-sm">Ringkasan Dokumen</button>
-                            <button className="w-full py-4 bg-white border border-[var(--dashboard-border)] text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-50 transition-all shadow-sm">Batalkan Proyek</button>
+                            {(project.status !== 'active' && project.status !== 'ongoing') && (
+                                <Link 
+                                    to="/admin/proyek/aktivasi"
+                                    className={`w-full py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl text-center flex items-center justify-center
+                                        ${isReady 
+                                            ? "bg-[var(--dashboard-primary)] text-white shadow-[var(--dashboard-primary)]/30 hover:scale-[1.02]" 
+                                            : "bg-slate-100 text-slate-400 cursor-not-allowed shadow-none"}
+                                    `}
+                                >
+                                    Aktivasi Proyek
+                                </Link>
+                            )}
+                            <button disabled className="w-full py-4 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] cursor-not-allowed">Ringkasan Dokumen (Hold)</button>
+                            <button disabled className="w-full py-4 bg-slate-50 border border-slate-100 text-slate-300 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] cursor-not-allowed">Batalkan Proyek (Hold)</button>
                         </div>
                     </div>
 
@@ -675,8 +700,29 @@ const DetailProyekAdminPage = () => {
                                 </div>
                             </div>
 
-                            <button type="submit" className="w-full py-4 bg-[var(--dashboard-primary)] text-white rounded-[1.25rem] font-black uppercase tracking-widest text-[10px] shadow-xl shadow-[var(--dashboard-primary)]/30 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 mt-4">
-                                <FiSave /> {isEditingStage ? "Perbarui Stage" : "Tambahkan Stage"}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-1">Rencana Mulai</label>
+                                    <input type="date" value={stageForm.startDate ? stageForm.startDate.split('T')[0] : ""} onChange={e => setStageForm({...stageForm, startDate: e.target.value})} className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-xs font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-1">Rencana Selesai</label>
+                                    <input type="date" value={stageForm.endDate ? stageForm.endDate.split('T')[0] : ""} onChange={e => setStageForm({...stageForm, endDate: e.target.value})} className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-xs font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+                                </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-1">Deskripsi Tahapan</label>
+                                <textarea value={stageForm.description} onChange={e => setStageForm({...stageForm, description: e.target.value})} className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-xs font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 min-h-[80px]" placeholder="Penjelasan singkat mengenai tahapan ini..." />
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-1">Catatan Tambahan</label>
+                                <textarea value={stageForm.note} onChange={e => setStageForm({...stageForm, note: e.target.value})} className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-xs font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20" placeholder="Catatan untuk Pengawas/Mandor..." />
+                            </div>
+
+                            <button type="submit" className="w-full py-4 bg-[var(--dashboard-primary)] text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 mt-4">
+                                <FiSave /> {isEditingStage ? "Perbarui Tahapan" : "Simpan Tahapan"}
                             </button>
                         </form>
                     </div>

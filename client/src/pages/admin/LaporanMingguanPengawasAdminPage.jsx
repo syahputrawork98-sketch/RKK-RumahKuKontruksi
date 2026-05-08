@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FiChevronRight, FiInfo } from "react-icons/fi";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
-import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorReportStatusBadge";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const LaporanMingguanPengawasAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
@@ -11,6 +11,7 @@ const LaporanMingguanPengawasAdminPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [statusFilter, setStatusFilter] = useState("submitted");
+    const [searchQuery, setSearchQuery] = useState("");
 
     const fetchReports = useCallback(async () => {
         if (!selectedAdminId) {
@@ -44,6 +45,13 @@ const LaporanMingguanPengawasAdminPage = () => {
     useEffect(() => {
         fetchReports();
     }, [fetchReports]);
+
+    const filteredReports = reports.filter(r => {
+        const matchesSearch = 
+            r.supervisor?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            r.project?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesSearch;
+    });
 
     if (!selectedAdminId) {
         return (
@@ -79,6 +87,18 @@ const LaporanMingguanPengawasAdminPage = () => {
                 </div>
             </div>
 
+            {/* Search */}
+            <div className="relative">
+                <FiChevronRight className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
+                <input 
+                    type="text" 
+                    placeholder="Cari pengawas atau proyek..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-800/20"
+                />
+            </div>
+
             {/* Filter */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
                 {['all', 'submitted', 'under_admin_review', 'reviewed', 'published', 'revision_requested', 'rejected'].map((status) => (
@@ -102,7 +122,7 @@ const LaporanMingguanPengawasAdminPage = () => {
                     <div className="p-12 text-center text-sm text-[var(--dashboard-text-soft)] italic">
                         Memuat daftar laporan...
                     </div>
-                ) : reports.length === 0 ? (
+                ) : filteredReports.length === 0 ? (
                     <div className="p-12 text-center">
                         <p className="text-sm text-[var(--dashboard-text-soft)] italic">Tidak ada laporan ditemukan.</p>
                     </div>
@@ -119,7 +139,7 @@ const LaporanMingguanPengawasAdminPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {reports.map((report) => (
+                                {filteredReports.map((report) => (
                                     <tr key={report.id} className="border-b border-[var(--dashboard-border)] hover:bg-slate-50/50 transition-colors">
                                         <td className="py-4 px-6">
                                             <div className="flex flex-col">
@@ -138,7 +158,7 @@ const LaporanMingguanPengawasAdminPage = () => {
                                             </span>
                                         </td>
                                         <td className="py-4 px-6">
-                                            <SupervisorReportStatusBadge status={report.status} />
+                                            <StatusBadge type="report" status={report.status} />
                                         </td>
                                         <td className="py-4 px-6 text-right">
                                             <Link 

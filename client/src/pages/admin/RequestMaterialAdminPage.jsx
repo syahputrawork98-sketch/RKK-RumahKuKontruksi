@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { FiSearch, FiFilter, FiChevronRight, FiClock, FiCheckCircle, FiPackage, FiTruck, FiAlertCircle } from "react-icons/fi";
 import materialRequestService from "../../services/materialRequestService";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const RequestMaterialAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState("approved_by_supervisor");
+    const [activeTab, setActiveTab] = useState("all");
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [actionLoading, setActionLoading] = useState(false);
     const [note, setNote] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     const fetchRequests = async () => {
         if (!selectedAdminId) {
@@ -25,10 +27,21 @@ const RequestMaterialAdminPage = () => {
         };
         const response = await materialRequestService.getAllRequests(params);
         if (response.success) {
-            setRequests(response.data);
+            setRequests(Array.isArray(response.data) ? response.data : []);
+        } else {
+            setRequests([]);
         }
         setLoading(false);
     };
+
+    const filteredRequests = (requests || []).filter(req => {
+        if (!req) return false;
+        const matchesSearch = 
+            (req.requestCode?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+            req.items?.some(item => (item.materialName?.toLowerCase() || "").includes(searchQuery.toLowerCase())) ||
+            (req.project?.name?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+        return matchesSearch;
+    });
 
     useEffect(() => {
         fetchRequests();
@@ -77,8 +90,10 @@ const RequestMaterialAdminPage = () => {
             case "approved_by_admin": return "bg-emerald-600/10 text-emerald-600";
             case "processing": return "bg-amber-500/10 text-amber-500";
             case "delivered": return "bg-indigo-500/10 text-indigo-500";
-            case "received": return "bg-emerald-500 text-white";
-            case "rejected": return "bg-red-500/10 text-red-500";
+            case "received": 
+            case "completed": return "bg-emerald-500 text-white";
+            case "rejected":
+            case "cancelled": return "bg-red-500/10 text-red-500";
             default: return "bg-slate-500/10 text-slate-500";
         }
     };
@@ -98,17 +113,21 @@ const RequestMaterialAdminPage = () => {
                         <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input 
                             type="text" 
-                            placeholder="Cari kode pengajuan atau material..." 
+                            placeholder="Cari kode, proyek, atau material..." 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-800/20"
                         />
                     </div>
                     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                         {[
+                            { id: 'all', label: 'Semua' },
+                            { id: 'submitted', label: 'Baru (Mandor)' },
                             { id: 'approved_by_supervisor', label: 'Perlu Approval' },
                             { id: 'approved_by_admin', label: 'Disetujui' },
                             { id: 'processing', label: 'Diproses' },
                             { id: 'delivered', label: 'Dikirim' },
-                            { id: 'all', label: 'Semua' }
+                            { id: 'rejected', label: 'Ditolak' }
                         ].map(t => (
                             <button 
                                 key={t.id}
@@ -143,7 +162,7 @@ const RequestMaterialAdminPage = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                                {requests.map((req) => (
+                                {filteredRequests.map((req) => (
                                     <tr key={req.id} className="hover:bg-slate-50 transition-colors group">
                                         <td className="py-4 px-4">
                                             <div className="flex flex-col">
@@ -160,9 +179,7 @@ const RequestMaterialAdminPage = () => {
                                             </div>
                                         </td>
                                         <td className="py-4 px-4">
-                                            <span className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${getStatusStyle(req.status)}`}>
-                                                {req.status.replace(/_/g, ' ')}
-                                            </span>
+                                            <StatusBadge type="material" status={req.status} />
                                         </td>
                                         <td className="py-4 px-4">
                                             <div className="flex flex-col">
@@ -180,7 +197,7 @@ const RequestMaterialAdminPage = () => {
                                         </td>
                                     </tr>
                                 ))}
-                                {requests.length === 0 && (
+                                {filteredRequests.length === 0 && (
                                     <tr>
                                         <td colSpan="5" className="py-20 text-center">
                                             <FiPackage size={40} className="mx-auto text-slate-100 mb-4" />
@@ -231,7 +248,7 @@ const RequestMaterialAdminPage = () => {
                                         <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
                                             <div>
                                                 <p className="text-xs font-black text-slate-800">{item.materialName}</p>
-                                                <p className="text-[10px] text-slate-500 font-bold uppercase">{item.specification || 'No Spec'}</p>
+                                                <p className="text-[10px] text-slate-500 font-bold uppercase">{item.note || 'Tanpa Catatan'}</p>
                                             </div>
                                             <div className="text-right">
                                                 <p className="text-xs font-black text-slate-800">{item.requestedQty} {item.unit}</p>
@@ -249,12 +266,12 @@ const RequestMaterialAdminPage = () => {
                                         <div key={idx} className="relative pl-6">
                                             <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-white border-2 border-slate-300"></div>
                                             <div className="flex items-center gap-2">
-                                                <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${getStatusStyle(h.status)}`}>
-                                                    {h.status.replace(/_/g, ' ')}
+                                                <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${getStatusStyle(h.newStatus)}`}>
+                                                    {h.newStatus?.replace(/_/g, ' ')}
                                                 </span>
                                                 <span className="text-[9px] font-black text-slate-400 uppercase">{new Date(h.createdAt).toLocaleString()}</span>
                                             </div>
-                                            <p className="text-[10px] font-bold text-slate-600 mt-1 italic">"{h.note || 'No note'}"</p>
+                                            <p className="text-[10px] font-bold text-slate-600 mt-1 italic">"{h.note || 'Tidak ada catatan'}"</p>
                                             <p className="text-[9px] font-black text-slate-400 uppercase mt-0.5">Oleh: {h.actorRole}</p>
                                         </div>
                                     ))}
@@ -304,7 +321,16 @@ const RequestMaterialAdminPage = () => {
                                         disabled={actionLoading}
                                         className="col-span-2 py-3 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20"
                                     >
-                                        KONFIRMASI PENGIRIMAN
+                                        KONFIRMASI PENGIRIMAN (DELIVERED)
+                                    </button>
+                                )}
+                                {selectedRequest.status === 'delivered' && (
+                                    <button 
+                                        onClick={() => handleAction('completed')}
+                                        disabled={actionLoading}
+                                        className="col-span-2 py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
+                                    >
+                                        SELESAIKAN REQUEST (COMPLETED)
                                     </button>
                                 )}
                             </div>

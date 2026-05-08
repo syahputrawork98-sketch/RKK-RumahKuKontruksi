@@ -208,11 +208,10 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                     )}
                     {report.status === 'reviewed' && (
                         <button 
-                            onClick={() => handleActionRequest('publish')}
-                            disabled={actionLoading}
-                            className="px-6 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 disabled:opacity-50 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2"
+                            disabled
+                            className="px-6 py-2 bg-slate-100 text-slate-400 rounded-xl font-bold text-[10px] uppercase tracking-widest cursor-not-allowed flex items-center gap-2 border border-slate-200"
                         >
-                            <FiSend /> Publish ke Konsumen
+                            <FiSend /> Publish (Ditahan)
                         </button>
                     )}
                 </div>
@@ -373,11 +372,10 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                 )}
                                 {report.status === 'reviewed' && (
                                      <button 
-                                        onClick={() => handleActionRequest('publish')}
-                                        disabled={actionLoading}
-                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all disabled:opacity-50 shadow-lg shadow-emerald-500/20"
+                                        disabled
+                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-100 text-slate-400 rounded-xl font-bold text-[10px] uppercase tracking-widest cursor-not-allowed border border-slate-200"
                                     >
-                                        <FiSend /> Publish Konsumen
+                                        <FiSend /> Publish (Ditahan Tahap Berikutnya)
                                     </button>
                                 )}
                             </div>

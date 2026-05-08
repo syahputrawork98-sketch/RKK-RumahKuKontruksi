@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const ProyekAdminPage = () => {
     const [activeSubtab, setActiveSubtab] = useState("all");
@@ -122,11 +123,10 @@ const ProyekAdminPage = () => {
                             className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                         />
                     </div>
-                    <div className="flex items-center gap-2">
-                        <button className="flex items-center gap-2 px-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm font-bold">
-                            <FiFilter />
-                            Filter Status
-                        </button>
+                    <div className="hidden md:flex items-center gap-2">
+                        <div className="px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[10px] font-black uppercase text-slate-400 italic">
+                            Filter otomatis via tab
+                        </div>
                     </div>
                 </div>
 
@@ -157,9 +157,7 @@ const ProyekAdminPage = () => {
                                             </div>
                                         </td>
                                         <td className="py-4 px-2">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${getStatusColor(prj.status)}`}>
-                                                {prj.status}
-                                            </span>
+                                            <StatusBadge type="project" status={prj.status} />
                                         </td>
                                         <td className="py-4 px-2 w-48">
                                             <div className="flex flex-col gap-1.5">

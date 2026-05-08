@@ -76,12 +76,12 @@ const AktivasiProyekAdminPage = () => {
     const getReadiness = (p) => {
         const checks = [
             { id: 'customer', label: 'Customer Terhubung', status: !!p.customerId },
-            { id: 'admin', label: 'Admin Sesuai', status: p.adminId === selectedAdminId },
+            { id: 'admin', label: 'Admin Ditugaskan', status: !!p.adminId },
             { id: 'supervisor', label: 'Pengawas Ditugaskan', status: !!p.supervisorId },
             { id: 'foreman', label: 'Mandor Ditugaskan', status: !!p.foremanId },
             { id: 'stages', label: 'Tahapan Dibuat', status: (p._count?.stages || 0) > 0 },
             { id: 'rab', label: 'RAB Plan Dibuat', status: (p._count?.rabPlans || 0) > 0 },
-            { id: 'budget', label: 'Anggaran Valid', status: parseFloat(p.budgetTotal || 0) > 0 || (p.rabPlans?.[0]?.totalAmount > 0) },
+            { id: 'budget', label: 'Total RAB > 0', status: parseFloat(p.rabPlans?.[0]?.totalAmount || 0) > 0 },
             { id: 'start', label: 'Tanggal Mulai', status: !!p.startDate },
             { id: 'end', label: 'Estimasi Selesai', status: !!p.estimatedEndDate }
         ];

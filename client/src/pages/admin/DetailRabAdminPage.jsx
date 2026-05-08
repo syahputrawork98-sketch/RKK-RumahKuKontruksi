@@ -45,7 +45,7 @@ const DetailRabAdminPage = () => {
     // Form States
     const [planForm, setPlanForm] = useState({ title: "Draft RAB", type: "Pembangunan", version: "1.0", notes: "" });
     const [categoryForm, setCategoryForm] = useState({ code: "", name: "", description: "", order: 0 });
-    const [itemForm, setItemForm] = useState({ description: "", volume: 1, unit: "m2", unitPrice: 0, notes: "", categoryId: "" });
+    const [itemForm, setItemForm] = useState({ description: "", volume: 1, unit: "m2", unitPrice: 0, location: "", notes: "", categoryId: "" });
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState(null);
 
@@ -365,7 +365,7 @@ const DetailRabAdminPage = () => {
                                                 <button 
                                                     onClick={() => {
                                                         setFormError(null);
-                                                        setItemForm({ ...itemForm, categoryId: cat.id, description: "", volume: 1, unit: "m2", unitPrice: 0, notes: "" });
+                                                        setItemForm({ categoryId: cat.id, description: "", volume: 1, unit: "m2", unitPrice: 0, location: "", notes: "" });
                                                         setIsEditing(false);
                                                         setShowItemModal(true);
                                                     }}
@@ -422,9 +422,10 @@ const DetailRabAdminPage = () => {
                                                                             setItemForm({ 
                                                                                 categoryId: item.categoryId, 
                                                                                 description: item.description, 
-                                                                                volume: parseFloat(item.volume), 
+                                                                                 volume: parseFloat(item.volume), 
                                                                                 unit: item.unit, 
                                                                                 unitPrice: parseFloat(item.unitPrice),
+                                                                                location: item.location || "",
                                                                                 notes: item.notes || ""
                                                                             });
                                                                             setIsEditing(true);
@@ -549,6 +550,7 @@ const DetailRabAdminPage = () => {
                             <Input label="Volume" type="number" step="0.01" value={itemForm.volume} onChange={e => setItemForm({...itemForm, volume: e.target.value})} required disabled={submitting} />
                             <Input label="Satuan" value={itemForm.unit} onChange={e => setItemForm({...itemForm, unit: e.target.value})} placeholder="m2" required disabled={submitting} />
                         </div>
+                        <Input label="Lokasi Pekerjaan (Lantai/Ruang)" value={itemForm.location} onChange={e => setItemForm({...itemForm, location: e.target.value})} placeholder="Contoh: Lantai 1 / Kamar Utama" disabled={submitting} />
                         <Input label="Harga Satuan (Rp)" type="number" value={itemForm.unitPrice} onChange={e => setItemForm({...itemForm, unitPrice: e.target.value})} required disabled={submitting} />
                         <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex justify-between items-center">
                             <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Estimasi Total</span>

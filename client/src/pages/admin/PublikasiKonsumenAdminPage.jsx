@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { 
     FiSend, FiCheckCircle, FiClock, FiSearch, 
-    FiUser, FiCalendar, FiActivity, FiInfo, FiEye 
+    FiUser, FiCalendar, FiActivity, FiInfo, FiEye,
+    FiAlertCircle, FiX
 } from "react-icons/fi";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
@@ -10,6 +11,9 @@ import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorRe
 
 const PublikasiKonsumenAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [actionLoading, setActionLoading] = useState(false);
     const [statusFilter, setStatusFilter] = useState("reviewed");
@@ -37,7 +41,7 @@ const PublikasiKonsumenAdminPage = () => {
 
             const response = await supervisorWeeklyReportService.getSupervisorWeeklyReports(params);
             if (response.success) {
-                setReports(response.data);
+                setReports(Array.isArray(response.data) ? response.data : []);
             }
         } catch (err) {
             console.error("Failed to fetch reports for publication:", err);
@@ -92,9 +96,9 @@ const PublikasiKonsumenAdminPage = () => {
         return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
     }
 
-    const filteredReports = reports.filter(r => 
-        r.project?.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        r.project?.projectCode.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredReports = (reports || []).filter(r => 
+        (r.project?.name || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+        (r.project?.projectCode || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (loading && reports.length === 0) {

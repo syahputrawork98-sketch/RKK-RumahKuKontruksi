@@ -5,7 +5,7 @@ import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
-import WeeklyJournalStatusBadge from "../../components/weekly-journals/WeeklyJournalStatusBadge";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const JurnalMingguanMandorPage = () => {
     const { selectedForemanId } = useForemanPersona();
@@ -104,7 +104,7 @@ const JurnalMingguanMandorPage = () => {
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{journal.project?.projectCode}</span>
-                                    <WeeklyJournalStatusBadge status={journal.status} />
+                                    <StatusBadge type="journal" status={journal.status} />
                                 </div>
                                 <h3 className="text-lg font-black leading-tight group-hover:text-[var(--dashboard-primary)] transition-colors">{journal.project?.name}</h3>
                                 <p className="text-xs font-bold text-[var(--dashboard-text-soft)] mt-1">
@@ -128,9 +128,11 @@ const JurnalMingguanMandorPage = () => {
                         </div>
                     </Link>
                 )) : (
-                    <div className="py-20 text-center text-slate-400 font-medium italic border-2 border-dashed border-slate-100 rounded-2xl">
-                        Belum ada jurnal mingguan yang dibuat.
-                    </div>
+                    <RoleDataState 
+                        type="empty"
+                        title="Belum ada jurnal mingguan"
+                        description="Mulai catat aktivitas mingguan Anda dengan tombol 'Buat Jurnal Baru' untuk memantau progres lapangan."
+                    />
                 )}
             </div>
         </div>

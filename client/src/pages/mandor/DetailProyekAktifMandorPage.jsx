@@ -142,8 +142,15 @@ const DetailProyekAktifMandorPage = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button className="px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all">Lapor Progres</button>
-                    <button className="px-5 py-2.5 bg-red-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-red-500/20 hover:scale-[1.02] transition-all">Lapor Kendala</button>
+                    <button 
+                        onClick={() => navigate("/mandor/jurnal-mingguan/baru")}
+                        className="px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all"
+                    >
+                        Lapor Progres
+                    </button>
+                    <button className="px-5 py-2.5 bg-slate-400 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-slate-400/20 cursor-not-allowed opacity-70">
+                        Lapor Kendala (Hold)
+                    </button>
                 </div>
             </div>
 
@@ -227,42 +234,34 @@ const DetailProyekAktifMandorPage = () => {
                 </div>
 
                 <div className="space-y-6">
-                    <div className="dashboard-card">
-                        <h3 className="font-black text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-4">Tim Aktif (12 Orang)</h3>
+                    <div className="dashboard-card border-dashed opacity-70">
+                        <h3 className="font-black text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-4">Tim Lapangan (Hold)</h3>
                         <div className="space-y-4">
                             <div className="flex items-center justify-between p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
                                 <span className="text-[10px] font-black uppercase">Tukang Batu</span>
-                                <span className="text-xs font-black">5</span>
+                                <span className="text-xs font-black">0</span>
                             </div>
                             <div className="flex items-center justify-between p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
                                 <span className="text-[10px] font-black uppercase">Tukang Kayu</span>
-                                <span className="text-xs font-black">3</span>
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
-                                <span className="text-[10px] font-black uppercase">Ladang</span>
-                                <span className="text-xs font-black">4</span>
+                                <span className="text-xs font-black">0</span>
                             </div>
                         </div>
+                        <p className="text-[9px] mt-4 text-slate-400 italic">Data tim harian belum tersedia di schema saat ini.</p>
                     </div>
                     
-                    <div className="dashboard-card bg-[var(--dashboard-primary)] text-white">
-                        <h3 className="font-black text-xs uppercase tracking-widest mb-4 opacity-80">Checklist Logbook</h3>
+                    <div className="dashboard-card bg-slate-100 dark:bg-slate-800 border-dashed text-slate-400">
+                        <h3 className="font-black text-xs uppercase tracking-widest mb-4 opacity-80">Logbook Harian (Hold)</h3>
                         <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                                <div className="w-5 h-5 rounded border-2 border-white/30 flex items-center justify-center">
-                                    <div className="w-2.5 h-2.5 bg-white rounded-sm" />
-                                </div>
-                                <span className="text-xs font-bold">Absensi Tim Selesai</span>
+                            <div className="flex items-center gap-3 opacity-30">
+                                <div className="w-5 h-5 rounded border-2 border-slate-300" />
+                                <span className="text-xs font-bold uppercase">Absensi Tim</span>
                             </div>
-                            <div className="flex items-center gap-3 opacity-50">
-                                <div className="w-5 h-5 rounded border-2 border-white/30" />
-                                <span className="text-xs font-bold">Laporan Foto Siang</span>
-                            </div>
-                            <div className="flex items-center gap-3 opacity-50">
-                                <div className="w-5 h-5 rounded border-2 border-white/30" />
-                                <span className="text-xs font-bold">Submit Logbook Harian</span>
+                            <div className="flex items-center gap-3 opacity-30">
+                                <div className="w-5 h-5 rounded border-2 border-slate-300" />
+                                <span className="text-xs font-bold uppercase">Laporan Foto</span>
                             </div>
                         </div>
+                        <p className="text-[9px] mt-6 italic">Modul daily logbook sedang dipersiapkan.</p>
                     </div>
                 </div>
             </div>

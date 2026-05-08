@@ -5,6 +5,7 @@ import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const ProyekAktifMandorPage = () => {
     const { selectedForemanId } = useForemanPersona();
@@ -142,9 +143,7 @@ const ProyekAktifMandorPage = () => {
                                     <div>
                                         <div className="flex items-center gap-2 mb-1">
                                             <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{prj.projectCode}</span>
-                                            <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${statusLabel.color}`}>
-                                                {statusLabel.text}
-                                            </span>
+                                            <StatusBadge type="project" status={prj.status} />
                                         </div>
                                         <h3 className="text-lg font-black leading-tight">{prj.name}</h3>
                                         <p className="text-[10px] text-[var(--dashboard-text-soft)] font-bold uppercase mt-0.5">{prj.customer?.name || 'No Customer'}</p>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiPlus, FiSearch, FiFilter, FiChevronRight, FiClock, FiCheckCircle, FiPackage, FiTruck, FiAlertCircle } from "react-icons/fi";
 import MaterialRequestForm from "./components/MaterialRequestForm";
 import materialRequestService from "../../services/materialRequestService";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 
 const RequestMaterialMandorPage = () => {
@@ -100,20 +101,13 @@ const RequestMaterialMandorPage = () => {
                 </div>
 
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 gap-4">
-                        <div className="w-10 h-10 border-4 border-[var(--dashboard-primary)]/20 border-t-[var(--dashboard-primary)] rounded-full animate-spin"></div>
-                        <p className="text-xs font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest">Memuat data...</p>
-                    </div>
+                    <RoleDataState type="loading" />
                 ) : requests.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-20 text-center gap-4">
-                        <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center text-[var(--dashboard-text-soft)]">
-                            <FiPackage size={32} />
-                        </div>
-                        <div>
-                            <p className="text-sm font-bold">Belum ada pengajuan material</p>
-                            <p className="text-[10px] text-[var(--dashboard-text-soft)] mt-1">Gunakan tombol 'Buat Request Baru' untuk memulai.</p>
-                        </div>
-                    </div>
+                    <RoleDataState 
+                        type="empty"
+                        title="Belum ada pengajuan material"
+                        description={activeSubtab === 'all' ? "Gunakan tombol 'Buat Request Baru' untuk memulai pengajuan material proyek." : `Tidak ada pengajuan dengan status ${activeSubtab}.`}
+                    />
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-separate border-spacing-y-2">
@@ -154,10 +148,7 @@ const RequestMaterialMandorPage = () => {
                                                 </span>
                                             </td>
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 border-y border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
-                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest ${statusInfo.color}`}>
-                                                    {statusInfo.icon}
-                                                    {statusInfo.label}
-                                                </span>
+                                                <StatusBadge type="material" status={req.status} />
                                             </td>
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 rounded-r-2xl border-y border-r border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all text-right">
                                                 <button className="p-2 hover:bg-[var(--dashboard-primary)]/10 rounded-full text-[var(--dashboard-primary)] transition-all">

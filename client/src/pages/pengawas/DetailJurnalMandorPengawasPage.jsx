@@ -278,8 +278,14 @@ const DetailJurnalMandorPengawasPage = () => {
                                         <span className="text-[8px] font-bold text-slate-400">{new Date(log.createdAt).toLocaleDateString('id-ID')}</span>
                                     </div>
                                     <p className="text-[10px] font-bold text-slate-600 leading-tight">
-                                        {log.action === 'submit' ? "Dikirim oleh Mandor" : `Action: ${log.action}`}
+                                        {log.action === 'submit' ? "Dikirim oleh Mandor" : 
+                                         log.action === 'start_review' ? "Mulai Proses Review" :
+                                         log.action === 'approve' ? "Disetujui oleh Pengawas" :
+                                         log.action === 'request_revision' ? "Revisi Diminta" :
+                                         log.action === 'reject' ? "Ditolak oleh Pengawas" :
+                                         `Aksi: ${log.action}`}
                                     </p>
+
                                     {log.note && <p className="text-[10px] font-medium text-slate-500 italic bg-white p-2 rounded border border-slate-100">"{log.note}"</p>}
                                 </div>
                             )) : (

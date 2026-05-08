@@ -6,6 +6,8 @@ import { useAdminPersona } from "../../context/AdminPersonaContext";
 const RequestMaterialAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
     const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState("approved_by_supervisor");
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [actionLoading, setActionLoading] = useState(false);
     const [note, setNote] = useState("");

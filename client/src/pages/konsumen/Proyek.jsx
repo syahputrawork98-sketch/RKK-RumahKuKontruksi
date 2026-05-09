@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import projectService from "../../services/projectService";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const Proyek = () => {
   const navigate = useNavigate();
@@ -38,11 +39,15 @@ const Proyek = () => {
   const getStatusConfig = (status) => {
     switch (status) {
       case "Selesai":
+      case "completed":
         return { badge: "badge-success", progress: "progress-success" };
       case "Berjalan":
+      case "ongoing":
+      case "active":
         return { badge: "badge-primary", progress: "progress-primary" };
       case "Ditunda":
       case "Perencanaan":
+      case "planning":
       case "Penawaran":
         return { badge: "badge-warning", progress: "progress-warning" };
       default:
@@ -58,6 +63,18 @@ const Proyek = () => {
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
+
+  if (!selectedCustomerId) {
+    return (
+      <div className="container mx-auto px-6 py-10">
+        <RolePersonaEmptyState 
+          title="Daftar Proyek Anda"
+          description="Silakan pilih persona Konsumen terlebih dahulu menggunakan Persona Switcher untuk melihat daftar proyek yang Anda miliki."
+          icon="🏗️"
+        />
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -87,102 +104,96 @@ const Proyek = () => {
 
   return (
     <div className="container mx-auto px-6 py-10">
-      <h1 className="text-2xl font-bold mb-6 text-teal-700">Daftar Proyek Saya</h1>
+      <div className="flex justify-between items-end mb-8">
+        <div>
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight">Daftar Proyek Saya</h1>
+          <p className="text-slate-500 mt-1">Monitoring seluruh pembangunan properti Anda secara real-time.</p>
+        </div>
+      </div>
 
       {proyekList.length === 0 ? (
-        <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg p-10 text-center">
-          <p className="text-gray-500">Anda belum memiliki proyek aktif.</p>
+        <div className="bg-white border-2 border-dashed border-slate-200 rounded-3xl p-20 text-center flex flex-col items-center">
+          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-3xl mb-4">🏠</div>
+          <h3 className="text-lg font-bold text-slate-700">Belum Ada Proyek Aktif</h3>
+          <p className="text-slate-500 max-w-sm mt-2">Anda belum memiliki proyek konstruksi yang sedang berjalan di sistem kami.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {proyekList.map((proyek) => {
             const config = getStatusConfig(proyek.status);
             
             return (
               <div
                 key={proyek.id}
-                className="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300"
+                className="group bg-white rounded-[32px] shadow-sm hover:shadow-xl border border-slate-100 overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1"
               >
                 {/* Gambar proyek */}
-                <img
-                  src={proyek.heroImage || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=2070"}
-                  alt={proyek.name}
-                  className="w-full h-48 object-cover"
-                />
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={proyek.heroImage || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=2070"}
+                    alt={proyek.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className={`badge px-4 py-3 border-none text-white font-bold text-[10px] uppercase tracking-widest shadow-lg ${config.badge}`}>
+                      {proyek.status}
+                    </span>
+                  </div>
+                </div>
 
-                <div className="p-5 flex-1 flex flex-col justify-between">
+                <div className="p-6 flex-1 flex flex-col">
                   {/* Header proyek */}
-                  <div className="mb-4">
-                    <h2 className="text-xl font-bold text-teal-700 line-clamp-1">{proyek.name}</h2>
-                    <p className="text-sm text-gray-500 flex items-center gap-1">
-                      <span className="truncate">{proyek.location || "Lokasi belum ditentukan"}</span>
-                    </p>
+                  <div className="mb-6">
+                    <h2 className="text-xl font-bold text-slate-800 line-clamp-1 group-hover:text-teal-600 transition-colors">{proyek.name}</h2>
+                    <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">{proyek.location || "Lokasi belum ditentukan"}</p>
                   </div>
 
                   {/* Detail proyek */}
-                  <div className="mb-4 space-y-2 text-sm text-gray-700">
-                    <div className="flex justify-between">
-                      <span className="font-semibold">Kode:</span> 
-                      <span className="font-mono bg-gray-100 px-1 rounded">{proyek.projectCode}</span>
+                  <div className="flex-1 space-y-3 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Kode Proyek</span> 
+                      <span className="font-mono text-xs font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-lg">{proyek.projectCode}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-semibold">Mandor:</span> 
-                      <span>{proyek.foremanName || "-"}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Mandor</span> 
+                      <span className="font-semibold text-slate-700">{proyek.foreman?.name || "-"}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-semibold">Pengawas:</span> 
-                      <span>{proyek.supervisorName || "-"}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-semibold">Periode:</span> 
-                      <span className="text-xs">
-                        {proyek.startDate ? new Date(proyek.startDate).toLocaleDateString('id-ID') : '-'} - {proyek.estimatedEndDate ? new Date(proyek.estimatedEndDate).toLocaleDateString('id-ID') : '-'}
-                      </span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">Pengawas</span> 
+                      <span className="font-semibold text-slate-700">{proyek.supervisor?.name || "-"}</span>
                     </div>
                     
-                    {proyek.status === "Berjalan" && proyek.startDate && (
-                      <div className="flex justify-between text-teal-600">
-                        <span className="font-semibold">Hari Berjalan:</span> 
-                        <span>{hitungHariBerjalan(proyek.startDate)} hari</span>
-                      </div>
-                    )}
-                    
-                    <div className="pt-2 border-t border-gray-100">
+                    <div className="pt-3 mt-3 border-t border-slate-50">
                       <div className="flex justify-between mb-1">
-                        <span className="font-semibold">Nilai Proyek:</span> 
-                        <span className="font-bold text-teal-700">Rp {Number(proyek.budgetTotal || 0).toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between text-xs text-gray-500">
-                        <span>Terbayar:</span> 
-                        <span>Rp {Number(proyek.paidAmount || 0).toLocaleString()}</span>
+                        <span className="text-slate-400">Nilai Proyek</span> 
+                        <span className="font-bold text-slate-800">Rp {Number(proyek.budgetTotal || 0).toLocaleString()}</span>
                       </div>
                     </div>
 
                     {/* Progress bar */}
-                    <div className="mt-4">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="font-medium">Progres Lapangan</span>
-                        <span className="font-bold">{proyek.progress}%</span>
+                    <div className="pt-4">
+                      <div className="flex justify-between text-xs mb-2">
+                        <span className="font-bold text-slate-600 uppercase tracking-widest text-[10px]">Progres Lapangan</span>
+                        <span className="font-black text-teal-600">{proyek.progress}%</span>
                       </div>
-                      <progress
-                        className={`progress w-full h-2 ${config.progress}`}
-                        value={proyek.progress}
-                        max="100"
-                      ></progress>
+                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${proyek.progress}%` }}
+                          transition={{ duration: 1, ease: "easeOut" }}
+                          className={`h-full rounded-full ${config.progress}`}
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Footer card: status & button */}
-                  <div className="flex justify-between items-center mt-auto pt-4">
-                    <span className={`badge px-3 py-3 border-none text-white ${config.badge}`}>
-                      {proyek.status}
-                    </span>
-
+                  {/* Action Button */}
+                  <div className="mt-8">
                     <button
-                      className="btn btn-sm bg-teal-600 hover:bg-teal-700 text-white border-none"
-                      onClick={() => navigate(`/konsumen/TimelineProyek?projectId=${proyek.id}`, { state: { projectId: proyek.id } })}
+                      className="btn btn-block bg-slate-800 hover:bg-teal-600 text-white border-none rounded-2xl shadow-lg shadow-slate-100 group-hover:shadow-teal-100 transition-all duration-300"
+                      onClick={() => navigate(`/konsumen/timeline-proyek?projectId=${proyek.id}`, { state: { projectId: proyek.id } })}
                     >
-                      Lihat Detail
+                      Lihat Detail Timeline
                     </button>
                   </div>
                 </div>
@@ -193,16 +204,20 @@ const Proyek = () => {
       )}
 
       {/* Card untuk pengajuan proyek baru */}
-      <div
-        className="card bg-teal-50 border-dashed border-2 border-teal-300 rounded-lg flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-teal-100 transition-all mt-6"
-        onClick={() => alert("Buka form pengajuan proyek baru")}
+      <motion.div
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
+        className="mt-12 p-8 bg-teal-50 border-2 border-dashed border-teal-200 rounded-[32px] flex flex-col items-center justify-center cursor-pointer hover:bg-teal-100/50 transition-all"
+        onClick={() => alert("Fitur pengajuan proyek baru sedang disiapkan.")}
       >
-        <div className="text-4xl text-teal-600 mb-2">+</div>
-        <h3 className="font-semibold text-teal-700 text-lg">Ajukan Proyek Baru</h3>
-        <p className="text-sm text-teal-500 text-center mt-1">
-          Tambahkan pembangunan baru atau pekerjaan tambahan
+        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-teal-600 text-2xl shadow-sm mb-4">
+          +
+        </div>
+        <h3 className="font-bold text-teal-800 text-lg">Ajukan Proyek Baru</h3>
+        <p className="text-sm text-teal-600/70 text-center mt-1 max-w-sm">
+          Mulai pembangunan baru atau ajukan renovasi tambahan dengan standar kualitas RKK.
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };

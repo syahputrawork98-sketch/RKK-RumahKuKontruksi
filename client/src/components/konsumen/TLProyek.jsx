@@ -147,7 +147,7 @@ const TLProyek = ({ timeline = [] }) => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Link
-                          to={`/konsumen/TimelineProyek/${detailId}`}
+                          to={`/konsumen/timeline-proyek/${detailId}`}
                           className="px-4 py-2 bg-primary-main text-white text-xs font-bold rounded-xl hover:bg-primary-hover transition-colors flex items-center gap-2"
                         >
                           Lihat Detail <FiChevronRight size={14} />

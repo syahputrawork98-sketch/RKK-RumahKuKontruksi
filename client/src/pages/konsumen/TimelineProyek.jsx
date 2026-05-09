@@ -94,6 +94,25 @@ const TimelineProyek = () => {
     fetchProjectDetail();
   }, [projectId]);
 
+  if (!projectId) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-6 shadow-inner">
+            🔍
+          </div>
+          <h2 className="text-2xl font-bold text-slate-800">Pilih Proyek Terlebih Dahulu</h2>
+          <p className="text-slate-500 mt-2">
+            Silakan pilih salah satu proyek dari daftar proyek Anda untuk melihat timeline dan progres detailnya.
+          </p>
+          <Link to="/konsumen/proyek" className="btn bg-teal-600 hover:bg-teal-700 text-white mt-8 rounded-2xl px-8">
+            Ke Daftar Proyek
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
@@ -103,14 +122,14 @@ const TimelineProyek = () => {
     );
   }
 
-  if (!project || error) {
+  if (error || !project) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
         <div className="text-center max-w-md">
           <FiMapPin className="text-gray-300 mx-auto mb-4" size={48} />
           <h2 className="text-xl font-bold text-gray-700">{error || "Proyek tidak ditemukan"}</h2>
           <p className="text-gray-500 mt-2">Data proyek yang Anda cari tidak tersedia atau ID tidak valid.</p>
-          <Link to="/konsumen/proyek" className="btn bg-teal-600 hover:bg-teal-700 text-white mt-6">Kembali ke Daftar Proyek</Link>
+          <Link to="/konsumen/proyek" className="btn bg-teal-600 hover:bg-teal-700 text-white mt-6 rounded-2xl px-8">Kembali ke Daftar Proyek</Link>
         </div>
       </div>
     );

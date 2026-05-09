@@ -155,7 +155,8 @@ export const findStagesByProjectId = async (projectId) => {
 };
 
 export const findRabByProjectId = async (projectId) => {
-  return await prisma.rabPlan.findFirst({
+  // First try to find approved RAB
+  let rab = await prisma.rabPlan.findFirst({
     where: { projectId, status: 'approved' },
     include: {
       categories: {
@@ -168,6 +169,26 @@ export const findRabByProjectId = async (projectId) => {
       }
     }
   });
+
+  // Fallback to latest RAB if no approved one exists (useful for local development/planning)
+  if (!rab) {
+    rab = await prisma.rabPlan.findFirst({
+      where: { projectId },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        categories: {
+          orderBy: { order: 'asc' },
+          include: {
+            items: {
+              orderBy: { id: 'asc' }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  return rab;
 };
 
 export const createProgressLog = async (data) => {

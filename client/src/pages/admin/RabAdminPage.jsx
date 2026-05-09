@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FiFileText, FiChevronRight, FiSearch, FiFolder, FiCheckCircle, FiClock } from "react-icons/fi";
+import { FiFileText, FiChevronRight, FiSearch, FiFolder, FiCheckCircle, FiClock, FiInfo, FiAlertCircle } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import projectService from "../../services/projectService";
 import { useAdminPersona } from "../../context/AdminPersonaContext";

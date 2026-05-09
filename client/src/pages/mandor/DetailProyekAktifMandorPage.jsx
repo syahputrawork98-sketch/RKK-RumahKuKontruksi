@@ -14,6 +14,7 @@ import {
 } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
+import rabService from "../../services/rabService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 
@@ -23,11 +24,12 @@ const DetailProyekAktifMandorPage = () => {
     const { selectedForemanId } = useForemanPersona();
     const [activeTab, setActiveTab] = useState("overview");
     const [project, setProject] = useState(null);
+    const [rabPlan, setRabPlan] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchProject = async () => {
+        const fetchData = async () => {
             if (!selectedForemanId || !projectId) {
                 setIsLoading(false);
                 return;
@@ -35,14 +37,20 @@ const DetailProyekAktifMandorPage = () => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const response = await projectService.getProjectById(projectId);
-                if (response.success) {
-                    const projectData = response.data;
+                
+                const [projectRes, rabRes] = await Promise.all([
+                    projectService.getProjectById(projectId),
+                    rabService.getRabByProject(projectId).catch(() => ({ data: null }))
+                ]);
+
+                if (projectRes.success) {
+                    const projectData = projectRes.data;
                     // Validate that project belongs to this foreman
                     if (projectData.foremanId !== selectedForemanId) {
                         setError("Proyek ini tidak ditugaskan kepada Anda.");
                     } else {
                         setProject(projectData);
+                        setRabPlan(rabRes.data);
                     }
                 } else {
                     setError("Proyek tidak ditemukan.");
@@ -55,11 +63,12 @@ const DetailProyekAktifMandorPage = () => {
             }
         };
 
-        fetchProject();
+        fetchData();
     }, [projectId, selectedForemanId]);
 
     const tabs = [
         { id: "overview", label: "Overview", icon: FiInfo },
+        { id: "scope", label: "Scope Pekerjaan", icon: FiList },
         { id: "tugas", label: "Tugas Hari Ini", icon: FiList },
         { id: "progress", label: "Progress", icon: FiActivity },
         { id: "tim", label: "Tim Lapangan", icon: FiUsers },
@@ -224,7 +233,59 @@ const DetailProyekAktifMandorPage = () => {
                                 </div>
                             </div>
                         )}
-                        {activeTab !== "overview" && (
+                        {activeTab === "scope" && (
+                            <div className="space-y-6 animate-fadeIn">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Scope Pekerjaan & Item Lapangan</h3>
+                                </div>
+
+                                {!rabPlan ? (
+                                    <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                                        <FiActivity size={48} className="text-slate-300" />
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-black uppercase tracking-widest text-slate-400">Data Pekerjaan Belum Tersedia</p>
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase italic">Hubungi Pengawas/Admin untuk inisiasi daftar pekerjaan.</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        {rabPlan.categories?.map(cat => (
+                                            <div key={cat.id} className="border border-[var(--dashboard-border)] rounded-2xl overflow-hidden shadow-sm">
+                                                <div className="p-4 bg-[var(--dashboard-surface-soft)] border-b border-[var(--dashboard-border)] flex items-center gap-3">
+                                                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[var(--dashboard-primary)] font-black text-[10px] border border-[var(--dashboard-border)]">
+                                                        {cat.code}
+                                                    </div>
+                                                    <span className="text-xs font-black uppercase tracking-tight">{cat.name}</span>
+                                                </div>
+                                                <div className="p-0 overflow-x-auto">
+                                                    <table className="w-full text-left">
+                                                        <thead className="bg-slate-50">
+                                                            <tr className="text-[9px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] border-b border-[var(--dashboard-border)]">
+                                                                <th className="py-2 px-4">Item Pekerjaan</th>
+                                                                <th className="py-2 px-4 text-center">Vol</th>
+                                                                <th className="py-2 px-4 text-center">Sat</th>
+                                                                <th className="py-2 px-4 text-right">Lokasi</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className="divide-y divide-slate-100">
+                                                            {cat.items?.map(item => (
+                                                                <tr key={item.id} className="hover:bg-slate-50/50 transition-all">
+                                                                    <td className="py-3 px-4 text-[11px] font-bold text-slate-700">{item.description}</td>
+                                                                    <td className="py-3 px-4 text-[11px] text-center font-black">{parseFloat(item.volume)}</td>
+                                                                    <td className="py-3 px-4 text-[11px] text-center uppercase text-slate-400 font-bold">{item.unit}</td>
+                                                                    <td className="py-3 px-4 text-[10px] text-right text-slate-500 italic">{item.location || '-'}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {activeTab !== "overview" && activeTab !== "scope" && (
                             <div className="flex flex-col items-center justify-center h-full py-12 text-[var(--dashboard-text-soft)] italic opacity-50">
                                 <p className="text-sm font-bold">Modul {activeTab.toUpperCase()} sedang disiapkan...</p>
                                 <p className="text-[10px] mt-2 tracking-widest">Foreman Role Dashboard v1.0</p>

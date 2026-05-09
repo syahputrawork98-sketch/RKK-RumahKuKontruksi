@@ -10,10 +10,13 @@ import {
     FiAlertCircle, 
     FiMapPin, 
     FiUser, 
-    FiClock 
+    FiClock,
+    FiFileText,
+    FiTag
 } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
+import rabService from "../../services/rabService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 
@@ -23,11 +26,12 @@ const DetailProyekDiawasiPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
     const [activeTab, setActiveTab] = useState("overview");
     const [project, setProject] = useState(null);
+    const [rabPlan, setRabPlan] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchProject = async () => {
+        const fetchData = async () => {
             if (!selectedSupervisorId || !projectId) {
                 setIsLoading(false);
                 return;
@@ -35,9 +39,15 @@ const DetailProyekDiawasiPengawasPage = () => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const response = await projectService.getProjectById(projectId);
-                if (response.success) {
-                    setProject(response.data);
+                
+                const [projectRes, rabRes] = await Promise.all([
+                    projectService.getProjectById(projectId),
+                    rabService.getRabByProject(projectId).catch(() => ({ data: null }))
+                ]);
+
+                if (projectRes.success) {
+                    setProject(projectRes.data);
+                    setRabPlan(rabRes.data);
                 } else {
                     setError("Proyek tidak ditemukan.");
                 }
@@ -49,11 +59,20 @@ const DetailProyekDiawasiPengawasPage = () => {
             }
         };
 
-        fetchProject();
+        fetchData();
     }, [projectId, selectedSupervisorId]);
+
+    const formatCurrency = (val) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(val || 0);
+    };
 
     const tabs = [
         { id: "overview", label: "Overview", icon: FiInfo },
+        { id: "rab", label: "RAB / Scope", icon: FiFileText },
         { id: "tahapan", label: "Tahapan", icon: FiLayers },
         { id: "checklist", label: "Checklist", icon: FiCheckCircle },
         { id: "dokumentasi", label: "Dokumentasi", icon: FiCamera },
@@ -224,7 +243,119 @@ const DetailProyekDiawasiPengawasPage = () => {
                                 </div>
                             </div>
                         )}
-                        {activeTab !== "overview" && (
+                        {activeTab === "rab" && (
+                            <div className="space-y-6 animate-fadeIn">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Rencana Anggaran Biaya & Scope Pekerjaan</h3>
+                                    {rabPlan && (
+                                        <span className="text-[10px] font-black px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg border border-emerald-100">
+                                            Total: {formatCurrency(rabPlan.totalAmount)}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {!rabPlan ? (
+                                    <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                                        <FiFileText size={48} className="text-slate-300" />
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-black uppercase tracking-widest text-slate-400">RAB Belum Tersedia</p>
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase italic">Hubungi Admin untuk inisiasi data anggaran & scope.</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        {rabPlan.categories?.map(cat => (
+                                            <div key={cat.id} className="border border-[var(--dashboard-border)] rounded-2xl overflow-hidden shadow-sm">
+                                                <div className="p-4 bg-[var(--dashboard-surface-soft)] border-b border-[var(--dashboard-border)] flex justify-between items-center">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[var(--dashboard-primary)] font-black text-[10px] border border-[var(--dashboard-border)] shadow-xs">
+                                                            {cat.code}
+                                                        </div>
+                                                        <span className="text-xs font-black uppercase tracking-tight">{cat.name}</span>
+                                                    </div>
+                                                    <span className="text-[10px] font-black text-emerald-600">{formatCurrency(cat.subtotal)}</span>
+                                                </div>
+                                                <div className="p-0 overflow-x-auto">
+                                                    <table className="w-full text-left">
+                                                        <thead className="bg-slate-50">
+                                                            <tr className="text-[9px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] border-b border-[var(--dashboard-border)]">
+                                                                <th className="py-2 px-4">Item Pekerjaan</th>
+                                                                <th className="py-2 px-4 text-center">Vol</th>
+                                                                <th className="py-2 px-4 text-center">Sat</th>
+                                                                <th className="py-2 px-4 text-right">Progress</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className="divide-y divide-slate-100">
+                                                            {cat.items?.map(item => (
+                                                                <tr key={item.id} className="hover:bg-slate-50/50 transition-all">
+                                                                    <td className="py-3 px-4 text-[11px] font-bold text-slate-700">{item.description}</td>
+                                                                    <td className="py-3 px-4 text-[11px] text-center font-black">{parseFloat(item.volume)}</td>
+                                                                    <td className="py-3 px-4 text-[11px] text-center uppercase text-slate-400 font-bold">{item.unit}</td>
+                                                                    <td className="py-3 px-4 text-right">
+                                                                        <div className="flex items-center justify-end gap-2">
+                                                                            <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                                                <div className="h-full bg-emerald-500" style={{ width: `${item.progress || 0}%` }} />
+                                                                            </div>
+                                                                            <span className="text-[9px] font-black">{item.progress || 0}%</span>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {activeTab === "tahapan" && (
+                            <div className="space-y-6 animate-fadeIn">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Tahapan & Jadwal Proyek</h3>
+                                </div>
+
+                                {project.stages?.length > 0 ? (
+                                    <div className="space-y-3">
+                                        {project.stages.sort((a,b) => a.order - b.order).map(stage => (
+                                            <div key={stage.id} className="p-4 bg-white border border-[var(--dashboard-border)] rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-all group">
+                                                <div className="flex items-center gap-4">
+                                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs border ${
+                                                        stage.status === 'Selesai' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                        stage.status === 'Berjalan' ? 'bg-blue-50 text-blue-600 border-blue-100 animate-pulse' :
+                                                        'bg-slate-50 text-slate-400 border-slate-100'
+                                                    }`}>
+                                                        {stage.order}
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight">{stage.title}</h4>
+                                                        <div className="flex items-center gap-2 mt-0.5">
+                                                            <span className="text-[9px] font-bold text-slate-400 uppercase">{stage.status}</span>
+                                                            <span className="text-[9px] text-slate-300">•</span>
+                                                            <span className="text-[9px] font-bold text-slate-400">{stage.progress || 0}%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Deadline</p>
+                                                    <p className="text-[10px] font-bold text-slate-700">{stage.endDate ? new Date(stage.endDate).toLocaleDateString('id-ID') : '-'}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                                        <FiLayers size={48} className="text-slate-300" />
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-black uppercase tracking-widest text-slate-400">Belum Ada Tahapan</p>
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase italic">Jadwal tahapan belum ditentukan oleh Admin.</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {activeTab !== "overview" && activeTab !== "rab" && activeTab !== "tahapan" && (
                             <div className="flex flex-col items-center justify-center h-full py-20 text-center space-y-4">
                                 <div className="p-6 bg-[var(--dashboard-surface-soft)] rounded-full text-[var(--dashboard-text-soft)] opacity-30">
                                     <FiActivity size={48} />

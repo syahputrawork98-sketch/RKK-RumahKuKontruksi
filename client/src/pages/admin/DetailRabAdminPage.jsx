@@ -251,6 +251,9 @@ const DetailRabAdminPage = () => {
                         </div>
                         <p className="text-[10px] text-[var(--dashboard-text-soft)] font-black uppercase tracking-widest mt-0.5">{project.name} • {project.customer?.name}</p>
                     </div>
+                    <span className="ml-4 px-3 py-1 bg-slate-100 text-slate-500 text-[8px] font-black uppercase tracking-widest rounded-full border border-slate-200 flex items-center gap-1.5">
+                        <FiInfo /> Read-Only Mode
+                    </span>
                 </div>
                 <div className="flex items-center gap-2">
                     <button 
@@ -278,15 +281,14 @@ const DetailRabAdminPage = () => {
                             RAB ini bersifat draft internal dan belum menjadi kontrak final atau Change Order.
                         </p>
                     </div>
-                    <button 
-                        onClick={() => {
-                            setFormError(null);
-                            setShowPlanModal(true);
-                        }}
-                        className="mt-8 px-8 py-4 bg-[var(--dashboard-primary)] text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-[var(--dashboard-primary)]/30 hover:scale-105 transition-all"
-                    >
-                        Buat RAB Plan Pertama
-                    </button>
+                    <div className="text-center max-w-md px-6 space-y-4">
+                        <p className="text-sm text-[var(--dashboard-text-soft)] font-bold uppercase tracking-widest leading-relaxed">
+                            RAB Plan belum tersedia untuk proyek ini.
+                        </p>
+                        <p className="text-[10px] text-slate-400 italic">
+                            Silakan hubungi tim estimator atau admin penanggung jawab untuk inisiasi data anggaran.
+                        </p>
+                    </div>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -318,15 +320,10 @@ const DetailRabAdminPage = () => {
                             <h3 className="font-black text-[10px] uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Aksi RAB</h3>
                             <div className="space-y-3">
                                 <button 
-                                    onClick={() => {
-                                        setFormError(null);
-                                        setIsEditing(false);
-                                        setCategoryForm({ code: "", name: "", description: "", order: (rabPlan.categories?.length || 0) + 1 });
-                                        setShowCategoryModal(true);
-                                    }}
-                                    className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-border)] transition-all shadow-sm"
+                                    disabled
+                                    className="w-full flex items-center justify-center gap-2 py-3 bg-slate-50 text-slate-400 border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest cursor-not-allowed opacity-60"
                                 >
-                                    <FiPlus /> Tambah Kategori
+                                    Mode Read-Only Aktif
                                 </button>
                                 <button 
                                     onClick={() => fetchData()}
@@ -362,35 +359,7 @@ const DetailRabAdminPage = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <button 
-                                                    onClick={() => {
-                                                        setFormError(null);
-                                                        setItemForm({ categoryId: cat.id, description: "", volume: 1, unit: "m2", unitPrice: 0, location: "", notes: "" });
-                                                        setIsEditing(false);
-                                                        setShowItemModal(true);
-                                                    }}
-                                                    className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors shadow-sm bg-white border border-emerald-100" title="Tambah Item"
-                                                >
-                                                    <FiPlus size={16} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => {
-                                                        setFormError(null);
-                                                        setCategoryForm({ code: cat.code, name: cat.name, description: cat.description || "", order: cat.order });
-                                                        setIsEditing(true);
-                                                        setEditId(cat.id);
-                                                        setShowCategoryModal(true);
-                                                    }}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors shadow-sm bg-white border border-blue-100" title="Edit Kategori"
-                                                >
-                                                    <FiEdit2 size={16} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => handleDeleteCategory(cat.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors shadow-sm bg-white border border-red-100" title="Hapus Kategori"
-                                                >
-                                                    <FiTrash2 size={16} />
-                                                </button>
+                                                <span className="text-[8px] font-black text-slate-400 uppercase">View Only</span>
                                             </div>
                                         </div>
 
@@ -415,34 +384,9 @@ const DetailRabAdminPage = () => {
                                                             <td className="py-4 px-6 text-xs text-right font-medium text-slate-800">{formatCurrency(item.unitPrice)}</td>
                                                             <td className="py-4 px-6 text-xs text-right font-black text-emerald-700">{formatCurrency(item.total)}</td>
                                                             <td className="py-4 px-6 text-right">
-                                                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                    <button 
-                                                                        onClick={() => {
-                                                                            setFormError(null);
-                                                                            setItemForm({ 
-                                                                                categoryId: item.categoryId, 
-                                                                                description: item.description, 
-                                                                                 volume: parseFloat(item.volume), 
-                                                                                unit: item.unit, 
-                                                                                unitPrice: parseFloat(item.unitPrice),
-                                                                                location: item.location || "",
-                                                                                notes: item.notes || ""
-                                                                            });
-                                                                            setIsEditing(true);
-                                                                            setEditId(item.id);
-                                                                            setShowItemModal(true);
-                                                                        }}
-                                                                        className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-all"
-                                                                    >
-                                                                        <FiEdit2 size={12} />
-                                                                    </button>
-                                                                    <button 
-                                                                        onClick={() => handleDeleteItem(item.id)}
-                                                                        className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                                                                    >
-                                                                        <FiTrash2 size={12} />
-                                                                    </button>
-                                                                </div>
+                                                            <td className="py-4 px-6 text-right">
+                                                                <FiCheckCircle className="ml-auto text-emerald-500 opacity-20" size={12} />
+                                                            </td>
                                                             </td>
                                                         </tr>
                                                     ))}

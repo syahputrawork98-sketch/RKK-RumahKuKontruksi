@@ -7,6 +7,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 - **Partial**: Sebagian data rill, sebagian masih mock/shell.
 - **Shell / Static**: UI sudah ada tetapi data masih bersifat statis/manual.
 - **Mock-First**: Masih menggunakan data dummy dari folder `mock/`.
+- **Local Stabilized**: Terhubung ke backend lokal dan sudah distabilkan untuk fase CRUD lokal, tetapi belum production-ready.
 - **Experimental / Backend Draft**: Terhubung ke backend yang masih dalam tahap eksperimen (belum final).
 - **Operational Backend Pending**: UI sudah siap, namun menunggu implementasi backend operasional.
 
@@ -34,7 +35,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Pembayaran | `/admin/pembayaran` | Shell / Pending | Manajemen termin konsumen. |
 | Penugasan Tim | `/admin/penugasan-tim` | DB-Backed v1 | Assign Pengawas/Mandor. |
 | Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring progres resmi (SOT). |
-| Request Material | `/admin/request-material`| Experimental | Terhubung ke MR Backend Draft. |
+| Request Material | `/admin/request-material`| Local Stabilized | Terhubung ke Material Request backend v1 dengan approval/status flow lokal. |
 | Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | DB-Backed v1 | List review laporan mingguan Pengawas. |
 | Detail Review | `/admin/laporan-mingguan-pengawas/:id` | DB-Backed v1 | Review, approve, reject laporan Pengawas. |
 | Pengaturan | `/admin/pengaturan` | DB-Backed v1 | Profil admin rill. |
@@ -50,7 +51,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | DB-Backed v1 | List evaluasi mingguan pengawas. |
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | DB-Backed v1 | Form input evaluasi mingguan. |
 | Detail Laporan | `/pengawas/laporan-mingguan/:id` | DB-Backed v1 | Detail, edit & submit laporan. |
-| Request Material | `/pengawas/request-material` | Experimental | Form MR via Backend Draft. |
+| Request Material | `/pengawas/request-material` | Local Stabilized | Review/verifikasi Material Request via backend lokal. |
 | Jurnal Mandor | `/pengawas/jurnal-mandor` | DB-Backed v1 | List jurnal mingguan Mandor. |
 | Detail Jurnal Mandor | `/pengawas/jurnal-mandor/:id` | DB-Backed v1 | Review & Approve jurnal Mandor. |
 | Pengaturan | `/pengawas/pengaturan` | DB-Backed v1 | Profil pengawas rill. |
@@ -63,7 +64,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Detail Proyek | `/mandor/proyek-aktif/:id` | DB-Backed v1 | Info detail lapangan. |
 | Tugas Harian | `/mandor/tugas-harian` | Shell / Pending | Checklist pekerjaan. |
 | Laporan Harian | `/mandor/laporan-harian` | Shell / Pending | Logbook harian mandor. |
-| Request Material | `/mandor/request-material` | Experimental | Pengajuan barang ke gudang. |
+| Request Material | `/mandor/request-material` | Local Stabilized | Pengajuan dan konfirmasi penerimaan material via backend lokal. |
 | Dokumentasi | `/mandor/dokumentasi` | Shell / Pending | Foto fisik harian. |
 | Kendala Lapangan | `/mandor/kendala-lapangan` | Shell / Pending | Laporan hambatan. |
 | Jurnal Mingguan | `/mandor/jurnal-mingguan` | DB-Backed v1 | List laporan mingguan mandor. |
@@ -99,7 +100,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Proyek Saya | `/konsumen/proyek` | Mock-First | Monitoring progres investasi. |
 | Timeline | `/konsumen/TimelineProyek` | Mock-First | Visualisasi tahap kerja. |
 | Detail Progres | `/konsumen/TimelineProyek/:id`| Mock-First | Foto & laporan per tahap. |
-| Profil | `/konsumen/profil` | Partial | Data identitas konsumen. |
+| Profil | `/konsumen/profil` | Data Foundation Ready | Customer API dan seed persona siap; UI edit profil menunggu integrasi Gemini. |
 
 ---
 *Terakhir diperbarui: 8 Mei 2026*

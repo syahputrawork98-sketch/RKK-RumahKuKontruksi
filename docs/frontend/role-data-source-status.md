@@ -24,7 +24,7 @@ Status: **Database-Backed v1**
 - **Operational Status**: 
   - Verifikasi progres, laporan mingguan, jurnal mandor: **DB-Backed v1 / Integrated**.
   - Dokumentasi: **Shell / Backend Pending**.
-  - Request material: **Experimental / Backend Draft**.
+  - Request material: **Local Stabilized / DB-Backed v1**.
 
 ### 2. Mandor / Foreman
 Status: **Database-Backed v1**
@@ -38,7 +38,7 @@ Status: **Database-Backed v1**
 - **Operational Status**: 
   - Jurnal Mingguan: **DB-Backed v1 / Integrated**.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
-  - Request material: **Experimental / Backend Draft**.
+  - Request material: **Local Stabilized / DB-Backed v1**.
 
 ### 3. Arsitek / Architect
 Status: **Database-Backed v1**
@@ -65,7 +65,7 @@ Status: **Database-Backed v1**
 - **Operational Data**: 
   - Laporan Progress Terverifikasi, Review Laporan Pengawas: **DB-Backed v1 / Integrated**.
   - Pembayaran: **Shell / Backend Pending**.
-  - Request Material: **Experimental**.
+  - Request Material: **Local Stabilized / DB-Backed v1**.
 
 ---
 
@@ -76,9 +76,11 @@ Status: **Partial / UI Shell**
 - **Behavior UI**: Entity API sudah ada (DB-Backed v1 untuk profil/list), namun alur kerja manajemen sistem secara penuh masih bersifat **Partial / UI Shell / Mock**.
 
 ### 6. Konsumen
-Status: **Mock-First / Partial**
-- **Dashboard**: Belum terhubung ke progres resmi proyek: **Mock-First**.
-- **CRUD Profil**: Mungkin sudah memiliki entity API, namun secara keseluruhan workflow masih **Partial**.
+Status: **Partial / Data Foundation Ready**
+- **Services**: `customerService`, `designRequestService`, `projectService`
+- **Dashboard & Monitoring**: Design Request dan monitoring proyek sudah memiliki jalur backend lokal, tetapi beberapa detail UI masih perlu verifikasi integrasi.
+- **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` siap untuk integrasi Gemini.
+- **Hold**: Password, auth production, upload foto rill, dan RBAC production tetap ditunda.
 
 ---
 

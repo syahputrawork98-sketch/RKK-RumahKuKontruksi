@@ -19,6 +19,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Customer API adalah data profil lokal untuk fase developer persona, bukan auth/user production.
 - Seed lokal menyediakan `customer-001`, `customer-002`, dan `customer-003` untuk Konsumen persona/demo.
 - Field profil yang dapat dipakai UI Edit Profil: `name`, `email`, `phone`, `avatar`, `address`, `identityNumber`, `occupation`, `companyName`, `picName`, `picPosition`, `logo`, `taxNumber`, `businessField`, dan `notes`.
+- Field sistem/read-only untuk UI profil: `id`, `userId`, `customerType`, `createdAt`, `updatedAt`, serta relasi `projects` dan `designRequests`.
 
 ## Projects
 - `GET /projects`: Ambil semua proyek.

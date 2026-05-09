@@ -1,60 +1,77 @@
 import { PrismaClient } from '@prisma/client';
-import { mockCustomers } from '../../client/src/data/mock/customers.js';
-import { mockProjects } from '../../client/src/data/mock/projects.js';
-import { mockProjectStages } from '../../client/src/data/mock/projectStages.js';
-import { mockRabPlans } from '../../client/src/data/mock/rabPlans.js';
-import { mockRabCategories } from '../../client/src/data/mock/rabCategories.js';
-import { mockRabItems } from '../../client/src/data/mock/rabItems.js';
-import { mockForemen } from '../../client/src/data/mock/foremen.js';
-import { mockForemanCertificates } from '../../client/src/data/mock/foremanCertificates.js';
-import { mockArchitects } from '../../client/src/data/mock/architects.js';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Start seeding...');
+  console.log('--- STARTING CURATED SEED DATA CLEANUP ---');
 
-  // -1. Admins
-  console.log('Seeding admins...');
-  const admins = [
-    {
+  // 0. CLEANUP (Order matters for foreign keys)
+  console.log('Cleaning up existing data...');
+  await prisma.materialRequestHistory.deleteMany({});
+  await prisma.materialRequestItem.deleteMany({});
+  await prisma.materialRequest.deleteMany({});
+  await prisma.weeklyJournalReviewLog.deleteMany({});
+  await prisma.weeklyJournalPhoto.deleteMany({});
+  await prisma.weeklyJournalActivity.deleteMany({});
+  await prisma.supervisorWeeklyReportJournal.deleteMany({});
+  await prisma.supervisorWeeklyReportNote.deleteMany({});
+  await prisma.supervisorWeeklyReportReviewLog.deleteMany({});
+  await prisma.supervisorWeeklyReport.deleteMany({});
+  await prisma.weeklyJournal.deleteMany({});
+  await prisma.progressVerificationLog.deleteMany({});
+  await prisma.projectStage.deleteMany({});
+  await prisma.rabItem.deleteMany({});
+  await prisma.rabCategory.deleteMany({});
+  await prisma.rabPlan.deleteMany({});
+  
+  await prisma.designTenderBid.deleteMany({});
+  await prisma.designTender.deleteMany({});
+  await prisma.designRequest.deleteMany({});
+  await prisma.project.deleteMany({});
+
+  await prisma.architectCertificate.deleteMany({});
+  await prisma.architectExperience.deleteMany({});
+  await prisma.architect.deleteMany({});
+  
+  await prisma.foremanCertificate.deleteMany({});
+  await prisma.foremanExperience.deleteMany({});
+  await prisma.foreman.deleteMany({});
+
+  await prisma.supervisorCertificate.deleteMany({});
+  await prisma.supervisorExperience.deleteMany({});
+  await prisma.supervisor.deleteMany({});
+
+  await prisma.customer.deleteMany({});
+  await prisma.admin.deleteMany({});
+  await prisma.superadmin.deleteMany({});
+
+  // 1. MASTER ROLES
+  console.log('Seeding Master Roles (Admins, Architects, Foremen, Supervisors)...');
+  
+  const admin1 = await prisma.admin.create({
+    data: {
       id: 'admin-001',
       name: 'Budi Santoso',
       email: 'budi.admin@rkk.local',
       phone: '081234567001',
       status: 'active',
       avatar: 'https://i.pravatar.cc/150?u=admin-001'
-    },
-    {
+    }
+  });
+
+  const admin2 = await prisma.admin.create({
+    data: {
       id: 'admin-002',
       name: 'Siti Rahma',
       email: 'siti.admin@rkk.local',
       phone: '081234567002',
       status: 'active',
       avatar: 'https://i.pravatar.cc/150?u=admin-002'
-    },
-    {
-      id: 'admin-003',
-      name: 'Rizky Pratama',
-      email: 'rizky.admin@rkk.local',
-      phone: '081234567003',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=admin-003'
     }
-  ];
+  });
 
-  for (const a of admins) {
-    await prisma.admin.upsert({
-      where: { id: a.id },
-      update: {},
-      create: a
-    });
-  }
-
-  // -0.5 Superadmins
-  console.log('Seeding superadmins...');
-  const superadmins = [
-    {
+  await prisma.superadmin.create({
+    data: {
       id: 'superadmin-001',
       name: 'Superadmin RKK',
       email: 'superadmin@rkk.local',
@@ -62,387 +79,481 @@ async function main() {
       status: 'active',
       avatar: 'https://i.pravatar.cc/150?u=superadmin-001'
     }
-  ];
+  });
 
-  for (const sa of superadmins) {
-    await prisma.superadmin.upsert({
-      where: { id: sa.id },
-      update: {},
-      create: sa
-    });
-  }
-
-  // 0. Supervisors
-  console.log('Seeding supervisors...');
-  const supervisors = [
-    {
-      id: 'supervisor-001',
-      name: 'Ahmad Fauzi',
-      email: 'fauzi@rkk.com',
-      phone: '081234567890',
-      specialization: 'Struktur & Sipil',
-      city: 'Bekasi',
-      bio: 'Pengawas berpengalaman 10 tahun di bidang konstruksi residensial.',
+  const arch1 = await prisma.architect.create({
+    data: {
+      id: 'architect-001',
+      name: 'Andika Pratama',
+      email: 'andika.arch@rkk.local',
+      phone: '081122334401',
+      employmentType: 'fulltime',
+      specialization: 'Modern Minimalist',
+      experienceYears: 8,
       status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-001',
-      maxProjectCapacity: 3
-    },
-    {
-      id: 'supervisor-002',
-      name: 'Bambang Wijaya',
-      email: 'bambang@rkk.com',
-      phone: '081234567891',
-      specialization: 'Arsitektur & Interior',
-      city: 'Tangerang',
-      bio: 'Fokus pada detail finishing dan kualitas material interior.',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-002',
-      maxProjectCapacity: 3
-    },
-    {
-      id: 'supervisor-003',
-      name: 'Eko Prasetyo',
-      email: 'eko@rkk.com',
-      phone: '081234567892',
-      specialization: 'MEP & Infrastruktur',
-      city: 'Jakarta',
-      bio: 'Ahli dalam sistem mekanikal, elektrikal, dan pemipaan.',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-003',
-      maxProjectCapacity: 3
-    },
-    {
-      id: 'supervisor-004',
-      name: 'Lukman Hakim',
-      email: 'lukman@rkk.com',
-      phone: '081234567893',
-      specialization: 'Generalist',
-      city: 'Depok',
-      bio: 'Pengawas junior dengan dedikasi tinggi pada manajemen waktu.',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-004',
-      maxProjectCapacity: 3
+      avatar: 'https://i.pravatar.cc/150?u=architect-001'
     }
-  ];
+  });
 
-  for (const s of supervisors) {
-    await prisma.supervisor.upsert({
-      where: { id: s.id },
-      update: {
-        status: 'active',
-        specialization: s.specialization,
-        maxProjectCapacity: s.maxProjectCapacity
-      },
-      create: s
-    });
-  }
+  const arch2 = await prisma.architect.create({
+    data: {
+      id: 'architect-002',
+      name: 'Nabila Putri',
+      email: 'nabila.arch@rkk.local',
+      phone: '081122334402',
+      employmentType: 'freelance',
+      specialization: 'Interior Design',
+      experienceYears: 5,
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=architect-002'
+    }
+  });
 
-  // Clear related to avoid duplicates
-  await prisma.supervisorCertificate.deleteMany({});
-  await prisma.supervisorExperience.deleteMany({});
+  const arch3 = await prisma.architect.create({
+    data: {
+      id: 'architect-003',
+      name: 'Raka Wicaksono',
+      email: 'raka.arch@rkk.local',
+      phone: '081122334403',
+      employmentType: 'freelance',
+      specialization: 'Industrial / Commercial',
+      experienceYears: 12,
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=architect-003'
+    }
+  });
 
-  console.log('Seeding supervisor certificates...');
-  const certificates = [
-    { id: 'cert-001', supervisorId: 'supervisor-001', title: 'SKA Ahli Madya Bangunan Gedung', issuer: 'LPJK', status: 'valid' },
-    { id: 'cert-002', supervisorId: 'supervisor-001', title: 'Sertifikasi K3 Konstruksi', issuer: 'Kemnaker', status: 'valid' },
-    { id: 'cert-003', supervisorId: 'supervisor-002', title: 'SKA Ahli Muda Arsitektur', issuer: 'IAI', status: 'valid' },
-    { id: 'cert-004', supervisorId: 'supervisor-002', title: 'Manajemen Proyek Konstruksi', issuer: 'PMP', status: 'valid' },
-    { id: 'cert-005', supervisorId: 'supervisor-003', title: 'SKA Ahli Muda MEP', issuer: 'LPJK', status: 'valid' },
-    { id: 'cert-006', supervisorId: 'supervisor-004', title: 'Sertifikat Pengawas Lapangan', issuer: 'RKK Training', status: 'valid' }
-  ];
+  const foreman1 = await prisma.foreman.create({
+    data: {
+      id: 'foreman-001',
+      name: 'Mulyadi',
+      email: 'mulyadi.foreman@rkk.local',
+      phone: '081333444001',
+      vendorType: 'individual',
+      specialization: 'Struktur & Sipil',
+      experienceYears: 15,
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=foreman-001'
+    }
+  });
 
-  for (const cert of certificates) {
-      await prisma.supervisorCertificate.create({ data: cert });
-  }
+  const foreman2 = await prisma.foreman.create({
+    data: {
+      id: 'foreman-002',
+      name: 'Hasan Basri',
+      email: 'hasan.foreman@rkk.local',
+      phone: '081333444002',
+      vendorType: 'company',
+      companyName: 'CV Bangun Sejahtera',
+      specialization: 'Generalist',
+      experienceYears: 10,
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=foreman-002'
+    }
+  });
 
-  console.log('Seeding supervisor experiences...');
-  const experiences = [
-    { id: 'exp-001', supervisorId: 'supervisor-001', projectName: 'Pembangunan Cluster Green Hill', role: 'Chief Supervisor', companyName: 'PT Jaya Konstruksi', startYear: 2020, endYear: 2022 },
-    { id: 'exp-002', supervisorId: 'supervisor-004', projectName: 'Renovasi Rumah Kost Margonda', role: 'Junior Supervisor', companyName: 'Freelance', startYear: 2024, endYear: 2025 }
-  ];
+  const supervisor1 = await prisma.supervisor.create({
+    data: {
+      id: 'supervisor-001',
+      name: 'Dimas Prakoso',
+      email: 'dimas.spv@rkk.local',
+      phone: '081444555001',
+      specialization: 'Struktur & Sipil',
+      city: 'Jakarta',
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=supervisor-001'
+    }
+  });
 
-  for (const exp of experiences) {
-      await prisma.supervisorExperience.create({ data: exp });
-  }
+  const supervisor2 = await prisma.supervisor.create({
+    data: {
+      id: 'supervisor-002',
+      name: 'Ratna Dewi',
+      email: 'ratna.spv@rkk.local',
+      phone: '081444555002',
+      specialization: 'Arsitektur',
+      city: 'Bekasi',
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=supervisor-002'
+    }
+  });
 
-  // 0.5 Foremen
-  console.log('Seeding foremen...');
-  for (const f of mockForemen) {
-    await prisma.foreman.upsert({
-      where: { id: f.id },
-      update: {},
-      create: {
-        id: f.id,
-        userId: f.userId,
-        name: f.name,
-        email: f.email,
-        phone: f.phone,
-        avatar: f.avatar,
-        vendorType: f.vendorType,
-        companyName: f.companyName,
-        address: f.address,
-        specialization: f.specialization,
-        experienceYears: f.experienceYears,
-        skillTags: f.skillTags,
-        teamSummary: f.teamSummary,
-        maxProjectCapacity: f.maxProjectCapacity,
-        status: f.status,
-        joinedAt: f.joinedAt ? new Date(f.joinedAt) : null,
-        notes: f.notes
+  // 2. CUSTOMERS
+  console.log('Seeding Customers...');
+  const customer1 = await prisma.customer.create({
+    data: {
+      id: 'customer-001',
+      name: 'Iwan Setiawan',
+      email: 'iwan@gmail.com',
+      phone: '081222220001',
+      customerType: 'individual',
+      address: 'Jl. Melati No. 5, Jakarta Selatan',
+      avatar: 'https://i.pravatar.cc/150?u=customer-001'
+    }
+  });
+
+  const customer2 = await prisma.customer.create({
+    data: {
+      id: 'customer-002',
+      name: 'Sari Kartika',
+      email: 'sari@gmail.com',
+      phone: '081222220002',
+      customerType: 'individual',
+      address: 'BSD City, Tangerang Selatan',
+      avatar: 'https://i.pravatar.cc/150?u=customer-002'
+    }
+  });
+
+  const customer3 = await prisma.customer.create({
+    data: {
+      id: 'customer-003',
+      name: 'PT Maju Jaya',
+      email: 'admin@majujaya.co.id',
+      phone: '021-55566677',
+      customerType: 'company',
+      companyName: 'PT Maju Jaya Properti',
+      picName: 'Hendra',
+      address: 'Kuningan, Jakarta Pusat',
+      avatar: 'https://i.pravatar.cc/150?u=customer-003'
+    }
+  });
+
+  // 3. SCENARIO 1: DESIGN FLOW
+  console.log('Seeding Scenario 1: Design Flow...');
+  
+  // DR 1: Submitted (New)
+  await prisma.designRequest.create({
+    data: {
+      id: 'dr-submitted-001',
+      customerId: customer1.id,
+      title: 'Desain Paviliun Modern Minimalis',
+      description: 'Ingin membangun paviliun di belakang rumah utama dengan 1 kamar tidur dan pantry.',
+      buildingType: 'Paviliun',
+      location: 'Jakarta Selatan',
+      estimatedBudget: 150000000,
+      status: 'submitted'
+    }
+  });
+
+  // DR 2: Tender Open
+  const drTenderOpen = await prisma.designRequest.create({
+    data: {
+      id: 'dr-tender-open-001',
+      customerId: customer2.id,
+      title: 'Renovasi Cafe Vintage BSD',
+      description: 'Konsep cafe industrial vintage untuk area seluas 80m2.',
+      buildingType: 'Cafe',
+      location: 'BSD, Tangerang',
+      estimatedBudget: 250000000,
+      status: 'submitted'
+    }
+  });
+
+  const tenderOpen = await prisma.designTender.create({
+    data: {
+      id: 'tender-open-001',
+      designRequestId: drTenderOpen.id,
+      title: drTenderOpen.title,
+      description: drTenderOpen.description,
+      status: 'open',
+      baseDesignFee: 15000000,
+      platformFeeAmount: 4500000,
+      drafterBudgetAmount: 10500000,
+      publishedAt: new Date()
+    }
+  });
+
+  await prisma.designTenderBid.create({
+    data: {
+      id: 'bid-001',
+      designTenderId: tenderOpen.id,
+      architectId: arch1.id,
+      bidAmount: 10000000,
+      message: 'Saya berpengalaman dalam desain interior cafe komersial.',
+      estimatedDurationDays: 14,
+      status: 'submitted'
+    }
+  });
+
+  await prisma.designTenderBid.create({
+    data: {
+      id: 'bid-002',
+      designTenderId: tenderOpen.id,
+      architectId: arch2.id,
+      bidAmount: 9500000,
+      message: 'Penawaran harga bersaing dengan kualitas detail tinggi.',
+      estimatedDurationDays: 10,
+      status: 'submitted'
+    }
+  });
+
+  // DR 3: Awarded / Approved
+  const drApproved = await prisma.designRequest.create({
+    data: {
+      id: 'dr-approved-001',
+      customerId: customer3.id,
+      architectId: arch3.id,
+      title: 'Desain Kantor Cabang Sudirman',
+      description: 'Interior kantor modern untuk 50 karyawan.',
+      buildingType: 'Office',
+      location: 'Sudirman, Jakarta',
+      estimatedBudget: 1200000000,
+      status: 'approved'
+    }
+  });
+
+  const tenderAwarded = await prisma.designTender.create({
+    data: {
+      id: 'tender-awarded-001',
+      designRequestId: drApproved.id,
+      title: drApproved.title,
+      status: 'awarded',
+      baseDesignFee: 50000000,
+      platformFeeAmount: 15000000,
+      drafterBudgetAmount: 35000000,
+      publishedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+      awardedAt: new Date(),
+      selectedBidId: 'bid-awarded-001'
+    }
+  });
+
+  await prisma.designTenderBid.create({
+    data: {
+      id: 'bid-awarded-001',
+      designTenderId: tenderAwarded.id,
+      architectId: arch3.id,
+      bidAmount: 35000000,
+      message: 'Siap mengerjakan sesuai timeline ketat.',
+      estimatedDurationDays: 21,
+      status: 'selected'
+    }
+  });
+
+  // 4. SCENARIO 2: PROJECT BRIDGE
+  console.log('Seeding Scenario 2: Project Bridge (Planning)...');
+  
+  await prisma.project.create({
+    data: {
+      id: 'project-planning-001',
+      projectCode: 'PRJ-PLAN-001',
+      name: 'Project Kantor Sudirman (Draft)',
+      type: 'Renovasi',
+      status: 'planning',
+      customerId: customer3.id,
+      location: 'Sudirman, Jakarta',
+      budgetTotal: 1200000000,
+      sourceDesignRequestId: drApproved.id,
+      adminId: admin1.id,
+      progress: 0
+    }
+  });
+
+  // 5. SCENARIO 3: ACTIVE CONSTRUCTION
+  console.log('Seeding Scenario 3: Active Construction...');
+  
+  const activeProject = await prisma.project.create({
+    data: {
+      id: 'project-active-001',
+      projectCode: 'PRJ-2024-001',
+      name: 'Pembangunan Rumah Mewah BSD',
+      type: 'Pembangunan Baru',
+      status: 'Berjalan',
+      progress: 25,
+      customerId: customer2.id,
+      adminId: admin1.id,
+      supervisorId: supervisor1.id,
+      foremanId: foreman1.id,
+      location: 'BSD City, Tangerang',
+      budgetTotal: 1500000000,
+      paidAmount: 500000000,
+      remainingAmount: 1000000000,
+      startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+      estimatedEndDate: new Date(Date.now() + 150 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const rabActive = await prisma.rabPlan.create({
+    data: {
+      id: 'rab-active-001',
+      projectId: activeProject.id,
+      title: 'RAB Pembangunan Tahap 1',
+      type: 'Plan',
+      status: 'approved',
+      totalAmount: 1500000000,
+      version: '1.0'
+    }
+  });
+
+  const cat1 = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-persiapan-001',
+      rabPlanId: rabActive.id,
+      projectId: activeProject.id,
+      code: '01',
+      name: 'Pekerjaan Persiapan',
+      subtotal: 50000000,
+      order: 1
+    }
+  });
+
+  const cat2 = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-struktur-001',
+      rabPlanId: rabActive.id,
+      projectId: activeProject.id,
+      code: '02',
+      name: 'Pekerjaan Tanah & Struktur',
+      subtotal: 450000000,
+      order: 2
+    }
+  });
+
+  const item1 = await prisma.rabItem.create({
+    data: {
+      id: 'item-semen-001',
+      rabPlanId: rabActive.id,
+      categoryId: cat2.id,
+      projectId: activeProject.id,
+      description: 'Semen Portland (50kg)',
+      volume: 200,
+      unit: 'Zak',
+      unitPrice: 65000,
+      total: 13000000,
+      status: 'pending',
+      progress: 20
+    }
+  });
+
+  const item2 = await prisma.rabItem.create({
+    data: {
+      id: 'item-besi-001',
+      rabPlanId: rabActive.id,
+      categoryId: cat2.id,
+      projectId: activeProject.id,
+      description: 'Besi Beton 12mm',
+      volume: 150,
+      unit: 'Batang',
+      unitPrice: 110000,
+      total: 16500000,
+      status: 'pending',
+      progress: 10
+    }
+  });
+
+  const stage1 = await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-001',
+      projectId: activeProject.id,
+      rabPlanId: rabActive.id,
+      categoryId: cat1.id,
+      code: 'STG-01',
+      title: 'Pembersihan Lahan',
+      status: 'Selesai',
+      progress: 100,
+      week: 1,
+      order: 1
+    }
+  });
+
+  const stage2 = await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-002',
+      projectId: activeProject.id,
+      rabPlanId: rabActive.id,
+      categoryId: cat2.id,
+      code: 'STG-02',
+      title: 'Galian Tanah & Pondasi',
+      status: 'Berjalan',
+      progress: 40,
+      week: 2,
+      order: 2
+    }
+  });
+
+  // Material Requests
+  await prisma.materialRequest.create({
+    data: {
+      id: 'mr-pending-001',
+      requestCode: 'MR-24-0001',
+      projectId: activeProject.id,
+      stageId: stage2.id,
+      foremanId: foreman1.id,
+      supervisorId: supervisor1.id,
+      status: 'pending',
+      priority: 'high',
+      neededDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      reason: 'Untuk pengecoran pondasi sisi timur.',
+      items: {
+        create: [
+          {
+            materialName: 'Semen Portland (50kg)',
+            requestedQty: 50,
+            unit: 'Zak',
+            rabItemId: item1.id
+          }
+        ]
       }
-    });
-  }
+    }
+  });
 
-  // Clear related to avoid duplicates
-  await prisma.foremanCertificate.deleteMany({});
-  await prisma.foremanExperience.deleteMany({});
-
-  console.log('Seeding foreman certificates...');
-  for (const cert of mockForemanCertificates) {
-    await prisma.foremanCertificate.create({
-      data: {
-        id: cert.id,
-        foremanId: cert.foremanId,
-        title: cert.title,
-        issuer: cert.issuer,
-        certificateNumber: cert.certificateNumber,
-        issuedAt: cert.issuedAt ? new Date(cert.issuedAt) : null,
-        expiredAt: cert.expiredAt ? new Date(cert.expiredAt) : null,
-        fileUrl: cert.fileUrl,
-        fileType: cert.fileType,
-        status: cert.status
+  await prisma.materialRequest.create({
+    data: {
+      id: 'mr-approved-001',
+      requestCode: 'MR-24-0002',
+      projectId: activeProject.id,
+      stageId: stage2.id,
+      foremanId: foreman1.id,
+      supervisorId: supervisor1.id,
+      adminId: admin1.id,
+      status: 'approved',
+      priority: 'medium',
+      neededDate: new Date(),
+      reason: 'Kebutuhan besi untuk kolom.',
+      submittedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      supervisorReviewedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      adminReviewedAt: new Date(),
+      items: {
+        create: [
+          {
+            materialName: 'Besi Beton 12mm',
+            requestedQty: 20,
+            approvedQty: 20,
+            unit: 'Batang',
+            rabItemId: item2.id
+          }
+        ]
       }
-    });
-  }
+    }
+  });
 
-  // 0.7 Architects
-  console.log('Seeding architects...');
-  for (const a of mockArchitects) {
-    await prisma.architect.upsert({
-      where: { id: a.id },
-      update: {},
-      create: {
-        id: a.id,
-        userId: a.userId,
-        name: a.name,
-        email: a.email,
-        phone: a.phone,
-        avatar: a.avatar,
-        employmentType: a.employmentType,
-        specialization: a.specialization,
-        experienceYears: a.experienceYears,
-        skillTags: a.skillTags,
-        maxDesignCapacity: a.maxDesignCapacity,
-        status: a.status,
-        joinedAt: a.joinedAt ? new Date(a.joinedAt) : null,
-        notes: a.notes
-      }
-    });
-  }
+  // 6. SCENARIO 4: PLANNING PROJECT (NOT READY)
+  console.log('Seeding Scenario 4: Planning Project (Not Ready)...');
+  
+  await prisma.project.create({
+    data: {
+      id: 'project-not-ready-001',
+      projectCode: 'PRJ-PLAN-002',
+      name: 'Pembangunan Kolam Renang Ciledug',
+      type: 'Pembangunan Baru',
+      status: 'planning',
+      customerId: customer1.id,
+      location: 'Ciledug, Tangerang',
+      budgetTotal: 85000000,
+      adminId: admin2.id,
+      progress: 0,
+      // Incomplete: no supervisor, no foreman, no RAB yet
+    }
+  });
 
-  // Clear related to avoid duplicates
-  await prisma.architectCertificate.deleteMany({});
-  await prisma.architectExperience.deleteMany({});
-
-  console.log('Seeding architect certificates...');
-  const archCertificates = [
-    { id: 'arch-cert-001', architectId: 'architect-001', title: 'SKA Arsitek Madya', issuer: 'IAI', status: 'valid' },
-    { id: 'arch-cert-002', architectId: 'architect-002', title: 'Sertifikasi Green Building', issuer: 'GBCI', status: 'valid' }
-  ];
-  for (const cert of archCertificates) {
-    await prisma.architectCertificate.create({ data: cert });
-  }
-
-  console.log('Seeding architect experiences...');
-  const archExperiences = [
-    { id: 'arch-exp-001', architectId: 'architect-001', projectName: 'Villa Uluwatu', role: 'Principal Architect', companyName: 'IndoDesign', startYear: 2021, endYear: 2022 },
-    { id: 'arch-exp-002', architectId: 'architect-003', projectName: 'Warehouse Cikarang', role: 'Lead Architect', companyName: 'Partner Arch', startYear: 2019, endYear: 2021 }
-  ];
-  for (const exp of archExperiences) {
-    await prisma.architectExperience.create({ data: exp });
-  }
-
-  // 1. Customers
-  console.log('Seeding customers...');
-  for (const c of mockCustomers) {
-    await prisma.customer.upsert({
-      where: { id: c.id },
-      update: {},
-      create: {
-        id: c.id,
-        userId: c.userId,
-        customerType: c.customerType,
-        name: c.name,
-        email: c.email,
-        phone: c.phone,
-        avatar: c.avatar,
-        address: c.address,
-        identityNumber: c.identityNumber,
-        occupation: c.occupation,
-        companyName: c.companyName,
-        picName: c.picName,
-        picPosition: c.picPosition,
-        logo: c.logo,
-        taxNumber: c.taxNumber,
-        businessField: c.businessField,
-        notes: c.notes,
-      },
-    });
-  }
-
-  // 2. Projects
-  console.log('Seeding projects...');
-  // Distribution: Ahmad (3), Bambang (2), Eko (1), Lukman (0)
-  const distribution = {
-    'project-001': 'supervisor-001',
-    'project-002': 'supervisor-001',
-    'project-007': 'supervisor-001',
-    'project-008': 'supervisor-002',
-    'project-004': 'supervisor-002',
-    'project-003': 'supervisor-003',
-  };
-
-  for (const p of mockProjects) {
-    const sId = distribution[p.id] || null;
-    
-    // Remap adminId to valid seeded admins
-    let aId = p.adminId;
-    if (aId === 'admin-004') aId = 'admin-003';
-    if (!['admin-001', 'admin-002', 'admin-003'].includes(aId)) aId = 'admin-001';
-
-    await prisma.project.upsert({
-      where: { id: p.id },
-      update: {
-          adminId: aId,
-          supervisorId: sId,
-          foremanId: p.foremanId || null
-      },
-      create: {
-        id: p.id,
-        projectCode: p.projectCode,
-        name: p.name,
-        type: p.type,
-        status: p.status,
-        progress: p.progress,
-        customerId: p.customerId,
-        location: p.location,
-        startDate: p.startDate ? new Date(p.startDate) : null,
-        estimatedEndDate: p.estimatedEndDate ? new Date(p.estimatedEndDate) : null,
-        budgetTotal: p.budgetTotal,
-        paidAmount: p.paidAmount,
-        remainingAmount: p.remainingAmount,
-        heroImage: p.heroImage,
-        sourceDesignRequestId: p.sourceDesignRequestId,
-        adminId: aId,
-        supervisorId: sId,
-        foremanId: p.foremanId || null,
-      },
-    });
-  }
-
-  // 3. RabPlans
-  console.log('Seeding RAB plans...');
-  for (const r of mockRabPlans) {
-    await prisma.rabPlan.upsert({
-      where: { id: r.id },
-      update: {},
-      create: {
-        id: r.id,
-        projectId: r.projectId,
-        title: r.title,
-        type: r.type,
-        version: r.version,
-        status: r.status,
-        totalAmount: r.totalAmount,
-        notes: r.notes,
-        sourceDesignRequestId: r.sourceDesignRequestId,
-        createdAt: r.createdAt ? new Date(r.createdAt) : new Date(),
-        approvedAt: r.approvedAt ? new Date(r.approvedAt) : null,
-      },
-    });
-  }
-
-  // 4. ProjectStages
-  console.log('Seeding project stages...');
-  for (const s of mockProjectStages) {
-    await prisma.projectStage.upsert({
-      where: { id: s.id },
-      update: {},
-      create: {
-        id: s.id,
-        projectId: s.projectId,
-        rabPlanId: s.rabPlanId,
-        categoryId: s.categoryId,
-        code: s.code,
-        title: s.title,
-        description: s.description,
-        week: s.week,
-        status: s.status,
-        progress: s.progress,
-        startDate: s.startDate ? new Date(s.startDate) : null,
-        endDate: s.endDate ? new Date(s.endDate) : null,
-        durationDays: s.durationDays,
-        order: s.order,
-        note: s.note,
-        isVerified: s.verification?.isVerified || false,
-        verifiedBy: s.verification?.verifiedBy,
-        verifiedAt: s.verification?.verifiedAt ? new Date(s.verification.verifiedAt) : null,
-      },
-    });
-  }
-
-  // 5. RabCategories
-  console.log('Seeding RAB categories...');
-  for (const cat of mockRabCategories) {
-    await prisma.rabCategory.upsert({
-      where: { id: cat.id },
-      update: {},
-      create: {
-        id: cat.id,
-        rabPlanId: cat.rabPlanId,
-        projectId: cat.projectId,
-        code: cat.code,
-        name: cat.name,
-        description: cat.description,
-        order: cat.order,
-        subtotal: cat.subtotal,
-      },
-    });
-  }
-
-  // 6. RabItems
-  console.log('Seeding RAB items...');
-  for (const item of mockRabItems) {
-    await prisma.rabItem.upsert({
-      where: { id: item.id },
-      update: {},
-      create: {
-        id: item.id,
-        rabPlanId: item.rabPlanId,
-        categoryId: item.categoryId,
-        projectId: item.projectId,
-        description: item.description,
-        location: item.location,
-        volume: item.volume,
-        unit: item.unit,
-        unitPrice: item.unitPrice,
-        total: item.total,
-        progress: item.progress,
-        completedValue: item.completedValue,
-        status: item.status,
-        notes: item.notes,
-      },
-    });
-  }
-
-  console.log('Seeding finished.');
+  console.log('--- CURATED SEED DATA CLEANUP FINISHED ---');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('Error during seeding:', e);
     process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();
   });
+

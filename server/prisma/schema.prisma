@@ -70,6 +70,7 @@ model Project {
   weeklyJournals            WeeklyJournal[]
   supervisorWeeklyReports   SupervisorWeeklyReport[]
   designRequests            DesignRequest[]
+  stagePublicComments       ProjectStagePublicComment[]
 
   @@map("projects")
 }
@@ -224,8 +225,9 @@ model ProjectStage {
   verifiedAt       DateTime?         @map("verified_at")
   createdAt        DateTime          @default(now()) @map("created_at")
   updatedAt        DateTime          @updatedAt @map("updated_at")
-  materialRequests MaterialRequest[]
-  project          Project           @relation(fields: [projectId], references: [id])
+  materialRequests     MaterialRequest[]
+  project              Project                     @relation(fields: [projectId], references: [id])
+  publicComments       ProjectStagePublicComment[]
 
   @@map("project_stages")
 }
@@ -637,6 +639,8 @@ model SupervisorWeeklyReportNote {
   projectStageId String? @map("project_stage_id")
   rabItemId      String? @map("rab_item_id")
 
+  progress Float? @map("progress")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -660,6 +664,34 @@ model SupervisorWeeklyReportReviewLog {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("supervisor_weekly_report_review_logs")
+}
+
+model ProjectStagePublicComment {
+  id          String   @id @default(cuid())
+  projectId   String   @map("project_id")
+  stageId     String   @map("project_stage_id")
+
+  authorRole  String   @map("author_role") // "admin" | "customer"
+  authorId    String?  @map("author_id")
+  authorName  String?  @map("author_name")
+
+  message     String   @db.Text
+  parentId    String?  @map("parent_id")
+
+  status      String   @default("published") // published, hidden, archived
+  isOfficial  Boolean  @default(false) @map("is_official")
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  project Project      @relation(fields: [projectId], references: [id])
+  stage   ProjectStage @relation(fields: [stageId], references: [id])
+
+  parent  ProjectStagePublicComment?  @relation("ProjectStagePublicCommentThread", fields: [parentId], references: [id])
+  replies ProjectStagePublicComment[] @relation("ProjectStagePublicCommentThread")
+
+  @@map("project_stage_public_comments")
 }
 
 model DesignRequest {

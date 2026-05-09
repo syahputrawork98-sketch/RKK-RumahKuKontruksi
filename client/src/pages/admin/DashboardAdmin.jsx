@@ -24,14 +24,7 @@ import { useAdminPersona } from "../../context/AdminPersonaContext";
 
 const DashboardAdmin = () => {
     const { selectedAdminId } = useAdminPersona();
-    const [stats, setStats] = React.useState({
-        activeProjects: 0,
-        totalCustomers: 0,
-        pendingReports: 0,
-        unprocessedRequests: 0,
-        totalRevenue: 0,
-        completedProjects: 0
-    });
+    const [stats, setStats] = useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
 
@@ -60,14 +53,23 @@ const DashboardAdmin = () => {
         fetchStats();
     }, [fetchStats]);
 
+    if (loading) return <RoleDataState type="loading" message="Menganalisis data dashboard..." />;
+    
     if (!selectedAdminId) {
-        return <RoleDataState type="empty" message="Silakan pilih Admin persona di Topbar untuk melihat dashboard." />;
+        return (
+            <div className="p-8">
+                <RoleDataState 
+                    type="empty" 
+                    title="Persona Admin Belum Dipilih"
+                    message="Silakan pilih persona Admin di Topbar untuk melihat ringkasan operasional." 
+                />
+            </div>
+        );
     }
 
-    if (loading) return <RoleDataState type="loading" message="Menganalisis data dashboard..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchStats} />;
 
-    if (!stats) return <RoleDataState type="empty" message="Data dashboard tidak tersedia." />;
+    if (!stats || !stats.projects) return <RoleDataState type="empty" message="Data dashboard tidak tersedia atau masih kosong." />;
 
     const { projects, customers, financials, recentProjects, reports, materialRequests } = stats;
 
@@ -107,28 +109,28 @@ const DashboardAdmin = () => {
         ...(recentProjects || []).map(p => ({
             id: `proj-${p.id}`,
             text: `Proyek Baru: ${p.name}`,
-            time: new Date(p.createdAt).toLocaleDateString(),
+            time: new Date(p.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
             timestamp: new Date(p.createdAt).getTime(),
             type: 'project'
         })),
         ...(stats.recentReports || []).map(r => ({
             id: `rep-${r.id}`,
-            text: `Laporan Mingguan: ${r.project?.name}`,
-            time: new Date(r.createdAt).toLocaleDateString(),
+            text: `Laporan Mingguan [${r.status}]: ${r.project?.name}`,
+            time: new Date(r.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
             timestamp: new Date(r.createdAt).getTime(),
             type: 'report'
         })),
         ...(stats.recentMaterialRequests || []).map(m => ({
             id: `mat-${m.id}`,
-            text: `Request Material: ${m.project?.name}`,
-            time: new Date(m.createdAt).toLocaleDateString(),
+            text: `Request Material [${m.status}]: ${m.project?.name}`,
+            time: new Date(m.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
             timestamp: new Date(m.createdAt).getTime(),
             type: 'material'
         }))
     ].sort((a, b) => b.timestamp - a.timestamp).slice(0, 5);
 
     // Format projects for table
-    const formattedProjects = recentProjects.map(p => ({
+    const formattedProjects = (recentProjects || []).map(p => ({
         kode: p.projectCode || "PRJ-???",
         name: p.name,
         progress: p.verifiedProgress || 0,

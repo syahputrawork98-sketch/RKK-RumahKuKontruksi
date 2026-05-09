@@ -3,11 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import DetailPekerjaanProyek from "../../components/konsumen/DetailPekerjaanProyek";
 import StageCommunicationPanel from "../../components/konsumen/StageCommunicationPanel";
 import projectStageService from "../../services/projectStageService";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import { FiArrowLeft } from "react-icons/fi";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailTimelineProyek = () => {
   const { stageId } = useParams();
+  const { selectedCustomerId } = useCustomerPersona();
   const [stage, setStage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,7 +50,7 @@ const DetailTimelineProyek = () => {
             Data tahap pekerjaan dengan ID <strong className="font-mono text-primary-main">{stageId}</strong> tidak tersedia atau sudah dihapus.
           </p>
           <Link
-            to="/konsumen/TimelineProyek"
+            to="/konsumen/timeline-proyek"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary-main text-white text-s-bold rounded-xl hover:bg-primary-hover transition-colors"
           >
             <FiArrowLeft size={16} /> Kembali ke Timeline
@@ -66,7 +68,7 @@ const DetailTimelineProyek = () => {
           <div className="lg:col-span-2">
             <DetailPekerjaanProyek
               data={stage}
-              backPath="/konsumen/TimelineProyek"
+              backPath="/konsumen/timeline-proyek"
             />
           </div>
 

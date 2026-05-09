@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FiMessageSquare, FiSend, FiUser, FiInfo, FiClock, FiCheckCircle, FiRefreshCw } from "react-icons/fi";
+import { FiMessageSquare, FiSend, FiUser, FiInfo, FiClock, FiCheckCircle, FiRefreshCw, FiAlertCircle } from "react-icons/fi";
 import projectStageCommentService from "../../services/projectStageCommentService";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 
 const StageCommunicationPanel = ({ stageId, projectId }) => {
-  const { selectedCustomerId } = useCustomerPersona();
+  const { selectedCustomerId, selectedCustomer } = useCustomerPersona();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,7 +41,7 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
         projectId,
         authorRole: "customer",
         authorId: selectedCustomerId,
-        authorName: "Konsumen (RKK User)", // Fallback if name not in context
+        authorName: selectedCustomer?.name || "Konsumen (RKK User)",
         message: message.trim(),
         parentId: replyTo
       };
@@ -70,6 +70,26 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="bg-red-50 rounded-[32px] border border-red-100 p-8 text-center space-y-3 animate-fadeIn">
+        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-red-500 mx-auto shadow-sm">
+          <FiAlertCircle size={24} />
+        </div>
+        <div>
+          <p className="text-s-bold text-red-700 uppercase tracking-widest">Gagal Memuat</p>
+          <p className="text-[10px] text-red-600 mt-1">{error}</p>
+        </div>
+        <button 
+          onClick={fetchComments}
+          className="btn btn-xs bg-red-100 hover:bg-red-200 text-red-700 border-none rounded-lg px-4 mt-2"
+        >
+          Coba Lagi
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full space-y-6">
       {/* Header */}
@@ -91,7 +111,7 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
             </div>
             <div>
               <p className="text-s-bold text-neutral-60 uppercase tracking-widest">Belum Ada Update</p>
-              <p className="text-xs-regular text-neutral-50 mt-1">Admin belum mempublikasikan laporan untuk minggu ini.</p>
+              <p className="text-xs-regular text-neutral-50 mt-1 italic">Admin/Pengawas belum mengirimkan update resmi untuk tahap ini.</p>
             </div>
           </div>
         ) : (

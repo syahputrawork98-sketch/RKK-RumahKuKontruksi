@@ -36,6 +36,7 @@ import DataKonsumen from "./pages/superadmin/DataKonsumenPage";
 import DataArsitek from "./pages/superadmin/DataArsitekPage";
 import DataPengajuanDesain from "./pages/superadmin/DataPengajuanDesainPage";
 import MonitoringProyekGlobal from "./pages/superadmin/MonitoringProyekGlobalPage";
+import LaporanProgresGlobal from "./pages/superadmin/LaporanProgresGlobalPage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -187,7 +188,7 @@ function App() {
             <Route path="kapasitas-admin" element={<PlaceholderPage title="Kapasitas Admin" description="Monitoring beban kerja Admin (maksimal 3 proyek aktif)." status="Planned" dos={["Melihat utilisasi admin", "Distribusi beban kerja"]} donts={["Menugaskan admin > 3 proyek aktif", "Mengabaikan overload alert"]} />} />
 
             {/* MONITORING GLOBAL */}
-            <Route path="progres-proyek" element={<PlaceholderPage title="Laporan Progres Global" description="Halaman monitoring progres lapangan dari seluruh proyek." status="Partial" />} />
+            <Route path="progres-proyek" element={<LaporanProgresGlobal />} />
             <Route path="pembayaran" element={<PlaceholderPage title="Pembayaran Global" description="Monitoring arus kas global, tagihan konsumen, dan opname mandor." status="Planned" />} />
             <Route path="monitoring/material" element={<PlaceholderPage title="Monitoring Material Request" description="Audit global permintaan material dari seluruh proyek." status="Planned" />} />
             <Route path="monitoring/laporan-pengawas" element={<PlaceholderPage title="Audit Laporan Pengawas" description="Review global terhadap konsistensi laporan mingguan pengawas." status="Planned" />} />

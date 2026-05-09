@@ -146,8 +146,8 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
         {/* HEADER */}
         <div className="px-8 py-6 border-b border-[var(--dashboard-border)] flex items-center justify-between bg-gradient-to-r from-[var(--dashboard-primary)]/5 to-transparent">
           <div>
-            <h3 className="text-xl font-black tracking-tight uppercase">Buat Request Material Baru</h3>
-            <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Lengkapi detail kebutuhan logistik untuk proyek Anda.</p>
+            <h3 className="text-xl font-black tracking-tight uppercase">Buat Pengajuan Kebutuhan Material</h3>
+            <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Lengkapi detail kebutuhan material lapangan untuk proyek Anda.</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-[var(--dashboard-surface-soft)] rounded-full transition-colors">
             <FiX size={24} />

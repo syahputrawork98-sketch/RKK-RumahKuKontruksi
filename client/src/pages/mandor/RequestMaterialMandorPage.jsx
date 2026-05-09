@@ -112,8 +112,8 @@ const RequestMaterialMandorPage = () => {
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Request Material</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Pengajuan kebutuhan logistik dan material ke Pengawas/Admin.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Kebutuhan Material</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Pengajuan kebutuhan material lapangan untuk verifikasi Pengawas.</p>
                 </div>
                 <button 
                     onClick={() => setIsFormOpen(true)}
@@ -256,7 +256,7 @@ const RequestMaterialMandorPage = () => {
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-black uppercase tracking-tight text-slate-800">{selectedRequest.requestCode}</h3>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-0.5">Detail Pengajuan Material</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-0.5">Detail Kebutuhan Lapangan</p>
                                 </div>
                             </div>
                             <button onClick={() => setSelectedRequest(null)} className="p-3 bg-slate-50 hover:bg-slate-100 rounded-2xl text-slate-400 hover:text-slate-800 transition-all border border-slate-100">
@@ -355,7 +355,7 @@ const RequestMaterialMandorPage = () => {
                                         disabled={actionLoading}
                                         className="w-full py-5 bg-emerald-600 text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 active:scale-95 transition-all shadow-xl shadow-emerald-600/20 disabled:opacity-50"
                                     >
-                                        {actionLoading ? "Memproses..." : "Konfirmasi Terima Material"}
+                                        {actionLoading ? "Memproses..." : "Konfirmasi Terima di Lapangan"}
                                     </button>
                                 </>
                             ) : (

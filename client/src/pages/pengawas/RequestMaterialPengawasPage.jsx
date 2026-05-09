@@ -152,7 +152,7 @@ const RequestMaterialPengawasPage = () => {
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight text-slate-800">Verifikasi Material</h2>
+                    <h2 className="text-2xl font-extrabold tracking-tight text-slate-800">Verifikasi Kebutuhan Material</h2>
                     <p className="text-xs text-slate-400 mt-1 italic font-medium">Pantau dan verifikasi permintaan logistik dari Mandor lapangan.</p>
                 </div>
                 

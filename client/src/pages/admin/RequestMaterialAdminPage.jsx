@@ -109,8 +109,8 @@ const RequestMaterialAdminPage = () => {
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Logistik & Material</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Monitoring pengadaan material dari lapangan.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Status Distribusi Lokal</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Monitoring approval operasional dan status distribusi material proyek.</p>
                 </div>
             </div>
 
@@ -228,7 +228,7 @@ const RequestMaterialAdminPage = () => {
                         <div className="p-6 border-b flex items-center justify-between bg-slate-50">
                             <div>
                                 <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight">{selectedRequest.requestCode}</h3>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Detail Pengajuan Material</p>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Review & Status Distribusi Lokal</p>
                             </div>
                             <button onClick={() => setSelectedRequest(null)} className="p-2 hover:bg-slate-200 rounded-full transition-all"><FiChevronRight className="text-xl" /></button>
                         </div>
@@ -368,7 +368,7 @@ const RequestMaterialAdminPage = () => {
                                         disabled={actionLoading}
                                         className="col-span-2 py-3 bg-amber-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-600 transition-all shadow-lg shadow-amber-500/20"
                                     >
-                                        SET KE PROSES PENGADAAN
+                                        SET KE PROSES PERSIAPAN DISTRIBUSI
                                     </button>
                                 )}
                                 {selectedRequest.status === 'processing' && (
@@ -382,8 +382,8 @@ const RequestMaterialAdminPage = () => {
                                 )}
                                 {selectedRequest.status === 'delivered' && (
                                     <div className="col-span-2 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl text-center">
-                                        <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Menunggu Penerimaan</p>
-                                        <p className="text-[9px] text-indigo-500 font-medium mt-1">Material sedang dalam pengiriman. Tunggu konfirmasi penerimaan dari Mandor di lokasi.</p>
+                                        <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Material Sedang Dikirim</p>
+                                        <p className="text-[9px] text-indigo-500 font-medium mt-1">Status saat ini adalah dalam pengiriman lokal. Tunggu konfirmasi penerimaan dari Mandor di lokasi proyek.</p>
                                     </div>
                                 )}
                                 {selectedRequest.status === 'received' && (

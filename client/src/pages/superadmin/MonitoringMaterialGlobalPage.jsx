@@ -73,12 +73,12 @@ const MonitoringMaterialGlobalPage = () => {
                         MONITORING <span className="text-blue-600 uppercase">Material Request</span>
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
-                        Audit log permintaan material dari seluruh proyek aktif (Read-Only Monitoring).
+                        Log monitoring permintaan material dari seluruh proyek aktif (Read-Only).
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
                     <FiPackage className="text-blue-500" size={14} />
-                    <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Audit Flow</span>
+                    <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Monitoring Flow</span>
                 </div>
             </div>
 

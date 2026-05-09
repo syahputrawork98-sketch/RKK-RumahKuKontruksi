@@ -75,7 +75,7 @@ const RabAdminPage = () => {
             <div className="flex justify-between items-end">
                 <div>
                     <h2 className="text-2xl font-black tracking-tight">Rencana Anggaran Biaya (RAB)</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Manajemen anggaran dan item pekerjaan seluruh proyek.</p>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Penyusunan anggaran (baseline) dan scope pekerjaan proyek secara lokal.</p>
                 </div>
             </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
+    FiArrowLeft,
     FiPrinter, 
     FiPlus, 
     FiEdit2, 
@@ -158,20 +159,21 @@ const DetailRabAdminPage = () => {
     };
 
     const handleDeleteCategory = (id) => {
+        setFormError(null);
         setShowConfirmModal({
             show: true,
             title: "Hapus Kategori",
-            message: "Hapus kategori ini beserta seluruh item di dalamnya? Tindakan ini tidak dapat dibatalkan.",
+            message: "Hapus kategori kosong ini? Kategori yang masih memiliki item tidak dapat dihapus.",
             onConfirm: async () => {
                 try {
+                    setFormError(null);
                     setSubmitting(true);
                     await rabService.deleteRabCategory(id, { adminId: selectedAdminId });
                     fetchData();
                     setShowConfirmModal({ show: false });
                 } catch (err) {
                     const msg = err.response?.data?.message || err.message;
-                    setError("Gagal menghapus kategori: " + msg);
-                    setShowConfirmModal({ show: false });
+                    setFormError(msg);
                 } finally {
                     setSubmitting(false);
                 }
@@ -180,20 +182,21 @@ const DetailRabAdminPage = () => {
     };
 
     const handleDeleteItem = (id) => {
+        setFormError(null);
         setShowConfirmModal({
             show: true,
             title: "Hapus Item",
-            message: "Hapus item pekerjaan ini?",
+            message: "Hapus item pekerjaan ini? Item yang sudah digunakan dalam transaksi lapangan tidak dapat dihapus.",
             onConfirm: async () => {
                 try {
+                    setFormError(null);
                     setSubmitting(true);
                     await rabService.deleteRabItem(id, { adminId: selectedAdminId });
                     fetchData();
                     setShowConfirmModal({ show: false });
                 } catch (err) {
                     const msg = err.response?.data?.message || err.message;
-                    setError("Gagal menghapus item: " + msg);
-                    setShowConfirmModal({ show: false });
+                    setFormError(msg);
                 } finally {
                     setSubmitting(false);
                 }
@@ -338,9 +341,9 @@ const DetailRabAdminPage = () => {
                         </div>
 
                         <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-3xl">
-                            <h4 className="text-[10px] font-black text-indigo-700 uppercase mb-2 flex items-center gap-2"><FiInfo /> Data Terverifikasi</h4>
+                            <h4 className="text-[10px] font-black text-indigo-700 uppercase mb-2 flex items-center gap-2"><FiInfo /> Baseline Perencanaan</h4>
                             <p className="text-[10px] text-indigo-600 leading-relaxed font-bold">
-                                Anggaran proyek (Project Budget) disinkronkan dari basis data RAB yang dikelola secara lokal untuk menjaga akurasi laporan keuangan.
+                                Total RAB menyinkronkan budget proyek lokal sebagai baseline perencanaan draft untuk menjaga akurasi estimasi.
                             </p>
                         </div>
                     </div>
@@ -564,6 +567,11 @@ const DetailRabAdminPage = () => {
             {showConfirmModal.show && (
                 <Modal title={showConfirmModal.title} onClose={() => !submitting && setShowConfirmModal({ show: false })}>
                     <div className="space-y-6">
+                        {formError && (
+                            <div className="p-3 bg-red-50 border border-red-100 rounded-xl text-[10px] font-black text-red-600 uppercase flex items-center gap-2 animate-shake">
+                                <FiAlertCircle /> {formError}
+                            </div>
+                        )}
                         <p className="text-sm text-slate-600 font-medium leading-relaxed">{showConfirmModal.message}</p>
                         <div className="flex gap-3">
                             <button 

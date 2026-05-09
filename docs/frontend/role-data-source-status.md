@@ -23,7 +23,8 @@ Status: **Database-Backed v1**
 - **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock.
 - **Operational Status**: 
   - Verifikasi progres: **Local Workflow v1 / UI Consistency Stabilized**. Pengawas assigned memperbarui `Project.verifiedProgress` sebagai progress resmi (SOT).
-  - Laporan mingguan dan jurnal mandor: **DB-Backed v1 / Integrated**.
+  - Jurnal Mandor: **Local E2E Workflow v1 / UI Consistency Stabilized**. Pengawas review Weekly Journal secara administratif; approval jurnal tidak otomatis mengubah `Project.verifiedProgress`.
+  - Laporan Mingguan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot `Project.verifiedProgress` saat laporan dibuat.
   - Dokumentasi: **Shell / Backend Pending**.
   - Request material: **Local Stabilized / DB-Backed v1**.
 
@@ -37,7 +38,7 @@ Status: **Database-Backed v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
 - **Operational Status**: 
-  - Jurnal Mingguan: **DB-Backed v1 / Integrated**. `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi dan tidak mengubah `Project.verifiedProgress`.
+  - Jurnal Mingguan: **Local E2E Workflow v1 / UI Consistency Stabilized**. Mandor membuat Weekly Journal dan mengisi `WeeklyJournal.claimedProgress` sebagai klaim non-resmi yang tidak mengubah `Project.verifiedProgress`.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
   - Request material: **Local Stabilized / DB-Backed v1**.
 
@@ -69,7 +70,7 @@ Status: **Database-Backed v2**
 - **RAB**: Data RAB (Read-First): **Partial**.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Operational Data**: 
-  - Laporan Progress Terverifikasi, Review Laporan Pengawas: **DB-Backed v1 / Integrated**. Admin memonitor history dan publish ringkasan, bukan verifikator progress fisik resmi.
+  - Laporan Progress Terverifikasi, Review Laporan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. Admin review/publish Weekly Report sebagai administrasi/publikasi ringkasan; bukan verifikator progress fisik resmi dan bukan pengganti Progress SOT.
   - Pembayaran: **Shell / Backend Pending**.
   - Request Material: **Local Stabilized / DB-Backed v1**.
 
@@ -82,7 +83,8 @@ Status: **Partial / DB-Backed Local CRUD**
 - **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
 - **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
 - **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global, Proyek Aktif Global, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
-- **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin. Aksi assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, dan update progress resmi tetap milik flow Admin/Pengawas sesuai modul masing-masing.
+- **Weekly Report Monitoring**: Audit Laporan Pengawas membaca Supervisor Weekly Report lokal secara read-only; Superadmin tidak review, publish, atau mengubah progress resmi.
+- **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
 - **Hold / Placeholder**: Kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
 

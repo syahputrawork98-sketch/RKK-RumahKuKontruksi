@@ -123,7 +123,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Dashboard Superadmin memakai kombinasi endpoint existing: `/superadmins/stats/global`, `/projects`, dan `/superadmins`.
 - Monitoring proyek global memakai Project API sebagai read-only overview untuk Local Development CRUD Integration.
 - Monitoring Design Request/Tender memakai endpoint Design Request dan Design Tender yang sama dengan flow Admin/Arsitek, tetapi mode Superadmin bersifat read-only.
-- Superadmin tidak mengambil alih aksi operasional Admin seperti assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, atau update progress.
+- Superadmin tidak mengambil alih aksi operasional seperti assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, atau update progress resmi.
 
 ## Design Requests (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
@@ -156,7 +156,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Award bid lokal menghubungkan Design Request dengan Arsitek terpilih, tetapi tidak membuat kontrak legal, pembayaran, atau file package production.
 - **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
 
-## Weekly Journals (Implemented Local Backend v1)
+## Weekly Journals (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /weekly-journals`: Ambil list jurnal (dukung filter actorRole/actorId/foremanId/status).
 - `GET /weekly-journals/:id`: Ambil detail jurnal lengkap dengan activities dan photos.
 - `POST /weekly-journals`: Membuat draft jurnal baru (Role: Mandor).
@@ -166,10 +166,13 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 
 **Catatan**:
 - Actor menggunakan payload local dev (`actorRole`, `actorId`).
-- Mendukung snapshot progress verifikasi saat jurnal dikunci.
-- **Status**: *Implemented Local Backend v1 / Frontend Integrated*.
+- Mandor mengisi `WeeklyJournal.claimedProgress` sebagai klaim progress non-resmi.
+- Pengawas review Weekly Journal secara administratif; approval/rejection/revision tidak otomatis mengubah `Project.verifiedProgress`.
+- `Project.verifiedProgress` tetap Source of Truth dan hanya diperbarui lewat Progress SOT flow oleh Pengawas assigned.
+- Bukan workflow payroll, payment, legal, upload production, auth production, atau RBAC production.
+- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
 
-## Supervisor Weekly Reports (Implemented Local Backend v1 / UI Stabilized)
+## Supervisor Weekly Reports (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /supervisor-weekly-reports/context`: Ambil data pendukung pembuatan laporan.
 - `GET /supervisor-weekly-reports`: Ambil list laporan (dukung filter role/project/status/period).
 - `GET /supervisor-weekly-reports/:id`: Ambil detail laporan lengkap.
@@ -177,11 +180,15 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /supervisor-weekly-reports/:id`: Memperbarui draft/revisi laporan.
 - `POST /supervisor-weekly-reports/:id/submit`: Mengirim laporan ke Admin (Status: submitted).
 - `POST /supervisor-weekly-reports/:id/review`: Review laporan oleh Admin.
+- `POST /supervisor-weekly-reports/:id/publish`: Publish ringkasan laporan lokal untuk alur publikasi administrasi.
 
 **Catatan**:
-- Admin review/publish flow sudah tersedia untuk local development.
-- Approval dapat memperbarui progress resmi melalui workflow lokal yang sudah distabilkan.
-- **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
+- Pengawas membuat Weekly Report dengan `SupervisorWeeklyReport.verifiedProgressSnapshot`, yaitu snapshot dari `Project.verifiedProgress` saat laporan dibuat.
+- Admin review/publish Weekly Report sebagai administrasi/publikasi ringkasan; bukan verifikasi fisik progress dan bukan pengganti Progress SOT.
+- `Project.verifiedProgress` tetap Source of Truth. Pengawas assigned tetap pihak yang memperbarui progress resmi lewat Progress SOT flow.
+- Superadmin memakai data Supervisor Weekly Report untuk read-only monitoring/audit lokal, bukan review atau publish.
+- Bukan workflow legal, payment, upload production, notification production API, auth production, atau RBAC production.
+- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
 
 ## Material Requests (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /material-requests`: Ambil semua pengajuan material.
@@ -233,4 +240,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Material Request, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup procurement production, warehouse, payment, legal upload, notification API, auth production, atau RBAC production.
+- **Local Stabilized Status**: Material Request, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup procurement production, warehouse, payment, legal upload, notification API, auth production, atau RBAC production.

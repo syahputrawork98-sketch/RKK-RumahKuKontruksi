@@ -23,8 +23,8 @@
 | **Foremen** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
-| **Weekly Journals** | CRUD Available | Foreman Weekly Journals (Activities + Photos) |
-| **Weekly Reports** | DONE | Supervisor Weekly Reports with Admin Review, publish flow, and local UI stabilization |
+| **Weekly Journals** | Local E2E Workflow v1 / UI Consistency Stabilized | Mandor creates weekly journal with `claimedProgress` as non-official claim; Pengawas review is administrative only |
+| **Weekly Reports** | Local E2E Workflow v1 / UI Consistency Stabilized | Pengawas creates report with `verifiedProgressSnapshot`; Admin review/publish is administrative/customer-summary flow |
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Material Requests**| DONE | Local DB-Backed with stabilized status approval and receipt flow |
 | **Verification** | DONE | Progress SOT Local Workflow v1 / UI Consistency Stabilized; `Project.verifiedProgress` menjadi progress resmi |
@@ -34,7 +34,7 @@
 | **Timeline Panel** | DONE | Stage Communication Panel functional v1 via ProjectStagePublicComment API; create/reply memakai `projectId` eksplisit dari client |
 
 ## Operational Modules Progress
-Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress SOT sudah berstatus **Local Workflow v1 / UI Consistency Stabilized**: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan hanya Pengawas assigned yang boleh memperbarui progress fisik resmi. Admin memonitor riwayat/publish ringkasan, Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
+Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Weekly Journal / Weekly Report sudah berstatus **Local E2E Workflow v1 / UI Consistency Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
 
 ### Project Activation Flow (Final)
 1. **Planning Mode**: Proyek hasil bridge atau manual berstatus `planning` (Persiapan). Pada fase ini, proyek belum dianggap aktif.
@@ -60,11 +60,11 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 
 | Role | Data Source | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| **Pengawas** | Backend/Database | DB-Backed v1 | Full Operational Flow; Pengawas assigned update `Project.verifiedProgress` sebagai Progress SOT |
-| **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals); `WeeklyJournal.claimedProgress` tetap klaim non-resmi |
+| **Pengawas** | Backend/Database | DB-Backed v1 | Progress SOT dan Weekly Report Local E2E Workflow v1; Pengawas assigned update `Project.verifiedProgress`, membuat Weekly Report dengan `verifiedProgressSnapshot`, dan review jurnal Mandor secara administratif |
+| **Mandor** | Backend/Database | DB-Backed v1 | Weekly Journal Local E2E Workflow v1; `WeeklyJournal.claimedProgress` tetap klaim non-resmi dan tidak mengubah `Project.verifiedProgress` |
 | **Arsitek** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1: open tender lokal, submit bid lokal, desain aktif, dan riwayat lokal |
-| **Admin** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1: review/manage, publish tender lokal, award bid lokal, dan convert-to-project draft/planning lokal; progress official hanya monitor/history/publish ringkasan, bukan verifikasi fisik |
-| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, read-only Design Request/Tender monitoring, global project/progress monitoring use local APIs; operational design/progress actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
+| **Admin** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1; Weekly Report review/publish adalah administrasi/publikasi ringkasan, bukan verifikasi fisik atau pengganti Progress SOT |
+| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, read-only Design Request/Tender and Weekly Report monitoring, global project/progress monitoring use local APIs; operational design/progress actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
 | **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request create/list lokal, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed; progress yang tampil memakai `Project.verifiedProgress` resmi |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 

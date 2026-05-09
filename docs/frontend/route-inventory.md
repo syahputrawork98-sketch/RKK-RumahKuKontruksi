@@ -46,8 +46,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring history progress resmi (SOT) dan publish ringkasan; Admin bukan verifikator progress fisik. |
 | Jurnal Mandor Approved | `/admin/monitoring/jurnal-mandor` | Shell / Pending | Placeholder monitoring jurnal Mandor approved. |
 | Request Material | `/admin/request-material`| Local Stabilized | Terhubung ke Material Request backend v1 dengan approval/status flow lokal. |
-| Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | DB-Backed v1 | List review laporan mingguan Pengawas. |
-| Detail Review | `/admin/laporan-mingguan-pengawas/:id` | DB-Backed v1 | Review, approve, reject laporan Pengawas. |
+| Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | Local E2E Workflow v1 / UI Consistency Stabilized | List review Weekly Report Pengawas; Admin monitor administrasi/publikasi ringkasan, bukan verifikasi fisik progress. |
+| Detail Review | `/admin/laporan-mingguan-pengawas/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/approve/reject/publish Weekly Report secara administratif; tidak menggantikan Progress SOT dan tidak mengubah `Project.verifiedProgress` sebagai aksi verifikasi fisik. |
 | Kendala & Eskalasi | `/admin/monitoring/kendala` | Shell / Pending | Placeholder kendala lapangan untuk keputusan Admin. |
 | Publikasi Konsumen | `/admin/publikasi` | Local Stabilized | Source flow Stage Communication untuk update Konsumen, belum production RBAC. |
 | Pembayaran Konsumen | `/admin/pembayaran/konsumen` | Shell / Pending | Placeholder invoice/bukti bayar konsumen. |
@@ -65,12 +65,12 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Detail Proyek | `/pengawas/proyek/:id` | DB-Backed v1 | Detail teknis proyek. |
 | Verifikasi Progres | `/pengawas/verifikasi-progres` | Local Workflow v1 | Pengawas assigned memperbarui `Project.verifiedProgress` sebagai progress resmi (SOT); UI consistency stabilized. |
 | Dokumentasi | `/pengawas/dokumentasi` | Shell / Pending | Galeri fisik lapangan. |
-| Laporan Mingguan | `/pengawas/laporan-mingguan` | DB-Backed v1 | List evaluasi mingguan pengawas. |
-| Buat Laporan | `/pengawas/laporan-mingguan/create` | DB-Backed v1 | Form input evaluasi mingguan. |
-| Detail Laporan | `/pengawas/laporan-mingguan/:id` | DB-Backed v1 | Detail, edit & submit laporan. |
+| Laporan Mingguan | `/pengawas/laporan-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Report Pengawas dengan `verifiedProgressSnapshot` sebagai snapshot progress resmi saat laporan dibuat. |
+| Buat Laporan | `/pengawas/laporan-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form draft Weekly Report; mengambil `Project.verifiedProgress` menjadi `verifiedProgressSnapshot` dan dapat melampirkan jurnal Mandor approved. |
+| Detail Laporan | `/pengawas/laporan-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit Weekly Report; snapshot bukan mekanisme update progress resmi. |
 | Request Material | `/pengawas/request-material` | Local Stabilized | Review/verifikasi Material Request via backend lokal. |
-| Jurnal Mandor | `/pengawas/jurnal-mandor` | DB-Backed v1 | List jurnal mingguan Mandor. |
-| Detail Jurnal Mandor | `/pengawas/jurnal-mandor/:id` | DB-Backed v1 | Review & Approve jurnal Mandor. |
+| Jurnal Mandor | `/pengawas/jurnal-mandor` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor untuk review administratif; `claimedProgress` tetap klaim non-resmi. |
+| Detail Jurnal Mandor | `/pengawas/jurnal-mandor/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/approve/reject/request revision jurnal Mandor secara administratif; approval tidak otomatis mengubah `Project.verifiedProgress`. |
 | Pengaturan | `/pengawas/pengaturan` | DB-Backed v1 | Profil pengawas rill. |
 
 ## 4. Mandor Routes
@@ -84,9 +84,9 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Request Material | `/mandor/request-material` | Local Stabilized | Pengajuan dan konfirmasi penerimaan material via backend lokal. |
 | Dokumentasi | `/mandor/dokumentasi` | Shell / Pending | Foto fisik harian. |
 | Kendala Lapangan | `/mandor/kendala-lapangan` | Shell / Pending | Laporan hambatan. |
-| Jurnal Mingguan | `/mandor/jurnal-mingguan` | DB-Backed v1 | List laporan mingguan mandor. |
-| Buat Jurnal | `/mandor/jurnal-mingguan/create` | DB-Backed v1 | Form input jurnal mingguan. |
-| Detail Jurnal | `/mandor/jurnal-mingguan/:id` | DB-Backed v1 | Detail, edit & submit jurnal; `claimedProgress` adalah klaim Mandor non-resmi. |
+| Jurnal Mingguan | `/mandor/jurnal-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor lokal; `claimedProgress` adalah klaim non-resmi. |
+| Buat Jurnal | `/mandor/jurnal-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form create Weekly Journal Mandor dengan `claimedProgress` sebagai klaim progress non-resmi. |
+| Detail Jurnal | `/mandor/jurnal-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit jurnal; `claimedProgress` tidak mengubah `Project.verifiedProgress`. |
 | Pengaturan | `/mandor/pengaturan` | DB-Backed v1 | Profil mandor rill. |
 
 ## 5. Arsitek Routes
@@ -128,7 +128,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Laporan Progres Global | `/superadmin/progres-proyek` | DB-Backed Read-Only | Monitoring `verifiedProgress` lintas proyek; Superadmin tidak mengubah progress resmi. |
 | Pembayaran Global | `/superadmin/pembayaran` | Hold State | Payment global belum production; tidak ada invoice/escrow/payout aktif. |
 | Monitoring Material | `/superadmin/monitoring/material` | DB-Backed Read-Only | Audit Material Request global via backend lokal. |
-| Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Audit laporan mingguan Pengawas via backend lokal. |
+| Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Read-only monitoring Weekly Report Pengawas via backend lokal; Superadmin tidak review/publish atau mengubah progress resmi. |
 | Eskalasi | `/superadmin/eskalasi` | Hold State | Koreksi data/escalation workflow production masih Hold. |
 | Log Aktivitas | `/superadmin/log-aktivitas` | Hold State | Audit trail production belum tersedia. |
 | Pengaturan Sistem | `/superadmin/pengaturan` | Hold State | Settings/system configuration production masih Hold. |

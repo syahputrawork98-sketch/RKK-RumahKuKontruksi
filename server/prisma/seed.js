@@ -19,6 +19,7 @@ async function main() {
   await prisma.supervisorWeeklyReport.deleteMany({});
   await prisma.weeklyJournal.deleteMany({});
   await prisma.progressVerificationLog.deleteMany({});
+  await prisma.projectStagePublicComment.deleteMany({});
   await prisma.projectStage.deleteMany({});
   await prisma.rabItem.deleteMany({});
   await prisma.rabCategory.deleteMany({});
@@ -378,7 +379,10 @@ async function main() {
       paidAmount: 500000000,
       remainingAmount: 1000000000,
       startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-      estimatedEndDate: new Date(Date.now() + 150 * 24 * 60 * 60 * 1000)
+      estimatedEndDate: new Date(Date.now() + 150 * 24 * 60 * 60 * 1000),
+      verifiedProgress: 32,
+      verifiedProgressById: supervisor1.id,
+      verifiedProgressUpdatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
     }
   });
 
@@ -461,7 +465,10 @@ async function main() {
       status: 'Selesai',
       progress: 100,
       week: 1,
-      order: 1
+      order: 1,
+      isVerified: true,
+      verifiedBy: supervisor1.id,
+      verifiedAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000)
     }
   });
 
@@ -476,8 +483,66 @@ async function main() {
       status: 'Berjalan',
       progress: 40,
       week: 2,
-      order: 2
+      order: 2,
+      isVerified: true,
+      verifiedBy: supervisor1.id,
+      verifiedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
     }
+  });
+
+  await prisma.projectStagePublicComment.create({
+    data: {
+      id: 'comment-stage-001-official',
+      projectId: activeProject.id,
+      stageId: stage1.id,
+      authorRole: 'admin',
+      authorId: admin1.id,
+      authorName: admin1.name,
+      message: 'Pembersihan lahan sudah selesai diverifikasi. Area kerja telah siap untuk tahapan pondasi.',
+      isOfficial: true,
+      createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  await prisma.projectStagePublicComment.create({
+    data: {
+      id: 'comment-stage-001-reply',
+      projectId: activeProject.id,
+      stageId: stage1.id,
+      authorRole: 'customer',
+      authorId: customer2.id,
+      authorName: customer2.name,
+      message: 'Terima kasih atas update-nya. Mohon tetap diinformasikan jika ada perubahan jadwal berikutnya.',
+      parentId: 'comment-stage-001-official',
+      createdAt: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  await prisma.projectStagePublicComment.createMany({
+    data: [
+      {
+        id: 'comment-stage-002-official-1',
+        projectId: activeProject.id,
+        stageId: stage2.id,
+        authorRole: 'admin',
+        authorId: admin1.id,
+        authorName: admin1.name,
+        message: 'Tahap galian dan pondasi berjalan. Progress resmi terakhir diverifikasi Pengawas sebesar 32%.',
+        isOfficial: true,
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+      },
+      {
+        id: 'comment-stage-002-official-2',
+        projectId: activeProject.id,
+        stageId: stage2.id,
+        authorRole: 'admin',
+        authorId: admin1.id,
+        authorName: admin1.name,
+        message: 'Material besi dan semen untuk pekerjaan pondasi sudah masuk proses logistik. Tidak ada isu kritis yang perlu perhatian konsumen saat ini.',
+        isOfficial: true,
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+      }
+    ]
   });
 
   // Material Requests

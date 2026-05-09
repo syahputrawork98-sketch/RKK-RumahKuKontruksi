@@ -242,34 +242,43 @@ const DetailProyekDiawasiPengawasPage = () => {
                     <div className="dashboard-card">
                         <h3 className="font-black text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-4">Verifikasi Mendatang</h3>
                         <div className="space-y-4">
-                            <div className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <FiClock className="text-amber-500" />
-                                    <span className="text-[10px] font-black uppercase">Tahap 3: Plafon</span>
-                                </div>
-                                <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)]">Estimasi Pengajuan:</p>
-                                <p className="text-xs font-black">12 Mei 2026</p>
+                            <div className="p-8 text-center bg-[var(--dashboard-surface-soft)] rounded-2xl border-2 border-dashed border-[var(--dashboard-border)]">
+                                <FiClock size={24} className="mx-auto text-[var(--dashboard-text-soft)] opacity-30 mb-2" />
+                                <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest leading-relaxed">
+                                    Belum ada jadwal verifikasi progres terdekat.
+                                </p>
                             </div>
                         </div>
                     </div>
                     
                     <div className="dashboard-card">
                         <h3 className="font-black text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-4">Tim Terlibat</h3>
-                        <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-[var(--dashboard-primary)]/10 flex items-center justify-center text-[var(--dashboard-primary)] font-black text-[10px]">A</div>
-                                <div>
-                                    <p className="text-xs font-bold">Ahmad Jailani</p>
-                                    <p className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Mandor Utama</p>
+                        <div className="space-y-4">
+                            {project.foreman && (
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-[var(--dashboard-primary)]/10 flex items-center justify-center text-[var(--dashboard-primary)] font-black text-[10px]">
+                                        {project.foreman.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold">{project.foreman.name}</p>
+                                        <p className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Mandor</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-slate-500/10 flex items-center justify-center text-slate-500 font-black text-[10px]">B</div>
-                                <div>
-                                    <p className="text-xs font-bold">Budi Santoso</p>
-                                    <p className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Admin Proyek</p>
+                            )}
+                            {project.admin && (
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-slate-500/10 flex items-center justify-center text-slate-500 font-black text-[10px]">
+                                        {project.admin.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold">{project.admin.name}</p>
+                                        <p className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Admin</p>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+                            {!project.foreman && !project.admin && (
+                                <p className="text-[10px] font-bold italic text-slate-400">Belum ada tim yang ditugaskan.</p>
+                            )}
                         </div>
                     </div>
                 </div>

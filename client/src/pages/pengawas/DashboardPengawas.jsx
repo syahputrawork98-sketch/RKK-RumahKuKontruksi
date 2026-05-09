@@ -5,7 +5,9 @@ import {
     FiCamera, 
     FiFileText,
     FiShoppingCart,
-    FiActivity
+    FiActivity,
+    FiStar,
+    FiBriefcase
 } from "react-icons/fi";
 import {
     DashboardHeader,
@@ -190,11 +192,32 @@ const DashboardPengawas = () => {
                             <a href="/pengawas/laporan-mingguan" className="mt-4 inline-block px-4 py-2 bg-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest">Buka Modul</a>
                             <FiFileText className="absolute -right-4 -bottom-4 text-white/10 w-24 h-24" />
                         </div>
-                        <div className="dashboard-card border-dashed border-2 p-6 flex flex-col items-center justify-center text-center">
-                            <FiCheckSquare className="text-[var(--dashboard-text-soft)] mb-2" size={32} />
-                            <p className="text-xs font-bold uppercase tracking-widest">Verifikasi Progress</p>
-                            <p className="text-[10px] text-slate-400 mt-1 uppercase font-bold italic">Source of Truth DB-Backed</p>
-                            <a href="/pengawas/verifikasi-progres" className="mt-3 text-[10px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Periksa Sekarang</a>
+                        <div className="dashboard-card border-dashed border-2 p-6 flex flex-col justify-between bg-[var(--dashboard-primary)]/5">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-bold text-xs uppercase tracking-widest text-[var(--dashboard-primary)]">Ringkasan Pengalaman</h3>
+                                <FiStar className="text-[var(--dashboard-primary)]" size={16} />
+                            </div>
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center border-b border-[var(--dashboard-border)]/50 pb-2">
+                                    <span className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Proyek Diawasi</span>
+                                    <span className="text-xs font-black">{(statsData?.activeProjects || 0) + (statsData?.finishedProjects || 0)}</span>
+                                </div>
+                                <div className="flex justify-between items-center border-b border-[var(--dashboard-border)]/50 pb-2">
+                                    <span className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Review Jurnal</span>
+                                    <span className="text-xs font-black">
+                                        {(statsData?.journals?.reduce((acc, j) => acc + (j._count?._all || 0), 0) || 0)}
+                                    </span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Laporan Mingguan</span>
+                                    <span className="text-xs font-black">
+                                        {statsData?.weeklyReports?.reduce((acc, r) => acc + (r._count?._all || 0), 0) || 0}
+                                    </span>
+                                </div>
+                            </div>
+                            <p className="mt-4 text-[8px] font-bold text-[var(--dashboard-text-soft)] italic leading-tight uppercase">
+                                Data berdasarkan riwayat operasional lokal Anda.
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@ const PengaturanMandorPage = () => {
     const [activeTab, setActiveTab] = useState("profil");
     const [certificates, setCertificates] = useState([]);
     const [experiences, setExperiences] = useState([]);
+    const [statsData, setStatsData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -19,12 +20,14 @@ const PengaturanMandorPage = () => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const [certs, exps] = await Promise.all([
+                const [certs, exps, stats] = await Promise.all([
                     foremanService.getCertificates(selectedForemanId),
-                    foremanService.getExperiences(selectedForemanId)
+                    foremanService.getExperiences(selectedForemanId),
+                    foremanService.getForemanStats(selectedForemanId)
                 ]);
                 if (certs.success) setCertificates(certs.data);
                 if (exps.success) setExperiences(exps.data);
+                if (stats.success) setStatsData(stats.data);
             } catch (err) {
                 console.error("Failed to fetch foreman details:", err);
                 setError("Gagal memuat detail profil mandor.");
@@ -130,7 +133,14 @@ const PengaturanMandorPage = () => {
                                     <FiAward className="text-[var(--dashboard-primary)]" size={20} />
                                     <h3 className="font-bold text-sm">Sertifikasi & Lisensi</h3>
                                 </div>
-                                <button className="px-3 py-1 bg-[var(--dashboard-primary)] text-white rounded-lg text-[10px] font-black uppercase">Tambah</button>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded italic">Hold: Fitur Production</span>
+                                </div>
+                            </div>
+                            <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl mb-6">
+                                <p className="text-[10px] font-bold text-blue-700 leading-relaxed uppercase">
+                                    Sertifikat resmi belum tersedia di database lokal. Ringkasan ini hanya berdasarkan aktivitas lokal Anda di sistem.
+                                </p>
                             </div>
                             {isLoading ? (
                                 <div className="py-12 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div></div>
@@ -158,7 +168,42 @@ const PengaturanMandorPage = () => {
                             <div className="flex items-center justify-between border-b border-[var(--dashboard-border)] pb-4">
                                 <div className="flex items-center gap-3">
                                     <FiBriefcase className="text-[var(--dashboard-primary)]" size={20} />
-                                    <h3 className="font-bold text-sm">Riwayat Pengalaman</h3>
+                                    <h3 className="font-bold text-sm">Ringkasan Pengalaman Lokal</h3>
+                                </div>
+                            </div>
+                            
+                            {/* LOCAL STATS SUMMARY */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] text-center">
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase mb-1">Proyek Aktif</p>
+                                    <p className="text-xl font-black">{statsData?.activeProjects || 0}</p>
+                                </div>
+                                <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] text-center">
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase mb-1">Proyek Selesai</p>
+                                    <p className="text-xl font-black">{statsData?.finishedProjects || 0}</p>
+                                </div>
+                                <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] text-center">
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase mb-1">Total Jurnal</p>
+                                    <p className="text-xl font-black">
+                                        {statsData?.journals?.reduce((acc, j) => acc + (j._count?._all || 0), 0) || 0}
+                                    </p>
+                                </div>
+                                <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] text-center">
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase mb-1">Material Req</p>
+                                    <p className="text-xl font-black">
+                                        {statsData?.materialRequests?.reduce((acc, m) => acc + (m._count?._all || 0), 0) || 0}
+                                    </p>
+                                </div>
+                                <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] text-center">
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase mb-1">Total Aktivitas</p>
+                                    <p className="text-xl font-black">{statsData?.activitiesCount || 0}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between border-b border-[var(--dashboard-border)] pb-4">
+                                <div className="flex items-center gap-3">
+                                    <FiBriefcase className="text-[var(--dashboard-primary)]" size={20} />
+                                    <h3 className="font-bold text-sm">Riwayat Pengalaman (Manual)</h3>
                                 </div>
                                 <button className="px-3 py-1 bg-[var(--dashboard-primary)] text-white rounded-lg text-[10px] font-black uppercase">Tambah</button>
                             </div>

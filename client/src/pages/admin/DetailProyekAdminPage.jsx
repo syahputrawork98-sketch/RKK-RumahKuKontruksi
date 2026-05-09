@@ -341,12 +341,12 @@ const DetailProyekAdminPage = () => {
                                         <div className="space-y-4">
                                             <div className="flex justify-between items-end">
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Verified Progress (Resmi)</span>
-                                                <span className="text-2xl font-black text-[var(--dashboard-primary)]">{project.verifiedProgress}%</span>
+                                                <span className="text-2xl font-black text-[var(--dashboard-primary)]">{project.verifiedProgress ?? 0}%</span>
                                             </div>
                                             <div className="w-full h-3 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden border border-[var(--dashboard-border)] p-0.5">
                                                 <div 
                                                     className="h-full bg-gradient-to-r from-[var(--dashboard-primary)] to-emerald-400 rounded-full transition-all duration-1000" 
-                                                    style={{ width: `${project.verifiedProgress}%` }}
+                                                    style={{ width: `${project.verifiedProgress ?? 0}%` }}
                                                 />
                                             </div>
                                             <p className="text-[10px] text-[var(--dashboard-text-soft)] italic">

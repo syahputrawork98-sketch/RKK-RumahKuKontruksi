@@ -146,7 +146,7 @@ const DashboardPengawas = () => {
                                     'completed': { text: "Selesai", color: "bg-blue-500/10 text-blue-500" },
                                 };
                                 const statusLabel = statusMapping[prj.status] || { text: prj.status, color: "bg-slate-500/10 text-slate-500" };
-                                const displayProgress = prj.verifiedProgress !== undefined && prj.verifiedProgress !== null ? prj.verifiedProgress : prj.progress || 0;
+                                const displayProgress = prj.verifiedProgress ?? 0;
 
                                 return (
                                     <div key={prj.id} className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] hover:border-[var(--dashboard-primary)]/30 transition-all flex flex-col md:flex-row justify-between gap-4">

@@ -191,11 +191,11 @@ const DetailJurnalMandorPengawasPage = () => {
                             <div className="flex justify-between items-end">
                                 <div>
                                     <p className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Resmi (SOT)</p>
-                                    <p className="text-2xl font-black text-amber-600">{journal.project?.verifiedProgress || 0}%</p>
+                                    <p className="text-2xl font-black text-amber-600">{journal.project?.verifiedProgress ?? 0}%</p>
                                 </div>
                                 <div className="text-right">
                                     <p className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Klaim Mandor</p>
-                                    <p className="text-2xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
+                                    <p className="text-2xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress ?? 0}%</p>
                                 </div>
                             </div>
                             <div className="p-3 bg-white rounded-xl border border-[var(--dashboard-border)]">

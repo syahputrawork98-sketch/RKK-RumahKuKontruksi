@@ -108,8 +108,8 @@ const LaporanProgresGlobalPage = () => {
                                     <h3 className="text-sm font-black text-[var(--dashboard-text)] line-clamp-1">{p.name}</h3>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-[10px] font-black text-blue-600 leading-none">{p.verifiedProgress || p.progress || 0}%</p>
-                                    <p className="text-[8px] uppercase font-bold text-gray-400 tracking-widest mt-1">Verified</p>
+                                    <p className="text-[10px] font-black text-blue-600 leading-none">{p.verifiedProgress ?? 0}%</p>
+                                    <p className="text-[8px] uppercase font-bold text-gray-400 tracking-widest mt-1">Official Progress</p>
                                 </div>
                             </div>
 
@@ -117,7 +117,7 @@ const LaporanProgresGlobalPage = () => {
                             <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden border border-gray-100 mb-6">
                                 <div 
                                     className="h-full bg-blue-500 rounded-full transition-all duration-1000 group-hover:bg-blue-600"
-                                    style={{ width: `${p.verifiedProgress || p.progress || 0}%` }}
+                                    style={{ width: `${p.verifiedProgress ?? 0}%` }}
                                 />
                             </div>
 
@@ -141,9 +141,9 @@ const LaporanProgresGlobalPage = () => {
                                 <div className="flex items-center justify-between text-[10px]">
                                     <div className="flex items-center gap-2 text-[var(--dashboard-text-soft)]">
                                         <FiClock size={12} />
-                                        <span className="font-medium">Update:</span>
+                                        <span className="font-medium">Update Resmi:</span>
                                     </div>
-                                    <span className="font-bold text-[var(--dashboard-text)]">{formatDate(p.verifiedProgressUpdatedAt || p.updatedAt)}</span>
+                                    <span className="font-bold text-[var(--dashboard-text)]">{formatDate(p.verifiedProgressUpdatedAt ?? p.updatedAt)}</span>
                                 </div>
                             </div>
 
@@ -177,7 +177,7 @@ const LaporanProgresGlobalPage = () => {
                 <div className="flex-1">
                     <h4 className="font-black text-lg tracking-tight mb-1">Audit Integritas Progres Lapangan</h4>
                     <p className="text-xs text-white/60 leading-relaxed font-medium">
-                        Seluruh data progres yang tampil di halaman ini telah melalui proses verifikasi lapangan oleh <strong>Pengawas Proyek</strong> dan disetujui secara sistem oleh <strong>Admin Operasional</strong>. Superadmin memonitor data ini untuk audit berkala tanpa otorisasi modifikasi langsung.
+                        Seluruh data progres yang tampil di halaman ini telah melalui proses verifikasi lapangan oleh <strong>Pengawas Proyek</strong> (Verified Progress). Admin Operasional memantau dan mempublikasikan data ini sebagai ringkasan resmi. Superadmin melakukan monitoring global tanpa otorisasi modifikasi langsung.
                     </p>
                 </div>
                 <div className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 shrink-0">

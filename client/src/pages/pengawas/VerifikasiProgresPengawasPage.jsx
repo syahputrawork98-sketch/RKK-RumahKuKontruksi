@@ -41,7 +41,7 @@ const VerifikasiProgresPengawasPage = () => {
 
     const handleSelectProject = async (project) => {
         setSelectedProject(project);
-        setVerifiedProgress(project.verifiedProgress || 0);
+        setVerifiedProgress(project.verifiedProgress ?? 0);
         setNotes("");
         setSuccessMessage(null);
         setError(null);
@@ -63,8 +63,8 @@ const VerifikasiProgresPengawasPage = () => {
         e.preventDefault();
         if (!selectedProject || !selectedSupervisorId) return;
 
-        if (verifiedProgress < selectedProject.verifiedProgress) {
-            setError(`Progress tidak boleh turun. Progress saat ini: ${selectedProject.verifiedProgress}%`);
+        if (verifiedProgress < (selectedProject.verifiedProgress ?? 0)) {
+            setError(`Progress tidak boleh turun. Progress saat ini: ${selectedProject.verifiedProgress ?? 0}%`);
             return;
         }
 
@@ -173,12 +173,12 @@ const VerifikasiProgresPengawasPage = () => {
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-[10px] font-black uppercase">
                                         <span className="text-[var(--dashboard-text-soft)]">Verified Progress</span>
-                                        <span className="text-[var(--dashboard-primary)]">{project.verifiedProgress || 0}%</span>
+                                        <span className="text-[var(--dashboard-primary)]">{project.verifiedProgress ?? 0}%</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
                                         <div 
-                                            className="h-full bg-[var(--dashboard-primary)] transition-all duration-500" 
-                                            style={{ width: `${project.verifiedProgress || 0}%` }}
+                                            className="h-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.3)] transition-all duration-1000" 
+                                            style={{ width: `${project.verifiedProgress ?? 0}%` }}
                                         />
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@ const VerifikasiProgresPengawasPage = () => {
                                         className="w-full h-2 bg-[var(--dashboard-surface-soft)] rounded-lg appearance-none cursor-pointer accent-[var(--dashboard-primary)]"
                                     />
                                     <div className="flex justify-between text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase">
-                                        <span>Progres Sebelumnya: {selectedProject.verifiedProgress || 0}%</span>
+                                        <span>Progres Sebelumnya: {selectedProject.verifiedProgress ?? 0}%</span>
                                         <span>Target: 100%</span>
                                     </div>
                                 </div>

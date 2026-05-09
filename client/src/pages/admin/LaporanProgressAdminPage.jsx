@@ -158,10 +158,10 @@ const LaporanProgressAdminPage = () => {
                                             <div className="flex-1 min-w-[100px] h-2 bg-slate-100 rounded-full overflow-hidden">
                                                 <div 
                                                     className="h-full bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.4)] transition-all duration-1000" 
-                                                    style={{ width: `${project.verifiedProgress || 0}%` }}
+                                                    style={{ width: `${project.verifiedProgress ?? 0}%` }}
                                                 />
                                             </div>
-                                            <span className="text-sm font-black text-blue-700 w-10">{project.verifiedProgress || 0}%</span>
+                                            <span className="text-sm font-black text-blue-700 w-10">{project.verifiedProgress ?? 0}%</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">

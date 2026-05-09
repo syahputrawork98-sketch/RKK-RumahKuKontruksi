@@ -267,7 +267,7 @@ const DetailJurnalMingguanMandorPage = () => {
                         <div className="space-y-3">
                             <div className="p-3 bg-amber-50 rounded-xl">
                                 <p className="text-[9px] font-black uppercase text-amber-700 tracking-widest mb-1">Progres Resmi (SOT)</p>
-                                <p className="text-2xl font-black text-amber-600">{journal.project?.verifiedProgress || 0}%</p>
+                                <p className="text-2xl font-black text-amber-600">{journal.project?.verifiedProgress ?? 0}%</p>
                             </div>
                             <p className="text-[10px] font-bold text-amber-700/70 leading-relaxed uppercase">
                                 Progres resmi proyek hanya dapat diperbarui oleh Pengawas melalui menu Verifikasi Progres.

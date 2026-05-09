@@ -181,12 +181,12 @@ const DashboardKonsumen = () => {
                                                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Official Progress</span>
                                                     <p className="text-[8px] text-slate-300 italic font-medium leading-none">Verified by RKK</p>
                                                 </div>
-                                                <span className="text-2xl font-black text-teal-600">{project.verifiedProgress || 0}%</span>
+                                                <span className="text-2xl font-black text-teal-600">{project.verifiedProgress ?? 0}%</span>
                                             </div>
                                             <div className="w-full h-2.5 bg-slate-50 rounded-full overflow-hidden p-0.5 border border-slate-100 shadow-inner">
                                                 <motion.div 
                                                     initial={{ width: 0 }}
-                                                    animate={{ width: `${project.verifiedProgress || 0}%` }}
+                                                    animate={{ width: `${project.verifiedProgress ?? 0}%` }}
                                                     className="h-full bg-teal-500 rounded-full shadow-[0_0_10px_rgba(20,184,166,0.3)]"
                                                 />
                                             </div>

@@ -78,9 +78,9 @@ const ProyekAktifMandorPage = () => {
         const diffDays = lastUpdate ? Math.ceil((today - lastUpdate) / (1000 * 60 * 60 * 24)) : 999;
 
         if (activeSubtab === "today") return prj.status?.toLowerCase() === 'active' || prj.status?.toLowerCase() === 'ongoing' || prj.status?.toLowerCase() === 'berjalan';
-        if (activeSubtab === "needs_update") return diffDays > 7 && (prj.verifiedProgress || 0) < 100;
-        if (activeSubtab === "delayed") return deadline && deadline < today && (prj.verifiedProgress || 0) < 100;
-        if (activeSubtab === "completed") return prj.status?.toLowerCase() === 'selesai' || prj.status?.toLowerCase() === 'completed' || (prj.verifiedProgress || 0) >= 100;
+        if (activeSubtab === "needs_update") return diffDays > 7 && (prj.verifiedProgress ?? 0) < 100;
+        if (activeSubtab === "delayed") return deadline && deadline < today && (prj.verifiedProgress ?? 0) < 100;
+        if (activeSubtab === "completed") return prj.status?.toLowerCase() === 'selesai' || prj.status?.toLowerCase() === 'completed' || (prj.verifiedProgress ?? 0) >= 100;
         return true;
     });
 
@@ -100,9 +100,9 @@ const ProyekAktifMandorPage = () => {
                         const lu = p.verifiedProgressUpdatedAt ? new Date(p.verifiedProgressUpdatedAt) : null;
                         const df = lu ? Math.ceil((t - lu) / (1000 * 60 * 60 * 24)) : 999;
                         if (tab.id === "today") return p.status?.toLowerCase() === 'active' || p.status?.toLowerCase() === 'ongoing' || p.status?.toLowerCase() === 'berjalan';
-                        if (tab.id === "needs_update") return df > 7 && (p.verifiedProgress || 0) < 100;
-                        if (tab.id === "delayed") return d && d < t && (p.verifiedProgress || 0) < 100;
-                        if (tab.id === "completed") return p.status?.toLowerCase() === 'selesai' || p.status?.toLowerCase() === 'completed' || (p.verifiedProgress || 0) >= 100;
+                        if (tab.id === "needs_update") return df > 7 && (p.verifiedProgress ?? 0) < 100;
+                        if (tab.id === "delayed") return d && d < t && (p.verifiedProgress ?? 0) < 100;
+                        if (tab.id === "completed") return p.status?.toLowerCase() === 'selesai' || p.status?.toLowerCase() === 'completed' || (p.verifiedProgress ?? 0) >= 100;
                         return true;
                     }).length;
 
@@ -150,7 +150,7 @@ const ProyekAktifMandorPage = () => {
                                     </div>
                                     <div className="text-right">
                                         <p className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase">Progress Resmi</p>
-                                        <p className="text-2xl font-black text-[var(--dashboard-primary)]">{prj.verifiedProgress || 0}%</p>
+                                        <p className="text-2xl font-black text-[var(--dashboard-primary)]">{prj.verifiedProgress ?? 0}%</p>
                                     </div>
                                 </div>
 

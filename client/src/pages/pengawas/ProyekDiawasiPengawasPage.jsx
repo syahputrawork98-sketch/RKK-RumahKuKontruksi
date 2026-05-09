@@ -180,13 +180,13 @@ const ProyekDiawasiPengawasPage = () => {
                                         <td className="py-4 px-2 w-32">
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)]">
-                                                        {prj.verifiedProgress !== undefined && prj.verifiedProgress !== null ? prj.verifiedProgress : prj.progress || 0}%
-                                                    </span>
+                                                    <p className="text-lg font-black text-blue-600 leading-none">
+                                                        {prj.verifiedProgress ?? 0}%
+                                                    </p>
                                                     <span className="text-[8px] font-bold text-slate-400 uppercase">Verified</span>
                                                 </div>
                                                 <div className="w-full h-1 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden">
-                                                    <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.verifiedProgress !== undefined && prj.verifiedProgress !== null ? prj.verifiedProgress : prj.progress || 0}%` }} />
+                                                    <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${prj.verifiedProgress ?? 0}%` }} />
                                                 </div>
                                             </div>
                                         </td>

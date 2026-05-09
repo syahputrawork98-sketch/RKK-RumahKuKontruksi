@@ -101,10 +101,16 @@ export const softDeleteExperience = async (id) => {
 export const getStats = async (supervisorId) => {
   const [activeProjects, finishedProjects, journals, materialRequests, weeklyReports, projects, activitiesCount] = await Promise.all([
     prisma.project.count({
-      where: { supervisorId, status: 'active' }
+      where: { 
+        supervisorId, 
+        status: { in: ['active', 'Berjalan'] } 
+      }
     }),
     prisma.project.count({
-      where: { supervisorId, status: 'completed' }
+      where: { 
+        supervisorId, 
+        status: { in: ['completed', 'Selesai'] } 
+      }
     }),
     prisma.weeklyJournal.groupBy({
       by: ['status'],
@@ -122,7 +128,10 @@ export const getStats = async (supervisorId) => {
       _count: { _all: true }
     }),
     prisma.project.findMany({
-      where: { supervisorId, status: 'active' },
+      where: { 
+        supervisorId, 
+        status: { in: ['active', 'Berjalan'] } 
+      },
       select: { verifiedProgress: true }
     }),
     prisma.weeklyJournalActivity.count({

@@ -143,12 +143,12 @@ const PengaturanPengawasPage = () => {
                                     <h3 className="font-bold text-sm">Sertifikasi & Lisensi</h3>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded italic">Hold: Fitur Production</span>
+                                    <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded italic">Hold: Belum tersedia di local development</span>
                                 </div>
                             </div>
                             <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl mb-6">
                                 <p className="text-[10px] font-bold text-blue-700 leading-relaxed uppercase">
-                                    Sertifikat resmi belum tersedia di database lokal. Ringkasan ini hanya berdasarkan aktivitas operasional lokal Anda.
+                                    Sertifikat resmi belum aktif. Ringkasan ini hanya berdasarkan aktivitas operasional lokal Anda.
                                 </p>
                             </div>
                             {isLoading ? (
@@ -160,8 +160,7 @@ const PengaturanPengawasPage = () => {
                                             <h4 className="text-sm font-bold mb-1">{cert.title}</h4>
                                             <p className="text-[10px] text-[var(--dashboard-text-soft)] font-bold mb-2 uppercase tracking-widest">{cert.issuer}</p>
                                             <div className="flex items-center justify-between mt-3 pt-3 border-t border-[var(--dashboard-border)]/50">
-                                                <span className="text-[9px] font-bold px-2 py-0.5 bg-emerald-500/10 text-emerald-600 rounded uppercase">Valid</span>
-                                                <button className="text-[9px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Edit</button>
+                                                <span className="text-[9px] font-bold px-2 py-0.5 bg-slate-100 text-slate-500 rounded uppercase tracking-widest">Hold</span>
                                             </div>
                                         </div>
                                     )) : (
@@ -210,9 +209,9 @@ const PengaturanPengawasPage = () => {
                             <div className="flex items-center justify-between border-b border-[var(--dashboard-border)] pb-4">
                                 <div className="flex items-center gap-3">
                                     <FiBriefcase className="text-[var(--dashboard-primary)]" size={20} />
-                                    <h3 className="font-bold text-sm">Riwayat Pengalaman (Manual)</h3>
+                                    <h3 className="font-bold text-sm">Riwayat Pengalaman Manual</h3>
                                 </div>
-                                <button className="px-3 py-1 bg-[var(--dashboard-primary)] text-white rounded-lg text-[10px] font-black uppercase">Tambah</button>
+                                <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded italic">Read-Only</span>
                             </div>
                             {isLoading ? (
                                 <div className="py-12 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div></div>
@@ -225,7 +224,6 @@ const PengaturanPengawasPage = () => {
                                                 <p className="text-[11px] font-semibold text-[var(--dashboard-text)] mb-1">{exp.companyName}</p>
                                                 <p className="text-[10px] text-[var(--dashboard-text-soft)] font-medium">Role: {exp.role} | {exp.startYear} - {exp.endYear || 'Sekarang'}</p>
                                             </div>
-                                            <button className="text-[9px] font-black text-[var(--dashboard-primary)] uppercase hover:underline">Edit</button>
                                         </div>
                                     )) : (
                                         <div className="py-12 text-center text-slate-400 text-xs italic">Belum ada data pengalaman kerja.</div>

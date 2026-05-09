@@ -187,7 +187,7 @@ const DashboardPengawas = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="dashboard-card bg-slate-800 text-white p-6 relative overflow-hidden">
                             <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Mingguan</h3>
-                            <p className="text-2xl font-black mb-1">Data Real-time</p>
+                            <p className="text-2xl font-black mb-1">Ringkasan Lokal</p>
                             <p className="text-[10px] opacity-70">Monitor aktivitas lapangan setiap minggu</p>
                             <a href="/pengawas/laporan-mingguan" className="mt-4 inline-block px-4 py-2 bg-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest">Buka Modul</a>
                             <FiFileText className="absolute -right-4 -bottom-4 text-white/10 w-24 h-24" />

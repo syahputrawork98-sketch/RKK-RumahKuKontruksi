@@ -113,10 +113,16 @@ export const findProjectsByForemanId = async (foremanId) => {
 export const getStats = async (foremanId) => {
   const [activeProjects, finishedProjects, journals, materialRequests, activitiesCount] = await Promise.all([
     prisma.project.count({
-      where: { foremanId, status: 'active' }
+      where: { 
+        foremanId, 
+        status: { in: ['active', 'Berjalan'] } 
+      }
     }),
     prisma.project.count({
-      where: { foremanId, status: 'completed' }
+      where: { 
+        foremanId, 
+        status: { in: ['completed', 'Selesai'] } 
+      }
     }),
     prisma.weeklyJournal.groupBy({
       by: ['status'],

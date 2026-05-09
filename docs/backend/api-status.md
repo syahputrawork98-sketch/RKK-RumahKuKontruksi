@@ -32,7 +32,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `DELETE /projects/:id`: Hapus proyek.
 - `GET /projects/:id/stages`: Ambil tahapan proyek.
 - `GET /projects/:id/rab`: Ambil data RAB proyek.
-- `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas (SOT).
+- `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas assigned (Progress SOT).
 - `PATCH /projects/:id/activate`: Aktivasi proyek dari `planning` menjadi `Berjalan` jika readiness checklist terpenuhi.
 - `GET /projects/:id/progress-history`: Riwayat verifikasi progres proyek.
 
@@ -40,6 +40,16 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
 - `Project.verifiedProgress` adalah Source of Truth; `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi dan tidak menggantikan verifikasi Pengawas assigned.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
+
+**Catatan Progress Verification Context**:
+- **Status**: *Progress Verification from RAB/Stage Context = Local Workflow v1 / Stabilized*.
+- Alur lokal: Pengawas memilih project aktif, UI menampilkan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas, lalu Pengawas tetap mengisi `verifiedProgress` secara manual.
+- Submit tetap melalui `PATCH /projects/:id/verify-progress`.
+- Backend menyimpan `Project.verifiedProgress`, `verifiedProgressUpdatedAt`, `verifiedProgressById`, dan `ProgressVerificationLog`.
+- Jika `stageId` dikirim, backend memvalidasi Stage tersebut milik project yang diverifikasi.
+- `GET /projects/:id/rab` membaca approved RAB terlebih dahulu dan fallback ke latest RAB untuk local development/planning jika belum ada approved RAB.
+- RAB, ProjectStage, Weekly Journal, dan review jurnal tidak otomatis menghitung atau mengubah `Project.verifiedProgress`.
+- Bukan progress automation production dan tidak mengubah aturan Progress SOT.
 
 **Catatan Project Activation**:
 - Endpoint aktivasi tersedia untuk local CRUD integration dan tetap memakai dev persona/adminId lokal, bukan RBAC production.
@@ -62,7 +72,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - RAB adalah baseline lokal/draft planning untuk scope, volume, unit, harga satuan, subtotal kategori, dan total plan; bukan kontrak final, invoice, payment, escrow, atau dokumen legal production.
 - Admin dapat CRUD lokal RAB plan/category/item untuk Local Development CRUD Integration.
 - Delete guard: `RabItem` yang sudah dipakai Material Request tidak boleh dihapus; `RabItem` yang sudah dipakai Weekly Journal tidak boleh dihapus; `RabCategory` yang masih punya item tidak boleh dihapus.
-- RAB Builder tidak mengubah Progress SOT. `Project.verifiedProgress` tetap Source of Truth lewat Verifikasi Progres.
+- RAB Builder tidak mengubah Progress SOT. `Project.verifiedProgress` tetap Source of Truth lewat Verifikasi Progres manual oleh Pengawas assigned.
 - **Status**: *Local CRUD v1 / Admin Builder Stabilized*.
 
 ## Supervisors

@@ -63,7 +63,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Dashboard | `/pengawas/dashboard` | DB-Backed v1 | Stats harian lapangan. |
 | Proyek Diawasi | `/pengawas/proyek` | DB-Backed v1 | List proyek per pengawas. |
 | Detail Proyek | `/pengawas/proyek/:id` | DB-Backed v1 | Detail teknis proyek. |
-| Verifikasi Progres | `/pengawas/verifikasi-progres` | Local Workflow v1 | Pengawas assigned memperbarui `Project.verifiedProgress` sebagai progress resmi (SOT); UI consistency stabilized. |
+| Verifikasi Progres | `/pengawas/verifikasi-progres` | Local Workflow v1 / Stabilized | Pengawas assigned memperbarui `Project.verifiedProgress` manual sebagai progress resmi (SOT), dengan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas. |
 | Dokumentasi | `/pengawas/dokumentasi` | Shell / Pending | Galeri fisik lapangan. |
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Report Pengawas dengan `verifiedProgressSnapshot` sebagai snapshot progress resmi saat laporan dibuat. |
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form draft Weekly Report; mengambil `Project.verifiedProgress` menjadi `verifiedProgressSnapshot` dan dapat melampirkan jurnal Mandor approved. |

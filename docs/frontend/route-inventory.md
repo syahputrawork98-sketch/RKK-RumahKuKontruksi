@@ -28,7 +28,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Dashboard | `/admin/dashboard` | DB-Backed v1 | Statistik rill database. |
 | Data Konsumen | `/admin/konsumen/data` | DB-Backed v1 | Manajemen data customer lokal. |
-| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | DB-Backed v2 | Management Design Request lokal. |
+| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/manage Design Request lokal, publish tender lokal, award bid lokal, dan convert-to-project draft/planning lokal; bukan tender production. |
 | Pengajuan Konstruksi | `/admin/konsumen/pengajuan-konstruksi` | Shell / Pending | Placeholder konversi pengajuan konstruksi. |
 | Validasi Pengajuan | `/admin/konsumen/validasi` | Shell / Pending | Placeholder checklist validasi administrasi. |
 | List Proyek | `/admin/proyek` | DB-Backed v1 | Manajemen proyek rill. |
@@ -93,20 +93,20 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
 | Dashboard | `/arsitek/dashboard` | DB-Backed v2 | Kapasitas & antrean desain dari backend lokal. |
-| Brief Desain | `/arsitek/brief-desain` | DB-Backed v2 | Mapping ke peluang/permintaan desain lokal. |
-| Peluang Desain | `/arsitek/peluang-desain` | DB-Backed v2 | Peluang tender desain lokal. |
-| Permintaan Desain | `/arsitek/permintaan-desain`| DB-Backed v2 | Legacy mapping ke peluang desain. |
-| Detail Permintaan | `/arsitek/permintaan-desain/:requestId`| DB-Backed v2 | Detail brief/tender desain lokal. |
-| Desain Aktif | `/arsitek/desain-aktif` | DB-Backed v2 | Monitoring pengerjaan desain lokal. |
+| Brief Desain | `/arsitek/brief-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | Mapping ke peluang/permintaan desain lokal untuk workflow tender simulasi lokal. |
+| Peluang Desain | `/arsitek/peluang-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | Arsitek melihat open tender lokal dan submit bid lokal; bukan marketplace production. |
+| Permintaan Desain | `/arsitek/permintaan-desain`| Local E2E Workflow v1 / UI Consistency Stabilized | Legacy mapping ke peluang/permintaan desain lokal. |
+| Detail Permintaan | `/arsitek/permintaan-desain/:requestId`| Local E2E Workflow v1 / UI Consistency Stabilized | Detail brief/tender desain lokal dan aksi bid lokal. |
+| Desain Aktif | `/arsitek/desain-aktif` | Local E2E Workflow v1 / UI Consistency Stabilized | Monitoring desain aktif lokal berdasarkan assignment/award lokal. |
 | Tahapan Konsep | `/arsitek/tahapan/konsep` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan Denah | `/arsitek/tahapan/denah` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan 3D | `/arsitek/tahapan/3d` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan Gambar Kerja | `/arsitek/tahapan/gambar-kerja` | Shell / Pending | Placeholder tahapan desain detail. |
 | File Desain | `/arsitek/file-desain` | Partial | Repositori desain lokal; upload/file production tetap Hold. |
-| Revisi Desain | `/arsitek/revisi` | DB-Backed v2 | Catatan/revisi desain lokal sesuai flow arsitek. |
+| Revisi Desain | `/arsitek/revisi` | Hold State | Placeholder revisi desain; belum ada workflow revisi/upload file production. |
 | Final Approved | `/arsitek/final-approved` | Shell / Pending | Placeholder paket desain final approved. |
 | Evaluasi Teknis | `/arsitek/evaluasi` | Shell / Pending | Placeholder evaluasi teknis. |
-| Riwayat | `/arsitek/riwayat` | DB-Backed v2 | Riwayat desain/tender lokal. |
+| Riwayat | `/arsitek/riwayat` | Local E2E Workflow v1 / UI Consistency Stabilized | Riwayat desain/tender lokal dari workflow simulasi localhost. |
 | Pengaturan | `/arsitek/pengaturan` | DB-Backed v1 | Profil arsitek rill. |
 
 ## 6. Superadmin Routes
@@ -119,7 +119,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Data Pengawas | `/superadmin/data-pengawas` | DB-Backed v1 | CRUD Manajemen Pengawas. |
 | Data Mandor | `/superadmin/data-mandor` | DB-Backed v1 | CRUD Manajemen Mandor. |
 | Data Arsitek | `/superadmin/data-arsitek` | DB-Backed v1 | CRUD/list Architect lokal. |
-| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed Read-Only | Monitoring global Design Request/Tender; Superadmin tidak menjalankan assign, publish, award, atau convert-to-project. |
+| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed Read-Only | Monitoring global Design Request/Tender lokal; Superadmin tidak menjalankan assign, publish, award, convert-to-project, atau aktivasi proyek. |
 | Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Hold State | Legalitas perusahaan dan PIC masih Hold; belum ada workflow production. |
 | Monitoring Proyek Global | `/superadmin/proyek` | DB-Backed Read-Only | Overview semua proyek via Project API; perubahan operasional tetap milik Admin/Pengawas. |
 | Proyek Aktif Global | `/superadmin/proyek/aktif` | DB-Backed Read-Only | Filter proyek aktif/berjalan dari Project API. |
@@ -141,7 +141,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Detail stage, progress resmi read-only, dan Stage Communication Panel memakai ProjectStagePublicComment API; create/reply membutuhkan `projectId` eksplisit. Alias lama `/konsumen/TimelineProyek/:stageId` tetap tersedia. |
 | Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
-| Permintaan Desain | `/konsumen/permintaan-desain` | DB-Backed v1 | List dan create Design Request memakai API lokal berdasarkan `customerId`. |
+| Permintaan Desain | `/konsumen/permintaan-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | List dan create Design Request lokal memakai API berdasarkan `customerId`; bukan marketplace/tender production. |
 | Pembayaran | `/konsumen/pembayaran` | Shell / Pending | Placeholder termin pembayaran; belum payment production. |
 | Dokumen | `/konsumen/dokumen` | Shell / Pending | Placeholder pusat dokumen; belum legal/upload production. |
 

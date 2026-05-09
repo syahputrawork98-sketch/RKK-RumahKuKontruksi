@@ -42,7 +42,7 @@ Status: **Database-Backed v1**
   - Request material: **Local Stabilized / DB-Backed v1**.
 
 ### 3. Arsitek / Architect
-Status: **Database-Backed v2**
+Status: **Database-Backed v2 / Local E2E Workflow v1**
 - **Context**: `ArchitectPersonaContext`
 - **Services**: `architectService`, `designRequestService`, `designTenderService`
 - **Dependency**: Membutuhkan seleksi persona melalui `ArchitectSwitcher` (Dev Mode).
@@ -50,7 +50,7 @@ Status: **Database-Backed v2**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
-- **Design Workflow**: Tender/peluang desain, bidding, dan update desain sudah memakai backend lokal untuk flow utama.
+- **Design Workflow**: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal, submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost.
 - **Hold / Placeholder**: Tahapan desain detail, file upload production, final approved package, dan evaluasi teknis masih Planned/Placeholder.
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
 
@@ -62,7 +62,8 @@ Status: **Database-Backed v2**
 **Behavior UI:**
 - **Dashboard**: Statistik rill dari database, dengan sisa demo activity/stat yang masih boleh dibersihkan terpisah.
 - **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
-- **Konsumen & Design Flow**: Customer data, Design Request management, tender publish/award, dan manual bridge to project draft: **DB-Backed v2 / Local Integrated**.
+- **Konsumen & Design Flow**: Customer data, Design Request management, tender publish/award, dan manual bridge to project draft/planning lokal: **Local E2E Workflow v1 / UI Consistency Stabilized**.
+- **Project Bridge Boundary**: Convert-to-project hanya membuat project draft/planning lokal. Tidak ada aktivasi otomatis, kontrak legal, payment/escrow, upload file production, marketplace production, atau tender production.
 - **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Data RAB (Read-First): **Partial**.
@@ -80,7 +81,7 @@ Status: **Partial / DB-Backed Local CRUD**
 - **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
 - **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
 - **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
-- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender secara global; Monitoring Proyek Global, Proyek Aktif Global, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
+- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global, Proyek Aktif Global, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin. Aksi assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, dan update progress resmi tetap milik flow Admin/Pengawas sesuai modul masing-masing.
 - **Hold / Placeholder**: Kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
@@ -89,7 +90,7 @@ Status: **Partial / DB-Backed Local CRUD**
 Status: **Database-Backed v1**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
 - **Dashboard & Monitoring**: Dashboard, project filter by `customerId`, ProjectStage, `Project.verifiedProgress` resmi, dan ProjectStagePublicComment sudah API-backed untuk localhost. Konsumen hanya melihat progress resmi, bukan mengubah atau memverifikasi progress.
-- **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen.
+- **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.
 - **Hold**: Password, auth production, payment, dokumen/legal upload, notification production API, upload foto rill, dan RBAC production tetap ditunda.

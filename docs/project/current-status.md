@@ -28,9 +28,9 @@
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Material Requests**| DONE | Local DB-Backed with stabilized status approval and receipt flow |
 | **Verification** | DONE | Progress SOT Local Workflow v1 / UI Consistency Stabilized; `Project.verifiedProgress` menjadi progress resmi |
-| **Design Request** | DONE | Consumer Request, Admin Management, Status Workflow |
-| **Design Tender** | DONE | 30/70 Split, Architect Bidding, Admin Awarding |
-| **Project Bridge** | DONE | Manual conversion from Design to Project Draft |
+| **Design Request** | Local E2E Workflow v1 / UI Consistency Stabilized | Konsumen create/list permintaan desain lokal; Admin review/manage workflow lokal; Superadmin read-only monitoring |
+| **Design Tender** | Local E2E Workflow v1 / UI Consistency Stabilized | Admin publish tender lokal dan award bid lokal; Arsitek view open tender, submit bid, serta melihat desain aktif/riwayat lokal |
+| **Project Bridge** | Local Draft/Planning Bridge | Manual conversion from Design Request to project draft/planning lokal; tidak mengaktifkan proyek otomatis |
 | **Timeline Panel** | DONE | Stage Communication Panel functional v1 via ProjectStagePublicComment API; create/reply memakai `projectId` eksplisit dari client |
 
 ## Operational Modules Progress
@@ -49,6 +49,7 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 - Stages otomatis (Harus direncanakan manual).
 - Penugasan Mandor/Pengawas otomatis.
 - Aktivasi otomatis (Harus melalui tombol aktivasi oleh Admin).
+- Project Bridge otomatis ke proyek aktif (Bridge hanya membuat draft/planning lokal).
 - Sistem Pembayaran (Escrow/Payment Gateway).
 - Dokumen Legal Otomatis (SPK, Kontrak).
 - Upload dokumen/file production.
@@ -61,10 +62,10 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | :--- | :--- | :--- | :--- |
 | **Pengawas** | Backend/Database | DB-Backed v1 | Full Operational Flow; Pengawas assigned update `Project.verifiedProgress` sebagai Progress SOT |
 | **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals); `WeeklyJournal.claimedProgress` tetap klaim non-resmi |
-| **Arsitek** | Backend/Database | DB-Backed v2 | Full Flow: Tender, Bidding, and Design Updates |
-| **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project; progress official hanya monitor/history/publish ringkasan, bukan verifikasi fisik |
-| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, Design Request/Tender monitoring, global project/progress monitoring use local APIs; operational design/progress actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
-| **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed; progress yang tampil memakai `Project.verifiedProgress` resmi |
+| **Arsitek** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1: open tender lokal, submit bid lokal, desain aktif, dan riwayat lokal |
+| **Admin** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1: review/manage, publish tender lokal, award bid lokal, dan convert-to-project draft/planning lokal; progress official hanya monitor/history/publish ringkasan, bukan verifikasi fisik |
+| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, read-only Design Request/Tender monitoring, global project/progress monitoring use local APIs; operational design/progress actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
+| **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request create/list lokal, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed; progress yang tampil memakai `Project.verifiedProgress` resmi |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions

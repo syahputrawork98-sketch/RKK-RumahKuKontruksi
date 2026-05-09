@@ -195,4 +195,13 @@
     font-size: 12px; line-height: 20px; font-weight: 700;
     @apply inline-block bg-primary-main/10 text-primary-main px-4 py-1.5 rounded-full uppercase tracking-widest border border-primary-main/20;
   }
+
+  /* Dashboard Button Overrides */
+  .btn-primary {
+    @apply bg-[var(--dashboard-primary)] border-[var(--dashboard-primary)] text-white hover:bg-[var(--dashboard-primary-hover)] hover:border-[var(--dashboard-primary-hover)];
+  }
+
+  .btn-outline.btn-primary {
+    @apply bg-transparent border-[var(--dashboard-primary)] text-[var(--dashboard-primary)] hover:bg-[var(--dashboard-primary)] hover:text-white;
+  }
 }

@@ -58,10 +58,9 @@ const Profil = () => {
       });
       setLoading(false);
       setError(null);
-    } else if (selectedCustomerId) {
-      // If we have an ID but no customer in context, something might be wrong or it's still fetching
-      // The context handles fetching, so if it's not loading and no customer, it's an error
-      setError("Data profil tidak ditemukan.");
+    } else if (selectedCustomerId && !personaLoading) {
+      // If we have an ID but no customer in context, it's an error
+      setError("Profil tidak ditemukan di database.");
       setLoading(false);
     } else {
       setLoading(false);
@@ -200,7 +199,7 @@ const Profil = () => {
             {!isEditing && (
               <button 
                 onClick={() => setIsEditing(true)}
-                className="btn btn-sm btn-teal btn-outline"
+                className="btn btn-sm btn-primary btn-outline rounded-xl"
               >
                 Edit Profil
               </button>
@@ -411,7 +410,7 @@ const Profil = () => {
               </button>
               <button
                 onClick={handleSave}
-                className={`btn btn-teal px-8 ${saving ? 'loading' : ''}`}
+                className={`btn btn-primary px-8 rounded-xl ${saving ? 'loading' : ''}`}
                 disabled={saving}
               >
                 {saving ? 'Menyimpan...' : 'Simpan Perubahan'}

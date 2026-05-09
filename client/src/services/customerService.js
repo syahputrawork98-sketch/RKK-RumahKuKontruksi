@@ -19,9 +19,7 @@ const customerService = {
    * @returns {Promise<Object>}
    */
   async getCustomers(params = {}) {
-    const queryParams = new URLSearchParams(params);
-    const endpoint = `/customers${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-    return apiClient.get(endpoint);
+    return apiClient.get('/customers', { params });
   },
 
   /**

@@ -63,7 +63,7 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals) |
 | **Arsitek** | Backend/Database | DB-Backed v2 | Full Flow: Tender, Bidding, and Design Updates |
 | **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project |
-| **Superadmin** | Mock/Partial | UI Shell Available | Backend integration for user management only |
+| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Superadmin entity CRUD, global stats, and master data pages use local APIs; global system management, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
 | **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed untuk localhost |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 

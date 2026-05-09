@@ -74,10 +74,13 @@ Status: **Database-Backed v2**
 ---
 
 ### 5. Superadmin
-Status: **Partial / UI Shell**
+Status: **Partial / DB-Backed Local CRUD**
 - **Context**: `SuperadminPersonaContext`
-- **Services**: `superadminService`
-- **Behavior UI**: Entity API sudah ada (DB-Backed v1 untuk profil/list), namun alur kerja manajemen sistem secara penuh masih bersifat **Partial / UI Shell / Mock**.
+- **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`
+- **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
+- **Dashboard & Master Data**: Dashboard memakai global stats lokal dan latest projects; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
+- **Hold / Placeholder**: Monitoring global, kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
+- **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
 
 ### 6. Konsumen
 Status: **Database-Backed v1**

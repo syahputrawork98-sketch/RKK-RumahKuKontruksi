@@ -97,10 +97,11 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 ## 7. Konsumen Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
-| Proyek Saya | `/konsumen/proyek` | Data Foundation Ready | Project API mendukung filter `customerId`; UI perlu integrasi Gemini. |
-| Timeline | `/konsumen/TimelineProyek` | UI Stabilized / DB-Backed v1 | ProjectStage dan verifiedProgress dipakai untuk timeline Konsumen lokal. |
-| Detail Progres | `/konsumen/TimelineProyek/:id`| Data Foundation Ready | Public comments per stage tersedia via ProjectStagePublicComment API; Stage Communication Panel sebaiknya read-only dulu sampai create/reply comment diverifikasi. |
-| Profil | `/konsumen/profil` | Data Foundation Ready | Customer API dan seed persona siap; UI edit profil menunggu integrasi Gemini. |
+| Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona. |
+| Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan verifiedProgress dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
+| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Detail stage dan Stage Communication Panel memakai ProjectStagePublicComment API; create/reply membutuhkan `projectId` eksplisit. Alias lama `/konsumen/TimelineProyek/:stageId` tetap tersedia. |
+| Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
+| Permintaan Desain | `/konsumen/permintaan-desain` | DB-Backed v1 | List dan create Design Request memakai API lokal berdasarkan `customerId`. |
 
 ---
-*Terakhir diperbarui: 8 Mei 2026*
+*Terakhir diperbarui: 9 Mei 2026*

@@ -199,7 +199,7 @@ const DetailJurnalMingguanMandorPage = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
-                                <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Progress Klaim Mandor</p>
+                                <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Klaim Progres Mandor (Non-Resmi)</p>
                                 {isEditing ? (
                                     <input 
                                         type="number" 
@@ -210,7 +210,7 @@ const DetailJurnalMingguanMandorPage = () => {
                                 ) : (
                                     <p className="text-3xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
                                 )}
-                                <p className="text-[9px] font-bold text-slate-400 mt-2 italic">* Klaim awal mandor (Bukan Progres Resmi)</p>
+                                <p className="text-[9px] font-bold text-slate-400 mt-2 italic">* Klaim mandor bersifat administratif, bukan progres resmi (SOT).</p>
                             </div>
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
                                 <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Kendala Lapangan</p>

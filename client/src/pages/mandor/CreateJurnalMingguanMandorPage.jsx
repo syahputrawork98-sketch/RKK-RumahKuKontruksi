@@ -179,7 +179,7 @@ const CreateJurnalMingguanMandorPage = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Klaim Progress Keseluruhan (%)</label>
+                            <label className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Klaim Progres Mandor (%)</label>
                             <input 
                                 type="number" 
                                 min="0" max="100"
@@ -187,6 +187,7 @@ const CreateJurnalMingguanMandorPage = () => {
                                 onChange={(e) => setFormData({...formData, claimedProgress: e.target.value})}
                                 className="w-full bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all"
                             />
+                            <p className="text-[9px] text-amber-600 font-bold italic mt-1">* Klaim non-resmi berdasarkan aktivitas lapangan Anda.</p>
                         </div>
 
                         <div className="space-y-2">
@@ -258,7 +259,7 @@ const CreateJurnalMingguanMandorPage = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Progress Klaim Item (%)</label>
+                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Klaim Item (%)</label>
                                     <input 
                                         type="number" 
                                         min="0" max="100"

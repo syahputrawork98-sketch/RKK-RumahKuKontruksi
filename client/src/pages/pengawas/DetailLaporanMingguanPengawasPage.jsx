@@ -339,7 +339,7 @@ const DetailLaporanMingguanPengawasPage = () => {
                             <div className="flex items-start gap-2">
                                 <FiInfo className="mt-0.5 flex-shrink-0" />
                                 <p className="text-[10px] font-medium leading-tight opacity-90 italic">
-                                    Ini adalah snapshot progress resmi saat laporan dibuat. Laporan ini tidak memodifikasi progress resmi.
+                                    Snapshot progres resmi saat laporan dibuat. Persetujuan laporan mingguan bersifat administratif dan tidak memodifikasi progres fisik resmi (SOT).
                                 </p>
                             </div>
                         </div>

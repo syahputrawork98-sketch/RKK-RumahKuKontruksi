@@ -414,7 +414,7 @@ const CreateLaporanMingguanPengawasPage = () => {
                                                         </select>
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <label className="text-[9px] font-black uppercase text-blue-600 ml-1">Verified Progress (%)</label>
+                                                        <label className="text-[9px] font-black uppercase text-blue-600 ml-1">Update Progres Lapangan (Verifikasi)</label>
                                                         <input 
                                                             type="number"
                                                             min="0"

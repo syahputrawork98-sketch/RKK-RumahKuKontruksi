@@ -80,8 +80,8 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                 break;
             case "reviewed":
             case "approve":
-                title = "Setujui Laporan";
-                message = "Apakah Anda yakin laporan ini sudah valid? Menyetujui laporan ini akan memperbarui progres resmi proyek.";
+                title = "Setujui Laporan Mingguan";
+                message = "Tandai laporan mingguan ini sebagai Approved (Valid secara administratif). Persetujuan laporan ini TIDAK memperbarui progres fisik resmi proyek.";
                 break;
             case "request_revision":
                 title = "Minta Revisi";
@@ -391,8 +391,8 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
 
                             <div className="bg-blue-50 p-3 rounded-xl border border-blue-100 flex gap-2">
                                 <FiInfo size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
-                                <p className="text-[9px] text-blue-700 font-bold leading-relaxed">
-                                    MEMUTUSKAN 'APPROVE' AKAN MEMPERBARUI PROGRESS RESMI (SOURCE OF TRUTH) PROYEK BERDASARKAN DATA LAPORAN INI.
+                                <p className="text-[9px] text-blue-700 font-bold leading-relaxed uppercase">
+                                    Konfirmasi 'APPROVE' bersifat administratif untuk menyetujui isi laporan. Update progres fisik tetap hanya melalui Verifikasi Progres Pengawas.
                                 </p>
                             </div>
 

@@ -69,15 +69,15 @@ const AuditLaporanPengawasPage = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-                        AUDIT <span className="text-blue-600 uppercase">Laporan Pengawas</span>
+                        MONITORING <span className="text-blue-600 uppercase">Laporan Pengawas</span>
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
-                        Review konsistensi laporan mingguan pengawas terhadap progres lapangan (Read-Only).
+                        Review konsistensi laporan mingguan pengawas terhadap progres lapangan secara lokal (Read-Only).
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
                     <FiCheckCircle className="text-blue-500" size={14} />
-                    <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Audit Ready</span>
+                    <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Local Monitoring Mode</span>
                 </div>
             </div>
 

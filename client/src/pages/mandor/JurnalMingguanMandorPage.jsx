@@ -115,7 +115,7 @@ const JurnalMingguanMandorPage = () => {
 
                         <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4">
                             <div className="text-left md:text-right">
-                                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Progress Klaim</p>
+                                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Klaim Progres (Non-Resmi)</p>
                                 <p className="text-xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
                             </div>
                             <div className="flex items-center gap-2">

@@ -147,7 +147,7 @@ const DetailJurnalMandorPengawasPage = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
-                                <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Progress Klaim Mandor</p>
+                                <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Klaim Progres Mandor (Non-Resmi)</p>
                                 <p className="text-3xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
                             </div>
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
@@ -199,8 +199,8 @@ const DetailJurnalMandorPengawasPage = () => {
                                 </div>
                             </div>
                             <div className="p-3 bg-white rounded-xl border border-[var(--dashboard-border)]">
-                                <p className="text-[9px] font-bold text-slate-400 italic leading-tight">
-                                    Persetujuan jurnal mandor adalah verifikasi administratif terhadap aktivitas, bukan pembaruan otomatis progres resmi.
+                                <p className="text-[9px] font-bold text-slate-400 italic leading-tight uppercase">
+                                    Persetujuan jurnal mandor adalah verifikasi administratif aktivitas, BUKAN mekanisme pembaruan progres resmi lapangan.
                                 </p>
                             </div>
                         </div>

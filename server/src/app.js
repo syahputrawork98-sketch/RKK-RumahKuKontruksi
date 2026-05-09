@@ -14,6 +14,7 @@ import projectStageRoutes from './modules/project-stages/project-stages.routes.j
 import rabRoutes from './modules/rab/rab.routes.js';
 import designRequestRoutes from './modules/design-requests/design-requests.routes.js';
 import designTenderRoutes from './modules/design-tenders/design-tenders.routes.js';
+import projectStageCommentRoutes from './modules/project-stage-public-comments/project-stage-public-comments.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -41,6 +42,7 @@ app.use('/api/project-stages', projectStageRoutes);
 app.use('/api/rab', rabRoutes);
 app.use('/api/design-requests', designRequestRoutes);
 app.use('/api/design-tenders', designTenderRoutes);
+app.use('/api/project-stage-comments', projectStageCommentRoutes);
 
 // Error Handler
 app.use(errorHandler);

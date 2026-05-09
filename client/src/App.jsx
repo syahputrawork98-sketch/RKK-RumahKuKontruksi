@@ -42,6 +42,7 @@ import KapasitasAdmin from "./pages/superadmin/KapasitasAdminPage";
 import MonitoringMaterialGlobal from "./pages/superadmin/MonitoringMaterialGlobalPage";
 import AuditLaporanPengawas from "./pages/superadmin/AuditLaporanPengawasPage";
 import SuperadminHoldState from "./pages/superadmin/SuperadminHoldStatePage";
+import AdminHoldState from "./pages/admin/AdminHoldStatePage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -219,8 +220,8 @@ function App() {
             {/* KONSUMEN & PENGAJUAN */}
             <Route path="konsumen/data" element={<CustomerAdminPage />} />
             <Route path="konsumen/pengajuan-desain" element={<DesignRequestAdminPage />} />
-            <Route path="konsumen/pengajuan-konstruksi" element={<PlaceholderPage title="Pengajuan Konstruksi" description="Proses konversi desain menjadi proyek konstruksi." status="Planned" />} />
-            <Route path="konsumen/validasi" element={<PlaceholderPage title="Validasi Pengajuan" description="Checklist verifikasi administrasi pengajuan konsumen." status="Planned" />} />
+            <Route path="konsumen/pengajuan-konstruksi" element={<AdminHoldState title="Pengajuan Konstruksi" description="Proses konversi desain menjadi proyek konstruksi." />} />
+            <Route path="konsumen/validasi" element={<AdminHoldState title="Validasi Pengajuan" description="Checklist verifikasi administrasi pengajuan konsumen." />} />
 
             {/* MANAJEMEN PROYEK */}
             <Route path="proyek" element={<ProyekAdminPage />} />
@@ -228,32 +229,32 @@ function App() {
             <Route path="proyek/aktivasi" element={<AktivasiProyekAdminPage />} />
             <Route path="proyek/:projectId" element={<DetailProyekAdminPage />} />
             <Route path="penugasan-tim" element={<PenugasanTimAdminPage />} />
-            <Route path="proyek/penutupan" element={<PlaceholderPage title="Penutupan Proyek" description="Proses serah terima kunci dan penutupan administrasi proyek." status="Planned" />} />
+            <Route path="proyek/penutupan" element={<AdminHoldState title="Penutupan Proyek" description="Proses serah terima kunci dan penutupan administrasi proyek." />} />
 
             {/* DOKUMEN & RAB */}
             <Route path="rab" element={<RabAdminPage />} />
             <Route path="rab/:projectId" element={<DetailRabAdminPage />} />
-            <Route path="dokumen/gambar-kerja" element={<PlaceholderPage title="Arsip Gambar Kerja" description="Manajemen file gambar kerja final untuk lapangan." status="Planned" />} />
-            <Route path="dokumen/kontrak" element={<PlaceholderPage title="Manajemen Kontrak" description="Pusat dokumen kontrak konsumen dan mitra." status="Planned" />} />
-            <Route path="dokumen/final" element={<PlaceholderPage title="Dokumen Final / BAST" description="Arsip Berita Acara Serah Terima dan dokumen legalitas akhir." status="Planned" />} />
-            <Route path="dokumen/change-order" element={<PlaceholderPage title="Change Order (CO)" description="Pencatatan perubahan pekerjaan dan biaya selama proyek." status="Planned" dos={["Mencatat pekerjaan tambah/kurang", "Evaluasi dampak biaya"]} donts={["CO tanpa verifikasi pengawas", "CO tanpa persetujuan konsumen"]} />} />
+            <Route path="dokumen/gambar-kerja" element={<AdminHoldState title="Arsip Gambar Kerja" description="Manajemen file gambar kerja final untuk lapangan." />} />
+            <Route path="dokumen/kontrak" element={<AdminHoldState title="Manajemen Kontrak" description="Pusat dokumen kontrak konsumen dan mitra." />} />
+            <Route path="dokumen/final" element={<AdminHoldState title="Dokumen Final / BAST" description="Arsip Berita Acara Serah Terima dan dokumen legalitas akhir." />} />
+            <Route path="dokumen/change-order" element={<AdminHoldState title="Change Order (CO)" description="Pencatatan perubahan pekerjaan dan biaya selama proyek." />} />
 
             {/* MONITORING LAPANGAN */}
             <Route path="laporan-progress" element={<LaporanProgressAdminPage />} />
-            <Route path="monitoring/jurnal-mandor" element={<PlaceholderPage title="Jurnal Mandor Approved" description="Daftar jurnal harian/mingguan mandor yang sudah diverifikasi pengawas." status="Planned" />} />
+            <Route path="monitoring/jurnal-mandor" element={<AdminHoldState title="Jurnal Mandor Approved" description="Daftar jurnal harian/mingguan mandor yang sudah diverifikasi pengawas." />} />
             <Route path="laporan-mingguan-pengawas" element={<LaporanMingguanPengawasAdminPage />} />
             <Route path="laporan-mingguan-pengawas/:reportId" element={<DetailLaporanMingguanPengawasAdminPage />} />
             <Route path="request-material" element={<RequestMaterialAdminPage />} />
-            <Route path="monitoring/kendala" element={<PlaceholderPage title="Kendala & Eskalasi" description="Daftar kendala lapangan yang memerlukan keputusan Admin." status="Planned" />} />
+            <Route path="monitoring/kendala" element={<AdminHoldState title="Kendala & Eskalasi" description="Daftar kendala lapangan yang memerlukan keputusan Admin." />} />
             
             <Route path="publikasi" element={<PublikasiKonsumenAdminPage />} />
 
             {/* PEMBAYARAN */}
-            <Route path="pembayaran/konsumen" element={<PlaceholderPage title="Pembayaran Konsumen" description="Monitoring invoice dan bukti bayar dari konsumen." status="Planned" />} />
-            <Route path="pembayaran/mandor" element={<PlaceholderPage title="Pembayaran Mandor" description="Proses opname dan disbursement untuk mitra mandor." status="Planned" />} />
-            <Route path="pembayaran/validasi" element={<PlaceholderPage title="Validasi Disbursement" description="Verifikasi akhir sebelum dana dicairkan ke mitra." status="Planned" />} />
-            <Route path="pembayaran/riwayat" element={<PlaceholderPage title="Riwayat Pembayaran" description="Arsip seluruh transaksi keuangan proyek." status="Planned" />} />
-            <Route path="pembayaran" element={<PembayaranAdminPage />} /> {/* Legacy mapping */}
+            <Route path="pembayaran/konsumen" element={<AdminHoldState title="Pembayaran Konsumen" description="Monitoring invoice dan bukti bayar dari konsumen." />} />
+            <Route path="pembayaran/mandor" element={<AdminHoldState title="Pembayaran Mandor" description="Proses opname dan disbursement untuk mitra mandor." />} />
+            <Route path="pembayaran/validasi" element={<AdminHoldState title="Validasi Disbursement" description="Verifikasi akhir sebelum dana dicairkan ke mitra." />} />
+            <Route path="pembayaran/riwayat" element={<AdminHoldState title="Riwayat Pembayaran" description="Arsip seluruh transaksi keuangan proyek." />} />
+            <Route path="pembayaran" element={<AdminHoldState title="Manajemen Pembayaran" description="Modul validasi pembayaran konsumen dan monitoring termin proyek." />} />
 
             <Route path="pengaturan" element={<PengaturanAdminPage />} />
           </Route>

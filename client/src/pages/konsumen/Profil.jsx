@@ -2,28 +2,29 @@ import React, { useState, useEffect } from "react";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import customerService from "../../services/customerService";
 import RoleDataState from "../../components/common/RoleDataState";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const Profil = () => {
-  const { selectedCustomerId, selectedCustomer } = useCustomerPersona();
+  const { selectedCustomerId, selectedCustomer, refreshCustomerData } = useCustomerPersona();
   const [user, setUser] = useState({
     nama: "",
     email: "",
     nomor: "",
     alamat: "",
     tanggalBergabung: "",
-    jenisKelamin: "Pria",
-    tempatTanggalLahir: "Jakarta, 01 Jan 1990",
     fotoProfil: "",
     idKonsumen: "",
     jumlahProyek: 0,
     statusAkun: "Aktif",
-    identityNumber: "N/A",
-    occupation: "N/A",
-    notes: ""
+    identityNumber: "",
+    occupation: "",
+    notes: "",
+    customerType: ""
   });
 
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (selectedCustomer) {
@@ -32,34 +33,21 @@ const Profil = () => {
         email: selectedCustomer.email || "",
         nomor: selectedCustomer.phone || "",
         alamat: selectedCustomer.address || "",
-        tanggalBergabung: selectedCustomer.joinedAt ? new Date(selectedCustomer.joinedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : "01 Jan 2024",
-        jenisKelamin: "Pria", 
-        tempatTanggalLahir: "Jakarta, 01 Jan 1990",
-        fotoProfil: selectedCustomer.avatar || `https://ui-avatars.com/api/?name=${selectedCustomer.name}&background=0D9488&color=fff`,
-        idKonsumen: selectedCustomer.id || "RKK-XXX",
+        tanggalBergabung: selectedCustomer.createdAt ? new Date(selectedCustomer.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : "-",
+        fotoProfil: selectedCustomer.avatar || `https://ui-avatars.com/api/?name=${selectedCustomer.name || 'User'}&background=0D9488&color=fff`,
+        idKonsumen: selectedCustomer.id || "",
         jumlahProyek: selectedCustomer._count?.projects || 0,
         statusAkun: "Aktif",
-        identityNumber: selectedCustomer.identityNumber || "N/A",
-        occupation: selectedCustomer.occupation || "N/A",
-        notes: selectedCustomer.notes || ""
+        identityNumber: selectedCustomer.identityNumber || "",
+        occupation: selectedCustomer.occupation || "",
+        notes: selectedCustomer.notes || "",
+        customerType: selectedCustomer.customerType || "individual"
       });
+      setLoading(false);
+    } else {
       setLoading(false);
     }
   }, [selectedCustomer]);
-
-
-  // Hitung umur dari tanggal lahir
-  const hitungUmur = (tanggalLahir) => {
-    if (!tanggalLahir) return "-";
-    const lahir = new Date(tanggalLahir);
-    const today = new Date();
-    let umur = today.getFullYear() - lahir.getFullYear();
-    const m = today.getMonth() - lahir.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < lahir.getDate())) umur--;
-    return umur;
-  };
-
-  const tanggalLahirOnly = user.tempatTanggalLahir.split(", ")[1] || "01 Jan 1990";
 
   // Handle perubahan input
   const handleChange = (e) => {
@@ -68,10 +56,48 @@ const Profil = () => {
   };
 
   // Simpan perubahan
-  const handleSave = () => {
-    setIsEditing(false);
-    alert("Profil berhasil diperbarui! (hanya frontend mock)");
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const payload = {
+        name: user.nama,
+        email: user.email,
+        phone: user.nomor,
+        address: user.alamat,
+        identityNumber: user.identityNumber,
+        occupation: user.occupation,
+        notes: user.notes,
+        avatar: user.fotoProfil
+      };
+
+      await customerService.updateCustomer(selectedCustomerId, payload);
+      
+      // Refresh context data
+      if (refreshCustomerData) {
+        await refreshCustomerData();
+      }
+      
+      setIsEditing(false);
+      alert("Profil berhasil diperbarui!");
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      alert(error.response?.data?.message || "Gagal memperbarui profil. Silakan coba lagi.");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (!selectedCustomerId) {
+    return (
+      <div className="container mx-auto px-4 py-10">
+        <RolePersonaEmptyState 
+          title="Profil Konsumen Tidak Ditemukan"
+          description="Silakan pilih persona Konsumen terlebih dahulu menggunakan Persona Switcher untuk melihat dan mengelola profil."
+          icon="👤"
+        />
+      </div>
+    );
+  }
 
   if (loading) return <RoleDataState type="loading" message="Memuat profil Anda..." />;
 
@@ -79,41 +105,85 @@ const Profil = () => {
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Foto Profil & Info Dasar */}
-        <div className="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg">
-          <img
-            src={user.fotoProfil}
-            alt="Foto Profil"
-            className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-teal-500"
-          />
-          {isEditing ? (
-            <input
-              type="text"
-              name="nama"
-              value={user.nama}
-              onChange={handleChange}
-              className="input input-bordered w-full text-center mb-2"
+        <div className="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg border border-slate-100">
+          <div className="relative group">
+            <img
+              src={user.fotoProfil}
+              alt="Foto Profil"
+              className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-teal-500 shadow-md"
             />
+            {isEditing && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-white text-xs font-bold">Edit URL</span>
+              </div>
+            )}
+          </div>
+          
+          {isEditing ? (
+            <div className="w-full mb-4">
+              <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Nama Lengkap</label>
+              <input
+                type="text"
+                name="nama"
+                value={user.nama}
+                onChange={handleChange}
+                className="input input-bordered input-sm w-full text-center"
+              />
+              <label className="block text-[10px] uppercase font-bold text-slate-400 mt-3 mb-1">URL Avatar</label>
+              <input
+                type="text"
+                name="fotoProfil"
+                value={user.fotoProfil}
+                onChange={handleChange}
+                placeholder="https://..."
+                className="input input-bordered input-sm w-full text-center text-[10px]"
+              />
+            </div>
           ) : (
-            <h2 className="text-xl font-bold text-teal-700 mb-1">{user.nama}</h2>
+            <h2 className="text-xl font-bold text-slate-800 mb-1">{user.nama}</h2>
           )}
 
-          <span
-            className={`badge ${user.statusAkun === "Aktif" ? "badge-success" : "badge-error"} mb-2`}
-          >
-            {user.statusAkun}
-          </span>
-          <p className="text-gray-500">ID: {user.idKonsumen}</p>
-          <p className="mt-2 text-gray-600">Jumlah Proyek: {user.jumlahProyek}</p>
-          <p className="mt-1 text-gray-600">Umur: {hitungUmur(tanggalLahirOnly)} Tahun</p>
+          <div className="flex items-center gap-2 mb-4">
+            <span className={`badge badge-sm ${user.statusAkun === "Aktif" ? "badge-success" : "badge-error"}`}>
+              {user.statusAkun}
+            </span>
+            <span className="badge badge-sm badge-outline capitalize">{user.customerType}</span>
+          </div>
+          
+          <div className="w-full space-y-2 text-sm border-t border-slate-50 pt-4">
+            <div className="flex justify-between text-slate-500">
+              <span>ID Konsumen</span>
+              <span className="font-mono text-xs">{user.idKonsumen}</span>
+            </div>
+            <div className="flex justify-between text-slate-500">
+              <span>Proyek Aktif</span>
+              <span className="font-semibold text-teal-600">{user.jumlahProyek}</span>
+            </div>
+            <div className="flex justify-between text-slate-500">
+              <span>Bergabung Sejak</span>
+              <span>{user.tanggalBergabung}</span>
+            </div>
+          </div>
         </div>
 
         {/* Form Data Pribadi */}
-        <div className="md:col-span-2 p-6 bg-white rounded-xl shadow-lg">
-          <h3 className="text-lg font-semibold text-teal-700 mb-4">Data Pribadi</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="md:col-span-2 p-6 bg-white rounded-xl shadow-lg border border-slate-100">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-bold text-slate-800">Detail Informasi Profil</h3>
+            {!isEditing && (
+              <button 
+                onClick={() => setIsEditing(true)}
+                className="btn btn-sm btn-teal btn-outline"
+              >
+                Edit Profil
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Nama */}
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Nama Lengkap</label>
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Nama Lengkap / Perusahaan</label>
               {isEditing ? (
                 <input
                   type="text"
@@ -123,13 +193,13 @@ const Profil = () => {
                   className="input input-bordered w-full"
                 />
               ) : (
-                <p className="text-gray-800">{user.nama}</p>
+                <p className="text-slate-700 font-medium">{user.nama}</p>
               )}
             </div>
 
             {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Email</label>
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Alamat Email</label>
               {isEditing ? (
                 <input
                   type="email"
@@ -139,13 +209,13 @@ const Profil = () => {
                   className="input input-bordered w-full"
                 />
               ) : (
-                <p className="text-gray-800">{user.email}</p>
+                <p className="text-slate-700 font-medium">{user.email}</p>
               )}
             </div>
 
             {/* Nomor Telepon */}
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Nomor Telepon</label>
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Nomor Telepon</label>
               {isEditing ? (
                 <input
                   type="text"
@@ -155,13 +225,45 @@ const Profil = () => {
                   className="input input-bordered w-full"
                 />
               ) : (
-                <p className="text-gray-800">{user.nomor}</p>
+                <p className="text-slate-700 font-medium">{user.nomor || "-"}</p>
+              )}
+            </div>
+
+            {/* NIK / Identity Number */}
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Nomor Identitas (NIK)</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="identityNumber"
+                  value={user.identityNumber}
+                  onChange={handleChange}
+                  className="input input-bordered w-full"
+                />
+              ) : (
+                <p className="text-slate-700 font-medium">{user.identityNumber || "-"}</p>
+              )}
+            </div>
+
+            {/* Pekerjaan / Occupation */}
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Pekerjaan</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="occupation"
+                  value={user.occupation}
+                  onChange={handleChange}
+                  className="input input-bordered w-full"
+                />
+              ) : (
+                <p className="text-slate-700 font-medium">{user.occupation || "-"}</p>
               )}
             </div>
 
             {/* Alamat */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-600">Alamat Lengkap</label>
+            <div className="md:col-span-2 space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Alamat Lengkap</label>
               {isEditing ? (
                 <textarea
                   name="alamat"
@@ -171,67 +273,46 @@ const Profil = () => {
                   rows={3}
                 />
               ) : (
-                <p className="text-gray-800">{user.alamat}</p>
+                <p className="text-slate-700 font-medium">{user.alamat || "-"}</p>
               )}
             </div>
 
-            {/* Tanggal Bergabung */}
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Tanggal Bergabung</label>
-              <p className="text-gray-800">{user.tanggalBergabung}</p>
-            </div>
-
-            {/* Jenis Kelamin */}
-            <div>
-              <label className="block text-sm font-medium text-gray-600">Jenis Kelamin</label>
+            {/* Catatan / Notes */}
+            <div className="md:col-span-2 space-y-1">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Catatan Tambahan</label>
               {isEditing ? (
-                <select
-                  name="jenisKelamin"
-                  value={user.jenisKelamin}
+                <textarea
+                  name="notes"
+                  value={user.notes}
                   onChange={handleChange}
-                  className="select select-bordered w-full"
-                >
-                  <option>Pria</option>
-                  <option>Wanita</option>
-                  <option>Lainnya</option>
-                </select>
-              ) : (
-                <p className="text-gray-800">{user.jenisKelamin}</p>
-              )}
-            </div>
-
-            {/* Tempat & Tanggal Lahir */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-600">Tempat & Tanggal Lahir</label>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="tempatTanggalLahir"
-                  value={user.tempatTanggalLahir}
-                  onChange={handleChange}
-                  className="input input-bordered w-full"
+                  className="textarea textarea-bordered w-full"
+                  rows={2}
                 />
               ) : (
-                <p className="text-gray-800">{user.tempatTanggalLahir}</p>
+                <p className="text-slate-700 font-medium">{user.notes || "-"}</p>
               )}
             </div>
           </div>
 
-          {/* Tombol Edit / Simpan / Batal */}
-          <div className="mt-6 flex flex-col items-end gap-3">
-            <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-lg border border-amber-100">
-                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
-                <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest">Status: Hold (Fase Local CRUD)</span>
-            </div>
-            <div className="flex justify-end gap-2">
+          {/* Tombol Simpan / Batal */}
+          {isEditing && (
+            <div className="mt-8 pt-6 border-t border-slate-100 flex justify-end gap-3">
               <button
-                className="btn btn-warning text-white opacity-50 cursor-not-allowed"
-                disabled
+                onClick={() => setIsEditing(false)}
+                className="btn btn-ghost"
+                disabled={saving}
               >
-                Edit Profil (Coming Soon)
+                Batal
+              </button>
+              <button
+                onClick={handleSave}
+                className={`btn btn-teal px-8 ${saving ? 'loading' : ''}`}
+                disabled={saving}
+              >
+                {saving ? 'Menyimpan...' : 'Simpan Perubahan'}
               </button>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -19,34 +19,34 @@ export const CustomerPersonaProvider = ({ children }) => {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Fetch all customers for the switcher
-    useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                setLoading(true);
-                const response = await customerService.getAllCustomers();
-                if (response.data) {
-                    setCustomers(response.data);
-                    
-                    // If no customer selected yet, or selected customer not in list, pick the first one
-                    if (!selectedCustomerId && response.data.length > 0) {
+    const fetchCustomers = async () => {
+        try {
+            setLoading(true);
+            const response = await customerService.getAllCustomers();
+            if (response.data) {
+                setCustomers(response.data);
+                
+                // If no customer selected yet, or selected customer not in list, pick the first one
+                if (!selectedCustomerId && response.data.length > 0) {
+                    handleSelectCustomer(response.data[0].id);
+                } else if (selectedCustomerId) {
+                    const found = response.data.find(c => c.id === selectedCustomerId);
+                    if (found) {
+                        setSelectedCustomer(found);
+                    } else if (response.data.length > 0) {
                         handleSelectCustomer(response.data[0].id);
-                    } else if (selectedCustomerId) {
-                        const found = response.data.find(c => c.id === selectedCustomerId);
-                        if (found) {
-                            setSelectedCustomer(found);
-                        } else if (response.data.length > 0) {
-                            handleSelectCustomer(response.data[0].id);
-                        }
                     }
                 }
-            } catch (error) {
-                console.error("Failed to fetch customers for persona:", error);
-            } finally {
-                setLoading(false);
             }
-        };
+        } catch (error) {
+            console.error("Failed to fetch customers for persona:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    // Fetch all customers for the switcher
+    useEffect(() => {
         fetchCustomers();
     }, []);
 
@@ -76,6 +76,7 @@ export const CustomerPersonaProvider = ({ children }) => {
                 selectedCustomerId, 
                 selectedCustomer, 
                 handleSelectCustomer,
+                refreshCustomerData: fetchCustomers,
                 loading 
             }}
         >

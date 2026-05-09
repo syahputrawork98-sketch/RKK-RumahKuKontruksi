@@ -43,6 +43,7 @@ import MonitoringMaterialGlobal from "./pages/superadmin/MonitoringMaterialGloba
 import AuditLaporanPengawas from "./pages/superadmin/AuditLaporanPengawasPage";
 import SuperadminHoldState from "./pages/superadmin/SuperadminHoldStatePage";
 import AdminHoldState from "./pages/admin/AdminHoldStatePage";
+import ArsitekHoldState from "./pages/arsitek/ArsitekHoldStatePage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -351,15 +352,15 @@ function App() {
             <Route path="desain-aktif" element={<DesainAktifArsitekPage />} />
             
             {/* TAHAPAN DESAIN */}
-            <Route path="tahapan/konsep" element={<PlaceholderPage title="Tahapan: Konsep Awal" description="Eksplorasi ide dan konsep dasar sesuai brief konsumen." status="Planned" />} />
-            <Route path="tahapan/denah" element={<PlaceholderPage title="Tahapan: Denah" description="Pembuatan denah ruang dan sirkulasi bangunan." status="Planned" />} />
-            <Route path="tahapan/3d" element={<PlaceholderPage title="Tahapan: Tampak / 3D" description="Visualisasi 3D eksterior dan interior bangunan." status="Planned" />} />
-            <Route path="tahapan/gambar-kerja" element={<PlaceholderPage title="Tahapan: Gambar Kerja" description="Pembuatan DED (Detail Engineering Design) untuk konstruksi." status="Planned" />} />
+            <Route path="tahapan/konsep" element={<ArsitekHoldState title="Tahapan: Konsep Awal" description="Eksplorasi ide dan konsep dasar sesuai brief konsumen." />} />
+            <Route path="tahapan/denah" element={<ArsitekHoldState title="Tahapan: Denah" description="Pembuatan denah ruang dan sirkulasi bangunan." />} />
+            <Route path="tahapan/3d" element={<ArsitekHoldState title="Tahapan: Tampak / 3D" description="Visualisasi 3D eksterior dan interior bangunan." />} />
+            <Route path="tahapan/gambar-kerja" element={<ArsitekHoldState title="Tahapan: Gambar Kerja" description="Pembuatan DED (Detail Engineering Design) untuk konstruksi." />} />
             
             <Route path="revisi" element={<RevisiDesainArsitekPage />} />
             <Route path="file-desain" element={<FileDesainArsitekPage />} />
-            <Route path="final-approved" element={<PlaceholderPage title="Final Approved Design" description="Arsip desain yang sudah disetujui konsumen dan siap bangun." status="Planned" dos={["Melihat desain final", "Download paket dokumen"]} donts={["Mengubah desain yang sudah approved", "Menghapus history versi"]} />} />
-            <Route path="evaluasi" element={<PlaceholderPage title="Evaluasi Teknis" description="Review kesesuaian desain dengan standar teknis RKK." status="Planned" />} />
+            <Route path="final-approved" element={<ArsitekHoldState title="Final Approved Design" description="Arsip desain yang sudah disetujui konsumen dan siap bangun." />} />
+            <Route path="evaluasi" element={<ArsitekHoldState title="Evaluasi Teknis" description="Review kesesuaian desain dengan standar teknis RKK." />} />
             <Route path="riwayat" element={<RiwayatDesainArsitekPage />} />
             <Route path="pengaturan" element={<PengaturanArsitekPage />} />
           </Route>

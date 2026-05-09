@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiUser, FiMonitor, FiLock, FiInfo, FiPieChart, FiAward, FiBriefcase } from "react-icons/fi";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import architectService from "../../services/architectService";
+import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 
@@ -9,6 +10,8 @@ const PengaturanArsitekPage = () => {
     const { selectedArchitect, selectedArchitectId, loading: personaLoading, error: personaError } = useArchitectPersona();
     const [certificates, setCertificates] = useState([]);
     const [experiences, setExperiences] = useState([]);
+    const [statsData, setStatsData] = useState(null);
+    const [activeRequests, setActiveRequests] = useState([]);
     const [loadingData, setLoadingData] = useState(false);
     const [dataError, setDataError] = useState(null);
 
@@ -18,15 +21,22 @@ const PengaturanArsitekPage = () => {
             try {
                 setLoadingData(true);
                 setDataError(null);
-                const [certRes, expRes] = await Promise.all([
+                const [certRes, expRes, statsRes, requestsRes] = await Promise.all([
                     architectService.getCertificates(selectedArchitectId),
-                    architectService.getExperiences(selectedArchitectId)
+                    architectService.getExperiences(selectedArchitectId),
+                    architectService.getArchitectStats(selectedArchitectId),
+                    designRequestService.getAssignedRequests(selectedArchitectId)
                 ]);
                 if (certRes.success) setCertificates(certRes.data);
                 if (expRes.success) setExperiences(expRes.data);
+                if (statsRes.success) setStatsData(statsRes.data);
+                if (requestsRes.success) {
+                    const active = (requestsRes.data || []).filter(r => !["approved", "rejected"].includes(r.status));
+                    setActiveRequests(active);
+                }
             } catch (err) {
                 console.error("Failed to fetch architect details:", err);
-                setDataError("Gagal mengambil data sertifikasi/pengalaman.");
+                setDataError("Gagal mengambil data profil.");
             } finally {
                 setLoadingData(false);
             }
@@ -34,12 +44,8 @@ const PengaturanArsitekPage = () => {
         fetchData();
     }, [selectedArchitectId]);
 
-    if (personaLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
-            </div>
-        );
+    if (personaLoading || loadingData) {
+        return <RoleDataState type="loading" message="Sinkronisasi profil arsitek..." />;
     }
 
     if (!selectedArchitectId) {
@@ -63,15 +69,19 @@ const PengaturanArsitekPage = () => {
         );
     }
 
+    const activeCount = activeRequests.length;
+    const maxCapacity = statsData?.maxDesignCapacity || selectedArchitect?.maxDesignCapacity || 0;
+    const capacityPercentage = maxCapacity > 0 ? Math.round((activeCount / maxCapacity) * 100) : 0;
+
     return (
         <div className="animate-fadeIn space-y-6 pb-12">
             <div>
                 <h2 className="text-2xl font-extrabold tracking-tight">Pengaturan</h2>
-                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Kelola profil arsitek dan preferensi sistem Anda.</p>
+                <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic uppercase tracking-widest">Kelola profil arsitek dan preferensi sistem (Local CRUD).</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="dashboard-card space-y-6">
+                <div className="dashboard-card space-y-6 h-fit">
                     <div className="flex items-center gap-3 border-b border-[var(--dashboard-border)] pb-4">
                         <FiUser className="text-[var(--dashboard-primary)]" size={20} />
                         <h3 className="font-bold text-sm">Profil Arsitek</h3>
@@ -83,7 +93,7 @@ const PengaturanArsitekPage = () => {
                                 className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--dashboard-primary)]/20" 
                                 alt="Avatar" 
                             />
-                            <button className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--dashboard-border)]">Ubah Foto</button>
+                            <button disabled className="px-4 py-2 bg-slate-100 border border-slate-200 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest cursor-not-allowed">Ubah Foto (Hold)</button>
                         </div>
                         <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-1">
@@ -112,14 +122,13 @@ const PengaturanArsitekPage = () => {
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="text-[10px] font-black uppercase tracking-widest">Desain Aktif</span>
-                                    {/* TODO: sync with active design requests from DB */}
-                                    <span className="text-xs font-black">0 / {selectedArchitect?.maxDesignCapacity || 0} Slot</span>
+                                    <span className="text-xs font-black">{activeCount} / {maxCapacity} Slot</span>
                                 </div>
                                 <div className="w-full h-2 bg-[var(--dashboard-border)] rounded-full overflow-hidden">
-                                    <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: "0%" }} />
+                                    <div className="h-full bg-[var(--dashboard-primary)] transition-all duration-1000" style={{ width: `${capacityPercentage}%` }} />
                                 </div>
-                                <p className="text-[9px] text-[var(--dashboard-text-soft)] font-medium mt-2 leading-relaxed">
-                                    Sistem membatasi maksimal {selectedArchitect?.maxDesignCapacity || 0} permintaan desain aktif secara bersamaan untuk menjaga kualitas output.
+                                <p className="text-[9px] text-[var(--dashboard-text-soft)] font-medium mt-2 leading-relaxed italic">
+                                    Sistem membatasi maksimal {maxCapacity} permintaan desain aktif secara bersamaan untuk menjaga kualitas output (Local Constraint).
                                 </p>
                             </div>
                         </div>

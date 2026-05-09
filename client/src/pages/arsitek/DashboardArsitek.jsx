@@ -12,6 +12,7 @@ import {
     DashboardStats,
     DashboardActivity,
 } from "@client/components/ui/dashboard";
+import { Link, useNavigate } from "react-router-dom";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import architectService from "../../services/architectService";
 import designRequestService from "../../services/designRequestService";
@@ -83,16 +84,19 @@ const DashboardArsitek = () => {
         );
     }
 
+    const trueActiveDesigns = recentRequests.filter(r => !["approved", "rejected"].includes(r.status)).length;
+    const trueNewRequests = recentRequests.filter(r => r.status === "assigned").length;
+
     const stats = [
-        { label: "Permintaan Baru", value: statsData?.newRequests || 0, icon: FiSend, color: "#0EA5E9" },
-        { label: "Desain Aktif", value: statsData?.activeDesigns || 0, icon: FiEdit3, color: "#1A4D2E" },
+        { label: "Antrean Baru", value: trueNewRequests, icon: FiSend, color: "#0EA5E9" },
+        { label: "Proses Desain", value: trueActiveDesigns, icon: FiEdit3, color: "#1A4D2E" },
         { label: "Menunggu Review", value: statsData?.waitingReview || 0, icon: FiActivity, color: "#F59E0B" },
         { label: "Revisi Diminta", value: statsData?.revisionRequested || 0, icon: FiClock, color: "#E11428" },
         { label: "Kapasitas Desain", value: statsData?.maxDesignCapacity || selectedArchitect?.maxDesignCapacity || 0, icon: FiCheckCircle, color: "#16A34A" },
     ];
 
     const capacityPercentage = statsData?.maxDesignCapacity > 0 
-        ? Math.round((statsData.activeDesigns / statsData.maxDesignCapacity) * 100) 
+        ? Math.round((trueActiveDesigns / statsData.maxDesignCapacity) * 100) 
         : 0;
 
     return (
@@ -109,7 +113,7 @@ const DashboardArsitek = () => {
                     <div className="dashboard-card">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-lg font-bold">Permintaan Desain Terbaru</h3>
-                            <button className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
+                            <Link to="/arsitek/brief-desain" className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:underline">Lihat Semua</Link>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
@@ -139,7 +143,7 @@ const DashboardArsitek = () => {
                                                     </span>
                                                 </td>
                                                 <td className="py-4 px-2 text-right">
-                                                    <button className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:underline">Buka</button>
+                                                    <Link to={`/arsitek/permintaan-desain/${req.id}`} className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:underline">Buka</Link>
                                                 </td>
                                             </tr>
                                         ))
@@ -165,7 +169,7 @@ const DashboardArsitek = () => {
                                 <h3 className="font-bold text-sm uppercase tracking-widest opacity-80 mb-2">Kapasitas Desain</h3>
                                 <div className="flex items-end gap-2">
                                     <span className="text-4xl font-black">{capacityPercentage}%</span>
-                                    <span className="text-xs mb-1 opacity-80">Terpakai ({statsData?.activeDesigns || 0}/{statsData?.maxDesignCapacity || selectedArchitect?.maxDesignCapacity || 0} Slot)</span>
+                                    <span className="text-xs mb-1 opacity-80">Terpakai ({trueActiveDesigns}/{statsData?.maxDesignCapacity || selectedArchitect?.maxDesignCapacity || 0} Slot)</span>
                                 </div>
                                 <div className="w-full h-1.5 bg-white/20 rounded-full mt-4 overflow-hidden">
                                     <div className="h-full bg-white transition-all duration-1000" style={{ width: `${capacityPercentage}%` }} />

@@ -45,8 +45,7 @@ import SuperadminHoldState from "./pages/superadmin/SuperadminHoldStatePage";
 import AdminHoldState from "./pages/admin/AdminHoldStatePage";
 import ArsitekHoldState from "./pages/arsitek/ArsitekHoldStatePage";
 import MandorHoldState from "./pages/mandor/MandorHoldStatePage";
-import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
-import PlaceholderPage from "./components/ui/PlaceholderPage";
+import PengawasHoldState from "./pages/pengawas/PengawasHoldStatePage";
 
 // ===== HALAMAN ADMIN =====
 import AdminLayout from "./layouts/AdminLayout";
@@ -58,7 +57,6 @@ import CreateProyekAdminPage from "./pages/admin/CreateProyekAdminPage";
 import DetailProyekAdminPage from "./pages/admin/DetailProyekAdminPage";
 import RabAdminPage from "./pages/admin/RabAdminPage";
 import DetailRabAdminPage from "./pages/admin/DetailRabAdminPage";
-import PembayaranAdminPage from "./pages/admin/PembayaranAdminPage";
 import PenugasanTimAdminPage from "./pages/admin/PenugasanTimAdminPage";
 import LaporanProgressAdminPage from "./pages/admin/LaporanProgressAdminPage";
 import RequestMaterialAdminPage from "./pages/admin/RequestMaterialAdminPage";
@@ -100,7 +98,6 @@ import DashboardArsitek from "./pages/arsitek/DashboardArsitek";
 import PermintaanDesainArsitekPage from "./pages/arsitek/PermintaanDesainArsitekPage";
 import DetailPermintaanDesainArsitekPage from "./pages/arsitek/DetailPermintaanDesainArsitekPage";
 import DesainAktifArsitekPage from "./pages/arsitek/DesainAktifArsitekPage";
-import FileDesainArsitekPage from "./pages/arsitek/FileDesainArsitekPage";
 import RevisiDesainArsitekPage from "./pages/arsitek/RevisiDesainArsitekPage";
 import RiwayatDesainArsitekPage from "./pages/arsitek/RiwayatDesainArsitekPage";
 import PengaturanArsitekPage from "./pages/arsitek/PengaturanArsitekPage";
@@ -273,9 +270,9 @@ function App() {
             <Route path="proyek/:projectId" element={<DetailProyekDiawasiPengawasPage />} />
             
             {/* DETAIL TEKNIS */}
-            <Route path="teknis/gambar-kerja" element={<PlaceholderPage title="Gambar Kerja (Technical)" description="Akses gambar kerja terbaru untuk pengawasan lapangan." status="Planned" />} />
-            <Route path="teknis/rab-baseline" element={<PlaceholderPage title="RAB & Scope Baseline" description="Acuan pekerjaan sesuai kontrak untuk verifikasi progress." status="Planned" />} />
-            <Route path="teknis/jadwal" element={<PlaceholderPage title="Jadwal / Kurva S" description="Monitoring timeline dan deviasi waktu proyek." status="Planned" />} />
+            <Route path="teknis/gambar-kerja" element={<PengawasHoldState title="Gambar Kerja (Technical)" description="Akses gambar kerja terbaru untuk pengawasan lapangan." />} />
+            <Route path="teknis/rab-baseline" element={<PengawasHoldState title="RAB & Scope Baseline" description="Acuan pekerjaan sesuai kontrak untuk verifikasi progress." />} />
+            <Route path="teknis/jadwal" element={<PengawasHoldState title="Jadwal / Kurva S" description="Monitoring timeline dan deviasi waktu proyek." />} />
             
             <Route path="jurnal-mandor" element={<JurnalMandorPengawasPage />} />
             <Route path="jurnal-mandor/:journalId" element={<DetailJurnalMandorPengawasPage />} />
@@ -284,7 +281,7 @@ function App() {
             <Route path="laporan-mingguan/create" element={<CreateLaporanMingguanPengawasPage />} />
             <Route path="laporan-mingguan/:reportId" element={<DetailLaporanMingguanPengawasPage />} />
             <Route path="request-material" element={<RequestMaterialPengawasPage />} />
-            <Route path="kendala" element={<PlaceholderPage title="Kendala & Rekomendasi" description="Pelaporan kendala teknis dan pemberian rekomendasi solusi." status="Planned" dos={["Melaporkan kendala teknis", "Memberi rekomendasi perbaikan"]} donts={["Menyetujui biaya tambahan", "Mengubah desain tanpa instruksi"]} />} />
+            <Route path="kendala" element={<PengawasHoldState title="Kendala & Rekomendasi" description="Pelaporan kendala teknis dan pemberian rekomendasi solusi." />} />
             <Route path="dokumentasi" element={<DokumentasiLapanganPengawasPage />} />
             <Route path="pengaturan" element={<PengaturanPengawasPage />} />
           </Route>
@@ -351,7 +348,7 @@ function App() {
             <Route path="tahapan/gambar-kerja" element={<ArsitekHoldState title="Tahapan: Gambar Kerja" description="Pembuatan DED (Detail Engineering Design) untuk konstruksi." />} />
             
             <Route path="revisi" element={<RevisiDesainArsitekPage />} />
-            <Route path="file-desain" element={<FileDesainArsitekPage />} />
+            <Route path="file-desain" element={<ArsitekHoldState title="File Desain Produksi" description="Pusat penyimpanan dokumen dan gambar hasil desain final." />} />
             <Route path="final-approved" element={<ArsitekHoldState title="Final Approved Design" description="Arsip desain yang sudah disetujui konsumen dan siap bangun." />} />
             <Route path="evaluasi" element={<ArsitekHoldState title="Evaluasi Teknis" description="Review kesesuaian desain dengan standar teknis RKK." />} />
             <Route path="riwayat" element={<RiwayatDesainArsitekPage />} />

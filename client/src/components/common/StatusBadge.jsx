@@ -73,14 +73,21 @@ const StatusBadge = ({ type, status }) => {
             case 'submitted':
                 return { label: 'Diajukan', className: 'bg-blue-100 text-blue-700 border-blue-200' };
             case 'approved_by_supervisor':
-                return { label: 'Disetujui Pengawas', className: 'bg-amber-100 text-amber-700 border-amber-200' };
-            case 'rejected_by_supervisor':
-                return { label: 'Ditolak Pengawas', className: 'bg-red-100 text-red-700 border-red-200' };
-            case 'processed':
+                return { label: 'Diverifikasi Pengawas', className: 'bg-amber-100 text-amber-700 border-amber-200' };
             case 'approved_by_admin':
-                return { label: 'Diproses Admin', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+                return { label: 'Disetujui Admin', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            case 'processing':
+                return { label: 'Diproses Logistik', className: 'bg-indigo-100 text-indigo-700 border-indigo-200' };
             case 'delivered':
-                return { label: 'Sudah Dikirim', className: 'bg-teal-600 text-white border-teal-700' };
+                return { label: 'Dalam Pengiriman', className: 'bg-teal-600 text-white border-teal-700' };
+            case 'received':
+                return { label: 'Diterima di Site', className: 'bg-emerald-600 text-white border-emerald-700' };
+            case 'completed':
+                return { label: 'Selesai', className: 'bg-slate-800 text-white border-slate-900' };
+            case 'rejected':
+                return { label: 'Ditolak', className: 'bg-red-100 text-red-700 border-red-200' };
+            case 'cancelled':
+                return { label: 'Dibatalkan', className: 'bg-gray-100 text-gray-500 border-gray-200' };
             default:
                 return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }

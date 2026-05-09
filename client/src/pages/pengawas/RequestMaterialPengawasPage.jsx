@@ -420,8 +420,3 @@ const RequestMaterialPengawasPage = () => {
 };
 
 export default RequestMaterialPengawasPage;
-        </div>
-    );
-};
-
-export default RequestMaterialPengawasPage;

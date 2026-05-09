@@ -3,11 +3,14 @@ import { FiSearch, FiFilter, FiChevronRight, FiClock, FiCheckCircle, FiPackage, 
 import materialRequestService from "../../services/materialRequestService";
 import StatusBadge from "../../components/common/StatusBadge";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const RequestMaterialAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("all");
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [actionLoading, setActionLoading] = useState(false);
@@ -21,6 +24,7 @@ const RequestMaterialAdminPage = () => {
         }
 
         setLoading(true);
+        setError(null);
         const params = {
             adminId: selectedAdminId,
             ...(activeTab !== 'all' && { status: activeTab })
@@ -29,6 +33,7 @@ const RequestMaterialAdminPage = () => {
         if (response.success) {
             setRequests(Array.isArray(response.data) ? response.data : []);
         } else {
+            setError(response.message);
             setRequests([]);
         }
         setLoading(false);
@@ -63,8 +68,8 @@ const RequestMaterialAdminPage = () => {
             status: newStatus,
             adminId: selectedAdminId,
             actorId: selectedAdminId,
-            actorRole: 'admin',
-            note: note || `Updated to ${newStatus.replace(/_/g, ' ')}`
+            actorRole: 'ADMIN',
+            note: note || `Review Admin: ${newStatus.replace(/_/g, ' ')}`
         });
         
         if (response.success) {
@@ -78,10 +83,10 @@ const RequestMaterialAdminPage = () => {
 
     if (!selectedAdminId) {
         return (
-            <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-slate-200 animate-fadeIn">
-                <FiPackage size={48} className="mx-auto text-slate-200 mb-4" />
-                <p className="text-sm font-black uppercase tracking-widest text-slate-400 italic">Pilih Admin persona terlebih dahulu di Topbar.</p>
-            </div>
+            <RolePersonaEmptyState 
+                title="Pilih Admin Persona"
+                description="Pilih akun Admin untuk memantau dan menyetujui permintaan material dari seluruh proyek."
+            />
         );
     }
 
@@ -147,10 +152,20 @@ const RequestMaterialAdminPage = () => {
                 </div>
 
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 gap-3">
-                        <div className="w-8 h-8 border-2 border-slate-800 border-t-transparent rounded-full animate-spin"></div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat Request...</p>
-                    </div>
+                    <RoleDataState type="loading" />
+                ) : error ? (
+                    <RoleDataState 
+                        type="error" 
+                        title="Gagal Memuat Pengajuan"
+                        description={error}
+                        onRetry={fetchRequests}
+                    />
+                ) : filteredRequests.length === 0 ? (
+                    <RoleDataState 
+                        type="empty"
+                        title={searchQuery ? "Hasil Pencarian Kosong" : "Belum Ada Pengajuan"}
+                        description={searchQuery ? `Tidak ditemukan request material dengan kata kunci "${searchQuery}".` : "Daftar pengajuan material akan muncul di sini."}
+                    />
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
@@ -199,14 +214,6 @@ const RequestMaterialAdminPage = () => {
                                         </td>
                                     </tr>
                                 ))}
-                                {filteredRequests.length === 0 && (
-                                    <tr>
-                                        <td colSpan="5" className="py-20 text-center">
-                                            <FiPackage size={40} className="mx-auto text-slate-100 mb-4" />
-                                            <p className="text-xs font-black uppercase tracking-widest text-slate-300">Tidak ada pengajuan material.</p>
-                                        </td>
-                                    </tr>
-                                )}
                             </tbody>
                         </table>
                     </div>
@@ -374,12 +381,18 @@ const RequestMaterialAdminPage = () => {
                                     </button>
                                 )}
                                 {selectedRequest.status === 'delivered' && (
+                                    <div className="col-span-2 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl text-center">
+                                        <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Menunggu Penerimaan</p>
+                                        <p className="text-[9px] text-indigo-500 font-medium mt-1">Material sedang dalam pengiriman. Tunggu konfirmasi penerimaan dari Mandor di lokasi.</p>
+                                    </div>
+                                )}
+                                {selectedRequest.status === 'received' && (
                                     <button 
                                         onClick={() => handleAction('completed')}
                                         disabled={actionLoading}
-                                        className="col-span-2 py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
+                                        className="col-span-2 py-4 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
                                     >
-                                        SELESAIKAN REQUEST (COMPLETED)
+                                        ARSIPKAN & SELESAIKAN (COMPLETED)
                                     </button>
                                 )}
                             </div>

@@ -19,8 +19,8 @@
 | **Projects** | CRUD Available | Full Lifecycle (Create, Edit, Detail, Assignment) |
 | **Project Stages**| CRUD Available | Plan-based stages for scheduling |
 | **RAB** | Local CRUD v1 / Admin Builder Stabilized | Project RAB Builder untuk RAB Plan, RabCategory, dan RabItem sebagai baseline draft planning lokal |
-| **Supervisors** | CRUD Available | Profile, Certificates, and Experiences included |
-| **Foremen** | CRUD Available | Profile, Certificates, and Experiences included |
+| **Supervisors** | CRUD Available | Profile plus local certificates/experiences API draft; Experience Read-Only summary stabilized |
+| **Foremen** | CRUD Available | Profile plus local certificates/experiences API draft; Experience Read-Only summary stabilized |
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
 | **Weekly Journals** | Local E2E Workflow v1 / UI Consistency Stabilized | Mandor creates weekly journal with `claimedProgress` as non-official claim; Pengawas review is administrative only |
@@ -28,6 +28,7 @@
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Material Requests**| DONE | Local DB-Backed with stabilized status approval and receipt flow |
 | **Verification** | DONE | Progress SOT Local Workflow v1 / UI Consistency Stabilized; `Project.verifiedProgress` menjadi progress resmi |
+| **Mandor/Pengawas Experience** | Local Experience Summary / Stabilized | Read-only ringkasan pengalaman dari data operasional lokal; bukan sertifikasi production atau reputation marketplace |
 | **Design Request** | Local E2E Workflow v1 / UI Consistency Stabilized | Konsumen create/list permintaan desain lokal; Admin review/manage workflow lokal; Superadmin read-only monitoring |
 | **Design Tender** | Local E2E Workflow v1 / UI Consistency Stabilized | Admin publish tender lokal dan award bid lokal; Arsitek view open tender, submit bid, serta melihat desain aktif/riwayat lokal |
 | **Design to Project Draft** | Local Demo Completion / Local E2E Workflow v1 | Design Request -> Tender -> Award -> assigned/approved -> Project draft/planning lokal sudah berjalan untuk demo localhost |
@@ -41,6 +42,11 @@ Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) te
 Project RAB Builder sudah berstatus **Local CRUD v1 / Admin Builder Stabilized**. Struktur lokalnya: `Project` -> `RAB Plan` -> `RabCategory`/kategori pekerjaan -> `RabItem`/item pekerjaan. RAB menjadi baseline draft planning lokal untuk scope dan estimasi pekerjaan, bukan kontrak final, invoice, payment, escrow, atau dokumen legal production. Admin dapat CRUD lokal RAB plan/category/item; delete guard menolak hapus `RabItem` yang sudah dipakai Material Request atau Weekly Journal, dan menolak hapus `RabCategory` yang masih memiliki item.
 
 Mandor & Pengawas Work Reporting from RAB/Stage sudah berstatus **Local Integration v1 / Stabilized**. `WeeklyJournalActivity.projectStageId` dan `WeeklyJournalActivity.rabItemId` dapat dipakai Mandor sebagai referensi opsional Stage/RAB Item saat melaporkan aktivitas. Pengawas melihat konteks Stage/RAB Item saat review jurnal melalui manual enrichment di backend memakai field existing, tanpa schema migration dan tanpa perubahan seed pada batch docs ini. Review jurnal tetap administratif: Jurnal Mandor maupun review Pengawas tidak otomatis mengubah `Project.verifiedProgress`; Progress SOT tetap lewat Verifikasi Progres.
+
+## Mandor/Pengawas Experience Summary
+Mandor/Pengawas Experience Read-Only v1 sudah berstatus **Local Experience Summary / Stabilized** untuk Local Development CRUD Integration. Ringkasan pengalaman dibaca dari data operasional lokal: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, review/laporan Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only. Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
+
+Experience summary ini bukan CRUD pengalaman manual production, bukan sertifikat production, bukan upload sertifikat, bukan PDF certificate, bukan legal validation, dan bukan rating/scoring/reputation marketplace. Sertifikasi tetap Hold untuk production capability. Experience summary tidak mengubah `Project.verifiedProgress` dan tidak mengubah aturan Progress SOT.
 
 ## Design to Project Draft Demo
 Design Request -> Tender -> Project Draft sudah berstatus **Local Demo Completion / Local E2E Workflow v1** untuk Local Development CRUD Integration. Alur lokalnya: Konsumen membuat Design Request lokal, Admin review/manage dan publish tender lokal, Arsitek submit bid lokal, Admin award bid lokal, request masuk fase `assigned`, lalu request dapat masuk fase `approved` sesuai workflow lokal dan dikonversi Admin menjadi Project draft/planning. Project hasil convert tetap berstatus `planning`, tidak otomatis aktif, dan aktivasi tetap lewat Project Activation flow terpisah. Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, upload file production, marketplace production, tender production, auth production, atau RBAC production.

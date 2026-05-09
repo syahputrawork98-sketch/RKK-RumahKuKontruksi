@@ -84,6 +84,11 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /supervisors/experiences/:experienceId`: Update pengalaman.
 - `DELETE /supervisors/experiences/:experienceId`: Hapus pengalaman.
 
+**Catatan Experience Pengawas**:
+- Experience Read-Only v1 berstatus **Local Experience Summary / Stabilized** dan dibaca dari data operasional lokal: project aktif/selesai, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
+- Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
+- Endpoint certificates/experiences di atas adalah API lokal/profile draft. Ini bukan sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
+
 ## Foremen
 - `GET /foremen`: Ambil semua data Mandor.
 - `GET /foremen/:id`: Ambil detail Mandor.
@@ -103,6 +108,11 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `POST /foremen/:id/experiences`: Tambah pengalaman.
 - `PATCH /foremen/experiences/:experienceId`: Update pengalaman.
 - `DELETE /foremen/experiences/:experienceId`: Hapus pengalaman.
+
+**Catatan Experience Mandor**:
+- Experience Read-Only v1 berstatus **Local Experience Summary / Stabilized** dan dibaca dari data operasional lokal: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
+- Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
+- Endpoint certificates/experiences di atas adalah API lokal/profile draft. Ini bukan sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
 
 ## Architects
 - `GET /architects`: Ambil semua data Arsitek.

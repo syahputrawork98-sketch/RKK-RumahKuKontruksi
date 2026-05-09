@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FiCheckCircle, FiActivity, FiInfo, FiAlertCircle, FiArrowLeft } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
+import rabService from "../../services/rabService";
+import weeklyJournalService from "../../services/weeklyJournalService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
+import { FiCheckCircle, FiActivity, FiInfo, FiAlertCircle, FiArrowLeft, FiChevronDown, FiChevronUp, FiBriefcase, FiList, FiFileText, FiLayout } from "react-icons/fi";
 
 const VerifikasiProgresPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
@@ -18,6 +21,14 @@ const VerifikasiProgresPengawasPage = () => {
     // Form states
     const [verifiedProgress, setVerifiedProgress] = useState(0);
     const [notes, setNotes] = useState("");
+    const [selectedStageId, setSelectedStageId] = useState("");
+
+    // Context states
+    const [stages, setStages] = useState([]);
+    const [rab, setRab] = useState(null);
+    const [journals, setJournals] = useState([]);
+    const [loadingContext, setLoadingContext] = useState(false);
+    const [showContext, setShowContext] = useState(true);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -43,19 +54,33 @@ const VerifikasiProgresPengawasPage = () => {
         setSelectedProject(project);
         setVerifiedProgress(project.verifiedProgress ?? 0);
         setNotes("");
+        setSelectedStageId("");
         setSuccessMessage(null);
         setError(null);
         
         try {
-            const historyRes = await projectService.getProjectProgressHistory(project.id, {
-                actorRole: 'pengawas',
-                actorId: selectedSupervisorId
-            });
-            if (historyRes.success) {
-                setHistory(historyRes.data.history);
-            }
+            setLoadingContext(true);
+            const [historyRes, stagesRes, rabRes, journalsRes] = await Promise.all([
+                projectService.getProjectProgressHistory(project.id, {
+                    actorRole: 'pengawas',
+                    actorId: selectedSupervisorId
+                }),
+                projectService.getProjectStages(project.id),
+                projectService.getProjectRab(project.id),
+                weeklyJournalService.getWeeklyJournals({
+                    projectId: project.id,
+                    supervisorId: selectedSupervisorId
+                })
+            ]);
+
+            if (historyRes.success) setHistory(historyRes.data.history);
+            if (stagesRes.success) setStages(stagesRes.data);
+            if (rabRes.success) setRab(rabRes.data);
+            if (journalsRes.success) setJournals(journalsRes.data);
         } catch (err) {
-            console.error("Failed to fetch history:", err);
+            console.error("Failed to fetch context:", err);
+        } finally {
+            setLoadingContext(false);
         }
     };
 
@@ -80,7 +105,8 @@ const VerifikasiProgresPengawasPage = () => {
                 actorRole: "pengawas",
                 actorId: selectedSupervisorId,
                 verifiedProgress: parseFloat(verifiedProgress),
-                notes
+                notes,
+                stageId: selectedStageId || null
             });
 
             if (response.success) {
@@ -229,6 +255,26 @@ const VerifikasiProgresPengawasPage = () => {
                                     </div>
                                 </div>
 
+                                {stages.length > 0 && (
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">
+                                            Tahapan Pekerjaan Terkait (Opsional)
+                                        </label>
+                                        <select 
+                                            value={selectedStageId}
+                                            onChange={(e) => setSelectedStageId(e.target.value)}
+                                            className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none transition-all"
+                                        >
+                                            <option value="">-- Pilih Tahapan (Opsional) --</option>
+                                            {stages.map(stage => (
+                                                <option key={stage.id} value={stage.id}>
+                                                    {stage.name} (Progress: {stage.progress || 0}%)
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
+
                                 <div className="space-y-2">
                                     <label className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">
                                         Catatan Verifikasi Lapangan
@@ -275,6 +321,108 @@ const VerifikasiProgresPengawasPage = () => {
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                        <div className="dashboard-card">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-lg font-black flex items-center gap-2">
+                                    <FiLayout className="text-[var(--dashboard-primary)]" /> 
+                                    Konteks Pendukung Verifikasi
+                                </h3>
+                                <button 
+                                    onClick={() => setShowContext(!showContext)}
+                                    className="p-2 bg-[var(--dashboard-surface-soft)] rounded-xl text-[var(--dashboard-text-soft)]"
+                                >
+                                    {showContext ? <FiChevronUp /> : <FiChevronDown />}
+                                </button>
+                            </div>
+
+                            {showContext && (
+                                <div className="space-y-6 animate-fadeIn">
+                                    <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
+                                        <p className="text-[10px] font-bold text-blue-700 leading-relaxed uppercase">
+                                            Data di bawah ini dikumpulkan dari perencanaan (Stages/RAB) dan laporan lapangan (Jurnal Mandor) untuk membantu Anda mengambil keputusan. Data ini tidak otomatis mengubah progress resmi.
+                                        </p>
+                                    </div>
+
+                                    {loadingContext ? (
+                                        <div className="py-8 flex justify-center">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            {/* STAGES CONTEXT */}
+                                            <div className="space-y-3">
+                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">
+                                                    <FiList size={12} /> Tahapan Pekerjaan
+                                                </div>
+                                                <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2 scrollbar-hide">
+                                                    {stages.length > 0 ? stages.map(stage => (
+                                                        <div key={stage.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
+                                                            <div className="flex justify-between items-start mb-1">
+                                                                <span className="text-[11px] font-black">{stage.name}</span>
+                                                                <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{stage.progress || 0}%</span>
+                                                            </div>
+                                                            <div className="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                                                                <div className="h-full bg-[var(--dashboard-primary)]" style={{ width: `${stage.progress || 0}%` }} />
+                                                            </div>
+                                                            {stage.estimatedEndDate && (
+                                                                <p className="text-[8px] font-bold text-[var(--dashboard-text-soft)] mt-1 uppercase">Deadline: {new Date(stage.estimatedEndDate).toLocaleDateString()}</p>
+                                                            )}
+                                                        </div>
+                                                    )) : <p className="text-[10px] italic text-slate-400">Tidak ada data tahapan.</p>}
+                                                </div>
+                                            </div>
+
+                                            {/* RAB CONTEXT */}
+                                            <div className="space-y-3">
+                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">
+                                                    <FiBriefcase size={12} /> Ringkasan RAB
+                                                </div>
+                                                <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2 scrollbar-hide">
+                                                    {rab?.categories?.map(cat => (
+                                                        <div key={cat.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
+                                                            <p className="text-[10px] font-black uppercase text-[var(--dashboard-primary)] mb-1">{cat.name}</p>
+                                                            <div className="space-y-1">
+                                                                {cat.items?.slice(0, 3).map(item => (
+                                                                    <div key={item.id} className="flex justify-between text-[9px] font-bold">
+                                                                        <span className="truncate pr-2">{item.name}</span>
+                                                                        <span className="shrink-0">{item.volume} {item.unit}</span>
+                                                                    </div>
+                                                                ))}
+                                                                {cat.items?.length > 3 && <p className="text-[8px] italic text-slate-400">+{cat.items.length - 3} item lainnya</p>}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    {!rab && <p className="text-[10px] italic text-slate-400">RAB belum disetujui atau tidak ditemukan.</p>}
+                                                </div>
+                                            </div>
+
+                                            {/* JOURNALS CONTEXT */}
+                                            <div className="col-span-full space-y-3 pt-2 border-t border-[var(--dashboard-border)]">
+                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">
+                                                    <FiFileText size={12} /> Jurnal Mandor Terakhir
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                                    {journals.slice(0, 3).map(journal => (
+                                                        <div key={journal.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] group hover:border-[var(--dashboard-primary)]/50 transition-all">
+                                                            <div className="flex justify-between items-start mb-2">
+                                                                <span className="text-[9px] font-black px-2 py-0.5 bg-white rounded-md text-[var(--dashboard-primary)] border border-[var(--dashboard-border)]">
+                                                                    {journal.claimedProgress || 0}% Klaim
+                                                                </span>
+                                                                <StatusBadge type="journal" status={journal.status} />
+                                                            </div>
+                                                            <p className="text-[10px] font-black truncate">{new Date(journal.weekStartDate).toLocaleDateString()} - {new Date(journal.weekEndDate).toLocaleDateString()}</p>
+                                                            <p className="text-[8px] font-bold text-[var(--dashboard-text-soft)] mt-1 uppercase">Dibuat: {new Date(journal.createdAt).toLocaleDateString()}</p>
+                                                        </div>
+                                                    ))}
+                                                    {journals.length === 0 && <p className="text-[10px] italic text-slate-400">Belum ada jurnal mingguan dari mandor.</p>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
 

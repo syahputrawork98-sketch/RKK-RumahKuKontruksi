@@ -1,6 +1,7 @@
 import * as ProjectRepository from './projects.repository.js';
 import * as CustomerRepository from '../customers/customers.repository.js';
 import * as AdminRepository from '../admins/admins.repository.js';
+import prisma from '../../config/prisma.js';
 import { serializeDecimal } from '../../utils/decimalHelper.js';
 
 export const getProjects = async (req, res, next) => {
@@ -353,6 +354,19 @@ export const verifyProjectProgress = async (req, res, next) => {
         success: false,
         message: `Progress tidak boleh turun. Progress saat ini: ${project.verifiedProgress}%`
       });
+    }
+    
+    // 3.5. Stage Validation if provided
+    if (stageId) {
+      const stage = await prisma.projectStage.findFirst({
+        where: { id: stageId, projectId: id }
+      });
+      if (!stage) {
+        return res.status(400).json({
+          success: false,
+          message: 'Tahapan (Stage) yang dipilih tidak valid atau tidak milik proyek ini.'
+        });
+      }
     }
 
     // 4. Execution

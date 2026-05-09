@@ -396,7 +396,7 @@ export const reviewReport = async (req, res, next) => {
         break;
       case 'approve':
       case 'reviewed':
-        newStatus = 'reviewed';
+        newStatus = 'approved';
         break;
       case 'request_revision':
         if (!note && !req.body.adminNote) return res.status(400).json({ success: false, message: 'Review note is required' });

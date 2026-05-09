@@ -198,3 +198,25 @@ export const findProgressHistoryByProjectId = async (projectId) => {
     orderBy: { createdAt: 'desc' }
   });
 };
+
+export const recalculateProjectVerifiedProgress = async (projectId, tx = prisma) => {
+  const stages = await tx.projectStage.findMany({
+    where: { projectId },
+    select: { progress: true }
+  });
+
+  if (stages.length === 0) return 0;
+
+  const totalProgress = stages.reduce((sum, stage) => sum + (stage.progress || 0), 0);
+  const averageProgress = totalProgress / stages.length;
+
+  const updatedProject = await tx.project.update({
+    where: { id: projectId },
+    data: {
+      verifiedProgress: averageProgress,
+      verifiedProgressUpdatedAt: new Date()
+    }
+  });
+
+  return updatedProject.verifiedProgress;
+};

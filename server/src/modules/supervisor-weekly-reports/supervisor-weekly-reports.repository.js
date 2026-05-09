@@ -1,4 +1,5 @@
 import prisma from '../../config/prisma.js';
+import { recalculateProjectVerifiedProgress } from '../projects/projects.repository.js';
 
 export const findReports = async (filters = {}) => {
   const where = {};
@@ -151,11 +152,49 @@ export const updateReportStatus = async (id, data) => {
     }
 
     if (status === 'locked') updateData.lockedAt = new Date();
-
+    
+    // Perform updates
     const report = await tx.supervisorWeeklyReport.update({
       where: { id },
-      data: updateData
+      data: updateData,
+      include: {
+        notes: true,
+        project: true
+      }
     });
+
+    // PROGRESS UPDATE LOGIC on APPROVAL
+    if (status === 'approved') {
+      const notesWithProgress = report.notes.filter(n => n.projectStageId && n.progress !== null);
+      
+      for (const note of notesWithProgress) {
+        // Update ProjectStage
+        await tx.projectStage.update({
+          where: { id: note.projectStageId },
+          data: {
+            progress: Math.min(100, Math.max(0, Math.round(note.progress))),
+            isVerified: true,
+            verifiedAt: new Date(),
+            verifiedBy: actorId
+          }
+        });
+
+        // Optional: Create verification log
+        await tx.progressVerificationLog.create({
+          data: {
+            projectId: report.projectId,
+            supervisorId: report.supervisorId,
+            stageId: note.projectStageId,
+            previousProgress: 0, // We don't have the previous progress easily here without extra query
+            newProgress: note.progress,
+            notes: `Verified via Weekly Report: ${note.content}`
+          }
+        });
+      }
+
+      // Recalculate Project verifiedProgress
+      await recalculateProjectVerifiedProgress(report.projectId, tx);
+    }
 
     await tx.supervisorWeeklyReportReviewLog.create({
       data: {
@@ -206,7 +245,15 @@ export const findProjectForContext = async (projectId) => {
       name: true,
       verifiedProgress: true,
       verifiedProgressUpdatedAt: true,
-      supervisorId: true
+      supervisorId: true,
+      stages: {
+        select: {
+          id: true,
+          title: true,
+          progress: true
+        },
+        orderBy: { order: 'asc' }
+      }
     }
   });
 };

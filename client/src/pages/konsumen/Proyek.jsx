@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiMapPin, FiCalendar, FiUser, FiInfo, FiActivity } from "react-icons/fi";
+import { FiMapPin, FiCalendar, FiUser, FiInfo, FiActivity, FiPlus } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";

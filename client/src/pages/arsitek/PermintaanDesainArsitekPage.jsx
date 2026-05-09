@@ -276,12 +276,12 @@ const PermintaanDesainArsitekPage = () => {
                                             <h3 className="font-bold text-[var(--dashboard-text)] group-hover:text-[var(--dashboard-primary)] transition-colors">{r.title}</h3>
                                         </div>
                                         <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
-                                            r.status === 'assigned' ? "bg-purple-50 text-purple-600 border-purple-100" :
+                                            r.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
                                             r.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
                                             r.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
                                             "bg-gray-50 text-gray-600 border-gray-100"
                                         }`}>
-                                            {r.status.replace('_', ' ')}
+                                            {r.status === 'assigned' ? 'Terpilih' : r.status === 'in_review' ? 'Proses Review' : r.status === 'approved' ? 'Selesai' : r.status.replace('_', ' ')}
                                         </span>
                                     </div>
 
@@ -304,13 +304,12 @@ const PermintaanDesainArsitekPage = () => {
                                             Detail Brief
                                             <FiChevronRight />
                                         </Link>
-                                        
-                                        {r.status === 'assigned' && (
+                                                                                 {r.status === 'assigned' && (
                                             <button 
                                                 onClick={() => handleUpdateStatus(r.id, 'in_review')}
                                                 className="flex-1 py-2 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/10"
                                             >
-                                                Proses Review
+                                                Mulai Review
                                             </button>
                                         )}
 
@@ -319,9 +318,10 @@ const PermintaanDesainArsitekPage = () => {
                                                 onClick={() => handleUpdateStatus(r.id, 'approved')}
                                                 className="flex-1 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/10"
                                             >
-                                                Approve Design
+                                                Klaim Selesai
                                             </button>
                                         )}
+
                                     </div>
                                 </div>
                             ))}

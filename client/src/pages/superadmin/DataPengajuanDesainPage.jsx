@@ -75,15 +75,20 @@ const DataPengajuanDesainPage = () => {
         const styles = {
             submitted: "bg-blue-50 text-blue-600 border-blue-100",
             open: "bg-teal-50 text-teal-600 border-teal-100",
-            assigned: "bg-purple-50 text-purple-600 border-purple-100",
-            awarded: "bg-emerald-50 text-emerald-600 border-emerald-100",
+            assigned: "bg-indigo-50 text-indigo-600 border-indigo-100",
+            awarded: "bg-indigo-50 text-indigo-600 border-indigo-100",
             in_review: "bg-amber-50 text-amber-600 border-amber-100",
             approved: "bg-emerald-50 text-emerald-600 border-emerald-100",
             rejected: "bg-rose-50 text-rose-600 border-rose-100",
             draft: "bg-gray-50 text-gray-600 border-gray-100",
             cancelled: "bg-gray-100 text-gray-500 border-gray-200"
         };
-        return styles[status] || styles.draft;
+        const labels = {
+            assigned: "Arsitek Terpilih",
+            open: "Tender Aktif",
+            approved: "Siap Convert"
+        };
+        return { style: styles[status] || styles.draft, label: labels[status] || status.replace('_', ' ') };
     };
 
     if (!selectedSuperadminId) {
@@ -179,17 +184,17 @@ const DataPengajuanDesainPage = () => {
                                                 </div>
                                             </td>
                                             <td className="py-4 px-2">
-                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(r.status)}`}>
-                                                    {(r.status || "draft").replace('_', ' ')}
+                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(r.status).style}`}>
+                                                    {getStatusBadge(r.status).label}
                                                 </span>
                                             </td>
                                             <td className="py-4 px-2">
                                                 {r.architect ? (
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
+                                                        <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
                                                             <FiCheckCircle size={12} />
                                                         </div>
-                                                        <span className="text-xs font-medium text-purple-700">{r.architect.name}</span>
+                                                        <span className="text-xs font-medium text-indigo-700">{r.architect.name}</span>
                                                     </div>
                                                 ) : (
                                                     <span className="text-[10px] text-gray-400 italic">Belum ditentukan</span>
@@ -247,8 +252,8 @@ const DataPengajuanDesainPage = () => {
                                                 Rp {Number(t.drafterBudgetAmount || 0).toLocaleString('id-ID')}
                                             </td>
                                             <td className="py-4 px-2">
-                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(t.status)}`}>
-                                                    {t.status || "open"}
+                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(t.status).style}`}>
+                                                    {getStatusBadge(t.status).label}
                                                 </span>
                                             </td>
                                             <td className="py-4 px-2">
@@ -294,8 +299,8 @@ const DataPengajuanDesainPage = () => {
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Status Sistem</label>
                                     <div className="pt-1">
-                                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(selectedItem.status)}`}>
-                                            {(selectedItem.status || "draft").replace('_', ' ')}
+                                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(selectedItem.status).style}`}>
+                                            {getStatusBadge(selectedItem.status).label}
                                         </span>
                                     </div>
                                 </div>

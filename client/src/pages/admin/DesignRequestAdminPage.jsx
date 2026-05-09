@@ -218,6 +218,18 @@ const DesignRequestAdminPage = () => {
         }
     };
 
+    const handleUpdateStatus = async (id, status) => {
+        try {
+            setSubmitting(true);
+            await designRequestService.updateDesignRequest(id, { status });
+            fetchData();
+        } catch (err) {
+            alert("Gagal memperbarui status.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     const handleConvertToProject = async () => {
         try {
             setSubmitting(true);
@@ -265,15 +277,20 @@ const DesignRequestAdminPage = () => {
         const styles = {
             submitted: "bg-blue-50 text-blue-600 border-blue-100",
             open: "bg-teal-50 text-teal-600 border-teal-100",
-            assigned: "bg-purple-50 text-purple-600 border-purple-100",
-            awarded: "bg-emerald-50 text-emerald-600 border-emerald-100",
+            assigned: "bg-indigo-50 text-indigo-600 border-indigo-100",
+            awarded: "bg-indigo-50 text-indigo-600 border-indigo-100",
             in_review: "bg-amber-50 text-amber-600 border-amber-100",
             approved: "bg-emerald-50 text-emerald-600 border-emerald-100",
             rejected: "bg-rose-50 text-rose-600 border-rose-100",
             draft: "bg-gray-50 text-gray-600 border-gray-100",
             cancelled: "bg-gray-100 text-gray-500 border-gray-200"
         };
-        return styles[status] || styles.draft;
+        const labels = {
+            assigned: "Arsitek Terpilih",
+            open: "Tender Aktif",
+            approved: "Siap Convert"
+        };
+        return { style: styles[status] || styles.draft, label: labels[status] || status.replace('_', ' ') };
     };
 
     if (loading && !isBidsOpen) return <RoleDataState type="loading" message="Memuat data..." />;
@@ -365,17 +382,17 @@ const DesignRequestAdminPage = () => {
                                                 </div>
                                             </td>
                                             <td className="py-4 px-2">
-                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(r.status)}`}>
-                                                    {r.status.replace('_', ' ')}
+                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(r.status).style}`}>
+                                                    {getStatusBadge(r.status).label}
                                                 </span>
                                             </td>
                                             <td className="py-4 px-2">
                                                 {r.architect ? (
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
+                                                        <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
                                                             <FiCheckCircle size={12} />
                                                         </div>
-                                                        <span className="text-xs font-medium text-purple-700">{r.architect.name}</span>
+                                                        <span className="text-xs font-medium text-indigo-700">{r.architect.name}</span>
                                                     </div>
                                                 ) : (
                                                     <div className="flex items-center gap-1.5">
@@ -399,10 +416,22 @@ const DesignRequestAdminPage = () => {
                                                         </button>
                                                     </div>
                                                 )}
+                                                
+                                                {(r.status === 'assigned' || r.status === 'in_review') && (
+                                                    <button 
+                                                        onClick={() => handleUpdateStatus(r.id, 'approved')}
+                                                        className="mt-2 w-full flex items-center justify-center gap-1 px-2 py-1.5 bg-emerald-600 text-white rounded-lg text-[9px] font-black uppercase border border-emerald-500 hover:bg-emerald-700 transition-all"
+                                                        title="Setujui Desain & Siapkan Proyek"
+                                                    >
+                                                        <FiCheckCircle size={10} />
+                                                        Approve Desain
+                                                    </button>
+                                                )}
+
                                                 {r.status === 'approved' && !r.projectId && (
                                                     <button 
                                                         onClick={() => handleOpenConvert(r)}
-                                                        className="mt-2 flex items-center gap-1 px-2 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-bold border border-indigo-100 hover:bg-indigo-100 transition-all"
+                                                        className="mt-2 w-full flex items-center justify-center gap-1 px-2 py-1.5 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase border border-indigo-500 hover:bg-indigo-700 transition-all shadow-md shadow-indigo-600/20"
                                                         title="Buat Draft Proyek Konstruksi"
                                                     >
                                                         <FiPlus size={10} />
@@ -471,8 +500,8 @@ const DesignRequestAdminPage = () => {
                                                 Rp {Number(t.drafterBudgetAmount).toLocaleString('id-ID')}
                                             </td>
                                             <td className="py-4 px-2 text-right">
-                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(t.status)}`}>
-                                                    {t.status}
+                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(t.status).style}`}>
+                                                    {getStatusBadge(t.status).label}
                                                 </span>
                                             </td>
                                             <td className="py-4 px-2">
@@ -620,21 +649,19 @@ const DesignRequestAdminPage = () => {
                                     />
                                 </div>
                             </div>
-
                             {publishData.baseDesignFee > 0 && (
                                 <div className="p-5 bg-teal-50 rounded-2xl border border-teal-100 space-y-3">
                                     <div className="flex justify-between items-center pb-2 border-b border-teal-200/50">
-                                        <span className="text-[10px] font-black text-teal-800 uppercase tracking-widest">Alokasi Platform (30%)</span>
+                                        <span className="text-[10px] font-black text-teal-800 uppercase tracking-widest">Fee Platform Simulasi (30%)</span>
                                         <span className="text-xs font-bold text-teal-900">Rp {(publishData.baseDesignFee * 0.3).toLocaleString('id-ID')}</span>
                                     </div>
                                     <div className="flex justify-between items-center pt-1">
-                                        <span className="text-[10px] font-black text-teal-800 uppercase tracking-widest">Budget Mitra (70%)</span>
+                                        <span className="text-[10px] font-black text-teal-800 uppercase tracking-widest">Pagu Budget Arsitek (70%)</span>
                                         <span className="text-sm font-black text-teal-600 underline underline-offset-4">Rp {(publishData.baseDesignFee * 0.7).toLocaleString('id-ID')}</span>
                                     </div>
-                                    <p className="text-[9px] text-teal-700 italic pt-2">* Angka "Budget Mitra" akan tampil sebagai pagu harga bagi arsitek.</p>
+                                    <p className="text-[9px] text-teal-700 italic pt-2">* Angka di atas adalah simulasi alokasi jasa dalam sistem RKK lokal.</p>
                                 </div>
                             )}
-
                             <div className="pt-4 flex justify-end gap-3">
                                 <button type="button" onClick={() => setIsPublishOpen(false)} className="px-6 py-3 border border-gray-100 text-gray-400 rounded-2xl font-bold text-xs uppercase tracking-widest">Batal</button>
                                 <button type="submit" disabled={submitting} className="px-8 py-3 bg-teal-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-600/20 hover:scale-[1.02] transition-all">

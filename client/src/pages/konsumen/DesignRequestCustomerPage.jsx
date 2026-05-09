@@ -95,9 +95,10 @@ const DesignRequestCustomerPage = () => {
     const getStatusLabel = (status) => {
         const labels = {
             submitted: "Diajukan",
-            assigned: "Arsitek Dipilih",
-            in_review: "Sedang Direview",
-            approved: "Disetujui",
+            open: "Tender Terbuka",
+            assigned: "Arsitek Terpilih",
+            in_review: "Proses Review",
+            approved: "Desain Disetujui",
             rejected: "Ditolak",
             draft: "Draft"
         };
@@ -147,7 +148,8 @@ const DesignRequestCustomerPage = () => {
                                     </div>
                                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
                                         r.status === 'submitted' ? "bg-blue-50 text-blue-600 border-blue-100" :
-                                        r.status === 'assigned' ? "bg-purple-50 text-purple-600 border-purple-100" :
+                                        r.status === 'open' ? "bg-teal-50 text-teal-600 border-teal-100" :
+                                        r.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
                                         r.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
                                         r.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
                                         "bg-gray-50 text-gray-600 border-gray-100"
@@ -167,7 +169,7 @@ const DesignRequestCustomerPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between pt-6 border-t border-gray-50">
+                                 <div className="flex items-center justify-between pt-6 border-t border-gray-50">
                                     <div className="flex items-center gap-2">
                                         <div className="w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-600">
                                             <FiCheckCircle size={14} />
@@ -177,12 +179,21 @@ const DesignRequestCustomerPage = () => {
                                             <p className="text-[11px] font-bold text-gray-700">{r.architect?.name || "Menunggu Penugasan"}</p>
                                         </div>
                                     </div>
-                                    <div 
-                                        onClick={() => alert("Fitur chat/kontak arsitek sedang disiapkan (Phase Local CRUD). Silakan hubungi Admin RKK.")}
-                                        className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform cursor-pointer"
-                                    >
-                                        Hubungi Admin <FiArrowRight />
-                                    </div>
+                                    {r.projectId ? (
+                                        <Link 
+                                            to="/konsumen/proyek"
+                                            className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-100 hover:bg-emerald-100 transition-all flex items-center gap-2"
+                                        >
+                                            Buka Proyek <FiArrowRight />
+                                        </Link>
+                                    ) : (
+                                        <div 
+                                            onClick={() => alert("Fitur chat/kontak arsitek sedang disiapkan (Phase Local CRUD). Silakan hubungi Admin RKK.")}
+                                            className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform cursor-pointer"
+                                        >
+                                            Hubungi Admin <FiArrowRight />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -282,7 +293,6 @@ const DesignRequestCustomerPage = () => {
                                 <p className="text-[10px] text-amber-600 font-bold italic mt-2">
                                     * Ini adalah formulir simulasi lokal. Data akan disimpan di database pengembangan.
                                 </p>
-                            </div>
                             </div>
 
                             <div className="pt-6 flex flex-col md:flex-row gap-3">

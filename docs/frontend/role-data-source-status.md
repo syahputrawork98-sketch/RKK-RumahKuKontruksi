@@ -78,7 +78,7 @@ Status: **Partial / UI Shell**
 ### 6. Konsumen
 Status: **Partial / Data Foundation Ready**
 - **Services**: `customerService`, `designRequestService`, `projectService`
-- **Dashboard & Monitoring**: Design Request, Project filter by `customerId`, ProjectStage, `verifiedProgress`, dan ProjectStagePublicComment sudah memiliki jalur backend/data seed lokal, tetapi UI masih perlu integrasi/verifikasi Gemini.
+- **Dashboard & Monitoring**: Design Request, Project filter by `customerId`, ProjectStage, `verifiedProgress`, dan ProjectStagePublicComment sudah memiliki jalur backend/data seed lokal. Timeline monitoring sudah distabilkan; Stage Communication Panel berikutnya sebaiknya memakai mode read-only terlebih dahulu sampai flow create/reply comment diverifikasi backend.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` siap untuk integrasi Gemini.
 - **Hold**: Password, auth production, upload foto rill, dan RBAC production tetap ditunda.
 

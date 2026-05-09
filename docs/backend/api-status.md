@@ -151,7 +151,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Status approval, delivery, receipt, dan completion sudah distabilkan untuk local CRUD integration.
 - **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
 
-## Project Stage Public Comments (Implemented Local Backend v1)
+## Project Stage Public Comments (Implemented Local Backend v1 / Read Path Ready)
 - `GET /project-stage-comments/stage/:stageId`: Ambil update publik/thread komentar per stage.
 - `POST /project-stage-comments/stage/:stageId`: Buat official update Admin atau reply Konsumen.
 - `PATCH /project-stage-comments/:id`: Update isi/status komentar.
@@ -160,6 +160,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 **Catatan**:
 - Konsumen hanya boleh membalas update yang sudah ada; official update hanya untuk Admin.
 - Data ini adalah bridge komunikasi publik per tahap proyek, bukan chat internal tim lapangan.
+- Untuk integrasi UI Konsumen berikutnya, gunakan mode **read-only panel** terlebih dahulu. Jalur `POST` sudah ada, tetapi reply Konsumen perlu verifikasi/fix backend ringan pada validasi parent comment sebelum dipakai sebagai flow utama.
 
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.

@@ -26,8 +26,12 @@ export const findByStageId = async (stageId) => {
 };
 
 export const findById = async (id) => {
-  return await prisma.projectStagePublicComment.findUnique({
-    where: { id, deletedAt: null }
+  return await prisma.projectStagePublicComment.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+      status: 'published'
+    }
   });
 };
 

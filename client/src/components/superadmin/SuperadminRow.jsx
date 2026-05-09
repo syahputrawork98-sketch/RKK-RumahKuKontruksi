@@ -1,5 +1,5 @@
 import React from "react";
-import { Eye, Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2 } from "lucide-react";
 import { FiShield } from "react-icons/fi";
 
 export default function SuperadminRow({ admin, onEdit, onDelete, onDetail }) {
@@ -34,7 +34,7 @@ export default function SuperadminRow({ admin, onEdit, onDelete, onDetail }) {
           </span>
           <div className="flex items-center gap-1 mt-2">
             <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-rose-100 text-rose-700 flex items-center gap-1">
-              <FiShield size={8} /> Root Admin
+              <FiShield size={8} /> Superadmin
             </span>
           </div>
         </div>

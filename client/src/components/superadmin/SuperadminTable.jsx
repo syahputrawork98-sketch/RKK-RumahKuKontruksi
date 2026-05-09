@@ -40,14 +40,18 @@ export default function SuperadminTable({ data }) {
   };
 
   const handleDelete = async (admin) => {
-    if (!confirm(`Hapus akun superadmin ${admin.name}?`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun superadmin ${admin.name}? Akun ini tidak akan terhapus permanen namun tidak bisa digunakan untuk masuk ke sistem.`)) return;
     try {
-      await superadminService.deleteSuperadmin(admin.id);
-      setAdmins((prev) => prev.filter((item) => item.id !== admin.id));
-      alert("Akun superadmin berhasil dinonaktifkan.");
+      const response = await superadminService.deleteSuperadmin(admin.id);
+      if (response.success) {
+        setAdmins((prev) => prev.filter((item) => item.id !== admin.id));
+        alert("Akun superadmin berhasil dinonaktifkan.");
+      } else {
+        alert(response.message || "Gagal menonaktifkan akun.");
+      }
     } catch (err) {
       console.error("SuperadminTable: Failed to delete superadmin", err);
-      alert("Gagal menghapus akun. Silakan coba lagi.");
+      alert(err.response?.data?.message || "Terjadi kesalahan saat menghubungi server.");
     }
   };
 
@@ -62,19 +66,23 @@ export default function SuperadminTable({ data }) {
             )
           );
           alert("Akun superadmin berhasil diperbarui.");
+        } else {
+          alert(response.message || "Gagal memperbarui akun.");
         }
       } else {
         const response = await superadminService.createSuperadmin(formData);
         if (response.success) {
           setAdmins((prev) => [...prev, response.data]);
           alert("Akun superadmin baru berhasil ditambahkan.");
+        } else {
+          alert(response.message || "Gagal menambahkan akun baru.");
         }
       }
       setIsFormOpen(false);
       setEditingAdmin(null);
     } catch (err) {
       console.error("SuperadminTable: Failed to save superadmin", err);
-      alert(err.response?.data?.message || "Gagal menyimpan akun superadmin.");
+      alert(err.response?.data?.message || "Gagal menghubungi server database.");
     }
   };
 

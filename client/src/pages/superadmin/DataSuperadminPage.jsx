@@ -40,7 +40,7 @@ export default function DataSuperadminPage() {
           </h1>
         </div>
         <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed">
-          Manajemen otoritas tertinggi sistem. Kelola akun superadmin, hak akses root, dan pantau aktivitas administratif global untuk memastikan keamanan sistem.
+          Manajemen data superadmin sistem. Kelola akun dan pantau aktivitas administratif global untuk sinkronisasi database lokal.
         </p>
       </div>
 

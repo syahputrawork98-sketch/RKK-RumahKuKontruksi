@@ -2,32 +2,26 @@ import apiClient from './apiClient';
 
 export const superadminService = {
   getSuperadmins: async (params) => {
-    const response = await apiClient.get('/superadmins', { params });
-    return response.data;
+    return apiClient.get('/superadmins', { params });
   },
 
   getSuperadminById: async (id) => {
-    const response = await apiClient.get(`/superadmins/${id}`);
-    return response.data;
+    return apiClient.get(`/superadmins/${id}`);
   },
 
   createSuperadmin: async (payload) => {
-    const response = await apiClient.post('/superadmins', payload);
-    return response.data;
+    return apiClient.post('/superadmins', payload);
   },
 
   updateSuperadmin: async (id, payload) => {
-    const response = await apiClient.patch(`/superadmins/${id}`, payload);
-    return response.data;
+    return apiClient.patch(`/superadmins/${id}`, payload);
   },
 
   deleteSuperadmin: async (id) => {
-    const response = await apiClient.delete(`/superadmins/${id}`);
-    return response.data;
+    return apiClient.delete(`/superadmins/${id}`);
   },
   getGlobalStats: async () => {
-    const response = await apiClient.get('/superadmins/stats/global');
-    return response.data;
+    return apiClient.get('/superadmins/stats/global');
   }
 };
 

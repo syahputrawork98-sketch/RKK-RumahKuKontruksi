@@ -2,19 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
     FiArrowLeft, 
-    FiPrinter, 
-    FiPlus, 
-    FiEdit2, 
-    FiTrash2, 
-    FiAlertCircle, 
-    FiCheckCircle, 
-    FiChevronDown, 
     FiChevronUp,
     FiFileText,
     FiPackage,
     FiTag,
-    FiX,
-    FiSave,
     FiInfo
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
@@ -30,24 +21,11 @@ const DetailRabAdminPage = () => {
     // UI States
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [submitting, setSubmitting] = useState(false);
-    const [formError, setFormError] = useState(null);
     const [activeCategory, setActiveCategory] = useState(null);
-    const [showPlanModal, setShowPlanModal] = useState(false);
-    const [showCategoryModal, setShowCategoryModal] = useState(false);
-    const [showItemModal, setShowItemModal] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState({ show: false, title: "", message: "", onConfirm: null });
     
     // Data States
     const [project, setProject] = useState(null);
     const [rabPlan, setRabPlan] = useState(null);
-    
-    // Form States
-    const [planForm, setPlanForm] = useState({ title: "Draft RAB", type: "Pembangunan", version: "1.0", notes: "" });
-    const [categoryForm, setCategoryForm] = useState({ code: "", name: "", description: "", order: 0 });
-    const [itemForm, setItemForm] = useState({ description: "", volume: 1, unit: "m2", unitPrice: 0, location: "", notes: "", categoryId: "" });
-    const [isEditing, setIsEditing] = useState(false);
-    const [editId, setEditId] = useState(null);
 
     const fetchData = useCallback(async () => {
         if (!selectedAdminId) return;
@@ -83,120 +61,7 @@ const DetailRabAdminPage = () => {
         }).format(val || 0);
     };
 
-    // HANDLERS
-    const handleCreatePlan = async (e) => {
-        e.preventDefault();
-        setFormError(null);
-        if (!planForm.title || !planForm.type) {
-            setFormError("Judul dan Tipe RAB wajib diisi.");
-            return;
-        }
-
-        try {
-            setSubmitting(true);
-            await rabService.createRabPlan(projectId, planForm, { adminId: selectedAdminId });
-            setShowPlanModal(false);
-            fetchData();
-        } catch (err) {
-            setFormError(err.response?.data?.message || "Gagal membuat RAB Plan.");
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    const handleSaveCategory = async (e) => {
-        e.preventDefault();
-        setFormError(null);
-        if (!categoryForm.code || !categoryForm.name) {
-            setFormError("Kode dan Nama Kategori wajib diisi.");
-            return;
-        }
-
-        try {
-            setSubmitting(true);
-            if (isEditing) {
-                await rabService.updateRabCategory(editId, categoryForm, { adminId: selectedAdminId });
-            } else {
-                await rabService.createRabCategory(rabPlan.id, categoryForm, { adminId: selectedAdminId });
-            }
-            setShowCategoryModal(false);
-            setIsEditing(false);
-            setEditId(null);
-            fetchData();
-        } catch (err) {
-            setFormError(err.response?.data?.message || "Gagal menyimpan kategori.");
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    const handleSaveItem = async (e) => {
-        e.preventDefault();
-        setFormError(null);
-        
-        // Frontend Validations
-        if (!itemForm.description) return setFormError("Deskripsi pekerjaan wajib diisi.");
-        if (!itemForm.volume || itemForm.volume <= 0) return setFormError("Volume harus lebih besar dari 0.");
-        if (!itemForm.unit) return setFormError("Satuan wajib diisi.");
-        if (itemForm.unitPrice < 0) return setFormError("Harga satuan tidak boleh negatif.");
-
-        try {
-            setSubmitting(true);
-            if (isEditing) {
-                await rabService.updateRabItem(editId, itemForm, { adminId: selectedAdminId });
-            } else {
-                await rabService.createRabItem(itemForm.categoryId, itemForm, { adminId: selectedAdminId });
-            }
-            setShowItemModal(false);
-            setIsEditing(false);
-            setEditId(null);
-            fetchData();
-        } catch (err) {
-            setFormError(err.response?.data?.message || "Gagal menyimpan item.");
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    const handleDeleteCategory = (id) => {
-        setShowConfirmModal({
-            show: true,
-            title: "Hapus Kategori",
-            message: "Hapus kategori ini beserta seluruh item di dalamnya? Tindakan ini tidak dapat dibatalkan.",
-            onConfirm: async () => {
-                try {
-                    setSubmitting(true);
-                    await rabService.deleteRabCategory(id, { adminId: selectedAdminId });
-                    fetchData();
-                    setShowConfirmModal({ show: false });
-                } catch (err) {
-                    setError("Gagal menghapus kategori: " + (err.response?.data?.message || err.message));
-                } finally {
-                    setSubmitting(false);
-                }
-            }
-        });
-    };
-
-    const handleDeleteItem = (id) => {
-        setShowConfirmModal({
-            show: true,
-            title: "Hapus Item",
-            message: "Hapus item pekerjaan ini?",
-            onConfirm: async () => {
-                try {
-                    setSubmitting(true);
-                    await rabService.deleteRabItem(id, { adminId: selectedAdminId });
-                    fetchData();
-                    setShowConfirmModal({ show: false });
-                } catch (err) {
-                    setError("Gagal menghapus item: " + (err.response?.data?.message || err.message));
-                } finally {
-                    setSubmitting(false);
-                }
-            }
-        });
-    };
+    // Handlers removed for read-only mode
 
     if (!selectedAdminId) return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
     if (loading) return <RoleDataState type="loading" message="Memverifikasi data dan kepemilikan RAB..." />;
@@ -212,7 +77,7 @@ const DetailRabAdminPage = () => {
                     <h2 className="text-xl font-black text-slate-800">Akses Ditolak</h2>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Forbidden Access</p>
                     <p className="text-sm text-slate-500 mt-4 leading-relaxed">
-                        Anda tidak memiliki izin untuk mengelola RAB proyek ini. Proyek ini bukan di bawah tanggung jawab persona Anda.
+                        Anda tidak memiliki izin untuk melihat RAB proyek ini. Proyek ini bukan di bawah tanggung jawab persona Anda.
                     </p>
                 </div>
                 <button 
@@ -241,7 +106,7 @@ const DetailRabAdminPage = () => {
                     <div>
                         <div className="flex items-center gap-2">
                             <h2 className="text-xl font-black tracking-tight">
-                                Kelola RAB: <span className="text-[var(--dashboard-primary)]">{project.projectCode}</span>
+                                Detail RAB: <span className="text-[var(--dashboard-primary)]">{project.projectCode}</span>
                             </h2>
                             {rabPlan && (
                                 <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest border ${rabPlan.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}>
@@ -269,14 +134,6 @@ const DetailRabAdminPage = () => {
                         <FiFileText size={40} />
                     </div>
                     <h3 className="text-xl font-black mb-2">Proyek Belum Memiliki RAB</h3>
-                    <div className="text-center max-w-md px-6 space-y-4">
-                        <p className="text-sm text-[var(--dashboard-text-soft)] font-bold uppercase tracking-widest leading-relaxed">
-                            RAB Plan adalah dokumen anggaran utama. Setelah dibuat, Admin bisa menambahkan kategori dan item pekerjaan.
-                        </p>
-                        <p className="text-[10px] text-slate-400 italic">
-                            RAB ini bersifat draft internal dan belum menjadi kontrak final atau Change Order.
-                        </p>
-                    </div>
                     <div className="text-center max-w-md px-6 space-y-4">
                         <p className="text-sm text-[var(--dashboard-text-soft)] font-bold uppercase tracking-widest leading-relaxed">
                             RAB Plan belum tersedia untuk proyek ini.
@@ -331,9 +188,9 @@ const DetailRabAdminPage = () => {
                         </div>
 
                         <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-3xl">
-                            <h4 className="text-[10px] font-black text-indigo-700 uppercase mb-2 flex items-center gap-2"><FiInfo /> Real-time Sinkron</h4>
+                            <h4 className="text-[10px] font-black text-indigo-700 uppercase mb-2 flex items-center gap-2"><FiInfo /> Data Terverifikasi</h4>
                             <p className="text-[10px] text-indigo-600 leading-relaxed font-bold">
-                                Anggaran proyek (Project Budget) akan otomatis diperbarui setiap kali ada perubahan pada item RAB untuk menjaga akurasi laporan keuangan.
+                                Anggaran proyek (Project Budget) disinkronkan dari basis data RAB yang telah diverifikasi oleh tim estimator dan manajemen.
                             </p>
                         </div>
                     </div>
@@ -380,9 +237,7 @@ const DetailRabAdminPage = () => {
                                                             <td className="py-4 px-6 text-xs text-right font-medium text-slate-800">{formatCurrency(item.unitPrice)}</td>
                                                             <td className="py-4 px-6 text-xs text-right font-black text-emerald-700">{formatCurrency(item.total)}</td>
                                                             <td className="py-4 px-6 text-right">
-                                                            <td className="py-4 px-6 text-right">
-                                                                <FiCheckCircle className="ml-auto text-emerald-500 opacity-20" size={12} />
-                                                            </td>
+                                                                <FiCheckCircle className="ml-auto text-emerald-500 opacity-20" size={14} />
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -407,41 +262,9 @@ const DetailRabAdminPage = () => {
                     </div>
                 </div>
             )}
+            {/* MODALS REMOVED FOR READ-ONLY STABILIZATION */}
         </div>
     );
 };
-
-// UI HELPERS
-const Modal = ({ title, children, onClose }) => (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-        <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--dashboard-border)]">
-            <div className="p-6 border-b border-[var(--dashboard-border)] flex justify-between items-center bg-[var(--dashboard-surface-soft)]">
-                <h3 className="font-black text-[10px] uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">{title}</h3>
-                <button onClick={onClose} className="p-2 hover:bg-white rounded-xl transition-all shadow-sm"><FiX /></button>
-            </div>
-            <div className="p-6">{children}</div>
-        </div>
-    </div>
-);
-
-const Input = ({ label, ...props }) => (
-    <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 px-1">{label}</label>
-        <input {...props} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold disabled:opacity-50" />
-    </div>
-);
-
-const TextArea = ({ label, ...props }) => (
-    <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 px-1">{label}</label>
-        <textarea {...props} rows="3" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold disabled:opacity-50" />
-    </div>
-);
-
-const SubmitButton = ({ label, ...props }) => (
-    <button type="submit" {...props} className="w-full py-4 bg-[var(--dashboard-primary)] text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-        <FiSave /> {label}
-    </button>
-);
 
 export default DetailRabAdminPage;

@@ -318,9 +318,42 @@ const DetailProyekAdminPage = () => {
                                             <InfoItem label="Nama Proyek" value={project.name} />
                                             <InfoItem label="Tipe Pekerjaan" value={project.type || "Pembangunan"} />
                                             <InfoItem label="Status Saat Ini" value={project.status} isBadge color={getStatusColor(project.status)} />
-                                            <InfoItem label="Lokasi" value={project.location || "-"} icon={<FiMapPin />} />
                                         </div>
                                     </div>
+
+                                    {/* READINESS CHECKLIST (Only for non-active projects) */}
+                                    {!['active', 'ongoing', 'Berjalan'].includes(project.status) && (
+                                        <div className="p-6 bg-[var(--dashboard-surface-soft)] rounded-[32px] border border-[var(--dashboard-border)] border-dashed">
+                                            <div className="flex justify-between items-center mb-6">
+                                                <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-text-soft)] flex items-center gap-2">
+                                                    <FiCheckCircle /> Checklist Kesiapan
+                                                </h3>
+                                                <span className={`text-[10px] font-black uppercase px-3 py-1 rounded-full ${isReady ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}`}>
+                                                    {readyCount}/{readinessChecks.length} Siap
+                                                </span>
+                                            </div>
+                                            <div className="grid grid-cols-1 gap-3">
+                                                {readinessChecks.map((check, idx) => (
+                                                    <div key={idx} className="flex items-center justify-between text-xs font-bold">
+                                                        <span className={check.status ? "text-slate-700" : "text-slate-400"}>{check.label}</span>
+                                                        {check.status ? (
+                                                            <FiCheckCircle className="text-emerald-500" size={16} />
+                                                        ) : (
+                                                            <FiX className="text-slate-300" size={16} />
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            
+                                            {isReady && (
+                                                <div className="mt-6 p-4 bg-emerald-600 text-white rounded-2xl text-center shadow-lg shadow-emerald-600/20">
+                                                    <p className="text-[10px] font-black uppercase tracking-widest mb-2">🚀 Proyek Siap Diaktifkan</p>
+                                                    <Link to="/admin/proyek/aktivasi" className="text-xs font-black underline">Lanjut ke Halaman Aktivasi</Link>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
                                     <div className="space-y-6">
                                         <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)] flex items-center gap-2">
                                             <FiDollarSign /> Finansial & Jadwal

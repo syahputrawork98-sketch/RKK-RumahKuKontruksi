@@ -205,7 +205,7 @@ const AktivasiProyekAdminPage = () => {
                             <div 
                                 key={p.id} 
                                 className={`group bg-white border rounded-3xl p-6 transition-all relative overflow-hidden flex flex-col h-full ${
-                                    p.status === 'active' || p.status === 'ongoing'
+                                    ['active', 'ongoing', 'Berjalan'].includes(p.status)
                                     ? 'border-emerald-100 shadow-emerald-500/5'
                                     : p.readiness.isReady 
                                         ? 'border-blue-100 shadow-blue-500/5' 
@@ -216,7 +216,7 @@ const AktivasiProyekAdminPage = () => {
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="flex items-center gap-3">
                                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm ${
-                                            p.status === 'active' || p.status === 'ongoing' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'
+                                            ['active', 'ongoing', 'Berjalan'].includes(p.status) ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'
                                         }`}>
                                             <FiFolder size={24} />
                                         </div>

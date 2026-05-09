@@ -76,10 +76,12 @@ Status: **Database-Backed v2**
 ### 5. Superadmin
 Status: **Partial / DB-Backed Local CRUD**
 - **Context**: `SuperadminPersonaContext`
-- **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`
+- **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
 - **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
-- **Dashboard & Master Data**: Dashboard memakai global stats lokal dan latest projects; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
-- **Hold / Placeholder**: Monitoring global, kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
+- **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
+- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender secara global; Monitoring Proyek Global dan Proyek Aktif Global membaca Project API untuk audit status lintas proyek.
+- **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin. Aksi assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, dan update progress tetap milik flow Admin/Pengawas sesuai modul masing-masing.
+- **Hold / Placeholder**: Kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
 
 ### 6. Konsumen

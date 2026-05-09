@@ -112,10 +112,17 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 
 ## Superadmins (Local CRUD/API Draft)
 - `GET /superadmins`: Ambil semua data Superadmin.
+- `GET /superadmins/stats/global`: Ambil statistik global lokal untuk dashboard Superadmin.
 - `GET /superadmins/:id`: Ambil detail Superadmin.
 - `POST /superadmins`: Tambah Superadmin baru.
 - `PATCH /superadmins/:id`: Update data Superadmin.
 - `DELETE /superadmins/:id`: Hapus Superadmin.
+
+**Catatan Superadmin Dashboard & Monitoring**:
+- Dashboard Superadmin memakai kombinasi endpoint existing: `/superadmins/stats/global`, `/projects`, dan `/superadmins`.
+- Monitoring proyek global memakai Project API sebagai read-only overview untuk Local Development CRUD Integration.
+- Monitoring Design Request/Tender memakai endpoint Design Request dan Design Tender yang sama dengan flow Admin/Arsitek, tetapi mode Superadmin bersifat read-only.
+- Superadmin tidak mengambil alih aksi operasional Admin seperti assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, atau update progress.
 
 ## Weekly Journals (Implemented Local Backend v1)
 - `GET /weekly-journals`: Ambil list jurnal (dukung filter actorRole/actorId/foremanId/status).

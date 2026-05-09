@@ -7,7 +7,7 @@
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
 - **Fokus Saat Ini**: Stabilisasi CRUD lokal lintas role sudah masuk fase sinkronisasi status dan cleanup sisa placeholder. Flow Konsumen utama (Dashboard, Profil, Design Request, Project Monitoring, dan Stage Communication Panel) sudah API-backed untuk kebutuhan localhost.
-- **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
+- **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 
 
 ## Backend Status (Local API)
@@ -63,7 +63,7 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals) |
 | **Arsitek** | Backend/Database | DB-Backed v2 | Full Flow: Tender, Bidding, and Design Updates |
 | **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project |
-| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Superadmin entity CRUD, global stats, and master data pages use local APIs; global system management, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
+| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, Design Request/Tender monitoring, and global project monitoring use local APIs; operational design actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
 | **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed untuk localhost |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 

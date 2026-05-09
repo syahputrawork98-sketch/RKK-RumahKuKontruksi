@@ -15,7 +15,7 @@
 | Module | Status | Notes |
 | :--- | :--- | :--- |
 | **Health Check** | DONE | `/api/health` |
-| **Customers** | CRUD Available | Local API CRUD; profile data foundation ready for Konsumen persona UI integration |
+| **Customers** | CRUD Available | Local API CRUD; profile data foundation ready for Gemini integration |
 | **Projects** | CRUD Available | Full Lifecycle (Create, Edit, Detail, Assignment) |
 | **Project Stages**| CRUD Available | Plan-based stages for scheduling |
 | **RAB** | CRUD Available | Plan, Category, Item with Auto-Aggregation |
@@ -66,7 +66,7 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
-1. **Customer Profile UI Integration**: Hubungkan Edit Profil Konsumen ke Customer CRUD API menggunakan data contract lokal.
-2. **Fase 4 - Admin Feature Stabilization**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin.
-3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru.
-4. **Docs/API Inventory Sync**: Lanjutkan sinkronisasi ringan untuk route status yang masih memakai label experimental lama.
+1. **Customer Profile UI Integration**: Implementasi halaman Edit Profil Konsumen menggunakan data contract rill.
+2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
+3. **Project Timeline Polish**: Tingkatkan visualisasi timeline proyek di sisi Konsumen berdasarkan data fisik rill (SOT).
+4. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru.

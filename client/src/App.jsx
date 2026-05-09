@@ -34,6 +34,7 @@ import DataMandor from "./pages/superadmin/DataMandorPage";
 import DataSuperadmin from "./pages/superadmin/DataSuperadminPage";
 import DataKonsumen from "./pages/superadmin/DataKonsumenPage";
 import DataArsitek from "./pages/superadmin/DataArsitekPage";
+import DataPengajuanDesain from "./pages/superadmin/DataPengajuanDesainPage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -174,7 +175,7 @@ function App() {
             <Route path="data-pengawas" element={<DataPengawas />} />
             <Route path="data-mandor" element={<DataMandor />} />
             <Route path="data-arsitek" element={<DataArsitek />} />
-            <Route path="data-pengajuan-desain" element={<DesignRequestAdminPage />} />
+            <Route path="data-pengajuan-desain" element={<DataPengajuanDesain />} />
             <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." status="Planned" dos={["Melihat data legalitas", "Mengelola PIC internal"]} donts={["Mengubah struktur organisasi resmi", "Menghapus dokumen legal yang sudah aktif"]} />} />
             
             {/* PROYEK GLOBAL */}

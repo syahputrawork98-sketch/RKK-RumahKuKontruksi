@@ -38,6 +38,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 
 **Catatan Konsumen Monitoring**:
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
+- `Project.verifiedProgress` adalah Source of Truth; `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi dan tidak menggantikan verifikasi Pengawas assigned.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
 
 **Catatan Project Activation**:

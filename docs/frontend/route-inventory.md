@@ -43,7 +43,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Dokumen Final / BAST | `/admin/dokumen/final` | Shell / Pending | Placeholder dokumen legal akhir. |
 | Change Order | `/admin/dokumen/change-order` | Shell / Pending | Placeholder pencatatan perubahan pekerjaan. |
 | Penugasan Tim | `/admin/penugasan-tim` | DB-Backed v1 | Assign Pengawas/Mandor. |
-| Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring progres resmi (SOT). |
+| Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring history progress resmi (SOT) dan publish ringkasan; Admin bukan verifikator progress fisik. |
 | Jurnal Mandor Approved | `/admin/monitoring/jurnal-mandor` | Shell / Pending | Placeholder monitoring jurnal Mandor approved. |
 | Request Material | `/admin/request-material`| Local Stabilized | Terhubung ke Material Request backend v1 dengan approval/status flow lokal. |
 | Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | DB-Backed v1 | List review laporan mingguan Pengawas. |
@@ -63,7 +63,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Dashboard | `/pengawas/dashboard` | DB-Backed v1 | Stats harian lapangan. |
 | Proyek Diawasi | `/pengawas/proyek` | DB-Backed v1 | List proyek per pengawas. |
 | Detail Proyek | `/pengawas/proyek/:id` | DB-Backed v1 | Detail teknis proyek. |
-| Verifikasi Progres | `/pengawas/verifikasi-progres` | DB-Backed v1 | Validasi progres resmi (SOT). |
+| Verifikasi Progres | `/pengawas/verifikasi-progres` | Local Workflow v1 | Pengawas assigned memperbarui `Project.verifiedProgress` sebagai progress resmi (SOT); UI consistency stabilized. |
 | Dokumentasi | `/pengawas/dokumentasi` | Shell / Pending | Galeri fisik lapangan. |
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | DB-Backed v1 | List evaluasi mingguan pengawas. |
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | DB-Backed v1 | Form input evaluasi mingguan. |
@@ -86,7 +86,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Kendala Lapangan | `/mandor/kendala-lapangan` | Shell / Pending | Laporan hambatan. |
 | Jurnal Mingguan | `/mandor/jurnal-mingguan` | DB-Backed v1 | List laporan mingguan mandor. |
 | Buat Jurnal | `/mandor/jurnal-mingguan/create` | DB-Backed v1 | Form input jurnal mingguan. |
-| Detail Jurnal | `/mandor/jurnal-mingguan/:id` | DB-Backed v1 | Detail, edit & submit jurnal. |
+| Detail Jurnal | `/mandor/jurnal-mingguan/:id` | DB-Backed v1 | Detail, edit & submit jurnal; `claimedProgress` adalah klaim Mandor non-resmi. |
 | Pengaturan | `/mandor/pengaturan` | DB-Backed v1 | Profil mandor rill. |
 
 ## 5. Arsitek Routes
@@ -125,7 +125,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Proyek Aktif Global | `/superadmin/proyek/aktif` | DB-Backed Read-Only | Filter proyek aktif/berjalan dari Project API. |
 | Relasi Admin-Proyek | `/superadmin/proyek/relasi` | DB-Backed Read-Only | Pemetaan admin-proyek dari Project API untuk audit beban kerja. |
 | Kapasitas Admin | `/superadmin/kapasitas-admin` | DB-Backed Read-Only | Workload view dari Admin API dan Project API; bukan assignment workflow. |
-| Laporan Progres Global | `/superadmin/progres-proyek` | DB-Backed Read-Only | Monitoring verifiedProgress/progress lintas proyek. |
+| Laporan Progres Global | `/superadmin/progres-proyek` | DB-Backed Read-Only | Monitoring `verifiedProgress` lintas proyek; Superadmin tidak mengubah progress resmi. |
 | Pembayaran Global | `/superadmin/pembayaran` | Hold State | Payment global belum production; tidak ada invoice/escrow/payout aktif. |
 | Monitoring Material | `/superadmin/monitoring/material` | DB-Backed Read-Only | Audit Material Request global via backend lokal. |
 | Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Audit laporan mingguan Pengawas via backend lokal. |
@@ -136,9 +136,9 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 ## 7. Konsumen Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
-| Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona. |
-| Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan verifiedProgress dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
-| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Detail stage dan Stage Communication Panel memakai ProjectStagePublicComment API; create/reply membutuhkan `projectId` eksplisit. Alias lama `/konsumen/TimelineProyek/:stageId` tetap tersedia. |
+| Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona dan menampilkan `Project.verifiedProgress` resmi. |
+| Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan `Project.verifiedProgress` resmi dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
+| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Detail stage, progress resmi read-only, dan Stage Communication Panel memakai ProjectStagePublicComment API; create/reply membutuhkan `projectId` eksplisit. Alias lama `/konsumen/TimelineProyek/:stageId` tetap tersedia. |
 | Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
 | Permintaan Desain | `/konsumen/permintaan-desain` | DB-Backed v1 | List dan create Design Request memakai API lokal berdasarkan `customerId`. |

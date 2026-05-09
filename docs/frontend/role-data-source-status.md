@@ -22,7 +22,8 @@ Status: **Database-Backed v1**
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `supervisorId`.
 - **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock.
 - **Operational Status**: 
-  - Verifikasi progres, laporan mingguan, jurnal mandor: **DB-Backed v1 / Integrated**.
+  - Verifikasi progres: **Local Workflow v1 / UI Consistency Stabilized**. Pengawas assigned memperbarui `Project.verifiedProgress` sebagai progress resmi (SOT).
+  - Laporan mingguan dan jurnal mandor: **DB-Backed v1 / Integrated**.
   - Dokumentasi: **Shell / Backend Pending**.
   - Request material: **Local Stabilized / DB-Backed v1**.
 
@@ -36,7 +37,7 @@ Status: **Database-Backed v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
 - **Operational Status**: 
-  - Jurnal Mingguan: **DB-Backed v1 / Integrated**.
+  - Jurnal Mingguan: **DB-Backed v1 / Integrated**. `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi dan tidak mengubah `Project.verifiedProgress`.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
   - Request material: **Local Stabilized / DB-Backed v1**.
 
@@ -67,7 +68,7 @@ Status: **Database-Backed v2**
 - **RAB**: Data RAB (Read-First): **Partial**.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Operational Data**: 
-  - Laporan Progress Terverifikasi, Review Laporan Pengawas: **DB-Backed v1 / Integrated**.
+  - Laporan Progress Terverifikasi, Review Laporan Pengawas: **DB-Backed v1 / Integrated**. Admin memonitor history dan publish ringkasan, bukan verifikator progress fisik resmi.
   - Pembayaran: **Shell / Backend Pending**.
   - Request Material: **Local Stabilized / DB-Backed v1**.
 
@@ -79,15 +80,15 @@ Status: **Partial / DB-Backed Local CRUD**
 - **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
 - **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
 - **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
-- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender secara global; Monitoring Proyek Global dan Proyek Aktif Global membaca Project API untuk audit status lintas proyek.
-- **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin. Aksi assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, dan update progress tetap milik flow Admin/Pengawas sesuai modul masing-masing.
+- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender secara global; Monitoring Proyek Global, Proyek Aktif Global, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
+- **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin. Aksi assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, dan update progress resmi tetap milik flow Admin/Pengawas sesuai modul masing-masing.
 - **Hold / Placeholder**: Kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
 
 ### 6. Konsumen
 Status: **Database-Backed v1**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
-- **Dashboard & Monitoring**: Dashboard, project filter by `customerId`, ProjectStage, `verifiedProgress`, dan ProjectStagePublicComment sudah API-backed untuk localhost.
+- **Dashboard & Monitoring**: Dashboard, project filter by `customerId`, ProjectStage, `Project.verifiedProgress` resmi, dan ProjectStagePublicComment sudah API-backed untuk localhost. Konsumen hanya melihat progress resmi, bukan mengubah atau memverifikasi progress.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.

@@ -27,14 +27,14 @@
 | **Weekly Reports** | DONE | Supervisor Weekly Reports with Admin Review, publish flow, and local UI stabilization |
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Material Requests**| DONE | Local DB-Backed with stabilized status approval and receipt flow |
-| **Verification** | DONE | Official Progress Verification Log (SOT) |
+| **Verification** | DONE | Progress SOT Local Workflow v1 / UI Consistency Stabilized; `Project.verifiedProgress` menjadi progress resmi |
 | **Design Request** | DONE | Consumer Request, Admin Management, Status Workflow |
 | **Design Tender** | DONE | 30/70 Split, Architect Bidding, Admin Awarding |
 | **Project Bridge** | DONE | Manual conversion from Design to Project Draft |
 | **Timeline Panel** | DONE | Stage Communication Panel functional v1 via ProjectStagePublicComment API; create/reply memakai `projectId` eksplisit dari client |
 
 ## Operational Modules Progress
-Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Admin sekarang dapat memonitor progres resmi (Source of Truth) secara real-time berdasarkan verifikasi Pengawas.
+Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress SOT sudah berstatus **Local Workflow v1 / UI Consistency Stabilized**: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan hanya Pengawas assigned yang boleh memperbarui progress fisik resmi. Admin memonitor riwayat/publish ringkasan, Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
 
 ### Project Activation Flow (Final)
 1. **Planning Mode**: Proyek hasil bridge atau manual berstatus `planning` (Persiapan). Pada fase ini, proyek belum dianggap aktif.
@@ -59,16 +59,15 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 
 | Role | Data Source | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| **Pengawas** | Backend/Database | DB-Backed v1 | Full Operational Flow (Progress, Reports, Journals) |
-| **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals) |
+| **Pengawas** | Backend/Database | DB-Backed v1 | Full Operational Flow; Pengawas assigned update `Project.verifiedProgress` sebagai Progress SOT |
+| **Mandor** | Backend/Database | DB-Backed v1 | Full Operational Flow (Journals); `WeeklyJournal.claimedProgress` tetap klaim non-resmi |
 | **Arsitek** | Backend/Database | DB-Backed v2 | Full Flow: Tender, Bidding, and Design Updates |
-| **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project |
-| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, Design Request/Tender monitoring, and global project monitoring use local APIs; operational design actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
-| **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed untuk localhost |
+| **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project; progress official hanya monitor/history/publish ringkasan, bukan verifikasi fisik |
+| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, Design Request/Tender monitoring, global project/progress monitoring use local APIs; operational design/progress actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
+| **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed; progress yang tampil memakai `Project.verifiedProgress` resmi |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
 1. **Admin Publish Update / Stage Communication Source Flow Verification**: Verifikasi jalur Admin sebagai sumber update resmi untuk Stage Communication Panel, termasuk guard role dan payload `projectId`.
 2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
-3. **Verified Progress Consistency Audit**: Cek konsistensi tampilan progress proyek antara `progress`, `verifiedProgress`, stage progress, dan log verifikasi.
-4. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru tanpa membuka scope auth/payment/upload production.
+3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru tanpa membuka scope auth/payment/upload production.

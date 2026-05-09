@@ -29,8 +29,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
       setLoadingProjects(true);
       try {
         const response = await projectService.getProjects({ foremanId: selectedForemanId });
-        // Filter projects or just let user see all but disable non-active ones later
-        setProjects(response.data);
+        setProjects(response.data || []);
       } catch (error) {
         console.error('Failed to fetch projects:', error);
       } finally {
@@ -169,7 +168,8 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                 className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 outline-none"
               >
                 <option value="">-- Pilih Proyek --</option>
-                {projects.map(p => {
+                {(projects || []).map(p => {
+                  if (!p) return null;
                   const isActive = p.status === 'active' || p.status === 'ongoing' || p.status === 'Berjalan';
                   return (
                     <option key={p.id} value={p.id}>

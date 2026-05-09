@@ -14,6 +14,8 @@ const RequestMaterialMandorPage = () => {
     const [loading, setLoading] = useState(true);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [actionLoading, setActionLoading] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [error, setError] = useState(null);
     const [note, setNote] = useState("");
 
     const subtabs = [
@@ -26,16 +28,25 @@ const RequestMaterialMandorPage = () => {
 
     const fetchRequests = async () => {
         if (!selectedForemanId) return;
-        setLoading(true);
-        const params = {
-            foremanId: selectedForemanId,
-            ...(activeSubtab !== 'all' && { status: activeSubtab })
-        };
-        const response = await materialRequestService.getAllRequests(params);
-        if (response.success) {
-            setRequests(response.data);
+        try {
+            setLoading(true);
+            setError(null);
+            const params = {
+                foremanId: selectedForemanId,
+                ...(activeSubtab !== 'all' && { status: activeSubtab })
+            };
+            const response = await materialRequestService.getAllRequests(params);
+            if (response.success) {
+                setRequests(response.data || []);
+            } else {
+                setError(response.message);
+            }
+        } catch (err) {
+            console.error("Failed to fetch requests:", err);
+            setError("Gagal memuat data pengajuan material.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
@@ -87,6 +98,16 @@ const RequestMaterialMandorPage = () => {
         }
     };
 
+    const filteredRequests = (requests || []).filter(req => {
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return (
+            req.requestCode?.toLowerCase().includes(q) ||
+            req.project?.name?.toLowerCase().includes(q) ||
+            req.items?.some(item => item.materialName?.toLowerCase().includes(q))
+        );
+    });
+
     return (
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -126,6 +147,8 @@ const RequestMaterialMandorPage = () => {
                         <input 
                             type="text" 
                             placeholder="Cari material atau ID request..." 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
                         />
                     </div>
@@ -136,7 +159,13 @@ const RequestMaterialMandorPage = () => {
 
                 {loading ? (
                     <RoleDataState type="loading" />
-                ) : (requests || []).length === 0 ? (
+                ) : error ? (
+                    <RoleDataState 
+                        type="error" 
+                        title={error} 
+                        onRetry={fetchRequests} 
+                    />
+                ) : filteredRequests.length === 0 ? (
                     <RoleDataState 
                         type="empty"
                         title="Belum ada pengajuan material"
@@ -155,7 +184,11 @@ const RequestMaterialMandorPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                { (requests || []).map((req) => {
+                                { filteredRequests.map((req) => {
+                                    if (!req) return null;
+                                    const mainMaterial = req.items?.[0]?.materialName || 'Material';
+                                    const otherItemsCount = (req.items?.length || 0) - 1;
+                                    
                                     return (
                                         <tr key={req.id} className="group transition-all">
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 rounded-l-2xl border-y border-l border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
@@ -167,8 +200,8 @@ const RequestMaterialMandorPage = () => {
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 border-y border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
                                                 <div className="flex flex-col">
                                                     <span className="text-sm font-bold text-[var(--dashboard-text)]">
-                                                        {req.items?.[0]?.materialName || 'Material'} 
-                                                        {req.items?.length > 1 && <span className="ml-1 text-[10px] text-[var(--dashboard-primary)]">+{req.items.length - 1} lainnya</span>}
+                                                        {mainMaterial} 
+                                                        {otherItemsCount > 0 && <span className="ml-1 text-[10px] text-[var(--dashboard-primary)]">+{otherItemsCount} lainnya</span>}
                                                     </span>
                                                     <span className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase italic truncate max-w-[200px]">
                                                         "{req.reason || 'Tanpa alasan'}"

@@ -52,7 +52,16 @@ export const findWeeklyJournalById = async (id) => {
       project: true,
       foreman: true,
       supervisor: true,
-      activities: true,
+      activities: {
+        include: {
+          projectStage: true,
+          rabItem: {
+            include: {
+              category: true
+            }
+          }
+        }
+      },
       photos: true,
       reviewLogs: {
         orderBy: { createdAt: 'desc' }

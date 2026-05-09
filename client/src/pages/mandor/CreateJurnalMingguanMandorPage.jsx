@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
 import projectService from "../../services/projectService";
+import rabService from "../../services/rabService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const CreateJurnalMingguanMandorPage = () => {
     const navigate = useNavigate();
     const { selectedForemanId } = useForemanPersona();
     const [projects, setProjects] = useState([]);
+    const [projectStages, setProjectStages] = useState([]);
+    const [rabItems, setRabItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingContext, setLoadingContext] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,7 +26,15 @@ const CreateJurnalMingguanMandorPage = () => {
         claimedProgress: 0,
         blockerNote: "",
         activities: [
-            { workTitle: "", description: "", location: "", progressClaim: 0, notes: "" }
+            { 
+                workTitle: "", 
+                description: "", 
+                location: "", 
+                progressClaim: 0, 
+                notes: "",
+                projectStageId: "",
+                rabItemId: ""
+            }
         ],
         photos: []
     });
@@ -50,10 +62,66 @@ const CreateJurnalMingguanMandorPage = () => {
         fetchProjects();
     }, [selectedForemanId]);
 
+    useEffect(() => {
+        const fetchProjectContext = async () => {
+            if (!formData.projectId) {
+                setProjectStages([]);
+                setRabItems([]);
+                return;
+            }
+
+            try {
+                setLoadingContext(true);
+                const [stagesRes, rabRes] = await Promise.all([
+                    projectService.getProjectStages(formData.projectId),
+                    projectService.getProjectRab(formData.projectId).catch(() => ({ success: false }))
+                ]);
+
+                if (stagesRes.success) {
+                    setProjectStages(stagesRes.data);
+                }
+                
+                if (rabRes.success && rabRes.data) {
+                    // Flatten RAB items from categories for easy selection
+                    const items = [];
+                    rabRes.data.categories?.forEach(cat => {
+                        cat.items?.forEach(item => {
+                            items.push({
+                                ...item,
+                                categoryName: cat.name,
+                                categoryCode: cat.code
+                            });
+                        });
+                    });
+                    setRabItems(items);
+                } else {
+                    setRabItems([]);
+                }
+            } catch (err) {
+                console.error("Failed to fetch project context:", err);
+            } finally {
+                setLoadingContext(false);
+            }
+        };
+
+        fetchProjectContext();
+    }, [formData.projectId]);
+
     const handleAddActivity = () => {
         setFormData({
             ...formData,
-            activities: [...formData.activities, { workTitle: "", description: "", location: "", progressClaim: 0, notes: "" }]
+            activities: [
+                ...formData.activities, 
+                { 
+                    workTitle: "", 
+                    description: "", 
+                    location: "", 
+                    progressClaim: 0, 
+                    notes: "",
+                    projectStageId: "",
+                    rabItemId: ""
+                }
+            ]
         });
     };
 
@@ -66,6 +134,18 @@ const CreateJurnalMingguanMandorPage = () => {
     const handleActivityChange = (index, field, value) => {
         const newActivities = [...formData.activities];
         newActivities[index][field] = value;
+
+        // Auto-fill logic for RabItem
+        if (field === 'rabItemId' && value) {
+            const selectedItem = rabItems.find(item => item.id === value);
+            if (selectedItem) {
+                // Only fill if current field is empty
+                if (!newActivities[index].workTitle) newActivities[index].workTitle = selectedItem.description;
+                if (!newActivities[index].location && selectedItem.location) newActivities[index].location = selectedItem.location;
+                if (!newActivities[index].description) newActivities[index].description = `Pengerjaan item ${selectedItem.description} (${selectedItem.volume} ${selectedItem.unit})`;
+            }
+        }
+
         setFormData({ ...formData, activities: newActivities });
     };
 
@@ -87,7 +167,10 @@ const CreateJurnalMingguanMandorPage = () => {
                 claimedProgress: parseFloat(formData.claimedProgress),
                 activities: formData.activities.map(act => ({
                     ...act,
-                    progressClaim: parseFloat(act.progressClaim)
+                    progressClaim: parseFloat(act.progressClaim),
+                    // Ensure empty strings are null for backend IDs
+                    projectStageId: act.projectStageId || null,
+                    rabItemId: act.rabItemId || null
                 }))
             });
 
@@ -217,7 +300,7 @@ const CreateJurnalMingguanMandorPage = () => {
                     </div>
 
                     {formData.activities.map((activity, index) => (
-                        <div key={index} className="dashboard-card p-6 space-y-4 relative group">
+                        <div key={index} className="dashboard-card p-6 space-y-6 relative group border-2 border-transparent hover:border-[var(--dashboard-primary)]/10 transition-all">
                             <button 
                                 type="button"
                                 onClick={() => handleRemoveActivity(index)}
@@ -226,7 +309,44 @@ const CreateJurnalMingguanMandorPage = () => {
                                 <FiTrash2 size={16} />
                             </button>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* CONTEXT SELECTS */}
+                                <div className="space-y-2">
+                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest flex justify-between">
+                                        Referensi Tahapan (Opsional)
+                                        {loadingContext && <span className="animate-pulse text-[var(--dashboard-primary)]">Loading...</span>}
+                                    </label>
+                                    <select 
+                                        value={activity.projectStageId}
+                                        onChange={(e) => handleActivityChange(index, 'projectStageId', e.target.value)}
+                                        className="w-full bg-white border border-[var(--dashboard-border)] rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all"
+                                    >
+                                        <option value="">-- Pilih Tahapan --</option>
+                                        {projectStages.map(s => (
+                                            <option key={s.id} value={s.id}>{s.name} ({s.status})</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest flex justify-between">
+                                        Referensi Item RAB (Opsional)
+                                        {loadingContext && <span className="animate-pulse text-[var(--dashboard-primary)]">Loading...</span>}
+                                    </label>
+                                    <select 
+                                        value={activity.rabItemId}
+                                        onChange={(e) => handleActivityChange(index, 'rabItemId', e.target.value)}
+                                        className="w-full bg-white border border-[var(--dashboard-border)] rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all"
+                                    >
+                                        <option value="">-- Pilih Item RAB --</option>
+                                        {rabItems.map(item => (
+                                            <option key={item.id} value={item.id}>
+                                                [{item.categoryCode}] {item.description}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
                                 <div className="space-y-2">
                                     <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">Judul Pekerjaan</label>
                                     <input 

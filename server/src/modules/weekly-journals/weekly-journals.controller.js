@@ -1,6 +1,7 @@
 import * as WeeklyJournalRepository from './weekly-journals.repository.js';
 import * as ProjectRepository from '../projects/projects.repository.js';
 import { serializeDecimal } from '../../utils/decimalHelper.js';
+import prisma from '../../config/prisma.js';
 
 export const getWeeklyJournals = async (req, res, next) => {
   try {
@@ -144,6 +145,27 @@ export const createWeeklyJournal = async (req, res, next) => {
             message: 'activity progressClaim must be between 0 and 100.'
           });
         }
+
+        // Optional Context Validation
+        if (act.projectStageId) {
+          const stage = await prisma.projectStage.findUnique({ where: { id: act.projectStageId } });
+          if (!stage || stage.projectId !== projectId) {
+            return res.status(400).json({
+              success: false,
+              message: `Project stage ${act.projectStageId} is invalid or does not belong to this project.`
+            });
+          }
+        }
+
+        if (act.rabItemId) {
+          const rabItem = await prisma.rabItem.findUnique({ where: { id: act.rabItemId } });
+          if (!rabItem || rabItem.projectId !== projectId) {
+            return res.status(400).json({
+              success: false,
+              message: `RAB item ${act.rabItemId} is invalid or does not belong to this project.`
+            });
+          }
+        }
       }
     }
 
@@ -227,6 +249,27 @@ export const updateWeeklyJournal = async (req, res, next) => {
             success: false,
             message: 'Each activity must have a workTitle and description.'
           });
+        }
+
+        // Optional Context Validation
+        if (act.projectStageId) {
+          const stage = await prisma.projectStage.findUnique({ where: { id: act.projectStageId } });
+          if (!stage || stage.projectId !== journal.projectId) {
+            return res.status(400).json({
+              success: false,
+              message: `Project stage ${act.projectStageId} is invalid or does not belong to this project.`
+            });
+          }
+        }
+
+        if (act.rabItemId) {
+          const rabItem = await prisma.rabItem.findUnique({ where: { id: act.rabItemId } });
+          if (!rabItem || rabItem.projectId !== journal.projectId) {
+            return res.status(400).json({
+              success: false,
+              message: `RAB item ${act.rabItemId} is invalid or does not belong to this project.`
+            });
+          }
         }
       }
     }

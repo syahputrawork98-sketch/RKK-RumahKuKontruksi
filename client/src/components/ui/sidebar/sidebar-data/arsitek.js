@@ -9,7 +9,8 @@ import {
     FiCheckCircle,
     FiFileText,
     FiActivity,
-    FiLayers
+    FiLayers,
+    FiDollarSign
 } from "react-icons/fi";
 
 export default [
@@ -25,6 +26,13 @@ export default [
         label: "Brief Desain",
         href: "/arsitek/brief-desain",
         activeStartsWith: "/arsitek/brief-desain"
+    },
+    {
+        type: "item",
+        icon: FiDollarSign,
+        label: "Peluang Desain",
+        href: "/arsitek/peluang-desain",
+        activeStartsWith: "/arsitek/peluang-desain",
     },
     {
         type: "item",

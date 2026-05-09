@@ -14,34 +14,44 @@ import {
 } from "@client/components/ui/dashboard";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import architectService from "../../services/architectService";
+import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DashboardArsitek = () => {
     const { selectedArchitect, selectedArchitectId, loading: personaLoading, error: personaError } = useArchitectPersona();
     const [statsData, setStatsData] = useState(null);
-    const [loadingStats, setLoadingStats] = useState(false);
-    const [statsError, setStatsError] = useState(null);
+    const [recentRequests, setRecentRequests] = useState([]);
+    const [loadingData, setLoadingData] = useState(false);
+    const [dataError, setDataError] = useState(null);
 
     useEffect(() => {
-        const fetchStats = async () => {
+        const fetchDashboardData = async () => {
             if (!selectedArchitectId) return;
             try {
-                setLoadingStats(true);
-                setStatsError(null);
-                const response = await architectService.getArchitectStats(selectedArchitectId);
-                if (response.success) {
-                    setStatsData(response.data);
+                setLoadingData(true);
+                setDataError(null);
+                
+                const [statsRes, requestsRes] = await Promise.all([
+                    architectService.getArchitectStats(selectedArchitectId),
+                    designRequestService.getAssignedRequests(selectedArchitectId)
+                ]);
+
+                if (statsRes.success) {
+                    setStatsData(statsRes.data);
+                }
+                if (requestsRes.success) {
+                    setRecentRequests(requestsRes.data || []);
                 }
             } catch (err) {
-                console.error("Failed to fetch architect stats:", err);
-                setStatsError("Gagal memuat statistik operasional.");
+                console.error("Failed to fetch architect dashboard data:", err);
+                setDataError("Gagal memuat data dashboard.");
             } finally {
-                setLoadingStats(false);
+                setLoadingData(false);
             }
         };
 
-        fetchStats();
+        fetchDashboardData();
     }, [selectedArchitectId]);
 
     if (personaLoading) {
@@ -63,11 +73,11 @@ const DashboardArsitek = () => {
         );
     }
 
-    if (personaError || statsError) {
+    if (personaError || dataError) {
         return (
             <RoleDataState 
                 type="error"
-                title={personaError || statsError}
+                title={personaError || dataError}
                 onRetry={() => window.location.reload()}
             />
         );
@@ -112,14 +122,38 @@ const DashboardArsitek = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colSpan="4" className="py-20 text-center">
-                                            <div className="flex flex-col items-center gap-2">
-                                                <p className="text-slate-400 font-medium italic text-sm">Belum ada permintaan desain yang ditugaskan.</p>
-                                                <p className="text-[10px] font-bold text-amber-600 uppercase tracking-tighter">Fase Local Development: Alur permintaan desain belum aktif.</p>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    {recentRequests.length > 0 ? (
+                                        recentRequests.map(req => (
+                                            <tr key={req.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)] transition-colors">
+                                                <td className="py-4 px-2 text-[10px] font-black uppercase text-[var(--dashboard-text-soft)]">{req.id.substring(0, 8)}</td>
+                                                <td className="py-4 px-2">
+                                                    <p className="text-sm font-bold">{req.title}</p>
+                                                    <p className="text-[10px] text-[var(--dashboard-text-soft)] font-medium">{req.customer?.name || "N/A"} • {req.buildingType || "N/A"}</p>
+                                                </td>
+                                                <td className="py-4 px-2">
+                                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${
+                                                        req.status === 'approved' ? 'bg-emerald-50 text-emerald-500 border-emerald-100' : 
+                                                        'bg-blue-50 text-blue-500 border-blue-100'
+                                                    }`}>
+                                                        {req.status}
+                                                    </span>
+                                                </td>
+                                                <td className="py-4 px-2 text-right">
+                                                    <button className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:underline">Buka</button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="4" className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-2">
+                                                    <FiActivity className="text-slate-200 w-12 h-12 mb-2" />
+                                                    <p className="text-slate-400 font-medium italic text-sm">Belum ada permintaan desain yang ditugaskan.</p>
+                                                    <p className="text-[10px] font-bold text-blue-600 uppercase tracking-tighter italic">Cek menu 'Peluang Desain' untuk tawaran baru.</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

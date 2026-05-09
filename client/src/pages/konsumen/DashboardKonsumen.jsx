@@ -3,17 +3,19 @@ import { motion } from "framer-motion";
 import { 
     FiHome, FiActivity, FiCheckCircle, FiClock, 
     FiArrowRight, FiInfo, FiCalendar, FiMapPin,
-    FiPackage, FiFileText
+    FiPackage, FiFileText, FiEdit3
 } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import projectService from "../../services/projectService";
+import designRequestService from "../../services/designRequestService";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DashboardKonsumen = () => {
     const navigate = useNavigate();
     const { selectedCustomerId, selectedCustomer } = useCustomerPersona();
     const [projects, setProjects] = useState([]);
+    const [designRequests, setDesignRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -26,14 +28,21 @@ const DashboardKonsumen = () => {
 
             try {
                 setLoading(true);
-                const response = await projectService.getProjects({ customerId: selectedCustomerId });
-                if (response.success) {
-                    setProjects(response.data || []);
+                const [projRes, drRes] = await Promise.all([
+                    projectService.getProjects({ customerId: selectedCustomerId }),
+                    designRequestService.getAllDesignRequests({ customerId: selectedCustomerId })
+                ]);
+
+                if (projRes.success) {
+                    setProjects(projRes.data || []);
+                }
+                if (drRes.success) {
+                    setDesignRequests(drRes.data || []);
                 }
                 setError(null);
             } catch (err) {
                 console.error("Dashboard fetch error:", err);
-                setError("Gagal memuat ringkasan proyek.");
+                setError("Gagal memuat data dashboard.");
             } finally {
                 setLoading(false);
             }
@@ -44,9 +53,15 @@ const DashboardKonsumen = () => {
 
     if (loading) return <RoleDataState type="loading" message="Menyiapkan dashboard Anda..." />;
 
-    const activeProjects = projects.filter(p => p.status === 'active' || p.status === 'ongoing');
-    const completedProjects = projects.filter(p => p.status === 'completed');
-    const planningProjects = projects.filter(p => p.status === 'planning' || p.status === 'proposal');
+    const activeProjects = projects.filter(p => 
+        ['active', 'ongoing', 'Berjalan'].includes(p.status)
+    );
+    const completedProjects = projects.filter(p => 
+        ['completed', 'Selesai'].includes(p.status)
+    );
+    const planningProjects = projects.filter(p => 
+        ['planning', 'proposal', 'Perencanaan'].includes(p.status)
+    );
 
     return (
         <div className="space-y-8">
@@ -186,6 +201,41 @@ const DashboardKonsumen = () => {
                             <FiPackage className="mx-auto text-gray-300 mb-4" size={48} />
                             <h3 className="text-lg font-bold text-gray-700">Belum Ada Proyek Aktif</h3>
                             <p className="text-sm text-gray-500 mt-1">Saat ini Anda tidak memiliki proyek konstruksi yang sedang berjalan.</p>
+                        </div>
+                    )}
+
+                    {/* DESIGN REQUESTS SECTION */}
+                    {designRequests.length > 0 && (
+                        <div className="space-y-6 pt-6">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
+                                    <FiEdit3 className="text-indigo-600" /> Permintaan Desain
+                                </h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {designRequests.map(dr => (
+                                    <div key={dr.id} className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+                                        <div className="flex items-start justify-between mb-3">
+                                            <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase border ${
+                                                dr.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                                                dr.status === 'submitted' ? 'bg-blue-50 text-blue-600 border-blue-100' : 
+                                                'bg-slate-50 text-slate-600 border-slate-100'
+                                            }`}>
+                                                {dr.status}
+                                            </span>
+                                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{new Date(dr.createdAt).toLocaleDateString('id-ID')}</p>
+                                        </div>
+                                        <h4 className="text-sm font-black text-gray-800 line-clamp-1">{dr.title}</h4>
+                                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">{dr.description || "Tidak ada deskripsi."}</p>
+                                        <div className="mt-4 pt-4 border-t border-gray-50 flex items-center justify-between">
+                                            <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400">
+                                                <FiMapPin size={10} /> {dr.location || "N/A"}
+                                            </div>
+                                            <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Detail &rarr;</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>

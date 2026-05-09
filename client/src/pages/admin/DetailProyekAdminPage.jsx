@@ -24,13 +24,15 @@ import {
     FiMail,
     FiSave,
     FiX,
-    FiPackage
+    FiPackage,
+    FiMessageSquare
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
-import { useAdminPersona } from "../../context/AdminPersonaContext";
-import projectStageService from "../../services/projectStageService";
 import rabService from "../../services/rabService";
+import projectStageService from "../../services/projectStageService";
+import { useAdminPersona } from "../../context/AdminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
+import AdminStageCommentModal from "../../components/admin/AdminStageCommentModal";
 
 const DetailProyekAdminPage = () => {
     const { projectId } = useParams();
@@ -47,6 +49,8 @@ const DetailProyekAdminPage = () => {
 
     // Stage Form State
     const [showStageModal, setShowStageModal] = useState(false);
+    const [showCommentModal, setShowCommentModal] = useState(false);
+    const [selectedStageForComment, setSelectedStageForComment] = useState(null);
     const [isEditingStage, setIsEditingStage] = useState(false);
     const [editStageId, setEditStageId] = useState(null);
     const [stageForm, setStageForm] = useState({
@@ -501,6 +505,16 @@ const DetailProyekAdminPage = () => {
                                                             <div className="flex justify-end gap-1">
                                                                 <button 
                                                                     onClick={() => {
+                                                                        setSelectedStageForComment(stg);
+                                                                        setShowCommentModal(true);
+                                                                    }}
+                                                                    className="p-2 text-emerald-500 hover:bg-emerald-50 rounded-lg transition-all"
+                                                                    title="Timeline Konsumen"
+                                                                >
+                                                                    <FiMessageSquare size={14} />
+                                                                </button>
+                                                                <button 
+                                                                    onClick={() => {
                                                                         setStageForm({ 
                                                                             code: stg.code, title: stg.title, description: stg.description || "", 
                                                                             week: stg.week, status: stg.status, startDate: stg.startDate?.split('T')[0] || "", 
@@ -823,6 +837,14 @@ const DetailProyekAdminPage = () => {
                     </div>
                 </div>
             )}
+
+            {/* Stage Comment Modal */}
+            <AdminStageCommentModal 
+                isOpen={showCommentModal}
+                onClose={() => setShowCommentModal(false)}
+                stage={selectedStageForComment}
+                projectId={project?.id}
+            />
         </div>
     );
 };

@@ -43,7 +43,7 @@ const TimelineProyek = () => {
             id: s.id,
             code: s.code || "N/A",
             title: s.title,
-            status: s.status === 'completed' || s.isVerified ? 'verified' : (s.status === 'ongoing' || s.status === 'active' ? 'in_progress' : 'pending'),
+            status: s.status === 'completed' || s.status === 'Selesai' || s.isVerified ? 'verified' : (['ongoing', 'active', 'Berjalan'].includes(s.status) ? 'in_progress' : 'pending'),
             date: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : '-',
             startDate: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID') : '-',
             endDate: s.endDate ? new Date(s.endDate).toLocaleDateString('id-ID') : '-',
@@ -58,25 +58,25 @@ const TimelineProyek = () => {
             description: s.description
           })),
           verifiedProgress: raw.verifiedProgress || 0,
-          // Mock team for now as backend doesn't have full team detail yet in relations
+          // Using real team data from backend relations
           team: {
             admin: {
-              name: raw.admin?.name || "Admin RKK",
+              name: raw.admin?.name || "Admin Belum Ditugaskan",
               role: "Administrator",
-              avatar: `https://ui-avatars.com/api/?name=${raw.admin?.name || 'Admin'}&background=0D9488&color=fff`,
-              status: "Online"
+              avatar: raw.admin?.avatar || `https://ui-avatars.com/api/?name=${raw.admin?.name || 'Admin'}&background=0D9488&color=fff`,
+              status: raw.admin ? "Online" : "N/A"
             },
             supervisor: {
-              name: raw.supervisor?.name || "Budi Santoso",
+              name: raw.supervisor?.name || "Pengawas Belum Ditugaskan",
               role: "Pengawas Lapangan",
-              avatar: `https://ui-avatars.com/api/?name=${raw.supervisor?.name || 'Supervisor'}&background=F59E0B&color=fff`,
-              status: "Di Lapangan"
+              avatar: raw.supervisor?.avatar || `https://ui-avatars.com/api/?name=${raw.supervisor?.name || 'Supervisor'}&background=F59E0B&color=fff`,
+              status: raw.supervisor ? "Di Lapangan" : "N/A"
             },
             foreman: {
-              name: raw.foreman?.name || "Mulyadi",
+              name: raw.foreman?.name || "Mandor Belum Ditugaskan",
               role: "Mandor Proyek",
-              avatar: `https://ui-avatars.com/api/?name=${raw.foreman?.name || 'Mandor'}&background=3B82F6&color=fff`,
-              status: "Aktif"
+              avatar: raw.foreman?.avatar || `https://ui-avatars.com/api/?name=${raw.foreman?.name || 'Mandor'}&background=3B82F6&color=fff`,
+              status: raw.foreman ? "Aktif" : "N/A"
             }
           }
         };

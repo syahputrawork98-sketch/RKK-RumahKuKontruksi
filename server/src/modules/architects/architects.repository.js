@@ -91,18 +91,55 @@ export const softDeleteExperience = async (id) => {
 };
 
 export const getStats = async (id) => {
-  // Since DesignRequest model is not yet implemented in the schema,
-  // we return 0 for operational counts but fetch the real capacity.
   const architect = await prisma.architect.findUnique({
     where: { id, deletedAt: null },
     select: { maxDesignCapacity: true }
   });
 
+  const [newRequests, activeDesigns, waitingReview, revisionRequested] = await Promise.all([
+    // New Requests (Open Tenders that this architect hasn't bid on yet)
+    prisma.designTender.count({
+      where: {
+        status: 'open',
+        deletedAt: null,
+        bids: {
+          none: { architectId: id }
+        }
+      }
+    }),
+    // Active Designs (DesignRequests assigned to this architect)
+    prisma.designRequest.count({
+      where: {
+        architectId: id,
+        status: 'approved',
+        deletedAt: null
+      }
+    }),
+    // Waiting Review (Bids that are submitted but not yet awarded)
+    prisma.designTenderBid.count({
+      where: {
+        architectId: id,
+        status: 'submitted',
+        designTender: {
+          status: 'open'
+        }
+      }
+    }),
+    // Revision Requested (Placeholder as we don't have revision model yet, but we can check a specific status if available)
+    prisma.designRequest.count({
+      where: {
+        architectId: id,
+        status: 'revision_requested',
+        deletedAt: null
+      }
+    })
+  ]);
+
   return {
-    newRequests: 0,
-    activeDesigns: 0,
-    waitingReview: 0,
-    revisionRequested: 0,
+    newRequests,
+    activeDesigns,
+    waitingReview,
+    revisionRequested,
     maxDesignCapacity: architect?.maxDesignCapacity || 0
   };
 };

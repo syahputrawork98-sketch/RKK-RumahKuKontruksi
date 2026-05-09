@@ -336,6 +336,7 @@ function App() {
           >
             <Route path="dashboard" element={<DashboardArsitek />} />
             <Route path="brief-desain" element={<PermintaanDesainArsitekPage />} />
+            <Route path="peluang-desain" element={<PermintaanDesainArsitekPage />} />
             <Route path="permintaan-desain" element={<PermintaanDesainArsitekPage />} /> {/* Legacy mapping */}
             <Route path="permintaan-desain/:requestId" element={<DetailPermintaanDesainArsitekPage />} />
             <Route path="desain-aktif" element={<DesainAktifArsitekPage />} />

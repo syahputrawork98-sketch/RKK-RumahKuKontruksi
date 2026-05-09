@@ -12,7 +12,7 @@ import {
     FiX,
     FiInfo
 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
@@ -20,8 +20,16 @@ import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState
 import RoleDataState from "../../components/common/RoleDataState";
 
 const PermintaanDesainArsitekPage = () => {
+    const location = useLocation();
     const { selectedArchitectId, loading: personaLoading } = useArchitectPersona();
-    const [activeSubtab, setActiveSubtab] = useState("aktif"); // "aktif", "riwayat", "peluang"
+    
+    // Determine initial tab based on path
+    const getInitialTab = () => {
+        if (location.pathname.includes("/peluang-desain")) return "peluang";
+        return "aktif";
+    };
+
+    const [activeSubtab, setActiveSubtab] = useState(getInitialTab()); // "aktif", "riwayat", "peluang"
     const [requests, setRequests] = useState([]);
     const [tenders, setTenders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -62,6 +70,10 @@ const PermintaanDesainArsitekPage = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        setActiveSubtab(getInitialTab());
+    }, [location.pathname]);
 
     useEffect(() => {
         fetchData();

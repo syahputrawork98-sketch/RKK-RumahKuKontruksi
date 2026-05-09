@@ -46,28 +46,46 @@ export const findWeeklyJournals = async (filters = {}) => {
 };
 
 export const findWeeklyJournalById = async (id) => {
-  return await prisma.weeklyJournal.findUnique({
+  const journal = await prisma.weeklyJournal.findUnique({
     where: { id },
     include: {
       project: true,
       foreman: true,
       supervisor: true,
-      activities: {
-        include: {
-          projectStage: true,
-          rabItem: {
-            include: {
-              category: true
-            }
-          }
-        }
-      },
+      activities: true, // Fetch activities but without relation includes that don't exist in schema
       photos: true,
       reviewLogs: {
         orderBy: { createdAt: 'desc' }
       }
     }
   });
+
+  if (!journal) return null;
+
+  // Manual Enrichment for Activities Context
+  if (journal.activities && journal.activities.length > 0) {
+    const stageIds = [...new Set(journal.activities.map(a => a.projectStageId).filter(Boolean))];
+    const rabItemIds = [...new Set(journal.activities.map(a => a.rabItemId).filter(Boolean))];
+
+    const [stages, rabItems] = await Promise.all([
+      stageIds.length > 0 ? prisma.projectStage.findMany({ where: { id: { in: stageIds } } }) : [],
+      rabItemIds.length > 0 ? prisma.rabItem.findMany({ 
+        where: { id: { in: rabItemIds } },
+        include: { category: true }
+      }) : []
+    ]);
+
+    const stageMap = Object.fromEntries(stages.map(s => [s.id, s]));
+    const rabItemMap = Object.fromEntries(rabItems.map(r => [r.id, r]));
+
+    journal.activities = journal.activities.map(activity => ({
+      ...activity,
+      projectStage: activity.projectStageId ? stageMap[activity.projectStageId] || null : null,
+      rabItem: activity.rabItemId ? rabItemMap[activity.rabItemId] || null : null
+    }));
+  }
+
+  return journal;
 };
 
 export const createWeeklyJournal = async (data) => {

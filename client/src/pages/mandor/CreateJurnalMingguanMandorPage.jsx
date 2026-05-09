@@ -17,6 +17,10 @@ const CreateJurnalMingguanMandorPage = () => {
     const [loadingContext, setLoadingContext] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const [contextStatus, setContextStatus] = useState({
+        stages: 'idle', // idle, loading, success, empty, error
+        rab: 'idle'
+    });
 
     const [formData, setFormData] = useState({
         projectId: "",
@@ -72,19 +76,28 @@ const CreateJurnalMingguanMandorPage = () => {
 
             try {
                 setLoadingContext(true);
-                const [stagesRes, rabRes] = await Promise.all([
+                setContextStatus({ stages: 'loading', rab: 'loading' });
+                
+                const [stagesRes, rabRes] = await Promise.allSettled([
                     projectService.getProjectStages(formData.projectId),
-                    projectService.getProjectRab(formData.projectId).catch(() => ({ success: false }))
+                    projectService.getProjectRab(formData.projectId)
                 ]);
 
-                if (stagesRes.success) {
-                    setProjectStages(stagesRes.data);
+                // Process stages
+                if (stagesRes.status === 'fulfilled' && stagesRes.value.success) {
+                    setProjectStages(stagesRes.value.data);
+                    setContextStatus(prev => ({ ...prev, stages: stagesRes.value.data.length > 0 ? 'success' : 'empty' }));
+                } else {
+                    console.error("Failed to fetch stages:", stagesRes.reason || stagesRes.value?.message);
+                    setProjectStages([]);
+                    setContextStatus(prev => ({ ...prev, stages: 'error' }));
                 }
                 
-                if (rabRes.success && rabRes.data) {
+                // Process RAB
+                if (rabRes.status === 'fulfilled' && rabRes.value.success && rabRes.value.data) {
                     // Flatten RAB items from categories for easy selection
                     const items = [];
-                    rabRes.data.categories?.forEach(cat => {
+                    rabRes.value.data.categories?.forEach(cat => {
                         cat.items?.forEach(item => {
                             items.push({
                                 ...item,
@@ -94,11 +107,15 @@ const CreateJurnalMingguanMandorPage = () => {
                         });
                     });
                     setRabItems(items);
+                    setContextStatus(prev => ({ ...prev, rab: items.length > 0 ? 'success' : 'empty' }));
                 } else {
+                    console.error("Failed to fetch RAB:", rabRes.reason || rabRes.value?.message);
                     setRabItems([]);
+                    setContextStatus(prev => ({ ...prev, rab: 'error' }));
                 }
             } catch (err) {
                 console.error("Failed to fetch project context:", err);
+                setContextStatus({ stages: 'error', rab: 'error' });
             } finally {
                 setLoadingContext(false);
             }
@@ -319,9 +336,16 @@ const CreateJurnalMingguanMandorPage = () => {
                                     <select 
                                         value={activity.projectStageId}
                                         onChange={(e) => handleActivityChange(index, 'projectStageId', e.target.value)}
-                                        className="w-full bg-white border border-[var(--dashboard-border)] rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all"
+                                        className={`w-full bg-white border rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all ${
+                                            contextStatus.stages === 'error' ? 'border-rose-200 bg-rose-50' : 'border-[var(--dashboard-border)]'
+                                        }`}
                                     >
-                                        <option value="">-- Pilih Tahapan --</option>
+                                        <option value="">
+                                            {contextStatus.stages === 'loading' ? 'Memuat tahapan...' : 
+                                             contextStatus.stages === 'empty' ? '-- Stage belum tersedia, aktivitas tetap bisa diisi manual --' :
+                                             contextStatus.stages === 'error' ? '-- Gagal memuat konteks Stage, isi aktivitas manual --' :
+                                             '-- Pilih Tahapan (Opsional) --'}
+                                        </option>
                                         {projectStages.map(s => (
                                             <option key={s.id} value={s.id}>{s.name} ({s.status})</option>
                                         ))}
@@ -336,9 +360,16 @@ const CreateJurnalMingguanMandorPage = () => {
                                     <select 
                                         value={activity.rabItemId}
                                         onChange={(e) => handleActivityChange(index, 'rabItemId', e.target.value)}
-                                        className="w-full bg-white border border-[var(--dashboard-border)] rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all"
+                                        className={`w-full bg-white border rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all ${
+                                            contextStatus.rab === 'error' ? 'border-rose-200 bg-rose-50' : 'border-[var(--dashboard-border)]'
+                                        }`}
                                     >
-                                        <option value="">-- Pilih Item RAB --</option>
+                                        <option value="">
+                                            {contextStatus.rab === 'loading' ? 'Memuat item RAB...' : 
+                                             contextStatus.rab === 'empty' ? '-- RAB item belum tersedia, aktivitas tetap bisa diisi manual --' :
+                                             contextStatus.rab === 'error' ? '-- Gagal memuat konteks RAB, isi aktivitas manual --' :
+                                             '-- Pilih Item RAB (Opsional) --'}
+                                        </option>
                                         {rabItems.map(item => (
                                             <option key={item.id} value={item.id}>
                                                 [{item.categoryCode}] {item.description}

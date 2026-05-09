@@ -188,7 +188,7 @@ const DetailJurnalMandorPengawasPage = () => {
                                         {activity.rabItem && (
                                             <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 border border-emerald-100 rounded-lg">
                                                 <span className="text-[8px] font-black text-emerald-600 uppercase">RAB:</span>
-                                                <span className="text-[9px] font-bold text-emerald-700">[{activity.rabItem.category?.code}] {activity.rabItem.description}</span>
+                                                <span className="text-[9px] font-bold text-emerald-700">[{activity.rabItem.category?.code || '??'}] {activity.rabItem.description}</span>
                                             </div>
                                         )}
                                     </div>

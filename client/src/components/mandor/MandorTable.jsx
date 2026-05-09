@@ -58,14 +58,14 @@ export default function MandorTable({ data }) {
   };
 
   const handleDelete = async (mandor) => {
-    if (!confirm(`Hapus/Nonaktifkan mandor ${mandor.name}?`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun mandor ${mandor.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa ditunjuk sebagai pelaksana proyek baru.`)) return;
     try {
       await foremanService.deleteForeman(mandor.id);
       setMandors((prev) => prev.filter((m) => m.id !== mandor.id));
       alert("Mandor berhasil dinonaktifkan.");
     } catch (err) {
-      console.error("MandorTable: Failed to delete foreman", err);
-      alert("Gagal menghapus mandor. Silakan coba lagi.");
+      console.error("MandorTable: Failed to deactivate foreman", err);
+      alert("Gagal menonaktifkan mandor. Silakan coba lagi.");
     }
   };
 
@@ -90,7 +90,8 @@ export default function MandorTable({ data }) {
       setEditingMandor(null);
     } catch (err) {
       console.error("MandorTable: Failed to save foreman", err);
-      alert(err.response?.data?.message || "Gagal menyimpan data mandor. Pastikan email unik.");
+      const errorMsg = err.response?.data?.message || "Gagal menyimpan data mandor. Pastikan email unik.";
+      alert(errorMsg);
     }
   };
 
@@ -135,11 +136,23 @@ export default function MandorTable({ data }) {
             </thead>
 
             <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
-              {sortedMandors.length === 0 ? (
+              {mandors.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
-                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4 text-blue-200">
+                        <span className="text-2xl font-black">!</span>
+                      </div>
+                      <p className="font-bold">Database Mandor Kosong</p>
+                      <p className="text-xs italic">Belum ada data mandor yang terdaftar di sistem.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : sortedMandors.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4 text-blue-200">
                         <span className="text-2xl">?</span>
                       </div>
                       <p className="font-bold">Tidak ada mandor ditemukan</p>

@@ -86,7 +86,7 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Hapus"
+            title="Nonaktifkan"
             onClick={() => onDelete(pengawas)}
             className="dashboard-icon-button !p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
           >

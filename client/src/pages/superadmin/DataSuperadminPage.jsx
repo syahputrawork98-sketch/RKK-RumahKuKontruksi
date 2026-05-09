@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import superadminService from "../../services/superadminService";
 import SuperadminTable from "../../components/superadmin/SuperadminTable";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 export default function DataSuperadminPage() {
+  const { selectedSuperadminId } = useSuperadminPersona();
   const [dataAdmins, setDataAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,22 +13,28 @@ export default function DataSuperadminPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await superadminService.getSuperadmins();
       setDataAdmins(response.data || []);
-      setError(null);
     } catch (err) {
       console.error("DataSuperadminPage: Failed to fetch data", err);
-      setError("Gagal mengambil data superadmin dari server.");
+      setError("Gagal mengambil data superadmin. Pastikan koneksi database aktif.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (selectedSuperadminId) {
+      fetchData();
+    }
+  }, [selectedSuperadminId]);
 
-  if (loading) return <RoleDataState type="loading" message="Menghubungkan ke database..." />;
+  if (!selectedSuperadminId) {
+    return <RoleDataState type="empty" message="Pilih persona Superadmin untuk mengelola database superadmin." />;
+  }
+
+  if (loading) return <RoleDataState type="loading" message="Memuat data Superadmin..." />;
   if (error) return <RoleDataState type="error" message={error} onRetry={fetchData} />;
 
   return (

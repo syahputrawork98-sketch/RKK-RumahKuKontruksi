@@ -50,14 +50,14 @@ export default function AdminTable({ data }) {
   };
 
   const handleDelete = async (admin) => {
-    if (!confirm(`Hapus admin ${admin.name}?`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun admin ${admin.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan muncul di monitoring operasional aktif.`)) return;
     try {
       await adminService.deleteAdmin(admin.id);
       setAdmins((prev) => prev.filter((item) => item.id !== admin.id));
       alert("Admin berhasil dinonaktifkan.");
     } catch (err) {
-      console.error("AdminTable: Failed to delete admin", err);
-      alert("Gagal menghapus admin. Silakan coba lagi.");
+      console.error("AdminTable: Failed to deactivate admin", err);
+      alert("Gagal menonaktifkan admin. Silakan coba lagi.");
     }
   };
 
@@ -84,7 +84,8 @@ export default function AdminTable({ data }) {
       setEditingAdmin(null);
     } catch (err) {
       console.error("AdminTable: Failed to save admin", err);
-      alert(err.response?.data?.message || "Gagal menyimpan data admin. Pastikan email unik.");
+      const errorMsg = err.response?.data?.message || "Gagal menyimpan data admin. Pastikan email unik.";
+      alert(errorMsg);
     }
   };
 
@@ -126,7 +127,19 @@ export default function AdminTable({ data }) {
             </thead>
 
             <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
-              {sortedAdmins.length === 0 ? (
+              {admins.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4">
+                        <span className="text-2xl">!</span>
+                      </div>
+                      <p className="font-bold">Database Admin Kosong</p>
+                      <p className="text-xs italic">Belum ada data admin yang terdaftar di sistem.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : sortedAdmins.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">

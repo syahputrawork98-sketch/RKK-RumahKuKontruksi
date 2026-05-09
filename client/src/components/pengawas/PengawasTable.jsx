@@ -58,14 +58,14 @@ export default function PengawasTable({ data }) {
   };
 
   const handleDelete = async (pengawas) => {
-    if (!confirm(`Hapus/Nonaktifkan pengawas ${pengawas.name}?`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun pengawas ${pengawas.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa ditugaskan ke proyek baru.`)) return;
     try {
       await supervisorService.deleteSupervisor(pengawas.id);
       setPengawas((prev) => prev.filter((item) => item.id !== pengawas.id));
       alert("Pengawas berhasil dinonaktifkan.");
     } catch (err) {
-      console.error("PengawasTable: Failed to delete supervisor", err);
-      alert("Gagal menghapus pengawas. Silakan coba lagi.");
+      console.error("PengawasTable: Failed to deactivate supervisor", err);
+      alert("Gagal menonaktifkan pengawas. Silakan coba lagi.");
     }
   };
 
@@ -92,7 +92,8 @@ export default function PengawasTable({ data }) {
       setEditingPengawas(null);
     } catch (err) {
       console.error("PengawasTable: Failed to save supervisor", err);
-      alert(err.response?.data?.message || "Gagal menyimpan data pengawas. Pastikan email unik.");
+      const errorMsg = err.response?.data?.message || "Gagal menyimpan data pengawas. Pastikan email unik.";
+      alert(errorMsg);
     }
   };
 
@@ -136,11 +137,23 @@ export default function PengawasTable({ data }) {
             </thead>
 
             <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
-              {sortedPengawas.length === 0 ? (
+              {pengawas.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
-                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4 text-amber-200">
+                        <span className="text-2xl font-black">!</span>
+                      </div>
+                      <p className="font-bold">Database Pengawas Kosong</p>
+                      <p className="text-xs italic">Belum ada data pengawas yang terdaftar di sistem.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : sortedPengawas.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4 text-amber-200">
                         <span className="text-2xl">?</span>
                       </div>
                       <p className="font-bold">Tidak ada pengawas ditemukan</p>

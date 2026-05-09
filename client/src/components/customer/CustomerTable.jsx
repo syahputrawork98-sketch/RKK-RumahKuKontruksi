@@ -41,14 +41,14 @@ export default function CustomerTable({ data }) {
   };
 
   const handleDelete = async (customer) => {
-    if (!confirm(`Hapus/Nonaktifkan konsumen ${customer.name || customer.companyName}?`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun konsumen ${customer.name || customer.companyName}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa mengakses portal konsumen.`)) return;
     try {
       await customerService.deleteCustomer(customer.id);
       setCustomers((prev) => prev.filter((item) => item.id !== customer.id));
       alert("Konsumen berhasil dinonaktifkan.");
     } catch (err) {
-      console.error("CustomerTable: Failed to delete customer", err);
-      alert("Gagal menghapus konsumen. Silakan coba lagi.");
+      console.error("CustomerTable: Failed to deactivate customer", err);
+      alert("Gagal menonaktifkan konsumen. Silakan coba lagi.");
     }
   };
 
@@ -75,7 +75,8 @@ export default function CustomerTable({ data }) {
       setEditingCustomer(null);
     } catch (err) {
       console.error("CustomerTable: Failed to save customer", err);
-      alert(err.response?.data?.message || "Gagal menyimpan data konsumen. Pastikan email unik.");
+      const errorMsg = err.response?.data?.message || "Gagal menyimpan data konsumen. Pastikan email unik.";
+      alert(errorMsg);
     }
   };
 
@@ -131,7 +132,19 @@ export default function CustomerTable({ data }) {
             </thead>
 
             <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
-              {filteredCustomers.length === 0 ? (
+              {customers.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4">
+                        <span className="text-2xl text-teal-200">!</span>
+                      </div>
+                      <p className="font-bold">Database Konsumen Kosong</p>
+                      <p className="text-xs italic">Belum ada data konsumen yang terdaftar di sistem.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredCustomers.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import architectService from "../../services/architectService";
 import ArchitectTable from "../../components/architect/ArchitectTable";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 export default function DataArsitekPage() {
+  const { selectedSuperadminId } = useSuperadminPersona();
   const [dataArsitek, setDataArsitek] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,22 +13,28 @@ export default function DataArsitekPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await architectService.getAllArchitects();
       setDataArsitek(response.data || []);
-      setError(null);
     } catch (err) {
       console.error("DataArsitekPage: Failed to fetch data", err);
-      setError("Gagal mengambil data arsitek dari server.");
+      setError("Gagal mengambil data arsitek. Pastikan koneksi database aktif.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (selectedSuperadminId) {
+      fetchData();
+    }
+  }, [selectedSuperadminId]);
 
-  if (loading) return <RoleDataState type="loading" message="Menghubungkan ke database..." />;
+  if (!selectedSuperadminId) {
+    return <RoleDataState type="empty" message="Pilih persona Superadmin untuk mengelola data Arsitek." />;
+  }
+
+  if (loading) return <RoleDataState type="loading" message="Memuat data Arsitek..." />;
   if (error) return <RoleDataState type="error" message={error} onRetry={fetchData} />;
 
   return (

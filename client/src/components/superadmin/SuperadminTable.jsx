@@ -137,7 +137,19 @@ export default function SuperadminTable({ data }) {
             </thead>
 
             <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
-              {filteredAdmins.length === 0 ? (
+              {admins.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4 text-rose-200">
+                        <span className="text-2xl font-black">!</span>
+                      </div>
+                      <p className="font-bold">Database Superadmin Kosong</p>
+                      <p className="text-xs italic">Belum ada akun superadmin lain yang terdaftar.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredAdmins.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">

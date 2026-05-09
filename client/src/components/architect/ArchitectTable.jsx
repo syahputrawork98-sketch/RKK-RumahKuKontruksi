@@ -57,14 +57,14 @@ export default function ArchitectTable({ data }) {
   };
 
   const handleDelete = async (architect) => {
-    if (!confirm(`Hapus/Nonaktifkan arsitek ${architect.name}?`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun arsitek ${architect.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa menerima pengajuan desain baru.`)) return;
     try {
       await architectService.deleteArchitect(architect.id);
       setArchitects((prev) => prev.filter((item) => item.id !== architect.id));
       alert("Arsitek berhasil dinonaktifkan.");
     } catch (err) {
-      console.error("ArchitectTable: Failed to delete architect", err);
-      alert("Gagal menghapus arsitek. Silakan coba lagi.");
+      console.error("ArchitectTable: Failed to deactivate architect", err);
+      alert("Gagal menonaktifkan arsitek. Silakan coba lagi.");
     }
   };
 
@@ -91,7 +91,8 @@ export default function ArchitectTable({ data }) {
       setEditingArchitect(null);
     } catch (err) {
       console.error("ArchitectTable: Failed to save architect", err);
-      alert(err.response?.data?.message || "Gagal menyimpan data arsitek. Pastikan email unik.");
+      const errorMsg = err.response?.data?.message || "Gagal menyimpan data arsitek. Pastikan email unik.";
+      alert(errorMsg);
     }
   };
 
@@ -147,7 +148,19 @@ export default function ArchitectTable({ data }) {
             </thead>
 
             <tbody className="divide-y divide-[var(--dashboard-border-soft)] bg-[var(--dashboard-surface)]">
-              {sortedArchitects.length === 0 ? (
+              {architects.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">
+                      <div className="w-16 h-16 bg-[var(--dashboard-surface-soft)] rounded-full flex items-center justify-center mb-4 text-purple-200">
+                        <span className="text-2xl font-black">!</span>
+                      </div>
+                      <p className="font-bold">Database Arsitek Kosong</p>
+                      <p className="text-xs italic">Belum ada data arsitek yang terdaftar di sistem.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : sortedArchitects.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center justify-center text-[var(--dashboard-text-soft)]">

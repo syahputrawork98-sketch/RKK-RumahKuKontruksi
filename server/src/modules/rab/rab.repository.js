@@ -64,6 +64,13 @@ export const updateCategory = async (id, data) => {
   });
 };
 
+export const isCategoryInUse = async (id) => {
+  const itemsCount = await prisma.rabItem.count({
+    where: { categoryId: id }
+  });
+  return itemsCount > 0;
+};
+
 export const removeCategory = async (id) => {
   return await prisma.rabCategory.delete({
     where: { id },
@@ -110,6 +117,14 @@ export const updateItem = async (id, data) => {
     where: { id },
     data: updateData
   });
+};
+
+export const isItemInUse = async (id) => {
+  const [mrItem, activity] = await Promise.all([
+    prisma.materialRequestItem.findFirst({ where: { rabItemId: id } }),
+    prisma.weeklyJournalActivity.findFirst({ where: { rabItemId: id } })
+  ]);
+  return !!(mrItem || activity);
 };
 
 export const removeItem = async (id) => {

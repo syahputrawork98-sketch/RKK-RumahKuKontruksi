@@ -154,6 +154,13 @@ export const deleteRabCategory = async (req, res, next) => {
       return forbiddenResponse(res);
     }
 
+    if (await RabRepository.isCategoryInUse(categoryId)) {
+      return res.status(409).json({
+        success: false,
+        message: 'Kategori tidak bisa dihapus karena masih memiliki item pekerjaan.'
+      });
+    }
+
     await RabRepository.removeCategory(categoryId);
     await RabRepository.syncPlanTotal(category.rabPlanId);
 
@@ -241,6 +248,13 @@ export const deleteRabItem = async (req, res, next) => {
 
     if (adminId && !(await checkOwnership(item.projectId, adminId))) {
       return forbiddenResponse(res);
+    }
+
+    if (await RabRepository.isItemInUse(itemId)) {
+      return res.status(409).json({
+        success: false,
+        message: 'Item tidak bisa dihapus karena sudah digunakan dalam Material Request atau Jurnal Mingguan.'
+      });
     }
 
     await RabRepository.removeItem(itemId);

@@ -605,7 +605,7 @@ const DetailProyekAdminPage = () => {
                                         to={`/admin/rab/${project.id}`}
                                         className="flex items-center gap-2 px-4 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-bold shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 transition-all"
                                     >
-                                        Lihat Detail RAB
+                                        Kelola RAB
                                     </Link>
                                 </div>
 

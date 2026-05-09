@@ -142,7 +142,7 @@ const RabAdminPage = () => {
                                                     to={`/admin/rab/${prj.id}`}
                                                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-[var(--dashboard-border)] text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-primary)] rounded-xl shadow-sm hover:bg-[var(--dashboard-primary)] hover:text-white transition-all"
                                                 >
-                                                    DETAIL RAB
+                                                    KELOLA RAB
                                                     <FiChevronRight />
                                                 </Link>
                                             </td>

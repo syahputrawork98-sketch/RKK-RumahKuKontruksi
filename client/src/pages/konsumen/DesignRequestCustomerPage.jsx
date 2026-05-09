@@ -75,6 +75,7 @@ const DesignRequestCustomerPage = () => {
             setSubmitting(true);
             const payload = {
                 ...formData,
+                estimatedBudget: formData.estimatedBudget ? Number(formData.estimatedBudget) : null,
                 customerId: selectedCustomerId
             };
             await designRequestService.createDesignRequest(payload);
@@ -177,7 +178,10 @@ const DesignRequestCustomerPage = () => {
                                             <p className="text-[11px] font-bold text-gray-700">{r.architect?.name || "Menunggu Penugasan"}</p>
                                         </div>
                                     </div>
-                                    <div className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    <div 
+                                        onClick={() => alert("Fitur chat/kontak arsitek sedang disiapkan (Phase Local CRUD). Silakan hubungi Admin RKK.")}
+                                        className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform cursor-pointer"
+                                    >
                                         Hubungi Admin <FiArrowRight />
                                     </div>
                                 </div>

@@ -125,7 +125,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Monitoring Design Request/Tender memakai endpoint Design Request dan Design Tender yang sama dengan flow Admin/Arsitek, tetapi mode Superadmin bersifat read-only.
 - Superadmin tidak mengambil alih aksi operasional seperti assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, atau update progress resmi.
 
-## Design Requests (Local E2E Workflow v1 / UI Consistency Stabilized)
+## Design Requests (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
 - `GET /design-requests/:id`: Ambil detail Design Request lokal.
 - `POST /design-requests`: Membuat Design Request lokal dari Konsumen/Admin workflow.
@@ -135,12 +135,14 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `POST /design-requests/:id/convert-to-project`: Membuat project draft/planning lokal dari Design Request yang eligible.
 
 **Catatan**:
-- Flow lokal: Konsumen create/list Design Request; Admin review/manage Design Request dan convert-to-project draft/planning lokal; Arsitek melihat assignment/desain aktif/riwayat lokal; Superadmin read-only monitoring.
-- Project Bridge hanya membuat project berstatus `planning` sebagai draft lokal. Aktivasi tetap melalui Project Activation flow terpisah dan tidak otomatis.
+- Flow lokal: Konsumen create/list Design Request; Admin review/manage Design Request; Arsitek melihat assignment/desain aktif/riwayat lokal; Superadmin read-only monitoring.
+- Demo completion lokal: Design Request dapat masuk `assigned` setelah award bid lokal, lalu `approved` sesuai workflow lokal sebelum Admin menjalankan `convert-to-project`.
+- Project Bridge hanya membuat project berstatus `planning` sebagai draft lokal. Project draft tidak otomatis aktif, dan aktivasi tetap melalui Project Activation flow terpisah.
+- Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, atau upload file production.
 - Bukan marketplace production, tender production, kontrak legal, payment/escrow, upload file production, auth production, atau RBAC production.
-- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
+- **Status**: *Local Demo Completion / Local E2E Workflow v1*.
 
-## Design Tenders (Local E2E Workflow v1 / UI Consistency Stabilized)
+## Design Tenders (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-tenders`: Ambil list tender desain lokal; dukung filter `status`.
 - `POST /design-tenders/publish`: Publish tender lokal dari Design Request.
 - `GET /design-tenders/open`: Ambil open tender lokal untuk Arsitek.
@@ -151,10 +153,10 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `DELETE /design-tenders/:id`: Soft delete/cancel tender lokal.
 
 **Catatan**:
-- Flow lokal: Admin publish tender lokal dan award bid lokal; Arsitek view open tender dan submit bid lokal; Superadmin read-only monitoring.
+- Flow lokal: Admin publish tender lokal dan award bid lokal; Arsitek view open tender dan submit bid lokal; award menghubungkan Design Request ke Arsitek terpilih sebagai fase `assigned`; Superadmin read-only monitoring.
 - Split fee 30/70 adalah simulasi data workflow lokal, bukan payment/escrow/disbursement production.
 - Award bid lokal menghubungkan Design Request dengan Arsitek terpilih, tetapi tidak membuat kontrak legal, pembayaran, atau file package production.
-- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
+- **Status**: *Local Demo Completion / Local E2E Workflow v1*.
 
 ## Weekly Journals (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /weekly-journals`: Ambil list jurnal (dukung filter actorRole/actorId/foremanId/status).

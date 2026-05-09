@@ -71,6 +71,17 @@ async function main() {
     }
   });
 
+  await prisma.admin.create({
+    data: {
+      id: 'admin-003',
+      name: 'Agus Pranoto',
+      email: 'agus.admin@rkk.local',
+      phone: '081234567003',
+      status: 'inactive',
+      avatar: 'https://i.pravatar.cc/150?u=admin-003'
+    }
+  });
+
   await prisma.superadmin.create({
     data: {
       id: 'superadmin-001',
@@ -80,6 +91,27 @@ async function main() {
       status: 'active',
       avatar: 'https://i.pravatar.cc/150?u=superadmin-001'
     }
+  });
+
+  await prisma.superadmin.createMany({
+    data: [
+      {
+        id: 'superadmin-002',
+        name: 'Maya Kusumawardani',
+        email: 'maya.superadmin@rkk.local',
+        phone: '081234567011',
+        status: 'active',
+        avatar: 'https://i.pravatar.cc/150?u=superadmin-002'
+      },
+      {
+        id: 'superadmin-003',
+        name: 'Rizal Audit',
+        email: 'rizal.audit@rkk.local',
+        phone: '081234567012',
+        status: 'inactive',
+        avatar: 'https://i.pravatar.cc/150?u=superadmin-003'
+      }
+    ]
   });
 
   const arch1 = await prisma.architect.create({
@@ -124,6 +156,24 @@ async function main() {
     }
   });
 
+  const arch4 = await prisma.architect.create({
+    data: {
+      id: 'architect-004',
+      name: 'Tania Larasati',
+      email: 'tania.arch@rkk.local',
+      phone: '081122334404',
+      employmentType: 'fulltime',
+      specialization: 'Tropical Residential',
+      experienceYears: 7,
+      skillTags: ['residential', 'tropical', 'renovation'],
+      maxDesignCapacity: 3,
+      status: 'active',
+      joinedAt: new Date('2023-03-15'),
+      notes: 'Arsitek internal untuk desain rumah tropis dan renovasi hunian.',
+      avatar: 'https://i.pravatar.cc/150?u=architect-004'
+    }
+  });
+
   const foreman1 = await prisma.foreman.create({
     data: {
       id: 'foreman-001',
@@ -150,6 +200,27 @@ async function main() {
       experienceYears: 10,
       status: 'active',
       avatar: 'https://i.pravatar.cc/150?u=foreman-002'
+    }
+  });
+
+  const foreman3 = await prisma.foreman.create({
+    data: {
+      id: 'foreman-003',
+      name: 'Joko Lestari',
+      email: 'joko.foreman@rkk.local',
+      phone: '081333444003',
+      vendorType: 'company',
+      companyName: 'CV Pilar Nusantara',
+      address: 'Jl. Raya Bogor KM 29, Depok',
+      specialization: 'Finishing & Renovasi',
+      experienceYears: 8,
+      skillTags: ['finishing', 'renovasi', 'interior'],
+      teamSummary: { tukang: 10, helper: 6, kepalaTukang: 2 },
+      maxProjectCapacity: 2,
+      status: 'active',
+      joinedAt: new Date('2022-09-10'),
+      notes: 'Mandor cadangan untuk proyek renovasi dan finishing interior.',
+      avatar: 'https://i.pravatar.cc/150?u=foreman-003'
     }
   });
 
@@ -226,6 +297,39 @@ async function main() {
       businessField: 'Properti dan Manajemen Gedung',
       notes: 'Persona demo konsumen perusahaan untuk design-to-project bridge dan proyek draft.',
       avatar: 'https://i.pravatar.cc/150?u=customer-003'
+    }
+  });
+
+  const customer4 = await prisma.customer.create({
+    data: {
+      id: 'customer-004',
+      name: 'Reno Aditya',
+      email: 'reno.aditya@gmail.com',
+      phone: '081222220004',
+      customerType: 'individual',
+      address: 'Jl. Bunga Raya No. 12, Depok',
+      identityNumber: '3276011201900004',
+      occupation: 'Konsultan IT',
+      notes: 'Persona demo konsumen dengan proyek renovasi aktif kedua untuk dashboard dan monitoring multi-project.',
+      avatar: 'https://i.pravatar.cc/150?u=customer-004'
+    }
+  });
+
+  const customer5 = await prisma.customer.create({
+    data: {
+      id: 'customer-005',
+      name: 'CV Sinar Kosan',
+      email: 'owner@sinarkosan.local',
+      phone: '021-77889900',
+      customerType: 'company',
+      companyName: 'CV Sinar Kosan Mandiri',
+      picName: 'Wulan Prameswari',
+      picPosition: 'Owner',
+      address: 'Margonda, Depok',
+      taxNumber: '02.345.678.9-012.000',
+      businessField: 'Properti Kos dan Kontrakan',
+      notes: 'Persona demo perusahaan kecil untuk proyek selesai dan histori konstruksi.',
+      avatar: 'https://i.pravatar.cc/150?u=customer-005'
     }
   });
 
@@ -337,6 +441,49 @@ async function main() {
       message: 'Siap mengerjakan sesuai timeline ketat.',
       estimatedDurationDays: 21,
       status: 'selected'
+    }
+  });
+
+  // DR 4: Cancelled tender scenario
+  const drCancelled = await prisma.designRequest.create({
+    data: {
+      id: 'dr-cancelled-001',
+      customerId: customer4.id,
+      architectId: arch4.id,
+      title: 'Desain Renovasi Dapur Tropis Depok',
+      description: 'Renovasi dapur dan area makan dengan bukaan alami serta storage tambahan.',
+      buildingType: 'Residential Renovation',
+      location: 'Depok',
+      estimatedBudget: 180000000,
+      status: 'cancelled',
+      notes: 'Dibatalkan oleh konsumen karena revisi prioritas anggaran keluarga.'
+    }
+  });
+
+  const tenderCancelled = await prisma.designTender.create({
+    data: {
+      id: 'tender-cancelled-001',
+      designRequestId: drCancelled.id,
+      title: drCancelled.title,
+      description: drCancelled.description,
+      status: 'cancelled',
+      baseDesignFee: 12000000,
+      platformFeeAmount: 3600000,
+      drafterBudgetAmount: 8400000,
+      publishedAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
+      closedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  await prisma.designTenderBid.create({
+    data: {
+      id: 'bid-cancelled-001',
+      designTenderId: tenderCancelled.id,
+      architectId: arch4.id,
+      bidAmount: 8000000,
+      message: 'Konsep dapur tropis dapat dibuat dalam dua pekan dengan opsi material lokal.',
+      estimatedDurationDays: 12,
+      status: 'withdrawn'
     }
   });
 
@@ -490,6 +637,179 @@ async function main() {
     }
   });
 
+  const supervisor3 = await prisma.supervisor.create({
+    data: {
+      id: 'supervisor-003',
+      name: 'Yusuf Mahendra',
+      email: 'yusuf.spv@rkk.local',
+      phone: '081444555003',
+      specialization: 'MEP & Finishing',
+      bio: 'Pengawas lapangan dengan pengalaman renovasi rumah tinggal dan koordinasi MEP ringan.',
+      city: 'Depok',
+      maxProjectCapacity: 2,
+      status: 'active',
+      avatar: 'https://i.pravatar.cc/150?u=supervisor-003'
+    }
+  });
+
+  await prisma.supervisorCertificate.createMany({
+    data: [
+      {
+        id: 'spv-cert-001',
+        supervisorId: supervisor1.id,
+        title: 'Ahli K3 Konstruksi Muda',
+        issuer: 'Kemnaker RI',
+        certificateNumber: 'K3-SPV-001',
+        issuedAt: new Date('2021-02-01'),
+        expiredAt: new Date('2027-02-01'),
+        fileType: 'pdf',
+        status: 'valid'
+      },
+      {
+        id: 'spv-cert-002',
+        supervisorId: supervisor2.id,
+        title: 'Pengawas Bangunan Gedung',
+        issuer: 'LPJK',
+        certificateNumber: 'LPJK-SPV-002',
+        issuedAt: new Date('2020-06-15'),
+        expiredAt: new Date('2026-06-15'),
+        fileType: 'pdf',
+        status: 'valid'
+      }
+    ]
+  });
+
+  await prisma.supervisorExperience.createMany({
+    data: [
+      {
+        id: 'spv-exp-001',
+        supervisorId: supervisor1.id,
+        projectName: 'Rumah Cluster Alam Sutera',
+        companyName: 'RKK Internal',
+        role: 'Site Supervisor',
+        location: 'Tangerang Selatan',
+        startYear: 2021,
+        endYear: 2022,
+        description: 'Mengawasi struktur rumah dua lantai dan koordinasi progress mingguan.'
+      },
+      {
+        id: 'spv-exp-002',
+        supervisorId: supervisor2.id,
+        projectName: 'Renovasi Kantor Kemang',
+        companyName: 'RKK Internal',
+        role: 'Quality Supervisor',
+        location: 'Jakarta Selatan',
+        startYear: 2022,
+        endYear: 2023,
+        description: 'Kontrol mutu finishing dan verifikasi pekerjaan interior.'
+      }
+    ]
+  });
+
+  await prisma.foremanCertificate.createMany({
+    data: [
+      {
+        id: 'foreman-cert-001',
+        foremanId: foreman1.id,
+        title: 'Sertifikat Tukang Struktur',
+        issuer: 'LPJK',
+        certificateNumber: 'FRM-STR-001',
+        issuedAt: new Date('2019-04-20'),
+        fileType: 'pdf',
+        status: 'valid'
+      },
+      {
+        id: 'foreman-cert-002',
+        foremanId: foreman2.id,
+        title: 'Sertifikat Mandor Bangunan Gedung',
+        issuer: 'BNSP',
+        certificateNumber: 'FRM-BDG-002',
+        issuedAt: new Date('2020-08-12'),
+        fileType: 'pdf',
+        status: 'valid'
+      }
+    ]
+  });
+
+  await prisma.foremanExperience.createMany({
+    data: [
+      {
+        id: 'foreman-exp-001',
+        foremanId: foreman1.id,
+        projectName: 'Pembangunan Rumah Pondok Indah',
+        companyName: 'RKK Internal',
+        role: 'Mandor Struktur',
+        location: 'Jakarta Selatan',
+        startYear: 2020,
+        endYear: 2021,
+        description: 'Mengelola tim struktur untuk pekerjaan pondasi, sloof, kolom, dan dak.'
+      },
+      {
+        id: 'foreman-exp-002',
+        foremanId: foreman2.id,
+        projectName: 'Renovasi Ruko Serpong',
+        companyName: 'CV Bangun Sejahtera',
+        role: 'Mandor Utama',
+        location: 'Serpong',
+        startYear: 2021,
+        endYear: 2022,
+        description: 'Koordinasi renovasi fasad dan pekerjaan finishing komersial.'
+      }
+    ]
+  });
+
+  await prisma.architectCertificate.createMany({
+    data: [
+      {
+        id: 'arch-cert-001',
+        architectId: arch1.id,
+        title: 'Sertifikat Keahlian Arsitek Madya',
+        issuer: 'IAI',
+        certificateNumber: 'IAI-ARCH-001',
+        issuedAt: new Date('2018-05-05'),
+        fileType: 'pdf',
+        status: 'valid'
+      },
+      {
+        id: 'arch-cert-002',
+        architectId: arch4.id,
+        title: 'Green Building Associate',
+        issuer: 'GBC Indonesia',
+        certificateNumber: 'GBC-ARCH-004',
+        issuedAt: new Date('2022-11-11'),
+        fileType: 'pdf',
+        status: 'valid'
+      }
+    ]
+  });
+
+  await prisma.architectExperience.createMany({
+    data: [
+      {
+        id: 'arch-exp-001',
+        architectId: arch1.id,
+        projectName: 'Rumah Compact Lebak Bulus',
+        companyName: 'RKK Internal',
+        role: 'Lead Architect',
+        location: 'Jakarta Selatan',
+        startYear: 2021,
+        endYear: 2022,
+        description: 'Desain rumah compact modern dengan optimasi cahaya alami.'
+      },
+      {
+        id: 'arch-exp-002',
+        architectId: arch4.id,
+        projectName: 'Villa Tropis Sentul',
+        companyName: 'Studio Laras',
+        role: 'Architect',
+        location: 'Sentul',
+        startYear: 2022,
+        endYear: 2023,
+        description: 'Konsep hunian tropis dengan ventilasi silang dan material lokal.'
+      }
+    ]
+  });
+
   await prisma.projectStagePublicComment.create({
     data: {
       id: 'comment-stage-001-official',
@@ -540,6 +860,31 @@ async function main() {
         authorName: admin1.name,
         message: 'Material besi dan semen untuk pekerjaan pondasi sudah masuk proses logistik. Tidak ada isu kritis yang perlu perhatian konsumen saat ini.',
         isOfficial: true,
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+      }
+    ]
+  });
+
+  await prisma.progressVerificationLog.createMany({
+    data: [
+      {
+        id: 'progress-log-active-001',
+        projectId: activeProject.id,
+        supervisorId: supervisor1.id,
+        previousProgress: 0,
+        newProgress: 18,
+        stageId: stage1.id,
+        notes: 'Pembersihan lahan dan persiapan area kerja selesai sesuai checklist awal.',
+        createdAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000)
+      },
+      {
+        id: 'progress-log-active-002',
+        projectId: activeProject.id,
+        supervisorId: supervisor1.id,
+        previousProgress: 18,
+        newProgress: 32,
+        stageId: stage2.id,
+        notes: 'Galian dan pondasi berjalan; progress terverifikasi naik setelah pengecekan lapangan.',
         createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
       }
     ]
@@ -601,8 +946,336 @@ async function main() {
     }
   });
 
+  // 6. SCENARIO 4: SECOND ACTIVE PROJECT
+  console.log('Seeding Scenario 4: Second Active Project...');
+
+  const activeProject2 = await prisma.project.create({
+    data: {
+      id: 'project-active-002',
+      projectCode: 'PRJ-2024-002',
+      name: 'Renovasi Rumah Tropis Depok',
+      type: 'Renovasi',
+      status: 'Berjalan',
+      progress: 55,
+      customerId: customer4.id,
+      adminId: admin2.id,
+      supervisorId: supervisor2.id,
+      foremanId: foreman2.id,
+      location: 'Depok, Jawa Barat',
+      budgetTotal: 620000000,
+      paidAmount: 260000000,
+      remainingAmount: 360000000,
+      startDate: new Date(Date.now() - 55 * 24 * 60 * 60 * 1000),
+      estimatedEndDate: new Date(Date.now() + 65 * 24 * 60 * 60 * 1000),
+      verifiedProgress: 58,
+      verifiedProgressById: supervisor2.id,
+      verifiedProgressUpdatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const rabActive2 = await prisma.rabPlan.create({
+    data: {
+      id: 'rab-active-002',
+      projectId: activeProject2.id,
+      title: 'RAB Renovasi Rumah Tropis',
+      type: 'Plan',
+      status: 'approved',
+      totalAmount: 620000000,
+      version: '1.0',
+      approvedAt: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const catRenovasi1 = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-renovasi-bongkar-001',
+      rabPlanId: rabActive2.id,
+      projectId: activeProject2.id,
+      code: '01',
+      name: 'Bongkaran & Persiapan Renovasi',
+      subtotal: 70000000,
+      order: 1
+    }
+  });
+
+  const catRenovasi2 = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-renovasi-finishing-001',
+      rabPlanId: rabActive2.id,
+      projectId: activeProject2.id,
+      code: '02',
+      name: 'Finishing Interior Tropis',
+      subtotal: 230000000,
+      order: 2
+    }
+  });
+
+  await prisma.rabItem.createMany({
+    data: [
+      {
+        id: 'item-bongkar-dapur-001',
+        rabPlanId: rabActive2.id,
+        categoryId: catRenovasi1.id,
+        projectId: activeProject2.id,
+        description: 'Bongkar area dapur lama dan pembersihan puing',
+        volume: 1,
+        unit: 'LS',
+        unitPrice: 35000000,
+        total: 35000000,
+        status: 'completed',
+        progress: 100,
+        completedValue: 35000000
+      },
+      {
+        id: 'item-kitchen-set-001',
+        rabPlanId: rabActive2.id,
+        categoryId: catRenovasi2.id,
+        projectId: activeProject2.id,
+        description: 'Pembuatan kitchen set plywood HPL',
+        volume: 12,
+        unit: 'm1',
+        unitPrice: 4500000,
+        total: 54000000,
+        status: 'in_progress',
+        progress: 55,
+        completedValue: 29700000
+      }
+    ]
+  });
+
+  const active2Stage1 = await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-002-001',
+      projectId: activeProject2.id,
+      rabPlanId: rabActive2.id,
+      categoryId: catRenovasi1.id,
+      code: 'REN-01',
+      title: 'Bongkaran Area Dapur',
+      description: 'Pembongkaran area dapur lama dan sortir material yang masih dapat digunakan.',
+      status: 'Selesai',
+      progress: 100,
+      week: 1,
+      order: 1,
+      startDate: new Date(Date.now() - 55 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() - 43 * 24 * 60 * 60 * 1000),
+      durationDays: 12,
+      isVerified: true,
+      verifiedBy: supervisor2.id,
+      verifiedAt: new Date(Date.now() - 43 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const active2Stage2 = await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-002-002',
+      projectId: activeProject2.id,
+      rabPlanId: rabActive2.id,
+      categoryId: catRenovasi2.id,
+      code: 'REN-02',
+      title: 'Finishing Kitchen Set',
+      description: 'Pemasangan kabinet bawah, top table, dan finishing HPL area dapur.',
+      status: 'Berjalan',
+      progress: 55,
+      week: 3,
+      order: 2,
+      startDate: new Date(Date.now() - 24 * 24 * 60 * 60 * 1000),
+      durationDays: 28,
+      isVerified: true,
+      verifiedBy: supervisor2.id,
+      verifiedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-002-003',
+      projectId: activeProject2.id,
+      rabPlanId: rabActive2.id,
+      categoryId: catRenovasi2.id,
+      code: 'REN-03',
+      title: 'Pengecatan dan Styling Akhir',
+      description: 'Pengecatan ulang area makan dan styling final setelah kitchen set selesai.',
+      status: 'Belum Mulai',
+      progress: 0,
+      week: 6,
+      order: 3,
+      durationDays: 14
+    }
+  });
+
+  await prisma.progressVerificationLog.createMany({
+    data: [
+      {
+        id: 'progress-log-active-002-001',
+        projectId: activeProject2.id,
+        supervisorId: supervisor2.id,
+        previousProgress: 0,
+        newProgress: 35,
+        stageId: active2Stage1.id,
+        notes: 'Bongkaran selesai dan area kerja sudah bersih untuk pekerjaan finishing.',
+        createdAt: new Date(Date.now() - 43 * 24 * 60 * 60 * 1000)
+      },
+      {
+        id: 'progress-log-active-002-002',
+        projectId: activeProject2.id,
+        supervisorId: supervisor2.id,
+        previousProgress: 35,
+        newProgress: 58,
+        stageId: active2Stage2.id,
+        notes: 'Kitchen set mulai terpasang, top table masuk proses pengukuran final.',
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+      }
+    ]
+  });
+
+  const active2Official = await prisma.projectStagePublicComment.create({
+    data: {
+      id: 'comment-active-002-official',
+      projectId: activeProject2.id,
+      stageId: active2Stage2.id,
+      authorRole: 'admin',
+      authorId: admin2.id,
+      authorName: admin2.name,
+      message: 'Kitchen set sudah masuk tahap pemasangan modul bawah. Estimasi pemasangan top table mengikuti hasil ukur akhir pekan ini.',
+      isOfficial: true,
+      createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  await prisma.projectStagePublicComment.create({
+    data: {
+      id: 'comment-active-002-reply',
+      projectId: activeProject2.id,
+      stageId: active2Stage2.id,
+      authorRole: 'customer',
+      authorId: customer4.id,
+      authorName: customer4.name,
+      message: 'Baik, mohon pastikan warna HPL sesuai sampel yang sudah disetujui.',
+      parentId: active2Official.id,
+      createdAt: new Date()
+    }
+  });
+
+  // 7. SCENARIO 5: FINISHED PROJECT
+  console.log('Seeding Scenario 5: Finished Project...');
+
+  const finishedProject = await prisma.project.create({
+    data: {
+      id: 'project-finished-001',
+      projectCode: 'PRJ-2023-009',
+      name: 'Renovasi Kos Margonda',
+      type: 'Renovasi',
+      status: 'Selesai',
+      progress: 100,
+      customerId: customer5.id,
+      adminId: admin2.id,
+      supervisorId: supervisor3.id,
+      foremanId: foreman3.id,
+      location: 'Margonda, Depok',
+      budgetTotal: 480000000,
+      paidAmount: 480000000,
+      remainingAmount: 0,
+      startDate: new Date('2023-08-01'),
+      estimatedEndDate: new Date('2023-12-15'),
+      verifiedProgress: 100,
+      verifiedProgressById: supervisor3.id,
+      verifiedProgressUpdatedAt: new Date('2023-12-12')
+    }
+  });
+
+  const rabFinished = await prisma.rabPlan.create({
+    data: {
+      id: 'rab-finished-001',
+      projectId: finishedProject.id,
+      title: 'RAB Final Renovasi Kos Margonda',
+      type: 'Final',
+      status: 'approved',
+      totalAmount: 480000000,
+      version: 'final',
+      approvedAt: new Date('2023-08-05')
+    }
+  });
+
+  const catFinished = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-finished-001',
+      rabPlanId: rabFinished.id,
+      projectId: finishedProject.id,
+      code: '01',
+      name: 'Renovasi Kamar dan Koridor',
+      subtotal: 480000000,
+      order: 1
+    }
+  });
+
+  await prisma.rabItem.create({
+    data: {
+      id: 'item-finished-001',
+      rabPlanId: rabFinished.id,
+      categoryId: catFinished.id,
+      projectId: finishedProject.id,
+      description: 'Renovasi 8 kamar kos dan koridor lantai satu',
+      volume: 1,
+      unit: 'LS',
+      unitPrice: 480000000,
+      total: 480000000,
+      status: 'completed',
+      progress: 100,
+      completedValue: 480000000
+    }
+  });
+
+  const finishedStage = await prisma.projectStage.create({
+    data: {
+      id: 'stage-finished-001',
+      projectId: finishedProject.id,
+      rabPlanId: rabFinished.id,
+      categoryId: catFinished.id,
+      code: 'FIN-01',
+      title: 'Serah Terima Renovasi Kos',
+      description: 'Pekerjaan renovasi kamar, koridor, dan pengecekan akhir telah selesai.',
+      status: 'Selesai',
+      progress: 100,
+      week: 16,
+      order: 1,
+      startDate: new Date('2023-08-01'),
+      endDate: new Date('2023-12-12'),
+      durationDays: 133,
+      isVerified: true,
+      verifiedBy: supervisor3.id,
+      verifiedAt: new Date('2023-12-12')
+    }
+  });
+
+  await prisma.progressVerificationLog.create({
+    data: {
+      id: 'progress-log-finished-001',
+      projectId: finishedProject.id,
+      supervisorId: supervisor3.id,
+      previousProgress: 92,
+      newProgress: 100,
+      stageId: finishedStage.id,
+      notes: 'Final inspection selesai dan semua kamar sudah siap digunakan.',
+      createdAt: new Date('2023-12-12')
+    }
+  });
+
+  await prisma.projectStagePublicComment.create({
+    data: {
+      id: 'comment-finished-001',
+      projectId: finishedProject.id,
+      stageId: finishedStage.id,
+      authorRole: 'admin',
+      authorId: admin2.id,
+      authorName: admin2.name,
+      message: 'Project renovasi kos Margonda telah selesai dan diserahterimakan sesuai checklist final.',
+      isOfficial: true,
+      createdAt: new Date('2023-12-12')
+    }
+  });
+
   // 6. SCENARIO 4: PLANNING PROJECT (NOT READY)
-  console.log('Seeding Scenario 4: Planning Project (Not Ready)...');
+  console.log('Seeding Scenario 6: Planning Project (Not Ready)...');
   
   await prisma.project.create({
     data: {

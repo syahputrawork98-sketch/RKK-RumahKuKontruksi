@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
-    FiHome, FiActivity, FiCheckCircle, FiClock, 
+    FiActivity, FiCheckCircle, FiClock, 
     FiArrowRight, FiInfo, FiCalendar, FiMapPin,
     FiPackage, FiFileText, FiEdit3
 } from "react-icons/fi";

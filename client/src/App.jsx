@@ -44,6 +44,7 @@ import AuditLaporanPengawas from "./pages/superadmin/AuditLaporanPengawasPage";
 import SuperadminHoldState from "./pages/superadmin/SuperadminHoldStatePage";
 import AdminHoldState from "./pages/admin/AdminHoldStatePage";
 import ArsitekHoldState from "./pages/arsitek/ArsitekHoldStatePage";
+import MandorHoldState from "./pages/mandor/MandorHoldStatePage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -87,11 +88,6 @@ import MandorLayout from "./layouts/MandorLayout";
 import DashboardMandor from "./pages/mandor/DashboardMandor";
 import ProyekAktifMandorPage from "./pages/mandor/ProyekAktifMandorPage";
 import DetailProyekAktifMandorPage from "./pages/mandor/DetailProyekAktifMandorPage";
-import TugasHarianMandorPage from "./pages/mandor/TugasHarianMandorPage";
-import LaporanHarianMandorPage from "./pages/mandor/LaporanHarianMandorPage";
-import RequestMaterialMandorPage from "./pages/mandor/RequestMaterialMandorPage";
-import DokumentasiLapanganMandorPage from "./pages/mandor/DokumentasiLapanganMandorPage";
-import KendalaLapanganMandorPage from "./pages/mandor/KendalaLapanganMandorPage";
 import PengaturanMandorPage from "./pages/mandor/PengaturanMandorPage";
 import JurnalMingguanMandorPage from "./pages/mandor/JurnalMingguanMandorPage";
 import CreateJurnalMingguanMandorPage from "./pages/mandor/CreateJurnalMingguanMandorPage";
@@ -308,29 +304,25 @@ function App() {
             <Route path="proyek-aktif/:projectId" element={<DetailProyekAktifMandorPage />} />
             
             {/* INFORMASI KERJA */}
-            <Route path="info/rab" element={<PlaceholderPage title="RAB & Scope Mandor" description="Daftar pekerjaan dan volume yang menjadi tanggung jawab Mandor." status="Planned" />} />
-            <Route path="info/gambar-kerja" element={<PlaceholderPage title="Gambar Kerja Lapangan" description="Akses visual gambar kerja untuk panduan pengerjaan fisik." status="Planned" />} />
-            <Route path="info/jadwal" element={<PlaceholderPage title="Jadwal Kerja Mandor" description="Target harian/mingguan yang harus dicapai di lapangan." status="Planned" />} />
+            <Route path="info/rab" element={<MandorHoldState title="RAB & Scope Mandor" description="Daftar pekerjaan dan volume yang menjadi tanggung jawab Mandor." />} />
+            <Route path="info/gambar-kerja" element={<MandorHoldState title="Gambar Kerja Lapangan" description="Akses visual gambar kerja untuk panduan pengerjaan fisik." />} />
+            <Route path="info/jadwal" element={<MandorHoldState title="Jadwal Kerja Mandor" description="Target harian/mingguan yang harus dicapai di lapangan." />} />
 
             <Route path="jurnal-mingguan" element={<JurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/create" element={<CreateJurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/:journalId" element={<DetailJurnalMingguanMandorPage />} />
-            <Route path="request-material" element={<RequestMaterialMandorPage />} />
-            <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
-            <Route path="dokumentasi" element={<DokumentasiLapanganMandorPage />} />
+            <Route path="request-material" element={<MandorHoldState title="Request Material" description="Modul pengajuan logistik dan material proyek." />} />
+            <Route path="kendala-lapangan" element={<MandorHoldState title="Kendala Lapangan" description="Pelaporan hambatan atau masalah teknis dari lapangan." />} />
+            <Route path="dokumentasi" element={<MandorHoldState title="Dokumentasi Lapangan" description="Unggah bukti visual pekerjaan harian." />} />
             
             {/* PELUANG PROYEK */}
-            <Route path="peluang/posting" element={<PlaceholderPage title="Project Posting" description="Daftar proyek baru yang mencari mitra mandor." status="Planned" />} />
-            <Route path="peluang/penawaran" element={<PlaceholderPage title="Penawaran Saya" description="Daftar bidding/penawaran yang sedang diajukan ke RKK." status="Planned" />} />
-            <Route path="peluang/riwayat" element={<PlaceholderPage title="Riwayat Penawaran" description="Arsip seluruh penawaran proyek yang pernah diikuti." status="Planned" />} />
+            <Route path="peluang/posting" element={<MandorHoldState title="Project Posting" description="Daftar proyek baru yang mencari mitra mandor." />} />
+            <Route path="peluang/penawaran" element={<MandorHoldState title="Penawaran Saya" description="Daftar bidding/penawaran yang sedang diajukan ke RKK." />} />
+            <Route path="peluang/riwayat" element={<MandorHoldState title="Riwayat Penawaran" description="Arsip seluruh penawaran proyek yang pernah diikuti." />} />
             
-            <Route path="pembayaran" element={<PlaceholderPage title="Status Pembayaran" description="Monitoring pengajuan opname dan status pembayaran dari RKK." status="Planned" dos={["Melihat riwayat bayar", "Cek status opname"]} donts={["Menagih langsung ke konsumen", "Memanipulasi progres untuk pembayaran"]} />} />
+            <Route path="pembayaran" element={<MandorHoldState title="Status Pembayaran" description="Monitoring pengajuan opname dan status pembayaran dari RKK." />} />
 
             <Route path="pengaturan" element={<PengaturanMandorPage />} />
-            
-            {/* DEPRECATED ROUTES */}
-            <Route path="tugas-harian" element={<TugasHarianMandorPage />} />
-            <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
           </Route>
 
           {/* ================== ARSITEK LAYOUT ================== */}

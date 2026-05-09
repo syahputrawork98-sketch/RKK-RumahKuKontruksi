@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { 
     FiLayers, 
     FiList, 
@@ -17,12 +18,16 @@ import {
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
 import foremanService from "../../services/foremanService";
+import weeklyJournalService from "../../services/weeklyJournalService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const DashboardMandor = () => {
+    const navigate = useNavigate();
     const { selectedForeman, selectedForemanId } = useForemanPersona();
     const [projects, setProjects] = useState([]);
+    const [recentJournals, setRecentJournals] = useState([]);
     const [statsData, setStatsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -37,17 +42,19 @@ const DashboardMandor = () => {
                 setLoading(true);
                 setError(null);
                 
-                const [projRes, statsRes] = await Promise.all([
+                const [projRes, statsRes, journalRes] = await Promise.all([
                     projectService.getProjects({ foremanId: selectedForemanId }),
-                    foremanService.getForemanStats(selectedForemanId)
+                    foremanService.getForemanStats(selectedForemanId),
+                    weeklyJournalService.getWeeklyJournals({ 
+                        actorRole: "mandor", 
+                        actorId: selectedForemanId,
+                        foremanId: selectedForemanId 
+                    })
                 ]);
-
-                if (projRes.success) {
-                    setProjects(projRes.data);
-                }
-                if (statsRes.success) {
-                    setStatsData(statsRes.data);
-                }
+                
+                if (projRes.success) setProjects(projRes.data);
+                if (statsRes.success) setStatsData(statsRes.data);
+                if (journalRes.success) setRecentJournals(journalRes.data.slice(0, 3));
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);
                 setError("Gagal mengambil data operasional dari database.");
@@ -142,9 +149,32 @@ const DashboardMandor = () => {
                             </button>
                         </div>
                         <div className="space-y-3">
-                            <div className="p-10 text-center text-slate-400 font-medium border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-2xl italic">
-                                Belum ada aktivitas jurnal terbaru yang tercatat.
-                            </div>
+                            {recentJournals.length > 0 ? (
+                                recentJournals.map((journal) => (
+                                    <Link 
+                                        key={journal.id} 
+                                        to={`/mandor/jurnal-mingguan/${journal.id}`}
+                                        className="flex items-center justify-between p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)] group hover:border-[var(--dashboard-primary)] transition-all"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[var(--dashboard-primary)] shadow-sm">
+                                                <FiFileText size={18} />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-black uppercase tracking-tight">{journal.project?.projectCode || 'PROYEK'}</p>
+                                                <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)]">{new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}</p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <StatusBadge type="journal" status={journal.status} />
+                                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className="p-10 text-center text-slate-400 font-medium border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-2xl italic">
+                                    Belum ada aktivitas jurnal terbaru yang tercatat.
+                                </div>
+                            )}
                         </div>
                     </div>
 

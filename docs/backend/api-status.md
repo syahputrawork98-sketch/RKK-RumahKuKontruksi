@@ -25,6 +25,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `GET /projects`: Ambil semua proyek.
 - `GET /projects?supervisorId=:id`: Ambil proyek berdasarkan ID Pengawas.
 - `GET /projects?foremanId=:id`: Ambil proyek berdasarkan ID Mandor.
+- `GET /projects?customerId=:id`: Ambil proyek berdasarkan ID Konsumen.
 - `GET /projects/:id`: Ambil detail proyek.
 - `POST /projects`: Tambah proyek baru.
 - `PATCH /projects/:id`: Update data proyek.
@@ -33,6 +34,10 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `GET /projects/:id/rab`: Ambil data RAB proyek.
 - `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas (SOT).
 - `GET /projects/:id/progress-history`: Riwayat verifikasi progres proyek.
+
+**Catatan Konsumen Monitoring**:
+- Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
+- Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
 
 ## Supervisors
 - `GET /supervisors`: Ambil semua data Pengawas.
@@ -145,6 +150,16 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
 - Status approval, delivery, receipt, dan completion sudah distabilkan untuk local CRUD integration.
 - **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
+
+## Project Stage Public Comments (Implemented Local Backend v1)
+- `GET /project-stage-comments/stage/:stageId`: Ambil update publik/thread komentar per stage.
+- `POST /project-stage-comments/stage/:stageId`: Buat official update Admin atau reply Konsumen.
+- `PATCH /project-stage-comments/:id`: Update isi/status komentar.
+- `DELETE /project-stage-comments/:id`: Soft delete komentar.
+
+**Catatan**:
+- Konsumen hanya boleh membalas update yang sudah ada; official update hanya untuk Admin.
+- Data ini adalah bridge komunikasi publik per tahap proyek, bukan chat internal tim lapangan.
 
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.

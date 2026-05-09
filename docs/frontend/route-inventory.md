@@ -97,9 +97,9 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 ## 7. Konsumen Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
-| Proyek Saya | `/konsumen/proyek` | Mock-First | Monitoring progres investasi. |
-| Timeline | `/konsumen/TimelineProyek` | Mock-First | Visualisasi tahap kerja. |
-| Detail Progres | `/konsumen/TimelineProyek/:id`| Mock-First | Foto & laporan per tahap. |
+| Proyek Saya | `/konsumen/proyek` | Data Foundation Ready | Project API mendukung filter `customerId`; UI perlu integrasi Gemini. |
+| Timeline | `/konsumen/TimelineProyek` | Data Foundation Ready | ProjectStage dan verifiedProgress seed siap untuk timeline Konsumen. |
+| Detail Progres | `/konsumen/TimelineProyek/:id`| Data Foundation Ready | Public comments per stage tersedia via ProjectStagePublicComment API; UI perlu integrasi Gemini. |
 | Profil | `/konsumen/profil` | Data Foundation Ready | Customer API dan seed persona siap; UI edit profil menunggu integrasi Gemini. |
 
 ---

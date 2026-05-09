@@ -62,11 +62,11 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Arsitek** | Backend/Database | DB-Backed v2 | Full Flow: Tender, Bidding, and Design Updates |
 | **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project |
 | **Superadmin** | Mock/Partial | UI Shell Available | Backend integration for user management only |
-| **Konsumen** | Backend/Database | DB-Backed v1 | Design Request and Project Monitoring DB-backed; Customer profile data contract ready for Edit Profil UI integration |
+| **Konsumen** | Backend/Database | DB-Backed v1 | Design Request, Project Monitoring, and timeline/comment data foundation ready for Gemini UI integration |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
 1. **Customer Profile UI Integration**: Implementasi halaman Edit Profil Konsumen menggunakan data contract rill.
 2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
-3. **Project Timeline Polish**: Tingkatkan visualisasi timeline proyek di sisi Konsumen berdasarkan data fisik rill (SOT).
+3. **Project Timeline UI Integration**: Hubungkan timeline Konsumen ke Project, ProjectStage, verifiedProgress, dan ProjectStagePublicComment API lokal.
 4. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru.

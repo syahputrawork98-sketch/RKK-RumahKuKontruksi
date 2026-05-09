@@ -74,8 +74,8 @@ const CustomerTopbar = () => {
 
   const notifications = [
     { id: 1, text: "Progress minggu ini sudah dipublish", time: "2 jam yang lalu", type: "progress" },
-    { id: 2, text: "Tagihan termin 2 tersedia untuk diunduh", time: "1 hari yang lalu", type: "payment" },
-    { id: 3, text: "Jadwal survey lokasi dikonfirmasi", time: "2 hari yang lalu", type: "info" },
+    { id: 2, text: "[Hold] Fitur riwayat pembayaran akan tersedia setelah integrasi invoice.", time: "Local Dev", type: "payment" },
+    { id: 3, text: "Gunakan Persona Switcher untuk tes data proyek berbeda.", time: "Info", type: "info" },
   ];
 
   const handleLogout = () => {
@@ -180,7 +180,12 @@ const CustomerTopbar = () => {
                     >
                       <div className="p-4 bg-teal-600 text-white flex justify-between items-center">
                         <h3 className="font-bold">Notifikasi</h3>
-                        <button className="text-xs bg-white/20 px-2 py-1 rounded hover:bg-white/30 transition-colors">Tandai Dibaca</button>
+                        <button 
+                          className="text-xs bg-white/20 px-2 py-1 rounded cursor-not-allowed opacity-70"
+                          onClick={(e) => { e.stopPropagation(); alert("Fitur notifikasi (API) sedang disiapkan (Hold)."); }}
+                        >
+                          Tandai Dibaca
+                        </button>
                       </div>
                       <div className="max-h-96 overflow-y-auto">
                         {notifications.map((notif) => (
@@ -191,7 +196,12 @@ const CustomerTopbar = () => {
                         ))}
                       </div>
                       <div className="p-3 text-center bg-gray-50">
-                        <button className="text-xs text-teal-600 font-bold hover:underline">Lihat Semua</button>
+                        <button 
+                          className="text-xs text-teal-600 font-bold hover:underline opacity-50 cursor-help"
+                          onClick={() => alert("Halaman riwayat notifikasi belum tersedia (Phase Local CRUD).")}
+                        >
+                          Lihat Semua
+                        </button>
                       </div>
                     </motion.div>
                   </>
@@ -324,12 +334,14 @@ const CustomerTopbar = () => {
             className="md:hidden bg-white border-t border-gray-100 overflow-hidden shadow-lg"
           >
             <div className="flex flex-col p-4 gap-1">
-              <div className="lg:hidden flex items-center gap-2 bg-teal-50 px-4 py-3 rounded-xl mb-3">
-                <div className="w-2 h-2 rounded-full bg-teal-500" />
-                <span className="text-xs font-bold text-teal-800 truncate">
-                   {activeProject.name}
-                </span>
-              </div>
+              {activeProject && (
+                <div className="lg:hidden flex items-center gap-2 bg-teal-50 px-4 py-3 rounded-xl mb-3">
+                  <div className="w-2 h-2 rounded-full bg-teal-500" />
+                  <span className="text-xs font-bold text-teal-800 truncate">
+                     {activeProject.name}
+                  </span>
+                </div>
+              )}
               
               {navLinks.map((link) => (
                 <NavLink

@@ -5,7 +5,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const Profil = () => {
-  const { selectedCustomerId, selectedCustomer, refreshCustomerData } = useCustomerPersona();
+  const { selectedCustomerId, selectedCustomer, refreshCustomerData, loading: personaLoading } = useCustomerPersona();
   const [user, setUser] = useState({
     nama: "",
     email: "",
@@ -19,14 +19,22 @@ const Profil = () => {
     identityNumber: "",
     occupation: "",
     notes: "",
-    customerType: ""
+    customerType: "",
+    companyName: "",
+    picName: "",
+    picPosition: "",
+    taxNumber: "",
+    businessField: ""
   });
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    if (personaLoading) return;
+
     if (selectedCustomer) {
       setUser({
         nama: selectedCustomer.name || "",
@@ -41,13 +49,24 @@ const Profil = () => {
         identityNumber: selectedCustomer.identityNumber || "",
         occupation: selectedCustomer.occupation || "",
         notes: selectedCustomer.notes || "",
-        customerType: selectedCustomer.customerType || "individual"
+        customerType: selectedCustomer.customerType || "individual",
+        companyName: selectedCustomer.companyName || "",
+        picName: selectedCustomer.picName || "",
+        picPosition: selectedCustomer.picPosition || "",
+        taxNumber: selectedCustomer.taxNumber || "",
+        businessField: selectedCustomer.businessField || ""
       });
+      setLoading(false);
+      setError(null);
+    } else if (selectedCustomerId) {
+      // If we have an ID but no customer in context, something might be wrong or it's still fetching
+      // The context handles fetching, so if it's not loading and no customer, it's an error
+      setError("Data profil tidak ditemukan.");
       setLoading(false);
     } else {
       setLoading(false);
     }
-  }, [selectedCustomer]);
+  }, [selectedCustomer, selectedCustomerId, personaLoading]);
 
   // Handle perubahan input
   const handleChange = (e) => {
@@ -67,7 +86,12 @@ const Profil = () => {
         identityNumber: user.identityNumber,
         occupation: user.occupation,
         notes: user.notes,
-        avatar: user.fotoProfil
+        avatar: user.fotoProfil,
+        companyName: user.companyName,
+        picName: user.picName,
+        picPosition: user.picPosition,
+        taxNumber: user.taxNumber,
+        businessField: user.businessField
       };
 
       await customerService.updateCustomer(selectedCustomerId, payload);
@@ -81,7 +105,8 @@ const Profil = () => {
       alert("Profil berhasil diperbarui!");
     } catch (error) {
       console.error("Failed to update profile:", error);
-      alert(error.response?.data?.message || "Gagal memperbarui profil. Silakan coba lagi.");
+      const errorMsg = error.response?.data?.message || error.message || "Gagal memperbarui profil. Silakan coba lagi.";
+      alert(errorMsg);
     } finally {
       setSaving(false);
     }
@@ -99,7 +124,9 @@ const Profil = () => {
     );
   }
 
-  if (loading) return <RoleDataState type="loading" message="Memuat profil Anda..." />;
+  if (personaLoading || loading) return <RoleDataState type="loading" message="Memuat profil Anda..." />;
+
+  if (error) return <RoleDataState type="error" message={error} onRetry={() => window.location.reload()} />;
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -245,21 +272,99 @@ const Profil = () => {
               )}
             </div>
 
-            {/* Pekerjaan / Occupation */}
-            <div className="space-y-1">
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Pekerjaan</label>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="occupation"
-                  value={user.occupation}
-                  onChange={handleChange}
-                  className="input input-bordered w-full"
-                />
-              ) : (
-                <p className="text-slate-700 font-medium">{user.occupation || "-"}</p>
-              )}
-            </div>
+            {/* Pekerjaan / Occupation - Only for individuals */}
+            {user.customerType === "individual" && (
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Pekerjaan</label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="occupation"
+                    value={user.occupation}
+                    onChange={handleChange}
+                    className="input input-bordered w-full"
+                  />
+                ) : (
+                  <p className="text-slate-700 font-medium">{user.occupation || "-"}</p>
+                )}
+              </div>
+            )}
+
+            {/* Company Specific Fields */}
+            {user.customerType === "company" && (
+              <>
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Nama Perusahaan</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={user.companyName}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  ) : (
+                    <p className="text-slate-700 font-medium">{user.companyName || "-"}</p>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">NPWP Perusahaan</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      name="taxNumber"
+                      value={user.taxNumber}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  ) : (
+                    <p className="text-slate-700 font-medium">{user.taxNumber || "-"}</p>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">PIC / Penanggung Jawab</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      name="picName"
+                      value={user.picName}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  ) : (
+                    <p className="text-slate-700 font-medium">{user.picName || "-"}</p>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Jabatan PIC</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      name="picPosition"
+                      value={user.picPosition}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  ) : (
+                    <p className="text-slate-700 font-medium">{user.picPosition || "-"}</p>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Bidang Usaha</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      name="businessField"
+                      value={user.businessField}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  ) : (
+                    <p className="text-slate-700 font-medium">{user.businessField || "-"}</p>
+                  )}
+                </div>
+              </>
+            )}
 
             {/* Alamat */}
             <div className="md:col-span-2 space-y-1">

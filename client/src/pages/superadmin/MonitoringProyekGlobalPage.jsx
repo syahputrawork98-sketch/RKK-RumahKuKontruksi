@@ -15,7 +15,7 @@ import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
-const MonitoringProyekGlobalPage = () => {
+const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
     const { selectedSuperadminId } = useSuperadminPersona();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,11 +23,10 @@ const MonitoringProyekGlobalPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
 
-    useEffect(() => {
-        if (selectedSuperadminId) {
-            fetchProjects();
-        }
-    }, [selectedSuperadminId]);
+    const isActiveProject = (status) => {
+        const s = (status || "").toLowerCase();
+        return s === "active" || s === "ongoing" || s === "berjalan";
+    };
 
     const fetchProjects = async () => {
         try {
@@ -35,19 +34,29 @@ const MonitoringProyekGlobalPage = () => {
             setError(null);
             const response = await projectService.getProjects();
             if (response.success) {
-                setProjects(response.data || []);
+                let data = response.data || [];
+                if (mode === "active") {
+                    data = data.filter(p => isActiveProject(p.status));
+                }
+                setProjects(data);
             }
         } catch (err) {
             console.error("MonitoringProyekGlobalPage: Error fetching projects:", err);
-            setError("Gagal memuat data monitoring proyek global.");
+            setError("Gagal memuat data monitoring proyek.");
         } finally {
             setLoading(false);
         }
     };
 
+    useEffect(() => {
+        if (selectedSuperadminId) {
+            fetchProjects();
+        }
+    }, [selectedSuperadminId, mode]);
+
     const getStatusBadge = (status) => {
         const s = (status || "").toLowerCase();
-        if (s === "active" || s === "ongoing" || s === "berjalan") {
+        if (isActiveProject(s)) {
             return "bg-emerald-50 text-emerald-600 border-emerald-100";
         }
         if (s === "finished" || s === "selesai") {
@@ -71,10 +80,10 @@ const MonitoringProyekGlobalPage = () => {
     });
 
     if (!selectedSuperadminId) {
-        return <RoleDataState type="empty" message="Pilih persona Superadmin untuk memonitor data proyek global." />;
+        return <RoleDataState type="empty" message="Pilih persona Superadmin untuk memonitor data proyek." />;
     }
 
-    if (loading) return <RoleDataState type="loading" message="Menganalisis status proyek global..." />;
+    if (loading) return <RoleDataState type="loading" message={mode === "active" ? "Menganalisis proyek aktif..." : "Menganalisis status proyek global..."} />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjects} />;
 
     return (
@@ -83,10 +92,16 @@ const MonitoringProyekGlobalPage = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-                        MONITORING <span className="text-blue-600 uppercase">Proyek Global</span>
+                        {mode === "active" ? (
+                            <>LIST <span className="text-emerald-600 uppercase">Proyek Aktif</span></>
+                        ) : (
+                            <>MONITORING <span className="text-blue-600 uppercase">Proyek Global</span></>
+                        )}
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
-                        Visualisasi status konstruksi seluruh proyek dalam sistem (Local CRUD Monitoring).
+                        {mode === "active" 
+                            ? "Daftar seluruh proyek konstruksi yang sedang berjalan dalam masa pelaksanaan." 
+                            : "Visualisasi status konstruksi seluruh proyek dalam sistem (Local CRUD Monitoring)."}
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
@@ -107,19 +122,21 @@ const MonitoringProyekGlobalPage = () => {
                         className="w-full pl-11 pr-4 py-3 bg-white border border-[var(--dashboard-border)] rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                 </div>
-                <div className="flex items-center gap-2 bg-white px-4 py-3 rounded-2xl border border-[var(--dashboard-border)]">
-                    <FiFilter className="text-[var(--dashboard-text-soft)]" />
-                    <select 
-                        value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
-                        className="text-xs font-bold text-[var(--dashboard-text)] bg-transparent border-none focus:ring-0 cursor-pointer"
-                    >
-                        <option value="all">Semua Status</option>
-                        <option value="active">Berjalan</option>
-                        <option value="finished">Selesai</option>
-                        <option value="hold">On Hold</option>
-                    </select>
-                </div>
+                {mode === "all" && (
+                    <div className="flex items-center gap-2 bg-white px-4 py-3 rounded-2xl border border-[var(--dashboard-border)]">
+                        <FiFilter className="text-[var(--dashboard-text-soft)]" />
+                        <select 
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="text-xs font-bold text-[var(--dashboard-text)] bg-transparent border-none focus:ring-0 cursor-pointer"
+                        >
+                            <option value="all">Semua Status</option>
+                            <option value="active">Berjalan</option>
+                            <option value="finished">Selesai</option>
+                            <option value="hold">On Hold</option>
+                        </select>
+                    </div>
+                )}
             </div>
 
             {/* TABLE */}

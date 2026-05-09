@@ -181,7 +181,7 @@ function App() {
             
             {/* PROYEK GLOBAL */}
             <Route path="proyek" element={<MonitoringProyekGlobal />} />
-            <Route path="proyek/aktif" element={<PlaceholderPage title="Proyek Aktif Global" description="Daftar seluruh proyek yang sedang dalam masa konstruksi." status="Planned" />} />
+            <Route path="proyek/aktif" element={<MonitoringProyekGlobal mode="active" />} />
             <Route path="proyek/relasi" element={<PlaceholderPage title="Relasi Admin-Proyek" description="Pemetaan penugasan Admin terhadap proyek-proyek aktif." status="Planned" />} />
             
             <Route path="kapasitas-admin" element={<PlaceholderPage title="Kapasitas Admin" description="Monitoring beban kerja Admin (maksimal 3 proyek aktif)." status="Planned" dos={["Melihat utilisasi admin", "Distribusi beban kerja"]} donts={["Menugaskan admin > 3 proyek aktif", "Mengabaikan overload alert"]} />} />

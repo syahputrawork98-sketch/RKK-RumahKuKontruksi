@@ -156,7 +156,6 @@ const RequestMaterialMandorPage = () => {
                             </thead>
                             <tbody>
                                 { (requests || []).map((req) => {
-                                    const statusInfo = getStatusInfo(req.status);
                                     return (
                                         <tr key={req.id} className="group transition-all">
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 rounded-l-2xl border-y border-l border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
@@ -339,6 +338,7 @@ const RequestMaterialMandorPage = () => {
                         </div>
                     </div>
                 </div>
+            )}
         </div>
     );
 };

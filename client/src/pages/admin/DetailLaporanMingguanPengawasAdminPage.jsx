@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
     FiArrowLeft, FiCheck, FiX, FiRefreshCw, FiAlertCircle, FiInfo, 
-    FiUser, FiMessageSquare, FiFileText, FiClock, FiSend
+    FiUser, FiMessageSquare, FiFileText, FiClock, FiSend, FiActivity
 } from "react-icons/fi";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
@@ -266,7 +266,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                             </div>
                         </div>
                     </div>
-
+                    
                     {/* Attached Journals */}
                     <div className="dashboard-card p-6">
                         <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] border-b pb-3 mb-4 flex items-center gap-2">
@@ -286,6 +286,51 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                         <div className="mt-2 text-[9px] font-medium text-slate-400 uppercase tracking-widest flex items-center gap-1">
                                             {link.weeklyJournal?.activities?.length || 0} Aktivitas Lapangan
                                         </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Detailed Notes / Progress Updates */}
+                    <div className="dashboard-card p-6">
+                        <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] border-b pb-3 mb-4 flex items-center gap-2">
+                            <FiFileText /> Catatan Detail & Update Progres
+                        </h3>
+                        {report.notes?.length === 0 ? (
+                            <p className="text-xs text-slate-400 italic text-center py-4">Tidak ada catatan detail tambahan.</p>
+                        ) : (
+                            <div className="space-y-4">
+                                {report.notes?.map((note) => (
+                                    <div key={note.id} className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2">
+                                                <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${
+                                                    note.type === 'progress' ? 'bg-blue-100 text-blue-700' : 'bg-slate-200 text-slate-700'
+                                                }`}>
+                                                    {note.type}
+                                                </span>
+                                                {note.severity && (
+                                                    <span className={`text-[9px] font-bold uppercase ${
+                                                        note.severity === 'critical' ? 'text-red-600' : 'text-slate-400'
+                                                    }`}>
+                                                        {note.severity}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <p className="text-sm font-bold text-slate-700">{note.content}</p>
+                                            {note.projectStageId && (
+                                                <p className="text-[10px] text-slate-400 font-medium italic">
+                                                    Linked to stage ID: {note.projectStageId}
+                                                </p>
+                                            )}
+                                        </div>
+                                        {note.progress !== null && (
+                                            <div className="text-right">
+                                                <p className="text-[10px] font-black uppercase text-blue-600">Reported Progress</p>
+                                                <p className="text-2xl font-black text-blue-900">{note.progress}%</p>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -315,7 +360,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                         </div>
                     </div>
 
-                    {/* Review Panel Sidebar (Moved to Sidebar for better focus) */}
+                    {/* Review Panel Sidebar */}
                     {canReview && (
                         <div className="dashboard-card p-6 bg-white border-2 border-slate-800 space-y-4">
                             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-800 border-b pb-3 flex items-center gap-2">
@@ -342,14 +387,21 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                 />
                             </div>
 
+                            <div className="bg-blue-50 p-3 rounded-xl border border-blue-100 flex gap-2">
+                                <FiInfo size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
+                                <p className="text-[9px] text-blue-700 font-bold leading-relaxed">
+                                    MEMUTUSKAN 'APPROVE' AKAN MEMPERBARUI PROGRESS RESMI (SOURCE OF TRUTH) PROYEK BERDASARKAN DATA LAPORAN INI.
+                                </p>
+                            </div>
+
                              <div className="grid grid-cols-2 gap-2 pt-2">
-                                {report.status !== 'reviewed' && report.status !== 'published' && (
+                                {report.status !== 'approved' && report.status !== 'published' && (
                                     <button 
-                                        onClick={() => handleActionRequest('reviewed')}
+                                        onClick={() => handleActionRequest('approve')}
                                         disabled={actionLoading}
-                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all disabled:opacity-50"
+                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-slate-800/30 disabled:opacity-50"
                                     >
-                                        <FiCheck /> Selesai Review
+                                        <FiCheck /> Approve Laporan
                                     </button>
                                 )}
                                 {(report.status === 'submitted' || report.status === 'under_admin_review') && (
@@ -370,7 +422,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                         </button>
                                     </>
                                 )}
-                                {report.status === 'reviewed' && (
+                                {report.status === 'approved' && (
                                      <button 
                                         disabled
                                         className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-100 text-slate-400 rounded-xl font-bold text-[10px] uppercase tracking-widest cursor-not-allowed border border-slate-200"

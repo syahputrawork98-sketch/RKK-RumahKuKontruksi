@@ -76,7 +76,7 @@ const CreateLaporanMingguanPengawasPage = () => {
     };
 
     const handleAddNote = () => {
-        setNotes([...notes, { type: "quality", content: "", severity: "low" }]);
+        setNotes([...notes, { type: "quality", content: "", severity: "low", projectStageId: "", progress: null }]);
     };
 
     const handleRemoveNote = (index) => {
@@ -371,6 +371,7 @@ const CreateLaporanMingguanPengawasPage = () => {
                                                             <option value="recommendation">Recommendation</option>
                                                             <option value="material">Material</option>
                                                             <option value="schedule">Schedule</option>
+                                                            <option value="progress">Progress Update</option>
                                                             <option value="other">Other</option>
                                                         </select>
                                                     </div>
@@ -388,14 +389,42 @@ const CreateLaporanMingguanPengawasPage = () => {
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div className="space-y-1">
-                                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] ml-1">Isi Catatan</label>
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <div className="space-y-1">
+                                                        <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] ml-1">Link Tahap (Opsional)</label>
+                                                        <select 
+                                                            value={note.projectStageId || ""}
+                                                            onChange={(e) => handleNoteChange(idx, 'projectStageId', e.target.value)}
+                                                            className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] font-bold outline-none"
+                                                        >
+                                                            <option value="">- Tanpa Link -</option>
+                                                            {contextData.project?.stages?.map(s => (
+                                                                <option key={s.id} value={s.id}>{s.title} ({s.progress}%)</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        <label className="text-[9px] font-black uppercase text-blue-600 ml-1">Verified Progress (%)</label>
+                                                        <input 
+                                                            type="number"
+                                                            min="0"
+                                                            max="100"
+                                                            value={note.progress === null ? "" : note.progress}
+                                                            onChange={(e) => handleNoteChange(idx, 'progress', e.target.value === "" ? null : parseFloat(e.target.value))}
+                                                            className="w-full bg-blue-50 border border-blue-200 rounded-lg px-2 py-1 text-[11px] font-bold outline-none text-blue-700"
+                                                            placeholder="0-100"
+                                                            disabled={!note.projectStageId}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="md:col-span-2 space-y-1">
+                                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] ml-1">Isi Catatan / Justifikasi</label>
                                                     <input 
                                                         type="text"
                                                         value={note.content}
                                                         onChange={(e) => handleNoteChange(idx, 'content', e.target.value)}
                                                         className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1 text-xs font-medium outline-none"
-                                                        placeholder="Ketik detail catatan..."
+                                                        placeholder="Ketik detail catatan atau alasan update progres..."
                                                         required
                                                     />
                                                 </div>

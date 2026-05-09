@@ -39,6 +39,8 @@ import MonitoringProyekGlobal from "./pages/superadmin/MonitoringProyekGlobalPag
 import LaporanProgresGlobal from "./pages/superadmin/LaporanProgresGlobalPage";
 import RelasiAdminProyek from "./pages/superadmin/RelasiAdminProyekPage";
 import KapasitasAdmin from "./pages/superadmin/KapasitasAdminPage";
+import MonitoringMaterialGlobal from "./pages/superadmin/MonitoringMaterialGlobalPage";
+import AuditLaporanPengawas from "./pages/superadmin/AuditLaporanPengawasPage";
 import SuperadminHoldState from "./pages/superadmin/SuperadminHoldStatePage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
@@ -193,8 +195,8 @@ function App() {
             {/* MONITORING GLOBAL */}
             <Route path="progres-proyek" element={<LaporanProgresGlobal />} />
             <Route path="pembayaran" element={<SuperadminHoldState title="Pembayaran Global" description="Monitoring arus kas global, tagihan konsumen, dan opname mandor." />} />
-            <Route path="monitoring/material" element={<SuperadminHoldState title="Monitoring Material Request" description="Audit global permintaan material dari seluruh proyek." />} />
-            <Route path="monitoring/laporan-pengawas" element={<SuperadminHoldState title="Audit Laporan Pengawas" description="Review global terhadap konsistensi laporan mingguan pengawas." />} />
+            <Route path="monitoring/material" element={<MonitoringMaterialGlobal />} />
+            <Route path="monitoring/laporan-pengawas" element={<AuditLaporanPengawas />} />
             
             <Route path="eskalasi" element={<SuperadminHoldState title="Eskalasi & Koreksi Data" description="Pusat penanganan kendala yang tidak bisa diselesaikan Admin." />} />
             <Route path="log-aktivitas" element={<SuperadminHoldState title="Log Aktivitas Sistem" description="Pantau seluruh aktivitas operasional user dan sistem secara transparan (Audit Trail)." />} />

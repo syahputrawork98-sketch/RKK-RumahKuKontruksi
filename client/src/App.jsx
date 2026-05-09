@@ -37,6 +37,9 @@ import DataArsitek from "./pages/superadmin/DataArsitekPage";
 import DataPengajuanDesain from "./pages/superadmin/DataPengajuanDesainPage";
 import MonitoringProyekGlobal from "./pages/superadmin/MonitoringProyekGlobalPage";
 import LaporanProgresGlobal from "./pages/superadmin/LaporanProgresGlobalPage";
+import RelasiAdminProyek from "./pages/superadmin/RelasiAdminProyekPage";
+import KapasitasAdmin from "./pages/superadmin/KapasitasAdminPage";
+import SuperadminHoldState from "./pages/superadmin/SuperadminHoldStatePage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -178,24 +181,24 @@ function App() {
             <Route path="data-mandor" element={<DataMandor />} />
             <Route path="data-arsitek" element={<DataArsitek />} />
             <Route path="data-pengajuan-desain" element={<DataPengajuanDesain />} />
-            <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." status="Planned" dos={["Melihat data legalitas", "Mengelola PIC internal"]} donts={["Mengubah struktur organisasi resmi", "Menghapus dokumen legal yang sudah aktif"]} />} />
+            <Route path="data-perusahaan" element={<SuperadminHoldState title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." />} />
             
             {/* PROYEK GLOBAL */}
             <Route path="proyek" element={<MonitoringProyekGlobal />} />
             <Route path="proyek/aktif" element={<MonitoringProyekGlobal mode="active" />} />
-            <Route path="proyek/relasi" element={<PlaceholderPage title="Relasi Admin-Proyek" description="Pemetaan penugasan Admin terhadap proyek-proyek aktif." status="Planned" />} />
+            <Route path="proyek/relasi" element={<RelasiAdminProyek />} />
             
-            <Route path="kapasitas-admin" element={<PlaceholderPage title="Kapasitas Admin" description="Monitoring beban kerja Admin (maksimal 3 proyek aktif)." status="Planned" dos={["Melihat utilisasi admin", "Distribusi beban kerja"]} donts={["Menugaskan admin > 3 proyek aktif", "Mengabaikan overload alert"]} />} />
+            <Route path="kapasitas-admin" element={<KapasitasAdmin />} />
 
             {/* MONITORING GLOBAL */}
             <Route path="progres-proyek" element={<LaporanProgresGlobal />} />
-            <Route path="pembayaran" element={<PlaceholderPage title="Pembayaran Global" description="Monitoring arus kas global, tagihan konsumen, dan opname mandor." status="Planned" />} />
-            <Route path="monitoring/material" element={<PlaceholderPage title="Monitoring Material Request" description="Audit global permintaan material dari seluruh proyek." status="Planned" />} />
-            <Route path="monitoring/laporan-pengawas" element={<PlaceholderPage title="Audit Laporan Pengawas" description="Review global terhadap konsistensi laporan mingguan pengawas." status="Planned" />} />
+            <Route path="pembayaran" element={<SuperadminHoldState title="Pembayaran Global" description="Monitoring arus kas global, tagihan konsumen, dan opname mandor." />} />
+            <Route path="monitoring/material" element={<SuperadminHoldState title="Monitoring Material Request" description="Audit global permintaan material dari seluruh proyek." />} />
+            <Route path="monitoring/laporan-pengawas" element={<SuperadminHoldState title="Audit Laporan Pengawas" description="Review global terhadap konsistensi laporan mingguan pengawas." />} />
             
-            <Route path="eskalasi" element={<PlaceholderPage title="Eskalasi & Koreksi Data" description="Pusat penanganan kendala yang tidak bisa diselesaikan Admin." status="Planned" dos={["Koreksi data salah input", "Override status macet"]} donts={["Menghapus bukti audit", "Mengubah nilai kontrak tanpa addendum"]} />} />
-            <Route path="log-aktivitas" element={<LogAktivitas />} />
-            <Route path="pengaturan" element={<PlaceholderPage title="Pengaturan Sistem" description="Halaman konfigurasi parameter sistem dan backup data." status="Planned" />} />
+            <Route path="eskalasi" element={<SuperadminHoldState title="Eskalasi & Koreksi Data" description="Pusat penanganan kendala yang tidak bisa diselesaikan Admin." />} />
+            <Route path="log-aktivitas" element={<SuperadminHoldState title="Log Aktivitas Sistem" description="Pantau seluruh aktivitas operasional user dan sistem secara transparan (Audit Trail)." />} />
+            <Route path="pengaturan" element={<SuperadminHoldState title="Pengaturan Sistem" description="Halaman konfigurasi parameter sistem dan backup data." />} />
           </Route>
 
           {/* ================== ADMIN LAYOUT ================== */}

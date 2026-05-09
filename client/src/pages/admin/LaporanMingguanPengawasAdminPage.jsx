@@ -4,6 +4,8 @@ import { FiChevronRight, FiInfo } from "react-icons/fi";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import StatusBadge from "../../components/common/StatusBadge";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const LaporanMingguanPengawasAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
@@ -55,10 +57,10 @@ const LaporanMingguanPengawasAdminPage = () => {
 
     if (!selectedAdminId) {
         return (
-            <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-slate-200 animate-fadeIn">
-                <FiInfo size={48} className="mx-auto text-slate-200 mb-4" />
-                <p className="text-sm font-black uppercase tracking-widest text-slate-400 italic">Pilih Admin persona terlebih dahulu di Topbar.</p>
-            </div>
+            <RolePersonaEmptyState 
+                title="Pilih Admin Persona"
+                description="Pilih akun Admin untuk meninjau laporan mingguan dari seluruh Pengawas proyek."
+            />
         );
     }
 
@@ -101,7 +103,7 @@ const LaporanMingguanPengawasAdminPage = () => {
 
             {/* Filter */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {['all', 'submitted', 'under_admin_review', 'reviewed', 'published', 'revision_requested', 'rejected'].map((status) => (
+                {['all', 'submitted', 'under_admin_review', 'approved', 'published', 'revision_requested', 'rejected'].map((status) => (
                     <button
                         key={status}
                         onClick={() => setStatusFilter(status)}
@@ -117,15 +119,22 @@ const LaporanMingguanPengawasAdminPage = () => {
             </div>
 
             {/* List */}
-            <div className="dashboard-card overflow-hidden">
+            <div className="dashboard-card overflow-hidden min-h-[300px]">
                 {loading ? (
-                    <div className="p-12 text-center text-sm text-[var(--dashboard-text-soft)] italic">
-                        Memuat daftar laporan...
-                    </div>
+                    <RoleDataState type="loading" />
+                ) : error ? (
+                    <RoleDataState 
+                        type="error" 
+                        title="Gagal Memuat Laporan"
+                        description={error}
+                        onRetry={fetchReports}
+                    />
                 ) : filteredReports.length === 0 ? (
-                    <div className="p-12 text-center">
-                        <p className="text-sm text-[var(--dashboard-text-soft)] italic">Tidak ada laporan ditemukan.</p>
-                    </div>
+                    <RoleDataState 
+                        type="empty"
+                        title={searchQuery ? "Hasil Pencarian Kosong" : "Belum Ada Laporan"}
+                        description={searchQuery ? `Tidak ditemukan laporan dari pengawas atau proyek dengan kata kunci "${searchQuery}".` : "Laporan mingguan yang diajukan Pengawas akan muncul di sini."}
+                    />
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">

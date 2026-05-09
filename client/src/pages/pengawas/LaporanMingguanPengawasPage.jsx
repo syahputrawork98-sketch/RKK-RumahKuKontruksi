@@ -4,6 +4,8 @@ import { FiPlus, FiChevronRight, FiAlertCircle, FiInfo } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorReportStatusBadge";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const LaporanMingguanPengawasPage = () => {
     const { selectedSupervisorId } = useSupervisorPersona();
@@ -48,13 +50,10 @@ const LaporanMingguanPengawasPage = () => {
 
     if (!selectedSupervisorId) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] dashboard-card p-12 text-center">
-                <FiAlertCircle className="text-4xl text-amber-500 mb-4" />
-                <h3 className="text-lg font-bold">Persona Belum Terpilih</h3>
-                <p className="text-sm text-[var(--dashboard-text-soft)] max-w-md mt-2">
-                    Silakan pilih persona Pengawas terlebih dahulu melalui Persona Switcher untuk melihat daftar laporan mingguan.
-                </p>
-            </div>
+            <RolePersonaEmptyState 
+                title="Pilih Persona Pengawas"
+                description="Silakan pilih persona Pengawas terlebih dahulu melalui Persona Switcher untuk melihat daftar laporan mingguan."
+            />
         );
     }
 
@@ -112,23 +111,24 @@ const LaporanMingguanPengawasPage = () => {
             </div>
 
             {/* List */}
-            <div className="dashboard-card overflow-hidden">
+            <div className="dashboard-card overflow-hidden min-h-[300px]">
                 {loading ? (
-                    <div className="p-12 text-center text-sm text-[var(--dashboard-text-soft)] italic">
-                        Memuat daftar laporan...
-                    </div>
+                    <RoleDataState type="loading" />
+                ) : error ? (
+                    <RoleDataState 
+                        type="error" 
+                        title="Gagal Memuat Laporan"
+                        description={error}
+                        onRetry={fetchReports}
+                    />
                 ) : reports.length === 0 ? (
-                    <div className="p-12 text-center">
-                        <p className="text-sm text-[var(--dashboard-text-soft)] italic">Tidak ada laporan ditemukan.</p>
-                        {statusFilter !== 'all' && (
-                            <button 
-                                onClick={() => setStatusFilter('all')}
-                                className="mt-4 text-xs font-bold text-[var(--dashboard-primary)] hover:underline"
-                            >
-                                Lihat semua status
-                            </button>
-                        )}
-                    </div>
+                    <RoleDataState 
+                        type="empty"
+                        title={statusFilter !== 'all' ? "Tidak Ada Laporan dengan Status Ini" : "Belum Ada Laporan"}
+                        description={statusFilter !== 'all' ? `Belum ada laporan mingguan dengan status "${statusFilter}".` : "Daftar laporan mingguan yang Anda buat akan muncul di sini."}
+                        onRetry={statusFilter !== 'all' ? () => setStatusFilter('all') : null}
+                        retryLabel="Lihat Semua Status"
+                    />
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">

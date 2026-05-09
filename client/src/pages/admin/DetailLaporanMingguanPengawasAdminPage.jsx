@@ -64,7 +64,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
             return;
         }
 
-        if (action === "reviewed" && customerSummaryDraft && customerSummaryDraft.length < 20) {
+        if (["reviewed", "approve"].includes(action) && customerSummaryDraft && customerSummaryDraft.length < 20) {
             setError("Ringkasan Konsumen minimal 20 karakter sebelum ditandai Reviewed.");
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
@@ -79,8 +79,9 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                 message = "Tandai laporan ini sedang dalam proses peninjauan Admin?";
                 break;
             case "reviewed":
-                title = "Selesai Review";
-                message = "Apakah Anda yakin laporan ini sudah valid dan siap dipublish?";
+            case "approve":
+                title = "Setujui Laporan";
+                message = "Apakah Anda yakin laporan ini sudah valid? Menyetujui laporan ini akan memperbarui progres resmi proyek.";
                 break;
             case "request_revision":
                 title = "Minta Revisi";
@@ -145,7 +146,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
         );
     }
 
-    if (loading) return <div className="p-12 text-center text-sm italic font-bold text-slate-400 uppercase tracking-widest animate-pulse">MEMUAT DETAIL LAPORAN...</div>;
+    if (loading) return <RoleDataState type="loading" />;
     
     if (report && report.project?.adminId !== selectedAdminId) {
         return (
@@ -170,7 +171,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
         );
     }
 
-    if (!report) return <div className="p-12 text-center text-red-500 font-bold uppercase tracking-widest">Laporan Tidak Ditemukan.</div>;
+    if (!report) return <RoleDataState type="empty" title="Laporan Tidak Ditemukan" description="Laporan mingguan dengan ID ini tidak tersedia atau Anda tidak memiliki akses." />;
 
     const canReview = report.status === "submitted" || report.status === "under_admin_review" || report.status === "approved" || report.status === "reviewed";
 
@@ -206,12 +207,13 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                             Mulai Review
                         </button>
                     )}
-                    {report.status === 'reviewed' && (
+                    {(report.status === 'reviewed' || report.status === 'approved') && (
                         <button 
-                            disabled
-                            className="px-6 py-2 bg-slate-100 text-slate-400 rounded-xl font-bold text-[10px] uppercase tracking-widest cursor-not-allowed flex items-center gap-2 border border-slate-200"
+                            onClick={() => handleActionRequest('publish')}
+                            disabled={actionLoading}
+                            className="px-6 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 disabled:opacity-50 transition-all shadow-lg shadow-emerald-600/20 flex items-center gap-2"
                         >
-                            <FiSend /> Publish (Ditahan)
+                            <FiSend /> Publish Laporan
                         </button>
                     )}
                 </div>
@@ -422,12 +424,13 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                         </button>
                                     </>
                                 )}
-                                {report.status === 'approved' && (
+                                {(report.status === 'approved' || report.status === 'reviewed') && (
                                      <button 
-                                        disabled
-                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-100 text-slate-400 rounded-xl font-bold text-[10px] uppercase tracking-widest cursor-not-allowed border border-slate-200"
+                                        onClick={() => handleActionRequest('publish')}
+                                        disabled={actionLoading}
+                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-emerald-600/30 disabled:opacity-50"
                                     >
-                                        <FiSend /> Publish (Ditahan Tahap Berikutnya)
+                                        <FiSend /> Publish ke Konsumen
                                     </button>
                                 )}
                             </div>

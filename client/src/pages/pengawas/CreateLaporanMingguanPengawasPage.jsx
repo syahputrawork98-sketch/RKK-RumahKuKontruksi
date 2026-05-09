@@ -4,6 +4,7 @@ import { FiArrowLeft, FiSave, FiAlertCircle, FiInfo, FiCheck, FiPlus, FiTrash2 }
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import projectService from "../../services/projectService";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const CreateLaporanMingguanPengawasPage = () => {
     const navigate = useNavigate();
@@ -135,6 +136,15 @@ const CreateLaporanMingguanPengawasPage = () => {
             setLoading(false);
         }
     };
+
+    if (!selectedSupervisorId) {
+        return (
+            <RolePersonaEmptyState 
+                title="Pilih Persona Pengawas"
+                description="Silakan pilih persona Pengawas melalui Persona Switcher untuk mulai menyusun laporan mingguan."
+            />
+        );
+    }
 
     return (
         <div className="animate-fadeIn space-y-6">

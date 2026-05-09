@@ -7,6 +7,8 @@ import {
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorReportStatusBadge";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailLaporanMingguanPengawasPage = () => {
     const { reportId } = useParams();
@@ -109,8 +111,29 @@ const DetailLaporanMingguanPengawasPage = () => {
         }
     };
 
-    if (loading) return <div className="p-12 text-center text-sm italic">Memuat detail laporan...</div>;
-    if (!report) return <div className="p-12 text-center text-red-500 font-bold">Laporan tidak ditemukan.</div>;
+    if (!selectedSupervisorId) {
+        return (
+            <RolePersonaEmptyState 
+                title="Pilih Persona Pengawas"
+                description="Pilih persona Pengawas untuk meninjau detail laporan mingguan."
+            />
+        );
+    }
+    
+    if (loading) return <RoleDataState type="loading" />;
+    
+    if (error && !report) {
+        return (
+            <RoleDataState 
+                type="error" 
+                title="Gagal Memuat Detail"
+                description={error}
+                onRetry={fetchDetail}
+            />
+        );
+    }
+    
+    if (!report) return <RoleDataState type="empty" title="Laporan Tidak Ditemukan" description="Laporan mingguan dengan ID ini tidak tersedia di database." />;
 
     return (
         <div className="animate-fadeIn space-y-6">

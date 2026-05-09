@@ -46,6 +46,25 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Backend menolak aktivasi jika customer, pengawas, mandor, stage, RAB plan, total RAB, atau tanggal jadwal belum lengkap.
 - Aktivasi tidak membuat RAB, stage, assignment, pembayaran, atau dokumen legal otomatis.
 
+## RAB Builder (Local CRUD v1 / Admin Builder Stabilized)
+- `GET /rab/project/:projectId`: Ambil RAB Plan proyek beserta `RabCategory` dan `RabItem`.
+- `POST /rab/project/:projectId/plans`: Membuat RAB Plan lokal untuk proyek.
+- `PATCH /rab/plans/:rabPlanId`: Update RAB Plan lokal.
+- `POST /rab/plans/:rabPlanId/categories`: Membuat kategori pekerjaan (`RabCategory`).
+- `PATCH /rab/categories/:categoryId`: Update kategori pekerjaan.
+- `DELETE /rab/categories/:categoryId`: Hapus kategori pekerjaan jika belum memiliki item.
+- `POST /rab/categories/:categoryId/items`: Membuat item pekerjaan (`RabItem`).
+- `PATCH /rab/items/:itemId`: Update item pekerjaan dan auto-recalculate total.
+- `DELETE /rab/items/:itemId`: Hapus item pekerjaan jika belum dipakai workflow lain.
+
+**Catatan**:
+- Struktur lokal: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem`.
+- RAB adalah baseline lokal/draft planning untuk scope, volume, unit, harga satuan, subtotal kategori, dan total plan; bukan kontrak final, invoice, payment, escrow, atau dokumen legal production.
+- Admin dapat CRUD lokal RAB plan/category/item untuk Local Development CRUD Integration.
+- Delete guard: `RabItem` yang sudah dipakai Material Request tidak boleh dihapus; `RabItem` yang sudah dipakai Weekly Journal tidak boleh dihapus; `RabCategory` yang masih punya item tidak boleh dihapus.
+- RAB Builder tidak mengubah Progress SOT. `Project.verifiedProgress` tetap Source of Truth lewat Verifikasi Progres.
+- **Status**: *Local CRUD v1 / Admin Builder Stabilized*.
+
 ## Supervisors
 - `GET /supervisors`: Ambil semua data Pengawas.
 - `GET /supervisors/:id`: Ambil detail Pengawas.
@@ -169,10 +188,12 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 **Catatan**:
 - Actor menggunakan payload local dev (`actorRole`, `actorId`).
 - Mandor mengisi `WeeklyJournal.claimedProgress` sebagai klaim progress non-resmi.
+- Work Reporting from RAB/Stage: `WeeklyJournalActivity.projectStageId` dan `WeeklyJournalActivity.rabItemId` dapat diisi opsional untuk mengaitkan aktivitas ke ProjectStage dan RabItem.
+- Detail jurnal melakukan manual enrichment konteks Stage/RAB Item memakai field existing, tanpa schema migration.
 - Pengawas review Weekly Journal secara administratif; approval/rejection/revision tidak otomatis mengubah `Project.verifiedProgress`.
 - `Project.verifiedProgress` tetap Source of Truth dan hanya diperbarui lewat Progress SOT flow oleh Pengawas assigned.
 - Bukan workflow payroll, payment, legal, upload production, auth production, atau RBAC production.
-- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
+- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized; Work Reporting from RAB/Stage Local Integration v1 / Stabilized*.
 
 ## Supervisor Weekly Reports (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /supervisor-weekly-reports/context`: Ambil data pendukung pembuatan laporan.

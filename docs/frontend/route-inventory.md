@@ -36,8 +36,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Aktivasi Proyek | `/admin/proyek/aktivasi` | Local Stabilized | Readiness checklist dan aktivasi proyek via `PATCH /projects/:id/activate`. |
 | Detail Proyek | `/admin/proyek/:id` | DB-Backed v1 | Info detail & penugasan tim. |
 | Penutupan Proyek | `/admin/proyek/penutupan` | Shell / Pending | Placeholder serah terima dan penutupan administrasi. |
-| List RAB | `/admin/rab` | DB-Backed v1 | Daftar RAB proyek. |
-| Detail RAB | `/admin/rab/:projectId` | Partial | Read data RAB dari DB. |
+| List RAB | `/admin/rab` | Local CRUD v1 / Admin Builder Stabilized | Daftar proyek untuk RAB Builder lokal; RAB adalah baseline draft planning, bukan kontrak final. |
+| Detail RAB | `/admin/rab/:projectId` | Local CRUD v1 / Admin Builder Stabilized | CRUD lokal RAB Plan, kategori pekerjaan, dan item pekerjaan dengan guard delete untuk item/category yang sudah dipakai workflow lain. |
 | Gambar Kerja | `/admin/dokumen/gambar-kerja` | Shell / Pending | Placeholder arsip gambar kerja. |
 | Kontrak | `/admin/dokumen/kontrak` | Shell / Pending | Placeholder dokumen kontrak. |
 | Dokumen Final / BAST | `/admin/dokumen/final` | Shell / Pending | Placeholder dokumen legal akhir. |
@@ -69,8 +69,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form draft Weekly Report; mengambil `Project.verifiedProgress` menjadi `verifiedProgressSnapshot` dan dapat melampirkan jurnal Mandor approved. |
 | Detail Laporan | `/pengawas/laporan-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit Weekly Report; snapshot bukan mekanisme update progress resmi. |
 | Request Material | `/pengawas/request-material` | Local Stabilized | Review/verifikasi Material Request via backend lokal. |
-| Jurnal Mandor | `/pengawas/jurnal-mandor` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor untuk review administratif; `claimedProgress` tetap klaim non-resmi. |
-| Detail Jurnal Mandor | `/pengawas/jurnal-mandor/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/approve/reject/request revision jurnal Mandor secara administratif; approval tidak otomatis mengubah `Project.verifiedProgress`. |
+| Jurnal Mandor | `/pengawas/jurnal-mandor` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor untuk review administratif; `claimedProgress` tetap klaim non-resmi dan aktivitas dapat membawa konteks Stage/RAB Item. |
+| Detail Jurnal Mandor | `/pengawas/jurnal-mandor/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/approve/reject/request revision jurnal Mandor dengan konteks Stage/RAB Item; approval tidak otomatis mengubah `Project.verifiedProgress`. |
 | Pengaturan | `/pengawas/pengaturan` | DB-Backed v1 | Profil pengawas rill. |
 
 ## 4. Mandor Routes
@@ -85,8 +85,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Dokumentasi | `/mandor/dokumentasi` | Shell / Pending | Foto fisik harian. |
 | Kendala Lapangan | `/mandor/kendala-lapangan` | Shell / Pending | Laporan hambatan. |
 | Jurnal Mingguan | `/mandor/jurnal-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor lokal; `claimedProgress` adalah klaim non-resmi. |
-| Buat Jurnal | `/mandor/jurnal-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form create Weekly Journal Mandor dengan `claimedProgress` sebagai klaim progress non-resmi. |
-| Detail Jurnal | `/mandor/jurnal-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit jurnal; `claimedProgress` tidak mengubah `Project.verifiedProgress`. |
+| Buat Jurnal | `/mandor/jurnal-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form create Weekly Journal Mandor dengan `claimedProgress` non-resmi dan referensi opsional Stage/RAB Item. |
+| Detail Jurnal | `/mandor/jurnal-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit jurnal dengan konteks Stage/RAB Item; `claimedProgress` tidak mengubah `Project.verifiedProgress`. |
 | Pengaturan | `/mandor/pengaturan` | DB-Backed v1 | Profil mandor rill. |
 
 ## 5. Arsitek Routes

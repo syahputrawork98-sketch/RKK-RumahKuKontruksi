@@ -38,7 +38,7 @@ Status: **Database-Backed v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
 - **Operational Status**: 
-  - Jurnal Mingguan: **Local E2E Workflow v1 / UI Consistency Stabilized**. Mandor membuat Weekly Journal dan mengisi `WeeklyJournal.claimedProgress` sebagai klaim non-resmi yang tidak mengubah `Project.verifiedProgress`.
+  - Jurnal Mingguan: **Local E2E Workflow v1 / UI Consistency Stabilized**. Mandor membuat Weekly Journal dan mengisi `WeeklyJournal.claimedProgress` sebagai klaim non-resmi yang tidak mengubah `Project.verifiedProgress`. Aktivitas jurnal dapat mereferensikan `projectStageId` dan `rabItemId` secara opsional untuk konteks kerja lokal.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
   - Request material: **Local Stabilized / DB-Backed v1**.
 
@@ -67,7 +67,7 @@ Status: **Database-Backed v2**
 - **Project Bridge Boundary**: Convert-to-project hanya membuat project draft/planning lokal. Tidak ada aktivasi otomatis, kontrak legal, payment/escrow, upload file production, marketplace production, atau tender production.
 - **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
-- **RAB**: Data RAB (Read-First): **Partial**.
+- **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Operational Data**: 
   - Laporan Progress Terverifikasi, Review Laporan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. Admin review/publish Weekly Report sebagai administrasi/publikasi ringkasan; bukan verifikator progress fisik resmi dan bukan pengganti Progress SOT.

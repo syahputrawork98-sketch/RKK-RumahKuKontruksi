@@ -18,7 +18,7 @@
 | **Customers** | CRUD Available | Local API CRUD; profile Konsumen sudah API-backed via dev persona |
 | **Projects** | CRUD Available | Full Lifecycle (Create, Edit, Detail, Assignment) |
 | **Project Stages**| CRUD Available | Plan-based stages for scheduling |
-| **RAB** | CRUD Available | Plan, Category, Item with Auto-Aggregation |
+| **RAB** | Local CRUD v1 / Admin Builder Stabilized | Project RAB Builder untuk RAB Plan, RabCategory, dan RabItem sebagai baseline draft planning lokal |
 | **Supervisors** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Foremen** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
@@ -36,6 +36,11 @@
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Weekly Journal / Weekly Report sudah berstatus **Local E2E Workflow v1 / UI Consistency Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
+
+## RAB & Work Reporting Context
+Project RAB Builder sudah berstatus **Local CRUD v1 / Admin Builder Stabilized**. Struktur lokalnya: `Project` -> `RAB Plan` -> `RabCategory`/kategori pekerjaan -> `RabItem`/item pekerjaan. RAB menjadi baseline draft planning lokal untuk scope dan estimasi pekerjaan, bukan kontrak final, invoice, payment, escrow, atau dokumen legal production. Admin dapat CRUD lokal RAB plan/category/item; delete guard menolak hapus `RabItem` yang sudah dipakai Material Request atau Weekly Journal, dan menolak hapus `RabCategory` yang masih memiliki item.
+
+Mandor & Pengawas Work Reporting from RAB/Stage sudah berstatus **Local Integration v1 / Stabilized**. `WeeklyJournalActivity.projectStageId` dan `WeeklyJournalActivity.rabItemId` dapat dipakai Mandor sebagai referensi opsional Stage/RAB Item saat melaporkan aktivitas. Pengawas melihat konteks Stage/RAB Item saat review jurnal melalui manual enrichment di backend memakai field existing, tanpa schema migration dan tanpa perubahan seed pada batch docs ini. Review jurnal tetap administratif: Jurnal Mandor maupun review Pengawas tidak otomatis mengubah `Project.verifiedProgress`; Progress SOT tetap lewat Verifikasi Progres.
 
 ## Design to Project Draft Demo
 Design Request -> Tender -> Project Draft sudah berstatus **Local Demo Completion / Local E2E Workflow v1** untuk Local Development CRUD Integration. Alur lokalnya: Konsumen membuat Design Request lokal, Admin review/manage dan publish tender lokal, Arsitek submit bid lokal, Admin award bid lokal, request masuk fase `assigned`, lalu request dapat masuk fase `approved` sesuai workflow lokal dan dikonversi Admin menjadi Project draft/planning. Project hasil convert tetap berstatus `planning`, tidak otomatis aktif, dan aktivasi tetap lewat Project Activation flow terpisah. Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, upload file production, marketplace production, tender production, auth production, atau RBAC production.

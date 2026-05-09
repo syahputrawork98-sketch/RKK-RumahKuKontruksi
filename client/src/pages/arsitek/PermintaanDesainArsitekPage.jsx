@@ -160,8 +160,8 @@ const PermintaanDesainArsitekPage = () => {
         <div className="animate-fadeIn space-y-6 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Kemitraan Arsitek</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic uppercase tracking-widest">Kelola penugasan dan cari peluang desain baru.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Kemitraan Arsitek (Local Simulation)</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic uppercase tracking-widest">Simulasi penugasan dan pengajuan bid dalam fase Local Development.</p>
                 </div>
             </div>
 
@@ -211,7 +211,7 @@ const PermintaanDesainArsitekPage = () => {
                                             </div>
                                         )}
                                         <div className="mb-4">
-                                            <span className="text-[10px] font-black uppercase tracking-tighter text-teal-600 mb-1 block">Peluang Desain Baru</span>
+                                            <span className="text-[10px] font-black uppercase tracking-tighter text-teal-600 mb-1 block">Draft Peluang Desain Lokal</span>
                                             <h3 className="font-bold text-[var(--dashboard-text)] text-lg leading-tight">{t.title}</h3>
                                             <p className="text-xs text-[var(--dashboard-text-soft)] mt-2 line-clamp-2 italic">
                                                 {t.description || "Tidak ada deskripsi tambahan."}
@@ -249,7 +249,7 @@ const PermintaanDesainArsitekPage = () => {
                                                     className="w-full flex items-center justify-center gap-2 py-3 bg-teal-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/10"
                                                 >
                                                     <FiSend size={14} />
-                                                    Ajukan Penawaran
+                                                    Ajukan Simulasi Bid
                                                 </button>
                                             )}
                                         </div>
@@ -345,8 +345,8 @@ const PermintaanDesainArsitekPage = () => {
                     <div className="bg-white rounded-3xl w-full max-w-md relative z-10 shadow-2xl animate-scaleIn overflow-hidden">
                         <div className="bg-teal-600 px-8 py-6 text-white flex justify-between items-center">
                             <div>
-                                <h3 className="text-xl font-extrabold uppercase tracking-tight">Kirim Penawaran</h3>
-                                <p className="text-[10px] text-teal-100 font-bold opacity-80 mt-1 uppercase tracking-widest">Peluang: {selectedTender.title}</p>
+                                <h3 className="text-xl font-extrabold uppercase tracking-tight">Simulasi Bid Desain</h3>
+                                <p className="text-[10px] text-teal-100 font-bold opacity-80 mt-1 uppercase tracking-widest">Draft Peluang: {selectedTender.title}</p>
                             </div>
                             <button onClick={() => setIsBidModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full text-white"><FiX size={24} /></button>
                         </div>
@@ -405,7 +405,7 @@ const PermintaanDesainArsitekPage = () => {
                             <div className="pt-4 flex justify-end gap-3">
                                 <button type="button" onClick={() => setIsBidModalOpen(false)} className="px-6 py-3 border border-gray-100 text-gray-400 rounded-2xl font-bold text-[10px] uppercase tracking-widest">Batal</button>
                                 <button type="submit" disabled={bidSubmitting} className="px-8 py-3 bg-teal-600 text-white rounded-2xl font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-teal-600/20 hover:scale-[1.02] transition-all">
-                                    {bidSubmitting ? "Mengirim..." : "Kirim Penawaran"}
+                                    {bidSubmitting ? "Mengirim..." : "Kirim Simulasi Bid"}
                                 </button>
                             </div>
                         </form>

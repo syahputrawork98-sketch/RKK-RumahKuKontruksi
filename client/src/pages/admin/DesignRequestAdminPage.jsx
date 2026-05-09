@@ -240,7 +240,7 @@ const DesignRequestAdminPage = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Hapus permintaan desain ini?")) {
+        if (window.confirm("Hapus permintaan desain ini dari database lokal? Tindakan ini tidak dapat dibatalkan dalam fase pengembangan ini.")) {
             try {
                 await designRequestService.deleteDesignRequest(id);
                 fetchData();
@@ -283,8 +283,8 @@ const DesignRequestAdminPage = () => {
         <div className="animate-fadeIn space-y-6 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Manajemen Desain</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Kelola permintaan desain dan peluang kemitraan arsitek.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Manajemen Desain (Local CRUD)</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic italic">Kelola draf permintaan desain dan peluang kemitraan arsitek secara lokal.</p>
                 </div>
                 {activeTab === "requests" && (
                     <button 
@@ -292,7 +292,7 @@ const DesignRequestAdminPage = () => {
                         className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-2xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all"
                     >
                         <FiPlus size={18} />
-                        Buat Request Baru
+                        Buat Request Lokal
                     </button>
                 )}
             </div>
@@ -503,7 +503,7 @@ const DesignRequestAdminPage = () => {
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsFormOpen(false)}></div>
                     <div className="bg-white rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto relative z-10 shadow-2xl animate-scaleIn">
                         <div className="sticky top-0 bg-white px-8 py-6 border-b border-gray-100 flex justify-between items-center z-10">
-                            <h3 className="text-xl font-extrabold">{currentRequest ? "Edit Request" : "Request Desain Baru"}</h3>
+                            <h3 className="text-xl font-extrabold">{currentRequest ? "Edit Draft Request" : "Request Desain Lokal Baru"}</h3>
                             <button onClick={() => setIsFormOpen(false)} className="p-2 hover:bg-gray-100 rounded-full"><FiX size={24} /></button>
                         </div>
                         <form onSubmit={handleSubmitForm} className="p-8 space-y-5">
@@ -772,7 +772,7 @@ const DesignRequestAdminPage = () => {
                                     disabled={submitting} 
                                     className="px-8 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-600/20 hover:scale-[1.02] transition-all"
                                 >
-                                    {submitting ? "Memproses..." : "Buat Draft Proyek"}
+                                    {submitting ? "Memproses..." : "Konfirmasi Jadi Draft Proyek"}
                                 </button>
                             </div>
                         </div>

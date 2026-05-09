@@ -102,12 +102,12 @@ const DataPengajuanDesainPage = () => {
                         MONITORING <span className="text-blue-600 uppercase">Pengajuan Desain</span>
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1">
-                        Pusat audit dan monitoring status pengajuan desain arsitektur secara global. (Read-Only)
+                        Pusat audit dan monitoring status pengajuan desain arsitektur secara global dalam database lokal. (Read-Only)
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
                     <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                    <span className="text-xs font-bold text-blue-700 uppercase tracking-widest">Live Audit Mode</span>
+                    <span className="text-xs font-bold text-blue-700 uppercase tracking-widest">Local Audit Mode</span>
                 </div>
             </div>
 
@@ -328,10 +328,10 @@ const DataPengajuanDesainPage = () => {
                             </div>
 
                             {/* AUDIT NOTICE */}
-                            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
-                                <FiInfo className="text-amber-500 shrink-0 mt-0.5" size={16} />
-                                <p className="text-[10px] text-amber-700 font-medium leading-relaxed">
-                                    Halaman ini adalah dashboard monitoring global. Segala bentuk perubahan data, penugasan arsitek, atau konversi menjadi proyek dilakukan oleh <strong>Admin Operasional</strong> sesuai alur kerja RKK.
+                             <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex gap-3">
+                                <FiInfo className="text-blue-500 shrink-0 mt-0.5" size={16} />
+                                <p className="text-[10px] text-blue-700 font-medium leading-relaxed">
+                                    Halaman ini adalah dashboard monitoring global untuk fase <strong>Local Development</strong>. Segala bentuk perubahan data, penugasan arsitek, atau konversi menjadi draf proyek dilakukan oleh <strong>Admin Operasional</strong>.
                                 </p>
                             </div>
 

@@ -69,7 +69,7 @@ const DetailPermintaanDesainArsitekPage = () => {
                 </button>
                 <div>
                     <h2 className="text-2xl font-black tracking-tight">{request.title}</h2>
-                    <p className="text-[10px] text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-widest italic">Project Brief Detail</p>
+                    <p className="text-[10px] text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-widest italic">Local Simulation Brief Detail</p>
                 </div>
             </div>
 

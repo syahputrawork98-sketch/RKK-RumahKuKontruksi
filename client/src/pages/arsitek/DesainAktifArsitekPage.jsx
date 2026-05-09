@@ -58,7 +58,7 @@ const DesainAktifArsitekPage = () => {
                 </div>
                 <div className="flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100">
                     <FiActivity className="text-emerald-500" size={14} />
-                    <span className="text-[10px] font-black text-emerald-700 uppercase tracking-[0.2em]">Monitoring Mode</span>
+                    <span className="text-[10px] font-black text-emerald-700 uppercase tracking-[0.2em]">Local Monitoring Mode</span>
                 </div>
             </div>
 

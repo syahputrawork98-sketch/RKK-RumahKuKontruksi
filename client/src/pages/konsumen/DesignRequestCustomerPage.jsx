@@ -112,15 +112,15 @@ const DesignRequestCustomerPage = () => {
         <div className="animate-fadeIn space-y-8 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h2 className="text-3xl font-black tracking-tight text-gray-800">Permintaan Desain</h2>
-                    <p className="text-sm text-gray-500 mt-1">Pantau status pengajuan desain arsitektur Anda di RKK.</p>
+                    <h2 className="text-3xl font-black tracking-tight text-gray-800">Permintaan Desain (Local Draft)</h2>
+                    <p className="text-sm text-gray-500 mt-1">Simulasikan pengajuan brief desain arsitektur Anda dalam fase Local Development.</p>
                 </div>
                 <button 
                     onClick={handleOpenForm}
                     className="flex items-center justify-center gap-3 px-6 py-3.5 bg-teal-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-teal-600/20 hover:scale-[1.02] transition-all"
                 >
                     <FiPlus size={20} />
-                    Ajukan Permintaan Desain
+                    Buat Draft Permintaan
                 </button>
             </div>
 
@@ -194,7 +194,7 @@ const DesignRequestCustomerPage = () => {
                         </div>
                         <h3 className="text-xl font-bold text-gray-700">Belum Ada Pengajuan Desain</h3>
                         <p className="text-sm text-gray-500 mt-2 max-w-md mx-auto">
-                            Ingin mulai merancang rumah impian? Klik tombol di atas untuk membuat pengajuan desain pertama Anda.
+                            Ingin mensimulasikan rancangan rumah impian? Klik tombol di atas untuk membuat draf pengajuan desain pertama Anda.
                         </p>
                     </div>
                 )}
@@ -207,8 +207,8 @@ const DesignRequestCustomerPage = () => {
                     <div className="bg-white rounded-[32px] w-full max-w-xl max-h-[90vh] overflow-y-auto relative z-10 shadow-2xl animate-scaleIn">
                         <div className="sticky top-0 bg-white/80 backdrop-blur-md px-8 py-6 border-b border-gray-100 flex justify-between items-center z-10">
                             <div>
-                                <h3 className="text-xl font-black text-gray-800">Ajukan Permintaan Desain</h3>
-                                <p className="text-[10px] text-teal-600 font-bold uppercase tracking-widest mt-0.5">Lengkapi brief awal Anda</p>
+                                <h3 className="text-xl font-black text-gray-800">Buat Draft Brief Desain</h3>
+                                <p className="text-[10px] text-teal-600 font-bold uppercase tracking-widest mt-0.5">Simulasi pengajuan brief lokal</p>
                             </div>
                             <button onClick={() => setIsFormOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors"><FiX size={24} /></button>
                         </div>
@@ -276,9 +276,13 @@ const DesignRequestCustomerPage = () => {
                                     rows="4" 
                                     placeholder="Jelaskan detail kebutuhan Anda (jumlah kamar, gaya arsitektur, dsb)..."
                                     className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 resize-none" 
-                                    value={formData.description} 
+                                    value={formData.description || ""} 
                                     onChange={(e) => setFormData({...formData, description: e.target.value})} 
                                 />
+                                <p className="text-[10px] text-amber-600 font-bold italic mt-2">
+                                    * Ini adalah formulir simulasi lokal. Data akan disimpan di database pengembangan.
+                                </p>
+                            </div>
                             </div>
 
                             <div className="pt-6 flex flex-col md:flex-row gap-3">

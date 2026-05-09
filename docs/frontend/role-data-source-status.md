@@ -41,25 +41,29 @@ Status: **Database-Backed v1**
   - Request material: **Local Stabilized / DB-Backed v1**.
 
 ### 3. Arsitek / Architect
-Status: **Database-Backed v1**
+Status: **Database-Backed v2**
 - **Context**: `ArchitectPersonaContext`
-- **Services**: `architectService`
+- **Services**: `architectService`, `designRequestService`, `designTenderService`
 - **Dependency**: Membutuhkan seleksi persona melalui `ArchitectSwitcher` (Dev Mode).
 
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
-- **Design Workflow**: Halaman Permintaan Desain, File Desain, Revisi, dll: **Mock-First / Backend Pending**.
+- **Design Workflow**: Tender/peluang desain, bidding, dan update desain sudah memakai backend lokal untuk flow utama.
+- **Hold / Placeholder**: Tahapan desain detail, file upload production, final approved package, dan evaluasi teknis masih Planned/Placeholder.
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
 
 ### 4. Admin
-Status: **Database-Backed v1**
-- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`
+Status: **Database-Backed v2**
+- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`
 - **Dependency**: Tidak membutuhkan persona context khusus (Global Admin role).
 
 **Behavior UI:**
-- **Dashboard**: Statistik rill dari database.
+- **Dashboard**: Statistik rill dari database, dengan sisa demo activity/stat yang masih boleh dibersihkan terpisah.
 - **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
+- **Konsumen & Design Flow**: Customer data, Design Request management, tender publish/award, dan manual bridge to project draft: **DB-Backed v2 / Local Integrated**.
+- **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
+- **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Data RAB (Read-First): **Partial**.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Operational Data**: 
@@ -76,11 +80,13 @@ Status: **Partial / UI Shell**
 - **Behavior UI**: Entity API sudah ada (DB-Backed v1 untuk profil/list), namun alur kerja manajemen sistem secara penuh masih bersifat **Partial / UI Shell / Mock**.
 
 ### 6. Konsumen
-Status: **Partial / Data Foundation Ready**
-- **Services**: `customerService`, `designRequestService`, `projectService`
-- **Dashboard & Monitoring**: Design Request, Project filter by `customerId`, ProjectStage, `verifiedProgress`, dan ProjectStagePublicComment sudah memiliki jalur backend/data seed lokal. Timeline monitoring sudah distabilkan; Stage Communication Panel berikutnya sebaiknya memakai mode read-only terlebih dahulu sampai flow create/reply comment diverifikasi backend.
-- **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` siap untuk integrasi Gemini.
-- **Hold**: Password, auth production, upload foto rill, dan RBAC production tetap ditunda.
+Status: **Database-Backed v1**
+- **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
+- **Dashboard & Monitoring**: Dashboard, project filter by `customerId`, ProjectStage, `verifiedProgress`, dan ProjectStagePublicComment sudah API-backed untuk localhost.
+- **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen.
+- **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
+- **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.
+- **Hold**: Password, auth production, payment, dokumen/legal upload, notification production API, upload foto rill, dan RBAC production tetap ditunda.
 
 ---
 

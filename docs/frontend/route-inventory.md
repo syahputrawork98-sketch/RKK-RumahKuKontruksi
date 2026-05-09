@@ -27,17 +27,34 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
 | Dashboard | `/admin/dashboard` | DB-Backed v1 | Statistik rill database. |
+| Data Konsumen | `/admin/konsumen/data` | DB-Backed v1 | Manajemen data customer lokal. |
+| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | DB-Backed v2 | Management Design Request lokal. |
+| Pengajuan Konstruksi | `/admin/konsumen/pengajuan-konstruksi` | Shell / Pending | Placeholder konversi pengajuan konstruksi. |
+| Validasi Pengajuan | `/admin/konsumen/validasi` | Shell / Pending | Placeholder checklist validasi administrasi. |
 | List Proyek | `/admin/proyek` | DB-Backed v1 | Manajemen proyek rill. |
 | Create Proyek | `/admin/proyek/create` | DB-Backed v1 | Form pembuatan proyek rill. |
+| Aktivasi Proyek | `/admin/proyek/aktivasi` | Local Stabilized | Readiness checklist dan aktivasi proyek via `PATCH /projects/:id/activate`. |
 | Detail Proyek | `/admin/proyek/:id` | DB-Backed v1 | Info detail & penugasan tim. |
+| Penutupan Proyek | `/admin/proyek/penutupan` | Shell / Pending | Placeholder serah terima dan penutupan administrasi. |
 | List RAB | `/admin/rab` | DB-Backed v1 | Daftar RAB proyek. |
-| Detail RAB | `/admin/rab/:id` | Partial | Read data RAB dari DB. |
-| Pembayaran | `/admin/pembayaran` | Shell / Pending | Manajemen termin konsumen. |
+| Detail RAB | `/admin/rab/:projectId` | Partial | Read data RAB dari DB. |
+| Gambar Kerja | `/admin/dokumen/gambar-kerja` | Shell / Pending | Placeholder arsip gambar kerja. |
+| Kontrak | `/admin/dokumen/kontrak` | Shell / Pending | Placeholder dokumen kontrak. |
+| Dokumen Final / BAST | `/admin/dokumen/final` | Shell / Pending | Placeholder dokumen legal akhir. |
+| Change Order | `/admin/dokumen/change-order` | Shell / Pending | Placeholder pencatatan perubahan pekerjaan. |
 | Penugasan Tim | `/admin/penugasan-tim` | DB-Backed v1 | Assign Pengawas/Mandor. |
 | Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring progres resmi (SOT). |
+| Jurnal Mandor Approved | `/admin/monitoring/jurnal-mandor` | Shell / Pending | Placeholder monitoring jurnal Mandor approved. |
 | Request Material | `/admin/request-material`| Local Stabilized | Terhubung ke Material Request backend v1 dengan approval/status flow lokal. |
 | Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | DB-Backed v1 | List review laporan mingguan Pengawas. |
 | Detail Review | `/admin/laporan-mingguan-pengawas/:id` | DB-Backed v1 | Review, approve, reject laporan Pengawas. |
+| Kendala & Eskalasi | `/admin/monitoring/kendala` | Shell / Pending | Placeholder kendala lapangan untuk keputusan Admin. |
+| Publikasi Konsumen | `/admin/publikasi` | Local Stabilized | Source flow Stage Communication untuk update Konsumen, belum production RBAC. |
+| Pembayaran Konsumen | `/admin/pembayaran/konsumen` | Shell / Pending | Placeholder invoice/bukti bayar konsumen. |
+| Pembayaran Mandor | `/admin/pembayaran/mandor` | Shell / Pending | Placeholder opname/disbursement mitra. |
+| Validasi Disbursement | `/admin/pembayaran/validasi` | Shell / Pending | Placeholder validasi pencairan. |
+| Riwayat Pembayaran | `/admin/pembayaran/riwayat` | Shell / Pending | Placeholder arsip transaksi. |
+| Pembayaran | `/admin/pembayaran` | Shell / Pending | Legacy mapping ke halaman pembayaran existing; belum payment production. |
 | Pengaturan | `/admin/pengaturan` | DB-Backed v1 | Profil admin rill. |
 
 ## 3. Pengawas Routes
@@ -75,13 +92,21 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 ## 5. Arsitek Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
-| Dashboard | `/arsitek/dashboard` | DB-Backed v1 | Kapasitas & antrean desain. |
-| Permintaan Desain | `/arsitek/permintaan-desain`| Mock-First | Belum ada backend desain. |
-| Detail Permintaan | `/arsitek/permintaan-desain/:id`| Mock-First | Detail brief desain. |
-| Desain Aktif | `/arsitek/desain-aktif` | Mock-First | Monitoring pengerjaan. |
-| File Desain | `/arsitek/file-desain` | Mock-First | Repositori dokumen. |
-| Revisi Desain | `/arsitek/revisi` | Mock-First | Catatan revisi konsumen. |
-| Riwayat | `/arsitek/riwayat` | Mock-First | Portofolio internal. |
+| Dashboard | `/arsitek/dashboard` | DB-Backed v2 | Kapasitas & antrean desain dari backend lokal. |
+| Brief Desain | `/arsitek/brief-desain` | DB-Backed v2 | Mapping ke peluang/permintaan desain lokal. |
+| Peluang Desain | `/arsitek/peluang-desain` | DB-Backed v2 | Peluang tender desain lokal. |
+| Permintaan Desain | `/arsitek/permintaan-desain`| DB-Backed v2 | Legacy mapping ke peluang desain. |
+| Detail Permintaan | `/arsitek/permintaan-desain/:requestId`| DB-Backed v2 | Detail brief/tender desain lokal. |
+| Desain Aktif | `/arsitek/desain-aktif` | DB-Backed v2 | Monitoring pengerjaan desain lokal. |
+| Tahapan Konsep | `/arsitek/tahapan/konsep` | Shell / Pending | Placeholder tahapan desain detail. |
+| Tahapan Denah | `/arsitek/tahapan/denah` | Shell / Pending | Placeholder tahapan desain detail. |
+| Tahapan 3D | `/arsitek/tahapan/3d` | Shell / Pending | Placeholder tahapan desain detail. |
+| Tahapan Gambar Kerja | `/arsitek/tahapan/gambar-kerja` | Shell / Pending | Placeholder tahapan desain detail. |
+| File Desain | `/arsitek/file-desain` | Partial | Repositori desain lokal; upload/file production tetap Hold. |
+| Revisi Desain | `/arsitek/revisi` | DB-Backed v2 | Catatan/revisi desain lokal sesuai flow arsitek. |
+| Final Approved | `/arsitek/final-approved` | Shell / Pending | Placeholder paket desain final approved. |
+| Evaluasi Teknis | `/arsitek/evaluasi` | Shell / Pending | Placeholder evaluasi teknis. |
+| Riwayat | `/arsitek/riwayat` | DB-Backed v2 | Riwayat desain/tender lokal. |
 | Pengaturan | `/arsitek/pengaturan` | DB-Backed v1 | Profil arsitek rill. |
 
 ## 6. Superadmin Routes
@@ -89,10 +114,24 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Dashboard | `/superadmin/dashboard` | Partial | Statistik sistem (sebagian mock). |
 | Data Admin | `/superadmin/data-admin` | DB-Backed v1 | CRUD Manajemen Admin. |
+| Data Superadmin | `/superadmin/data-superadmin` | DB-Backed v1 | CRUD/list data Superadmin lokal. |
+| Data Konsumen | `/superadmin/data-konsumen` | DB-Backed v1 | CRUD/list Customer lokal. |
 | Data Pengawas | `/superadmin/data-pengawas` | DB-Backed v1 | CRUD Manajemen Pengawas. |
 | Data Mandor | `/superadmin/data-mandor` | DB-Backed v1 | CRUD Manajemen Mandor. |
-| Data Arsitek | `/superadmin/data-arsitek` | Shell / Placeholder | Rencana manajemen arsitek. |
+| Data Arsitek | `/superadmin/data-arsitek` | DB-Backed v1 | CRUD/list Architect lokal. |
+| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed v2 | Reuse management Design Request lokal. |
+| Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Shell / Pending | Placeholder legalitas perusahaan dan PIC. |
+| Monitoring Proyek Global | `/superadmin/proyek` | Partial | Placeholder monitoring global proyek. |
+| Proyek Aktif Global | `/superadmin/proyek/aktif` | Shell / Pending | Placeholder daftar proyek aktif global. |
+| Relasi Admin-Proyek | `/superadmin/proyek/relasi` | Shell / Pending | Placeholder pemetaan admin-proyek. |
+| Kapasitas Admin | `/superadmin/kapasitas-admin` | Shell / Pending | Placeholder monitoring beban kerja Admin. |
+| Laporan Progres Global | `/superadmin/progres-proyek` | Partial | Placeholder monitoring progress global. |
+| Pembayaran Global | `/superadmin/pembayaran` | Shell / Pending | Placeholder payment global; bukan payment production. |
+| Monitoring Material | `/superadmin/monitoring/material` | Shell / Pending | Placeholder audit material request global. |
+| Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | Shell / Pending | Placeholder audit laporan pengawas global. |
+| Eskalasi | `/superadmin/eskalasi` | Shell / Pending | Placeholder koreksi data/eskalasi. |
 | Log Aktivitas | `/superadmin/log-aktivitas` | Shell / Static | Riwayat aksi sistem. |
+| Pengaturan Sistem | `/superadmin/pengaturan` | Shell / Pending | Placeholder konfigurasi sistem. |
 
 ## 7. Konsumen Routes
 | Halaman | Route | Status | Catatan |
@@ -100,8 +139,11 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona. |
 | Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan verifiedProgress dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
 | Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Detail stage dan Stage Communication Panel memakai ProjectStagePublicComment API; create/reply membutuhkan `projectId` eksplisit. Alias lama `/konsumen/TimelineProyek/:stageId` tetap tersedia. |
+| Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
 | Permintaan Desain | `/konsumen/permintaan-desain` | DB-Backed v1 | List dan create Design Request memakai API lokal berdasarkan `customerId`. |
+| Pembayaran | `/konsumen/pembayaran` | Shell / Pending | Placeholder termin pembayaran; belum payment production. |
+| Dokumen | `/konsumen/dokumen` | Shell / Pending | Placeholder pusat dokumen; belum legal/upload production. |
 
 ---
 *Terakhir diperbarui: 9 Mei 2026*

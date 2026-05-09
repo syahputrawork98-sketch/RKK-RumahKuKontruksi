@@ -33,11 +33,17 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `GET /projects/:id/stages`: Ambil tahapan proyek.
 - `GET /projects/:id/rab`: Ambil data RAB proyek.
 - `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas (SOT).
+- `PATCH /projects/:id/activate`: Aktivasi proyek dari `planning` menjadi `Berjalan` jika readiness checklist terpenuhi.
 - `GET /projects/:id/progress-history`: Riwayat verifikasi progres proyek.
 
 **Catatan Konsumen Monitoring**:
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
+
+**Catatan Project Activation**:
+- Endpoint aktivasi tersedia untuk local CRUD integration dan tetap memakai dev persona/adminId lokal, bukan RBAC production.
+- Backend menolak aktivasi jika customer, pengawas, mandor, stage, RAB plan, total RAB, atau tanggal jadwal belum lengkap.
+- Aktivasi tidak membuat RAB, stage, assignment, pembayaran, atau dokumen legal otomatis.
 
 ## Supervisors
 - `GET /supervisors`: Ambil semua data Pengawas.
@@ -151,7 +157,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Status approval, delivery, receipt, dan completion sudah distabilkan untuk local CRUD integration.
 - **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
 
-## Project Stage Public Comments (Implemented Local Backend v1 / Read Path Ready)
+## Project Stage Public Comments (Implemented Local Backend v1 / Functional v1)
 - `GET /project-stage-comments/stage/:stageId`: Ambil update publik/thread komentar per stage.
 - `POST /project-stage-comments/stage/:stageId`: Buat official update Admin atau reply Konsumen.
 - `PATCH /project-stage-comments/:id`: Update isi/status komentar.
@@ -160,7 +166,8 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 **Catatan**:
 - Konsumen hanya boleh membalas update yang sudah ada; official update hanya untuk Admin.
 - Data ini adalah bridge komunikasi publik per tahap proyek, bukan chat internal tim lapangan.
-- Untuk integrasi UI Konsumen berikutnya, gunakan mode **read-only panel** terlebih dahulu. Jalur `POST` sudah ada, tetapi reply Konsumen perlu verifikasi/fix backend ringan pada validasi parent comment sebelum dipakai sebagai flow utama.
+- Stage Communication Panel Konsumen sudah memakai read path dan customer reply lokal. Payload `POST` tetap wajib menyertakan `projectId`, `authorRole`, `message`, dan `parentId` untuk reply Konsumen.
+- Update/delete masih perlu guard role yang lebih tegas sebelum dianggap production-ready.
 
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
@@ -181,4 +188,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Material Request dan Supervisor Weekly Report sudah distabilkan untuk local CRUD integration, tetapi belum mencakup warehouse, payment, auth production, atau RBAC production.
+- **Local Stabilized Status**: Material Request, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup warehouse, payment, legal upload, notification API, auth production, atau RBAC production.

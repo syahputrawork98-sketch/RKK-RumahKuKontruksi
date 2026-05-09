@@ -188,6 +188,9 @@ async function main() {
       phone: '081222220001',
       customerType: 'individual',
       address: 'Jl. Melati No. 5, Jakarta Selatan',
+      identityNumber: '3174010101800001',
+      occupation: 'Karyawan Swasta',
+      notes: 'Persona demo konsumen individu untuk alur desain baru dan proyek planning.',
       avatar: 'https://i.pravatar.cc/150?u=customer-001'
     }
   });
@@ -200,6 +203,9 @@ async function main() {
       phone: '081222220002',
       customerType: 'individual',
       address: 'BSD City, Tangerang Selatan',
+      identityNumber: '3674014502870002',
+      occupation: 'Pemilik Usaha Kuliner',
+      notes: 'Persona demo konsumen individu dengan proyek konstruksi aktif untuk monitoring timeline.',
       avatar: 'https://i.pravatar.cc/150?u=customer-002'
     }
   });
@@ -213,7 +219,11 @@ async function main() {
       customerType: 'company',
       companyName: 'PT Maju Jaya Properti',
       picName: 'Hendra',
+      picPosition: 'Project Owner Representative',
       address: 'Kuningan, Jakarta Pusat',
+      taxNumber: '01.234.567.8-901.000',
+      businessField: 'Properti dan Manajemen Gedung',
+      notes: 'Persona demo konsumen perusahaan untuk design-to-project bridge dan proyek draft.',
       avatar: 'https://i.pravatar.cc/150?u=customer-003'
     }
   });

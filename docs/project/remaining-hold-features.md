@@ -30,7 +30,6 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | Fitur | Lokasi | Status | Rekomendasi |
 | :--- | :--- | :--- | :--- |
 | **Edit Profil** | `Profil.jsx` (Konsumen) | Coming Soon | Tunda |
-| **Timeline Proyek Rill** | `TimelineProyek.jsx` | Belum Tersedia | Tetap Hold (Butuh data verifikasi stabil) |
 
 ---
 

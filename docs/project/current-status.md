@@ -7,6 +7,7 @@
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
 - **Fokus Saat Ini**: Integrasi data database lokal untuk role Pengawas, Mandor, dan Arsitek (Profil/Dashboard) serta pembersihan dependensi mock data pada role tersebut.
+- **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 
 
 ## Backend Status (Local API)
@@ -30,6 +31,7 @@
 | **Design Request** | DONE | Consumer Request, Admin Management, Status Workflow |
 | **Design Tender** | DONE | 30/70 Split, Architect Bidding, Admin Awarding |
 | **Project Bridge** | DONE | Manual conversion from Design to Project Draft |
+| **Timeline Panel** | DONE | Polished Admin-to-Consumer Communication Bridge (Controlled) |
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Admin sekarang dapat memonitor progres resmi (Source of Truth) secara real-time berdasarkan verifikasi Pengawas.
@@ -64,7 +66,7 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
-1. **Design-to-Project QA**: Lakukan testing manual alur penuh dari pengajuan desain hingga aktivasi proyek konstruksi.
-2. **Material Request Polish**: Finalisasi alur transisi status dan validasi kuantitas terhadap RAB.
-3. **Customer Portal Expansion**: Hubungkan notifikasi status desain dan detail penawaran (tanpa harga) ke dashboard konsumen.
-4. **Fase 4 - Admin Feature Stabilization**: Bersihkan mockup "Recent Activity" di Dashboard Admin.
+1. **Material Request Approval Workflow Hardening**: Finalisasi validasi kuantitas terhadap RAB di backend.
+2. **Supervisor Weekly Report Review**: Implementasi tombol Approve/Reject oleh Admin untuk sinkronisasi progress resmi.
+3. **Fase 4 - Admin Feature Stabilization**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin.
+4. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru.

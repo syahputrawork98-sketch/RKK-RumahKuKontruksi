@@ -35,6 +35,7 @@ import DataSuperadmin from "./pages/superadmin/DataSuperadminPage";
 import DataKonsumen from "./pages/superadmin/DataKonsumenPage";
 import DataArsitek from "./pages/superadmin/DataArsitekPage";
 import DataPengajuanDesain from "./pages/superadmin/DataPengajuanDesainPage";
+import MonitoringProyekGlobal from "./pages/superadmin/MonitoringProyekGlobalPage";
 import LogAktivitas from "./pages/superadmin/LogAktivitasPage";
 import PlaceholderPage from "./components/ui/PlaceholderPage";
 
@@ -179,7 +180,7 @@ function App() {
             <Route path="data-perusahaan" element={<PlaceholderPage title="Data Perusahaan & PIC" description="Halaman untuk mengelola data legalitas perusahaan dan PIC proyek." status="Planned" dos={["Melihat data legalitas", "Mengelola PIC internal"]} donts={["Mengubah struktur organisasi resmi", "Menghapus dokumen legal yang sudah aktif"]} />} />
             
             {/* PROYEK GLOBAL */}
-            <Route path="proyek" element={<PlaceholderPage title="Monitoring Proyek Global" description="Halaman monitoring status seluruh proyek konstruksi di sistem." status="Partial" dos={["Melihat status global", "Filter proyek per admin"]} donts={["Mengubah progress teknis", "Mengintervensi jadwal lapangan"]} />} />
+            <Route path="proyek" element={<MonitoringProyekGlobal />} />
             <Route path="proyek/aktif" element={<PlaceholderPage title="Proyek Aktif Global" description="Daftar seluruh proyek yang sedang dalam masa konstruksi." status="Planned" />} />
             <Route path="proyek/relasi" element={<PlaceholderPage title="Relasi Admin-Proyek" description="Pemetaan penugasan Admin terhadap proyek-proyek aktif." status="Planned" />} />
             

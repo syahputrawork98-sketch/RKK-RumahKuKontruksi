@@ -56,15 +56,6 @@ const Proyek = () => {
     }
   };
 
-  // Fungsi menghitung hari berjalan proyek aktif
-  const hitungHariBerjalan = (tglMulai) => {
-    const mulai = new Date(tglMulai);
-    const sekarang = new Date();
-    const diffTime = Math.max(sekarang - mulai, 0);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
-
   if (!selectedCustomerId) {
     return (
       <div className="container mx-auto px-6 py-10">

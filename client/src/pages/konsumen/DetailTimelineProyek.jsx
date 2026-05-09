@@ -3,13 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import DetailPekerjaanProyek from "../../components/konsumen/DetailPekerjaanProyek";
 import StageCommunicationPanel from "../../components/konsumen/StageCommunicationPanel";
 import projectStageService from "../../services/projectStageService";
-import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import { FiArrowLeft } from "react-icons/fi";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailTimelineProyek = () => {
   const { stageId } = useParams();
-  const { selectedCustomerId } = useCustomerPersona();
   const [stage, setStage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

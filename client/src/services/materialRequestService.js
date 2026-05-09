@@ -39,6 +39,16 @@ const materialRequestService = {
       console.error('Error updating material request status:', error);
       return { success: false, message: error.response?.data?.message || 'Gagal memperbarui status pengajuan material.' };
     }
+  },
+  
+  getRabUsage: async (projectId) => {
+    try {
+      const response = await apiClient.get(`/material-requests/rab-usage/${projectId}`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Error fetching RAB usage:', error);
+      return { success: false, message: error.response?.data?.message || 'Gagal mengambil data penggunaan RAB.' };
+    }
   }
 };
 

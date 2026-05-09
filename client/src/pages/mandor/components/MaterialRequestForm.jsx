@@ -51,23 +51,16 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
         const response = await projectService.getProjectStages(formData.projectId);
         setStages(response.data);
         
-        // Also fetch RAB to match items
+        // Fetch RAB Usage (includes total, approved, and remaining)
         try {
-          const rabResponse = await projectService.getProjectRab(formData.projectId);
-          if (rabResponse.data && rabResponse.data.categories) {
-            // Flatten items from all categories
-            const allItems = rabResponse.data.categories.flatMap(cat => 
-              cat.items.map(item => ({
-                ...item,
-                categoryName: cat.name
-              }))
-            );
-            setRabItems(allItems);
+          const rabUsageResponse = await materialRequestService.getRabUsage(formData.projectId);
+          if (rabUsageResponse.success && rabUsageResponse.data) {
+            setRabItems(rabUsageResponse.data);
           } else {
             setRabItems([]);
           }
         } catch (rabErr) {
-          console.log('RAB not found or not approved for this project yet.');
+          console.log('RAB usage not found for this project.');
           setRabItems([]);
         }
       } catch (error) {
@@ -88,13 +81,14 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
     const newItems = [...formData.items];
     newItems[index][field] = value;
 
-    // If rabItemId is selected, auto-fill materialName and unit
+    // If rabItemId is selected, auto-fill materialName, unit, and usage info
     if (field === 'rabItemId' && value) {
-      const selectedRab = rabItems.find(item => item.id === value);
+      const selectedRab = rabItems.find(item => item.rabItemId === value);
       if (selectedRab) {
         newItems[index].materialName = selectedRab.description;
         newItems[index].unit = selectedRab.unit;
-        newItems[index].estimatedQty = selectedRab.volume;
+        newItems[index].totalRabQty = selectedRab.totalRabQty;
+        newItems[index].remainingRabQty = selectedRab.remainingRabQty;
       }
     }
 
@@ -295,7 +289,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                       >
                         <option value="">-- Manual / Material Tambahan --</option>
                         {rabItems.map(ri => (
-                          <option key={ri.id} value={ri.id}>{ri.description} ({ri.categoryName})</option>
+                          <option key={ri.rabItemId} value={ri.rabItemId}>{ri.description} ({ri.categoryName})</option>
                         ))}
                       </select>
                     </div>
@@ -339,23 +333,34 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                   </div>
 
                   {/* ESTIMATION WARNING */}
-                  {item.estimatedQty > 0 && (
-                    <div className={`flex items-center gap-2 p-3 rounded-xl border text-[10px] font-bold ${
-                      parseFloat(item.requestedQty) > item.estimatedQty 
+                  {item.rabItemId ? (
+                    <div className={`flex flex-col gap-1 p-4 rounded-2xl border text-[10px] font-bold ${
+                      parseFloat(item.requestedQty) > item.remainingRabQty 
                       ? "bg-red-500/5 border-red-500/20 text-red-600" 
                       : "bg-emerald-500/5 border-emerald-500/20 text-emerald-600"
                     }`}>
-                      {parseFloat(item.requestedQty) > item.estimatedQty ? (
-                        <>
-                          <FiAlertCircle />
-                          <span>Melebihi Estimasi RAB ({item.estimatedQty} {item.unit}). Perlu alasan kuat!</span>
-                        </>
-                      ) : (
-                        <>
-                          <FiCheckCircle />
-                          <span>Sesuai Estimasi RAB (Sisa: {item.estimatedQty - (parseFloat(item.requestedQty) || 0)} {item.unit})</span>
-                        </>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {parseFloat(item.requestedQty) > item.remainingRabQty ? (
+                          <>
+                            <FiAlertCircle className="flex-shrink-0" />
+                            <span className="uppercase tracking-tight">Melebihi Sisa Kuota RAB! (Tersedia: {item.remainingRabQty} {item.unit})</span>
+                          </>
+                        ) : (
+                          <>
+                            <FiCheckCircle className="flex-shrink-0" />
+                            <span className="uppercase tracking-tight">Sesuai Alokasi RAB (Sisa setelah ini: {(item.remainingRabQty - (parseFloat(item.requestedQty) || 0)).toFixed(2)} {item.unit})</span>
+                          </>
+                        )}
+                      </div>
+                      <div className="mt-1 pl-5 text-[8px] opacity-60 flex gap-4 uppercase tracking-widest font-black">
+                        <span>Total RAB: {item.totalRabQty} {item.unit}</span>
+                        <span>Sisa Saat Ini: {item.remainingRabQty} {item.unit}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 p-3 bg-amber-500/5 border border-amber-500/20 rounded-xl text-[10px] font-black text-amber-600 uppercase tracking-tight italic">
+                      <FiAlertCircle size={12} />
+                      <span>Request Manual / Luar RAB. Mohon pastikan alasan tambahan diisi dengan jelas.</span>
                     </div>
                   )}
 

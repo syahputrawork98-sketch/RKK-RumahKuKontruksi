@@ -112,26 +112,26 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 ## 6. Superadmin Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
-| Dashboard | `/superadmin/dashboard` | Partial | Statistik sistem (sebagian mock). |
+| Dashboard | `/superadmin/dashboard` | API-Backed / Hold Hybrid | Global stats via `/superadmins/stats/global`, latest projects, dan data Superadmin; chart/summary non-operational tetap Hold/local display. |
 | Data Admin | `/superadmin/data-admin` | DB-Backed v1 | CRUD Manajemen Admin. |
 | Data Superadmin | `/superadmin/data-superadmin` | DB-Backed v1 | CRUD/list data Superadmin lokal. |
 | Data Konsumen | `/superadmin/data-konsumen` | DB-Backed v1 | CRUD/list Customer lokal. |
 | Data Pengawas | `/superadmin/data-pengawas` | DB-Backed v1 | CRUD Manajemen Pengawas. |
 | Data Mandor | `/superadmin/data-mandor` | DB-Backed v1 | CRUD Manajemen Mandor. |
 | Data Arsitek | `/superadmin/data-arsitek` | DB-Backed v1 | CRUD/list Architect lokal. |
-| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed v2 | Reuse management Design Request lokal. |
-| Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Shell / Pending | Placeholder legalitas perusahaan dan PIC. |
-| Monitoring Proyek Global | `/superadmin/proyek` | Partial | Placeholder monitoring global proyek. |
-| Proyek Aktif Global | `/superadmin/proyek/aktif` | Shell / Pending | Placeholder daftar proyek aktif global. |
-| Relasi Admin-Proyek | `/superadmin/proyek/relasi` | Shell / Pending | Placeholder pemetaan admin-proyek. |
-| Kapasitas Admin | `/superadmin/kapasitas-admin` | Shell / Pending | Placeholder monitoring beban kerja Admin. |
-| Laporan Progres Global | `/superadmin/progres-proyek` | Partial | Placeholder monitoring progress global. |
-| Pembayaran Global | `/superadmin/pembayaran` | Shell / Pending | Placeholder payment global; bukan payment production. |
-| Monitoring Material | `/superadmin/monitoring/material` | Shell / Pending | Placeholder audit material request global. |
-| Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | Shell / Pending | Placeholder audit laporan pengawas global. |
-| Eskalasi | `/superadmin/eskalasi` | Shell / Pending | Placeholder koreksi data/eskalasi. |
-| Log Aktivitas | `/superadmin/log-aktivitas` | Shell / Static | Riwayat aksi sistem. |
-| Pengaturan Sistem | `/superadmin/pengaturan` | Shell / Pending | Placeholder konfigurasi sistem. |
+| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed Read-Only | Monitoring global Design Request/Tender; Superadmin tidak menjalankan assign, publish, award, atau convert-to-project. |
+| Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Hold State | Legalitas perusahaan dan PIC masih Hold; belum ada workflow production. |
+| Monitoring Proyek Global | `/superadmin/proyek` | DB-Backed Read-Only | Overview semua proyek via Project API; perubahan operasional tetap milik Admin/Pengawas. |
+| Proyek Aktif Global | `/superadmin/proyek/aktif` | DB-Backed Read-Only | Filter proyek aktif/berjalan dari Project API. |
+| Relasi Admin-Proyek | `/superadmin/proyek/relasi` | DB-Backed Read-Only | Pemetaan admin-proyek dari Project API untuk audit beban kerja. |
+| Kapasitas Admin | `/superadmin/kapasitas-admin` | DB-Backed Read-Only | Workload view dari Admin API dan Project API; bukan assignment workflow. |
+| Laporan Progres Global | `/superadmin/progres-proyek` | DB-Backed Read-Only | Monitoring verifiedProgress/progress lintas proyek. |
+| Pembayaran Global | `/superadmin/pembayaran` | Hold State | Payment global belum production; tidak ada invoice/escrow/payout aktif. |
+| Monitoring Material | `/superadmin/monitoring/material` | DB-Backed Read-Only | Audit Material Request global via backend lokal. |
+| Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Audit laporan mingguan Pengawas via backend lokal. |
+| Eskalasi | `/superadmin/eskalasi` | Hold State | Koreksi data/escalation workflow production masih Hold. |
+| Log Aktivitas | `/superadmin/log-aktivitas` | Hold State | Audit trail production belum tersedia. |
+| Pengaturan Sistem | `/superadmin/pengaturan` | Hold State | Settings/system configuration production masih Hold. |
 
 ## 7. Konsumen Routes
 | Halaman | Route | Status | Catatan |
@@ -146,4 +146,4 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Dokumen | `/konsumen/dokumen` | Shell / Pending | Placeholder pusat dokumen; belum legal/upload production. |
 
 ---
-*Terakhir diperbarui: 9 Mei 2026*
+*Terakhir diperbarui: 10 Mei 2026*

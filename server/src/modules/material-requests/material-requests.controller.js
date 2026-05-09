@@ -60,7 +60,8 @@ export const updateStatus = async (req, res, next) => {
     }
 
     // Ownership check for admin
-    if (actorRole === 'admin' && adminId && request.project.adminId !== adminId) {
+    const isAdmin = actorRole?.toLowerCase() === 'admin';
+    if (isAdmin && adminId && request.project.adminId !== adminId) {
       return res.status(403).json({
         success: false,
         message: 'Anda tidak memiliki akses untuk mengubah status permintaan ini.'

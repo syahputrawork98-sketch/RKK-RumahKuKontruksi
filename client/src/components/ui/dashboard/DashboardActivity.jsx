@@ -2,9 +2,9 @@
 
 import React from "react";
 
-export const DashboardActivity = ({ activities }) => (
+export const DashboardActivity = ({ activities, title = "Aktivitas Terbaru" }) => (
     <div className="dashboard-card">
-        <h2 className="dashboard-title !text-lg mb-6">Aktivitas Terbaru</h2>
+        <h2 className="dashboard-title !text-lg mb-6">{title}</h2>
 
         <div className="relative pl-6">
             <div className="absolute left-2.5 top-0 bottom-0 w-0.5 bg-[var(--dashboard-border-soft)]" />

@@ -5,7 +5,9 @@ import { Calendar, Clock } from "lucide-react";
 
 export const DashboardHeader = ({ 
     title = "Dashboard", 
-    subtitle = "Monitoring operasional, finansial, dan aktivitas tim RKK secara real-time." 
+    subtitle = "Monitoring operasional, finansial, dan aktivitas tim RKK secara real-time.",
+    buttonLabel = "Buat Laporan",
+    buttonIcon: ButtonIcon = Clock
 }) => (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
         <div>
@@ -29,8 +31,8 @@ export const DashboardHeader = ({
 
             {/* Button laporan */}
             <button className="dashboard-primary-button flex items-center gap-3 !px-6 !py-3.5">
-                <Clock size={18} />
-                <span>Buat Laporan</span>
+                <ButtonIcon size={18} />
+                <span>{buttonLabel}</span>
             </button>
         </div>
     </div>

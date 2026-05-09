@@ -21,6 +21,7 @@ Untuk menjaga dokumentasi tetap jujur terhadap kondisi implementasi, gunakan lab
 | **Shell / Static** | UI atau struktur sudah ada, tetapi belum memakai data dinamis rill. |
 | **Mock-First** | Masih menggunakan data dummy/mock sebagai sumber utama. |
 | **Experimental Backend Draft** | Backend/model/route sudah ada sebagai draf awal, tetapi alur, RBAC, validasi, dan status transition belum final. |
+| **Local E2E Workflow v1 / UI Consistency Stabilized** | Flow lokal sudah tersambung end-to-end lintas role dan UI sudah distabilkan untuk Local Development CRUD Integration, tetapi belum production-ready. |
 | **Backend Pending** | UI/dokumen/alur sudah ada, tetapi backend operasional belum tersedia. |
 | **Postponed / Do Not Build Yet** | Modul sengaja ditunda dan tidak boleh dibangun pada fase ini. |
 
@@ -36,19 +37,21 @@ Prinsip ini wajib dijaga saat menurunkan alur menjadi backend, frontend, dan dat
 - **Dashboard Konsumen hanya menampilkan progress verified yang sudah dipublish Admin**.
 - **Admin memutuskan publikasi dan keputusan administratif/biaya**, tetapi bukan sumber progress lapangan.
 - **Mandor mengeksekusi pekerjaan dan mengirim klaim/data lapangan**, tetapi tidak boleh approve progress, payment, RAB, atau scope.
-- **Material Request saat ini berstatus Experimental Backend Draft**, sehingga boleh dipertahankan sebagai basis awal tetapi belum boleh dianggap production-ready.
+- **Material Request saat ini berstatus Local E2E Workflow v1 / UI Consistency Stabilized**, sehingga boleh dipakai untuk demo local CRUD lintas role tetapi belum boleh dianggap production procurement/warehouse/payment-ready.
 - **Auth/JWT/RBAC belum final**, sehingga role docs saat ini adalah blueprint aturan, bukan enforcement server-side yang sudah berjalan.
 
 ## Prinsip Material Request
 
-- Material Request sudah memiliki draft backend awal, tetapi belum final.
-- Status saat ini adalah **Experimental Backend Draft**.
-- Kode/model/route yang sudah ada boleh dipertahankan sebagai basis awal.
-- Normal vs Urgent flow belum final.
-- Approval chain Mandor → Pengawas → Admin belum final.
-- RBAC dan status transition belum final.
+- Material Request sudah memiliki workflow lokal end-to-end lintas Mandor, Pengawas, Admin, dan Superadmin monitoring.
+- Status saat ini adalah **Local E2E Workflow v1 / UI Consistency Stabilized**.
+- Mandor membuat/submit kebutuhan material.
+- Pengawas review/verifikasi kebutuhan lapangan.
+- Admin approval dan status distribusi lokal.
+- Mandor confirm received saat barang delivered.
+- Superadmin hanya read-only monitoring.
+- RBAC/auth production belum final; role enforcement masih berbasis dev persona/payload lokal.
 - Mandor tidak boleh membeli material bebas tanpa approval sistem.
-- Material Request belum boleh dianggap production-ready sampai checklist backend/frontend dan aturan alurnya naik ke Level 3.
+- Material Request belum boleh dianggap production-ready untuk procurement, warehouse/inventory, supplier comparison, payment/invoice/escrow, atau audit production.
 
 ## Tingkat Kesiapan Dokumentasi
 
@@ -70,7 +73,7 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 
 4. **Progress to Customer** (Level 2 -> Level 3 Target)
 5. **Payment Foreman** (Level 2 -> Level 3 Target)
-6. **Material Request Finalization** (Experimental -> Level 3 Target)
+6. **Material Request Local Workflow** (Local E2E Workflow v1 / UI Consistency Stabilized)
 
 > [!NOTE]
 > Jangan semua workflow dipaksa detail sekaligus untuk menghindari kontradiksi. Project Progress menjadi prioritas utama karena merupakan dasar dari modul payment, laporan, dan publikasi konsumen.
@@ -82,7 +85,7 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 4. **Supervisor Weekly Report**: Evaluasi mingguan manajemen lapangan.
 5. **Progress-to-Customer**: Publikasi progres terpercaya ke pelanggan.
 6. **Payment Foreman**: Alur keuangan berbasis capaian kerja.
-7. **Material Request Finalization**: Pengetatan alur approval pengadaan.
+7. **Material Request Local Workflow**: Alur kebutuhan material lokal lintas Mandor, Pengawas, Admin, dan Superadmin read-only monitoring.
 
 ## Modul yang Dipertahankan (Stable)
 - Core CRUD untuk entitas: Customer, Project, Supervisor, Foreman, Architect, Admin, Superadmin.

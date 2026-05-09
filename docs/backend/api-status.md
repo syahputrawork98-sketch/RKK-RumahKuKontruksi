@@ -151,18 +151,24 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Approval dapat memperbarui progress resmi melalui workflow lokal yang sudah distabilkan.
 - **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
 
-## Material Requests (Implemented Local Backend v1 / UI Stabilized)
+## Material Requests (Local E2E Workflow v1 / UI Consistency Stabilized)
 - `GET /material-requests`: Ambil semua pengajuan material.
+- `GET /material-requests?projectId=:projectId`: List pengajuan per proyek.
+- `GET /material-requests?foremanId=:foremanId`: List pengajuan per Mandor.
+- `GET /material-requests?supervisorId=:supervisorId`: List pengajuan per Pengawas.
+- `GET /material-requests?adminId=:adminId`: List pengajuan sesuai Admin proyek.
+- `GET /material-requests?status=:status`: Filter pengajuan berdasarkan status.
 - `GET /material-requests/:id`: Ambil detail pengajuan material.
 - `POST /material-requests`: Membuat pengajuan material baru.
 - `PATCH /material-requests/:id/status`: Update status pengajuan.
-- `GET /material-requests?projectId=:projectId`: List pengajuan per proyek.
 - `GET /material-requests/rab-usage/:projectId`: Ringkasan pemakaian RAB material per proyek.
 
 **Catatan**: 
 - Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
+- Flow lokal: Mandor create/submit, Pengawas review/verifikasi, Admin approval/status distribusi lokal, Mandor confirm received, Superadmin read-only monitoring.
 - Status approval, delivery, receipt, dan completion sudah distabilkan untuk local CRUD integration.
-- **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
+- Bukan production procurement, warehouse/inventory, supplier comparison, payment/invoice/escrow, atau RBAC/auth production.
+- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
 
 ## Project Stage Public Comments (Implemented Local Backend v1 / Functional v1)
 - `GET /project-stage-comments/stage/:stageId`: Ambil update publik/thread komentar per stage.
@@ -195,4 +201,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Material Request, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup warehouse, payment, legal upload, notification API, auth production, atau RBAC production.
+- **Local Stabilized Status**: Material Request, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup procurement production, warehouse, payment, legal upload, notification API, auth production, atau RBAC production.

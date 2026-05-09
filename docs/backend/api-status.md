@@ -15,6 +15,11 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /customers/:id`: Update data pelanggan.
 - `DELETE /customers/:id`: Hapus pelanggan.
 
+**Catatan**:
+- Customer API adalah data profil lokal untuk fase developer persona, bukan auth/user production.
+- Seed lokal menyediakan `customer-001`, `customer-002`, dan `customer-003` untuk Konsumen persona/demo.
+- Field profil yang dapat dipakai UI Edit Profil: `name`, `email`, `phone`, `avatar`, `address`, `identityNumber`, `occupation`, `companyName`, `picName`, `picPosition`, `logo`, `taxNumber`, `businessField`, dan `notes`.
+
 ## Projects
 - `GET /projects`: Ambil semua proyek.
 - `GET /projects?supervisorId=:id`: Ambil proyek berdasarkan ID Pengawas.
@@ -113,7 +118,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Mendukung snapshot progress verifikasi saat jurnal dikunci.
 - **Status**: *Implemented Local Backend v1 / Frontend Integrated*.
 
-## Supervisor Weekly Reports (Implemented Local Backend v1)
+## Supervisor Weekly Reports (Implemented Local Backend v1 / UI Stabilized)
 - `GET /supervisor-weekly-reports/context`: Ambil data pendukung pembuatan laporan.
 - `GET /supervisor-weekly-reports`: Ambil list laporan (dukung filter role/project/status/period).
 - `GET /supervisor-weekly-reports/:id`: Ambil detail laporan lengkap.
@@ -123,19 +128,22 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `POST /supervisor-weekly-reports/:id/review`: Review laporan oleh Admin.
 
 **Catatan**:
-- Laporan tidak mengubah `Project.verifiedProgress`.
-- **Status**: *Implemented Local Backend v1 / Frontend Integrated*.
+- Admin review/publish flow sudah tersedia untuk local development.
+- Approval dapat memperbarui progress resmi melalui workflow lokal yang sudah distabilkan.
+- **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
 
-## Material Requests (Experimental Backend Draft)
+## Material Requests (Implemented Local Backend v1 / UI Stabilized)
 - `GET /material-requests`: Ambil semua pengajuan material.
 - `GET /material-requests/:id`: Ambil detail pengajuan material.
 - `POST /material-requests`: Membuat pengajuan material baru.
 - `PATCH /material-requests/:id/status`: Update status pengajuan.
-- `GET /material-requests/project/:projectId`: List pengajuan per proyek.
+- `GET /material-requests?projectId=:projectId`: List pengajuan per proyek.
+- `GET /material-requests/rab-usage/:projectId`: Ringkasan pemakaian RAB material per proyek.
 
 **Catatan**: 
 - Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
-- **Status**: *Experimental Backend Draft / Partially Integrated*.
+- Status approval, delivery, receipt, dan completion sudah distabilkan untuk local CRUD integration.
+- **Status**: *Implemented Local Backend v1 / Frontend Stabilized*.
 
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
@@ -147,7 +155,6 @@ The following APIs are intentionally postponed and should not be implemented bef
 - `GET/POST /field-issues`: Kendala lapangan (NOT IMPLEMENTED)
 - `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
 - `GET/POST /tasks`: Manajemen tugas harian (NOT IMPLEMENTED)
-- `GET/POST /design-requests`: Permintaan desain (NOT IMPLEMENTED)
 - `GET/POST /design-files`: Upload file desain (NOT IMPLEMENTED)
 - `GET/POST /design-revisions`: Manajemen revisi desain (NOT IMPLEMENTED)
 
@@ -157,4 +164,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Experimental Status**: Material Request saat ini sudah memiliki draft backend awal, tetapi status alurnya masih experimental. Implementasi ini dipertahankan sebagai basis awal, namun belum boleh dianggap final sampai checklist backend/frontend dan aturan alur diselesaikan.
+- **Local Stabilized Status**: Material Request dan Supervisor Weekly Report sudah distabilkan untuk local CRUD integration, tetapi belum mencakup warehouse, payment, auth production, atau RBAC production.

@@ -15,7 +15,7 @@
 | Module | Status | Notes |
 | :--- | :--- | :--- |
 | **Health Check** | DONE | `/api/health` |
-| **Customers** | CRUD Available | Local API CRUD |
+| **Customers** | CRUD Available | Local API CRUD; profile data foundation ready for Konsumen persona UI integration |
 | **Projects** | CRUD Available | Full Lifecycle (Create, Edit, Detail, Assignment) |
 | **Project Stages**| CRUD Available | Plan-based stages for scheduling |
 | **RAB** | CRUD Available | Plan, Category, Item with Auto-Aggregation |
@@ -24,9 +24,9 @@
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
 | **Weekly Journals** | CRUD Available | Foreman Weekly Journals (Activities + Photos) |
-| **Weekly Reports** | CRUD Available | Supervisor Weekly Reports with Admin Review flow |
+| **Weekly Reports** | DONE | Supervisor Weekly Reports with Admin Review, publish flow, and local UI stabilization |
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
-| **Material Requests**| DONE | Local DB-Backed with Status Approval Flow |
+| **Material Requests**| DONE | Local DB-Backed with stabilized status approval and receipt flow |
 | **Verification** | DONE | Official Progress Verification Log (SOT) |
 | **Design Request** | DONE | Consumer Request, Admin Management, Status Workflow |
 | **Design Tender** | DONE | 30/70 Split, Architect Bidding, Admin Awarding |
@@ -62,11 +62,11 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Arsitek** | Backend/Database | DB-Backed v2 | Full Flow: Tender, Bidding, and Design Updates |
 | **Admin** | Backend/Database | DB-Backed v2 | Full Flow: Publish Tender, Awarding, Bridge to Project |
 | **Superadmin** | Mock/Partial | UI Shell Available | Backend integration for user management only |
-| **Konsumen** | Backend/Database | DB-Backed v1 | Full Flow: Create Design Request, Project Monitoring |
+| **Konsumen** | Backend/Database | DB-Backed v1 | Design Request and Project Monitoring DB-backed; Customer profile data contract ready for Edit Profil UI integration |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
-1. **Material Request Approval Workflow Hardening**: Finalisasi validasi kuantitas terhadap RAB di backend.
-2. **Supervisor Weekly Report Review**: Implementasi tombol Approve/Reject oleh Admin untuk sinkronisasi progress resmi.
-3. **Fase 4 - Admin Feature Stabilization**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin.
-4. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru.
+1. **Customer Profile UI Integration**: Hubungkan Edit Profil Konsumen ke Customer CRUD API menggunakan data contract lokal.
+2. **Fase 4 - Admin Feature Stabilization**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin.
+3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru.
+4. **Docs/API Inventory Sync**: Lanjutkan sinkronisasi ringan untuk route status yang masih memakai label experimental lama.

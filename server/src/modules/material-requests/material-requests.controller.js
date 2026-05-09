@@ -81,3 +81,13 @@ export const updateStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getRabUsage = async (req, res, next) => {
+  try {
+    const { projectId } = req.params;
+    const usage = await materialRequestService.getRabUsageByProject(projectId);
+    res.json(usage);
+  } catch (error) {
+    next(error);
+  }
+};

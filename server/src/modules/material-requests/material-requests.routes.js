@@ -4,6 +4,7 @@ import * as materialRequestController from './material-requests.controller.js';
 const router = express.Router();
 
 router.get('/', materialRequestController.getAllRequests);
+router.get('/rab-usage/:projectId', materialRequestController.getRabUsage);
 router.get('/:id', materialRequestController.getRequestById);
 router.post('/', materialRequestController.createRequest);
 router.patch('/:id/status', materialRequestController.updateStatus);

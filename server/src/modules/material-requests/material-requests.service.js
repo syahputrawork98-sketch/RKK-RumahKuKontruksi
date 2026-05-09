@@ -53,7 +53,7 @@ export const getRequestById = async (id) => {
         rabItemId: item.rabItemId,
         materialRequest: {
           id: { not: request.id },
-          status: { in: ['approved_by_admin', 'processing', 'delivered', 'received', 'completed'] }
+          status: { in: ['approved_by_supervisor', 'approved_by_admin', 'processing', 'delivered', 'received', 'completed'] }
         }
       },
       select: { requestedQty: true }
@@ -168,35 +168,93 @@ export const createRequest = async (data) => {
   });
 };
 
+export const getRabUsageByProject = async (projectId) => {
+  const rabItems = await prisma.rabItem.findMany({
+    where: { projectId },
+    include: {
+      category: true
+    }
+  });
+
+  const usage = await Promise.all(rabItems.map(async (item) => {
+    const approvedItems = await prisma.materialRequestItem.findMany({
+      where: {
+        rabItemId: item.id,
+        materialRequest: {
+          status: { in: ['approved_by_supervisor', 'approved_by_admin', 'processing', 'delivered', 'received', 'completed'] }
+        }
+      },
+      select: { requestedQty: true }
+    });
+
+    const totalApprovedQty = approvedItems.reduce((sum, i) => sum + parseFloat(i.requestedQty), 0);
+    const rabQty = parseFloat(item.volume);
+    const remainingRabQty = Math.max(0, rabQty - totalApprovedQty);
+
+    return {
+      rabItemId: item.id,
+      description: item.description,
+      unit: item.unit,
+      totalRabQty: rabQty,
+      totalApprovedQty,
+      remainingRabQty,
+      categoryName: item.category?.name
+    };
+  }));
+
+  return usage;
+};
+
 export const updateRequestStatus = async (id, data) => {
   const { status, actorId, actorRole, note, adminId, ...otherData } = data;
   
   const currentRequest = await getRequestById(id);
   if (!currentRequest) throw new Error('Request not found');
 
+  // Logic validation for status transition
+  const finalStatuses = ['rejected', 'cancelled', 'completed'];
+  if (finalStatuses.includes(currentRequest.status)) {
+    throw new Error(`Permintaan ini sudah dalam status final (${currentRequest.status}) dan tidak dapat diubah lagi.`);
+  }
+
   // Logic validation for APPROVAL
   const isApproving = ['approved_by_supervisor', 'approved_by_admin'].includes(status);
   
-  if (isApproving) {
-    // 1. Project Status Check
-    const allowedStatuses = ['active', 'ongoing', 'Berjalan'];
-    if (!allowedStatuses.includes(currentRequest.project.status)) {
-      throw new Error(`Approval gagal: Proyek dalam status ${currentRequest.project.status}. Hanya proyek aktif yang bisa diproses logistiknya.`);
-    }
+  return await prisma.$transaction(async (tx) => {
+    if (isApproving) {
+      // 1. Project Status Check
+      const allowedStatuses = ['active', 'ongoing', 'Berjalan'];
+      if (!allowedStatuses.includes(currentRequest.project.status)) {
+        throw new Error(`Approval gagal: Proyek "${currentRequest.project.name}" sedang dalam status ${currentRequest.project.status}. Hanya proyek aktif (Berjalan) yang bisa diproses logistiknya.`);
+      }
 
-    // 2. RAB Quantity Check (Only for Admin approval or Supervisor if strict)
-    for (const item of currentRequest.items) {
-      if (item.rabItemId) {
-        const requestedQty = parseFloat(item.requestedQty);
-        const rabQty = parseFloat(item.rabItem.volume);
-        
-        // Use our enhanced info from getRequestById
-        if (requestedQty > item.remainingRabQty) {
-          throw new Error(`Batas RAB terlampaui untuk ${item.materialName}. Diminta: ${requestedQty}, Sisa RAB: ${item.remainingRabQty} ${item.unit}.`);
+      // 2. RAB Quantity Check
+      for (const item of currentRequest.items) {
+        if (item.rabItemId) {
+          const requestedQty = parseFloat(item.requestedQty);
+          
+          // RE-CALCULATE inside transaction to ensure accuracy
+          const approvedItems = await tx.materialRequestItem.findMany({
+            where: {
+              rabItemId: item.rabItemId,
+              materialRequest: {
+                id: { not: id },
+                status: { in: ['approved_by_supervisor', 'approved_by_admin', 'processing', 'delivered', 'received', 'completed'] }
+              }
+            },
+            select: { requestedQty: true }
+          });
+
+          const totalApprovedQty = approvedItems.reduce((sum, i) => sum + parseFloat(i.requestedQty), 0);
+          const rabQty = parseFloat(item.rabItem.volume);
+          const remainingRabQty = Math.max(0, rabQty - totalApprovedQty);
+          
+          if (requestedQty > remainingRabQty) {
+            throw new Error(`Alokasi RAB tidak mencukupi untuk ${item.materialName}. Diminta: ${requestedQty} ${item.unit}, Tersedia: ${remainingRabQty} ${item.unit}. (Total RAB: ${rabQty})`);
+          }
         }
       }
     }
-  }
 
   const updateData = { 
     status,
@@ -213,11 +271,10 @@ export const updateRequestStatus = async (id, data) => {
   if (status === 'completed') updateData.completedAt = new Date();
   if (status === 'cancelled') updateData.cancelledAt = new Date();
 
-  return await prisma.$transaction(async (tx) => {
-    const updated = await tx.materialRequest.update({
-      where: { id },
-      data: updateData,
-    });
+  const updated = await tx.materialRequest.update({
+    where: { id },
+    data: updateData,
+  });
 
     await tx.materialRequestHistory.create({
       data: {

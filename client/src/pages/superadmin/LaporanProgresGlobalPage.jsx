@@ -3,7 +3,7 @@ import {
     FiSearch, 
     FiActivity, 
     FiUser, 
-    FiHardHat, 
+    FiUserCheck, 
     FiShield, 
     FiMapPin, 
     FiClock,
@@ -133,7 +133,7 @@ const LaporanProgresGlobalPage = () => {
                                 </div>
                                 <div className="flex items-center justify-between text-[10px]">
                                     <div className="flex items-center gap-2 text-[var(--dashboard-text-soft)]">
-                                        <FiHardHat size={12} />
+                                        <FiUserCheck size={12} />
                                         <span className="font-medium">Pengawas:</span>
                                     </div>
                                     <span className="font-bold text-[var(--dashboard-text)]">{p.supervisor?.name || "-"}</span>

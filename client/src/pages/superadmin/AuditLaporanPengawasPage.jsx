@@ -3,7 +3,7 @@ import {
     FiSearch, 
     FiFileText, 
     FiUser, 
-    FiHardHat, 
+    FiUserCheck, 
     FiShield, 
     FiActivity,
     FiInfo,
@@ -124,7 +124,7 @@ const AuditLaporanPengawasPage = () => {
                                             <div className="flex flex-col">
                                                 <span className="text-sm font-black text-[var(--dashboard-text)]">{r.project?.name || "N/A"}</span>
                                                 <div className="flex items-center gap-1.5 mt-1 text-[10px] text-[var(--dashboard-text-soft)] font-bold">
-                                                    <FiHardHat size={12} className="text-emerald-500" />
+                                                    <FiUserCheck size={12} className="text-emerald-500" />
                                                     <span>{r.supervisor?.name || "-"}</span>
                                                 </div>
                                             </div>

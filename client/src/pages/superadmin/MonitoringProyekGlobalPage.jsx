@@ -4,7 +4,7 @@ import {
     FiLayers, 
     FiMapPin, 
     FiUser, 
-    FiHardHat, 
+    FiUserCheck, 
     FiShield, 
     FiActivity,
     FiFilter,
@@ -186,7 +186,7 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500">
-                                                        <FiHardHat size={12} />
+                                                        <FiUserCheck size={12} />
                                                     </div>
                                                     <div className="flex flex-col">
                                                         <span className="text-[8px] uppercase font-black text-emerald-600 opacity-60 leading-none mb-0.5">Pengawas</span>

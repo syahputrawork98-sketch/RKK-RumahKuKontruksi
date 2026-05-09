@@ -3,7 +3,7 @@ import {
     FiSearch, 
     FiTruck, 
     FiUser, 
-    FiHardHat, 
+    FiUserCheck, 
     FiShield, 
     FiActivity,
     FiInfo,
@@ -132,7 +132,7 @@ const MonitoringMaterialGlobalPage = () => {
                                         <td className="py-6 px-6">
                                             <div className="flex flex-col gap-1.5">
                                                 <div className="flex items-center gap-1.5 text-[10px]">
-                                                    <FiHardHat className="text-amber-500" size={12} />
+                                                    <FiUserCheck className="text-amber-500" size={12} />
                                                     <span className="font-bold">{r.foreman?.name || "-"}</span>
                                                 </div>
                                                 <div className="flex items-center gap-1.5 text-[10px]">

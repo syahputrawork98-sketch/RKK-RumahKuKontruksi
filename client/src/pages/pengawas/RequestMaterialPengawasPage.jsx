@@ -161,7 +161,7 @@ const RequestMaterialPengawasPage = () => {
                     <FiInfo className="text-amber-500 mt-0.5 flex-shrink-0" size={16} />
                     <p className="text-[10px] text-amber-700 font-medium leading-relaxed italic">
                         <span className="font-black uppercase tracking-widest block mb-0.5">Catatan Pengawas:</span>
-                        Anda memverifikasi kebutuhan & kesesuaian lapangan. Proses procurement, pembayaran, dan logistik dilakukan oleh Admin Pusat.
+                        Anda memverifikasi kebutuhan & kesesuaian lapangan. Proses distribusi lokal diatur oleh Admin Operasional.
                     </p>
                 </div>
             </div>
@@ -456,7 +456,7 @@ const RequestMaterialPengawasPage = () => {
                                         </p>
                                     </div>
                                     <p className="text-[9px] text-slate-400 font-medium text-center italic leading-relaxed">
-                                        Permintaan ini telah diproses verifikasinya. Tindak lanjut pengadaan (procurement) dan pembayaran sepenuhnya merupakan otoritas Admin Pusat.
+                                        Permintaan ini telah diproses verifikasinya. Tindak lanjut distribusi lokal sepenuhnya merupakan otoritas Admin Operasional.
                                     </p>
                                 </div>
                             )}

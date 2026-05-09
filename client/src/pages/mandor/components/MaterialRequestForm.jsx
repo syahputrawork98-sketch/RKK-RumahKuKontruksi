@@ -56,10 +56,11 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
           if (rabUsageResponse.success && rabUsageResponse.data) {
             setRabItems(rabUsageResponse.data);
           } else {
+            console.log('RAB usage empty or failed.');
             setRabItems([]);
           }
         } catch (rabErr) {
-          console.log('RAB usage not found for this project.');
+          console.error('Error fetching RAB usage:', rabErr);
           setRabItems([]);
         }
       } catch (error) {
@@ -70,6 +71,21 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
     };
     fetchStages();
   }, [formData.projectId]);
+
+  const [itemSearchTerm, setItemSearchTerm] = useState('');
+
+  // Group and filter RAB items by category for better selection
+  const groupedRabItems = rabItems
+    .filter(item => 
+      item.description.toLowerCase().includes(itemSearchTerm.toLowerCase()) ||
+      (item.categoryName || '').toLowerCase().includes(itemSearchTerm.toLowerCase())
+    )
+    .reduce((acc, item) => {
+      const category = item.categoryName || 'Lainnya';
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(item);
+      return acc;
+    }, {});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -198,10 +214,19 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                 className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 outline-none disabled:opacity-50"
               >
                 <option value="">{loadingStages ? 'Memuat...' : '-- Pilih Tahap --'}</option>
-                {stages.map(s => (
-                  <option key={s.id} value={s.id}>{s.title}</option>
-                ))}
+                {stages.length > 0 ? (
+                  stages.map(s => (
+                    <option key={s.id} value={s.id}>{s.title}</option>
+                  ))
+                ) : !loadingStages && formData.projectId ? (
+                  <option value="" disabled>Belum ada data tahap pekerjaan untuk proyek ini</option>
+                ) : null}
               </select>
+              {!loadingStages && formData.projectId && stages.length === 0 && (
+                <p className="text-[10px] text-amber-600 font-bold italic mt-1 flex items-center gap-1">
+                  <FiAlertCircle size={10} /> Tahap pekerjaan belum diatur.
+                </p>
+              )}
             </div>
 
             {/* PRIORITY */}
@@ -280,18 +305,44 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
 
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                     {/* RAB ITEM SELECTION */}
-                    <div className="md:col-span-4 space-y-1">
+                    <div className="md:col-span-4 space-y-2">
                       <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Ambil dari RAB (Opsional)</label>
+                      
+                      {formData.projectId && rabItems.length > 0 && (
+                        <input
+                          type="text"
+                          placeholder="Cari item RAB..."
+                          value={itemSearchTerm}
+                          onChange={(e) => setItemSearchTerm(e.target.value)}
+                          className="w-full px-3 py-1.5 bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-lg text-[10px] font-medium focus:ring-1 focus:ring-[var(--dashboard-primary)] outline-none mb-1"
+                        />
+                      )}
+
                       <select
                         value={item.rabItemId}
                         onChange={(e) => handleItemChange(index, 'rabItemId', e.target.value)}
                         className="w-full px-3 py-2 bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-xl text-xs font-bold focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 outline-none"
                       >
-                        <option value="">-- Manual / Material Tambahan --</option>
-                        {rabItems.map(ri => (
-                          <option key={ri.rabItemId} value={ri.rabItemId}>{ri.description} ({ri.categoryName})</option>
-                        ))}
+                        <option value="">-- Manual / Luar RAB Lokal --</option>
+                        {rabItems.length > 0 ? (
+                          Object.entries(groupedRabItems).map(([category, items]) => (
+                            <optgroup key={category} label={category.toUpperCase()}>
+                              {items.map(ri => (
+                                <option key={ri.rabItemId} value={ri.rabItemId}>
+                                  {ri.description} (Sisa: {ri.remainingRabQty} {ri.unit})
+                                </option>
+                              ))}
+                            </optgroup>
+                          ))
+                        ) : formData.projectId && (
+                          <option value="" disabled>RAB belum tersedia / gagal dimuat</option>
+                        )}
                       </select>
+                      {formData.projectId && rabItems.length === 0 && (
+                        <p className="text-[8px] text-[var(--dashboard-text-soft)] italic mt-1">
+                          RAB tidak tersedia, request akan diproses secara manual.
+                        </p>
+                      )}
                     </div>
 
                     <div className="md:col-span-4 space-y-1">
@@ -360,7 +411,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                   ) : (
                     <div className="flex items-center gap-2 p-3 bg-amber-500/5 border border-amber-500/20 rounded-xl text-[10px] font-black text-amber-600 uppercase tracking-tight italic">
                       <FiAlertCircle size={12} />
-                      <span>Request Manual / Luar RAB. Mohon pastikan alasan tambahan diisi dengan jelas.</span>
+                      <span>Material di luar baseline RAB lokal. Mohon lampirkan alasan yang jelas pada catatan di bawah.</span>
                     </div>
                   )}
 

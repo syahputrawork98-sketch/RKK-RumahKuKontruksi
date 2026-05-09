@@ -363,7 +363,7 @@ const RequestMaterialMandorPage = () => {
                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Status: {selectedRequest.status.replace(/_/g, ' ')}</p>
                                     <p className="text-[9px] text-slate-400 font-medium mt-1">
                                         {['submitted', 'approved_by_supervisor', 'approved_by_admin', 'processing'].includes(selectedRequest.status) 
-                                            ? 'Menunggu proses logistik selanjutnya.' 
+                                            ? 'Menunggu proses distribusi lokal oleh Admin Operasional.' 
                                             : 'Proses pengajuan ini telah selesai.'}
                                     </p>
                                 </div>

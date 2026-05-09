@@ -120,6 +120,39 @@ export const createRequest = async (data) => {
     throw new Error('Mandor ini tidak ditugaskan pada proyek ini.');
   }
 
+  if (project.supervisorId !== supervisorId) {
+    throw new Error('Pengawas ini tidak ditugaskan pada proyek ini.');
+  }
+
+  // Validate Stage belongs to Project
+  if (stageId) {
+    const stage = await prisma.projectStage.findFirst({
+      where: { id: stageId, projectId }
+    });
+    if (!stage) {
+      throw new Error('Tahap pekerjaan (Stage) tidak ditemukan atau tidak sesuai dengan proyek ini.');
+    }
+  }
+
+  // Validate items
+  if (items && items.length > 0) {
+    for (const item of items) {
+      if (item.rabItemId) {
+        const rabItem = await prisma.rabItem.findFirst({
+          where: { id: item.rabItemId, projectId }
+        });
+        if (!rabItem) {
+          throw new Error(`Item RAB "${item.materialName}" tidak ditemukan atau tidak sesuai dengan proyek ini.`);
+        }
+      } else {
+        // Manual request validation
+        if (!item.note && !item.additionalReason) {
+          throw new Error(`Material "${item.materialName}" adalah item manual/tambahan, mohon berikan alasan atau catatan yang jelas.`);
+        }
+      }
+    }
+  }
+
   return await prisma.$transaction(async (tx) => {
     const request = await tx.materialRequest.create({
       data: {
@@ -144,8 +177,8 @@ export const createRequest = async (data) => {
           materialName: item.materialName,
           requestedQty: item.requestedQty,
           unit: item.unit,
-          note: item.note,
-          isAdditionalMaterial: item.isAdditionalMaterial || false,
+          note: item.note || item.additionalReason, // Consolidate note
+          isAdditionalMaterial: !item.rabItemId,
           additionalReason: item.additionalReason || null,
           estimatedQtyFromRab: item.estimatedQtyFromRab || 0,
         })),

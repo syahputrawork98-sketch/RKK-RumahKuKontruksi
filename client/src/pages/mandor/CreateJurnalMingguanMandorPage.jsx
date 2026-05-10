@@ -240,9 +240,23 @@ const CreateJurnalMingguanMandorPage = () => {
                             >
                                 <option value="">Pilih Proyek</option>
                                 {projects.map(p => (
-                                    <option key={p.id} value={p.id}>{p.projectCode} - {p.name}</option>
+                                    <option 
+                                        key={p.id} 
+                                        value={p.id} 
+                                        disabled={p.status === 'Selesai'}
+                                    >
+                                        {p.projectCode} - {p.name} {p.status === 'Selesai' ? '(Selesai - Read Only)' : ''}
+                                    </option>
                                 ))}
                             </select>
+                            {formData.projectId && projects.find(p => p.id === formData.projectId)?.status === 'Selesai' && (
+                                <div className="mt-2 p-3 bg-purple-50 border border-purple-100 rounded-xl flex items-center gap-2">
+                                    <FiInfo className="text-purple-600" size={14} />
+                                    <p className="text-[10px] font-black text-purple-700 uppercase tracking-tighter italic">
+                                        Proyek ini sudah selesai. Anda tidak dapat membuat jurnal baru untuk proyek ini.
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
@@ -459,10 +473,14 @@ const CreateJurnalMingguanMandorPage = () => {
                     </button>
                     <button 
                         type="submit"
-                        disabled={submitting}
-                        className="flex items-center gap-2 px-10 py-4 bg-[var(--dashboard-primary)] text-white text-xs font-black uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-xl shadow-[var(--dashboard-primary)]/20 disabled:opacity-50"
+                        disabled={submitting || (formData.projectId && projects.find(p => p.id === formData.projectId)?.status === 'Selesai')}
+                        className={`flex items-center gap-2 px-10 py-4 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-xl ${
+                            submitting || (formData.projectId && projects.find(p => p.id === formData.projectId)?.status === 'Selesai')
+                            ? "bg-slate-300 shadow-none cursor-not-allowed"
+                            : "bg-[var(--dashboard-primary)] hover:opacity-90 shadow-[var(--dashboard-primary)]/20"
+                        }`}
                     >
-                        <FiSave size={18} /> {submitting ? "Menyimpan..." : "Simpan Draft Jurnal"}
+                        <FiSave size={18} /> {submitting ? "Menyimpan..." : (formData.projectId && projects.find(p => p.id === formData.projectId)?.status === 'Selesai') ? "Mode Read-Only" : "Simpan Draft Jurnal"}
                     </button>
                 </div>
             </form>

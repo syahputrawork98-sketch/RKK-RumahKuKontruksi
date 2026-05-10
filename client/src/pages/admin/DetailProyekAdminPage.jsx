@@ -577,9 +577,14 @@ const DetailProyekAdminPage = () => {
                                                 setIsEditingStage(false);
                                                 setShowStageModal(true);
                                             }}
-                                            className="flex items-center gap-2 px-4 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-bold shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 transition-all"
+                                            disabled={project.status === 'Selesai'}
+                                            className={`flex items-center gap-2 px-4 py-2 text-white rounded-xl text-xs font-bold shadow-lg transition-all ${
+                                                project.status === 'Selesai' 
+                                                ? "bg-slate-300 shadow-none cursor-not-allowed" 
+                                                : "bg-[var(--dashboard-primary)] shadow-[var(--dashboard-primary)]/20 hover:scale-105"
+                                            }`}
                                         >
-                                            <FiPlus /> Tambah Stage
+                                            <FiPlus /> {project.status === 'Selesai' ? "Read-Only" : "Tambah Stage"}
                                         </button>
                                     </div>
                                 </div>
@@ -641,11 +646,14 @@ const DetailProyekAdminPage = () => {
                                                                         setEditStageId(stg.id);
                                                                         setShowStageModal(true);
                                                                     }}
-                                                                    className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-all"
+                                                                    disabled={project.status === 'Selesai'}
+                                                                    className={`p-2 rounded-lg transition-all ${
+                                                                        project.status === 'Selesai' ? "text-slate-300 cursor-not-allowed" : "text-blue-500 hover:bg-blue-50"
+                                                                    }`}
                                                                 >
                                                                     <FiEdit2 size={14} />
                                                                 </button>
-                                                                {!stg.isVerified && (
+                                                                {!stg.isVerified && project.status !== 'Selesai' && (
                                                                     <button 
                                                                         onClick={() => handleDeleteStage(stg.id)}
                                                                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"
@@ -670,9 +678,12 @@ const DetailProyekAdminPage = () => {
                                                 setIsEditingStage(false);
                                                 setShowStageModal(true);
                                             }}
-                                            className="mt-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:underline"
+                                            disabled={project.status === 'Selesai'}
+                                            className={`mt-4 text-xs font-black uppercase tracking-widest transition-all ${
+                                                project.status === 'Selesai' ? "text-slate-300 cursor-not-allowed" : "text-[var(--dashboard-primary)] hover:underline"
+                                            }`}
                                         >
-                                            Buat Stage Pertama
+                                            {project.status === 'Selesai' ? "Mode Read-Only" : "Buat Stage Pertama"}
                                         </button>
                                     </div>
                                 )}

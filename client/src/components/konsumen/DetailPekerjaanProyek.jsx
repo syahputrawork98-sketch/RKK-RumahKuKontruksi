@@ -110,20 +110,22 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
               {normalized.isVerified ? "Diverifikasi" : normalized.status === "in_progress" ? "In Progress" : "Belum Dimulai"}
             </span>
 
-            {/* Dummy download buttons */}
+            {/* Dummy download buttons - LOCAL HOLD */}
             <button
               type="button"
-              onClick={() => alert("Fitur download laporan masih demo.")}
-              className="px-4 py-2 rounded-xl border border-neutral-30 text-neutral-70 hover:bg-neutral-20 text-s-bold transition-colors flex items-center gap-2"
+              onClick={() => alert("Mode Simulasi: Download Laporan Resmi (Production) belum dibuka.")}
+              className="px-4 py-2 rounded-xl border border-neutral-30 text-neutral-40 hover:bg-neutral-20 text-s-bold transition-colors flex items-center gap-2 opacity-50 cursor-not-allowed"
+              title="Fitur Production Belum Tersedia"
             >
-              <FiDownload size={14} /> Laporan
+              <FiDownload size={14} /> Laporan (Demo)
             </button>
             <button
               type="button"
-              onClick={() => alert("Fitur download RAB masih demo.")}
-              className="px-4 py-2 rounded-xl bg-primary-main text-white hover:bg-primary-hover text-s-bold transition-colors flex items-center gap-2"
+              onClick={() => alert("Mode Simulasi: Download Dokumen RAB Resmi (Production) belum dibuka.")}
+              className="px-4 py-2 rounded-xl bg-slate-200 text-slate-400 hover:bg-slate-300 text-s-bold transition-colors flex items-center gap-2 cursor-not-allowed"
+              title="Fitur Production Belum Tersedia"
             >
-              <FiDownload size={14} /> Download RAB
+              <FiDownload size={14} /> Download RAB (Demo)
             </button>
           </div>
         </div>

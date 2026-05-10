@@ -318,46 +318,66 @@ const TimelineProyek = () => {
           )}
 
       <div className="max-w-6xl mx-auto px-6 -mt-12 relative z-10 space-y-12">
-        {/* 2. Summary Cards Grid */}
+        {/* 2. Summary Cards Grid - LOCAL SIMULATION */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <motion.div 
             whileHover={{ y: -5 }}
-            className="bg-white p-6 rounded-[32px] shadow-lg border border-neutral-30 flex items-center gap-5"
+            className="bg-white p-6 rounded-[32px] shadow-lg border border-neutral-30 flex items-center gap-5 relative overflow-hidden group"
           >
+            <div className="absolute top-2 right-4 opacity-5 group-hover:opacity-10 transition-all">
+                <FiDollarSign size={40} />
+            </div>
             <div className="w-14 h-14 bg-primary-surface rounded-2xl flex items-center justify-center text-primary-main">
               <FiDollarSign size={28} />
             </div>
             <div>
-              <p className="text-s-bold text-neutral-60 uppercase tracking-widest">Nilai Proyek</p>
+              <p className="text-[10px] font-black text-neutral-40 uppercase tracking-widest mb-0.5">Nilai Proyek (Local)</p>
               <p className="text-heading-s-bold text-neutral-100">{formatCurrency(project.budget.total)}</p>
+              <p className="text-[8px] font-bold text-neutral-40 uppercase tracking-tighter mt-1 italic">Sesuai Kontrak RAB</p>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -5 }}
-            className="bg-white p-6 rounded-[32px] shadow-lg border border-neutral-30 flex items-center gap-5"
+            className="bg-white p-6 rounded-[32px] shadow-lg border border-neutral-30 flex items-center gap-5 relative overflow-hidden group"
           >
+            <div className="absolute top-2 right-4 opacity-5 group-hover:opacity-10 transition-all text-success-main">
+                <FiCheckCircle size={40} />
+            </div>
             <div className="w-14 h-14 bg-success-main/10 rounded-2xl flex items-center justify-center text-success-main">
               <FiCheckCircle size={28} />
             </div>
             <div>
-              <p className="text-s-bold text-neutral-60 uppercase tracking-widest">Total Terbayar</p>
+              <p className="text-[10px] font-black text-neutral-40 uppercase tracking-widest mb-0.5">Terbayar (Demo)</p>
               <p className="text-heading-s-bold text-neutral-100">{formatCurrency(project.budget.paid)}</p>
+              <p className="text-[8px] font-bold text-success-main uppercase tracking-tighter mt-1 italic">Verified Local Sync</p>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -5 }}
-            className="bg-white p-6 rounded-[32px] shadow-lg border border-neutral-30 flex items-center gap-5"
+            className="bg-white p-6 rounded-[32px] shadow-lg border border-neutral-30 flex items-center gap-5 relative overflow-hidden group"
           >
+            <div className="absolute top-2 right-4 opacity-5 group-hover:opacity-10 transition-all text-error-main">
+                <FiDollarSign size={40} />
+            </div>
             <div className="w-14 h-14 bg-error-main/10 rounded-2xl flex items-center justify-center text-error-main">
               <FiDollarSign size={28} />
             </div>
             <div>
-              <p className="text-s-bold text-neutral-60 uppercase tracking-widest">Sisa Pembayaran</p>
+              <p className="text-[10px] font-black text-neutral-40 uppercase tracking-widest mb-0.5">Sisa (Simulasi)</p>
               <p className="text-heading-s-bold text-neutral-100">{formatCurrency(project.budget.remaining)}</p>
+              <p className="text-[8px] font-bold text-error-main uppercase tracking-tighter mt-1 italic">Mode: Local Hold State</p>
             </div>
           </motion.div>
+        </div>
+
+        {/* DISCLAIMER LOCAL FINANCE */}
+        <div className="p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl flex items-center gap-3">
+            <FiInfo className="text-blue-400" size={16} />
+            <p className="text-[10px] font-black text-blue-700 uppercase leading-relaxed tracking-tighter">
+                Seluruh data keuangan di atas adalah <span className="text-[var(--dashboard-primary)]">Simulasi Local Workflow</span>. Fitur pembayaran real (Gateway/Legal) tidak dibuka pada tahap local development ini.
+            </p>
         </div>
 
         {/* 3. Team Cards Section */}

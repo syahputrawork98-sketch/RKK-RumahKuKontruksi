@@ -285,7 +285,8 @@ const VerifikasiProgresPengawasPage = () => {
                                         <select 
                                             value={selectedStageId}
                                             onChange={(e) => setSelectedStageId(e.target.value)}
-                                            className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none transition-all"
+                                            className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            disabled={selectedProject.status === 'Selesai'}
                                         >
                                             <option value="">-- Pilih Tahapan (Opsional) --</option>
                                             {stages.map(stage => (

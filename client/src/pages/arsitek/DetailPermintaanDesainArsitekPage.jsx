@@ -201,17 +201,28 @@ const DetailPermintaanDesainArsitekPage = () => {
                                 )}
                             </div>
                             
-                            <div className="p-5 bg-indigo-50 border border-indigo-100 rounded-2xl space-y-3">
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-700">Langkah Berikutnya</h4>
+                            <div className={`p-5 rounded-2xl space-y-3 ${request.status === 'converted' ? 'bg-purple-50 border border-purple-100' : 'bg-indigo-50 border border-indigo-100'}`}>
+                                <h4 className={`text-[10px] font-black uppercase tracking-widest ${request.status === 'converted' ? 'text-purple-700' : 'text-indigo-700'}`}>
+                                    {request.status === 'converted' ? 'Proyek Telah Dimulai' : 'Langkah Berikutnya'}
+                                </h4>
                                 <ul className="space-y-2">
-                                    <li className="text-[10px] font-bold text-indigo-800 flex items-start gap-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1"></div>
-                                        Unggah progres desain secara manual ke timeline.
-                                    </li>
-                                    <li className="text-[10px] font-bold text-indigo-800 flex items-start gap-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1"></div>
-                                        Tunggu review & revisi dari Konsumen.
-                                    </li>
+                                    {request.status === 'converted' ? (
+                                        <li className="text-[10px] font-bold text-purple-800 flex items-start gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1"></div>
+                                            Desain ini telah dikonversi menjadi Proyek Fisik. Seluruh aktivitas revisi desain dihentikan.
+                                        </li>
+                                    ) : (
+                                        <>
+                                            <li className="text-[10px] font-bold text-indigo-800 flex items-start gap-2">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1"></div>
+                                                Unggah progres desain secara manual ke timeline.
+                                            </li>
+                                            <li className="text-[10px] font-bold text-indigo-800 flex items-start gap-2">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1"></div>
+                                                Tunggu review & revisi dari Konsumen.
+                                            </li>
+                                        </>
+                                    )}
                                 </ul>
                             </div>
                     </div>

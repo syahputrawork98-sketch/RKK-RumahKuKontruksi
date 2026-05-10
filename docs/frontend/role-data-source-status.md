@@ -23,6 +23,7 @@ Status: **Database-Backed v1**
 - **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock.
 - **Operational Status**: 
   - Verifikasi progres: **Local Workflow v1 / Stabilized**. Progress Verification from RAB/Stage Context menampilkan konteks Stage, RAB, dan jurnal Mandor terbaru/ringkas; Pengawas assigned tetap mengisi `Project.verifiedProgress` secara manual sebagai progress resmi (SOT).
+  - Project Stage Completion: **Local Workflow v1 / Stabilized**. Pengawas assigned membuka detail proyek dan menandai stage selesai/terverifikasi lokal; backend memvalidasi stage milik project dan Pengawas assigned, tanpa mengubah `Project.verifiedProgress`.
   - Jurnal Mandor: **Local E2E Workflow v1 / UI Consistency Stabilized**. Pengawas review Weekly Journal secara administratif; approval jurnal tidak otomatis mengubah `Project.verifiedProgress`.
   - Laporan Mingguan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot `Project.verifiedProgress` saat laporan dibuat.
   - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
@@ -69,6 +70,7 @@ Status: **Database-Backed v2**
 **Behavior UI:**
 - **Dashboard**: Statistik rill dari database, dengan sisa demo activity/stat yang masih boleh dibersihkan terpisah.
 - **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
+- **Project Stage Completion**: **Local Workflow v1 / Stabilized** untuk aksi Pengawas assigned pada detail proyek; bukan progress resmi proyek dan tidak memanggil `recalculateProjectVerifiedProgress`.
 - **Konsumen & Design Flow**: Customer data, Design Request management, tender publish/award, dan manual bridge to project draft/planning lokal: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **Project Bridge Boundary**: Convert-to-project hanya membuat project draft/planning lokal. Tidak ada aktivasi otomatis, kontrak legal, payment/escrow, upload file production, marketplace production, atau tender production.
 - **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
@@ -89,7 +91,7 @@ Status: **Partial / DB-Backed Local CRUD**
 - **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
 - **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
 - **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
-- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global, Proyek Aktif Global, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
+- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global, Proyek Aktif Global, stage completion lokal, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Weekly Report Monitoring**: Audit Laporan Pengawas membaca Supervisor Weekly Report lokal secara read-only; Superadmin tidak review, publish, atau mengubah progress resmi.
 - **Material Request Monitoring**: Material Request from RAB Usage berstatus **Local Workflow v1 / Stabilized** untuk read-only monitoring lintas proyek; Superadmin tidak review, approval, distribusi, confirm received, atau mengubah progress resmi.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
@@ -100,6 +102,7 @@ Status: **Partial / DB-Backed Local CRUD**
 Status: **Database-Backed v1**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
 - **Dashboard & Monitoring**: Dashboard, project filter by `customerId`, ProjectStage, `Project.verifiedProgress` resmi, dan ProjectStagePublicComment sudah API-backed untuk localhost. Konsumen hanya melihat progress resmi, bukan mengubah atau memverifikasi progress.
+- **Stage Status Boundary**: Stage selesai/terverifikasi lokal dapat tampil sebagai status tahapan, tetapi bukan progress resmi proyek; `Project.verifiedProgress` tetap berasal dari Verifikasi Progres.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.

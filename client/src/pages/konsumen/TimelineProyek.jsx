@@ -148,10 +148,12 @@ const TimelineProyek = () => {
       maximumFractionDigits: 0,
     }).format(value);
 
+  const [activePhase, setActivePhase] = useState("construction"); // "design" or "construction"
+
   return (
     <div className="min-h-screen bg-neutral-20 pb-20">
       {/* 1. Project Hero Section */}
-      <section className="relative h-[450px] overflow-hidden rounded-b-[40px] md:rounded-b-[60px] shadow-2xl">
+      <section className="relative h-[480px] overflow-hidden rounded-b-[40px] md:rounded-b-[60px] shadow-2xl">
         <img 
           src={project.heroImage || "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=2070"} 
           alt={project.name} 
@@ -166,11 +168,15 @@ const TimelineProyek = () => {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-wrap items-center gap-3"
             >
-              <span className="px-4 py-1.5 bg-teal-600 text-white text-[10px] font-bold rounded-full shadow-lg uppercase tracking-wider">
-                Proyek {project.status}
+              <span className={`px-4 py-1.5 text-white text-[10px] font-black rounded-full shadow-lg uppercase tracking-wider ${
+                ['active', 'ongoing', 'Berjalan'].includes(project.status) ? "bg-emerald-600" :
+                ['finished', 'Selesai'].includes(project.status) ? "bg-blue-600" : "bg-amber-500"
+              }`}>
+                {['active', 'ongoing', 'Berjalan'].includes(project.status) ? "Operasional Aktif" : 
+                 ['finished', 'Selesai'].includes(project.status) ? "Proyek Selesai" : "Fase Persiapan"}
               </span>
-              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md text-white text-[10px] font-bold rounded-full border border-white/20 uppercase tracking-wider">
-                {project.type}
+              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 uppercase tracking-wider">
+                {project.type || "Pembangunan"}
               </span>
             </motion.div>
 
@@ -178,7 +184,7 @@ const TimelineProyek = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-3xl md:text-5xl font-black leading-tight"
+              className="text-4xl md:text-6xl font-black leading-tight tracking-tighter"
             >
               {project.name}
             </motion.h1>
@@ -187,13 +193,13 @@ const TimelineProyek = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex flex-wrap items-center gap-6 text-sm font-medium text-white/90"
+              className="flex flex-wrap items-center gap-6 text-sm font-bold text-white/90"
             >
               <div className="flex items-center gap-2">
                 <FiMapPin className="text-teal-400" /> {project.location}
               </div>
               <div className="flex items-center gap-2">
-                <FiCalendar className="text-teal-400" /> Mulai: {project.startDate}
+                <FiCalendar className="text-teal-400" /> Kontrak: {project.startDate}
               </div>
               <div className="flex items-center gap-2">
                 <FiClock className="text-teal-400" /> Estimasi: {project.estimatedEndDate}
@@ -205,54 +211,112 @@ const TimelineProyek = () => {
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
               transition={{ delay: 0.3, duration: 1 }}
-              className="pt-4"
+              className="pt-6"
             >
               <div className="flex justify-between items-end mb-2">
-                <span className="text-sm font-bold text-white uppercase tracking-widest">Progress Resmi (Verified)</span>
-                <span className="text-2xl font-black text-teal-400">{project.verifiedProgress}%</span>
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] opacity-80">Transparansi Progres</span>
+                  <p className="text-sm font-black text-white uppercase tracking-widest">Progress Resmi (Verified Pengawas)</p>
+                </div>
+                <span className="text-4xl font-black text-teal-400">{project.verifiedProgress}%</span>
               </div>
-              <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/20 backdrop-blur-sm shadow-inner">
+              <div className="w-full h-5 bg-white/10 rounded-full overflow-hidden p-1 border border-white/20 backdrop-blur-sm shadow-inner">
                 <motion.div 
-                  className="h-full bg-teal-500 rounded-full shadow-[0_0_15px_rgba(20,184,166,0.5)]"
+                  className="h-full bg-teal-500 rounded-full shadow-[0_0_20px_rgba(20,184,166,0.6)] relative overflow-hidden"
                   initial={{ width: 0 }}
                   animate={{ width: `${project.verifiedProgress}%` }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
-                />
+                >
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                </motion.div>
               </div>
+              <p className="text-[10px] text-white/60 italic font-medium mt-3 flex items-center gap-2">
+                <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan.
+              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {project.status === 'Selesai' && (
+      {/* PHASE SELECTOR */}
+      <div className="max-w-6xl mx-auto px-6 mt-12">
+        <div className="bg-white p-2 rounded-3xl border border-neutral-30 shadow-sm flex items-center gap-2 w-full md:w-fit">
+          <button 
+            onClick={() => setActivePhase("design")}
+            className={`flex-1 md:flex-none px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${
+              activePhase === "design" ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20" : "text-neutral-50 hover:bg-neutral-10"
+            }`}
+          >
+            <FiPenTool size={16} /> Fase Desain
+          </button>
+          <button 
+            onClick={() => setActivePhase("construction")}
+            className={`flex-1 md:flex-none px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${
+              activePhase === "construction" ? "bg-teal-600 text-white shadow-lg shadow-teal-600/20" : "text-neutral-50 hover:bg-neutral-10"
+            }`}
+          >
+            <FiActivity size={16} /> Fase Konstruksi
+          </button>
+        </div>
+      </div>
+
+      {activePhase === "design" ? (
         <div className="max-w-6xl mx-auto px-6 mt-8">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-r from-teal-600 to-teal-500 text-white p-8 rounded-[40px] shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white p-12 rounded-[40px] border border-neutral-30 shadow-xl text-center space-y-6"
           >
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center backdrop-blur-xl border border-white/30">
-                <FiCheckCircle size={40} />
-              </div>
-              <div>
-                <h3 className="text-2xl font-black tracking-tight uppercase">Pekerjaan Selesai</h3>
-                <p className="text-sm font-bold opacity-80 uppercase tracking-widest mt-1">Fase Konstruksi Lapangan Berakhir</p>
-              </div>
+            <div className="w-24 h-24 bg-indigo-50 rounded-[32px] flex items-center justify-center text-indigo-600 mx-auto border border-indigo-100">
+              <FiPenTool size={48} />
             </div>
-            <div className="md:text-right space-y-2 max-w-md">
-              <p className="text-xs font-bold leading-relaxed opacity-90 italic">
-                "Seluruh tahapan pembangunan dalam kontrak ini telah dinyatakan selesai secara operasional. Terima kasih telah mempercayakan impian hunian Anda kepada RumahKu Konstruksi."
+            <div className="max-w-md mx-auto space-y-2">
+              <h3 className="text-2xl font-black text-neutral-100 uppercase tracking-tight">Timeline & Kolaborasi Desain</h3>
+              <p className="text-sm text-neutral-60 leading-relaxed">
+                Pantau proses perancangan, revisi gambar kerja, hingga persetujuan draft RAB dalam satu alur kolaborasi terpadu.
               </p>
-              <div className="pt-2">
-                <span className="px-4 py-1 bg-white text-teal-600 text-[10px] font-black uppercase rounded-full tracking-widest shadow-lg">
-                  Local Completion Verified
-                </span>
-              </div>
+            </div>
+            <div className="pt-6">
+              <Link 
+                to="/konsumen/design-request"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20 hover:scale-[1.02] transition-all"
+              >
+                Buka Detail & Timeline Desain <FiArrowRight />
+              </Link>
             </div>
           </motion.div>
         </div>
-      )}
+      ) : (
+        <>
+          {project.status === 'Selesai' && (
+            <div className="max-w-6xl mx-auto px-6 mt-8">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-linear-to-r from-blue-700 to-blue-500 text-white p-8 rounded-[40px] shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/20"
+              >
+                <div className="flex items-center gap-6">
+                  <div className="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center backdrop-blur-xl border border-white/30">
+                    <FiCheckCircle size={40} />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black tracking-tight uppercase">Pekerjaan Selesai</h3>
+                    <p className="text-sm font-bold opacity-80 uppercase tracking-widest mt-1">Fase Konstruksi Lapangan Berakhir</p>
+                  </div>
+                </div>
+                <div className="md:text-right space-y-2 max-w-md">
+                  <p className="text-xs font-bold leading-relaxed opacity-90 italic">
+                    "Seluruh tahapan pembangunan dalam kontrak ini telah dinyatakan selesai secara operasional. Terima kasih telah mempercayakan impian hunian Anda kepada RumahKu Konstruksi."
+                  </p>
+                  <div className="pt-2">
+                    <span className="px-4 py-1 bg-white text-blue-600 text-[10px] font-black uppercase rounded-full tracking-widest shadow-lg">
+                      Local History Mode
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
 
       <div className="max-w-6xl mx-auto px-6 -mt-12 relative z-10 space-y-12">
         {/* 2. Summary Cards Grid */}

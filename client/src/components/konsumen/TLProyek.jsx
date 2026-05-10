@@ -102,70 +102,76 @@ const TLProyek = ({ timeline = [] }) => {
                           </div>
                         )}
                       </div>
-                    )}
-
-                    {/* Task preview */}
-                    <div className="space-y-3 bg-neutral-10/50 p-4 rounded-2xl border border-neutral-30/50">
+                                        {/* Task preview */}
+                    <div className="space-y-3 bg-neutral-10/50 p-5 rounded-2xl border border-neutral-30/50 shadow-inner">
                       <div className="flex justify-between items-center">
-                        <p className="text-[10px] font-black text-neutral-50 uppercase tracking-[0.1em]">Rincian Item Pekerjaan</p>
+                        <p className="text-[10px] font-black text-neutral-50 uppercase tracking-[0.2em]">Item Pekerjaan Terdaftar</p>
                         {stage.tasks?.length > 0 && (
-                          <span className="text-[9px] font-bold bg-neutral-20 px-2 py-0.5 rounded-full text-neutral-60">
+                          <span className="text-[10px] font-black bg-neutral-20 px-2 py-0.5 rounded-lg text-neutral-60 uppercase tracking-tighter">
                             {stage.tasks.length} Item
                           </span>
                         )}
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-2.5">
                         {Array.isArray(stage.tasks) && stage.tasks.length > 0 ? (
                           stage.tasks.slice(0, 4).map((task, i) => (
-                            <li key={i} className="flex items-start gap-2.5 text-xs text-neutral-70 leading-relaxed">
-                              <div className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${stage.status === "verified" ? "bg-success-main" : "bg-primary-main/40"}`} />
-                              <span className="font-medium">{task}</span>
+                            <li key={i} className="flex items-start gap-3 text-xs text-neutral-80 leading-relaxed font-bold">
+                              <div className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${stage.status === "verified" ? "bg-success-main shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-primary-main/30"}`} />
+                              <span>{task}</span>
                             </li>
                           ))
                         ) : (
-                          <li className="text-xs text-neutral-50 italic pl-4 border-l-2 border-neutral-30">
-                            {stage.description || stage.note || "Kategori tersedia, tetapi rincian item pekerjaan belum dimuat."}
+                          <li className="text-xs text-neutral-50 italic pl-4 border-l-2 border-neutral-20 py-1">
+                            {stage.description || "Kategori tersedia, tetapi rincian item teknis belum dimuat dari RAB."}
                           </li>
                         )}
                         {Array.isArray(stage.tasks) && stage.tasks.length > 4 && (
-                          <li className="text-[10px] font-bold text-primary-main pl-4 flex items-center gap-1">
-                            <FiChevronRight size={10} /> Lihat {stage.tasks.length - 4} rincian lainnya pada detail
+                          <li className="text-[10px] font-black text-primary-main pl-4 flex items-center gap-1 uppercase tracking-widest pt-1">
+                            <FiChevronRight size={12} /> {stage.tasks.length - 4} Item lainnya pada detail
                           </li>
                         )}
                       </ul>
                     </div>
 
                     {/* Progress bar */}
-                    <div className="space-y-2">
+                    <div className="space-y-3 pt-2">
                       <div className="flex justify-between items-end">
-                        <div>
-                          <p className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">Capaian Tahap</p>
-                          <p className="text-xs font-bold text-neutral-90">{stage.status === 'verified' ? 'Terverifikasi 100%' : 'Progres Berjalan'}</p>
+                        <div className="space-y-0.5">
+                          <p className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">Progress Tahap</p>
+                          <p className="text-xs font-black text-neutral-90 italic">
+                            {stage.status === 'verified' ? 'Tervalidasi 100% (Final)' : 'Operasional Berjalan'}
+                          </p>
                         </div>
-                        <span className={`text-lg font-black ${stage.status === 'verified' ? 'text-success-main' : 'text-primary-main'}`}>{stage.progress}%</span>
+                        <span className={`text-2xl font-black ${stage.status === 'verified' ? 'text-success-main' : 'text-primary-main'}`}>{stage.progress}%</span>
                       </div>
-                      <div className="w-full h-2.5 bg-neutral-20 rounded-full overflow-hidden p-0.5 border border-neutral-30/50 shadow-inner">
+                      <div className="w-full h-3 bg-neutral-20 rounded-full overflow-hidden p-0.5 border border-neutral-30/50 shadow-inner">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${stage.progress}%` }}
                           transition={{ duration: 1, ease: "easeOut" }}
-                          className={`h-full rounded-full shadow-sm ${stage.status === "verified" ? "bg-success-main" : "bg-primary-main"}`}
-                        />
+                          className={`h-full rounded-full relative overflow-hidden ${stage.status === "verified" ? "bg-success-main shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "bg-primary-main shadow-[0_0_12px_rgba(13,148,136,0.3)]"}`}
+                        >
+                           <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+                        </motion.div>
                       </div>
                     </div>
 
                     {/* Footer */}
-                    <div className="pt-4 border-t border-neutral-30 flex flex-wrap items-center justify-between gap-3">
+                    <div className="pt-5 border-t border-neutral-30 flex flex-wrap items-center justify-between gap-4">
                       <div>
                         {isVerified && (
-                          <div className="flex items-center gap-1.5 text-xs font-bold text-success-main">
-                            <FiCheckCircle size={13} /> Verified by {stage.verification.verifiedBy}
+                          <div className="flex items-center gap-2 text-xs font-black text-success-main uppercase tracking-tight">
+                            <div className="w-6 h-6 rounded-full bg-success-main/10 flex items-center justify-center">
+                              <FiCheckCircle size={14} />
+                            </div>
+                            Verified by {stage.verification.verifiedBy}
                           </div>
                         )}
                         {!isVerified && stage.note && (
-                          <p className="text-xs text-neutral-50 italic max-w-[200px] truncate">"{stage.note}"</p>
+                          <p className="text-xs text-neutral-50 italic max-w-[200px] truncate font-medium">"{stage.note}"</p>
                         )}
                       </div>
+iv>
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/konsumen/timeline-proyek/${detailId}`}

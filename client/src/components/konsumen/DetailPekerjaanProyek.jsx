@@ -246,25 +246,21 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                       <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-blue-600 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden">
                                         <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full object-cover" alt="Mandor" />
                                       </div>
-                                      <div className="bg-white p-3 rounded-xl border-l-4 border-l-blue-500 border-y border-r border-neutral-30 shadow-sm max-w-2xl">
-                                        <div className="flex justify-between items-start mb-1">
+                                      <div className="bg-white p-4 rounded-2xl border-l-4 border-l-blue-500 border-y border-r border-neutral-30 shadow-sm max-w-2xl group/evidence transition-all hover:shadow-md">
+                                        <div className="flex justify-between items-start mb-2">
                                           <div className="flex items-center gap-2">
                                             <span className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Bukti Lapangan</span>
                                             <span className="text-[9px] font-bold bg-blue-50 text-blue-500 px-1.5 py-0.5 rounded uppercase tracking-tighter">Mandor</span>
                                           </div>
-                                          <span className="text-[9px] text-neutral-40">{new Date(act.createdAt).toLocaleDateString('id-ID')}</span>
+                                          <span className="text-[9px] text-neutral-40 font-bold">{new Date(act.createdAt).toLocaleDateString('id-ID')}</span>
                                         </div>
-                                        <p className="text-xs font-bold text-neutral-80">{act.workTitle}</p>
-                                        <p className="text-xs text-neutral-60 mt-1 leading-relaxed">{act.description}</p>
-                                        {act.notes && (
-                                          <p className="text-[10px] text-neutral-50 italic mt-2 border-t border-neutral-10 pt-2 flex items-center gap-1">
-                                            <FiInfo size={10} /> Catatan: {act.notes}
-                                          </p>
-                                        )}
+                                        <p className="text-xs font-black text-neutral-80 group-hover/evidence:text-blue-700 transition-colors">{act.workTitle}</p>
+                                        <p className="text-xs text-neutral-60 mt-1.5 leading-relaxed">{act.description}</p>
+                                        
                                         {act.photos?.length > 0 && (
-                                          <div className="mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                                          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                                             {act.photos.map((photo, pi) => (
-                                              <div key={pi} className="w-20 h-14 rounded-lg bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden group/img relative">
+                                              <div key={pi} className="w-24 h-16 rounded-xl bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden group/img relative shadow-inner">
                                                 <img src={photo.photoUrl} className="w-full h-full object-cover transition-transform group-hover/img:scale-110" alt="Foto bukti" />
                                                 <div className="absolute inset-0 bg-black/5 opacity-0 group-hover/img:opacity-100 transition-opacity" />
                                               </div>
@@ -274,33 +270,25 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                       </div>
                                     </div>
                                   ))}
-
+ 
                                   {/* Supervisor Notes */}
                                   {item.notes?.map((note) => (
                                     <div key={note.id} className="relative pl-8">
                                       <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden">
                                         <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full object-cover" alt="Pengawas" />
                                       </div>
-                                      <div className="bg-amber-50/30 p-3 rounded-xl border-l-4 border-l-amber-500 border-y border-r border-amber-200 shadow-sm max-w-2xl">
-                                        <div className="flex justify-between items-start mb-1">
+                                      <div className="bg-amber-50/30 p-4 rounded-2xl border-l-4 border-l-amber-500 border-y border-r border-amber-200 shadow-sm max-w-2xl group/review transition-all hover:shadow-md">
+                                        <div className="flex justify-between items-start mb-2">
                                           <div className="flex items-center gap-2">
                                             <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Review Kualitas</span>
                                             <span className="text-[9px] font-bold bg-amber-100 text-amber-600 px-1.5 py-0.5 rounded uppercase tracking-tighter">Pengawas</span>
                                           </div>
-                                          <span className="text-[9px] text-amber-600/60">{new Date(note.createdAt).toLocaleDateString('id-ID')}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                          <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase ${
-                                            note.severity === 'critical' ? 'bg-red-500 text-white' :
-                                            note.severity === 'high' ? 'bg-red-100 text-red-600' :
-                                            'bg-amber-100 text-amber-600'
-                                          }`}>
-                                            Status: {note.severity || 'Normal'}
-                                          </span>
+                                          <span className="text-[9px] text-amber-600/60 font-bold">{new Date(note.createdAt).toLocaleDateString('id-ID')}</span>
                                         </div>
                                         <p className="text-xs font-bold text-amber-900 leading-relaxed italic">"{note.content}"</p>
+                                        
                                         {note.progress !== null && (
-                                          <div className="mt-2 flex items-center gap-3">
+                                          <div className="mt-3 flex items-center gap-3 bg-white/50 p-2 rounded-xl border border-amber-100/50">
                                             <div className="flex-1 h-1 bg-amber-200 rounded-full overflow-hidden">
                                               <div className="h-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ width: `${note.progress}%` }} />
                                             </div>
@@ -310,28 +298,34 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                       </div>
                                     </div>
                                   ))}
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </React.Fragment>
-                    ))
-                  ) : (
-                  ) : (
-                    <tr>
-                      <td colSpan={9} className="px-4 py-16 text-center space-y-3 bg-neutral-10/30">
-                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto text-neutral-30 shadow-sm border border-neutral-30/50">
-                          <FiFileText size={24} />
-                        </div>
-                        <div>
-                          <p className="text-xs font-bold text-neutral-60 uppercase tracking-widest">Belum Ada Rincian Item</p>
-                          <p className="text-[10px] text-neutral-50 italic mt-1 max-w-xs mx-auto leading-relaxed">
-                            Rincian pekerjaan untuk kategori ini sedang disinkronkan dari RAB utama. Silakan hubungi Admin jika data tidak muncul.
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+
+                                  {(item.activities?.length === 0 && item.notes?.length === 0) && (
+                                    <div className="pl-8 flex items-center gap-3">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-30"></div>
+                                      <p className="text-[10px] text-neutral-40 font-bold italic">Item pekerjaan ini sudah terdaftar di RAB, tetapi belum memiliki update lapangan yang dipublikasikan untuk Konsumen.</p>
+                                    </div>
+                                  )}
+                               </div>
+                             </td>
+                           </tr>
+                         )}
+                       </React.Fragment>
+                     ))
+                   ) : (
+                     <tr>
+                       <td colSpan={9} className="px-4 py-16 text-center space-y-3 bg-neutral-10/30">
+                         <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto text-neutral-30 shadow-sm border border-neutral-30/50">
+                           <FiFileText size={24} />
+                         </div>
+                         <div>
+                           <p className="text-xs font-black text-neutral-60 uppercase tracking-widest">Belum Ada Rincian Item</p>
+                           <p className="text-[10px] text-neutral-50 italic mt-1 max-w-xs mx-auto leading-relaxed font-bold">
+                             Kategori pekerjaan tersedia, namun rincian item teknis dan bukti lapangan belum dipublikasikan ke timeline publik.
+                           </p>
+                         </div>
+                       </td>
+                     </tr>
+                   )}
                 </tbody>
                 <tfoot>
                   <tr className="bg-neutral-20 font-bold text-neutral-90 border-t-2 border-neutral-40">

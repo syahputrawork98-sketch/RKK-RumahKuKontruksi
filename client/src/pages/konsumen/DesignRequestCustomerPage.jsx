@@ -157,16 +157,34 @@ const DesignRequestCustomerPage = () => {
         <div className="animate-fadeIn space-y-8 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h2 className="text-3xl font-black tracking-tight text-gray-800">Permintaan Desain (Local Draft)</h2>
-                    <p className="text-sm text-gray-500 mt-1">Simulasikan pengajuan brief desain arsitektur Anda dalam fase Local Development.</p>
+                    <h2 className="text-3xl font-black tracking-tight text-gray-800">Kolaborasi & Fase Desain</h2>
+                    <p className="text-sm text-gray-500 mt-1">Kelola kebutuhan desain, gambar kerja, dan revisi sebelum memasuki fase konstruksi lapangan.</p>
                 </div>
-                <button 
-                    onClick={handleOpenForm}
-                    className="flex items-center justify-center gap-3 px-6 py-3.5 bg-teal-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-teal-600/20 hover:scale-[1.02] transition-all"
-                >
-                    <FiPlus size={20} />
-                    Buat Draft Permintaan
-                </button>
+                <div className="flex items-center gap-3">
+                    <div className="hidden md:flex flex-col items-end mr-4">
+                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Status Kolaborasi</span>
+                        <span className="text-xs font-bold text-gray-500">Local Workflow v1</span>
+                    </div>
+                    <button 
+                        onClick={handleOpenForm}
+                        className="flex items-center justify-center gap-3 px-6 py-3.5 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20 hover:scale-[1.02] transition-all"
+                    >
+                        <FiPlus size={20} />
+                        Buat Brief Desain Baru
+                    </button>
+                </div>
+            </div>
+
+            <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex items-start gap-4">
+                <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 shrink-0">
+                    <FiPenTool size={20} />
+                </div>
+                <div>
+                    <h4 className="text-xs font-black text-indigo-800 uppercase tracking-tight">ALUR KOLABORASI DESAIN</h4>
+                    <p className="text-[10px] text-indigo-700 leading-relaxed font-bold mt-0.5">
+                        Fase desain melibatkan diskusi intensif antara Anda, Arsitek, dan Admin. Seluruh riwayat revisi dan dokumen gambar kerja akan tercatat pada timeline di bawah ini.
+                    </p>
+                </div>
             </div>
 
             <div className="bg-white p-6 md:p-8 rounded-[32px] border border-gray-100 shadow-sm">

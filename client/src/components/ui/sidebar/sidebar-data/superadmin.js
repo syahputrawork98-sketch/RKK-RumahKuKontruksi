@@ -24,7 +24,7 @@ export default [
     {
         type: "dropdown",
         icon: FiUsers,
-        label: "Data Master",
+        label: "Direktori Persona",
         activeStartsWith: "/superadmin/data-",
         items: [
             { label: "Admin", href: "/superadmin/data-admin" },
@@ -75,7 +75,7 @@ export default [
     {
         type: "item",
         icon: FiActivity,
-        label: "Audit Aktivitas",
+        label: "Audit & Approval",
         href: "/superadmin/log-aktivitas",
     },
     {

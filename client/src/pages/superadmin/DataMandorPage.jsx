@@ -41,12 +41,12 @@ export default function DataMandorPage() {
     <div className="animate-fadeIn">
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="dashboard-title text-4xl font-black text-[var(--dashboard-text)]">Manajemen Mandor</h1>
-          <p className="dashboard-subtitle text-lg">Kelola daftar persona lokal dan database mitra mandor pelaksana untuk simulasi operasional lapangan.</p>
+          <h1 className="dashboard-title text-4xl font-black text-[var(--dashboard-text)]">Direktori Persona Mandor</h1>
+          <p className="dashboard-subtitle text-lg italic">Manajemen direktori persona lokal untuk role Mandor. Superadmin mengelola entitas database ini untuk simulasi operasional di localhost.</p>
         </div>
-        <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
-          <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-          <span className="text-xs font-black text-blue-700 uppercase tracking-widest">{dataMandor.length} Persona Mandor</span>
+        <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200">
+          <span className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></span>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Local Persona Directory</span>
         </div>
       </div>
 

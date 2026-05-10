@@ -41,12 +41,12 @@ export default function DataAdminPage() {
     <div className="animate-fadeIn">
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="dashboard-title text-4xl">Manajemen Admin</h1>
-          <p className="dashboard-subtitle text-lg">Kelola daftar persona lokal dan akun simulasi administrator untuk kebutuhan sinkronisasi database localhost.</p>
+          <h1 className="dashboard-title text-4xl">Direktori Persona Admin</h1>
+          <p className="dashboard-subtitle text-lg italic">Manajemen direktori persona lokal administrator. Superadmin mengelola entitas database ini untuk kebutuhan simulasi operasional di localhost.</p>
         </div>
-        <div className="flex items-center gap-2 bg-[var(--dashboard-primary-soft)] px-4 py-2 rounded-xl border border-[var(--dashboard-primary)]/10">
-          <span className="w-2 h-2 bg-[var(--dashboard-primary)] rounded-full animate-pulse"></span>
-          <span className="text-xs font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{dataAdmin.length} Persona Admin</span>
+        <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200">
+          <span className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></span>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Local Persona Directory</span>
         </div>
       </div>
 

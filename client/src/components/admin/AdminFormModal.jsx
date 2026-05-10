@@ -45,7 +45,7 @@ export default function AdminFormModal({ isOpen, onClose, onSubmit, initialData 
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                        {initialData ? "Edit Persona Admin" : "Tambah Persona Admin Lokal"}
+                        {initialData ? "Edit Persona Lokal" : "Daftarkan Persona Admin Lokal"}
                     </h2>
                     <button
                         onClick={onClose}
@@ -127,10 +127,16 @@ export default function AdminFormModal({ isOpen, onClose, onSubmit, initialData 
                             type="submit"
                             className="flex-1 px-4 py-3 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:opacity-90 transition-opacity"
                         >
-                            {initialData ? "Simpan" : "Tambah"}
+                            {initialData ? "Simpan Perubahan" : "Simpan Persona"}
                         </button>
                     </div>
                 </form>
+                
+                <div className="mt-6 pt-6 border-t border-[var(--dashboard-border-soft)]">
+                    <p className="text-[9px] font-bold text-[var(--dashboard-text-soft)] leading-relaxed uppercase italic">
+                        * Persona ini adalah entitas database lokal untuk simulasi. Tidak melibatkan sistem password, JWT, atau session production.
+                    </p>
+                </div>
             </div>
         </div>
     );

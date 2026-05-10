@@ -16,27 +16,30 @@ const LogAktivitasPage = () => {
             {/* HEADER */}
             <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="dashboard-title text-4xl">Audit & Log Aktivitas (Simulasi)</h1>
-                    <p className="dashboard-subtitle text-lg italic">Rencana audit trail untuk pemantauan aktivitas operasional user. *Fase Local CRUD - Feature Hold*</p>
+                    <h1 className="dashboard-title text-4xl">Pusat Audit & Approval Lokal</h1>
+                    <p className="dashboard-subtitle text-lg italic font-medium text-amber-600 underline decoration-amber-200">Rencana alur Audit Trail dan Profile Change Approval. *Fase Local CRUD - Feature Hold*</p>
                 </div>
                 <button className="dashboard-primary-button flex items-center gap-2 !bg-[var(--dashboard-surface)] !text-[var(--dashboard-text)] border border-[var(--dashboard-border)] shadow-sm opacity-50 cursor-not-allowed">
                     <FiDownload size={18} />
-                    <span>Ekspor Log Lokal</span>
+                    <span>Ekspor History Lokal</span>
                 </button>
             </div>
 
             {/* HOLD STATE CARD */}
-            <div className="dashboard-card flex flex-col items-center justify-center py-20 text-center border-dashed border-2 border-[var(--dashboard-border)]">
-                <div className="w-20 h-20 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-400 mb-6">
-                    <FiLock size={40} />
+            <div className="dashboard-card flex flex-col items-center justify-center py-24 text-center border-dashed border-2 border-[var(--dashboard-border)] bg-slate-50/50">
+                <div className="w-24 h-24 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-400 mb-8 shadow-inner border border-neutral-200">
+                    <FiLock size={48} />
                 </div>
-                <h2 className="text-xl font-bold text-neutral-700 mb-2">Modul Audit Log Ditahan</h2>
-                <p className="text-sm text-neutral-500 max-w-md mb-6">
-                    Sistem pencatatan aktivitas otomatis (Audit Trail) saat ini belum tersedia pada fase **Local Development CRUD Integration**.
+                <h2 className="text-2xl font-black text-neutral-800 mb-3 tracking-tighter uppercase">Modul Audit & Approval Ditahan</h2>
+                <p className="text-sm text-neutral-500 max-w-lg mb-8 leading-relaxed">
+                    Sistem pencatatan aktivitas otomatis (**Audit Log**) dan alur persetujuan perubahan identitas (**Profile Change Approval**) saat ini belum diaktifkan pada fase **Local Development CRUD Integration**.
                 </p>
-                <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-xl border border-amber-100">
-                    <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
-                    <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest">Status: Hold (Future Sprint)</span>
+                <div className="flex flex-col items-center gap-4">
+                    <div className="flex items-center gap-2 px-6 py-2.5 bg-amber-50 rounded-2xl border border-amber-200 shadow-sm">
+                        <span className="w-2.5 h-2.5 bg-amber-400 rounded-full animate-pulse"></span>
+                        <span className="text-xs font-black text-amber-700 uppercase tracking-widest">Status: Hold (Future Sprint)</span>
+                    </div>
+                    <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest">* Tidak ada perubahan database yang dicatat dalam log simulasi saat ini.</p>
                 </div>
             </div>
 

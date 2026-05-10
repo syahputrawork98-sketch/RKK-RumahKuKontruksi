@@ -60,7 +60,7 @@ export default function MandorFormModal({ isOpen, onClose, onSubmit, initialData
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                        {initialData ? "Edit Persona Mandor" : "Tambah Persona Mandor Lokal"}
+                        {initialData ? "Edit Persona Lokal" : "Daftarkan Persona Mandor Lokal"}
                     </h2>
                     <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-colors text-[var(--dashboard-text-soft)]">
                         <X size={20} />
@@ -183,10 +183,16 @@ export default function MandorFormModal({ isOpen, onClose, onSubmit, initialData
                             type="submit"
                             className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
                         >
-                            {initialData ? "Simpan Perubahan" : "Tambah Persona Mandor"}
+                            {initialData ? "Simpan Perubahan" : "Simpan Persona"}
                         </button>
                     </div>
                 </form>
+                
+                <div className="mt-6 pt-6 border-t border-[var(--dashboard-border-soft)] text-center">
+                    <p className="text-[9px] font-bold text-[var(--dashboard-text-soft)] leading-relaxed uppercase italic">
+                        * Persona ini adalah entitas database lokal untuk simulasi. Tidak melibatkan sistem password, JWT, atau session production.
+                    </p>
+                </div>
             </div>
         </div>
     );

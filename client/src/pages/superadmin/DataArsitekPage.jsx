@@ -40,16 +40,15 @@ export default function DataArsitekPage() {
   return (
     <div className="animate-fadeIn">
       {/* HEADER SECTION */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-2 h-8 bg-indigo-600 rounded-full"></div>
-          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)] uppercase">
-            DATA MASTER <span className="text-indigo-600">Arsitek</span>
-          </h1>
+      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="dashboard-title text-4xl font-black text-[var(--dashboard-text)]">Direktori Persona Arsitek</h1>
+          <p className="dashboard-subtitle text-lg italic">Manajemen direktori persona lokal untuk role Arsitek. Superadmin mengelola entitas database ini untuk simulasi operasional di localhost.</p>
         </div>
-        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed italic">
-          Kelola daftar persona lokal dan database mitra arsitek untuk simulasi kolaborasi desain dan sinkronisasi tender localhost.
-        </p>
+        <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200">
+          <span className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></span>
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Local Persona Directory</span>
+        </div>
       </div>
 
       {/* TABLE COMPONENT */}

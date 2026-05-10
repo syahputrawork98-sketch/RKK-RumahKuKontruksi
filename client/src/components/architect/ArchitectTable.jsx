@@ -57,7 +57,7 @@ export default function ArchitectTable({ data }) {
   };
 
   const handleDelete = async (architect) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona arsitek ${architect.name}? Akun lokal ini tidak akan dihapus permanen tetapi tidak akan bisa menerima pengajuan desain baru dalam simulasi.`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona arsitek ${architect.name}? Akun lokal ini tidak akan dihapus permanen dari database, tetapi akan ditandai sebagai tidak aktif dalam simulasi operasional.`)) return;
     try {
       await architectService.deleteArchitect(architect.id);
       setArchitects((prev) => prev.filter((item) => item.id !== architect.id));
@@ -127,7 +127,7 @@ export default function ArchitectTable({ data }) {
           className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-purple-700 transition-colors shadow-lg shadow-purple-600/20"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Persona Arsitek</span>
+          <span>Tambah Persona Lokal</span>
         </button>
       </div>
 

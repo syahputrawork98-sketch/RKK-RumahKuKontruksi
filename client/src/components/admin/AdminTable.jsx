@@ -50,7 +50,7 @@ export default function AdminTable({ data }) {
   };
 
   const handleDelete = async (admin) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona admin ${admin.name}? Akun lokal ini tidak akan dihapus permanen tetapi tidak akan muncul di monitoring operasional aktif.`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona admin ${admin.name}? Akun lokal ini tidak akan dihapus permanen dari database, tetapi akan ditandai sebagai tidak aktif dalam simulasi operasional.`)) return;
     try {
       await adminService.deleteAdmin(admin.id);
       setAdmins((prev) => prev.filter((item) => item.id !== admin.id));
@@ -107,7 +107,7 @@ export default function AdminTable({ data }) {
           className="dashboard-primary-button flex items-center justify-center gap-2 !py-3"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Persona Admin</span>
+          <span>Tambah Persona Lokal</span>
         </button>
       </div>
 

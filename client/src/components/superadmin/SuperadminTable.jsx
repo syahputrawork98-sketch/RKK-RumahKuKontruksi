@@ -40,7 +40,7 @@ export default function SuperadminTable({ data }) {
   };
 
   const handleDelete = async (admin) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona superadmin ${admin.name}? Akun lokal ini tidak akan terhapus permanen namun tidak bisa digunakan untuk masuk ke sistem simulasi. Ini bukan tindakan security/auth production.`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona superadmin ${admin.name}? Akun lokal ini tidak akan dihapus permanen dari database, tetapi akan ditandai sebagai tidak aktif dalam simulasi operasional.`)) return;
     try {
       const response = await superadminService.deleteSuperadmin(admin.id);
       if (response.success) {
@@ -117,7 +117,7 @@ export default function SuperadminTable({ data }) {
           className="flex items-center justify-center gap-2 px-6 py-3 bg-rose-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-700 transition-colors shadow-lg shadow-rose-600/20"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Persona Superadmin</span>
+          <span>Tambah Persona Lokal</span>
         </button>
       </div>
 

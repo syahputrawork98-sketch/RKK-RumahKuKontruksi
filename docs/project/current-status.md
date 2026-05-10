@@ -16,7 +16,7 @@
 | :--- | :--- | :--- |
 | **Health Check** | DONE | `/api/health` |
 | **Customers** | CRUD Available | Local API CRUD; profile Konsumen sudah API-backed via dev persona |
-| **Projects** | CRUD Available | Full Lifecycle (Create, Edit, Detail, Assignment) |
+| **Projects** | Local Workflow v1 / Stabilized | Full Lifecycle lokal: create/edit/detail/assignment, activation, stage completion, dan closeout lokal |
 | **Project Stages**| Local Workflow v1 / Stabilized | Plan-based stages plus Project Stage Completion lokal oleh Pengawas assigned |
 | **RAB** | Local CRUD v1 / Admin Builder Stabilized | Project RAB Builder untuk RAB Plan, RabCategory, dan RabItem sebagai baseline draft planning lokal |
 | **Supervisors** | CRUD Available | Profile plus Certificate & Work Experience Local CRUD v1 stabilized; Experience Read-Only summary tetap tersedia |
@@ -27,6 +27,7 @@
 | **Weekly Reports** | Local E2E Workflow v1 / UI Consistency Stabilized | Pengawas creates report with `verifiedProgressSnapshot`; Admin review/publish is administrative/customer-summary flow |
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Project Stage Completion** | Local Workflow v1 / Stabilized | Pengawas assigned menandai stage selesai/terverifikasi lokal; tidak mengubah `Project.verifiedProgress` |
+| **Project Lifecycle Completion Pack** | Local Workflow v1 / Stabilized | Admin complete project lokal, post-completion guard Mandor/Pengawas, dan reader status selesai |
 | **Material Requests**| Local Workflow v1 / Stabilized | Material Request from RAB Usage lokal: Mandor bisa memakai RabItem sebagai baseline material, Pengawas review, Admin distribusi lokal, Mandor confirm received |
 | **Verification** | Local Workflow v1 / Stabilized | Progress Verification from RAB/Stage Context; `Project.verifiedProgress` tetap progress resmi dan diisi manual oleh Pengawas assigned |
 | **Mandor/Pengawas Certificate & Work Experience** | Local CRUD v1 / Stabilized | Data sertifikat keahlian dan riwayat pengalaman kerja lokal/manual; bukan sertifikasi legal atau reputation marketplace |
@@ -48,6 +49,11 @@ Jika `stageId` dikirim, backend memvalidasi bahwa Stage tersebut milik project y
 Project Stage Completion sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: Pengawas assigned membuka detail proyek, menandai stage sebagai selesai lokal, lalu backend memvalidasi stage milik project dan Pengawas tersebut assigned ke project. Jika valid, stage berubah menjadi selesai/terverifikasi lokal melalui `PATCH /projects/:projectId/stages/:stageId`.
 
 Stage completion bukan progress resmi proyek dan tidak mengubah `Project.verifiedProgress`; progress resmi tetap melalui Verifikasi Progres. Flow ini tidak memanggil `recalculateProjectVerifiedProgress`, tidak mengubah `RabItem.progress`, tidak otomatis menyelesaikan Material Request, dan tidak membuka payment, legal, auth, atau deployment production.
+
+## Project Lifecycle Completion Context
+Project Lifecycle Completion Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Batch ini mencakup tiga fitur utama: Admin complete project lokal, Mandor/Pengawas post-completion guard, dan reader status selesai untuk Konsumen/Admin/Superadmin. Complete project dijalankan Admin melalui `PATCH /projects/:id/complete`.
+
+Closeout lokal memvalidasi project harus `Berjalan`, `Project.verifiedProgress` wajib 100%, semua stage wajib selesai, dan tidak ada Material Request aktif. Jika closeout valid, project masuk status selesai lokal; Mandor/Pengawas tetap bisa membaca histori, tetapi action lapangan baru ditahan setelah project selesai. Closeout lokal tidak mengubah `Project.verifiedProgress`; progress resmi tetap berasal dari Verifikasi Progres. Ini bukan BAST/legal handover, bukan invoice/payment/escrow, bukan sertifikat resmi, dan bukan lifecycle/legal production.
 
 ## RAB & Work Reporting Context
 Project RAB Builder sudah berstatus **Local CRUD v1 / Admin Builder Stabilized**. Struktur lokalnya: `Project` -> `RAB Plan` -> `RabCategory`/kategori pekerjaan -> `RabItem`/item pekerjaan. RAB menjadi baseline draft planning lokal untuk scope dan estimasi pekerjaan, bukan kontrak final, invoice, payment, escrow, atau dokumen legal production. Admin dapat CRUD lokal RAB plan/category/item; delete guard menolak hapus `RabItem` yang sudah dipakai Material Request atau Weekly Journal, dan menolak hapus `RabCategory` yang masih memiliki item.

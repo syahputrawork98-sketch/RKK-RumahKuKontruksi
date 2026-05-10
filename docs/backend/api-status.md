@@ -35,6 +35,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `GET /projects/:id/rab`: Ambil data RAB proyek.
 - `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas assigned (Progress SOT).
 - `PATCH /projects/:id/activate`: Aktivasi proyek dari `planning` menjadi `Berjalan` jika readiness checklist terpenuhi.
+- `PATCH /projects/:id/complete`: Complete project lokal setelah closeout validation terpenuhi.
 - `GET /projects/:id/progress-history`: Riwayat verifikasi progres proyek.
 
 **Catatan Konsumen Monitoring**:
@@ -64,6 +65,15 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Endpoint aktivasi tersedia untuk local CRUD integration dan tetap memakai dev persona/adminId lokal, bukan RBAC production.
 - Backend menolak aktivasi jika customer, pengawas, mandor, stage, RAB plan, total RAB, atau tanggal jadwal belum lengkap.
 - Aktivasi tidak membuat RAB, stage, assignment, pembayaran, atau dokumen legal otomatis.
+
+**Catatan Project Lifecycle Completion Pack**:
+- **Status**: *Project Lifecycle Completion Pack = Local Workflow v1 / Stabilized*.
+- Batch ini mencakup Admin complete project lokal, Mandor/Pengawas post-completion guard, dan reader status selesai untuk Konsumen/Admin/Superadmin.
+- Complete project memakai `PATCH /projects/:id/complete`.
+- Validasi closeout: project harus `Berjalan`, `Project.verifiedProgress` wajib 100%, semua stage wajib selesai, dan tidak ada Material Request aktif.
+- Closeout lokal tidak mengubah `Project.verifiedProgress`; progress resmi tetap melalui Verifikasi Progres.
+- Mandor/Pengawas tetap bisa membaca histori setelah project selesai, tetapi action lapangan baru ditahan.
+- Bukan BAST/legal handover, invoice/payment/escrow, sertifikat resmi, auth/deployment production, atau lifecycle/legal production.
 
 ## RAB Builder (Local CRUD v1 / Admin Builder Stabilized)
 - `GET /rab/project/:projectId`: Ambil RAB Plan proyek beserta `RabCategory` dan `RabItem`.
@@ -305,4 +315,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.
+- **Local Stabilized Status**: Project Lifecycle Completion Pack, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup BAST/legal handover, progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.

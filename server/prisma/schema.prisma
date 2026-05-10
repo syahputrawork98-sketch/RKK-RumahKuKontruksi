@@ -72,6 +72,7 @@ model Project {
   designRequests            DesignRequest[]
   stagePublicComments       ProjectStagePublicComment[]
   customerPaymentPlan       CustomerPaymentPlan?
+  foremanWeeklyPaymentEligibilities ForemanWeeklyPaymentEligibility[]
 
   @@map("projects")
 }
@@ -164,6 +165,7 @@ model Foreman {
   materialRequests   MaterialRequest[]
   projects           Project[]
   weeklyJournals     WeeklyJournal[]
+  paymentEligibilities ForemanWeeklyPaymentEligibility[]
 
   @@map("foremen")
 }
@@ -229,6 +231,7 @@ model ProjectStage {
   materialRequests     MaterialRequest[]
   journalActivities    WeeklyJournalActivity[]
   reportNotes          SupervisorWeeklyReportNote[]
+  foremanPaymentEligibilityItems ForemanWeeklyPaymentEligibilityItem[]
   project              Project                     @relation(fields: [projectId], references: [id])
   publicComments       ProjectStagePublicComment[]
 
@@ -297,6 +300,7 @@ model RabItem {
   rabPlan              RabPlan               @relation(fields: [rabPlanId], references: [id])
   journalActivities    WeeklyJournalActivity[]
   reportNotes          SupervisorWeeklyReportNote[]
+  foremanPaymentEligibilityItems ForemanWeeklyPaymentEligibilityItem[]
 
   @@map("rab_items")
 }
@@ -375,6 +379,7 @@ model Admin {
   updatedAt        DateTime          @updatedAt @map("updated_at")
   deletedAt        DateTime?         @map("deleted_at")
   materialRequests MaterialRequest[]
+  foremanWeeklyPaymentEligibilities ForemanWeeklyPaymentEligibility[]
   projects         Project[]
 
   @@map("admins")
@@ -513,6 +518,7 @@ model WeeklyJournal {
   reviewLogs               WeeklyJournalReviewLog[]
   supervisorReportLinks    SupervisorWeeklyReportJournal[]
   foreman                  Foreman                         @relation(fields: [foremanId], references: [id])
+  paymentEligibilities     ForemanWeeklyPaymentEligibility[]
   project                  Project                         @relation(fields: [projectId], references: [id], onDelete: Cascade)
   supervisor               Supervisor                      @relation(fields: [supervisorId], references: [id])
 
@@ -540,6 +546,7 @@ model WeeklyJournalActivity {
   weeklyJournal   WeeklyJournal        @relation(fields: [weeklyJournalId], references: [id], onDelete: Cascade)
   stage           ProjectStage?        @relation(fields: [projectStageId], references: [id])
   rabItem         RabItem?             @relation(fields: [rabItemId], references: [id])
+  paymentEligibilityItems ForemanWeeklyPaymentEligibilityItem[]
   photos          WeeklyJournalPhoto[]
 
   @@map("weekly_journal_activities")
@@ -598,6 +605,7 @@ model SupervisorWeeklyReport {
   recommendation String?
 
   adminNote            String? @map("admin_note")
+  paymentEligibilities ForemanWeeklyPaymentEligibility[]
   reviewedByAdminId    String? @map("reviewed_by_admin_id")
   customerSummaryDraft String? @map("customer_summary_draft")
 
@@ -872,3 +880,64 @@ model CustomerPaymentMilestone {
   @@map("customer_payment_milestones")
 }
 
+
+model ForemanWeeklyPaymentEligibility {
+  id               String   @id @default(cuid())
+  projectId        String   @map("project_id")
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  foremanId        String   @map("foreman_id")
+  foreman          Foreman  @relation(fields: [foremanId], references: [id])
+  weeklyJournalId  String?  @map("weekly_journal_id")
+  weeklyJournal    WeeklyJournal? @relation(fields: [weeklyJournalId], references: [id])
+  supervisorReportId String? @map("supervisor_report_id")
+  supervisorReport   SupervisorWeeklyReport? @relation(fields: [supervisorReportId], references: [id])
+  
+  weekNumber       Int?     @map("week_number")
+  periodStart      DateTime? @map("period_start")
+  periodEnd        DateTime? @map("period_end")
+  
+  status           String   @default("pending_review") // pending_review, eligible, partial, hold, correction_required, paid_simulated
+  
+  estimatedAmount  Decimal? @map("estimated_amount") @db.Decimal(15, 2)
+  approvedAmount   Decimal? @map("approved_amount") @db.Decimal(15, 2)
+  
+  adminNote        String?  @map("admin_note")
+  reviewedById     String?  @map("reviewed_by_id")
+  reviewedBy       Admin?   @relation(fields: [reviewedById], references: [id])
+  reviewedAt       DateTime? @map("reviewed_at")
+  paidAt           DateTime? @map("paid_at")
+  
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  items            ForemanWeeklyPaymentEligibilityItem[]
+
+  @@map("foreman_weekly_payment_eligibilities")
+}
+
+model ForemanWeeklyPaymentEligibilityItem {
+  id               String   @id @default(cuid())
+  eligibilityId    String   @map("eligibility_id")
+  eligibility      ForemanWeeklyPaymentEligibility @relation(fields: [eligibilityId], references: [id], onDelete: Cascade)
+  
+  rabItemId        String?  @map("rab_item_id")
+  rabItem          RabItem? @relation(fields: [rabItemId], references: [id])
+  projectStageId   String?  @map("project_stage_id")
+  projectStage     ProjectStage? @relation(fields: [projectStageId], references: [id])
+  
+  weeklyJournalActivityId String? @map("weekly_journal_activity_id")
+  weeklyJournalActivity   WeeklyJournalActivity? @relation(fields: [weeklyJournalActivityId], references: [id])
+  
+  description      String
+  status           String   @default("pending") // pending, verified, rejected
+  
+  estimatedAmount  Decimal? @map("estimated_amount") @db.Decimal(15, 2)
+  approvedAmount   Decimal? @map("approved_amount") @db.Decimal(15, 2)
+  
+  note             String?
+  
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("foreman_weekly_payment_eligibility_items")
+}

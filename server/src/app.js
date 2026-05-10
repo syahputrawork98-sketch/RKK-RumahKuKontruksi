@@ -18,6 +18,7 @@ import projectStageCommentRoutes from './modules/project-stage-public-comments/p
 import auditLogRoutes from './modules/audit-logs/audit-logs.routes.js';
 import profileChangeRequestRoutes from './modules/profile-change-requests/profile-change-requests.routes.js';
 import customerPaymentPlanRoutes from './modules/customer-payment-plans/customer-payment-plans.routes.js';
+import foremanPaymentEligibilityRoutes from './modules/foreman-payment-eligibility/foreman-payment-eligibility.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -49,6 +50,7 @@ app.use('/api/project-stage-comments', projectStageCommentRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
 app.use('/api/profile-change-requests', profileChangeRequestRoutes);
 app.use('/api/customer-payment-plans', customerPaymentPlanRoutes);
+app.use('/api/foreman-payment-eligibility', foremanPaymentEligibilityRoutes);
 
 // Error Handler
 app.use(errorHandler);

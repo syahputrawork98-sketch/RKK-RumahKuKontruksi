@@ -180,6 +180,25 @@ const VerifikasiProgresPengawasPage = () => {
                 </div>
             )}
 
+            {selectedProject?.status === 'Selesai' && (
+                <div className="bg-purple-600 text-white p-6 rounded-[2.5rem] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-purple-600/20 animate-slideDown">
+                    <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md">
+                            <FiCheckCircle size={28} />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black tracking-tight">Proyek Selesai Secara Lokal</h3>
+                            <p className="text-xs font-bold opacity-80 uppercase tracking-widest mt-0.5">Seluruh Akses Operasional Ditahan</p>
+                        </div>
+                    </div>
+                    <div className="text-right max-w-xs">
+                        <p className="text-[10px] font-black uppercase tracking-tighter leading-relaxed">
+                            Proyek telah ditutup oleh Admin. Data ini menjadi histori operasional lokal. Anda tidak dapat melakukan verifikasi progress baru.
+                        </p>
+                    </div>
+                </div>
+            )}
+
             {!selectedProject ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {projects.map((project) => (
@@ -245,9 +264,12 @@ const VerifikasiProgresPengawasPage = () => {
                                         min="0" 
                                         max="100" 
                                         step="0.1"
+                                        disabled={selectedProject.status === 'Selesai'}
                                         value={verifiedProgress}
                                         onChange={(e) => setVerifiedProgress(parseFloat(e.target.value))}
-                                        className="w-full h-2 bg-[var(--dashboard-surface-soft)] rounded-lg appearance-none cursor-pointer accent-[var(--dashboard-primary)]"
+                                        className={`w-full h-2 rounded-lg appearance-none cursor-pointer accent-[var(--dashboard-primary)] ${
+                                            selectedProject.status === 'Selesai' ? "bg-slate-200 opacity-50" : "bg-[var(--dashboard-surface-soft)]"
+                                        }`}
                                     />
                                     <div className="flex justify-between text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase">
                                         <span>Progres Sebelumnya: {selectedProject.verifiedProgress ?? 0}%</span>
@@ -281,9 +303,12 @@ const VerifikasiProgresPengawasPage = () => {
                                     </label>
                                     <textarea 
                                          value={notes}
+                                         disabled={selectedProject.status === 'Selesai'}
                                          onChange={(e) => setNotes(e.target.value)}
-                                         placeholder="Tuliskan temuan atau bukti fisik yang mendasari kenaikan progres ini..."
-                                         className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none min-h-[120px] transition-all"
+                                         placeholder={selectedProject.status === 'Selesai' ? "Proyek sudah selesai. Tidak dapat menambah catatan." : "Tuliskan temuan atau bukti fisik yang mendasari kenaikan progres ini..."}
+                                         className={`w-full p-4 rounded-2xl border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none min-h-[120px] transition-all ${
+                                            selectedProject.status === 'Selesai' ? "bg-slate-100 opacity-50 italic" : "bg-[var(--dashboard-surface-soft)]"
+                                         }`}
                                          required
                                      />
                                      <div className="flex justify-between items-center">
@@ -303,14 +328,14 @@ const VerifikasiProgresPengawasPage = () => {
                                 <div className="pt-4 flex gap-4">
                                     <button 
                                         type="submit"
-                                        disabled={submitting || verifiedProgress < selectedProject.verifiedProgress || notes.length < 10}
+                                        disabled={submitting || verifiedProgress < selectedProject.verifiedProgress || notes.length < 10 || selectedProject.status === 'Selesai'}
                                         className={`flex-1 py-4 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-lg ${
-                                            submitting || verifiedProgress < selectedProject.verifiedProgress || notes.length < 10
+                                            submitting || verifiedProgress < selectedProject.verifiedProgress || notes.length < 10 || selectedProject.status === 'Selesai'
                                             ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
                                             : "bg-[var(--dashboard-primary)] text-white hover:scale-[1.02] shadow-[var(--dashboard-primary)]/20"
                                         }`}
                                     >
-                                        {submitting ? "Memproses..." : <><FiCheckCircle /> Verifikasi Sekarang</>}
+                                        {submitting ? "Memproses..." : selectedProject.status === 'Selesai' ? "Read-Only: Selesai" : <><FiCheckCircle /> Verifikasi Sekarang</>}
                                     </button>
                                     <button 
                                         type="button"

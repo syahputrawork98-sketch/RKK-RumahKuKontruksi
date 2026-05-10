@@ -352,10 +352,10 @@ const RequestMaterialMandorPage = () => {
                                     />
                                     <button 
                                         onClick={handleConfirmReceipt}
-                                        disabled={actionLoading}
-                                        className="w-full py-5 bg-emerald-600 text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 active:scale-95 transition-all shadow-xl shadow-emerald-600/20 disabled:opacity-50"
+                                        disabled={actionLoading || selectedRequest.project?.status === 'Selesai'}
+                                        className="w-full py-5 bg-emerald-600 text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 active:scale-95 transition-all disabled:opacity-50"
                                     >
-                                        {actionLoading ? "Memproses..." : "Konfirmasi Terima di Lapangan"}
+                                        {actionLoading ? "Memproses..." : (selectedRequest.project?.status === 'Selesai' ? "HOLD: PROYEK SELESAI" : "Konfirmasi Terima di Lapangan")}
                                     </button>
                                 </>
                             ) : (

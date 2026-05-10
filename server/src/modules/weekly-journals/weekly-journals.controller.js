@@ -121,6 +121,14 @@ export const createWeeklyJournal = async (req, res, next) => {
       });
     }
 
+    // Project status check
+    if (project.status === 'Selesai') {
+      return res.status(400).json({
+        success: false,
+        message: 'Proyek ini sudah selesai secara lokal. Jurnal baru tidak dapat dibuat.'
+      });
+    }
+
     // Check duplicate period
     const existing = await WeeklyJournalRepository.findByPeriod(projectId, actorId, weekStartDate, weekEndDate);
     if (existing) {
@@ -231,6 +239,15 @@ export const updateWeeklyJournal = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: 'Journal status does not allow this action'
+      });
+    }
+
+    // Project status check
+    const project = await ProjectRepository.findById(journal.projectId);
+    if (project && project.status === 'Selesai') {
+      return res.status(400).json({
+        success: false,
+        message: 'Proyek ini sudah selesai secara lokal. Jurnal tidak dapat diperbarui lagi.'
       });
     }
 

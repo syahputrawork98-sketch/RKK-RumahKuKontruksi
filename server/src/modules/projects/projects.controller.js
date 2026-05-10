@@ -348,6 +348,14 @@ export const verifyProjectProgress = async (req, res, next) => {
       });
     }
 
+    // 2.5. Status Validation
+    if (project.status === 'Selesai') {
+      return res.status(400).json({
+        success: false,
+        message: 'Proyek ini sudah selesai secara lokal. Verifikasi progress tidak dapat ditambahkan lagi.'
+      });
+    }
+
     // 3. Progress Logic: Cannot decrease (Phase 1 rule)
     if (verifiedProgress < project.verifiedProgress) {
       return res.status(400).json({
@@ -543,9 +551,13 @@ export const updateProjectStage = async (req, res, next) => {
 
     // Hanya proyek 'Berjalan' yang bisa diupdate tahapannya oleh pengawas
     if (project.status !== 'Berjalan') {
+      const message = project.status === 'Selesai' 
+        ? 'Proyek ini sudah selesai secara lokal. Tahapan tidak dapat diperbarui lagi.'
+        : 'Hanya proyek dengan status Berjalan yang dapat diperbarui tahapannya.';
+        
       return res.status(400).json({
         success: false,
-        message: 'Hanya proyek dengan status Berjalan yang dapat diperbarui tahapannya.'
+        message
       });
     }
 

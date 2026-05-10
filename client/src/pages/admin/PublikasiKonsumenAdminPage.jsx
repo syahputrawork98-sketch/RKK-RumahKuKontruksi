@@ -115,15 +115,21 @@ const PublikasiKonsumenAdminPage = () => {
                         Kelola informasi yang ditampilkan pada Timeline Konsumen.
                     </p>
                 </div>
-                <div className="relative">
-                    <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input 
-                        type="text" 
-                        placeholder="Cari proyek..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-11 pr-4 py-2.5 rounded-xl bg-white border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none w-full md:w-64 transition-all"
-                    />
+                <div className="flex items-center gap-3">
+                    <div className="hidden md:flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200 shadow-sm">
+                        <FiInfo className="text-blue-500" size={14} />
+                        <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Local DB Snapshot</span>
+                    </div>
+                    <div className="relative">
+                        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input 
+                            type="text" 
+                            placeholder="Cari proyek..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-11 pr-4 py-2.5 rounded-xl bg-white border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none w-full md:w-64 transition-all"
+                        />
+                    </div>
                 </div>
             </div>
 

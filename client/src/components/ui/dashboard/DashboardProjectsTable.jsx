@@ -19,7 +19,7 @@ export const DashboardProjectsTable = ({ projects = [] }) => {
             <div className="p-6 border-b border-[var(--dashboard-border-soft)] flex items-center justify-between bg-[var(--dashboard-surface)]">
                 <h2 className="dashboard-title !text-lg">Monitoring Proyek Lapangan</h2>
                 <span className="text-[10px] font-black uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 tracking-tighter">
-                    Local Real-time Stats
+                    Local DB Snapshot
                 </span>
             </div>
 

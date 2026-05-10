@@ -102,7 +102,7 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
             Customer-visible update
           </span>
           <span className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">
-            Local Thread
+            Local Thread (Non-Realtime)
           </span>
         </div>
       </div>

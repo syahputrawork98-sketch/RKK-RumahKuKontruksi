@@ -182,7 +182,7 @@ const DashboardAdmin = () => {
                             >
                                 <stat.icon size={24} />
                             </div>
-                            <span className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest opacity-50">Live Sync</span>
+                            <span className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest opacity-50">Local DB Snapshot</span>
                         </div>
                         <h4 className="text-3xl font-black text-[var(--dashboard-text)] mb-1">{stat.value}</h4>
                         <p className="text-xs font-bold text-[var(--dashboard-text-soft)] uppercase tracking-wide">{stat.label}</p>

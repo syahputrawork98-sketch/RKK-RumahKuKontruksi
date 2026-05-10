@@ -90,7 +90,6 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 ## 🚀 Planned / Fitur Berikutnya
 - **Local Audit Log v1**: Pencatatan riwayat perubahan data penting.
 - **Profile Change Approval**: Alur persetujuan Admin/Superadmin untuk perubahan profil user.
-- **Term Refinement**: Mengganti label "Live Sync" menjadi "Local DB Snapshot" atau "Local Summary".
 - **UX Soften**: Memperhalus wording "Hold" pada modul payment/detail pekerjaan Konsumen.
 
 ---

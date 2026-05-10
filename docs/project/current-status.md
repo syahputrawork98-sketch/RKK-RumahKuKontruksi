@@ -6,7 +6,7 @@
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi Dashboard Admin, Stage Communication source flow, dan Cross-Role UI consistency (Hold-State Cleanup). Alur operasional Admin, Konsumen, dan role lapangan kini sinkron secara lokal dengan action guards yang diperkeras. Tidak ada schema/migration baru pada batch ini.
+- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Stage Communication (Non-realtime HTTP thread), dan Cross-Role UI consistency (Hold-State Cleanup). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" untuk transparansi operasional lokal.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 
 
@@ -144,9 +144,9 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 
 ## Next Recommended Actions
-1. **Admin Publish Update / Stage Communication Source Flow Verification**: Verifikasi jalur Admin sebagai sumber update resmi untuk Stage Communication Panel, termasuk guard role dan payload `projectId`.
-2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
-3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru tanpa membuka scope auth/payment/upload production.
+1. **Local Audit Log v1**: Implementasi model dan repository AuditLog untuk mencatat perubahan data penting secara otomatis.
+2. **Profile Change Approval Flow**: Implementasi antrian approval untuk perubahan data profil sensitif.
+3. **Backend-Enforced Visibility**: Memindahkan kontrol visibilitas item pekerjaan dari label UI ke filter query di backend.
 
 ### Local Governance & Persona Management (v2 Stabilized)
 Fitur tata kelola persona lokal telah distabilkan (v2) untuk memberikan transparansi fase pengembangan:

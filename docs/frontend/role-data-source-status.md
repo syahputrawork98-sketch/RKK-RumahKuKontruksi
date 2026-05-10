@@ -72,7 +72,7 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
 - **Dependency**: Tidak membutuhkan persona context khusus (Global Admin role).
 
 **Behavior UI:**
-- **Dashboard & Project Control**: **Local Dashboard Polish / Stabilized**. Admin memiliki summary operasional (active/preparation/finished projects) dan alert monitoring untuk pending requests/reports. Aktivitas ditarik dari Local DB (Bukan Mock).
+- **Dashboard & Project Control**: **Local Dashboard Polish / Stabilized**. Admin memiliki summary operasional (active/preparation/finished projects) dan alert monitoring untuk pending requests/reports. Seluruh statistik ditarik dari database (Local DB Snapshot).
 - **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
 - **Project Stage Completion**: **Local Workflow v1 / Stabilized** untuk aksi Pengawas assigned pada detail proyek.
 - **Project Lifecycle Completion Pack**: **Local Workflow v1 / Stabilized**. Admin complete project lokal melalui closeout validation: project `Berjalan`, `Project.verifiedProgress` 100%, semua stage selesai, dan tidak ada Material Request aktif.
@@ -121,7 +121,7 @@ Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) dengan tampilan timeline yang lebih bersih dan informatif.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API dan seed persona `customer-001` sampai `customer-003` sudah dipakai.
-- **Stage Communication Panel**: **Functional v1 / Local Thread**. Admin sebagai official source; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket).
+- **Stage Communication Panel**: **Functional v1 / Local Thread / Stabilized**. Admin sebagai official source; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket). Label "Local Thread (Non-Realtime)" digunakan untuk transparansi.
 - **Hold**: Password, auth production, payment, dokumen/legal upload rill, dan RBAC production tetap ditunda.
 
 ## Product Direction Notes

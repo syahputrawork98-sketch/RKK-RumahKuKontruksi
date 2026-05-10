@@ -308,7 +308,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - **Status**: *Functional v1 / Local Thread / Stabilized*.
 - Konsumen hanya boleh membalas update yang sudah ada; official update hanya untuk Admin.
 - Data ini adalah bridge komunikasi publik per tahap proyek, bukan chat internal tim lapangan.
-- **Protocol**: Menggunakan standar **HTTP CRUD**, bukan WebSocket/Realtime.
+- **Protocol**: Menggunakan standar **HTTP CRUD**, bukan WebSocket/Realtime. Thread dikelola secara manual oleh Admin sebagai official source.
 - Stage Communication Panel Konsumen sudah memakai read path dan customer reply lokal. Payload `POST` tetap wajib menyertakan `projectId`, `authorRole`, `message`, dan `parentId` untuk reply Konsumen.
 - Update/delete masih perlu guard role yang lebih tegas sebelum dianggap production-ready.
 

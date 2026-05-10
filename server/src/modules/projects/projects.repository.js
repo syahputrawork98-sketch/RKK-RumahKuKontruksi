@@ -63,6 +63,7 @@ export const findAll = async (filters = {}) => {
   });
 };
 
+export const findById = async (id) => {
   const project = await prisma.project.findUnique({
     where: { id },
     include: {

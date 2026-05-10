@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
 import projectService from "../../services/projectService";
-import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser } from "react-icons/fi";
+import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight } from "react-icons/fi";
 
 const TimelineProyek = () => {
   const location = useLocation();
@@ -15,6 +15,7 @@ const TimelineProyek = () => {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activePhase, setActivePhase] = useState("construction"); // "design" or "construction"
 
   useEffect(() => {
     const fetchProjectDetail = async () => {
@@ -147,8 +148,6 @@ const TimelineProyek = () => {
       currency: "IDR",
       maximumFractionDigits: 0,
     }).format(value);
-
-  const [activePhase, setActivePhase] = useState("construction"); // "design" or "construction"
 
   return (
     <div className="min-h-screen bg-neutral-20 pb-20">
@@ -419,6 +418,8 @@ const TimelineProyek = () => {
           )}
         </section>
       </div>
+    </>
+  )}
     </div>
   );
 };

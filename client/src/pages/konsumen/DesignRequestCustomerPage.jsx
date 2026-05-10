@@ -12,8 +12,9 @@ import {
     FiDollarSign,
     FiType,
     FiArrowLeft,
-    FiClock,
-    FiMessageSquare
+    FiMessageSquare,
+    FiPenTool,
+    FiRefreshCw
 } from "react-icons/fi";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import designRequestService from "../../services/designRequestService";

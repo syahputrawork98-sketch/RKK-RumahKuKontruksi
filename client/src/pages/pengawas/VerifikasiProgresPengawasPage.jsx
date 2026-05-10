@@ -322,7 +322,6 @@ const VerifikasiProgresPengawasPage = () => {
                                 </div>
                             </form>
                         </div>
-                    </div>
                         <div className="dashboard-card">
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="text-lg font-black flex items-center gap-2">

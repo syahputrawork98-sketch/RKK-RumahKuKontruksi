@@ -726,7 +726,27 @@ model DesignRequest {
   updatedAt       DateTime  @updatedAt @map("updated_at")
   deletedAt       DateTime? @map("deleted_at")
 
+  majorRevisionCount Int @default(0) @map("major_revision_count")
+  minorRevisionCount Int @default(0) @map("minor_revision_count")
+
+  history         DesignRequestHistory[]
+
   @@map("design_requests")
+}
+
+model DesignRequestHistory {
+  id              String        @id @default(cuid())
+  designRequestId String        @map("design_request_id")
+  action          String
+  actorRole       String        @map("actor_role")
+  actorId         String        @map("actor_id")
+  actorName       String?       @map("actor_name")
+  note            String?
+  metadata        Json?
+  createdAt       DateTime      @default(now()) @map("created_at")
+  designRequest   DesignRequest @relation(fields: [designRequestId], references: [id], onDelete: Cascade)
+
+  @@map("design_request_history")
 }
 
 model DesignTender {

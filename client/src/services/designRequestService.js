@@ -32,6 +32,14 @@ const designRequestService = {
   // Helper for Architect to get their assigned requests
   getAssignedRequests: async (architectId) => {
     return apiClient.get('/design-requests', { params: { architectId } });
+  },
+
+  addHistory: async (id, payload) => {
+    return apiClient.post(`/design-requests/${id}/history`, payload);
+  },
+
+  requestRevision: async (id, payload) => {
+    return apiClient.post(`/design-requests/${id}/revision`, payload);
   }
 };
 

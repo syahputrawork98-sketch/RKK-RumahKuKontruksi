@@ -10,11 +10,16 @@ import {
     FiX,
     FiFileText,
     FiDollarSign,
-    FiType
+    FiType,
+    FiArrowLeft,
+    FiClock,
+    FiMessageSquare
 } from "react-icons/fi";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import designRequestService from "../../services/designRequestService";
 import RoleDataState from "../../components/common/RoleDataState";
+import DesignTimeline from "../../components/design/DesignTimeline";
+import DesignRevisionForm from "../../components/design/DesignRevisionForm";
 
 const DesignRequestCustomerPage = () => {
     const { selectedCustomerId } = useCustomerPersona();
@@ -25,6 +30,7 @@ const DesignRequestCustomerPage = () => {
     
     // Create Form State
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [selectedRequest, setSelectedRequest] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         title: "",
@@ -64,6 +70,44 @@ const DesignRequestCustomerPage = () => {
             estimatedBudget: ""
         });
         setIsFormOpen(true);
+    };
+
+    const handleOpenDetail = async (request) => {
+        try {
+            setLoading(true);
+            const res = await designRequestService.getDesignRequestById(request.id);
+            setSelectedRequest(res.data);
+            setLoading(false);
+        } catch (err) {
+            console.error("Error fetching detail:", err);
+            alert("Gagal memuat detail pengajuan.");
+            setLoading(false);
+        }
+    };
+
+    const handleAddRevision = async ({ revisionType, note }) => {
+        if (!selectedRequest || !selectedCustomerId) return;
+
+        try {
+            setSubmitting(true);
+            await designRequestService.requestRevision(selectedRequest.id, {
+                revisionType,
+                note,
+                actorRole: 'customer',
+                actorId: selectedCustomerId,
+                actorName: requests.find(r => r.customerId === selectedCustomerId)?.customer?.name || "Konsumen RKK"
+            });
+            
+            // Refresh detail
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            fetchRequests(); // Refresh list
+        } catch (err) {
+            console.error("Error submitting revision:", err);
+            alert(err.response?.data?.message || "Gagal mengajukan revisi.");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -140,7 +184,11 @@ const DesignRequestCustomerPage = () => {
                 {filteredRequests.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredRequests.map((r) => (
-                            <div key={r.id} className="p-6 border border-gray-100 rounded-3xl hover:border-teal-500/30 transition-all bg-white shadow-sm group">
+                            <div 
+                                key={r.id} 
+                                onClick={() => handleOpenDetail(r)}
+                                className="p-6 border border-gray-100 rounded-3xl hover:border-teal-500/30 transition-all bg-white shadow-sm group cursor-pointer"
+                            >
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="space-y-1">
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">ID: {r.id.slice(-8)}</p>
@@ -179,21 +227,9 @@ const DesignRequestCustomerPage = () => {
                                             <p className="text-[11px] font-bold text-gray-700">{r.architect?.name || "Menunggu Penugasan"}</p>
                                         </div>
                                     </div>
-                                    {r.projectId ? (
-                                        <Link 
-                                            to="/konsumen/proyek"
-                                            className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-100 hover:bg-emerald-100 transition-all flex items-center gap-2"
-                                        >
-                                            Buka Proyek <FiArrowRight />
-                                        </Link>
-                                    ) : (
-                                        <div 
-                                            onClick={() => alert("Fitur chat/kontak arsitek sedang disiapkan (Phase Local CRUD). Silakan hubungi Admin RKK.")}
-                                            className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform cursor-pointer"
-                                        >
-                                            Hubungi Admin <FiArrowRight />
-                                        </div>
-                                    )}
+                                    <div className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                        Detail & Timeline <FiArrowRight />
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -210,6 +246,81 @@ const DesignRequestCustomerPage = () => {
                     </div>
                 )}
             </div>
+
+            {/* DETAIL VIEW OVERLAY */}
+            {selectedRequest && (
+                <div className="fixed inset-0 z-[1000] flex flex-col bg-white animate-slideInUp overflow-y-auto">
+                    <div className="sticky top-0 bg-white/80 backdrop-blur-md px-6 py-4 border-b border-gray-100 flex items-center gap-4 z-20">
+                        <button 
+                            onClick={() => setSelectedRequest(null)}
+                            className="p-2 hover:bg-gray-100 rounded-xl transition-all"
+                        >
+                            <FiArrowLeft size={20} />
+                        </button>
+                        <div>
+                            <h3 className="text-lg font-black text-gray-800">{selectedRequest.title}</h3>
+                            <p className="text-[10px] text-teal-600 font-bold uppercase tracking-widest mt-0.5">Timeline & Kolaborasi Desain Lokal</p>
+                        </div>
+                    </div>
+
+                    <div className="max-w-6xl mx-auto w-full p-6 md:p-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+                        {/* LEFT: INFO & REVISION FORM */}
+                        <div className="lg:col-span-1 space-y-8">
+                            <div className="space-y-4">
+                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase border ${
+                                    selectedRequest.status === 'submitted' ? "bg-blue-50 text-blue-600 border-blue-100" :
+                                    selectedRequest.status === 'open' ? "bg-teal-50 text-teal-600 border-teal-100" :
+                                    selectedRequest.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
+                                    selectedRequest.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
+                                    selectedRequest.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
+                                    "bg-gray-50 text-gray-600 border-gray-100"
+                                } inline-block`}>
+                                    Status: {getStatusLabel(selectedRequest.status)}
+                                </span>
+                                <h1 className="text-3xl font-black text-gray-900 leading-tight">{selectedRequest.title}</h1>
+                                <p className="text-sm text-gray-500 leading-relaxed italic">"{selectedRequest.description || 'Tidak ada deskripsi tambahan.'}"</p>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="p-4 bg-gray-50 rounded-2xl">
+                                    <p className="text-[9px] font-black text-gray-400 uppercase mb-1">Tipe</p>
+                                    <p className="text-xs font-bold text-gray-700">{selectedRequest.buildingType || '-'}</p>
+                                </div>
+                                <div className="p-4 bg-gray-50 rounded-2xl">
+                                    <p className="text-[9px] font-black text-gray-400 uppercase mb-1">Budget</p>
+                                    <p className="text-xs font-bold text-gray-700">Rp {Number(selectedRequest.estimatedBudget || 0).toLocaleString('id-ID')}</p>
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-gray-100">
+                                <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
+                                    <FiRefreshCw className="text-teal-600" />
+                                    Ajukan Revisi Lokal
+                                </h4>
+                                <DesignRevisionForm 
+                                    majorCount={selectedRequest.majorRevisionCount || 0}
+                                    minorCount={selectedRequest.minorRevisionCount || 0}
+                                    onSubmit={handleAddRevision}
+                                    loading={submitting}
+                                />
+                            </div>
+                        </div>
+
+                        {/* RIGHT: TIMELINE */}
+                        <div className="lg:col-span-2">
+                            <h4 className="text-sm font-black text-gray-800 mb-8 flex items-center gap-2">
+                                <FiClock className="text-indigo-600" />
+                                Timeline Kolaborasi
+                            </h4>
+                            <DesignTimeline 
+                                history={selectedRequest.history || []}
+                                majorCount={selectedRequest.majorRevisionCount || 0}
+                                minorCount={selectedRequest.minorRevisionCount || 0}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* CREATE FORM MODAL */}
             {isFormOpen && (

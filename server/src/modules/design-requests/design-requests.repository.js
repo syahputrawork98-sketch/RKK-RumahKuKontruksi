@@ -18,6 +18,9 @@ export const findAll = async (filters = {}) => {
       },
       project: {
         select: { id: true, name: true, projectCode: true }
+      },
+      _count: {
+        select: { history: true }
       }
     },
     orderBy: { createdAt: 'desc' }
@@ -30,7 +33,26 @@ export const findById = async (id) => {
     include: {
       customer: true,
       architect: true,
-      project: true
+      project: true,
+      history: {
+        orderBy: { createdAt: 'desc' }
+      }
+    }
+  });
+};
+
+export const createHistory = async (data) => {
+  return await prisma.designRequestHistory.create({
+    data
+  });
+};
+
+export const updateRevisionCount = async (id, type) => {
+  const field = type === 'major' ? 'majorRevisionCount' : 'minorRevisionCount';
+  return await prisma.designRequest.update({
+    where: { id },
+    data: {
+      [field]: { increment: 1 }
     }
   });
 };

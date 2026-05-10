@@ -10,5 +10,7 @@ router.patch('/:id', DesignRequestController.updateDesignRequest);
 router.delete('/:id', DesignRequestController.deleteDesignRequest);
 router.patch('/:id/assign', DesignRequestController.assignArchitect);
 router.post('/:id/convert-to-project', DesignRequestController.convertToProject);
+router.post('/:id/history', DesignRequestController.addHistory);
+router.post('/:id/revision', DesignRequestController.requestRevision);
 
 export default router;

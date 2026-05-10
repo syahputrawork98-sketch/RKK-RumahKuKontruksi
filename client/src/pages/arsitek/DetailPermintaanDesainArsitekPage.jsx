@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiType, FiFileText } from "react-icons/fi";
+import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiType, FiFileText, FiClock } from "react-icons/fi";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import DesignTimeline from "../../components/design/DesignTimeline";
 
 const DetailPermintaanDesainArsitekPage = () => {
     const { requestId } = useParams();
@@ -129,6 +130,19 @@ const DetailPermintaanDesainArsitekPage = () => {
                             <p className="text-sm text-[var(--dashboard-text)] leading-relaxed bg-[var(--dashboard-surface-soft)] p-6 rounded-2xl border border-[var(--dashboard-border-soft)] whitespace-pre-wrap">
                                 {request.description || "Tidak ada deskripsi tambahan."}
                             </p>
+                        </div>
+
+                        {/* TIMELINE SECTION */}
+                        <div className="dashboard-card">
+                            <div className="flex items-center gap-2 mb-8">
+                                <FiClock className="text-[var(--dashboard-primary)]" />
+                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[var(--dashboard-text-soft)]">Timeline & Riwayat Desain</h3>
+                            </div>
+                            <DesignTimeline 
+                                history={request.history || []}
+                                majorCount={request.majorRevisionCount || 0}
+                                minorCount={request.minorRevisionCount || 0}
+                            />
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,9 @@ import {
     FiList,
     FiAward,
     FiDollarSign,
-    FiCalendar
+    FiCalendar,
+    FiArrowLeft,
+    FiMessageSquare
 } from "react-icons/fi";
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
@@ -23,6 +25,7 @@ import customerService from "../../services/customerService";
 import architectService from "../../services/architectService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
+import DesignTimeline from "../../components/design/DesignTimeline";
 
 const DesignRequestAdminPage = () => {
     const [activeTab, setActiveTab] = useState("requests"); // "requests" or "tenders"
@@ -35,6 +38,7 @@ const DesignRequestAdminPage = () => {
     const [isAssignOpen, setIsAssignOpen] = useState(false);
     const [isPublishOpen, setIsPublishOpen] = useState(false);
     const [isBidsOpen, setIsBidsOpen] = useState(false);
+    const [selectedRequest, setSelectedRequest] = useState(null);
     const [currentRequest, setCurrentRequest] = useState(null);
     const [currentTender, setCurrentTender] = useState(null);
     const [customers, setCustomers] = useState([]);
@@ -222,11 +226,38 @@ const DesignRequestAdminPage = () => {
         try {
             setSubmitting(true);
             await designRequestService.updateDesignRequest(id, { status });
+            
+            // Add history log for status change
+            await designRequestService.addHistory(id, {
+                action: `status_change_${status}`,
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: `Status pengajuan diubah menjadi ${status.replace('_', ' ')}.`
+            });
+
             fetchData();
+            if (selectedRequest && selectedRequest.id === id) {
+                const res = await designRequestService.getDesignRequestById(id);
+                setSelectedRequest(res.data);
+            }
         } catch (err) {
             alert("Gagal memperbarui status.");
         } finally {
             setSubmitting(false);
+        }
+    };
+
+    const handleOpenDetail = async (request) => {
+        try {
+            setLoading(true);
+            const res = await designRequestService.getDesignRequestById(request.id);
+            setSelectedRequest(res.data);
+            setLoading(false);
+        } catch (err) {
+            console.error("Error fetching detail:", err);
+            alert("Gagal memuat detail pengajuan.");
+            setLoading(false);
         }
     };
 
@@ -359,10 +390,10 @@ const DesignRequestAdminPage = () => {
                                 </thead>
                                 <tbody>
                                     {filteredRequests.map((r) => (
-                                        <tr key={r.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors">
+                                        <tr key={r.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors cursor-pointer group" onClick={() => handleOpenDetail(r)}>
                                             <td className="py-4 px-2">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-bold text-[var(--dashboard-text)]">{r.title}</span>
+                                                    <span className="text-sm font-bold text-[var(--dashboard-text)] group-hover:text-[var(--dashboard-primary)] transition-colors">{r.title}</span>
                                                     <div className="flex items-center gap-2 mt-1 text-[10px] text-[var(--dashboard-text-soft)] font-medium">
                                                         <FiMapPin className="shrink-0" />
                                                         <span className="truncate max-w-[150px]">{r.location || "-"}</span>
@@ -448,14 +479,21 @@ const DesignRequestAdminPage = () => {
                                             <td className="py-4 px-2 text-right">
                                                 <div className="flex items-center justify-end gap-1">
                                                     <button 
-                                                        onClick={() => handleOpenForm(r)}
+                                                        onClick={(e) => { e.stopPropagation(); handleOpenDetail(r); }}
+                                                        className="p-1.5 text-indigo-500 hover:bg-indigo-50 rounded-lg"
+                                                        title="Timeline"
+                                                    >
+                                                        <FiClock size={14} />
+                                                    </button>
+                                                    <button 
+                                                        onClick={(e) => { e.stopPropagation(); handleOpenForm(r); }}
                                                         className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg"
                                                         title="Edit"
                                                     >
                                                         <FiEdit2 size={14} />
                                                     </button>
                                                     <button 
-                                                        onClick={() => handleDelete(r.id)}
+                                                        onClick={(e) => { e.stopPropagation(); handleDelete(r.id); }}
                                                         className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg"
                                                         title="Hapus"
                                                     >
@@ -525,6 +563,102 @@ const DesignRequestAdminPage = () => {
                     )}
                 </div>
             </div>
+
+            {/* DETAIL VIEW OVERLAY */}
+            {selectedRequest && (
+                <div className="fixed inset-0 z-[1000] flex flex-col bg-white animate-slideInUp overflow-y-auto">
+                    <div className="sticky top-0 bg-white/80 backdrop-blur-md px-6 py-4 border-b border-gray-100 flex items-center gap-4 z-20">
+                        <button 
+                            onClick={() => setSelectedRequest(null)}
+                            className="p-2 hover:bg-gray-100 rounded-xl transition-all"
+                        >
+                            <FiArrowLeft size={20} />
+                        </button>
+                        <div>
+                            <h3 className="text-lg font-black text-gray-800">{selectedRequest.title}</h3>
+                            <p className="text-[10px] text-indigo-600 font-bold uppercase tracking-widest mt-0.5">Admin Review & Collaboration Timeline</p>
+                        </div>
+                    </div>
+
+                    <div className="max-w-6xl mx-auto w-full p-6 md:p-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+                        {/* LEFT: INFO & ACTIONS */}
+                        <div className="lg:col-span-1 space-y-8">
+                            <div className="space-y-4">
+                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase border ${getStatusBadge(selectedRequest.status).style} inline-block`}>
+                                    Status: {getStatusBadge(selectedRequest.status).label}
+                                </span>
+                                <h1 className="text-3xl font-black text-gray-900 leading-tight">{selectedRequest.title}</h1>
+                                <p className="text-sm text-gray-500 leading-relaxed italic">"{selectedRequest.description || 'Tidak ada deskripsi tambahan.'}"</p>
+                            </div>
+
+                            <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Info Konsumen</h4>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-black">
+                                        {selectedRequest.customer?.name?.[0] || 'C'}
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-bold text-slate-800">{selectedRequest.customer?.name || selectedRequest.customer?.companyName}</p>
+                                        <p className="text-[10px] text-slate-400 font-bold uppercase">{selectedRequest.customer?.customerType}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-gray-100">
+                                <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
+                                    <FiCheckCircle className="text-emerald-600" />
+                                    Admin Controls
+                                </h4>
+                                <div className="grid grid-cols-1 gap-3">
+                                    {selectedRequest.status === 'submitted' && (
+                                        <button 
+                                            onClick={() => handleUpdateStatus(selectedRequest.id, 'open')}
+                                            className="w-full py-3 bg-teal-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal-600/20"
+                                        >
+                                            Publish to Tender
+                                        </button>
+                                    )}
+                                    {(selectedRequest.status === 'assigned' || selectedRequest.status === 'in_review') && (
+                                        <button 
+                                            onClick={() => handleUpdateStatus(selectedRequest.id, 'approved')}
+                                            className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20"
+                                        >
+                                            Approve Design
+                                        </button>
+                                    )}
+                                    {selectedRequest.status === 'approved' && !selectedRequest.projectId && (
+                                        <button 
+                                            onClick={() => handleOpenConvert(selectedRequest)}
+                                            className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20"
+                                        >
+                                            Convert to Project
+                                        </button>
+                                    )}
+                                    <button 
+                                        onClick={() => handleOpenForm(selectedRequest)}
+                                        className="w-full py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all"
+                                    >
+                                        Edit Brief Detail
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* RIGHT: TIMELINE */}
+                        <div className="lg:col-span-2">
+                            <h4 className="text-sm font-black text-gray-800 mb-8 flex items-center gap-2">
+                                <FiClock className="text-indigo-600" />
+                                Collaboration Timeline
+                            </h4>
+                            <DesignTimeline 
+                                history={selectedRequest.history || []}
+                                majorCount={selectedRequest.majorRevisionCount || 0}
+                                minorCount={selectedRequest.minorRevisionCount || 0}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* REQUEST FORM MODAL */}
             {isFormOpen && (

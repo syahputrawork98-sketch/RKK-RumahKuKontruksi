@@ -132,3 +132,79 @@ export const convertToProject = async (req, res, next) => {
     next(error);
   }
 };
+
+export const addHistory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { action, actorRole, actorId, actorName, note, metadata } = req.body;
+
+    const data = await DesignRequestRepository.createHistory({
+      designRequestId: id,
+      action,
+      actorRole,
+      actorId,
+      actorName,
+      note,
+      metadata
+    });
+
+    res.status(201).json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const requestRevision = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { revisionType, note, actorRole, actorId, actorName } = req.body;
+
+    if (!['major', 'minor'].includes(revisionType)) {
+      return res.status(400).json({ success: false, message: 'Revision type must be major or minor' });
+    }
+
+    const request = await DesignRequestRepository.findById(id);
+    if (!request) {
+      return res.status(404).json({ success: false, message: 'Design request not found' });
+    }
+
+    // Revision Limit Checks
+    if (revisionType === 'major' && request.majorRevisionCount >= 3) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Batas revisi besar (3x) telah tercapai. Perubahan berikutnya perlu keputusan Admin.',
+        isLimitReached: true
+      });
+    }
+
+    if (revisionType === 'minor' && request.minorRevisionCount >= 5) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Batas revisi kecil (5x) telah tercapai. Perubahan berikutnya perlu keputusan Admin.',
+        isLimitReached: true
+      });
+    }
+
+    // 1. Update Revision Count
+    await DesignRequestRepository.updateRevisionCount(id, revisionType);
+
+    // 2. Add History
+    const history = await DesignRequestRepository.createHistory({
+      designRequestId: id,
+      action: `revision_${revisionType}`,
+      actorRole,
+      actorId,
+      actorName,
+      note: `Permintaan Revisi (${revisionType}): ${note}`,
+      metadata: { revisionType }
+    });
+
+    res.json({ 
+      success: true, 
+      message: `Revisi ${revisionType} berhasil diajukan.`,
+      data: history 
+    });
+  } catch (error) {
+    next(error);
+  }
+};

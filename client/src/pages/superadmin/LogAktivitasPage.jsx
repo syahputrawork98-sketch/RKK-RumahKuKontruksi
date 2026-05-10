@@ -102,7 +102,7 @@ const LogAktivitasPage = () => {
                                 </div>
                                 <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-xl border border-amber-100 text-[10px] font-black text-amber-600 uppercase tracking-widest">
                                     <FiActivity />
-                                    <span>Real-time DB Logs</span>
+                                    <span>Database Activity Logs</span>
                                 </div>
                             </div>
                             <div className="overflow-x-auto">

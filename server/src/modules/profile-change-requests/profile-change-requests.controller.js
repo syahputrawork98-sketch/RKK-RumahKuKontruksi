@@ -1,5 +1,10 @@
 import * as Repository from './profile-change-requests.repository.js';
 import * as AuditLogRepository from '../audit-logs/audit-logs.repository.js';
+import * as CustomerRepository from '../customers/customers.repository.js';
+import * as AdminRepository from '../admins/admins.repository.js';
+import * as SupervisorRepository from '../supervisors/supervisors.repository.js';
+import * as ForemanRepository from '../foremen/foremen.repository.js';
+import * as ArchitectRepository from '../architects/architects.repository.js';
 
 export const getRequests = async (req, res, next) => {
   try {
@@ -41,7 +46,17 @@ export const reviewRequest = async (req, res, next) => {
     const { id } = req.params;
     const { status, reviewedByRole, reviewedById, note } = req.body;
     
-    const request = await Repository.update(id, {
+    // Get existing request
+    const request = await Repository.findById(id);
+    if (!request) {
+      return res.status(404).json({ success: false, message: 'Request not found' });
+    }
+
+    if (request.status !== 'pending') {
+      return res.status(400).json({ success: false, message: 'Request has already been processed' });
+    }
+
+    const updatedRequest = await Repository.update(id, {
       status,
       reviewedByRole,
       reviewedById,
@@ -49,19 +64,61 @@ export const reviewRequest = async (req, res, next) => {
       note
     });
 
-    // Log the review
+    // If approved, apply the change to the target entity
+    if (status === 'approved') {
+      const { targetRole, targetId, fieldName, newValue } = request;
+      const updateData = { [fieldName]: newValue };
+
+      try {
+        switch (targetRole.toLowerCase()) {
+          case 'customer':
+          case 'konsumen':
+            await CustomerRepository.update(targetId, updateData);
+            break;
+          case 'admin':
+            await AdminRepository.update(targetId, updateData);
+            break;
+          case 'pengawas':
+          case 'supervisor':
+            await SupervisorRepository.update(targetId, updateData);
+            break;
+          case 'mandor':
+          case 'foreman':
+            await ForemanRepository.update(targetId, updateData);
+            break;
+          case 'arsitek':
+          case 'architect':
+            await ArchitectRepository.update(targetId, updateData);
+            break;
+        }
+        
+        // Log the application of the change
+        await AuditLogRepository.create({
+          actorRole: reviewedByRole,
+          actorId: reviewedById,
+          action: 'APPLY_PROFILE_CHANGE',
+          entityType: targetRole,
+          entityId: targetId,
+          summary: `Successfully applied approved change for ${fieldName} to ${newValue}`
+        });
+      } catch (updateError) {
+        console.error("Failed to apply profile change:", updateError);
+      }
+    }
+
+    // Log the review action
     await AuditLogRepository.create({
       actorRole: reviewedByRole,
       actorId: reviewedById,
       action: status === 'approved' ? 'APPROVE_PROFILE_CHANGE' : 'REJECT_PROFILE_CHANGE',
       entityType: 'ProfileChangeRequest',
       entityId: id,
-      summary: `${status.toUpperCase()} profile change request for ${request.targetRole}`
+      summary: `${status.toUpperCase()} profile change request for ${request.targetRole} (${request.targetId}). Field: ${request.fieldName}`
     });
 
     res.json({
       success: true,
-      data: request
+      data: updatedRequest
     });
   } catch (error) {
     next(error);

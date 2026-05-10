@@ -7,7 +7,7 @@ export const findAllByProjectId = async (projectId) => {
   });
 };
 
-export const findById = async (id) => {
+export const findById = async (id, actorRole = null) => {
   const stage = await prisma.projectStage.findUnique({
     where: { id },
     include: {
@@ -62,7 +62,8 @@ export const findById = async (id) => {
     where: { 
       projectStageId: id,
       report: {
-        status: { in: ['submitted', 'reviewed', 'published', 'locked'] }
+        status: { in: ['submitted', 'reviewed', 'published', 'locked'] },
+        ...(actorRole === 'customer' ? { isVisibleToCustomer: true } : {})
       }
     },
     include: {

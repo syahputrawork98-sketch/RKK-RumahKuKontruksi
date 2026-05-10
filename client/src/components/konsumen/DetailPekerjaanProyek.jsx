@@ -317,7 +317,10 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                   {(item.activities?.length === 0 && item.notes?.length === 0) && (
                                     <div className="pl-8 flex items-center gap-3">
                                       <div className="w-1.5 h-1.5 rounded-full bg-neutral-30"></div>
-                                      <p className="text-[10px] text-neutral-40 font-bold italic">Item pekerjaan ini sudah terdaftar di RAB, tetapi belum memiliki update lapangan yang dipublikasikan untuk Konsumen.</p>
+                                      <div className="space-y-1">
+                                        <p className="text-[10px] text-neutral-40 font-bold italic">Belum ada update lapangan yang dipublikasikan untuk item ini.</p>
+                                        <p className="text-[9px] text-neutral-30 italic font-medium leading-none">Beberapa laporan mungkin masih dalam proses review internal oleh Tim Admin/Pengawas.</p>
+                                      </div>
                                     </div>
                                   )}
                                   

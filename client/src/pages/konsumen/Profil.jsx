@@ -114,6 +114,9 @@ const Profil = () => {
             newValue: change.new,
             status: 'pending'
           });
+
+          // Hapus dari payload agar tidak diupdate langsung ke DB
+          delete payload[change.field];
         }
         alert("Beberapa perubahan data sensitif telah dikirim ke antrian approval Admin. Data non-sensitif lainnya akan segera diperbarui.");
       }

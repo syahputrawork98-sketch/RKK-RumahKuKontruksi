@@ -18,7 +18,8 @@ export const getStagesByProject = async (req, res, next) => {
 export const getStageById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const stage = await ProjectStageRepository.findById(id);
+    const { actorRole } = req.query;
+    const stage = await ProjectStageRepository.findById(id, actorRole);
     if (!stage) {
       return res.status(404).json({
         success: false,

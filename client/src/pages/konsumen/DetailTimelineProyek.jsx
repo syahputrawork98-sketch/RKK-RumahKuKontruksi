@@ -16,7 +16,7 @@ const DetailTimelineProyek = () => {
     const fetchStageDetail = async () => {
       try {
         setLoading(true);
-        const response = await projectStageService.getStageById(stageId);
+        const response = await projectStageService.getStageById(stageId, { actorRole: 'customer' });
         if (response.success) {
           setStage(response.data);
         }

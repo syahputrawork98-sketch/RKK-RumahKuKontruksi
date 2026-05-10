@@ -16,10 +16,11 @@ const projectStageService = {
   /**
    * Get stage by ID
    * @param {string} stageId 
+   * @param {Object} params - { actorRole }
    * @returns {Promise<Object>}
    */
-  async getStageById(stageId) {
-    return apiClient.get(`/project-stages/${stageId}`);
+  async getStageById(stageId, params = {}) {
+    return apiClient.get(`/project-stages/${stageId}`, { params });
   },
 
   /**

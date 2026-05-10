@@ -12,6 +12,7 @@
   - **Batch 2**: Local Governance Foundation v1 (Backend/Initial UI).
   - **Batch 3**: Governance Finalization & Visibility Safety (Verified Profile Apply & Report Visibility Guard).
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
+- **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
 
 ## Backend Status (Local API)
@@ -81,6 +82,8 @@ Closeout lokal memvalidasi project harus `Berjalan`, `Project.verifiedProgress` 
 Post-Completion History & Experience Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Batch ini mencakup tiga fitur utama: Finished Project History Reader, Completed Project Guard for Mandor/Pengawas, dan Experience Summary from Completed Projects. Setelah project `Selesai`, histori operasional lokal tetap bisa dibaca oleh role terkait, sementara aksi lapangan baru ditahan.
 
 Backend guard menjaga project selesai tetap read-only untuk workflow lapangan: `verifyProjectProgress` menolak project `Selesai`, `updateProjectStage` menolak project `Selesai`, dan update Weekly Journal ditahan jika parent project sudah selesai. Frontend guard menampilkan Verifikasi Progress Pengawas sebagai read-only untuk project `Selesai`; detail project Mandor menampilkan banner selesai; Lapor Progres ditahan; dan Material Request Mandor menahan project `Selesai`. Reader menampilkan status `Pekerjaan Selesai` pada timeline Konsumen, dan project `Selesai` masuk ke pengalaman lokal Mandor/Pengawas.
+
+*Dokumen ini diperbarui secara berkala sesuai dengan milestone pengembangan lokal. Lihat panduan arah produk di [RAB-Based Construction Workflow & Payment Model](docs/product/rab-based-construction-workflow.md).*
 
 Pack ini adalah histori operasional lokal, bukan BAST/legal handover, bukan invoice/payment/escrow, bukan sertifikat otomatis/resmi, dan bukan marketplace reputation/scoring. Pack ini tidak mengubah `Project.verifiedProgress` dan tidak mengubah aturan Progress SOT.
 

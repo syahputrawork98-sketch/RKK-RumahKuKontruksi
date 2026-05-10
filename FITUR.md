@@ -102,4 +102,4 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - **Production Infrastructure**: Hosting, CDN, Cloud Storage, dan WebSocket/Chat rill.
 
 ---
-*Dokumen ini diperbarui secara berkala sesuai dengan milestone pengembangan lokal.*
+*Dokumen ini diperbarui secara berkala sesuai dengan milestone pengembangan lokal. Arah fundamental Batch 4–6 tersedia di [RAB-Based Construction Workflow & Payment Model](docs/product/rab-based-construction-workflow.md).*

@@ -245,10 +245,10 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                 </h4>
                                 <div className="flex items-center gap-2">
                                   <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 uppercase tracking-tighter">
-                                    Update tersedia untuk Konsumen
+                                    Visibility: Customer-Visible
                                   </span>
                                   <span className="text-[9px] font-bold text-neutral-40 uppercase tracking-tighter italic">
-                                    * Bukan verifikasi resmi
+                                    * Admin visibility control formal (Hold/Planned)
                                   </span>
                                 </div>
                               </div>

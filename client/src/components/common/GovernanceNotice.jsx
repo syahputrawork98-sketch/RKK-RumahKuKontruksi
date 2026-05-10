@@ -25,14 +25,14 @@ const GovernanceNotice = ({ roleName = "Pengguna" }) => {
         <div className="flex gap-3">
           <FiAlertCircle className="text-indigo-500 shrink-0 mt-0.5" size={14} />
           <p className="text-[11px] text-indigo-800 leading-relaxed font-medium">
-            Perubahan pada field identitas atau sertifikat penting akan diarahkan ke alur **Review Admin/Superadmin** pada tahap pengembangan berikutnya.
+            Perubahan pada field identitas rill, data perusahaan, atau sertifikat penting akan diarahkan ke alur **Review & Approval Admin/Superadmin** pada tahap pengembangan berikutnya (Planned Workflow).
           </p>
         </div>
         
         <div className="pt-2">
           <div className="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-lg inline-flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></span>
-            <span className="text-[9px] font-black uppercase text-indigo-700 tracking-tighter italic">Status: Local Only / No Production Auth</span>
+            <span className="text-[9px] font-black uppercase text-indigo-700 tracking-tighter italic">Status: Local Simulation Phase / Hold Governance</span>
           </div>
         </div>
       </div>

@@ -401,9 +401,12 @@ const DetailProyekDiawasiPengawasPage = () => {
                             <div className="space-y-6 animate-fadeIn">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Tahapan & Jadwal Proyek</h3>
-                                    <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-widest">
-                                        Visible to Customer
-                                    </span>
+                                    <div className="flex flex-col items-end">
+                                        <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-widest">
+                                            Visibility: Customer-Visible Preparation
+                                        </span>
+                                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tighter mt-1 italic">* Visibility control formal (Local Hold)</span>
+                                    </div>
                                 </div>
 
                                 {project.stages?.length > 0 ? (

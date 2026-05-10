@@ -565,9 +565,12 @@ const DetailProyekAdminPage = () => {
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Daftar Tahap Pekerjaan (Stages)</h3>
                                     <div className="flex items-center gap-4">
-                                        <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-widest hidden md:block">
-                                            Timeline Publik Aktif
-                                        </span>
+                                        <div className="flex flex-col items-end">
+                                            <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-widest">
+                                                Visibility: Global Timeline Preparation
+                                            </span>
+                                            <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tighter mt-1 italic">* Visibility control formal (Hold/Planned)</span>
+                                        </div>
                                         <button 
                                             onClick={() => {
                                                 setStageForm({ code: "", title: "", description: "", week: 1, status: "planning", startDate: "", endDate: "", durationDays: 7, order: stages.length + 1, note: "" });

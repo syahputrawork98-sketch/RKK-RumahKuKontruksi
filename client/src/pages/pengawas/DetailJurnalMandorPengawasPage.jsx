@@ -136,10 +136,13 @@ const DetailJurnalMandorPengawasPage = () => {
                                 <FiInfo className="text-[var(--dashboard-primary)]" />
                                 <span className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Ringkasan Aktivitas Mandor</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 uppercase tracking-tighter">
-                                    Customer-Visible
-                                </span>
+                            <div className="flex items-center gap-4">
+                                <div className="flex flex-col items-end">
+                                    <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 uppercase tracking-tighter">
+                                        Visibility: Customer-Visible Preparation
+                                    </span>
+                                    <span className="text-[7px] font-bold text-slate-400 uppercase tracking-tighter mt-1 italic">* Visibility control formal (Local Hold)</span>
+                                </div>
                                 <span className="text-xs font-bold px-3 py-1 bg-[var(--dashboard-surface-soft)] rounded-lg">
                                     Periode: {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
                                 </span>

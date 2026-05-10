@@ -105,37 +105,51 @@ const TLProyek = ({ timeline = [] }) => {
                     )}
 
                     {/* Task preview */}
-                    <div className="space-y-2">
-                      <p className="text-xs font-bold text-neutral-70 uppercase tracking-wider">Pekerjaan Utama</p>
-                      <ul className="space-y-1.5">
+                    <div className="space-y-3 bg-neutral-10/50 p-4 rounded-2xl border border-neutral-30/50">
+                      <div className="flex justify-between items-center">
+                        <p className="text-[10px] font-black text-neutral-50 uppercase tracking-[0.1em]">Rincian Item Pekerjaan</p>
+                        {stage.tasks?.length > 0 && (
+                          <span className="text-[9px] font-bold bg-neutral-20 px-2 py-0.5 rounded-full text-neutral-60">
+                            {stage.tasks.length} Item
+                          </span>
+                        )}
+                      </div>
+                      <ul className="space-y-2">
                         {Array.isArray(stage.tasks) && stage.tasks.length > 0 ? (
-                          stage.tasks.slice(0, 3).map((task, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-neutral-70">
-                              <FiCheckCircle className={`mt-0.5 shrink-0 ${stage.status === "verified" ? "text-success-main" : "text-neutral-40"}`} size={14} />
-                              {task}
+                          stage.tasks.slice(0, 4).map((task, i) => (
+                            <li key={i} className="flex items-start gap-2.5 text-xs text-neutral-70 leading-relaxed">
+                              <div className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${stage.status === "verified" ? "bg-success-main" : "bg-primary-main/40"}`} />
+                              <span className="font-medium">{task}</span>
                             </li>
                           ))
                         ) : (
-                          <li className="text-sm text-neutral-50 italic pl-6 border-l-2 border-neutral-30">
-                            {stage.description || stage.note || "Belum ada rincian pekerjaan untuk tahap ini."}
+                          <li className="text-xs text-neutral-50 italic pl-4 border-l-2 border-neutral-30">
+                            {stage.description || stage.note || "Kategori tersedia, tetapi rincian item pekerjaan belum dimuat."}
                           </li>
                         )}
-                        {Array.isArray(stage.tasks) && stage.tasks.length > 3 && (
-                          <li className="text-xs font-medium text-primary-main pl-5">+{stage.tasks.length - 3} pekerjaan lainnya…</li>
+                        {Array.isArray(stage.tasks) && stage.tasks.length > 4 && (
+                          <li className="text-[10px] font-bold text-primary-main pl-4 flex items-center gap-1">
+                            <FiChevronRight size={10} /> Lihat {stage.tasks.length - 4} rincian lainnya pada detail
+                          </li>
                         )}
                       </ul>
                     </div>
 
                     {/* Progress bar */}
-                    <div className="space-y-1.5">
-                      <div className="flex justify-between text-xs font-bold">
-                        <span className="text-neutral-60">Progres Tahap</span>
-                        <span className="text-neutral-90">{stage.progress}%</span>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-end">
+                        <div>
+                          <p className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">Capaian Tahap</p>
+                          <p className="text-xs font-bold text-neutral-90">{stage.status === 'verified' ? 'Terverifikasi 100%' : 'Progres Berjalan'}</p>
+                        </div>
+                        <span className={`text-lg font-black ${stage.status === 'verified' ? 'text-success-main' : 'text-primary-main'}`}>{stage.progress}%</span>
                       </div>
-                      <div className="w-full h-2 bg-neutral-20 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${stage.status === "verified" ? "bg-success-main" : "bg-primary-main"}`}
-                          style={{ width: `${stage.progress}%` }}
+                      <div className="w-full h-2.5 bg-neutral-20 rounded-full overflow-hidden p-0.5 border border-neutral-30/50 shadow-inner">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${stage.progress}%` }}
+                          transition={{ duration: 1, ease: "easeOut" }}
+                          className={`h-full rounded-full shadow-sm ${stage.status === "verified" ? "bg-success-main" : "bg-primary-main"}`}
                         />
                       </div>
                     </div>

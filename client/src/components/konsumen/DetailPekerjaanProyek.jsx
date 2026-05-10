@@ -240,67 +240,76 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                           <tr className="bg-neutral-10/50">
                             <td colSpan={9} className="px-8 py-4">
                               <div className="space-y-3 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-30">
-                                {/* Mandor Activities */}
-                                {item.activities?.map((act) => (
-                                  <div key={act.id} className="relative pl-8">
-                                    <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-primary-main border-2 border-white shadow-sm flex items-center justify-center">
-                                      <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full rounded-full" />
-                                    </div>
-                                    <div className="bg-white p-3 rounded-xl border border-neutral-30 shadow-sm max-w-2xl">
-                                      <div className="flex justify-between items-start mb-1">
-                                        <span className="text-[10px] font-black uppercase text-primary-main tracking-widest">Update Mandor</span>
-                                        <span className="text-[9px] text-neutral-40">{new Date(act.createdAt).toLocaleDateString('id-ID')}</span>
+                                  {/* Mandor Activities */}
+                                  {item.activities?.map((act) => (
+                                    <div key={act.id} className="relative pl-8">
+                                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-blue-600 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden">
+                                        <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full object-cover" alt="Mandor" />
                                       </div>
-                                      <p className="text-xs font-bold text-neutral-80">{act.workTitle}</p>
-                                      <p className="text-xs text-neutral-60 mt-1 leading-relaxed">{act.description}</p>
-                                      {act.notes && (
-                                        <p className="text-[10px] text-neutral-50 italic mt-2 border-t pt-2">Note: {act.notes}</p>
-                                      )}
-                                      {act.photos?.length > 0 && (
-                                        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-                                          {act.photos.map((photo, pi) => (
-                                            <div key={pi} className="w-16 h-12 rounded-lg bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden">
-                                              <img src={photo.photoUrl} className="w-full h-full object-cover" />
-                                            </div>
-                                          ))}
+                                      <div className="bg-white p-3 rounded-xl border-l-4 border-l-blue-500 border-y border-r border-neutral-30 shadow-sm max-w-2xl">
+                                        <div className="flex justify-between items-start mb-1">
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Bukti Lapangan</span>
+                                            <span className="text-[9px] font-bold bg-blue-50 text-blue-500 px-1.5 py-0.5 rounded uppercase tracking-tighter">Mandor</span>
+                                          </div>
+                                          <span className="text-[9px] text-neutral-40">{new Date(act.createdAt).toLocaleDateString('id-ID')}</span>
                                         </div>
-                                      )}
+                                        <p className="text-xs font-bold text-neutral-80">{act.workTitle}</p>
+                                        <p className="text-xs text-neutral-60 mt-1 leading-relaxed">{act.description}</p>
+                                        {act.notes && (
+                                          <p className="text-[10px] text-neutral-50 italic mt-2 border-t border-neutral-10 pt-2 flex items-center gap-1">
+                                            <FiInfo size={10} /> Catatan: {act.notes}
+                                          </p>
+                                        )}
+                                        {act.photos?.length > 0 && (
+                                          <div className="mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                                            {act.photos.map((photo, pi) => (
+                                              <div key={pi} className="w-20 h-14 rounded-lg bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden group/img relative">
+                                                <img src={photo.photoUrl} className="w-full h-full object-cover transition-transform group-hover/img:scale-110" alt="Foto bukti" />
+                                                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  ))}
 
-                                {/* Supervisor Notes */}
-                                {item.notes?.map((note) => (
-                                  <div key={note.id} className="relative pl-8">
-                                    <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center">
-                                      <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full rounded-full" />
-                                    </div>
-                                    <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-200 shadow-sm max-w-2xl">
-                                      <div className="flex justify-between items-start mb-1">
-                                        <div className="flex items-center gap-2">
-                                          <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Review Pengawas</span>
+                                  {/* Supervisor Notes */}
+                                  {item.notes?.map((note) => (
+                                    <div key={note.id} className="relative pl-8">
+                                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden">
+                                        <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full object-cover" alt="Pengawas" />
+                                      </div>
+                                      <div className="bg-amber-50/30 p-3 rounded-xl border-l-4 border-l-amber-500 border-y border-r border-amber-200 shadow-sm max-w-2xl">
+                                        <div className="flex justify-between items-start mb-1">
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Review Kualitas</span>
+                                            <span className="text-[9px] font-bold bg-amber-100 text-amber-600 px-1.5 py-0.5 rounded uppercase tracking-tighter">Pengawas</span>
+                                          </div>
+                                          <span className="text-[9px] text-amber-600/60">{new Date(note.createdAt).toLocaleDateString('id-ID')}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 mb-1">
                                           <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase ${
                                             note.severity === 'critical' ? 'bg-red-500 text-white' :
                                             note.severity === 'high' ? 'bg-red-100 text-red-600' :
                                             'bg-amber-100 text-amber-600'
                                           }`}>
-                                            {note.severity}
+                                            Status: {note.severity || 'Normal'}
                                           </span>
                                         </div>
-                                        <span className="text-[9px] text-amber-600/60">{new Date(note.createdAt).toLocaleDateString('id-ID')}</span>
-                                      </div>
-                                      <p className="text-xs font-bold text-amber-900 leading-relaxed italic">"{note.content}"</p>
-                                      {note.progress !== null && (
-                                        <div className="mt-2 flex items-center gap-2">
-                                          <div className="w-full h-1 bg-amber-200 rounded-full overflow-hidden">
-                                            <div className="h-full bg-amber-500" style={{ width: `${note.progress}%` }} />
+                                        <p className="text-xs font-bold text-amber-900 leading-relaxed italic">"{note.content}"</p>
+                                        {note.progress !== null && (
+                                          <div className="mt-2 flex items-center gap-3">
+                                            <div className="flex-1 h-1 bg-amber-200 rounded-full overflow-hidden">
+                                              <div className="h-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ width: `${note.progress}%` }} />
+                                            </div>
+                                            <span className="text-[10px] font-black text-amber-700 whitespace-nowrap">{note.progress}% Verified</span>
                                           </div>
-                                          <span className="text-[10px] font-black text-amber-700">{note.progress}%</span>
-                                        </div>
-                                      )}
+                                        )}
+                                      </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  ))}
                               </div>
                             </td>
                           </tr>
@@ -308,9 +317,18 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                       </React.Fragment>
                     ))
                   ) : (
+                  ) : (
                     <tr>
-                      <td colSpan={9} className="px-4 py-12 text-center text-neutral-50 italic">
-                        Belum ada rincian item RAB untuk tahap ini.
+                      <td colSpan={9} className="px-4 py-16 text-center space-y-3 bg-neutral-10/30">
+                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto text-neutral-30 shadow-sm border border-neutral-30/50">
+                          <FiFileText size={24} />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-neutral-60 uppercase tracking-widest">Belum Ada Rincian Item</p>
+                          <p className="text-[10px] text-neutral-50 italic mt-1 max-w-xs mx-auto leading-relaxed">
+                            Rincian pekerjaan untuk kategori ini sedang disinkronkan dari RAB utama. Silakan hubungi Admin jika data tidak muncul.
+                          </p>
+                        </div>
                       </td>
                     </tr>
                   )}
@@ -330,34 +348,45 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
 
             {/* General Stage Thread (Unlinked evidence) */}
             {(data.unlinkedActivities?.length > 0 || data.unlinkedNotes?.length > 0) && (
-              <div className="mt-8 space-y-4">
-                <h3 className="text-s-bold text-neutral-70 flex items-center gap-2 uppercase tracking-widest">
-                  <span className="w-8 h-0.5 bg-neutral-30"></span>
-                  Aktivitas & Umpan Balik Umum Tahapan
-                </h3>
-                <div className="space-y-4 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-30">
+              <div className="mt-10 space-y-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-neutral-30 pb-4">
+                  <h3 className="text-s-bold text-neutral-70 flex items-center gap-3 uppercase tracking-widest">
+                    <FiActivity size={16} className="text-primary-main" />
+                    Update Lapangan & Ulasan Umum
+                  </h3>
+                  <span className="text-[10px] font-black text-neutral-40 uppercase bg-neutral-20 px-3 py-1 rounded-full border border-neutral-30/50">
+                    Update yang tersedia untuk Konsumen
+                  </span>
+                </div>
+                
+                <div className="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-20">
                   {data.unlinkedActivities?.map((act) => (
                     <div key={act.id} className="relative pl-10">
-                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-primary-main border-2 border-white shadow-sm flex items-center justify-center">
-                        <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full rounded-full" />
+                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-blue-600 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden">
+                        <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full object-cover" />
                       </div>
-                      <div className="bg-white p-4 rounded-2xl border border-neutral-30 shadow-sm max-w-3xl">
+                      <div className="bg-white p-5 rounded-[28px] border-l-4 border-l-blue-500 border-y border-r border-neutral-30 shadow-sm max-w-3xl hover:shadow-md transition-shadow">
                         <div className="flex justify-between items-start mb-2">
-                          <span className="text-[10px] font-black uppercase text-primary-main tracking-widest">Update Mandor</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Update Lapangan</span>
+                            <span className="text-[9px] font-bold bg-blue-50 text-blue-500 px-1.5 py-0.5 rounded">MANDOR</span>
+                          </div>
                           <span className="text-[10px] text-neutral-40">{new Date(act.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                         </div>
-                        <p className="text-sm font-bold text-neutral-90">{act.workTitle}</p>
-                        <p className="text-sm text-neutral-60 mt-1 leading-relaxed">{act.description}</p>
+                        <p className="text-sm font-bold text-neutral-90 leading-tight">{act.workTitle}</p>
+                        <p className="text-sm text-neutral-60 mt-1.5 leading-relaxed">{act.description}</p>
                         {act.notes && (
-                          <div className="mt-3 bg-neutral-20/50 p-2 rounded-lg border border-neutral-30">
-                            <p className="text-xs text-neutral-50 italic">Note: {act.notes}</p>
+                          <div className="mt-3 bg-blue-50/30 p-3 rounded-xl border border-blue-100/50">
+                            <p className="text-xs text-blue-600/70 italic flex items-center gap-2">
+                              <FiInfo size={12} /> {act.notes}
+                            </p>
                           </div>
                         )}
                         {act.photos?.length > 0 && (
-                          <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+                          <div className="mt-4 flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                             {act.photos.map((photo, pi) => (
-                              <div key={pi} className="w-32 h-24 rounded-xl bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden shadow-inner">
-                                <img src={photo.photoUrl} className="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer" alt="Bukti kerja" />
+                              <div key={pi} className="w-40 h-28 rounded-2xl bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden shadow-inner group/img relative">
+                                <img src={photo.photoUrl} className="w-full h-full object-cover transition-transform group-hover/img:scale-105" alt="Bukti kerja" />
                               </div>
                             ))}
                           </div>
@@ -368,39 +397,36 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
 
                   {data.unlinkedNotes?.map((note) => (
                     <div key={note.id} className="relative pl-10">
-                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center">
-                        <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full rounded-full" />
+                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden">
+                        <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full object-cover" />
                       </div>
-                      <div className="bg-amber-50/50 p-4 rounded-2xl border border-amber-200 shadow-sm max-w-3xl">
+                      <div className="bg-amber-50/20 p-5 rounded-[28px] border-l-4 border-l-amber-500 border-y border-r border-amber-200 shadow-sm max-w-3xl hover:shadow-md transition-shadow">
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Review Pengawas</span>
-                            <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${
-                              note.severity === 'critical' ? 'bg-red-500 text-white' :
-                              note.severity === 'high' ? 'bg-red-100 text-red-600' :
-                              'bg-amber-100 text-amber-600'
-                            }`}>
-                              {note.severity}
-                            </span>
+                            <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Tinjauan Pengawas</span>
+                            <span className="text-[9px] font-bold bg-amber-100 text-amber-600 px-1.5 py-0.5 rounded">PENGAWAS</span>
                           </div>
                           <span className="text-[10px] text-amber-600/60">{new Date(note.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                         </div>
                         <p className="text-sm font-bold text-amber-900 leading-relaxed italic">"{note.content}"</p>
                         {note.progress !== null && (
-                          <div className="mt-4 p-3 bg-white rounded-xl border border-amber-100 flex items-center gap-4">
+                          <div className="mt-4 p-4 bg-white/60 rounded-2xl border border-amber-100 flex items-center gap-5">
                             <div className="flex-1">
-                              <p className="text-[10px] font-black uppercase text-amber-600 mb-1">Verifikasi Progres Tahap</p>
-                              <div className="w-full h-2 bg-amber-100 rounded-full overflow-hidden">
-                                <div className="h-full bg-amber-500" style={{ width: `${note.progress}%` }} />
+                              <p className="text-[9px] font-black uppercase text-amber-600 mb-1 tracking-widest">Klaim Verifikasi Lapangan</p>
+                              <div className="w-full h-1.5 bg-amber-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ width: `${note.progress}%` }} />
                               </div>
                             </div>
-                            <span className="text-lg font-black text-amber-700">{note.progress}%</span>
+                            <span className="text-xl font-black text-amber-700">{note.progress}%</span>
                           </div>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
+                <p className="text-[10px] text-neutral-40 italic text-center border-t border-neutral-20 pt-4">
+                   * Catatan internal teknis tidak ditampilkan pada timeline publik Konsumen.
+                </p>
               </div>
             )}
           </div>

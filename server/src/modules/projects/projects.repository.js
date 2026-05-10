@@ -63,8 +63,7 @@ export const findAll = async (filters = {}) => {
   });
 };
 
-export const findById = async (id) => {
-  return await prisma.project.findUnique({
+  const project = await prisma.project.findUnique({
     where: { id },
     include: {
       customer: true,
@@ -128,6 +127,22 @@ export const findById = async (id) => {
       }
     },
   });
+
+  if (!project) return null;
+
+  // Enrich stages with concrete RabItems from the latest RabPlan
+  if (project.stages && project.rabPlans && project.rabPlans.length > 0) {
+    const latestRab = project.rabPlans[0];
+    project.stages = project.stages.map(stage => {
+      const category = latestRab.categories?.find(c => c.id === stage.categoryId);
+      return {
+        ...stage,
+        rabItems: category?.items || []
+      };
+    });
+  }
+
+  return project;
 };
 
 export const findByCode = async (projectCode) => {

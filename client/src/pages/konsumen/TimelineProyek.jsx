@@ -57,7 +57,8 @@ const TimelineProyek = () => {
             evidenceCount: (s._count?.journalActivities || 0) + (s._count?.reportNotes || 0),
             hasEvidence: (s._count?.journalActivities || 0) > 0 || (s._count?.reportNotes || 0) > 0,
             note: s.note,
-            description: s.description
+            description: s.description,
+            tasks: (s.rabItems || []).map(item => item.description)
           })),
           verifiedProgress: raw.verifiedProgress || 0,
           // Using real team data from backend relations

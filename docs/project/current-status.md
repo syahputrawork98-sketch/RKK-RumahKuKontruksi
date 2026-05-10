@@ -6,7 +6,11 @@
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Stage Communication (Non-realtime HTTP thread), dan Cross-Role UI consistency (Hold-State Cleanup). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" untuk transparansi operasional lokal.
+- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Stage Communication (Non-realtime HTTP thread), dan Local Governance Foundation v1 (Audit Logs, Profile Change Approval, Visibility Guard). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
+- **Milestone Selesai**:
+  - **Batch 1**: Admin Dashboard Cleanup & Stage Communication Source Flow.
+  - **Batch 2**: Local Governance Foundation v1 (Backend/Initial UI).
+  - **Batch 3**: Governance Finalization & Visibility Safety (Verified Profile Apply & Report Visibility Guard).
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 
 
@@ -38,8 +42,8 @@
 | **Admin & Superadmin Control** | Local Dashboard/Governance Polish | Admin Operational Summary (DB-backed activity) & Superadmin Direktori Persona Lokal; status planning/active/finished and action safe-wording stabilized |
 | **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview, payment/doc demo hold, official verified progress, and Stage Communication viewer (HTTP thread) |
 | **Design Collaboration & Revision** | Local Workflow v2 / Stabilized | Design thread role-colored, revision tracker (3 Major / 5 Minor), enforcement limit, and Arsitek Workspace polish |
-| **Local Governance & Persona Control** | Local Persona Governance v2 / Stabilized | Standardized Direktori Persona Lokal for Superadmin, modal disclaimer (No Auth/JWT), and self-profile governance via GovernanceNotice |
-| **Governance Hold & Visibility Preparation** | Local Hold/Preparation / Stabilized | Pusat Audit & Approval Lokal (Hold), Visibility Preparation Labels (Hold), and Action Guards for Finished Projects |
+| **Local Governance & Persona Control** | Local Governance Foundation v1 / Stabilized | Audit Log (Database Activity Logs), Profile Change Approval Queue, dan Visibility Guard (Active) |
+| **Visibility Guard & Safety** | Local Workflow v1 / Stabilized | Kontrol `isVisibleToCustomer` pada Supervisor Weekly Report dan Empty States jujur untuk Konsumen |
 | **Stage Communication Source Flow** | Local Workflow v1 / Stabilized | Admin sebagai sumber update resmi; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket) |
 
 ## Operational Modules Progress
@@ -149,14 +153,14 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 2. **Role-Based Analytics**: Implement lightweight dashboard analytics for Superadmin using real DB data aggregation.
 
 
-### Local Governance & Persona Management (v3 Foundation Implemented)
-Fitur tata kelola persona lokal telah ditingkatkan ke (v3) dengan pondasi governance rill:
-1. **Audit Log v1 (Active)**: Pencatatan otomatis aksi penting (Aktivasi Proyek, Verifikasi Progres, Selesai Proyek) ke database `localhost`.
-2. **Profile Change Approval Queue v1 (Active)**: Perubahan data profil sensitif (Email, HP, NIK) oleh Konsumen kini diarahkan ke antrian approval Superadmin di "Pusat Audit & Approval".
-3. **Visibility Guard v1 (Active)**: Implementasi kontrol `isVisibleToCustomer` pada Laporan Mingguan untuk memastikan transparansi data yang terkontrol.
+### Local Governance & Persona Management (v1 Stabilized)
+Fitur tata kelola persona lokal telah distabilkan dengan pondasi governance rill:
+1. **Audit Log (Active)**: Pencatatan otomatis aksi penting (Aktivasi Proyek, Verifikasi Progres, Selesai Proyek, dan Keputusan Approval) ke dalam **Database Activity Logs**.
+2. **Profile Change Approval Queue (Active)**: Perubahan data profil sensitif (Email, HP, NIK) diarahkan ke antrian approval. Setelah disetujui Superadmin, data otomatis diperbarui ke profile user terkait (Apply Local Workflow).
+3. **Visibility Guard (Active)**: Implementasi kontrol `isVisibleToCustomer` pada Laporan Mingguan untuk memastikan transparansi data yang terkontrol; Konsumen hanya melihat laporan yang telah dipublikasikan.
 4. **GovernanceNotice Component**: Penegasan self-profile governance; user mengelola profil sendiri, perubahan identitas penting diarahkan ke alur Audit & Approval.
-5. **Audit & Approval Center (Active)**: Halaman "Log Aktivitas" Superadmin kini berfungsi sebagai pusat monitoring Log Audit dan Antrian Approval Profil rill dari database.
-6. **Visibility Guard Implementation**: Pengawas dan Admin dapat mengontrol kapan data (Laporan Mingguan) muncul di Timeline Konsumen.
+5. **Audit & Approval Center (Active)**: Halaman "Log Aktivitas" Superadmin berfungsi sebagai pusat monitoring Database Activity Logs dan Antrian Approval Profil rill dari database.
+6. **Visibility Safety UI**: Konsumen mendapatkan pesan transparan (Empty State jujur) jika laporan mingguan belum dipublikasikan oleh tim lapangan.
 
 
 Arah produk RKK memisahkan kewenangan pengelolaan akun secara bertahap:

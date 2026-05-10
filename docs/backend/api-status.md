@@ -42,7 +42,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
 - `Project.verifiedProgress` adalah Source of Truth (Progress Resmi); `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi.
 - Timeline Konsumen menampilkan label "Progress Resmi (Verified Pengawas)" untuk transparansi kualitas fisik.
-- **Work Item Evidence**: Konsumen melihat bukti pekerjaan nyata per `RabItem` dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin). Status visibilitas `customer-visible` dipersiapkan sebagai label UI (Preparation), namun kontrol backend formal (backend-enforced visibility) berstatus **Hold/Planned**.
+- **Work Item Evidence**: Konsumen melihat bukti pekerjaan nyata per `RabItem` dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin). Status visibilitas `customer-visible` dikelola melalui flag `isVisibleToCustomer` pada laporan mingguan pengawas (Visibility Guard Active).
 - Fase Desain dan Fase Konstruksi dipisahkan secara visual; progress resmi hanya berlaku untuk fase konstruksi lapangan.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
 
@@ -201,15 +201,15 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `POST /audit-logs`: Membuat entry log audit baru (Backend auto-triggered pada aksi penting).
 
 ## Profile Change Requests (Implemented v1)
-- `GET /profile-change-requests`: Ambil list permintaan perubahan profil.
-- `POST /profile-change-requests`: Mengajukan permintaan perubahan profil sensitif.
-- `PATCH /profile-change-requests/:id/review`: Review (Approve/Reject) permintaan perubahan oleh Superadmin.
+- `GET /profile-change-requests`: Ambil list permintaan perubahan profil (Local DB-backed).
+- `POST /profile-change-requests`: Mengajukan permintaan perubahan profil sensitif (Email, HP, NIK).
+- `PATCH /profile-change-requests/:id/review`: Review (Approve/Reject) permintaan perubahan oleh Superadmin. Jika disetujui, perubahan diterapkan otomatis ke profil target (Apply Local Workflow).
 
 
 **Catatan Superadmin Governance (v3 Foundation Implemented)**:
-- **Audit Log v1 (Active)**: Pencatatan otomatis aksi penting (Aktivasi Proyek, Verifikasi Progres, Selesai Proyek) ke database `localhost`.
-- **Profile Change Approval Queue v1 (Active)**: Perubahan data profil sensitif (Email, HP, NIK) oleh Konsumen kini masuk ke antrian approval Superadmin.
-- **Wording**: Terminologi "Pusat Audit & Approval" digunakan di dashboard Superadmin.
+- **Audit Log (Active)**: Pencatatan otomatis aksi penting (Aktivasi Proyek, Verifikasi Progres, Selesai Proyek, Approval Proyek) ke dalam **Database Activity Logs**.
+- **Profile Change Approval Queue (Active)**: Perubahan data profil sensitif (Email, HP, NIK) diarahkan ke antrian approval.
+- **Wording**: Terminologi "Pusat Audit & Approval" dan "Database Activity Logs" digunakan di dashboard Superadmin.
 
 
 ## Design Requests (Local Demo Completion / Local E2E Workflow v1)
@@ -359,5 +359,5 @@ Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/F
 - **Photo Upload (Hold)**: UI menampilkan alert "Fitur Hold" pada tombol ubah foto untuk memperjelas batasan fase Local CRUD.
 - **Local Sync Confirm**: Dialog hapus (API DELETE) menyertakan informasi bahwa data dihapus dari database `localhost`.
 - **Profile Change Request (Implemented v1)**: Mekanisme **Profile Change Request** formal dan **Audit Log** otomatis sudah aktif pada aksi penting. UI Pusat Audit Superadmin terhubung ke database rill.
-- **Visibility Guard (Implemented v1)**: Backend enforcement untuk filter visibilitas item (`isVisibleToCustomer`) pada Laporan Mingguan sudah diimplementasikan.
+- **Visibility Guard (Implemented v1)**: Backend enforcement untuk filter visibilitas item (`isVisibleToCustomer`) pada Laporan Mingguan dan Detail Proyek Konsumen sudah diimplementasikan.
 

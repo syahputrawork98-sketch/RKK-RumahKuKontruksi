@@ -30,8 +30,7 @@ Status: **Database-Backed v1**
   - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai termasuk project `Selesai`, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Dokumentasi: **Shell / Backend Pending**.
-  - request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Pengawas review kebutuhan material dan kesesuaian lapangan pada project aktif/`Berjalan`; approval tetap menjaga quantity check terhadap remaining RAB dan tidak mengubah Progress SOT.
-  - Visibility Preparation: Label `Visibility: Customer-Visible Preparation` ditambahkan pada jurnal/tahapan sebagai rencana kontrol di masa depan.
+  - Visibility Guard: **Local Workflow v1 / Stabilized**. Kontrol `isVisibleToCustomer` aktif pada backend; Konsumen hanya dapat melihat laporan mingguan yang sudah dipublikasikan.
   - Sertifikasi resmi/legal, upload dokumen production, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 2. Mandor / Foreman
@@ -104,7 +103,7 @@ Status: **Database-Backed Local CRUD / Monitoring Polish Stabilized**
 - **Governance Layer (v2 Stabilized)**:
     - **GovernanceNotice**: Pesan peringatan standar pada profil/pengaturan mengenai batasan "Local CRUD".
     - **Safe Action Terminology**: Menggunakan "Persona Lokal" untuk membedakan simulasi dari user production.
-    - **Audit & Approval (Hold)**: Halaman "Audit & Approval Lokal" aktif sebagai **Placeholder / Local Hold**. Action buttons (Export, dll) dinonaktifkan.
+    - **Audit & Approval Center (Stabilized)**: Halaman "Log Aktivitas" Superadmin berfungsi sebagai pusat monitoring **Database Activity Logs** dan Antrian Approval Profil rill (Local DB-backed). Action buttons untuk review approval aktif.
 - **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global (Simulasi), Proyek Aktif Global, stage completion lokal, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
 - **Hold / Placeholder**: Kapasitas admin, payment global, invoice/payment/escrow, supplier marketplace, purchase order production, inventory production, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
@@ -120,7 +119,7 @@ Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Visibility Preparation (Hold)**: Penambahan disclaimer bahwa visibilitas item tertentu sedang dalam tahap persiapan dan belum dikontrol secara dinamis oleh Admin.
 - **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) dengan tampilan timeline yang lebih bersih dan informatif.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
-- **CRUD Profil**: Customer API dan seed persona `customer-001` sampai `customer-003` sudah dipakai.
+- **CRUD Profil**: Perubahan data profil sensitif (Email, HP, NIK) diarahkan ke **Profile Change Approval Queue** dan baru diterapkan ke database setelah disetujui Admin/Superadmin (Apply Local Workflow).
 - **Stage Communication Panel**: **Functional v1 / Local Thread / Stabilized**. Admin sebagai official source; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket). Label "Local Thread (Non-Realtime)" digunakan untuk transparansi.
 - **Hold**: Password, auth production, payment, dokumen/legal upload rill, dan RBAC production tetap ditunda.
 

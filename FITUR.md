@@ -27,7 +27,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Direktori Persona Lokal**: Manajemen entitas simulasi (CRUD user lokal).
 - ✅ **Global Monitoring Summary**: Oversight progres proyek secara global (Read-only).
 - ✅ **Local Persona Governance**: Disclaimer simulasi dan batasan akun lokal.
-- 🛑 **Pusat Audit & Approval Lokal**: Hold / Preparation Only (Audit Log & Profile Approval belum aktif).
+- ✅ **Pusat Audit & Approval Lokal**: Audit Log & Profile Approval (Database-backed Local Workflow / Stabilized).
+- ✅ **Database Activity Logs**: Pencatatan riwayat perubahan data penting secara lokal.
 
 ### 👔 Admin
 - ✅ **Project Activation**: Gatekeeper untuk mengaktifkan proyek dari draft ke berjalan.
@@ -44,7 +45,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Weekly Report**: Pembuatan laporan mingguan dengan snapshot progres resmi.
 - ✅ **Stage Completion**: Menandai kategori pekerjaan (Stage) yang telah selesai.
 - ✅ **Work Item Review**: Thread diskusi kualitas per item pekerjaan (Stabilized).
-- 🏗️ **Visibility Preparation**: Label customer-visible vs internal-only (Local Hold).
+- ✅ **Visibility Guard**: Kontrol `isVisibleToCustomer` untuk laporan pengawas (Stabilized).
 
 ### 👷 Mandor (Foreman)
 - ✅ **Jurnal Mingguan**: Pelaporan aktivitas harian dan klaim progres lapangan.
@@ -88,8 +89,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 ---
 
 ## 🚀 Planned / Fitur Berikutnya
-- **Local Audit Log v1**: Pencatatan riwayat perubahan data penting.
-- **Profile Change Approval**: Alur persetujuan Admin/Superadmin untuk perubahan profil user.
+- **Advanced RBAC Simulation**: Simulasi role-based access control yang lebih mendalam secara lokal.
+- **Project Document Archive**: Pusat arsip dokumen digital rill (Local DB-backed).
 - **UX Soften**: Memperhalus wording "Hold" pada modul payment/detail pekerjaan Konsumen.
 
 ---

@@ -67,14 +67,14 @@ Status: **Database-Backed v2 / Local E2E Workflow v1**
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
 
 ### 4. Admin
-Status: **Database-Backed v2**
-- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`
+Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
+- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`
 - **Dependency**: Tidak membutuhkan persona context khusus (Global Admin role).
 
 **Behavior UI:**
-- **Dashboard**: Statistik rill dari database, dengan sisa demo activity/stat yang masih boleh dibersihkan terpisah.
+- **Dashboard & Project Control**: **Local Dashboard Polish / Stabilized**. Admin memiliki summary operasional (active/preparation/finished projects) dan alert monitoring untuk pending requests/reports.
 - **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
-- **Project Stage Completion**: **Local Workflow v1 / Stabilized** untuk aksi Pengawas assigned pada detail proyek; bukan progress resmi proyek dan tidak memanggil `recalculateProjectVerifiedProgress`.
+- **Project Stage Completion**: **Local Workflow v1 / Stabilized** untuk aksi Pengawas assigned pada detail proyek.
 - **Project Lifecycle Completion Pack**: **Local Workflow v1 / Stabilized**. Admin complete project lokal melalui closeout validation: project `Berjalan`, `Project.verifiedProgress` 100%, semua stage selesai, dan tidak ada Material Request aktif.
 - **Post-Completion History & Experience Pack**: **Local Workflow v1 / Stabilized**. Admin dapat membaca Finished Project History dan status project `Selesai`; ini histori operasional lokal dan tidak mengubah Progress SOT.
 - **Konsumen & Design Flow**: Customer data, Design Request management, tender publish/award, dan manual bridge to project draft/planning lokal: **Local E2E Workflow v1 / UI Consistency Stabilized**.
@@ -95,10 +95,11 @@ Status: **Database-Backed v2**
 ---
 
 ### 5. Superadmin
-Status: **Database-Backed Local CRUD / Governance Implemented**
+Status: **Database-Backed Local CRUD / Monitoring Polish Stabilized**
 - **Context**: `SuperadminPersonaContext`
 - **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
-- **Entity CRUD (Implemented)**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role (Admin, Superadmin, Konsumen, Pengawas, Mandor, Arsitek) melalui database sync `localhost`. Terminologi "Persona" digunakan secara konsisten pada Form Modal dan Tabel untuk mempertegas simulasi.
+- **Entity CRUD (Implemented)**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role.
+- **Global Monitoring (Polish)**: **Local Monitoring Polish / Stabilized**. Dashboard monitoring global stats dan monitoring proyek lintas role sudah dilengkapi dengan summary operasional global dan notice "Local Monitoring Mode" yang eksplisit.
 - **Governance Layer (Implemented)**:
     - **GovernanceNotice**: Pesan peringatan standar pada halaman profil/pengaturan yang menjelaskan batasan fase "Local CRUD".
     - **Defensive UI**: Placeholder/Alert untuk fitur "Hold" seperti unggah foto.
@@ -109,14 +110,12 @@ Status: **Database-Backed Local CRUD / Governance Implemented**
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
 
 ### 6. Konsumen
-Status: **Database-Backed v1**
+Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
-- **Dashboard & Monitoring**: Dashboard, project filter by `customerId`, ProjectStage, `Project.verifiedProgress` resmi, dan ProjectStagePublicComment sudah API-backed untuk localhost. Konsumen hanya melihat progress resmi, bukan mengubah atau memverifikasi progress.
-- **Stage Status Boundary**: Stage selesai/terverifikasi lokal dapat tampil sebagai status tahapan, tetapi bukan progress resmi proyek; `Project.verifiedProgress` tetap berasal dari Verifikasi Progres.
-- **Completion Reader**: Status project selesai lokal dapat dibaca Konsumen sebagai reader status; ini bukan BAST/legal handover, invoice/payment/escrow, atau sertifikat resmi.
-- **Finished Project Timeline**: Timeline Konsumen menampilkan `Pekerjaan Selesai` untuk project `Selesai` sebagai histori operasional lokal; tidak mengubah Progress SOT.
-- **Timeline Evidence Thread**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) yang ditandai customer-visible, termasuk laporan Mandor dan review Pengawas/Admin yang relevan.
-- **Design Collaboration Timeline**: **Local Workflow v1 / Stabilized**. Konsumen dapat memantau riwayat desain, memberikan feedback, dan mengajukan revisi melalui form dengan validasi limit (3 major / 5 minor).
+- **Dashboard & Project Overview**: **Local Transparency UX Polish / Stabilized**. Dashboard dan Monitoring Proyek menampilkan label "Progress Resmi (Verified Pengawas)" dan status operasional yang akurat.
+- **Phase Separation**: **Local Transparency UX Polish / Stabilized**. Timeline desain (kolaborasi/revisi) dan timeline konstruksi (lapangan) dipisahkan secara visual melalui Phase Selector.
+- **Timeline Evidence Thread**: **Local Workflow Polish / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas).
+- **Design Collaboration Timeline**: **Local Workflow v1 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor).
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.

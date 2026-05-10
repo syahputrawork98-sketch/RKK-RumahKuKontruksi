@@ -37,9 +37,11 @@
 | **Design to Project Draft** | Local Demo Completion / Local E2E Workflow v1 | Design Request -> Tender -> Award -> assigned/approved -> Project draft/planning lokal sudah berjalan untuk demo localhost |
 | **Project Bridge** | Local Draft/Planning Bridge | Manual conversion from approved Design Request to project draft/planning lokal; tidak mengaktifkan proyek otomatis |
 | **Timeline Panel** | DONE | Stage Communication Panel functional v1 via ProjectStagePublicComment API; create/reply memakai `projectId` eksplisit dari client |
-| **Timeline Evidence / Field Thread** | Local Workflow v1 / Stabilized | Laporan Mandor per item pekerjaan (RabItem), review Pengawas/Admin, grouped by Stage/RAB; customer-visible evidence thread |
+| **Timeline Evidence / Field Thread** | Local Workflow Polish / Stabilized | Laporan Mandor per RabItem, review Pengawas/Admin, grouped by Stage; role-colored evidence thread |
+| **Admin & Superadmin Control** | Local Dashboard Polish / Stabilized | Admin Operational Summary & Superadmin Global Monitoring Polish; status planning/active/finished clearer |
+| **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview polish, Design vs Construction phase separation, and official verified progress labels |
 | **Design Collaboration & Revision** | Local Workflow v1 / Stabilized | Design thread role-colored, revision counters, dan enforcement batas revisi (3 Major / 5 Minor) |
-| **Local Governance & Persona Control**| Local Workflow v1 / Implemented | Standardized persona management for Superadmin, local governance notices on profile pages, defensive UI for non-functional features (e.g., photo uploads), and "Local CRUD" terminology enforcement |
+| **Local Governance & Persona Control**| Local Workflow v1 / Implemented | Standardized persona management for Superadmin, local governance notices on profile pages, and "Local CRUD" terminology |
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi secara manual lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
@@ -57,6 +59,19 @@ Stage completion bukan progress resmi proyek dan tidak mengubah `Project.verifie
 ## Project Lifecycle Completion Context
 Project Lifecycle Completion Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Batch ini mencakup tiga fitur utama: Admin complete project lokal, Mandor/Pengawas post-completion guard, dan reader status selesai untuk Konsumen/Admin/Superadmin. Complete project dijalankan Admin melalui `PATCH /projects/:id/complete`.
 
+## Admin & Superadmin Operational Control Polish
+**Admin & Superadmin Operational Control Polish** sudah berstatus **Local Dashboard/Monitoring Polish / Stabilized**.
+- **Admin**: Memiliki "Operational Summary" yang mengagregasi jumlah proyek (Persiapan/Berjalan/Selesai) dan alert untuk Material Request atau Report yang perlu di-review.
+- **Superadmin**: Memiliki "Global Monitoring Summary" untuk oversight lintas proyek secara global dengan label "Local Monitoring Mode" yang eksplisit.
+- **Status Clarity**: Perbedaan antara fase planning, aktif konstruksi, dan histori (selesai) dipertegas melalui visual summary dan status badge yang konsisten.
+
+## Konsumen Project Transparency & Detail Polish
+**Konsumen Project Transparency & Detail Polish** sudah berstatus **Local Transparency UX Polish / Stabilized**.
+- **Project Overview**: Tampilan hero proyek kini lebih informatif dengan label "Progress Resmi (Verified Pengawas)" dan status operasional yang lebih akurat.
+- **Design vs Construction Separation**: Timeline desain dan timeline konstruksi dipisahkan secara visual (Phase Selector) untuk membantu Konsumen membedakan antara perencanaan (Brief/Revisi) dan implementasi lapangan.
+- **Official Progress Logic**: Progress yang tampil adalah data resmi dari Pengawas assigned; sistem memberikan disclaimer bahwa progress didasarkan pada verifikasi kualitas fisik, bukan sekadar klaim Mandor.
+- **Completion History**: Proyek yang telah selesai tampil dengan visual histori khusus, menandakan berakhirnya fase operasional konstruksi lokal.
+
 Closeout lokal memvalidasi project harus `Berjalan`, `Project.verifiedProgress` wajib 100%, semua stage wajib selesai, dan tidak ada Material Request aktif. Jika closeout valid, project masuk status selesai lokal; Mandor/Pengawas tetap bisa membaca histori, tetapi action lapangan baru ditahan setelah project selesai. Closeout lokal tidak mengubah `Project.verifiedProgress`; progress resmi tetap berasal dari Verifikasi Progres. Ini bukan BAST/legal handover, bukan invoice/payment/escrow, bukan sertifikat resmi, dan bukan lifecycle/legal production.
 
 ## Post-Completion History & Experience Context
@@ -69,9 +84,13 @@ Pack ini adalah histori operasional lokal, bukan BAST/legal handover, bukan invo
 Material Request from RAB Usage juga tidak mengubah Progress SOT: tidak ada update otomatis ke `Project.verifiedProgress`, `ProjectStage.progress`, atau `RabItem.progress`.
 
 ## Timeline Evidence & Field Thread Context
-**Timeline Evidence / Field Thread** sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem` -> Laporan Mandor per item pekerjaan -> Komentar/Review Pengawas atau Admin.
+**Timeline Evidence / Field Thread** sudah berstatus **Local Workflow Polish / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem` -> Laporan Mandor per item pekerjaan -> Komentar/Review Pengawas atau Admin.
 
-Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (Evidence Thread), bukan sekadar kategori atau progress angka kosong. Update dapat ditandai sebagai customer-visible atau internal-only (Admin visibility control). Mandor melaporkan aktivitas per RabItem/Stage, dan Pengawas/Admin memberikan catatan/review dalam thread tersebut. Ini bukan realtime chat, bukan legal evidence, bukan BAST, bukan upload production besar, dan tidak mengubah Progress SOT konstruksi.
+Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (Evidence Thread). Polish terbaru mencakup:
+- **Role-Colored Evidence**: Mandor (Biru/Bukti Lapangan) dan Pengawas (Amber/Review Kualitas) memiliki visual card yang berbeda.
+- **Work Item Transparency**: Konsumen dapat melihat rincian item pekerjaan RAB yang sedang dikerjakan beserta status verifikasinya.
+- **Visibility Control**: Update ditandai sebagai customer-visible atau internal-only. Catatan internal teknis tidak ditampilkan pada timeline publik Konsumen.
+- **Empty States**: Pesan informatif jika kategori pekerjaan sudah terdaftar namun bukti lapangan belum dipublikasikan.
 
 ## Design Collaboration & Revision Limit Context
 **Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Design Request` -> Timeline kolaborasi (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.

@@ -40,7 +40,9 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 
 **Catatan Konsumen Monitoring**:
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
-- `Project.verifiedProgress` adalah Source of Truth; `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi dan tidak menggantikan verifikasi Pengawas assigned.
+- `Project.verifiedProgress` adalah Source of Truth (Progress Resmi); `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi.
+- Timeline Konsumen menampilkan label "Progress Resmi (Verified Pengawas)" untuk transparansi kualitas fisik.
+- Fase Desain dan Fase Konstruksi dipisahkan secara visual; progress resmi hanya berlaku untuk fase konstruksi lapangan.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
 
 **Catatan Progress Verification Context**:
@@ -71,9 +73,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Batch ini mencakup Admin complete project lokal, Mandor/Pengawas post-completion guard, dan reader status selesai untuk Konsumen/Admin/Superadmin.
 - Complete project memakai `PATCH /projects/:id/complete`.
 - Validasi closeout: project harus `Berjalan`, `Project.verifiedProgress` wajib 100%, semua stage wajib selesai, dan tidak ada Material Request aktif.
-- Closeout lokal tidak mengubah `Project.verifiedProgress`; progress resmi tetap melalui Verifikasi Progres.
-- Mandor/Pengawas tetap bisa membaca histori setelah project selesai, tetapi action lapangan baru ditahan.
-- Bukan BAST/legal handover, invoice/payment/escrow, sertifikat resmi, auth/deployment production, atau lifecycle/legal production.
+- Project selesai tampil sebagai histori lokal dengan visual khusus pada timeline Konsumen.
 
 **Catatan Post-Completion History & Experience Pack**:
 - **Status**: *Post-Completion History & Experience Pack = Local Workflow v1 / Stabilized*.
@@ -328,7 +328,8 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Post-Completion History & Experience Pack, Project Lifecycle Completion Pack, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup BAST/legal handover, progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.
+- **Local Stabilized Status**: Project Timeline Evidence Polish, Admin & Superadmin Operational Control, Konsumen Project Transparency, Post-Completion History, Project Lifecycle Completion, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration.
+- **Wording Standard**: Menggunakan "Official Progress", "Verified by Supervisor", dan "Field Evidence" secara konsisten untuk transparansi Konsumen.
 
 ## Local Governance & Persona Control (Implemented v1)
 Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/Frontend flow:

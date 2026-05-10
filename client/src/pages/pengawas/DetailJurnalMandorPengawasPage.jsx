@@ -131,19 +131,29 @@ const DetailJurnalMandorPengawasPage = () => {
                 <div className="lg:col-span-2 space-y-6">
                     {/* MAIN CONTENT */}
                     <div className="dashboard-card p-6 space-y-6">
-                        <div className="flex items-center justify-between border-b border-[var(--dashboard-border)] pb-4">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--dashboard-border)] pb-4">
                             <div className="flex items-center gap-2">
                                 <FiInfo className="text-[var(--dashboard-primary)]" />
                                 <span className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Ringkasan Aktivitas Mandor</span>
                             </div>
-                            <span className="text-xs font-bold px-3 py-1 bg-[var(--dashboard-surface-soft)] rounded-lg">
-                                Periode: {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
-                            </span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 uppercase tracking-tighter">
+                                    Customer-Visible
+                                </span>
+                                <span className="text-xs font-bold px-3 py-1 bg-[var(--dashboard-surface-soft)] rounded-lg">
+                                    Periode: {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
+                                </span>
+                            </div>
                         </div>
 
-                        <p className="text-sm font-medium leading-relaxed text-slate-700 whitespace-pre-wrap bg-[var(--dashboard-surface-soft)] p-4 rounded-xl border border-slate-100">
-                            {journal.summary || <span className="italic text-slate-400">Mandor tidak memberikan ringkasan.</span>}
-                        </p>
+                        <div className="p-4 bg-emerald-50/50 border border-emerald-100/50 rounded-xl">
+                            <p className="text-[10px] text-emerald-700 font-bold italic mb-2 uppercase tracking-tight flex items-center gap-2">
+                                <FiActivity size={12} /> Transparansi Konsumen:
+                            </p>
+                            <p className="text-sm font-medium leading-relaxed text-slate-700 whitespace-pre-wrap">
+                                {journal.summary || <span className="italic text-slate-400">Mandor tidak memberikan ringkasan.</span>}
+                            </p>
+                        </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">

@@ -564,16 +564,21 @@ const DetailProyekAdminPage = () => {
                             <div className="space-y-6 animate-fadeIn">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Daftar Tahap Pekerjaan (Stages)</h3>
-                                    <button 
-                                        onClick={() => {
-                                            setStageForm({ code: "", title: "", description: "", week: 1, status: "planning", startDate: "", endDate: "", durationDays: 7, order: stages.length + 1, note: "" });
-                                            setIsEditingStage(false);
-                                            setShowStageModal(true);
-                                        }}
-                                        className="flex items-center gap-2 px-4 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-bold shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 transition-all"
-                                    >
-                                        <FiPlus /> Tambah Stage
-                                    </button>
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-widest hidden md:block">
+                                            Timeline Publik Aktif
+                                        </span>
+                                        <button 
+                                            onClick={() => {
+                                                setStageForm({ code: "", title: "", description: "", week: 1, status: "planning", startDate: "", endDate: "", durationDays: 7, order: stages.length + 1, note: "" });
+                                                setIsEditingStage(false);
+                                                setShowStageModal(true);
+                                            }}
+                                            className="flex items-center gap-2 px-4 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-bold shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 transition-all"
+                                        >
+                                            <FiPlus /> Tambah Stage
+                                        </button>
+                                    </div>
                                 </div>
 
                                 {stages.length > 0 ? (

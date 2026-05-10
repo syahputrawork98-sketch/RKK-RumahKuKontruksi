@@ -102,7 +102,9 @@ const TLProyek = ({ timeline = [] }) => {
                           </div>
                         )}
                       </div>
-                                        {/* Task preview */}
+                    )}
+
+                    {/* Task preview */}
                     <div className="space-y-3 bg-neutral-10/50 p-5 rounded-2xl border border-neutral-30/50 shadow-inner">
                       <div className="flex justify-between items-center">
                         <p className="text-[10px] font-black text-neutral-50 uppercase tracking-[0.2em]">Item Pekerjaan Terdaftar</p>
@@ -158,7 +160,7 @@ const TLProyek = ({ timeline = [] }) => {
 
                     {/* Footer */}
                     <div className="pt-5 border-t border-neutral-30 flex flex-wrap items-center justify-between gap-4">
-                      <div>
+                      <div className="flex-1 min-w-[200px]">
                         {isVerified && (
                           <div className="flex items-center gap-2 text-xs font-black text-success-main uppercase tracking-tight">
                             <div className="w-6 h-6 rounded-full bg-success-main/10 flex items-center justify-center">
@@ -171,11 +173,10 @@ const TLProyek = ({ timeline = [] }) => {
                           <p className="text-xs text-neutral-50 italic max-w-[200px] truncate font-medium">"{stage.note}"</p>
                         )}
                       </div>
-iv>
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/konsumen/timeline-proyek/${detailId}`}
-                          className="px-4 py-2 bg-primary-main text-white text-xs font-bold rounded-xl hover:bg-primary-hover transition-colors flex items-center gap-2"
+                          className="px-4 py-2 bg-primary-main text-white text-xs font-bold rounded-xl hover:bg-primary-hover transition-colors flex items-center gap-2 shadow-lg shadow-primary-main/20"
                         >
                           Lihat Detail <FiChevronRight size={14} />
                         </Link>

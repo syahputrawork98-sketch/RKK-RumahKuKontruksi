@@ -401,6 +401,9 @@ const DetailProyekDiawasiPengawasPage = () => {
                             <div className="space-y-6 animate-fadeIn">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Tahapan & Jadwal Proyek</h3>
+                                    <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-widest">
+                                        Visible to Customer
+                                    </span>
                                 </div>
 
                                 {project.stages?.length > 0 ? (

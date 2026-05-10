@@ -238,8 +238,21 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                         {/* Evidence Thread Row */}
                         {(item.activities?.length > 0 || item.notes?.length > 0) && (
                           <tr className="bg-neutral-10/50">
-                            <td colSpan={9} className="px-8 py-4">
-                              <div className="space-y-3 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-30">
+                            <td colSpan={9} className="px-8 py-6">
+                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-neutral-20 pb-3">
+                                <h4 className="text-[10px] font-black text-neutral-50 uppercase tracking-[0.2em] flex items-center gap-2">
+                                  <FiActivity size={12} className="text-primary-main" /> Kronologi Bukti Pekerjaan
+                                </h4>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 uppercase tracking-tighter">
+                                    Update tersedia untuk Konsumen
+                                  </span>
+                                  <span className="text-[9px] font-bold text-neutral-40 uppercase tracking-tighter italic">
+                                    * Bukan verifikasi resmi
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="space-y-4 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-30">
                                   {/* Mandor Activities */}
                                   {item.activities?.map((act) => (
                                     <div key={act.id} className="relative pl-8">
@@ -305,6 +318,12 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                       <p className="text-[10px] text-neutral-40 font-bold italic">Item pekerjaan ini sudah terdaftar di RAB, tetapi belum memiliki update lapangan yang dipublikasikan untuk Konsumen.</p>
                                     </div>
                                   )}
+                                  
+                                  <div className="pl-8 pt-2">
+                                    <p className="text-[9px] text-neutral-40 font-medium italic leading-relaxed">
+                                      * Evidence item ini adalah laporan aktivitas lapangan dan tidak mengubah Progress Resmi proyek secara otomatis. Progress resmi tetap diperbarui secara manual oleh Pengawas melalui Verifikasi Resmi.
+                                    </p>
+                                  </div>
                                </div>
                              </td>
                            </tr>

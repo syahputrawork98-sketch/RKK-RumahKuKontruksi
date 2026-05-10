@@ -606,6 +606,8 @@ model SupervisorWeeklyReport {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  isVisibleToCustomer Boolean @default(false) @map("is_visible_to_customer")
+
   journals   SupervisorWeeklyReportJournal[]
   notes      SupervisorWeeklyReportNote[]
   reviewLogs SupervisorWeeklyReportReviewLog[]
@@ -798,3 +800,39 @@ model DesignTenderBid {
   @@unique([designTenderId, architectId])
   @@map("design_tender_bids")
 }
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorRole  String   @map("actor_role")
+  actorId    String   @map("actor_id")
+  actorName  String?  @map("actor_name")
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  summary    String?
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
+
+model ProfileChangeRequest {
+  id               String    @id @default(cuid())
+  targetRole       String    @map("target_role")
+  targetId         String    @map("target_id")
+  requestedByRole  String    @map("requested_by_role")
+  requestedById    String    @map("requested_by_id")
+  fieldName        String    @map("field_name")
+  oldValue         String?   @map("old_value")
+  newValue         String?   @map("new_value")
+  status           String    @default("pending") // pending, approved, rejected
+  reviewedByRole   String?   @map("reviewed_by_role")
+  reviewedById     String?   @map("reviewed_by_id")
+  reviewedAt       DateTime? @map("reviewed_at")
+  note             String?
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  @@map("profile_change_requests")
+}
+

@@ -15,6 +15,8 @@ import rabRoutes from './modules/rab/rab.routes.js';
 import designRequestRoutes from './modules/design-requests/design-requests.routes.js';
 import designTenderRoutes from './modules/design-tenders/design-tenders.routes.js';
 import projectStageCommentRoutes from './modules/project-stage-public-comments/project-stage-public-comments.routes.js';
+import auditLogRoutes from './modules/audit-logs/audit-logs.routes.js';
+import profileChangeRequestRoutes from './modules/profile-change-requests/profile-change-requests.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -43,6 +45,8 @@ app.use('/api/rab', rabRoutes);
 app.use('/api/design-requests', designRequestRoutes);
 app.use('/api/design-tenders', designTenderRoutes);
 app.use('/api/project-stage-comments', projectStageCommentRoutes);
+app.use('/api/audit-logs', auditLogRoutes);
+app.use('/api/profile-change-requests', profileChangeRequestRoutes);
 
 // Error Handler
 app.use(errorHandler);

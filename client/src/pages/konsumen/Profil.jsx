@@ -1,5 +1,10 @@
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import GovernanceNotice from "../../components/common/GovernanceNotice";
+import * as governanceService from "../../services/governanceService";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
+import React, { useState, useEffect } from "react";
+import customerService from "../../services/customerService";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const Profil = () => {
   const { selectedCustomerId, selectedCustomer, refreshCustomerData, loading: personaLoading } = useCustomerPersona();
@@ -90,6 +95,29 @@ const Profil = () => {
         businessField: user.businessField
       };
 
+      const sensitiveFields = ['email', 'phone', 'identityNumber'];
+      const sensitiveChanges = [];
+      
+      if (user.email !== selectedCustomer.email) sensitiveChanges.push({ field: 'email', old: selectedCustomer.email, new: user.email });
+      if (user.nomor !== selectedCustomer.phone) sensitiveChanges.push({ field: 'phone', old: selectedCustomer.phone, new: user.nomor });
+      if (user.identityNumber !== selectedCustomer.identityNumber) sensitiveChanges.push({ field: 'identityNumber', old: selectedCustomer.identityNumber, new: user.identityNumber });
+
+      if (sensitiveChanges.length > 0) {
+        for (const change of sensitiveChanges) {
+          await governanceService.createProfileChangeRequest({
+            targetRole: 'customer',
+            targetId: selectedCustomerId,
+            requestedByRole: 'customer',
+            requestedById: selectedCustomerId,
+            fieldName: change.field,
+            oldValue: change.old,
+            newValue: change.new,
+            status: 'pending'
+          });
+        }
+        alert("Beberapa perubahan data sensitif telah dikirim ke antrian approval Admin. Data non-sensitif lainnya akan segera diperbarui.");
+      }
+
       await customerService.updateCustomer(selectedCustomerId, payload);
       
       // Refresh context data
@@ -98,7 +126,7 @@ const Profil = () => {
       }
       
       setIsEditing(false);
-      alert("Profil berhasil diperbarui!");
+      if (sensitiveChanges.length === 0) alert("Profil berhasil diperbarui!");
     } catch (error) {
       console.error("Failed to update profile:", error);
       const errorMsg = error.response?.data?.message || error.message || "Gagal memperbarui profil. Silakan coba lagi.";

@@ -196,11 +196,21 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /superadmins/:id`: Update data Superadmin.
 - `DELETE /superadmins/:id`: Hapus Superadmin.
 
-**Catatan Superadmin Governance (v2 Implemented)**:
-- **Direktori Persona Lokal**: Superadmin mengelola seluruh entitas/persona role melalui API lokal. Terminologi "Direktori Persona" dan "Persona Lokal" wajib digunakan.
-- **Form Disclaimer**: Setiap aksi CRUD persona menyertakan disclaimer bahwa sistem ini tidak menggunakan production auth (password/JWT).
-- **Monitoring (Simulasi)**: Dashboard global stats, master data, monitoring proyek global, dan audit pengajuan desain menggunakan data rill dari database `localhost` dengan wording simulasi/lokal.
-- **Hold**: Audit Log otomatis (Placeholder: Pusat Audit & Approval Lokal), Profile Change Approval, kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold. Action buttons pada UI Audit dinonaktifkan. Backend audit formal belum aktif.
+## Audit Logs (Implemented v1)
+- `GET /audit-logs`: Ambil list log aktivitas sistem; dukung filter `search`, `actorRole`, `entityType`.
+- `POST /audit-logs`: Membuat entry log audit baru (Backend auto-triggered pada aksi penting).
+
+## Profile Change Requests (Implemented v1)
+- `GET /profile-change-requests`: Ambil list permintaan perubahan profil.
+- `POST /profile-change-requests`: Mengajukan permintaan perubahan profil sensitif.
+- `PATCH /profile-change-requests/:id/review`: Review (Approve/Reject) permintaan perubahan oleh Superadmin.
+
+
+**Catatan Superadmin Governance (v3 Foundation Implemented)**:
+- **Audit Log v1 (Active)**: Pencatatan otomatis aksi penting (Aktivasi Proyek, Verifikasi Progres, Selesai Proyek) ke database `localhost`.
+- **Profile Change Approval Queue v1 (Active)**: Perubahan data profil sensitif (Email, HP, NIK) oleh Konsumen kini masuk ke antrian approval Superadmin.
+- **Wording**: Terminologi "Pusat Audit & Approval" digunakan di dashboard Superadmin.
+
 
 ## Design Requests (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
@@ -348,5 +358,6 @@ Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/F
 - **GovernanceNotice API Integration**: Halaman pengaturan profil ditarik dari API persona masing-masing dan dilengkapi komponen `GovernanceNotice`.
 - **Photo Upload (Hold)**: UI menampilkan alert "Fitur Hold" pada tombol ubah foto untuk memperjelas batasan fase Local CRUD.
 - **Local Sync Confirm**: Dialog hapus (API DELETE) menyertakan informasi bahwa data dihapus dari database `localhost`.
-- **Visibility Control (Hold/Preparation)**: Visibility toggles pada UI Admin/Pengawas saat ini berfungsi sebagai label persiapan (UI-only). Backend enforcement untuk menyembunyikan item secara dinamis dari Konsumen masih Planned.
-- **Profile Change Request (Hold)**: Mekanisme **Profile Change Request** formal dan **Audit/Change Log** otomatis tetap berstatus "Future Sprint / Hold". UI Pusat Audit hanya sebagai placeholder.
+- **Profile Change Request (Implemented v1)**: Mekanisme **Profile Change Request** formal dan **Audit Log** otomatis sudah aktif pada aksi penting. UI Pusat Audit Superadmin terhubung ke database rill.
+- **Visibility Guard (Implemented v1)**: Backend enforcement untuk filter visibilitas item (`isVisibleToCustomer`) pada Laporan Mingguan sudah diimplementasikan.
+

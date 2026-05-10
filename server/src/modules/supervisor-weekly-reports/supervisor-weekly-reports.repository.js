@@ -9,6 +9,9 @@ export const findReports = async (filters = {}) => {
   if (filters.adminId) {
     where.project = { adminId: filters.adminId };
   }
+  if (filters.isVisibleToCustomer !== undefined) {
+    where.isVisibleToCustomer = filters.isVisibleToCustomer;
+  }
   
   if (filters.weekStartDate) {
     where.weekStartDate = {
@@ -157,6 +160,7 @@ export const updateReportStatus = async (id, data) => {
 
     if (status === 'published') {
       // Locking or other publish logic could go here
+      updateData.isVisibleToCustomer = true;
     }
 
     if (status === 'locked') updateData.lockedAt = new Date();

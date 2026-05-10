@@ -14,6 +14,8 @@ export const getReports = async (req, res, next) => {
       filters.supervisorId = actorId;
     } else if (actorRole === 'admin') {
       filters.adminId = actorId;
+    } else if (actorRole === 'customer') {
+      filters.isVisibleToCustomer = true;
     } else if (actorRole !== 'admin' && actorRole !== 'superadmin') {
       if (actorRole) {
         return res.status(403).json({
@@ -59,6 +61,13 @@ export const getReportById = async (req, res, next) => {
       return res.status(403).json({
         success: false,
         message: 'Anda tidak memiliki akses ke laporan ini.'
+      });
+    }
+    
+    if (actorRole === 'customer' && !report.isVisibleToCustomer) {
+      return res.status(403).json({
+        success: false,
+        message: 'Laporan ini belum dipublikasikan untuk Konsumen.'
       });
     }
 

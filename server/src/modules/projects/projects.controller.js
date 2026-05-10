@@ -3,6 +3,7 @@ import * as CustomerRepository from '../customers/customers.repository.js';
 import * as AdminRepository from '../admins/admins.repository.js';
 import prisma from '../../config/prisma.js';
 import { serializeDecimal } from '../../utils/decimalHelper.js';
+import * as AuditLogRepository from '../audit-logs/audit-logs.repository.js';
 
 export const getProjects = async (req, res, next) => {
   try {
@@ -396,6 +397,16 @@ export const verifyProjectProgress = async (req, res, next) => {
       stageId: stageId || null
     });
 
+    // AUDIT LOG
+    await AuditLogRepository.create({
+      actorRole: 'pengawas',
+      actorId: actorId,
+      action: 'PROGRESS_VERIFICATION',
+      entityType: 'Project',
+      entityId: id,
+      summary: `Progress verified to ${verifiedProgress}% for project ${project.name}`
+    });
+
     res.json({
       success: true,
       message: 'Progress proyek berhasil diverifikasi.',
@@ -508,6 +519,16 @@ export const activateProject = async (req, res, next) => {
     // Update status to Berjalan (consistent with local seed and Material Request checks)
     const updatedProject = await ProjectRepository.update(id, {
       status: 'Berjalan'
+    });
+
+    // AUDIT LOG
+    await AuditLogRepository.create({
+      actorRole: 'admin',
+      actorId: adminId,
+      action: 'PROJECT_ACTIVATION',
+      entityType: 'Project',
+      entityId: id,
+      summary: `Project activated: ${project.name} (${project.projectCode})`
     });
 
     res.json({
@@ -688,6 +709,16 @@ export const completeProject = async (req, res, next) => {
       status: 'Selesai',
       progress: 100, // Sync legacy progress field
       // We don't touch verifiedProgress here as per instructions
+    });
+
+    // AUDIT LOG
+    await AuditLogRepository.create({
+      actorRole: 'admin',
+      actorId: adminId,
+      action: 'PROJECT_COMPLETION',
+      entityType: 'Project',
+      entityId: id,
+      summary: `Project completed: ${project.name} (${project.projectCode})`
     });
 
     res.json({

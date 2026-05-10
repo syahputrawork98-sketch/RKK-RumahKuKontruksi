@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiClock, FiChevronRight, FiMessageSquare, FiCalendar, FiActivity } from "react-icons/fi";
 
-const TLProyek = ({ timeline = [] }) => {
+const TLProyek = ({ timeline = [], layout = "left" }) => {
+  const isLeft = layout === "left";
+
   return (
     <div className="relative">
       {/* Vertical Line */}
-      <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-neutral-30 -translate-x-1/2 rounded-full" />
+      <div className={`absolute ${isLeft ? "left-4" : "left-4 md:left-1/2"} top-0 bottom-0 w-1 bg-neutral-30 -translate-x-1/2 rounded-full`} />
 
       <div className="space-y-16 relative">
         {timeline.map((stage, idx) => {
@@ -20,10 +22,10 @@ const TLProyek = ({ timeline = [] }) => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative flex items-center gap-8"
+              className={`relative flex items-center ${isLeft ? "gap-0" : "gap-8"}`}
             >
               {/* Timeline Dot */}
-              <div className={`absolute left-4 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full border-4 border-white shadow-lg z-20 flex items-center justify-center ${
+              <div className={`absolute ${isLeft ? "left-4" : "left-4 md:left-1/2"} -translate-x-1/2 w-10 h-10 rounded-full border-4 border-white shadow-lg z-20 flex items-center justify-center ${
                 stage.status === "verified" ? "bg-success-main" :
                 stage.status === "in_progress" ? "bg-primary-main" : "bg-neutral-40"
               }`}>
@@ -35,7 +37,7 @@ const TLProyek = ({ timeline = [] }) => {
               </div>
 
               {/* Card */}
-              <div className="w-full md:w-[45%] ml-12 md:ml-0">
+              <div className={`w-full ${isLeft ? "ml-12" : "md:w-[45%] ml-12 md:ml-0"} ${!isLeft && idx % 2 !== 0 ? "md:translate-x-[110%]" : ""}`}>
                 <div className="public-card group hover:shadow-xl transition-all duration-500 !p-0 overflow-hidden">
                   {/* Status Strip */}
                   <div className={`h-1.5 w-full ${

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
 import projectService from "../../services/projectService";
-import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight } from "react-icons/fi";
+import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight, FiLayers, FiBox, FiChevronDown, FiEye, FiLock } from "react-icons/fi";
 
 const TimelineProyek = () => {
   const location = useLocation();
@@ -12,10 +12,9 @@ const TimelineProyek = () => {
   const stateProjectId = location.state?.projectId;
   
   const projectId = queryProjectId || stateProjectId;
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [activePhase, setActivePhase] = useState("construction"); // "design" or "construction"
+  const [rabData, setRabData] = useState(null);
+  const [selectedRabId, setSelectedRabId] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   useEffect(() => {
     const fetchProjectDetail = async () => {
@@ -26,8 +25,13 @@ const TimelineProyek = () => {
 
       try {
         setLoading(true);
-        const response = await projectService.getProjectById(projectId);
-        const raw = response.data;
+        const [projectRes, rabRes] = await Promise.all([
+          projectService.getProjectById(projectId),
+          projectService.getProjectRab(projectId)
+        ]);
+
+        const raw = projectRes.data;
+        const rabRaw = rabRes.data;
 
         // Map backend data to frontend structure
         const mappedProject = {
@@ -44,6 +48,7 @@ const TimelineProyek = () => {
             id: s.id,
             code: s.code || "N/A",
             title: s.title,
+            week: s.week,
             status: s.status === 'completed' || s.status === 'Selesai' || s.isVerified ? 'verified' : (['ongoing', 'active', 'Berjalan'].includes(s.status) ? 'in_progress' : 'pending'),
             date: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : '-',
             startDate: s.startDate ? new Date(s.startDate).toLocaleDateString('id-ID') : '-',
@@ -59,10 +64,11 @@ const TimelineProyek = () => {
             hasEvidence: (s._count?.journalActivities || 0) > 0 || (s._count?.reportNotes || 0) > 0,
             note: s.note,
             description: s.description,
-            tasks: (s.rabItems || []).map(item => item.description)
+            tasks: (s.rabItems || []).map(item => item.description),
+            categoryId: s.categoryId,
+            rabPlanId: s.rabPlanId
           })),
           verifiedProgress: raw.verifiedProgress || 0,
-          // Using real team data from backend relations
           team: {
             admin: {
               name: raw.admin?.name || "Admin Belum Ditugaskan",
@@ -86,6 +92,7 @@ const TimelineProyek = () => {
         };
 
         setProject(mappedProject);
+        setRabData(rabRaw);
         setError(null);
       } catch (err) {
         setError("Gagal memuat detail proyek.");
@@ -140,6 +147,12 @@ const TimelineProyek = () => {
   }
 
   const hasTimeline = Array.isArray(project.timeline) && project.timeline.length > 0;
+  const filteredTimeline = (selectedCategoryId || selectedRabId)
+    ? project.timeline.filter(item =>
+        (selectedCategoryId && item.categoryId === selectedCategoryId) ||
+        (selectedRabId && (project.stages?.find(s => s.id === item.id)?.rabItems?.some(ri => ri.id === selectedRabId)))
+      )
+    : project.timeline;
 
 
   const formatCurrency = (value) =>
@@ -404,14 +417,14 @@ const TimelineProyek = () => {
           </div>
         </section>
 
-        {/* 4. Timeline Section */}
+        {/* 4. Timeline Section - Two Panel Layout */}
         <section className="space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="text-heading-m-bold text-neutral-100">Timeline Pelaksanaan</h2>
               <div className="flex flex-wrap items-center gap-2 mt-1">
                 <p className="text-m-regular text-neutral-60 flex items-center gap-2">
-                  Pantau perkembangan pekerjaan tahap demi tahap.
+                  Pantau perkembangan pekerjaan berdasarkan struktur RAB.
                 </p>
                 <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-tighter">
                   Customer-visible summary
@@ -422,33 +435,179 @@ const TimelineProyek = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <span className="px-3 py-1 bg-white border border-neutral-30 rounded-lg text-s-bold text-neutral-70 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-success-main"></span> Verified
-              </span>
-              <span className="px-3 py-1 bg-white border border-neutral-30 rounded-lg text-s-bold text-neutral-70 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary-main"></span> In Progress
-              </span>
+              <button
+                onClick={() => { setSelectedCategoryId(null); setSelectedRabId(null); }}
+                className={`px-3 py-1 border rounded-lg text-xs font-bold transition-all ${!selectedCategoryId && !selectedRabId ? 'bg-primary-main text-white border-primary-main' : 'bg-white text-neutral-60 border-neutral-30 hover:bg-neutral-10'}`}
+              >
+                Semua Update
+              </button>
             </div>
           </div>
-          
-          {hasTimeline ? (
-            <TLProyek timeline={project.timeline} />
-          ) : (
-            <div className="bg-white rounded-[40px] border-2 border-dashed border-neutral-30 p-20 text-center space-y-4">
-              <div className="w-24 h-24 bg-neutral-20 rounded-3xl flex items-center justify-center mx-auto text-neutral-40">
-                <FiCalendar size={40} />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-heading-s-bold text-neutral-100">Timeline Belum Tersedia</h3>
-                <p className="text-m-regular text-neutral-60 max-w-sm mx-auto">
-                  Jadwal pelaksanaan proyek ini sedang dalam tahap penyusunan oleh tim admin dan pengawas lapangan.
-                </p>
+
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* LEFT PANEL: RAB TREE */}
+            <div className="w-full lg:w-1/3 sticky top-24">
+              <div className="bg-white rounded-[32px] border border-neutral-30 shadow-xl overflow-hidden">
+                <div className="p-6 border-b border-neutral-20 bg-neutral-10/50">
+                  <h3 className="text-[10px] font-black text-neutral-100 uppercase tracking-[0.2em] flex items-center gap-2">
+                    <FiLayers className="text-primary-main" /> Struktur Pekerjaan (RAB)
+                  </h3>
+                  <p className="text-[10px] text-neutral-50 mt-1 italic leading-tight">
+                    Klik kategori atau item untuk memfilter timeline pelaksanaan.
+                  </p>
+                </div>
+
+                <div className="p-4 max-h-[600px] overflow-y-auto custom-scrollbar">
+                  {rabData?.categories?.length > 0 ? (
+                    <div className="space-y-3">
+                      {rabData.categories.map((cat) => (
+                        <div key={cat.id} className="space-y-1">
+                          <button
+                            onClick={() => {
+                              setSelectedCategoryId(selectedCategoryId === cat.id ? null : cat.id);
+                              setSelectedRabId(null);
+                            }}
+                            className={`w-full flex items-center justify-between p-3 rounded-2xl text-left transition-all group ${
+                              selectedCategoryId === cat.id
+                                ? "bg-primary-surface text-primary-main border border-primary-main/20"
+                                : "hover:bg-neutral-10 text-neutral-80 border border-transparent"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+                                selectedCategoryId === cat.id ? "bg-primary-main text-white" : "bg-neutral-20 text-neutral-50 group-hover:bg-neutral-30"
+                              }`}>
+                                <FiBox size={14} />
+                              </div>
+                              <div className="overflow-hidden">
+                                <p className="text-xs font-black uppercase tracking-tight truncate">{cat.name}</p>
+                                <p className="text-[9px] text-neutral-50 font-bold uppercase tracking-tighter">
+                                  {cat.items?.length || 0} Item Pekerjaan
+                                </p>
+                              </div>
+                            </div>
+                            <FiChevronDown className={`transition-transform ${selectedCategoryId === cat.id ? "rotate-180" : ""}`} />
+                          </button>
+
+                          {/* RAB ITEMS */}
+                          {(selectedCategoryId === cat.id || selectedRabId) && cat.items?.map((item) => {
+                            const isSelected = selectedRabId === item.id;
+                            const hasUpdate = project.stages?.some(s => s.rabItems?.some(ri => ri.id === item.id));
+
+                            // If we're filtering by item, only show items in the selected category OR the selected item itself
+                            if (selectedCategoryId && item.categoryId !== selectedCategoryId) return null;
+
+                            return (
+                              <motion.button
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                key={item.id}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedRabId(isSelected ? null : item.id);
+                                  setSelectedCategoryId(null);
+                                }}
+                                className={`w-full flex items-center gap-3 pl-12 pr-4 py-2.5 rounded-xl text-left transition-all ${
+                                  isSelected ? "bg-teal-50 text-teal-700 font-bold" : "hover:bg-neutral-10 text-neutral-60"
+                                }`}
+                              >
+                                <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                                  item.progress === 100 ? "bg-success-main shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
+                                  item.progress > 0 ? "bg-primary-main" : "bg-neutral-30"
+                                }`} />
+                                <div className="flex-1 overflow-hidden">
+                                  <p className="text-[11px] leading-tight truncate">{item.description}</p>
+                                  <div className="flex items-center gap-2 mt-0.5">
+                                    <span className="text-[8px] font-black uppercase tracking-tighter opacity-70">{item.progress}% Selesai</span>
+                                    {hasUpdate && (
+                                      <span className="flex items-center gap-1 text-[8px] font-black text-emerald-600 uppercase tracking-tighter">
+                                        <FiEye size={8} /> Ada Update
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="py-12 text-center space-y-3">
+                      <div className="w-12 h-12 bg-neutral-10 rounded-2xl flex items-center justify-center mx-auto text-neutral-30">
+                        <FiLock size={20} />
+                      </div>
+                      <p className="text-[10px] text-neutral-50 font-bold uppercase tracking-widest italic">Data RAB Belum Dimuat</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-4 bg-neutral-10 border-t border-neutral-20">
+                  <div className="flex items-center gap-2 text-[9px] text-neutral-40 font-medium italic">
+                    <FiInfo className="shrink-0" />
+                    <span>Hanya item pekerjaan yang relevan dengan pengerjaan rill yang ditampilkan di struktur ini.</span>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
-          <p className="text-[10px] text-neutral-40 italic text-center pt-4">
-            * Catatan internal teknis tidak ditampilkan pada timeline publik Konsumen.
-          </p>
+
+            {/* RIGHT PANEL: EXECUTION TIMELINE */}
+            <div className="w-full lg:w-2/3">
+              {(selectedCategoryId || selectedRabId) && (
+                <div className="mb-6 flex items-center justify-between p-4 bg-white border border-primary-main/20 rounded-3xl shadow-sm">
+                   <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-primary-surface rounded-xl flex items-center justify-center text-primary-main">
+                        <FiActivity size={16} />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black text-neutral-100 uppercase tracking-widest">Memfilter Timeline:</p>
+                        <p className="text-xs font-bold text-primary-main">
+                          {selectedCategoryId ? rabData.categories.find(c => c.id === selectedCategoryId)?.name :
+                           rabData.categories.flatMap(c => c.items).find(i => i.id === selectedRabId)?.description}
+                        </p>
+                      </div>
+                   </div>
+                   <button
+                    onClick={() => { setSelectedCategoryId(null); setSelectedRabId(null); }}
+                    className="text-[10px] font-black text-neutral-40 uppercase hover:text-error-main transition-colors"
+                   >
+                     Hapus Filter
+                   </button>
+                </div>
+              )}
+
+              {filteredTimeline.length > 0 ? (
+                <TLProyek timeline={filteredTimeline} />
+              ) : (
+                <div className="bg-white rounded-[40px] border-2 border-dashed border-neutral-30 p-20 text-center space-y-4">
+                  <div className="w-24 h-24 bg-neutral-20 rounded-3xl flex items-center justify-center mx-auto text-neutral-40">
+                    <FiCalendar size={40} />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-heading-s-bold text-neutral-100">
+                      {selectedCategoryId || selectedRabId ? "Tidak Ada Update Terkurasi" : "Timeline Belum Tersedia"}
+                    </h3>
+                    <p className="text-m-regular text-neutral-60 max-w-sm mx-auto leading-relaxed font-bold">
+                      {selectedCategoryId || selectedRabId
+                        ? "Belum ada laporan lapangan atau review pengawas yang dipublikasikan untuk kategori/item ini."
+                        : "Jadwal pelaksanaan proyek ini sedang dalam tahap penyusunan oleh tim admin dan pengawas lapangan."}
+                    </p>
+                    {(selectedCategoryId || selectedRabId) && (
+                      <button
+                        onClick={() => { setSelectedCategoryId(null); setSelectedRabId(null); }}
+                        className="text-xs font-black text-primary-main uppercase mt-4 underline"
+                      >
+                        Lihat Semua Update Proyek
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+              <p className="text-[10px] text-neutral-40 italic text-center pt-8">
+                * Catatan internal teknis Mandor/Pengawas tidak ditampilkan pada timeline publik Konsumen demi menjaga fokus transparansi hasil kerja.
+              </p>
+            </div>
+          </div>
         </section>
       </div>
     </>

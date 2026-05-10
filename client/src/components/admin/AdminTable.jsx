@@ -50,11 +50,11 @@ export default function AdminTable({ data }) {
   };
 
   const handleDelete = async (admin) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun admin ${admin.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan muncul di monitoring operasional aktif.`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona admin ${admin.name}? Akun lokal ini tidak akan dihapus permanen tetapi tidak akan muncul di monitoring operasional aktif.`)) return;
     try {
       await adminService.deleteAdmin(admin.id);
       setAdmins((prev) => prev.filter((item) => item.id !== admin.id));
-      alert("Admin berhasil dinonaktifkan.");
+      alert("Persona admin berhasil dinonaktifkan secara lokal.");
     } catch (err) {
       console.error("AdminTable: Failed to deactivate admin", err);
       alert("Gagal menonaktifkan admin. Silakan coba lagi.");
@@ -107,7 +107,7 @@ export default function AdminTable({ data }) {
           className="dashboard-primary-button flex items-center justify-center gap-2 !py-3"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Admin</span>
+          <span>Tambah Persona Admin</span>
         </button>
       </div>
 

@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FiUser, FiMonitor, FiUsers, FiInfo, FiLayers, FiAward, FiBriefcase, FiPlus, FiEdit2, FiTrash2, FiX, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
-import { useForemanPersona } from "../../context/ForemanPersonaContext";
-import foremanService from "../../services/foremanService";
-import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import GovernanceNotice from "../../components/common/GovernanceNotice";
 
 const PengaturanMandorPage = () => {
     const { selectedForeman, selectedForemanId } = useForemanPersona();
@@ -213,7 +209,12 @@ const PengaturanMandorPage = () => {
                                         className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--dashboard-primary)]/20" 
                                         alt="Avatar" 
                                     />
-                                    <button className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--dashboard-border)]">Ubah Foto</button>
+                                    <button 
+                                        onClick={() => alert("Fitur Unggah Foto dinonaktifkan dalam Fase Local CRUD. Gunakan URL foto lokal jika tersedia.")}
+                                        className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--dashboard-border)]"
+                                    >
+                                        Ubah Foto
+                                    </button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-1">
@@ -395,6 +396,8 @@ const PengaturanMandorPage = () => {
                                 Fitur sinkronisasi offline sedang dalam pengembangan untuk mempermudah pelaporan di area dengan sinyal lemah.
                             </p>
                         </div>
+
+                        <GovernanceNotice roleName="Mandor" />
                     </div>
                 </div>
             </div>

@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { FiUser, FiMonitor, FiLock, FiInfo, FiPieChart, FiAward, FiBriefcase } from "react-icons/fi";
-import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
-import architectService from "../../services/architectService";
-import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import GovernanceNotice from "../../components/common/GovernanceNotice";
 
 const PengaturanArsitekPage = () => {
     const { selectedArchitect, selectedArchitectId, loading: personaLoading, error: personaError } = useArchitectPersona();
@@ -93,7 +89,12 @@ const PengaturanArsitekPage = () => {
                                 className="w-16 h-16 rounded-2xl object-cover border-2 border-[var(--dashboard-primary)]/20" 
                                 alt="Avatar" 
                             />
-                            <button disabled className="px-4 py-2 bg-slate-100 border border-slate-200 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest cursor-not-allowed">Ubah Foto (Hold)</button>
+                            <button 
+                                onClick={() => alert("Fitur Unggah Foto dinonaktifkan dalam Fase Local CRUD. Gunakan URL foto lokal jika tersedia.")}
+                                className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-border)] transition-colors"
+                            >
+                                Ubah Foto
+                            </button>
                         </div>
                         <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-1">
@@ -131,6 +132,8 @@ const PengaturanArsitekPage = () => {
                                     Sistem membatasi maksimal {maxCapacity} permintaan desain aktif secara bersamaan untuk menjaga kualitas output (Local Constraint).
                                 </p>
                             </div>
+
+                            <GovernanceNotice roleName="Arsitek" />
                         </div>
                     </div>
 

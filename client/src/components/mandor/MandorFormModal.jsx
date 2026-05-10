@@ -60,7 +60,7 @@ export default function MandorFormModal({ isOpen, onClose, onSubmit, initialData
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                        {initialData ? "Edit Mandor" : "Tambah Mandor Baru"}
+                        {initialData ? "Edit Persona Mandor" : "Tambah Persona Mandor Lokal"}
                     </h2>
                     <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-colors text-[var(--dashboard-text-soft)]">
                         <X size={20} />
@@ -183,7 +183,7 @@ export default function MandorFormModal({ isOpen, onClose, onSubmit, initialData
                             type="submit"
                             className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
                         >
-                            {initialData ? "Simpan Perubahan" : "Tambah Mandor"}
+                            {initialData ? "Simpan Perubahan" : "Tambah Persona Mandor"}
                         </button>
                     </div>
                 </form>

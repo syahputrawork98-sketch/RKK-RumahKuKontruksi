@@ -43,12 +43,12 @@ export default function DataKonsumenPage() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-2 h-8 bg-teal-600 rounded-full"></div>
-          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-            DATA MASTER <span className="text-teal-600 uppercase">Konsumen</span>
+          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)] uppercase">
+            DATA MASTER <span className="text-teal-600">Konsumen</span>
           </h1>
         </div>
-        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed">
-          Pusat pengelolaan data konsumen retail dan korporat. Validasi profil, monitoring riwayat pengajuan, dan audit data transaksi secara global.
+        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed italic">
+          Kelola daftar persona lokal dan database konsumen retail/korporat untuk kebutuhan sinkronisasi simulasi transaksi localhost.
         </p>
       </div>
 

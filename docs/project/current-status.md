@@ -39,6 +39,7 @@
 | **Timeline Panel** | DONE | Stage Communication Panel functional v1 via ProjectStagePublicComment API; create/reply memakai `projectId` eksplisit dari client |
 | **Timeline Evidence / Field Thread** | Local Workflow v1 / Stabilized | Laporan Mandor per item pekerjaan (RabItem), review Pengawas/Admin, grouped by Stage/RAB; customer-visible evidence thread |
 | **Design Collaboration & Revision** | Local Workflow v1 / Stabilized | Design thread role-colored, revision counters, dan enforcement batas revisi (3 Major / 5 Minor) |
+| **Local Governance & Persona Control**| Local Workflow v1 / Implemented | Standardized persona management for Superadmin, local governance notices on profile pages, defensive UI for non-functional features (e.g., photo uploads), and "Local CRUD" terminology enforcement |
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi secara manual lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
@@ -127,28 +128,17 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
 3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru tanpa membuka scope auth/payment/upload production.
 
-## Product Direction: Role Authority & Profile Change Governance
-Catatan ini adalah **product direction / planned direction / future workflow candidate** dari Room Chat 00, bukan fitur implemented, bukan stabilized, dan belum enforced di aplikasi. Arah produk RKK memisahkan kewenangan pengelolaan akun dan tata kelola perubahan profil secara bertahap dalam fase local development.
+### Local Governance & Persona Management (Implemented v1)
+Fitur tata kelola persona lokal telah diimplementasikan untuk memberikan transparansi fase pengembangan:
+1. **GovernanceNotice Component**: Pesan peringatan standar pada halaman profil/pengaturan yang menjelaskan batasan "Local CRUD" dan rencana alur validasi manual.
+2. **Standardized Persona Actions**: Seluruh aksi administratif (Tambah/Edit/Hapus) menggunakan terminologi "Persona" dan "Lokal" untuk membedakan simulasi dari user production rill.
+3. **Defensive UI Patterns**: Fitur non-fungsional (seperti Unggah Foto) telah diganti dengan placeholder atau alert informatif yang menjelaskan status fitur "Hold" selama fase Local CRUD.
+4. **Superadmin Global Monitoring**: Dashboard monitoring global stats dan master data sudah API-backed dengan wording simulasi yang jelas.
 
-### Pembagian Kewenangan Role (Planned Direction)
-
-1. **Superadmin (Role Tertinggi / Local Management)**:
-   - Memiliki kendali penuh untuk create, update, dan delete akun semua role (Admin, Pengawas, Mandor, Konsumen, Arsitek).
-   - Mengelola sektor atau master data yang dibuka sebagai Local CRUD.
-   - Menangani validasi dan approval atas perubahan data profil penting dari role lain.
-   - Memantau audit log atau change log lokal jika modul log diaktifkan.
-
-2. **Admin (Role Operasional Proyek)**:
-   - Fokus pada manajemen operasional: Proyek, RAB, Tender, Material Request, Stage, dan Closeout.
-   - **Dilarang** mengubah atau mengelola akun role lain.
-   - Hanya dapat mengubah data dan profil miliknya sendiri.
-   - Dapat membantu validasi perubahan data operasional atau profil jika cakupan akses dibuka secara lokal.
-
-3. **Mandor, Pengawas, Arsitek, dan Konsumen**:
-   - Hanya memiliki kewenangan untuk mengubah data dan profil miliknya sendiri.
-   - **Dilarang** mengubah atau mengakses akun orang lain.
-   - Perubahan data penting diarahkan untuk masuk ke antrian validasi Admin/Superadmin.
-   - Setiap perubahan penting wajib tercatat agar memiliki riwayat (traceability).
+Arah produk RKK memisahkan kewenangan pengelolaan akun secara bertahap:
+1. **Superadmin**: Memiliki kendali penuh untuk create, update, dan delete persona semua role melalui local database sync.
+2. **Admin**: Fokus pada operasional proyek; hanya dapat mengubah profil miliknya sendiri.
+3. **Role Lapangan/Konsumen**: Hanya dapat mengubah profil miliknya sendiri dengan pengawasan/notifikasi tata kelola lokal.
 
 ### Tata Kelola Perubahan Profil (Governance)
 

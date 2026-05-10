@@ -93,9 +93,9 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                 <div>
                     <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
                         {mode === "active" ? (
-                            <>LIST <span className="text-emerald-600 uppercase">Proyek Aktif</span></>
+                            <>LIST <span className="text-emerald-600 uppercase">Proyek Aktif (Lokal)</span></>
                         ) : (
-                            <>MONITORING <span className="text-blue-600 uppercase">Proyek Global</span></>
+                            <>MONITORING <span className="text-blue-600 uppercase">Proyek Global (Simulasi)</span></>
                         )}
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
@@ -254,9 +254,9 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                     <FiInfo className="text-blue-400" size={24} />
                 </div>
                 <div className="flex-1">
-                    <h4 className="font-black text-lg tracking-tight mb-1">Pusat Monitoring Audit Proyek</h4>
+                    <h4 className="font-black text-lg tracking-tight mb-1">Pusat Monitoring Audit Proyek (Lokal)</h4>
                     <p className="text-xs text-white/60 leading-relaxed font-medium">
-                        Halaman ini adalah pusat monitoring global untuk Superadmin. Seluruh data operasional (penugasan tim, update progres, dan RAB) dikelola secara eksklusif oleh <strong>Admin Operasional</strong> dan <strong>Pengawas Lapangan</strong> sesuai otorisasi sistem RKK.
+                        Halaman ini adalah pusat monitoring simulasi untuk Superadmin dalam fase pengembangan. Seluruh data operasional dikelola secara eksklusif oleh persona <strong>Admin</strong> dan <strong>Pengawas</strong> melalui sinkronisasi database lokal `localhost`.
                     </p>
                 </div>
                 <div className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 shrink-0">

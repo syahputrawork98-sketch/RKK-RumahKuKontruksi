@@ -43,12 +43,12 @@ export default function DataSuperadminPage() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-2 h-8 bg-rose-600 rounded-full"></div>
-          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-            DATA MASTER <span className="text-rose-600 uppercase">Superadmin</span>
+          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)] uppercase">
+            DATA MASTER <span className="text-rose-600">Superadmin</span>
           </h1>
         </div>
-        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed">
-          Manajemen data superadmin sistem. Kelola akun dan pantau aktivitas administratif global untuk sinkronisasi database lokal.
+        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed italic">
+          Kelola daftar persona lokal superadmin sistem untuk kebutuhan simulasi monitoring global dan sinkronisasi database localhost.
         </p>
       </div>
 

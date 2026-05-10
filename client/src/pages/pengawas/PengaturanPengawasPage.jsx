@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { FiUser, FiMonitor, FiMapPin, FiInfo, FiLayers, FiAward, FiBriefcase, FiPlus, FiEdit2, FiTrash2, FiX, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
-import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
-import supervisorService from "../../services/supervisorService";
-
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import GovernanceNotice from "../../components/common/GovernanceNotice";
 
 const PengaturanPengawasPage = () => {
     const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
@@ -217,7 +213,12 @@ const PengaturanPengawasPage = () => {
                                     <div className="space-y-2">
                                         <h4 className="text-lg font-bold">{selectedSupervisor?.name}</h4>
                                         <p className="text-xs text-[var(--dashboard-text-soft)] font-medium uppercase tracking-wider">{selectedSupervisor?.specialization || 'Generalist'}</p>
-                                        <button className="px-4 py-1.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-lg text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--dashboard-border)]">Ubah Foto</button>
+                                        <button 
+                                            onClick={() => alert("Fitur Unggah Foto dinonaktifkan dalam Fase Local CRUD. Gunakan URL foto lokal jika tersedia.")}
+                                            className="px-4 py-1.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-lg text-[10px] font-black uppercase tracking-widest transition-all hover:bg-[var(--dashboard-border)]"
+                                        >
+                                            Ubah Foto
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -408,6 +409,8 @@ const PengaturanPengawasPage = () => {
                                 Fitur keamanan dan manajemen sesi sedang dalam pengembangan. Saat ini akses menggunakan mode **Database-Backed Persona (Dev Mode)**.
                             </p>
                         </div>
+
+                        <GovernanceNotice roleName="Pengawas" />
                     </div>
                 </div>
             </div>

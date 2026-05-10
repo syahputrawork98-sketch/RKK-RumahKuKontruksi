@@ -41,14 +41,14 @@ export default function CustomerTable({ data }) {
   };
 
   const handleDelete = async (customer) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun konsumen ${customer.name || customer.companyName}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa mengakses portal konsumen.`)) return;
+    if (!confirm(`PERHATIAN: Menghapus persona konsumen ${customer.name || customer.companyName} akan menghapus data dari database localhost secara permanen. Apakah Anda yakin?`)) return;
     try {
       await customerService.deleteCustomer(customer.id);
       setCustomers((prev) => prev.filter((item) => item.id !== customer.id));
-      alert("Konsumen berhasil dinonaktifkan.");
+      alert("Persona konsumen berhasil dihapus dari database lokal.");
     } catch (err) {
-      console.error("CustomerTable: Failed to deactivate customer", err);
-      alert("Gagal menonaktifkan konsumen. Silakan coba lagi.");
+      console.error("CustomerTable: Failed to delete customer", err);
+      alert("Gagal menghapus konsumen. Silakan coba lagi.");
     }
   };
 
@@ -111,7 +111,7 @@ export default function CustomerTable({ data }) {
           className="flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-teal-700 transition-colors shadow-lg shadow-teal-600/20"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Konsumen</span>
+          <span>Tambah Persona Konsumen</span>
         </button>
       </div>
 

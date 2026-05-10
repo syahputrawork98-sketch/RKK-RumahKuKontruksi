@@ -45,7 +45,7 @@ export default function SuperadminFormModal({ isOpen, onClose, onSubmit, initial
                     <div className="flex items-center gap-2">
                       <FiShield className="text-rose-600" />
                       <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                          {initialData ? "Edit Superadmin" : "Tambah Superadmin"}
+                          {initialData ? "Edit Persona Superadmin" : "Tambah Persona Superadmin Lokal"}
                       </h2>
                     </div>
                     <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-colors text-[var(--dashboard-text-soft)]">
@@ -124,7 +124,7 @@ export default function SuperadminFormModal({ isOpen, onClose, onSubmit, initial
                             type="submit"
                             className="flex-1 px-4 py-3 bg-rose-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-rose-700 transition-colors shadow-lg shadow-rose-600/20"
                         >
-                            {initialData ? "Simpan Perubahan" : "Tambah Akun"}
+                            {initialData ? "Simpan Perubahan" : "Tambah Persona Superadmin"}
                         </button>
                     </div>
                 </form>

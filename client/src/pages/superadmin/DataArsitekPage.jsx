@@ -14,7 +14,7 @@ export default function DataArsitekPage() {
     try {
       setLoading(true);
       setError(null);
-      const response = await architectService.getAllArchitects();
+      const response = await architectService.getArchitects();
       setDataArsitek(response.data || []);
     } catch (err) {
       console.error("DataArsitekPage: Failed to fetch data", err);
@@ -42,13 +42,13 @@ export default function DataArsitekPage() {
       {/* HEADER SECTION */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-2 h-8 bg-purple-600 rounded-full"></div>
-          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-            DATA MASTER <span className="text-purple-600 uppercase">Arsitek</span>
+          <div className="w-2 h-8 bg-indigo-600 rounded-full"></div>
+          <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)] uppercase">
+            DATA MASTER <span className="text-indigo-600">Arsitek</span>
           </h1>
         </div>
-        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed">
-          Manajemen profil mitra arsitek, monitoring kapasitas desain, dan audit portofolio desain proyek RKK secara terpusat.
+        <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed italic">
+          Kelola daftar persona lokal dan database mitra arsitek untuk simulasi kolaborasi desain dan sinkronisasi tender localhost.
         </p>
       </div>
 

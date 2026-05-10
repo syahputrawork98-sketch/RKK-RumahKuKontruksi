@@ -45,7 +45,7 @@ export default function AdminFormModal({ isOpen, onClose, onSubmit, initialData 
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                        {initialData ? "Edit Admin" : "Tambah Admin Baru"}
+                        {initialData ? "Edit Persona Admin" : "Tambah Persona Admin Lokal"}
                     </h2>
                     <button
                         onClick={onClose}

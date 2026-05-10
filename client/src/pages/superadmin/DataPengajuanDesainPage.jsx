@@ -104,10 +104,10 @@ const DataPengajuanDesainPage = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-                        MONITORING <span className="text-blue-600 uppercase">Pengajuan Desain</span>
+                        MONITORING <span className="text-blue-600 uppercase">Pengajuan Desain (Simulasi)</span>
                     </h1>
-                    <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1">
-                        Pusat audit dan monitoring status pengajuan desain arsitektur secara global dalam database lokal. (Read-Only)
+                    <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
+                        Pusat audit dan monitoring status pengajuan desain arsitektur secara global dalam fase **Local Development CRUD Integration**.
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
@@ -335,8 +335,8 @@ const DataPengajuanDesainPage = () => {
                             {/* AUDIT NOTICE */}
                              <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex gap-3">
                                 <FiInfo className="text-blue-500 shrink-0 mt-0.5" size={16} />
-                                <p className="text-[10px] text-blue-700 font-medium leading-relaxed">
-                                    Halaman ini adalah dashboard monitoring global untuk fase <strong>Local Development</strong>. Segala bentuk perubahan data, penugasan arsitek, atau konversi menjadi draf proyek dilakukan oleh <strong>Admin Operasional</strong>.
+                                <p className="text-[10px] text-blue-700 font-medium leading-relaxed uppercase">
+                                    DATA LOKAL: Dashboard monitoring global untuk fase **Local Development**. Segala perubahan operasional dilakukan oleh persona **Admin** melalui sinkronisasi `localhost`.
                                 </p>
                             </div>
 

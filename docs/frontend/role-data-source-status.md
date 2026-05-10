@@ -95,16 +95,15 @@ Status: **Database-Backed v2**
 ---
 
 ### 5. Superadmin
-Status: **Partial / DB-Backed Local CRUD**
+Status: **Database-Backed Local CRUD / Governance Implemented**
 - **Context**: `SuperadminPersonaContext`
 - **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
-- **Entity CRUD**: Superadmin entity CRUD lokal tersedia melalui `/api/superadmins` untuk list, create, update, dan soft delete.
-- **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
-- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global, Proyek Aktif Global, stage completion lokal, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
-- **Completion Monitoring**: Project Lifecycle Completion Pack berstatus **Local Workflow v1 / Stabilized** untuk reader status selesai lintas proyek; Superadmin read-only dan tidak menjalankan closeout, legal handover, payment, atau sertifikat resmi.
-- **Finished Project History Reader**: Post-Completion History & Experience Pack berstatus **Local Workflow v1 / Stabilized** untuk read-only histori project `Selesai`; bukan BAST/legal handover, invoice/payment/escrow, sertifikat otomatis/resmi, atau marketplace reputation/scoring.
-- **Weekly Report Monitoring**: Audit Laporan Pengawas membaca Supervisor Weekly Report lokal secara read-only; Superadmin tidak review, publish, atau mengubah progress resmi.
-- **Material Request Monitoring**: Material Request from RAB Usage berstatus **Local Workflow v1 / Stabilized** untuk read-only monitoring lintas proyek; Superadmin tidak review, approval, distribusi, confirm received, atau mengubah progress resmi.
+- **Entity CRUD (Implemented)**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role (Admin, Superadmin, Konsumen, Pengawas, Mandor, Arsitek) melalui database sync `localhost`. Terminologi "Persona" digunakan secara konsisten pada Form Modal dan Tabel untuk mempertegas simulasi.
+- **Governance Layer (Implemented)**:
+    - **GovernanceNotice**: Pesan peringatan standar pada halaman profil/pengaturan yang menjelaskan batasan fase "Local CRUD".
+    - **Defensive UI**: Placeholder/Alert untuk fitur "Hold" seperti unggah foto.
+    - **Audit Log (Hold)**: Monitoring global stats dan master data aktif, tetapi Audit Log otomatis tetap berstatus "Feature Hold".
+- **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global (Simulasi), Proyek Aktif Global, stage completion lokal, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
 - **Hold / Placeholder**: Kapasitas admin, payment global, invoice/payment/escrow, supplier marketplace, purchase order production, inventory production, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
@@ -163,16 +162,18 @@ Selama local development, sistem menggunakan Dev Sign-In untuk memilih role dan 
 ## Error Handling Policy
 - Jika API Backend mengembalikan error (misal: Server mati), UI harus menampilkan komponen `ErrorState` atau pesan error yang jelas, bukan kembali menampilkan mock data secara otomatis.
 
-## Product Direction: Role Authority & Profile Change Management
-Catatan ini adalah **product direction / planned direction / future workflow candidate** dari Room Chat 00.
+## Role Authority & Profile Governance (Implemented v1)
+Arah kewenangan dan tata kelola profil sekarang telah diimplementasikan dalam versi Local CRUD:
 
-### Arah Kewenangan Superadmin & Admin
-1. **Superadmin**: Diarahkan sebagai role tertinggi untuk manajemen akun lokal. Nantinya dapat melakukan CRUD akun untuk seluruh role (Admin, Pengawas, Mandor, Arsitek, Konsumen). Superadmin juga akan memantau validasi perubahan data penting.
-2. **Admin**: Diarahkan sebagai operator proyek. Admin mengelola operasional proyek (RAB, Stage, Progress, Material Request) tetapi **dilarang** mengelola akun role lain. Admin hanya mengelola profil miliknya sendiri.
+### 1. Pembagian Kewenangan (Implemented)
+- **Superadmin**: Role tertinggi untuk manajemen persona lokal (CRUD akun semua role).
+- **Admin**: Operator proyek; dilarang mengelola akun role lain, hanya dapat mengubah profil sendiri.
+- **Role Lain**: Hanya dapat mengubah profil sendiri dengan batasan field penting yang memerlukan validasi manual.
 
-### Validasi & Log Perubahan Profil
-- Setiap role (Mandor, Pengawas, Arsitek, Konsumen) hanya bisa mengubah profil miliknya sendiri.
-- Perubahan pada field penting (Telepon, Alamat, Identitas, Sertifikat, Pengalaman) direncanakan masuk ke alur **Profile Change Request**.
-- Perubahan penting akan berstatus `pending` lokal hingga di-approve oleh Admin/Superadmin.
-- Seluruh riwayat perubahan akan dicatat dalam **Audit/Change Log Lokal** untuk menjaga traceability data operasional.
-- Ini adalah bagian dari rencana batch: **"Superadmin Account & Profile Change Management Local CRUD v1"**.
+### 2. GovernanceNotice & Defensive UI (Implemented)
+- **GovernanceNotice**: Digunakan pada `PengaturanAdminPage`, `PengaturanMandorPage`, `PengaturanPengawasPage`, `PengaturanArsitekPage`, dan `Profil` Konsumen.
+- **Alert "Hold"**: Tombol seperti "Ubah Foto" menampilkan alert informatif mengenai pembatasan fase Local CRUD untuk mencegah kebingungan user.
+- **Local Database Sync**: Seluruh dialog konfirmasi penghapusan (Tabel) atau penambahan (Modal) mencantumkan wording "Lokal/Simulasi" untuk menegaskan koneksi ke database `localhost`.
+
+### 3. Validasi & Log Perubahan Profil (Hold)
+- Mekanisme **Profile Change Request** formal dan **Audit/Change Log** otomatis tetap berstatus "Future Sprint / Hold" untuk menjaga fokus pada stabilitas CRUD operasional.

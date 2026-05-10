@@ -195,11 +195,11 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /superadmins/:id`: Update data Superadmin.
 - `DELETE /superadmins/:id`: Hapus Superadmin.
 
-**Catatan Superadmin Dashboard & Monitoring**:
-- Dashboard Superadmin memakai kombinasi endpoint existing: `/superadmins/stats/global`, `/projects`, dan `/superadmins`.
-- Monitoring proyek global memakai Project API sebagai read-only overview untuk Local Development CRUD Integration.
-- Monitoring Design Request/Tender memakai endpoint Design Request dan Design Tender yang sama dengan flow Admin/Arsitek, tetapi mode Superadmin bersifat read-only.
-- Superadmin tidak mengambil alih aksi operasional seperti assign architect, publish tender, award bid, convert-to-project, aktivasi proyek, atau update progress resmi.
+**Catatan Superadmin Governance (Implemented v1)**:
+- **Persona CRUD**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role melalui API lokal. Terminologi "Persona" wajib digunakan di UI.
+- **Monitoring (Simulasi)**: Dashboard global stats, master data, monitoring proyek global, dan audit pengajuan desain menggunakan data rill dari database `localhost` dengan wording simulasi/lokal.
+- **Local Database Sync**: Seluruh penghapusan data menyertakan konfirmasi eksplisit mengenai database lokal untuk menghindari kebingungan user.
+- **Hold**: Audit Log otomatis, kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold.
 
 ## Design Requests (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
@@ -330,20 +330,18 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
 - **Local Stabilized Status**: Post-Completion History & Experience Pack, Project Lifecycle Completion Pack, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup BAST/legal handover, progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.
 
-## Product Direction: Superadmin Account Control & Profile Validation
-Catatan ini adalah **product direction / planned direction / future workflow candidate** dari Room Chat 00.
+## Local Governance & Persona Control (Implemented v1)
+Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/Frontend flow:
 
-### Rencana Kewenangan & API Management
-1. **Superadmin Account CRUD**: Direncanakan adanya endpoint untuk Superadmin mengelola akun seluruh role (Admin, Pengawas, Mandor, Arsitek, Konsumen). Ini akan mendukung manajemen entitas lokal secara terpusat.
-2. **Admin Operational Boundary**: Admin dibatasi hanya pada pengelolaan operasional proyek dan data dirinya sendiri. Admin tidak memiliki akses API untuk mengelola akun role lain.
-3. **Profile Change Approval Flow**:
-   - Direncanakan adanya mekanisme "Change Request" untuk data profil penting.
-   - Endpoint `PATCH` pada profil role (Mandor, Pengawas, dll) untuk field sensitif akan diarahkan ke status `pending` di database.
-   - Admin/Superadmin akan memiliki API untuk `approve` atau `reject` perubahan tersebut.
-4. **Local Audit Log**: Setiap perubahan data penting (Telepon, Alamat, Identitas, Sertifikat, Pengalaman) akan dicatat dalam tabel `ChangeLog` lokal untuk menjaga integritas data operasional.
+### 1. Pembagian Otoritas
+- **Superadmin**: Mengelola seluruh entitas/persona role (CRUD).
+- **Admin**: Mengelola operasional; hanya dapat mengubah profil miliknya sendiri.
+- **Role Lapangan/Konsumen**: Hanya dapat mengubah profil miliknya sendiri dengan pengawasan governance notice.
 
-### Kandidat Batch: "Superadmin Account & Profile Change Management Local CRUD v1"
-- CRUD Akun lintas role oleh Superadmin.
-- Self-profile management untuk setiap role.
-- Mekanisme Request & Approval perubahan profil data penting.
-- Implementasi Audit Log lokal sederhana.
+### 2. Defensive UI & Placeholder
+- **GovernanceNotice API Integration**: Halaman pengaturan profil ditarik dari API persona masing-masing dan dilengkapi komponen `GovernanceNotice`.
+- **Photo Upload (Hold)**: UI menampilkan alert "Fitur Hold" pada tombol ubah foto untuk memperjelas batasan fase Local CRUD.
+- **Local Sync Confirm**: Dialog hapus (API DELETE) menyertakan informasi bahwa data dihapus dari database `localhost`.
+
+### 3. Change Tracking (Hold)
+- Mekanisme **Profile Change Request** formal dan **Audit/Change Log** otomatis tetap berstatus "Future Sprint / Hold".

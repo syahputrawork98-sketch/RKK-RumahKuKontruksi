@@ -16,12 +16,12 @@ const LogAktivitasPage = () => {
             {/* HEADER */}
             <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="dashboard-title text-4xl">Log Aktivitas Sistem</h1>
-                    <p className="dashboard-subtitle text-lg">Pantau seluruh aktivitas operasional user dan sistem secara transparan (Audit Trail).</p>
+                    <h1 className="dashboard-title text-4xl">Audit & Log Aktivitas (Simulasi)</h1>
+                    <p className="dashboard-subtitle text-lg italic">Rencana audit trail untuk pemantauan aktivitas operasional user. *Fase Local CRUD - Feature Hold*</p>
                 </div>
                 <button className="dashboard-primary-button flex items-center gap-2 !bg-[var(--dashboard-surface)] !text-[var(--dashboard-text)] border border-[var(--dashboard-border)] shadow-sm opacity-50 cursor-not-allowed">
                     <FiDownload size={18} />
-                    <span>Ekspor Log</span>
+                    <span>Ekspor Log Lokal</span>
                 </button>
             </div>
 

@@ -58,11 +58,11 @@ export default function MandorTable({ data }) {
   };
 
   const handleDelete = async (mandor) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun mandor ${mandor.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa ditunjuk sebagai pelaksana proyek baru.`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona mandor ${mandor.name}? Akun lokal ini tidak akan dihapus permanen tetapi tidak akan bisa ditunjuk sebagai pelaksana proyek baru dalam simulasi.`)) return;
     try {
       await foremanService.deleteForeman(mandor.id);
       setMandors((prev) => prev.filter((m) => m.id !== mandor.id));
-      alert("Mandor berhasil dinonaktifkan.");
+      alert("Persona mandor berhasil dinonaktifkan secara lokal.");
     } catch (err) {
       console.error("MandorTable: Failed to deactivate foreman", err);
       alert("Gagal menonaktifkan mandor. Silakan coba lagi.");
@@ -115,7 +115,7 @@ export default function MandorTable({ data }) {
           className="dashboard-primary-button flex items-center justify-center gap-2 !py-3 bg-blue-600 shadow-blue-600/20"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Mandor</span>
+          <span>Tambah Persona Mandor</span>
         </button>
       </div>
 

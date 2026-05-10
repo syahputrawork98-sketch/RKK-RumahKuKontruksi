@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useCustomerPersona } from "../../context/CustomerPersonaContext";
-import customerService from "../../services/customerService";
-import RoleDataState from "../../components/common/RoleDataState";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import GovernanceNotice from "../../components/common/GovernanceNotice";
 
 const Profil = () => {
   const { selectedCustomerId, selectedCustomer, refreshCustomerData, loading: personaLoading } = useCustomerPersona();
@@ -139,8 +136,11 @@ const Profil = () => {
               className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-teal-500 shadow-md"
             />
             {isEditing && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-white text-xs font-bold">Edit URL</span>
+              <div 
+                onClick={() => alert("Fitur Unggah Foto dinonaktifkan dalam Fase Local CRUD. Gunakan URL foto lokal jika tersedia.")}
+                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-full mb-4 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              >
+                <span className="text-white text-[10px] font-black uppercase tracking-widest">Ubah Foto</span>
               </div>
             )}
           </div>
@@ -189,6 +189,10 @@ const Profil = () => {
               <span>Bergabung Sejak</span>
               <span>{user.tanggalBergabung}</span>
             </div>
+          </div>
+
+          <div className="w-full mt-6">
+            <GovernanceNotice roleName="Konsumen" />
           </div>
         </div>
 

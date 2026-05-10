@@ -58,11 +58,11 @@ export default function PengawasTable({ data }) {
   };
 
   const handleDelete = async (pengawas) => {
-    if (!confirm(`Apakah Anda yakin ingin menonaktifkan akun pengawas ${pengawas.name}? Akun ini tidak akan dihapus permanen tetapi tidak akan bisa ditugaskan ke proyek baru.`)) return;
+    if (!confirm(`Apakah Anda yakin ingin menonaktifkan persona pengawas ${pengawas.name}? Akun lokal ini tidak akan dihapus permanen tetapi tidak akan bisa ditugaskan ke proyek baru dalam simulasi.`)) return;
     try {
       await supervisorService.deleteSupervisor(pengawas.id);
       setPengawas((prev) => prev.filter((item) => item.id !== pengawas.id));
-      alert("Pengawas berhasil dinonaktifkan.");
+      alert("Persona pengawas berhasil dinonaktifkan secara lokal.");
     } catch (err) {
       console.error("PengawasTable: Failed to deactivate supervisor", err);
       alert("Gagal menonaktifkan pengawas. Silakan coba lagi.");
@@ -117,7 +117,7 @@ export default function PengawasTable({ data }) {
           className="dashboard-primary-button flex items-center justify-center gap-2 !py-3 bg-amber-600 shadow-amber-600/20"
         >
           <span className="text-xl leading-none">+</span>
-          <span>Tambah Pengawas</span>
+          <span>Tambah Persona Pengawas</span>
         </button>
       </div>
 

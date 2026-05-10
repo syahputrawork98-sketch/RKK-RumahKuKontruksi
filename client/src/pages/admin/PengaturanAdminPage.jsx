@@ -1,7 +1,5 @@
-import React from "react";
-import { FiUser, FiMonitor, FiLock, FiInfo } from "react-icons/fi";
-import { useAdminPersona } from "../../context/AdminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
+import GovernanceNotice from "../../components/common/GovernanceNotice";
 
 const PengaturanAdminPage = () => {
     const { selectedAdminId, selectedAdmin } = useAdminPersona();
@@ -28,7 +26,12 @@ const PengaturanAdminPage = () => {
                             <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500 border-2 border-indigo-100 shadow-sm font-black text-xl">
                                 {selectedAdmin?.name?.charAt(0) || "A"}
                             </div>
-                            <button className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest">Ubah Foto</button>
+                            <button 
+                                onClick={() => alert("Fitur Unggah Foto dinonaktifkan dalam Fase Local CRUD. Gunakan URL foto lokal jika tersedia.")}
+                                className="px-4 py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-surface)] transition-colors"
+                            >
+                                Ubah Foto
+                            </button>
                         </div>
                         <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-1">
@@ -54,6 +57,8 @@ const PengaturanAdminPage = () => {
                             Tema (Light/Dark Mode) saat ini dikelola secara global melalui Topbar. Pilihan Anda akan tersimpan di penyimpanan lokal browser.
                         </p>
                     </div>
+
+                    <GovernanceNotice roleName="Admin" />
                 </div>
 
                 <div className="dashboard-card md:col-span-2 border-dashed border-2 border-[var(--dashboard-border)] bg-transparent">

@@ -64,7 +64,7 @@ export default function CustomerFormModal({ isOpen, onClose, onSubmit, initialDa
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-black tracking-tight text-[var(--dashboard-text)]">
-                        {initialData ? "Edit Konsumen" : "Tambah Konsumen Baru"}
+                        {initialData ? "Edit Persona Konsumen" : "Tambah Persona Konsumen Lokal"}
                     </h2>
                     <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-[var(--dashboard-surface-soft)] transition-colors text-[var(--dashboard-text-soft)]">
                         <FiX size={20} />
@@ -199,7 +199,7 @@ export default function CustomerFormModal({ isOpen, onClose, onSubmit, initialDa
                             type="submit"
                             className="flex-1 px-4 py-3 bg-teal-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-teal-700 transition-colors shadow-lg shadow-teal-600/20"
                         >
-                            {initialData ? "Simpan Perubahan" : "Tambah Konsumen"}
+                            {initialData ? "Simpan Perubahan" : "Tambah Persona Konsumen"}
                         </button>
                     </div>
                 </form>

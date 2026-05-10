@@ -1,61 +1,93 @@
-# RumahKu Konstruksi
+# RKK - RumahKu Konstruksi (Local Development)
 
-Ini adalah repository utama untuk proyek **RumahKu Konstruksi**. Repository ini menggabungkan frontend modern dan backend Express berbasis Prisma ke dalam satu struktur yang terorganisir untuk pengembangan lokal.
+Repository utama untuk proyek **RumahKu Konstruksi**. Platform ini dirancang untuk menghubungkan Konsumen, Arsitek, Admin, Pengawas, dan Mandor dalam satu ekosistem pembangunan rumah yang transparan.
 
-## Struktur Repository
+Saat ini proyek berada dalam fase **Local Development CRUD Integration**. Seluruh fungsionalitas dijalankan di lingkungan lokal dengan integrasi database untuk mendukung simulasi operasional rill.
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: Vite + React + Tailwind CSS 4 + Framer Motion.
+- **Backend**: Express.js (Node.js) dengan arsitektur modular.
+- **Database**: PostgreSQL dengan Prisma ORM.
+- **Documentation**: Markdown-based docs dalam direktori `docs/`.
+
+---
+
+## 📂 Struktur Project
 
 ```text
 RKK-RumahKuKontruksi/
-├── client/         # Frontend Vite React
-├── server/         # Backend Express API & Prisma Data Service
-├── docs/           # Dokumentasi Terstruktur (Roadmap, API, UI Status)
-├── README.md       # Panduan cepat repository
-└── .gitignore      # Konfigurasi Git ignore root
+├── client/         # Frontend React App (Vite)
+├── server/         # Backend API Service (Express + Prisma)
+├── docs/           # Dokumentasi teknis & status proyek
+├── README.md       # Panduan teknis setup (Dokumen ini)
+└── FITUR.md        # Daftar fitur, status, & roadmap operasional
 ```
 
-## Cara Menjalankan Lokal
+---
 
-Pastikan Anda sudah menginstal Node.js dan PostgreSQL di sistem lokal Anda.
+## 🚀 Cara Menjalankan Project
 
-### 1. Backend (Server)
+### 1. Persiapan Environment
+Pastikan Anda memiliki **Node.js** (v18+) dan **PostgreSQL** yang berjalan secara lokal.
+
+### 2. Backend (Server)
 ```bash
+# Pindah ke direktori server
 cd server
+
+# Install dependencies
 npm install
-cp .env.example .env # Sesuaikan DATABASE_URL di file .env
-npx prisma migrate dev
+
+# Setup environment variables
+# Copy .env.example ke .env dan sesuaikan DATABASE_URL
+# Contoh: DATABASE_URL="postgresql://user:password@localhost:5432/rkk_db?schema=public"
+
+# Sinkronisasi database
+npx prisma generate
+npx prisma db push
+
+# (Opsional) Reset & Seed data testing
+# Perhatian: Ini akan menghapus data lama dan mengisi skenario demo lengkap
 npm run db:seed
+
+# Jalankan server
 npm run dev
 ```
+*Server akan berjalan di `http://localhost:4000`.*
 
-### 2. Frontend (Client)
+### 3. Frontend (Client)
 ```bash
+# Pindah ke direktori client
 cd client
+
+# Install dependencies
 npm install
+
+# Jalankan frontend
 npm run dev
 ```
+*Aplikasi akan berjalan di `http://localhost:5173`.*
 
-## Status Proyek: Local Development CRUD Integration Phase
+---
 
-Proyek saat ini sedang dalam fase integrasi CRUD database lokal untuk mendukung fungsionalitas role utama.
+## 📌 Catatan Teknis Penting
 
-**Penting:**
-- **Local Development Only**: Proyek ini belum *production-ready*.
-- **No Real Auth**: Sistem autentikasi (Login/JWT/Session) asli belum dibuat.
-- **Backend Service**: Menggunakan Express + Prisma sebagai penyedia data CRUD lokal.
-- **Role Integration**:
-  - **Pengawas & Mandor**: Sudah mulai beralih ke *Database-Backed* (tidak menggunakan mock data sebagai fallback utama).
-  - **Role Lain**: (Admin, Arsitek, Konsumen) masih menggunakan pendekatan *Mock-First* atau parsial.
+- **API Base URL**: Frontend dikonfigurasi untuk mengakses API di `http://localhost:4000/api`. Pastikan backend dalam keadaan hidup (`running`) untuk menghindari error `net::ERR_CONNECTION_REFUSED`.
+- **Persona Selector**: Karena sistem autentikasi rill (JWT/Login) belum diaktifkan, gunakan **Persona Switcher** di sidebar/profil untuk berpindah role (Konsumen, Admin, dsb).
+- **Progress SOT**: Progress proyek bersifat manual (Verified Progress). Perubahan pada jurnal atau item pekerjaan tidak mengubah progress utama secara otomatis.
 
-## Kebijakan Sumber Data (Data Source Policy)
-Untuk role **Pengawas** dan **Mandor**:
-1. Source of truth wajib berasal dari backend/database.
-2. Jika persona belum dipilih, UI wajib menampilkan *Empty State* pilih persona.
-3. Mock data hanya digunakan untuk keperluan seed database atau referensi struktur, bukan sebagai data operasional di UI.
+---
 
-Untuk role lain yang belum memiliki backend lengkap, penggunaan mock data masih diperbolehkan untuk keperluan pengembangan UI.
+## 📖 Dokumentasi Detail
 
-## Dokumentasi Terstruktur
-- [**Pusat Dokumentasi**](docs/README.md) - Indeks seluruh dokumen proyek.
-- [**Status Proyek Terbaru**](docs/project/current-status.md) - Snapshot kondisi pengembangan.
-- [**Status API Lokal**](docs/backend/api-status.md) - Referensi endpoint yang tersedia.
-- [**Rencana Migrasi**](docs/project/migration-plan.md) - Roadmap teknis integrasi.
+- 🛡️ [**Daftar Fitur & Roadmap (FITUR.md)**](FITUR.md)
+- 📊 [**Current Status**](docs/project/current-status.md)
+- 🔗 [**Route Inventory**](docs/frontend/route-inventory.md)
+- 🔌 [**API Status**](docs/backend/api-status.md)
+- 👥 [**Role Data Source**](docs/frontend/role-data-source-status.md)
+
+---
+*© 2026 RumahKu Konstruksi - Local Development Phase.*

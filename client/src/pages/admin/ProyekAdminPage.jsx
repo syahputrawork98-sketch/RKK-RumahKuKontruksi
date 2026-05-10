@@ -79,7 +79,7 @@ const ProyekAdminPage = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-extrabold tracking-tight">Manajemen Proyek</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Daftar seluruh proyek konstruksi yang sedang ditangani.</p>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Monitoring operasional lokal dan kontrol status seluruh proyek.</p>
                 </div>
                 <Link 
                     to="/admin/proyek/create"
@@ -90,20 +90,40 @@ const ProyekAdminPage = () => {
                 </Link>
             </div>
 
+            {/* OPERATIONAL SUMMARY BAR */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="p-4 bg-white border border-slate-100 rounded-3xl shadow-sm">
+                    <p className="text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">Total</p>
+                    <h4 className="text-xl font-black text-slate-800">{projects.length}</h4>
+                </div>
+                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-3xl shadow-sm">
+                    <p className="text-[10px] font-black uppercase text-emerald-600 mb-1 tracking-widest">Aktif</p>
+                    <h4 className="text-xl font-black text-emerald-700">{projects.filter(p => p.status?.toLowerCase().includes('active') || p.status?.toLowerCase().includes('ongoing') || p.status?.toLowerCase().includes('berjalan')).length}</h4>
+                </div>
+                <div className="p-4 bg-blue-50 border border-blue-100 rounded-3xl shadow-sm">
+                    <p className="text-[10px] font-black uppercase text-blue-600 mb-1 tracking-widest">Persiapan</p>
+                    <h4 className="text-xl font-black text-blue-700">{projects.filter(p => p.status?.toLowerCase().includes('persiapan') || p.status?.toLowerCase().includes('plan') || p.status?.toLowerCase().includes('planning')).length}</h4>
+                </div>
+                <div className="p-4 bg-purple-50 border border-purple-100 rounded-3xl shadow-sm">
+                    <p className="text-[10px] font-black uppercase text-purple-600 mb-1 tracking-widest">Selesai</p>
+                    <h4 className="text-xl font-black text-purple-700">{projects.filter(p => p.status?.toLowerCase().includes('finish') || p.status?.toLowerCase().includes('selesai')).length}</h4>
+                </div>
+            </div>
+
             {/* SUBTABS */}
-            <div className="flex items-center gap-2 border-b border-[var(--dashboard-border)] pb-0">
+            <div className="flex items-center gap-2 p-1 bg-white border border-slate-100 rounded-2xl w-fit">
                 {subtabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveSubtab(tab.id)}
-                        className={`px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
+                        className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-xl flex items-center gap-2 ${
                             activeSubtab === tab.id 
-                            ? "text-[var(--dashboard-primary)] border-[var(--dashboard-primary)]" 
-                            : "text-[var(--dashboard-text-soft)] border-transparent hover:text-[var(--dashboard-text)] hover:border-[var(--dashboard-border)]"
+                            ? "bg-slate-800 text-white shadow-md" 
+                            : "text-slate-400 hover:text-slate-600"
                         }`}
                     >
                         {tab.label}
-                        <span className={`px-1.5 py-0.5 rounded-md text-[8px] ${activeSubtab === tab.id ? 'bg-[var(--dashboard-primary)]/10 text-[var(--dashboard-primary)]' : 'bg-slate-100 text-slate-500'}`}>
+                        <span className={`px-1.5 py-0.5 rounded-md text-[8px] ${activeSubtab === tab.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'}`}>
                             {tab.count}
                         </span>
                     </button>

@@ -142,16 +142,21 @@ const AktivasiProyekAdminPage = () => {
             {/* HEADER */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-black tracking-tight">Aktivasi Proyek</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Validasi kesiapan administrasi sebelum project dinyatakan aktif dan berjalan di lapangan.</p>
+                    <h2 className="text-2xl font-black tracking-tight">Gerbang Aktivasi Lapangan</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Validasi akhir dan aktivasi administrasi sebelum proyek resmi dijalankan di lokasi.</p>
                 </div>
             </div>
 
-            <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex items-start gap-3">
-                <FiInfo className="text-blue-500 mt-0.5 flex-shrink-0" size={18} />
-                <p className="text-[10px] text-blue-700 leading-relaxed font-bold">
-                    CATATAN: Aktivasi adalah proses administratif. Aktivasi tidak membuat progress lapangan otomatis. Progress resmi tetap berasal dari verifikasi Pengawas setelah proyek aktif.
-                </p>
+            <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-start gap-3 shadow-sm">
+                <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
+                    <FiPlay size={20} />
+                </div>
+                <div className="flex-1">
+                    <h4 className="text-xs font-black text-emerald-800 uppercase tracking-tight">KONTROL AKTIVASI LOKAL</h4>
+                    <p className="text-[10px] text-emerald-700 leading-relaxed font-bold mt-0.5">
+                        Proses ini memindahkan status proyek dari <strong>Planning</strong> ke <strong>Active</strong>. Tim Lapangan (Pengawas & Mandor) akan segera menerima akses penuh untuk pelaporan dan logistik setelah tombol aktivasi ditekan.
+                    </p>
+                </div>
             </div>
 
             {/* FILTERS & SEARCH */}

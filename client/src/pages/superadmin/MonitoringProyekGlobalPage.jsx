@@ -104,9 +104,41 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                             : "Visualisasi status konstruksi seluruh proyek dalam sistem (Local CRUD Monitoring)."}
                     </p>
                 </div>
-                <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">
+                <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200 shadow-sm">
                     <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                    <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Read-Only Mode</span>
+                    <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Local Monitoring Mode</span>
+                </div>
+            </div>
+
+            {/* GLOBAL SUMMARY BAR */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-5 bg-white border border-slate-100 rounded-3xl shadow-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400"><FiLayers size={14} /></div>
+                        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Proyek</p>
+                    </div>
+                    <h4 className="text-2xl font-black text-slate-800">{projects.length}</h4>
+                </div>
+                <div className="p-5 bg-emerald-50 border border-emerald-100 rounded-3xl shadow-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-xl bg-emerald-100/50 flex items-center justify-center text-emerald-600"><FiActivity size={14} /></div>
+                        <p className="text-[10px] font-black uppercase text-emerald-600 tracking-widest">Aktif / Berjalan</p>
+                    </div>
+                    <h4 className="text-2xl font-black text-emerald-700">{projects.filter(p => isActiveProject(p.status)).length}</h4>
+                </div>
+                <div className="p-5 bg-blue-50 border border-blue-100 rounded-3xl shadow-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-xl bg-blue-100/50 flex items-center justify-center text-blue-600"><FiClock size={14} /></div>
+                        <p className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Draft / Persiapan</p>
+                    </div>
+                    <h4 className="text-2xl font-black text-blue-700">{projects.filter(p => (p.status || "").toLowerCase().includes("plan") || (p.status || "").toLowerCase().includes("draft") || (p.status || "").toLowerCase().includes("persiapan")).length}</h4>
+                </div>
+                <div className="p-5 bg-purple-50 border border-purple-100 rounded-3xl shadow-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-xl bg-purple-100/50 flex items-center justify-center text-purple-600"><FiCheckCircle size={14} /></div>
+                        <p className="text-[10px] font-black uppercase text-purple-600 tracking-widest">Selesai / Histori</p>
+                    </div>
+                    <h4 className="text-2xl font-black text-purple-700">{projects.filter(p => (p.status || "").toLowerCase().includes("selesai") || (p.status || "").toLowerCase().includes("finish")).length}</h4>
                 </div>
             </div>
 

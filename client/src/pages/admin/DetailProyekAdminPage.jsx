@@ -372,13 +372,23 @@ const DetailProyekAdminPage = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div className="space-y-6">
                                         <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)] flex items-center gap-2">
-                                            <FiInfo /> Informasi Utama
+                                            <FiInfo /> Ringkasan Operasional Lokal
                                         </h3>
                                         <div className="grid grid-cols-1 gap-4">
                                             <InfoItem label="Kode Proyek" value={project.projectCode} />
                                             <InfoItem label="Nama Proyek" value={project.name} />
                                             <InfoItem label="Tipe Pekerjaan" value={project.type || "Pembangunan"} />
-                                            <InfoItem label="Status Saat Ini" value={project.status} isBadge color={getStatusColor(project.status)} />
+                                            <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl">
+                                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Status Lapangan</p>
+                                                <div className="flex items-center gap-2">
+                                                    <StatusBadge type="project" status={project.status} />
+                                                    <span className="text-[10px] font-bold text-slate-500 italic">
+                                                        {['active', 'ongoing', 'Berjalan'].includes(project.status) 
+                                                            ? "— Operasional Sedang Berjalan" 
+                                                            : "— Menunggu Aktivasi Admin"}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -387,10 +397,10 @@ const DetailProyekAdminPage = () => {
                                         <div className="p-6 bg-[var(--dashboard-surface-soft)] rounded-[32px] border border-[var(--dashboard-border)] border-dashed">
                                             <div className="flex justify-between items-center mb-6">
                                                 <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-text-soft)] flex items-center gap-2">
-                                                    <FiCheckCircle /> Checklist Kesiapan
+                                                    <FiCheckCircle /> Checklist Kesiapan Aktivasi
                                                 </h3>
                                                 <span className={`text-[10px] font-black uppercase px-3 py-1 rounded-full ${isReady ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}`}>
-                                                    {readyCount}/{readinessChecks.length} Siap
+                                                    {readyCount}/{readinessChecks.length} Lengkap
                                                 </span>
                                             </div>
                                             <div className="grid grid-cols-1 gap-3">
@@ -408,8 +418,8 @@ const DetailProyekAdminPage = () => {
                                             
                                             {isReady && (
                                                 <div className="mt-6 p-4 bg-emerald-600 text-white rounded-2xl text-center shadow-lg shadow-emerald-600/20">
-                                                    <p className="text-[10px] font-black uppercase tracking-widest mb-2">🚀 Proyek Siap Diaktifkan</p>
-                                                    <Link to="/admin/proyek/aktivasi" className="text-xs font-black underline">Lanjut ke Halaman Aktivasi</Link>
+                                                    <p className="text-[10px] font-black uppercase tracking-widest mb-2">🚀 Proyek Siap Dijalankan</p>
+                                                    <Link to="/admin/proyek/aktivasi" className="text-xs font-black underline">Klik di sini untuk Aktifkan Proyek</Link>
                                                 </div>
                                             )}
                                         </div>
@@ -417,14 +427,18 @@ const DetailProyekAdminPage = () => {
 
                                     <div className="space-y-6">
                                         <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)] flex items-center gap-2">
-                                            <FiDollarSign /> Finansial & Jadwal
+                                            <FiDollarSign /> Kontrak & Jadwal
                                         </h3>
                                         <div className="grid grid-cols-1 gap-4">
-                                            <InfoItem label="Budget Total" value={formatCurrency(project.budgetTotal)} isBold />
-                                            <InfoItem label="Sudah Dibayar" value={formatCurrency(project.paidAmount)} color="text-blue-600" />
-                                            <InfoItem label="Sisa Pembayaran" value={formatCurrency(project.remainingAmount)} color="text-orange-600" />
-                                            <InfoItem label="Tanggal Mulai" value={formatDate(project.startDate)} icon={<FiCalendar />} />
-                                            <InfoItem label="Estimasi Selesai" value={formatDate(project.estimatedEndDate)} icon={<FiCalendar />} />
+                                            <InfoItem label="Nilai Kontrak RAB" value={formatCurrency(project.budgetTotal)} isBold />
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <InfoItem label="Terbayar" value={formatCurrency(project.paidAmount)} color="text-blue-600" />
+                                                <InfoItem label="Piutang" value={formatCurrency(project.remainingAmount)} color="text-orange-600" />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <InfoItem label="Mulai" value={formatDate(project.startDate)} icon={<FiCalendar />} />
+                                                <InfoItem label="Estimasi" value={formatDate(project.estimatedEndDate)} icon={<FiCalendar />} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -74,17 +74,36 @@ const DashboardAdmin = () => {
     const { projects, customers, financials, recentProjects, reports, materialRequests } = stats;
 
     // Calculate derived stats
-    const totalProjects = projects.reduce((sum, p) => sum + (p._count?._all || p._count || 0), 0);
-    const activeProjects = projects.find(p => {
-        const s = p.status?.toLowerCase();
-        return s === "active" || s === "ongoing" || s === "berjalan";
-    })?._count?._all || 0;
+    const totalProjects = Array.isArray(projects) 
+        ? projects.reduce((sum, p) => sum + (p._count?._all || p._count || 0), 0)
+        : 0;
+
+    const activeProjects = Array.isArray(projects) 
+        ? projects.find(p => {
+            const s = p.status?.toLowerCase();
+            return s === "active" || s === "ongoing" || s === "berjalan";
+        })?._count?._all || 0
+        : 0;
+
+    const planningProjects = Array.isArray(projects)
+        ? projects.find(p => {
+            const s = p.status?.toLowerCase();
+            return s === "planning" || s === "draft" || s === "persiapan";
+        })?._count?._all || 0
+        : 0;
+
+    const finishedProjects = Array.isArray(projects)
+        ? projects.find(p => {
+            const s = p.status?.toLowerCase();
+            return s === "finished" || s === "selesai";
+        })?._count?._all || 0
+        : 0;
     
     // Reports stats
     const pendingReports = reports?.filter(r => {
         const s = r.status?.toLowerCase();
         return s === "submitted" || s === "pending";
-    }).reduce((sum, r) => sum + (r._count?._all || 0), 0);
+    }).reduce((sum, r) => sum + (r._count?._all || 0), 0) || 0;
 
     const underReviewReports = reports?.find(r => {
         const s = r.status?.toLowerCase();
@@ -94,14 +113,14 @@ const DashboardAdmin = () => {
     // Material stats
     const pendingMaterials = materialRequests?.find(m => {
         const s = m.status?.toLowerCase();
-        return s === "approved_by_supervisor";
+        return s === "approved_by_supervisor" || s === "submitted";
     })?._count?._all || 0;
 
     const dashboardStats = [
-        { label: "Total Proyek", value: totalProjects, icon: FiLayers, color: "#1A4D2E" },
-        { label: "Laporan Baru", value: pendingReports + underReviewReports, icon: FiFileText, color: "#0EA5E9" },
+        { label: "Proyek Aktif", value: activeProjects, icon: FiActivity, color: "#10B981" },
+        { label: "Dalam Persiapan", value: planningProjects, icon: FiLayers, color: "#0EA5E9" },
         { label: "Request Material", value: pendingMaterials, icon: FiPackage, color: "#F59E0B" },
-        { label: "Total Konsumen", value: customers, icon: FiUser, color: "#7C3AED" },
+        { label: "Review Laporan", value: pendingReports + underReviewReports, icon: FiFileText, color: "#7C3AED" },
     ];
 
     // Synthesize real activities from recent data

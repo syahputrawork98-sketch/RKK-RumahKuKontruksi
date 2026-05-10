@@ -604,6 +604,41 @@ const DesignRequestAdminPage = () => {
                                 </div>
                             </div>
 
+                            {/* REVISION OVERSIGHT */}
+                            <div className={`p-6 rounded-3xl border-2 space-y-4 ${
+                                (selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5) 
+                                ? 'bg-red-50 border-red-200 shadow-lg shadow-red-500/5 animate-pulse' 
+                                : 'bg-slate-50 border-slate-100'
+                            }`}>
+                                <div className="flex justify-between items-center">
+                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Revision Control</h4>
+                                    {(selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5) && (
+                                        <span className="px-2 py-0.5 bg-red-600 text-white text-[8px] font-black uppercase rounded-md">LIMIT REACHED</span>
+                                    )}
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-[9px] font-bold text-slate-500 uppercase">Major</p>
+                                        <p className={`text-lg font-black ${selectedRequest.majorRevisionCount >= 3 ? 'text-red-600' : 'text-slate-800'}`}>
+                                            {selectedRequest.majorRevisionCount || 0} / 3
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[9px] font-bold text-slate-500 uppercase">Minor</p>
+                                        <p className={`text-lg font-black ${selectedRequest.minorRevisionCount >= 5 ? 'text-red-600' : 'text-slate-800'}`}>
+                                            {selectedRequest.minorRevisionCount || 0} / 5
+                                        </p>
+                                    </div>
+                                </div>
+                                {(selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5) && (
+                                    <div className="pt-2 border-t border-red-100">
+                                        <p className="text-[10px] font-bold text-red-700 leading-relaxed uppercase italic">
+                                            Admin Action Required: Revision limit reached. Consider placing on "Hold" or initiating project conversion.
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="pt-8 border-t border-gray-100">
                                 <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
                                     <FiCheckCircle className="text-emerald-600" />

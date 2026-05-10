@@ -218,8 +218,8 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Project Bridge hanya membuat project berstatus `planning` sebagai draft lokal. Project draft tidak otomatis aktif, dan aktivasi tetap melalui Project Activation flow terpisah.
 - Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, atau upload file production.
 - Bukan marketplace production, tender production, kontrak legal, payment/escrow, upload file production, auth production, atau RBAC production.
-- **Design Collaboration & Revision Limits**: *Local Workflow v1 / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored. Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Jika limit tercapai, endpoint revision mengembalikan status 400 dengan `isLimitReached: true`. DB local sync dilakukan via `prisma db push`.
-- **Status**: *Local Demo Completion / Local E2E Workflow v1*.
+- **Design Collaboration & Revision Limits**: *Local Workflow Polish / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored. Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Jika limit tercapai, endpoint revision mengembalikan status 400 dengan `isLimitReached: true`. UI Arsitek, Konsumen, dan Admin telah dipolish untuk menampilkan tracker revisi dan status oversight. DB local sync dilakukan via `prisma db push`.
+- **Status**: *Local Demo Completion / Local E2E Workflow v1 / Polish v2*.
 
 ## Design Tenders (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-tenders`: Ambil list tender desain lokal; dukung filter `status`.

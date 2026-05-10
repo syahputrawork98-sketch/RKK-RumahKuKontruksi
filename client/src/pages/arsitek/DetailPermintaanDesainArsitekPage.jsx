@@ -164,19 +164,56 @@ const DetailPermintaanDesainArsitekPage = () => {
 
                     {/* STATUS TRACKING */}
                     <div className="dashboard-card">
-                        <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Status Pengerjaan</h3>
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border-soft)]">
+                            <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-[var(--dashboard-border-soft)] shadow-sm">
                                 <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest">Status Saat Ini</span>
-                                <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-blue-50 text-blue-600 border border-blue-100">
+                                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
+                                    request.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                    request.status === 'in_review' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                    'bg-blue-50 text-blue-600 border-blue-100'
+                                }`}>
                                     {request.status.replace('_', ' ')}
                                 </span>
                             </div>
-                            
-                            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 italic text-[10px] text-amber-700">
-                                Info: Anda dapat mengubah status ke "In Review" atau "Approved" melalui halaman daftar antrean desain.
+
+                            {/* REVISION COUNTER SUMMARY */}
+                            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Ringkasan Revisi Lokal</h4>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Major</p>
+                                        <p className={`text-sm font-black ${request.majorRevisionCount >= 3 ? 'text-red-500' : 'text-slate-700'}`}>
+                                            {request.majorRevisionCount || 0} / 3
+                                        </p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Minor</p>
+                                        <p className={`text-sm font-black ${request.minorRevisionCount >= 5 ? 'text-red-500' : 'text-slate-700'}`}>
+                                            {request.minorRevisionCount || 0} / 5
+                                        </p>
+                                    </div>
+                                </div>
+                                {(request.majorRevisionCount >= 3 || request.minorRevisionCount >= 5) && (
+                                    <div className="p-3 bg-red-50 border border-red-100 rounded-xl">
+                                        <p className="text-[9px] font-black text-red-600 uppercase leading-tight italic">
+                                            Warning: Limit revisi tercapai. Hubungi Admin untuk instruksi lanjut.
+                                        </p>
+                                    </div>
+                                )}
                             </div>
-                        </div>
+                            
+                            <div className="p-5 bg-indigo-50 border border-indigo-100 rounded-2xl space-y-3">
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-700">Langkah Berikutnya</h4>
+                                <ul className="space-y-2">
+                                    <li className="text-[10px] font-bold text-indigo-800 flex items-start gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1"></div>
+                                        Unggah progres desain secara manual ke timeline.
+                                    </li>
+                                    <li className="text-[10px] font-bold text-indigo-800 flex items-start gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1"></div>
+                                        Tunggu review & revisi dari Konsumen.
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
                 </div>
             </div>

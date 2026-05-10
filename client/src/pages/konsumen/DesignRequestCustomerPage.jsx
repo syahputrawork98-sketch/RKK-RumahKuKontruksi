@@ -277,8 +277,15 @@ const DesignRequestCustomerPage = () => {
                         </button>
                         <div>
                             <h3 className="text-lg font-black text-gray-800">{selectedRequest.title}</h3>
-                            <p className="text-[10px] text-teal-600 font-bold uppercase tracking-widest mt-0.5">Timeline & Kolaborasi Desain Lokal</p>
+                            <p className="text-[10px] text-teal-600 font-bold uppercase tracking-widest mt-0.5">Timeline & Kolaborasi Desain (Local Simulation v1)</p>
                         </div>
+                    </div>
+
+                    <div className="bg-indigo-50/50 px-8 py-3 border-b border-indigo-100 flex items-center gap-3">
+                        <FiInfo className="text-indigo-600 shrink-0" size={14} />
+                        <p className="text-[10px] font-bold text-indigo-700 uppercase tracking-tighter italic">
+                            Info: Riwayat ini adalah bagian dari alur simulasi pengembangan lokal RKK, bukan merupakan dokumen legal/kontrak.
+                        </p>
                     </div>
 
                     <div className="max-w-6xl mx-auto w-full p-6 md:p-10 grid grid-cols-1 lg:grid-cols-3 gap-10">

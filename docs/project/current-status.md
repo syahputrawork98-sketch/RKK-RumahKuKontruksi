@@ -93,11 +93,12 @@ Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (E
 - **Empty States**: Pesan informatif jika kategori pekerjaan sudah terdaftar namun bukti lapangan belum dipublikasikan.
 
 ## Design Collaboration & Revision Limit Context
-**Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Design Request` -> Timeline kolaborasi (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.
+**Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow Polish / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Design Request` -> Timeline kolaborasi polished (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.
 
-Fitur ini menerapkan **Revision Limits** lokal:
+Fitur ini menerapkan **Revision Limits & Oversight** lokal:
 - **Revisi Besar (Major)**: Maksimal 3x (Perubahan konsep, fasad utama, layout besar).
 - **Revisi Kecil (Minor)**: Maksimal 5x (Warna finishing, detail plafon, geser pintu minor).
+- **Workspace Polish**: Arsitek memiliki workspace dengan tracker limit revisi; Konsumen memiliki timeline detail dengan disclaimer simulasi; Admin memiliki oversight dashboard untuk limit revisi.
 - Jika limit habis, revisi berikutnya ditahan (**Hold**) dan memerlukan keputusan/bypass Admin secara manual.
 
 Data riwayat disimpan dalam `DesignRequestHistory`, dan jumlah revisi dicatat di `DesignRequest.majorRevisionCount` serta `DesignRequest.minorRevisionCount`. DB local sync dilakukan melalui `prisma db push` dan `prisma generate` berhasil. Ini adalah local development workflow, bukan kontrak legal, bukan payment/addendum production, bukan upload production, bukan realtime chat, dan tidak mengubah Progress SOT konstruksi.

@@ -294,6 +294,16 @@ const PermintaanDesainArsitekPage = () => {
                                             <FiClock className="shrink-0" />
                                             <span>Masuk: {new Date(r.createdAt).toLocaleDateString("id-ID")}</span>
                                         </div>
+                                        <div className="flex items-center gap-4 pt-2">
+                                            <div className="flex flex-col">
+                                                <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Major Rev.</span>
+                                                <span className={`text-[10px] font-black ${r.majorRevisionCount >= 3 ? 'text-red-500' : 'text-slate-700'}`}>{r.majorRevisionCount || 0}/3</span>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Minor Rev.</span>
+                                                <span className={`text-[10px] font-black ${r.minorRevisionCount >= 5 ? 'text-red-500' : 'text-slate-700'}`}>{r.minorRevisionCount || 0}/5</span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div className="flex items-center gap-2 pt-4 border-t border-[var(--dashboard-border-soft)]">

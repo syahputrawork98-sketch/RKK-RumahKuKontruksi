@@ -137,9 +137,10 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
         )}
       </div>
 
-      <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-        <p className="text-[9px] text-blue-700 font-bold leading-relaxed uppercase flex items-center gap-2">
-          <FiClock size={12} /> Local Timeline Desain v1 — Belum menjadi kontrak legal / payment.
+      <div className="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100/50">
+        <p className="text-[10px] text-indigo-700 font-bold leading-relaxed uppercase flex items-center gap-2">
+          <FiInfo size={14} className="shrink-0" /> 
+          <span>Local Simulation: Revision limits (3 Major / 5 Minor) are part of the v1 workflow for design quality control.</span>
         </p>
       </div>
     </div>

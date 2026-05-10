@@ -75,6 +75,14 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Mandor/Pengawas tetap bisa membaca histori setelah project selesai, tetapi action lapangan baru ditahan.
 - Bukan BAST/legal handover, invoice/payment/escrow, sertifikat resmi, auth/deployment production, atau lifecycle/legal production.
 
+**Catatan Post-Completion History & Experience Pack**:
+- **Status**: *Post-Completion History & Experience Pack = Local Workflow v1 / Stabilized*.
+- Batch ini mencakup Finished Project History Reader, Completed Project Guard for Mandor/Pengawas, dan Experience Summary from Completed Projects.
+- Backend guard: `verifyProjectProgress` menolak project `Selesai`, `updateProjectStage` menolak project `Selesai`, dan update Weekly Journal ditahan jika parent project sudah selesai.
+- Reader tetap menyediakan histori operasional lokal project `Selesai` untuk role terkait, termasuk Konsumen/Admin/Superadmin sesuai mode baca masing-masing.
+- Project `Selesai` masuk ke Experience Summary lokal Mandor/Pengawas sebagai histori pekerjaan selesai.
+- Pack ini bukan BAST/legal handover, invoice/payment/escrow, sertifikat otomatis/resmi, marketplace reputation/scoring, atau mekanisme update Progress SOT.
+
 ## RAB Builder (Local CRUD v1 / Admin Builder Stabilized)
 - `GET /rab/project/:projectId`: Ambil RAB Plan proyek beserta `RabCategory` dan `RabItem`.
 - `POST /rab/project/:projectId/plans`: Membuat RAB Plan lokal untuk proyek.
@@ -120,6 +128,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
 - Experience Read-Only Summary tetap tersedia sebagai ringkasan data operasional lokal: project aktif/selesai, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
 - Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
+- Project `Selesai` dari Post-Completion History & Experience Pack masuk ringkasan pengalaman lokal sebagai histori operasional, bukan sertifikat otomatis/resmi atau reputation marketplace.
 - **Status**: *Mandor/Pengawas Certificate & Work Experience = Local CRUD v1 / Stabilized*.
 
 ## Foremen
@@ -149,6 +158,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
 - Experience Read-Only Summary tetap tersedia sebagai ringkasan data operasional lokal: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
 - Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
+- Project `Selesai` dari Post-Completion History & Experience Pack masuk ringkasan pengalaman lokal sebagai histori operasional, bukan sertifikat otomatis/resmi atau reputation marketplace.
 - **Status**: *Mandor/Pengawas Certificate & Work Experience = Local CRUD v1 / Stabilized*.
 
 ## Architects
@@ -315,4 +325,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Project Lifecycle Completion Pack, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup BAST/legal handover, progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.
+- **Local Stabilized Status**: Post-Completion History & Experience Pack, Project Lifecycle Completion Pack, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup BAST/legal handover, progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.

@@ -389,12 +389,17 @@ const TimelineProyek = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="text-heading-m-bold text-neutral-100">Timeline Pelaksanaan</h2>
-              <p className="text-m-regular text-neutral-60 mt-1 flex items-center gap-2">
-                Pantau perkembangan pekerjaan tahap demi tahap.
-                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 uppercase tracking-tighter">
-                  Update tersedia untuk Konsumen
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                <p className="text-m-regular text-neutral-60 flex items-center gap-2">
+                  Pantau perkembangan pekerjaan tahap demi tahap.
+                </p>
+                <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-tighter">
+                  Customer-visible summary
                 </span>
-              </p>
+                <span className="text-[9px] font-black text-neutral-40 uppercase bg-neutral-20 px-2 py-0.5 rounded border border-neutral-30 tracking-tighter">
+                  Local Sync Thread
+                </span>
+              </div>
             </div>
             <div className="flex gap-2">
               <span className="px-3 py-1 bg-white border border-neutral-30 rounded-lg text-s-bold text-neutral-70 flex items-center gap-2">

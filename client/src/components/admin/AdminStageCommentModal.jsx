@@ -80,9 +80,16 @@ const AdminStageCommentModal = ({ isOpen, onClose, stage, projectId }) => {
             </div>
             <div>
               <h3 className="text-lg font-black uppercase tracking-tight text-slate-800">
-                Diskusi Publik: <span className="text-blue-600">{stage?.code}</span>
+                Update Tahapan: <span className="text-blue-600">{stage?.code}</span>
               </h3>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-0.5">{stage?.title}</p>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest">
+                  Customer-visible update
+                </span>
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                  Local Thread
+                </span>
+              </div>
             </div>
           </div>
           <button onClick={onClose} className="p-3 bg-slate-50 hover:bg-slate-100 rounded-2xl text-slate-400 hover:text-slate-800 transition-all border border-slate-100">
@@ -223,6 +230,13 @@ const AdminStageCommentModal = ({ isOpen, onClose, stage, projectId }) => {
                 )}
                 <span>{submitting ? "Mempublikasikan..." : replyTo ? "Kirim Balasan" : "Publish ke Timeline"}</span>
               </button>
+              
+              <div className="mt-4 p-4 bg-blue-50 rounded-2xl border border-blue-100 flex gap-3 items-start animate-fadeIn">
+                <FiInfo className="text-blue-500 mt-0.5 shrink-0" size={14} />
+                <p className="text-[10px] text-blue-700 font-medium leading-relaxed italic">
+                  <strong>Penting:</strong> Stage communication adalah jalur informasi transparansi untuk Konsumen. Update ini <strong>tidak mengubah Progress Resmi</strong> proyek. Progress resmi tetap diperbarui secara manual oleh Pengawas melalui modul Verifikasi.
+                </p>
+              </div>
             </form>
           )}
         </div>

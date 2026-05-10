@@ -95,11 +95,16 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
       {/* Header */}
       <div className="bg-white rounded-[32px] border border-neutral-30 p-6 shadow-sm">
         <h3 className="text-heading-s-bold text-neutral-100 flex items-center gap-3">
-          <FiMessageSquare className="text-primary-main" /> Update Resmi Proyek
+          <FiMessageSquare className="text-primary-main" /> Update Resmi Tahap
         </h3>
-        <p className="text-xs-regular text-neutral-60 mt-1">
-          Jalur komunikasi resmi terkait perkembangan tahap ini.
-        </p>
+        <div className="flex items-center gap-2 mt-1">
+          <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest">
+            Customer-visible update
+          </span>
+          <span className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">
+            Local Thread
+          </span>
+        </div>
       </div>
 
       {/* Discussion List */}
@@ -240,6 +245,12 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
                 </>
               )}
             </button>
+            <div className="mt-4 p-4 bg-primary-surface/50 rounded-2xl border border-primary-main/10 flex gap-3 items-start animate-fadeIn">
+              <FiInfo className="text-primary-main mt-0.5 shrink-0" size={14} />
+              <p className="text-[10px] text-neutral-60 font-medium leading-relaxed italic">
+                Diskusi ini adalah bagian dari transparansi operasional RKK. Tanggapan Anda akan terlihat oleh Admin & Pengawas. <strong>Catatan:</strong> Diskusi ini tidak mengubah Progress Resmi SOT.
+              </p>
+            </div>
           </form>
         )}
       </div>

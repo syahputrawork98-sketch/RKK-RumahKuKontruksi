@@ -1,66 +1,102 @@
 // client/src/components/ui/dashboard/DashboardProjectsTable.jsx
 
 import React from "react";
+import { Link } from "react-router-dom";
+import { FiExternalLink } from "react-icons/fi";
 
-export const DashboardProjectsTable = ({ projects }) => (
-    <div className="mt-8 dashboard-table-card">
-        <div className="p-6 border-b border-[var(--dashboard-border-soft)] flex items-center justify-between bg-[var(--dashboard-surface)]">
-            <h2 className="dashboard-title !text-lg">Ringkasan Proyek Terbaru</h2>
-            <button className="text-xs font-bold text-[var(--dashboard-primary)] hover:underline">
-                Lihat Semua Proyek
-            </button>
-        </div>
+export const DashboardProjectsTable = ({ projects = [] }) => {
+    const formatCurrency = (val) => {
+        if (!val) return "-";
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(val);
+    };
 
-        <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-                <thead>
-                    <tr className="bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-muted)] border-b border-[var(--dashboard-border-soft)]">
-                        <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Kode</th>
-                        <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Nama Proyek</th>
-                        <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Progress</th>
-                        <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Status</th>
-                        <th className="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Nilai</th>
-                    </tr>
-                </thead>
+    return (
+        <div className="dashboard-table-card overflow-hidden">
+            <div className="p-6 border-b border-[var(--dashboard-border-soft)] flex items-center justify-between bg-[var(--dashboard-surface)]">
+                <h2 className="dashboard-title !text-lg">Monitoring Proyek Lapangan</h2>
+                <span className="text-[10px] font-black uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 tracking-tighter">
+                    Local Real-time Stats
+                </span>
+            </div>
 
-                <tbody className="divide-y divide-[var(--dashboard-border-soft)]">
-                    {projects.map((p) => (
-                        <tr key={p.kode} className="hover:bg-[var(--dashboard-surface-soft)] transition-colors">
-                            <td className="px-6 py-4">
-                                <span className="font-mono text-xs font-bold text-[var(--dashboard-text-muted)] bg-[var(--dashboard-surface-soft)] px-2 py-1 rounded">
-                                    {p.kode}
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 font-bold text-[var(--dashboard-text)]">{p.name}</td>
-
-                            <td className="px-6 py-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-24 bg-[var(--dashboard-surface-soft)] h-1.5 rounded-full overflow-hidden">
-                                        <div
-                                            className="bg-[var(--dashboard-primary)] h-1.5 transition-all duration-500"
-                                            style={{ width: `${p.progress}%` }}
-                                        />
-                                    </div>
-                                    <span className="text-[10px] font-bold text-[var(--dashboard-text-muted)]">{p.progress}%</span>
-                                </div>
-                            </td>
-
-                            <td className="px-6 py-4">
-                                <span className={`
-                                    px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                    ${(p.status === "active" || p.status === "Berjalan") ? "bg-emerald-100 text-emerald-700" : 
-                                      p.status === "Selesai" ? "bg-blue-100 text-blue-700" : 
-                                      "bg-orange-100 text-orange-700"}
-                                `}>
-                                    {p.status}
-                                </span>
-                            </td>
-
-                            <td className="px-6 py-4 font-bold text-[var(--dashboard-text)]">{p.nilai}</td>
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                    <thead>
+                        <tr className="bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-muted)] border-b border-[var(--dashboard-border-soft)]">
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">ID/Kode</th>
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Nama Proyek / Client</th>
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Verified Progress</th>
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Status</th>
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Nilai Kontrak</th>
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px] text-right">Aksi</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody className="divide-y divide-[var(--dashboard-border-soft)]">
+                        {projects.length > 0 ? (
+                            projects.map((p) => (
+                                <tr key={p.id} className="hover:bg-[var(--dashboard-surface-soft)] transition-all group">
+                                    <td className="px-6 py-4">
+                                        <span className="font-mono text-[10px] font-black text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
+                                            {p.projectCode || "PRJ-???"}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex flex-col">
+                                            <span className="font-black text-[var(--dashboard-text)] text-sm">{p.name}</span>
+                                            <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase mt-0.5">{p.customer?.name || "No Client"}</span>
+                                        </div>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-20 bg-[var(--dashboard-surface-soft)] h-1.5 rounded-full overflow-hidden border border-[var(--dashboard-border-soft)]">
+                                                <div
+                                                    className="bg-gradient-to-r from-blue-600 to-emerald-400 h-1.5 transition-all duration-1000"
+                                                    style={{ width: `${p.verifiedProgress || 0}%` }}
+                                                />
+                                            </div>
+                                            <span className="text-[10px] font-black text-blue-600">{p.verifiedProgress || 0}%</span>
+                                        </div>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <span className={`
+                                            px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border
+                                            ${(['active', 'ongoing', 'Berjalan'].includes(p.status)) ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
+                                              (['finished', 'Selesai'].includes(p.status)) ? "bg-blue-50 text-blue-600 border-blue-100" : 
+                                              "bg-amber-50 text-amber-600 border-amber-100"}
+                                        `}>
+                                            {p.status}
+                                        </span>
+                                    </td>
+
+                                    <td className="px-6 py-4 font-black text-[var(--dashboard-text)] text-xs font-mono">{formatCurrency(p.budgetTotal)}</td>
+                                    
+                                    <td className="px-6 py-4 text-right">
+                                        <Link 
+                                            to={`/admin/proyek/${p.id}`}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all shadow-sm"
+                                        >
+                                            Detail <FiExternalLink size={10} />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={6} className="px-6 py-12 text-center text-[var(--dashboard-text-soft)] italic text-xs">
+                                    Belum ada data proyek aktif dari database.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-);
+    );
+};

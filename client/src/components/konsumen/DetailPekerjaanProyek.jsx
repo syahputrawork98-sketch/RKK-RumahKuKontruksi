@@ -244,11 +244,11 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                   <FiActivity size={12} className="text-primary-main" /> Kronologi Bukti Pekerjaan
                                 </h4>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 uppercase tracking-tighter">
-                                    Visibility: Customer-Visible
+                                  <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest">
+                                    Customer-Visible Update
                                   </span>
-                                  <span className="text-[9px] font-bold text-neutral-40 uppercase tracking-tighter italic">
-                                    * Admin visibility control formal (Hold/Planned)
+                                  <span className="text-[9px] font-black text-neutral-40 uppercase bg-neutral-20 px-2 py-0.5 rounded border border-neutral-30 tracking-widest">
+                                    Local Thread
                                   </span>
                                 </div>
                               </div>
@@ -367,9 +367,14 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                     <FiActivity size={16} className="text-primary-main" />
                     Update Lapangan & Ulasan Umum
                   </h3>
-                  <span className="text-[10px] font-black text-neutral-40 uppercase bg-neutral-20 px-3 py-1 rounded-full border border-neutral-30/50">
-                    Update yang tersedia untuk Konsumen
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest">
+                      Customer-Visible
+                    </span>
+                    <span className="text-[9px] font-black text-neutral-40 uppercase bg-neutral-20 px-2 py-0.5 rounded border border-neutral-30 tracking-widest">
+                      Local Sync
+                    </span>
+                  </div>
                 </div>
                 
                 <div className="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-20">

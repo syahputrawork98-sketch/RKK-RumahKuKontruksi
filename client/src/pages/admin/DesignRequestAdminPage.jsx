@@ -326,13 +326,12 @@ const DesignRequestAdminPage = () => {
 
     if (loading && !isBidsOpen) return <RoleDataState type="loading" message="Memuat data..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchData} />;
-
     return (
         <div className="animate-fadeIn space-y-6 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Manajemen Desain (Local CRUD)</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic italic">Kelola draf permintaan desain dan peluang kemitraan arsitek secara lokal.</p>
+                    <h1 className="text-3xl font-black text-neutral-900 tracking-tight">Manajemen Desain & Tender</h1>
+                    <p className="text-xs text-neutral-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Oversight Proyek Desain RKK</p>
                 </div>
                 {activeTab === "requests" && (
                     <button 
@@ -390,7 +389,7 @@ const DesignRequestAdminPage = () => {
                                 </thead>
                                 <tbody>
                                     {filteredRequests.map((r) => (
-                                        <tr key={r.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors cursor-pointer group" onClick={() => handleOpenDetail(r)}>
+                                        <tr key={r.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/50 transition-colors cursor-pointer group">
                                             <td className="py-4 px-2">
                                                 <div className="flex flex-col">
                                                     <span className="text-sm font-bold text-[var(--dashboard-text)] group-hover:text-[var(--dashboard-primary)] transition-colors">{r.title}</span>
@@ -425,79 +424,58 @@ const DesignRequestAdminPage = () => {
                                                         </div>
                                                         <span className="text-xs font-medium text-indigo-700">{r.architect.name}</span>
                                                     </div>
-                                                ) : (
-                                                    <div className="flex items-center gap-1.5">
-                                                        {r.status === 'submitted' && (
-                                                            <button 
-                                                                onClick={() => handleOpenPublish(r)}
-                                                                className="flex items-center gap-1 px-2 py-1 bg-teal-50 text-teal-600 rounded-lg text-[10px] font-bold border border-teal-100 hover:bg-teal-100 transition-all"
-                                                                title="Publish sebagai Peluang Desain"
-                                                            >
-                                                                <FiZap size={10} />
-                                                                Publish Peluang
-                                                            </button>
-                                                        )}
-                                                        <button 
-                                                            onClick={() => handleOpenAssign(r)}
-                                                            className="flex items-center gap-1 px-2 py-1 bg-purple-50 text-purple-600 rounded-lg text-[10px] font-bold border border-purple-100 hover:bg-purple-100 transition-all"
-                                                            title="Penugasan Langsung (Manual)"
-                                                        >
-                                                            <FiUserPlus size={10} />
-                                                            Assign
-                                                        </button>
-                                                    </div>
-                                                )}
-                                                
-                                                {(r.status === 'assigned' || r.status === 'in_review') && (
-                                                    <button 
-                                                        onClick={() => handleUpdateStatus(r.id, 'approved')}
-                                                        className="mt-2 w-full flex items-center justify-center gap-1 px-2 py-1.5 bg-emerald-600 text-white rounded-lg text-[9px] font-black uppercase border border-emerald-500 hover:bg-emerald-700 transition-all"
-                                                        title="Setujui Desain & Siapkan Proyek"
-                                                    >
-                                                        <FiCheckCircle size={10} />
-                                                        Approve Desain
-                                                    </button>
-                                                )}
-
-                                                {r.status === 'approved' && !r.projectId && (
-                                                    <button 
-                                                        onClick={() => handleOpenConvert(r)}
-                                                        className="mt-2 w-full flex items-center justify-center gap-1 px-2 py-1.5 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase border border-indigo-500 hover:bg-indigo-700 transition-all shadow-md shadow-indigo-600/20"
-                                                        title="Buat Draft Proyek Konstruksi"
-                                                    >
-                                                        <FiPlus size={10} />
-                                                        Buat Draft Proyek
-                                                    </button>
-                                                )}
-                                                {r.projectId && (
-                                                    <div className="mt-2 flex items-center gap-1.5 text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-100">
-                                                        <FiCheckCircle size={10} />
-                                                        Proyek Aktif: {r.project?.projectCode}
-                                                    </div>
-                                                )}
+                                                ) : <span className="text-[10px] text-gray-400 italic">Belum ditugaskan</span>}
                                             </td>
                                             <td className="py-4 px-2 text-right">
-                                                <div className="flex items-center justify-end gap-1">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    {['approved', 'project_created', 'finished'].includes(r.status) ? (
+                                                        <div className="flex items-center gap-1 px-2 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] font-bold border border-emerald-100">
+                                                            <FiCheckCircle size={10} /> Finalized
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            {r.status === 'submitted' && (
+                                                                <button 
+                                                                    onClick={(e) => { e.stopPropagation(); handleOpenPublish(r); }}
+                                                                    className="p-1.5 text-teal-600 hover:bg-teal-50 rounded-lg"
+                                                                    title="Publish Peluang"
+                                                                >
+                                                                    <FiZap size={14} />
+                                                                </button>
+                                                            )}
+                                                            <button 
+                                                                onClick={(e) => { e.stopPropagation(); handleOpenAssign(r); }}
+                                                                className="p-1.5 text-purple-600 hover:bg-purple-50 rounded-lg"
+                                                                title="Assign Arsitek"
+                                                            >
+                                                                <FiUserPlus size={14} />
+                                                            </button>
+                                                            <button 
+                                                                onClick={(e) => { e.stopPropagation(); handleOpenForm(r); }}
+                                                                className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg"
+                                                                title="Edit"
+                                                            >
+                                                                <FiEdit2 size={14} />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                    
+                                                    {r.status === 'approved' && !r.projectId && (
+                                                        <button 
+                                                            onClick={(e) => { e.stopPropagation(); handleOpenConvert(r); }}
+                                                            className="px-2 py-1 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase hover:bg-indigo-700 shadow-sm"
+                                                            title="Buat Draft Proyek"
+                                                        >
+                                                            Draft Proyek
+                                                        </button>
+                                                    )}
+
                                                     <button 
                                                         onClick={(e) => { e.stopPropagation(); handleOpenDetail(r); }}
                                                         className="p-1.5 text-indigo-500 hover:bg-indigo-50 rounded-lg"
-                                                        title="Timeline"
+                                                        title="Detail Timeline"
                                                     >
-                                                        <FiClock size={14} />
-                                                    </button>
-                                                    <button 
-                                                        onClick={(e) => { e.stopPropagation(); handleOpenForm(r); }}
-                                                        className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg"
-                                                        title="Edit"
-                                                    >
-                                                        <FiEdit2 size={14} />
-                                                    </button>
-                                                    <button 
-                                                        onClick={(e) => { e.stopPropagation(); handleDelete(r.id); }}
-                                                        className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg"
-                                                        title="Hapus"
-                                                    >
-                                                        <FiTrash2 size={14} />
+                                                        <FiArrowRight size={14} />
                                                     </button>
                                                 </div>
                                             </td>

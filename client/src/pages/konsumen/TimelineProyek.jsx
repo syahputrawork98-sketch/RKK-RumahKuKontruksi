@@ -389,7 +389,12 @@ const TimelineProyek = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="text-heading-m-bold text-neutral-100">Timeline Pelaksanaan</h2>
-              <p className="text-m-regular text-neutral-60 mt-1">Pantau perkembangan pekerjaan tahap demi tahap.</p>
+              <p className="text-m-regular text-neutral-60 mt-1 flex items-center gap-2">
+                Pantau perkembangan pekerjaan tahap demi tahap.
+                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 uppercase tracking-tighter">
+                  Update tersedia untuk Konsumen
+                </span>
+              </p>
             </div>
             <div className="flex gap-2">
               <span className="px-3 py-1 bg-white border border-neutral-30 rounded-lg text-s-bold text-neutral-70 flex items-center gap-2">
@@ -416,6 +421,9 @@ const TimelineProyek = () => {
               </div>
             </div>
           )}
+          <p className="text-[10px] text-neutral-40 italic text-center pt-4">
+            * Catatan internal teknis tidak ditampilkan pada timeline publik Konsumen.
+          </p>
         </section>
       </div>
     </>

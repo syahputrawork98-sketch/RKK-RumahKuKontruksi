@@ -139,9 +139,9 @@ const TLProyek = ({ timeline = [] }) => {
                     <div className="space-y-3 pt-2">
                       <div className="flex justify-between items-end">
                         <div className="space-y-0.5">
-                          <p className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">Progress Tahap</p>
-                          <p className="text-xs font-black text-neutral-90 italic">
-                            {stage.status === 'verified' ? 'Tervalidasi 100% (Final)' : 'Operasional Berjalan'}
+                          <p className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">Progress Resmi (SOT)</p>
+                          <p className="text-[10px] font-black text-neutral-90 italic">
+                            {stage.status === 'verified' ? 'Tervalidasi 100% (Final)' : 'Verified by Pengawas'}
                           </p>
                         </div>
                         <span className={`text-2xl font-black ${stage.status === 'verified' ? 'text-success-main' : 'text-primary-main'}`}>{stage.progress}%</span>
@@ -155,6 +155,11 @@ const TLProyek = ({ timeline = [] }) => {
                         >
                            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
                         </motion.div>
+                      </div>
+                      <div className="pt-2">
+                        <p className="text-[9px] text-neutral-40 font-medium italic leading-relaxed">
+                          * Evidence item tidak mengubah Progress Resmi. Progress tetap diperbarui secara manual oleh Pengawas via Verifikasi Resmi.
+                        </p>
                       </div>
                     </div>
 

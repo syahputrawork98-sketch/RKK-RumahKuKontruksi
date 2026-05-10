@@ -307,20 +307,17 @@ const PermintaanDesainArsitekPage = () => {
                                     </div>
 
                                     <div className="flex items-center gap-2 pt-4 border-t border-[var(--dashboard-border-soft)]">
-                                        <Link 
-                                            to={`/arsitek/permintaan-desain/${r.id}`}
-                                            className="flex-1 flex items-center justify-center gap-2 py-2 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-border-soft)] transition-all"
-                                        >
-                                            Detail Brief
-                                            <FiChevronRight />
-                                        </Link>
-                                                                                 {r.status === 'assigned' && (
-                                            <button 
-                                                onClick={() => handleUpdateStatus(r.id, 'in_review')}
-                                                className="flex-1 py-2 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/10"
+                                        {['approved', 'project_created', 'finished'].includes(r.status) ? (
+                                            <div className="flex items-center gap-1.5 text-[9px] font-black text-emerald-600 uppercase bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
+                                                <FiCheckCircle size={10} /> Fase Selesai
+                                            </div>
+                                        ) : (
+                                            <Link 
+                                                to={`/arsitek/permintaan-desain/${r.id}`}
+                                                className="flex items-center gap-1 text-xs font-black text-indigo-600 hover:text-indigo-800 uppercase tracking-widest transition-colors"
                                             >
-                                                Mulai Review
-                                            </button>
+                                                Papan Kerja <FiChevronRight />
+                                            </Link>
                                         )}
 
                                         {r.status === 'in_review' && (

@@ -156,24 +156,17 @@ const DesignRequestCustomerPage = () => {
 
     return (
         <div className="animate-fadeIn space-y-8 pb-20">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-3xl font-black tracking-tight text-gray-800">Kolaborasi & Fase Desain</h2>
-                    <p className="text-sm text-gray-500 mt-1">Kelola kebutuhan desain, gambar kerja, dan revisi sebelum memasuki fase konstruksi lapangan.</p>
+                    <h1 className="text-3xl font-black text-gray-800 tracking-tight">Permintaan Desain Saya</h1>
+                    <p className="text-xs text-gray-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Kolaborasi Desain & Arsitek</p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <div className="hidden md:flex flex-col items-end mr-4">
-                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Status Kolaborasi</span>
-                        <span className="text-xs font-bold text-gray-500">Local Workflow v1</span>
-                    </div>
-                    <button 
-                        onClick={handleOpenForm}
-                        className="flex items-center justify-center gap-3 px-6 py-3.5 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20 hover:scale-[1.02] transition-all"
-                    >
-                        <FiPlus size={20} />
-                        Buat Brief Desain Baru
-                    </button>
-                </div>
+                <button 
+                    onClick={handleOpenForm}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20 flex items-center gap-2 transition-all hover:scale-105"
+                >
+                    <FiPlus size={18} /> Buat Brief Baru
+                </button>
             </div>
 
             <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex items-start gap-4">
@@ -205,13 +198,12 @@ const DesignRequestCustomerPage = () => {
                         {filteredRequests.map((r) => (
                             <div 
                                 key={r.id} 
-                                onClick={() => handleOpenDetail(r)}
-                                className="p-6 border border-gray-100 rounded-3xl hover:border-teal-500/30 transition-all bg-white shadow-sm group cursor-pointer"
+                                className="p-6 border border-gray-100 rounded-3xl hover:border-teal-500/30 transition-all bg-white shadow-sm group"
                             >
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="space-y-1">
                                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">ID: {r.id.slice(-8)}</p>
-                                        <h3 className="text-lg font-black text-gray-800 group-hover:text-teal-700 transition-colors">{r.title}</h3>
+                                        <h3 className="text-lg font-black text-gray-800 transition-colors">{r.title}</h3>
                                     </div>
                                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
                                         r.status === 'submitted' ? "bg-blue-50 text-blue-600 border-blue-100" :
@@ -246,9 +238,18 @@ const DesignRequestCustomerPage = () => {
                                             <p className="text-[11px] font-bold text-gray-700">{r.architect?.name || "Menunggu Penugasan"}</p>
                                         </div>
                                     </div>
-                                    <div className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                                        Detail & Timeline <FiArrowRight />
-                                    </div>
+                                    {['approved', 'project_created', 'finished'].includes(r.status) ? (
+                                        <div className="flex items-center gap-2 text-[10px] font-black text-emerald-600 uppercase bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-100">
+                                            <FiCheckCircle /> Selesai
+                                        </div>
+                                    ) : (
+                                        <button 
+                                            onClick={() => handleOpenDetail(r)}
+                                            className="text-[10px] font-black text-teal-600 uppercase tracking-widest flex items-center gap-1 hover:translate-x-1 transition-transform"
+                                        >
+                                            Lihat Progress <FiArrowRight />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}

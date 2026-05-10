@@ -200,7 +200,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - **Direktori Persona Lokal**: Superadmin mengelola seluruh entitas/persona role melalui API lokal. Terminologi "Direktori Persona" dan "Persona Lokal" wajib digunakan.
 - **Form Disclaimer**: Setiap aksi CRUD persona menyertakan disclaimer bahwa sistem ini tidak menggunakan production auth (password/JWT).
 - **Monitoring (Simulasi)**: Dashboard global stats, master data, monitoring proyek global, dan audit pengajuan desain menggunakan data rill dari database `localhost` dengan wording simulasi/lokal.
-- **Hold**: Audit Log otomatis (Placeholder: Pusat Audit & Approval Lokal), Profile Change Approval, kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold. Action buttons pada UI Audit dinonaktifkan.
+- **Hold**: Audit Log otomatis (Placeholder: Pusat Audit & Approval Lokal), Profile Change Approval, kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold. Action buttons pada UI Audit dinonaktifkan. Backend audit formal belum aktif.
 
 ## Design Requests (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
@@ -304,9 +304,11 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /project-stage-comments/:id`: Update isi/status komentar.
 - `DELETE /project-stage-comments/:id`: Soft delete komentar.
 
-**Catatan**:
+**Catatan Stage Communication**:
+- **Status**: *Functional v1 / Local Thread / Stabilized*.
 - Konsumen hanya boleh membalas update yang sudah ada; official update hanya untuk Admin.
 - Data ini adalah bridge komunikasi publik per tahap proyek, bukan chat internal tim lapangan.
+- **Protocol**: Menggunakan standar **HTTP CRUD**, bukan WebSocket/Realtime.
 - Stage Communication Panel Konsumen sudah memakai read path dan customer reply lokal. Payload `POST` tetap wajib menyertakan `projectId`, `authorRole`, `message`, dan `parentId` untuk reply Konsumen.
 - Update/delete masih perlu guard role yang lebih tegas sebelum dianggap production-ready.
 
@@ -329,6 +331,8 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
+- **Non-Realtime**: Seluruh komunikasi (Stage Communication) berbasis polling/request standard, bukan WebSockets.
+- **Payment/Document Production**: Backend untuk integrasi payment gateway dan generation dokumen legal resmi berstatus **Hold**.
 - **Local Stabilized Status**: Project Timeline Evidence Polish, Admin & Superadmin Operational Control, Konsumen Project Transparency, Post-Completion History, Project Lifecycle Completion, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration.
 - **Wording Standard**: Menggunakan "Official Progress", "Verified by Supervisor", dan "Field Evidence" secara konsisten untuk transparansi Konsumen.
 

@@ -33,8 +33,10 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Project Activation**: Gatekeeper untuk mengaktifkan proyek dari draft ke berjalan.
 - ✅ **RAB Builder**: Membuat struktur biaya, kategori, dan item pekerjaan.
 - ✅ **Material Request Distribution**: Validasi dan distribusi material ke lapangan.
-- ✅ **Operational Control Summary**: Dashboard ringkasan status operasional proyek.
-- ✅ **Project Lifecycle Completion**: Penutupan proyek secara administratif/lokal.
+- ✅ **Operational Control Summary**: Dashboard ringkasan status operasional proyek (DB-Backed / Stabilized).
+- ✅ **Stage Communication Source Flow**: Sumber update resmi untuk timeline/thread konsumen (Stabilized).
+- ✅ **Project Lifecycle Completion**: Penutupan proyek secara administratif/lokal (Action Guarded).
+- 🛑 **Audit & Approval formal**: Local Hold / Planned.
 
 ### 🔍 Pengawas (Supervisor)
 - ✅ **Verifikasi Progres SOT**: Update manual progres resmi proyek (`verifiedProgress`).
@@ -54,8 +56,9 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Design Request**: Pengajuan permintaan desain baru.
 - ✅ **Evidence Thread**: Melihat bukti foto/catatan kerja per item pekerjaan (Role-colored).
 - ✅ **Project Transparency**: Pantauan progres resmi (SOT) dan timeline konstruksi.
-- ✅ **Design vs Construction Phase**: Pemisahan visual alur desain dan pembangunan.
-- ✅ **Project History**: Akses data proyek yang sudah selesai.
+- ✅ **Stage Communication Viewer**: Melihat official update dan membalas thread (Local HTTP Thread).
+- ✅ **Project History**: Akses data proyek yang sudah selesai (Read-only).
+- 🛑 **Payment/Document Download**: Demo Only / Local Hold.
 
 ### 🎨 Arsitek
 - ✅ **Design Collaboration Timeline**: Alur diskusi desain dengan label peran.
@@ -79,14 +82,16 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - **`Project.verifiedProgress`** adalah satu-satunya indikator progres resmi.
 - **Update Manual**: Hanya dapat diubah oleh **Pengawas assigned** melalui fitur Verifikasi Progres.
 - **No Automation**: Jurnal Mandor, Stage Completion, dan Material Request **TIDAK** mengubah progres resmi secara otomatis untuk menjaga integritas data fisik lapangan.
+- **Communication Guard**: Stage Communication adalah local thread berbasis HTTP CRUD, bukan realtime chat/websocket.
+- **Action Guard**: Proyek dengan status `Selesai` terkunci (Read-only) bagi role lapangan (Mandor/Pengawas).
 
 ---
 
 ## 🚀 Planned / Fitur Berikutnya
 - **Local Audit Log v1**: Pencatatan riwayat perubahan data penting.
 - **Profile Change Approval**: Alur persetujuan Admin/Superadmin untuk perubahan profil user.
-- **Design RAB Draft Polish**: Integrasi estimasi biaya awal pada fase desain.
-- **Advanced Superadmin Governance**: Kontrol akun yang lebih granular.
+- **Term Refinement**: Mengganti label "Live Sync" menjadi "Local DB Snapshot" atau "Local Summary".
+- **UX Soften**: Memperhalus wording "Hold" pada modul payment/detail pekerjaan Konsumen.
 
 ---
 

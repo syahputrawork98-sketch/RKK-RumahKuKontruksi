@@ -26,7 +26,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 ## 2. Admin Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
-| Dashboard | `/admin/dashboard` | DB-Backed v1 | Statistik rill database. |
+| Dashboard | `/admin/dashboard` | DB-Backed / Stabilized | Statistik rill & Operational Summary (DB-Backed activity). |
 | Data Konsumen | `/admin/konsumen/data` | DB-Backed v1 | Manajemen data customer lokal. |
 | Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | Local Workflow v2 / Stabilized | Review/manage Design Request lokal, monitoring limit revisi (3 Major / 5 Minor), dan oversight tracker v2; bukan tender production. |
 | Pengajuan Konstruksi | `/admin/konsumen/pengajuan-konstruksi` | Shell / Pending | Placeholder konversi pengajuan konstruksi. |
@@ -49,7 +49,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Laporan Pengawas | `/admin/laporan-mingguan-pengawas` | Local E2E Workflow v1 / UI Consistency Stabilized | List review Weekly Report Pengawas; Admin monitor administrasi/publikasi ringkasan, bukan verifikasi fisik progress. |
 | Detail Review | `/admin/laporan-mingguan-pengawas/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/approve/reject/publish Weekly Report secara administratif; tidak menggantikan Progress SOT dan tidak mengubah `Project.verifiedProgress` sebagai aksi verifikasi fisik. |
 | Kendala & Eskalasi | `/admin/monitoring/kendala` | Shell / Pending | Placeholder kendala lapangan untuk keputusan Admin. |
-| Publikasi Konsumen | `/admin/publikasi` | Local Stabilized | Source flow Stage Communication untuk update Konsumen, belum production RBAC. |
+| Publikasi Konsumen | `/admin/publikasi` | Local Stabilized | Source flow Stage Communication; Admin sebagai official source (HTTP thread). |
 | Pembayaran Konsumen | `/admin/pembayaran/konsumen` | Shell / Pending | Placeholder invoice/bukti bayar konsumen. |
 | Pembayaran Mandor | `/admin/pembayaran/mandor` | Shell / Pending | Placeholder opname/disbursement mitra. |
 | Validasi Disbursement | `/admin/pembayaran/validasi` | Shell / Pending | Placeholder validasi pencairan. |
@@ -138,12 +138,12 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona dan menampilkan `Project.verifiedProgress` resmi. |
 | Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan `Project.verifiedProgress` resmi dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
-| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Work Item Evidence Thread v2, progress resmi, dan Stage Communication Panel; role-colored thread (Mandor/Pengawas/Admin). |
+| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed / Stabilized | Work Item Evidence Thread, Stage Communication (Replier mode), dan Progress Resmi. |
 | Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
 | Permintaan Desain | `/konsumen/permintaan-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | List dan create Design Request lokal memakai API berdasarkan `customerId`; bukan marketplace/tender production. |
-| Pembayaran | `/konsumen/pembayaran` | Shell / Pending | Placeholder termin pembayaran; belum payment production. |
-| Dokumen | `/konsumen/dokumen` | Shell / Pending | Placeholder pusat dokumen; belum legal/upload production. |
+| Pembayaran | `/konsumen/pembayaran` | Demo Only / Local Hold | Placeholder termin pembayaran; Demo visual only. |
+| Dokumen | `/konsumen/dokumen` | Demo Only / Local Hold | Placeholder pusat dokumen; Demo visual only. |
 
 ---
 *Terakhir diperbarui: 10 Mei 2026*

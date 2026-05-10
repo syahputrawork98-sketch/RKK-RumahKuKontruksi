@@ -24,7 +24,7 @@ Status: **Database-Backed v1**
 - **Operational Status**: 
   - Verifikasi progres: **Local Workflow v1 / Stabilized**. Progress Verification from RAB/Stage Context menampilkan konteks Stage, RAB, dan jurnal Mandor terbaru/ringkas; Pengawas assigned tetap mengisi `Project.verifiedProgress` secara manual sebagai progress resmi (SOT).
   - Project Stage Completion: **Local Workflow v1 / Stabilized**. Pengawas assigned membuka detail proyek dan menandai stage selesai/terverifikasi lokal; backend memvalidasi stage milik project dan Pengawas assigned, tanpa mengubah `Project.verifiedProgress`.
-  - Post-Completion History & Experience Pack: **Local Workflow v1 / Stabilized**. Pengawas tetap bisa membaca histori project/laporan untuk project `Selesai`; Verifikasi Progress menjadi read-only dan action lapangan baru ditahan.
+  - Post-Completion History & Experience Pack: **Local Workflow v1 / Stabilized**. Pengawas tetap bisa membaca histori project/laporan untuk project `Selesai`; Verifikasi Progress menjadi read-only dan action lapangan baru ditahan (Hard Guarded).
   - Jurnal Mandor: **Local E2E Workflow v1 / UI Consistency Stabilized**. Pengawas review Weekly Journal secara administratif; approval jurnal tidak otomatis mengubah `Project.verifiedProgress`.
   - Laporan Mingguan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot `Project.verifiedProgress` saat laporan dibuat.
   - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
@@ -72,7 +72,7 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
 - **Dependency**: Tidak membutuhkan persona context khusus (Global Admin role).
 
 **Behavior UI:**
-- **Dashboard & Project Control**: **Local Dashboard Polish / Stabilized**. Admin memiliki summary operasional (active/preparation/finished projects) dan alert monitoring untuk pending requests/reports.
+- **Dashboard & Project Control**: **Local Dashboard Polish / Stabilized**. Admin memiliki summary operasional (active/preparation/finished projects) dan alert monitoring untuk pending requests/reports. Aktivitas ditarik dari Local DB (Bukan Mock).
 - **Manajemen Proyek**: CRUD Proyek (List, Detail, Create): **DB-Backed v1**.
 - **Project Stage Completion**: **Local Workflow v1 / Stabilized** untuk aksi Pengawas assigned pada detail proyek.
 - **Project Lifecycle Completion Pack**: **Local Workflow v1 / Stabilized**. Admin complete project lokal melalui closeout validation: project `Berjalan`, `Project.verifiedProgress` 100%, semua stage selesai, dan tidak ada Material Request aktif.
@@ -114,14 +114,15 @@ Status: **Database-Backed Local CRUD / Monitoring Polish Stabilized**
 Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
 - **Dashboard & Project Overview**: **Local Transparency UX Polish / Stabilized**. Dashboard dan Monitoring Proyek menampilkan label "Progress Resmi (Verified Pengawas)" dan status operasional yang akurat.
-- **Phase Separation**: **Local Transparency UX Polish / Stabilized**. Timeline desain (kolaborasi/revisi) dan timeline konstruksi (lapangan) dipisahkan secara visual melalui Phase Selector.
+- **Phase Separation**: **Local Transparency UX Polish / Stabilized**. Timeline desain dan timeline konstruksi dipisahkan secara visual.
+- **Action Guard**: Pembayaran dan Download Dokumen berstatus **Demo Only / Local Hold**.
 - **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas, Netral=Admin). Label "Progress Resmi (Verified Pengawas)" dipertegas.
 - **Visibility Preparation (Hold)**: Penambahan disclaimer bahwa visibilitas item tertentu sedang dalam tahap persiapan dan belum dikontrol secara dinamis oleh Admin.
 - **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) dengan tampilan timeline yang lebih bersih dan informatif.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
-- **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
-- **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.
-- **Hold**: Password, auth production, payment, dokumen/legal upload, notification production API, upload foto rill, dan RBAC production tetap ditunda.
+- **CRUD Profil**: Customer API dan seed persona `customer-001` sampai `customer-003` sudah dipakai.
+- **Stage Communication Panel**: **Functional v1 / Local Thread**. Admin sebagai official source; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket).
+- **Hold**: Password, auth production, payment, dokumen/legal upload rill, dan RBAC production tetap ditunda.
 
 ## Product Direction Notes
 Catatan ini adalah referensi arah produk yang sedang atau telah distabilkan untuk Local Workflow v1.

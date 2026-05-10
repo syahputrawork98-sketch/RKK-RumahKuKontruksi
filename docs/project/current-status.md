@@ -6,7 +6,7 @@
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi CRUD lokal lintas role sudah masuk fase sinkronisasi status dan cleanup sisa placeholder. Flow Konsumen utama (Dashboard, Profil, Design Request, Project Monitoring, dan Stage Communication Panel) sudah API-backed untuk kebutuhan localhost.
+- **Fokus Saat Ini**: Stabilisasi Dashboard Admin, Stage Communication source flow, dan Cross-Role UI consistency (Hold-State Cleanup). Alur operasional Admin, Konsumen, dan role lapangan kini sinkron secara lokal dengan action guards yang diperkeras. Tidak ada schema/migration baru pada batch ini.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 
 
@@ -35,11 +35,12 @@
 | **Design Request** | Local E2E Workflow v1 / UI Consistency Stabilized | Konsumen create/list permintaan desain lokal; Admin review/manage workflow lokal; Superadmin read-only monitoring |
 | **Timeline Evidence / Field Thread** | Local Workflow v1 / Stabilized | Laporan Mandor per RabItem (Work Item Thread), review Pengawas/Admin, visibility preparation (customer-visible), dan role-colored thread v2 |
 | **Design Tender** | Local Workflow v1 / Stabilized | Local simulation polished; status/action guard clearer; bukan marketplace production |
-| **Admin & Superadmin Control** | Local Dashboard/Governance Polish | Admin Operational Summary & Superadmin Direktori Persona Lokal; status planning/active/finished and action safe-wording stabilized |
-| **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview, Design vs Construction separation, official verified progress, and Work Item Evidence visibility |
-| **Design Collaboration & Revision** | Local Workflow v2 / Stabilized | Design thread role-colored, revision tracker (3 Major / 5 Minor), enforcement limit, dan Arsitek Workspace polish |
+| **Admin & Superadmin Control** | Local Dashboard/Governance Polish | Admin Operational Summary (DB-backed activity) & Superadmin Direktori Persona Lokal; status planning/active/finished and action safe-wording stabilized |
+| **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview, payment/doc demo hold, official verified progress, and Stage Communication viewer (HTTP thread) |
+| **Design Collaboration & Revision** | Local Workflow v2 / Stabilized | Design thread role-colored, revision tracker (3 Major / 5 Minor), enforcement limit, and Arsitek Workspace polish |
 | **Local Governance & Persona Control** | Local Persona Governance v2 / Stabilized | Standardized Direktori Persona Lokal for Superadmin, modal disclaimer (No Auth/JWT), and self-profile governance via GovernanceNotice |
-| **Governance Hold & Visibility Preparation** | Local Hold/Preparation / Stabilized | Pusat Audit & Approval Lokal (Hold), Visibility Preparation Labels (Hold), and Profile Change Direction |
+| **Governance Hold & Visibility Preparation** | Local Hold/Preparation / Stabilized | Pusat Audit & Approval Lokal (Hold), Visibility Preparation Labels (Hold), and Action Guards for Finished Projects |
+| **Stage Communication Source Flow** | Local Workflow v1 / Stabilized | Admin sebagai sumber update resmi; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket) |
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi secara manual lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.

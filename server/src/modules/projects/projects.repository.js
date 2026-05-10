@@ -154,6 +154,19 @@ export const findStagesByProjectId = async (projectId) => {
   });
 };
 
+export const findStageById = async (id) => {
+  return await prisma.projectStage.findUnique({
+    where: { id }
+  });
+};
+
+export const updateStage = async (id, data) => {
+  return await prisma.projectStage.update({
+    where: { id },
+    data
+  });
+};
+
 export const findRabByProjectId = async (projectId) => {
   // First try to find approved RAB
   let rab = await prisma.rabPlan.findFirst({

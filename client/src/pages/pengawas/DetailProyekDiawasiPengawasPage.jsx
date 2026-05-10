@@ -28,7 +28,14 @@ const DetailProyekDiawasiPengawasPage = () => {
     const [project, setProject] = useState(null);
     const [rabPlan, setRabPlan] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [successMsg, setSuccessMsg] = useState(null);
+
+    // Stage Completion Modal State
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedStage, setSelectedStage] = useState(null);
+    const [completionNote, setCompletionNote] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,6 +75,54 @@ const DetailProyekDiawasiPengawasPage = () => {
             currency: "IDR",
             maximumFractionDigits: 0
         }).format(val || 0);
+    };
+
+    const handleOpenModal = (stage) => {
+        setSelectedStage(stage);
+        setCompletionNote("");
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedStage(null);
+        setCompletionNote("");
+    };
+
+    const handleCompleteStage = async () => {
+        if (!selectedStage || !selectedSupervisorId) return;
+        
+        try {
+            setIsActionLoading(true);
+            setError(null);
+            setSuccessMsg(null);
+
+            const response = await projectService.updateProjectStage(projectId, selectedStage.id, {
+                actorRole: 'pengawas',
+                actorId: selectedSupervisorId,
+                status: 'Selesai',
+                note: completionNote
+            });
+
+            if (response.success) {
+                setSuccessMsg(`Tahapan "${selectedStage.title}" berhasil ditandai selesai secara lokal.`);
+                
+                // Refresh project data to get updated stages
+                const projectRes = await projectService.getProjectById(projectId);
+                if (projectRes.success) {
+                    setProject(projectRes.data);
+                }
+                
+                handleCloseModal();
+                // Scroll to top to see success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } catch (err) {
+            console.error("Failed to complete stage:", err);
+            setError(err.response?.data?.message || "Gagal memperbarui tahapan.");
+        } finally {
+            setIsActionLoading(false);
+        }
     };
 
     const tabs = [
@@ -166,6 +221,13 @@ const DetailProyekDiawasiPengawasPage = () => {
                     </button>
                 </div>
             </div>
+            
+            {successMsg && (
+                <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 p-4 rounded-2xl flex items-center gap-3 text-sm font-bold animate-fadeIn">
+                    <FiCheckCircle className="shrink-0" />
+                    {successMsg}
+                </div>
+            )}
 
             {/* TABS NAVIGATION */}
             <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-2 border-b border-[var(--dashboard-border)]">
@@ -331,18 +393,52 @@ const DetailProyekDiawasiPengawasPage = () => {
                                                     <div>
                                                         <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight">{stage.title}</h4>
                                                         <div className="flex items-center gap-2 mt-0.5">
-                                                            <span className="text-[9px] font-bold text-slate-400 uppercase">{stage.status}</span>
+                                                            <span className={`text-[9px] font-black px-2 py-0.5 rounded-md uppercase border ${
+                                                                stage.status === 'Selesai' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                                                                stage.status === 'Berjalan' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
+                                                                'bg-slate-100 text-slate-400 border-slate-200'
+                                                            }`}>{stage.status}</span>
                                                             <span className="text-[9px] text-slate-300">•</span>
                                                             <span className="text-[9px] font-bold text-slate-400">{stage.progress || 0}%</span>
+                                                            {stage.isVerified && (
+                                                                <>
+                                                                    <span className="text-[9px] text-slate-300">•</span>
+                                                                    <span className="text-[8px] font-black text-emerald-600 flex items-center gap-1 uppercase">
+                                                                        <FiCheckCircle size={10} /> Terverifikasi Lokal
+                                                                    </span>
+                                                                </>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="text-right">
-                                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Deadline</p>
-                                                    <p className="text-[10px] font-bold text-slate-700">{stage.endDate ? new Date(stage.endDate).toLocaleDateString('id-ID') : '-'}</p>
+                                                <div className="flex items-center gap-6">
+                                                    <div className="text-right hidden sm:block">
+                                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Deadline</p>
+                                                        <p className="text-[10px] font-bold text-slate-700">{stage.endDate ? new Date(stage.endDate).toLocaleDateString('id-ID') : '-'}</p>
+                                                    </div>
+                                                    {stage.status !== 'Selesai' && project.status === 'Berjalan' && (
+                                                        <button 
+                                                            onClick={() => handleOpenModal(stage)}
+                                                            className="px-4 py-2 bg-emerald-500 text-white rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.05] transition-all"
+                                                        >
+                                                            Tandai Selesai
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </div>
                                         ))}
+                                        
+                                        <div className="mt-8 p-4 bg-amber-50 border border-amber-100 rounded-2xl flex gap-3">
+                                            <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" />
+                                            <div className="space-y-1">
+                                                <p className="text-[10px] font-black text-amber-800 uppercase tracking-tighter leading-tight">
+                                                    Penyelesaian tahapan (Stage Completion) di sini bersifat lokal untuk pengawasan.
+                                                </p>
+                                                <p className="text-[10px] font-medium text-amber-700 leading-tight">
+                                                    Penyelesaian ini membantu memantau timeline, namun tidak otomatis memperbarui progres resmi proyek. Untuk memperbarui progres SOT, silakan gunakan menu <button onClick={() => navigate("/pengawas/verifikasi-progres")} className="underline font-bold text-amber-900">Verifikasi Progres</button>.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
@@ -414,6 +510,69 @@ const DetailProyekDiawasiPengawasPage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* COMPLETION MODAL */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-slideUp">
+                        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+                            <div>
+                                <h3 className="text-lg font-black tracking-tight">Tandai Selesai Lokal</h3>
+                                <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mt-0.5">{selectedStage?.title}</p>
+                            </div>
+                            <button 
+                                onClick={handleCloseModal}
+                                className="p-2 hover:bg-slate-100 rounded-xl transition-all"
+                            >
+                                <FiX size={20} />
+                            </button>
+                        </div>
+                        
+                        <div className="p-6 space-y-6">
+                            <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex gap-3">
+                                <FiCheckCircle className="text-emerald-500 shrink-0 mt-0.5" />
+                                <p className="text-[10px] font-black text-emerald-800 leading-relaxed uppercase tracking-tighter">
+                                    Status tahapan ini akan berubah menjadi "Selesai" (100%) untuk memudahkan pemantauan jadwal & timeline.
+                                </p>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Catatan / Bukti Pekerjaan (Opsional)</label>
+                                <textarea 
+                                    value={completionNote}
+                                    onChange={(e) => setCompletionNote(e.target.value)}
+                                    placeholder="Tuliskan catatan singkat mengenai penyelesaian tahapan ini..."
+                                    className="w-full p-4 rounded-2xl bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] text-sm font-medium focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 focus:outline-none min-h-[100px] transition-all"
+                                />
+                            </div>
+
+                            <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl flex gap-3">
+                                <FiInfo className="text-amber-500 shrink-0 mt-0.5" />
+                                <p className="text-[11px] font-black text-amber-800 leading-tight uppercase">
+                                    Tindakan ini tidak mengubah progress resmi proyek.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
+                            <button 
+                                onClick={handleCompleteStage}
+                                disabled={isActionLoading}
+                                className="flex-1 py-3.5 bg-emerald-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
+                            >
+                                {isActionLoading ? "Memproses..." : "Konfirmasi Selesai"}
+                            </button>
+                            <button 
+                                onClick={handleCloseModal}
+                                disabled={isActionLoading}
+                                className="px-6 py-3.5 bg-white border border-slate-200 text-slate-400 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all disabled:opacity-50"
+                            >
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

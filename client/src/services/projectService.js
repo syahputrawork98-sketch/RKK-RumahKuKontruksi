@@ -131,6 +131,17 @@ const projectService = {
    */
   async getProjectMaterialRequests(projectId) {
     return apiClient.get(`/material-requests?projectId=${projectId}`);
+  },
+
+  /**
+   * Update project stage (Supervisor local completion)
+   * @param {string} projectId 
+   * @param {string} stageId 
+   * @param {Object} data 
+   * @returns {Promise<Object>}
+   */
+  async updateProjectStage(projectId, stageId, data) {
+    return apiClient.patch(`/projects/${projectId}/stages/${stageId}`, data);
   }
 };
 

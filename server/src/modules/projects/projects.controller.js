@@ -511,3 +511,94 @@ export const activateProject = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateProjectStage = async (req, res, next) => {
+  try {
+    const { projectId, stageId } = req.params;
+    const { actorRole, actorId, status, progress, note, isVerified } = req.body;
+
+    // 1. Validasi Aktor
+    if (actorRole !== 'pengawas') {
+      return res.status(403).json({
+        success: false,
+        message: 'Hanya Pengawas yang dapat memperbarui tahapan proyek.'
+      });
+    }
+
+    if (!actorId) {
+      return res.status(400).json({
+        success: false,
+        message: 'actorId wajib disertakan.'
+      });
+    }
+
+    // 2. Cek Proyek
+    const project = await ProjectRepository.findById(projectId);
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: 'Proyek tidak ditemukan.'
+      });
+    }
+
+    // Hanya proyek 'Berjalan' yang bisa diupdate tahapannya oleh pengawas
+    if (project.status !== 'Berjalan') {
+      return res.status(400).json({
+        success: false,
+        message: 'Hanya proyek dengan status Berjalan yang dapat diperbarui tahapannya.'
+      });
+    }
+
+    // Pastikan pengawas ditugaskan di proyek ini
+    if (project.supervisorId !== actorId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak ditugaskan sebagai Pengawas pada proyek ini.'
+      });
+    }
+
+    // 3. Cek Stage
+    const stage = await ProjectRepository.findStageById(stageId);
+    if (!stage || stage.projectId !== projectId) {
+      return res.status(404).json({
+        success: false,
+        message: 'Tahapan tidak ditemukan atau tidak milik proyek ini.'
+      });
+    }
+
+    // 4. Validasi Progress
+    if (progress !== undefined && (typeof progress !== 'number' || progress < 0 || progress > 100)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Progress harus angka antara 0 dan 100.'
+      });
+    }
+
+    // 5. Data Update
+    const updateData = {
+      status: status || stage.status,
+      progress: progress !== undefined ? progress : stage.progress,
+      note: note || stage.note,
+      isVerified: isVerified !== undefined ? isVerified : stage.isVerified,
+      verifiedBy: actorId,
+      verifiedAt: new Date()
+    };
+
+    // Jika status Selesai, paksa progress 100
+    if (updateData.status === 'Selesai' || updateData.status === 'completed') {
+      updateData.status = 'Selesai';
+      updateData.progress = 100;
+      updateData.isVerified = true;
+    }
+
+    const updatedStage = await ProjectRepository.updateStage(stageId, updateData);
+
+    res.json({
+      success: true,
+      message: 'Tahapan proyek berhasil diperbarui secara lokal.',
+      data: serializeDecimal(updatedStage)
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -60,9 +60,8 @@ Status: **Database-Backed v2 / Local E2E Workflow v1**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
-- **Design Workflow**: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal, submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost.
-- **Design Collaboration Timeline**: **Local Workflow v1 / Stabilized**. Arsitek dapat melihat riwayat kolaborasi Design Request, update thread role-colored, dan feedback Konsumen dalam detail brief.
-- **Design Revision Tracking**: **Local Workflow v1 / Stabilized**. Arsitek melihat counter revisi major/minor dan status "Hold" jika limit (3 major / 5 minor) tercapai.
+- Design Workflow: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal, submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost.
+- **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Arsitek memiliki workspace khusus dengan visual tracker revisi major/minor, role-colored update thread, dan status "Hold" jika limit (3 major / 5 minor) tercapai.
 - **Hold / Placeholder**: Tahapan desain detail, file upload production, final approved package, dan evaluasi teknis masih Planned/Placeholder.
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
 
@@ -82,8 +81,8 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
 - **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
-- **Timeline Evidence & Field Thread**: **Local Workflow v1 / Stabilized**. Admin dapat memantau laporan Mandor per `RabItem`, memberikan review/note, dan mengontrol visibility (customer-visible/internal-only) pada timeline proyek.
-- **Design Collaboration & Revision Governance**: **Local Workflow v1 / Stabilized**. Admin mengelola flow kolaborasi desain, memantau batas revisi (3 major / 5 minor), dan dapat melakukan bypass status "Hold" jika diperlukan melalui manual status update.
+- **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Admin dapat memantau laporan Mandor per `RabItem`, memberikan review/note dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin), dan mengontrol visibility (customer-visible/internal-only) pada timeline proyek.
+- **Design Collaboration & Revision Governance v2**: **Local Workflow v2 / Stabilized**. Admin mengelola flow kolaborasi desain, memantau batas revisi (3 major / 5 minor), dan memiliki oversight dashboard dengan revision tracker yang terpolesi.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Profile Team Data**: Mandor/Pengawas Certificate & Work Experience: **Local CRUD v1 / Stabilized** untuk data lokal/manual Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, rating/scoring, atau reputation marketplace.
 - **Operational Data**: 
@@ -98,12 +97,12 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
 Status: **Database-Backed Local CRUD / Monitoring Polish Stabilized**
 - **Context**: `SuperadminPersonaContext`
 - **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`
-- **Entity CRUD (Implemented)**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role.
+- **Entity CRUD (Implemented v2)**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role melalui **Direktori Persona Lokal** dengan safe-wording dan form disclaimer (No Auth/JWT).
 - **Global Monitoring (Polish)**: **Local Monitoring Polish / Stabilized**. Dashboard monitoring global stats dan monitoring proyek lintas role sudah dilengkapi dengan summary operasional global dan notice "Local Monitoring Mode" yang eksplisit.
-- **Governance Layer (Implemented)**:
-    - **GovernanceNotice**: Pesan peringatan standar pada halaman profil/pengaturan yang menjelaskan batasan fase "Local CRUD".
-    - **Defensive UI**: Placeholder/Alert untuk fitur "Hold" seperti unggah foto.
-    - **Audit Log (Hold)**: Monitoring global stats dan master data aktif, tetapi Audit Log otomatis tetap berstatus "Feature Hold".
+- **Governance Layer (v2 Stabilized)**:
+    - **GovernanceNotice**: Pesan peringatan standar pada profil/pengaturan mengenai batasan "Local CRUD".
+    - **Safe Action Terminology**: Menggunakan "Persona Lokal" untuk membedakan simulasi dari user production.
+    - **Audit & Approval (Hold)**: Halaman "Audit & Approval Lokal" aktif sebagai placeholder/planned workflow.
 - **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global (Simulasi), Proyek Aktif Global, stage completion lokal, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
 - **Hold / Placeholder**: Kapasitas admin, payment global, invoice/payment/escrow, supplier marketplace, purchase order production, inventory production, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
@@ -114,8 +113,8 @@ Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
 - **Dashboard & Project Overview**: **Local Transparency UX Polish / Stabilized**. Dashboard dan Monitoring Proyek menampilkan label "Progress Resmi (Verified Pengawas)" dan status operasional yang akurat.
 - **Phase Separation**: **Local Transparency UX Polish / Stabilized**. Timeline desain (kolaborasi/revisi) dan timeline konstruksi (lapangan) dipisahkan secara visual melalui Phase Selector.
-- **Timeline Evidence Thread**: **Local Workflow Polish / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas).
-- **Design Collaboration Timeline**: **Local Workflow v1 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor).
+- **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas, Netral=Admin) dan status transparansi pekerjaan yang lebih stabil.
+- **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) dengan tampilan timeline yang lebih bersih dan informatif.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.
@@ -164,15 +163,15 @@ Selama local development, sistem menggunakan Dev Sign-In untuk memilih role dan 
 ## Role Authority & Profile Governance (Implemented v1)
 Arah kewenangan dan tata kelola profil sekarang telah diimplementasikan dalam versi Local CRUD:
 
-### 1. Pembagian Kewenangan (Implemented)
-- **Superadmin**: Role tertinggi untuk manajemen persona lokal (CRUD akun semua role).
+### 1. Pembagian Kewenangan (v2 Stabilized)
+- **Superadmin**: Pengelola direktori persona lokal (CRUD entitas simulasi).
 - **Admin**: Operator proyek; dilarang mengelola akun role lain, hanya dapat mengubah profil sendiri.
-- **Role Lain**: Hanya dapat mengubah profil sendiri dengan batasan field penting yang memerlukan validasi manual.
+- **Role Lain**: Hanya dapat mengubah profil sendiri dengan batasan field penting yang memerlukan validasi/log di masa depan.
 
-### 2. GovernanceNotice & Defensive UI (Implemented)
-- **GovernanceNotice**: Digunakan pada `PengaturanAdminPage`, `PengaturanMandorPage`, `PengaturanPengawasPage`, `PengaturanArsitekPage`, dan `Profil` Konsumen.
-- **Alert "Hold"**: Tombol seperti "Ubah Foto" menampilkan alert informatif mengenai pembatasan fase Local CRUD untuk mencegah kebingungan user.
-- **Local Database Sync**: Seluruh dialog konfirmasi penghapusan (Tabel) atau penambahan (Modal) mencantumkan wording "Lokal/Simulasi" untuk menegaskan koneksi ke database `localhost`.
+### 2. GovernanceNotice & Safe Action Labels (v2 Stabilized)
+- **GovernanceNotice**: Digunakan pada `Pengaturan` semua role dan `Profil` Konsumen untuk penegasan self-management.
+- **Safe-Wording**: Seluruh aksi administratif menggunakan terminologi "Persona Lokal" dan dialog konfirmasi menyertakan informasi database `localhost` yang non-permanen.
+- **Modal Disclaimer**: Setiap form penambahan persona mencantumkan pernyataan eksplisit bahwa sistem ini tidak melibatkan production auth (password/JWT).
 
-### 3. Validasi & Log Perubahan Profil (Hold)
-- Mekanisme **Profile Change Request** formal dan **Audit/Change Log** otomatis tetap berstatus "Future Sprint / Hold" untuk menjaga fokus pada stabilitas CRUD operasional.
+### 3. Audit & Approval Placeholder (Hold)
+- Halaman **Pusat Audit & Approval Lokal** (Log Aktivitas) aktif sebagai placeholder/planned workflow untuk monitoring aktivitas operasional di masa depan.

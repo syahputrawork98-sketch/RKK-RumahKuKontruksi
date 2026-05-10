@@ -28,7 +28,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Dashboard | `/admin/dashboard` | DB-Backed v1 | Statistik rill database. |
 | Data Konsumen | `/admin/konsumen/data` | DB-Backed v1 | Manajemen data customer lokal. |
-| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/manage Design Request lokal, publish tender lokal, award bid lokal, dan convert-to-project draft/planning lokal; bukan tender production. |
+| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | Local Workflow v2 / Stabilized | Review/manage Design Request lokal, monitoring limit revisi (3 Major / 5 Minor), dan oversight tracker v2; bukan tender production. |
 | Pengajuan Konstruksi | `/admin/konsumen/pengajuan-konstruksi` | Shell / Pending | Placeholder konversi pengajuan konstruksi. |
 | Validasi Pengajuan | `/admin/konsumen/validasi` | Shell / Pending | Placeholder checklist validasi administrasi. |
 | List Proyek | `/admin/proyek` | DB-Backed v1 | Manajemen proyek rill. |
@@ -107,19 +107,19 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Final Approved | `/arsitek/final-approved` | Shell / Pending | Placeholder paket desain final approved. |
 | Evaluasi Teknis | `/arsitek/evaluasi` | Shell / Pending | Placeholder evaluasi teknis. |
 | Riwayat | `/arsitek/riwayat` | Local E2E Workflow v1 / UI Consistency Stabilized | Riwayat desain/tender lokal dari workflow simulasi localhost. |
-| Pengaturan | `/arsitek/pengaturan` | DB-Backed v1 | Profil arsitek rill. |
+| Pengaturan | `/arsitek/pengaturan` | DB-Backed v1 | Profil arsitek rill dengan GovernanceNotice. |
 
 ## 6. Superadmin Routes
 | Halaman | Route | Status | Catatan |
 |---|---|---|---|
 | Dashboard | `/superadmin/dashboard` | API-Backed / Hold Hybrid | Global stats via `/superadmins/stats/global`, latest projects, dan data Superadmin; chart/summary non-operational tetap Hold/local display. |
-| Data Admin | `/superadmin/data-admin` | DB-Backed v1 | CRUD Manajemen Admin. |
-| Data Superadmin | `/superadmin/data-superadmin` | DB-Backed v1 | CRUD/list data Superadmin lokal. |
-| Data Konsumen | `/superadmin/data-konsumen` | DB-Backed v1 | CRUD/list Customer lokal. |
-| Data Pengawas | `/superadmin/data-pengawas` | DB-Backed v1 | CRUD Manajemen Pengawas. |
-| Data Mandor | `/superadmin/data-mandor` | DB-Backed v1 | CRUD Manajemen Mandor. |
-| Data Arsitek | `/superadmin/data-arsitek` | DB-Backed v1 | CRUD/list Architect lokal. |
-| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed Read-Only | Monitoring global Design Request/Tender lokal; Superadmin tidak menjalankan assign, publish, award, convert-to-project, atau aktivasi proyek. |
+| Data Admin | `/superadmin/data-admin` | DB-Backed v1 | Direktori Persona Admin Lokal (CRUD). |
+| Data Superadmin | `/superadmin/data-superadmin` | DB-Backed v1 | Direktori Persona Superadmin Lokal (CRUD). |
+| Data Konsumen | `/superadmin/data-konsumen` | DB-Backed v1 | Direktori Persona Konsumen Lokal (CRUD). |
+| Data Pengawas | `/superadmin/data-pengawas` | DB-Backed v1 | Direktori Persona Pengawas Lokal (CRUD). |
+| Data Mandor | `/superadmin/data-mandor` | DB-Backed v1 | Direktori Persona Mandor Lokal (CRUD). |
+| Data Arsitek | `/superadmin/data-arsitek` | DB-Backed v1 | Direktori Persona Arsitek Lokal (CRUD). |
+| Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed Read-Only | Monitoring global Design Request/Tender; oversight limit revisi v2. |
 | Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Hold State | Legalitas perusahaan dan PIC masih Hold; belum ada workflow production. |
 | Monitoring Proyek Global | `/superadmin/proyek` | DB-Backed Read-Only | Overview semua proyek via Project API; perubahan operasional tetap milik Admin/Pengawas. |
 | Proyek Aktif Global | `/superadmin/proyek/aktif` | DB-Backed Read-Only | Filter proyek aktif/berjalan dari Project API. |
@@ -130,7 +130,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Monitoring Material | `/superadmin/monitoring/material` | DB-Backed Read-Only | Audit Material Request global via backend lokal. |
 | Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Read-only monitoring Weekly Report Pengawas via backend lokal; Superadmin tidak review/publish atau mengubah progress resmi. |
 | Eskalasi | `/superadmin/eskalasi` | Hold State | Koreksi data/escalation workflow production masih Hold. |
-| Log Aktivitas | `/superadmin/log-aktivitas` | Hold State | Audit trail production belum tersedia. |
+| Audit & Approval | `/superadmin/log-aktivitas` | Hold State | Pusat Audit & Approval Lokal (Planned/Placeholder). |
 | Pengaturan Sistem | `/superadmin/pengaturan` | Hold State | Settings/system configuration production masih Hold. |
 
 ## 7. Konsumen Routes
@@ -138,7 +138,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona dan menampilkan `Project.verifiedProgress` resmi. |
 | Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan `Project.verifiedProgress` resmi dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
-| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Detail stage, progress resmi read-only, dan Stage Communication Panel memakai ProjectStagePublicComment API; create/reply membutuhkan `projectId` eksplisit. Alias lama `/konsumen/TimelineProyek/:stageId` tetap tersedia. |
+| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed v1 | Work Item Evidence Thread v2, progress resmi, dan Stage Communication Panel; role-colored thread (Mandor/Pengawas/Admin). |
 | Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
 | Permintaan Desain | `/konsumen/permintaan-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | List dan create Design Request lokal memakai API berdasarkan `customerId`; bukan marketplace/tender production. |

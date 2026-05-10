@@ -37,11 +37,11 @@
 | **Design to Project Draft** | Local Demo Completion / Local E2E Workflow v1 | Design Request -> Tender -> Award -> assigned/approved -> Project draft/planning lokal sudah berjalan untuk demo localhost |
 | **Project Bridge** | Local Draft/Planning Bridge | Manual conversion from approved Design Request to project draft/planning lokal; tidak mengaktifkan proyek otomatis |
 | **Timeline Panel** | DONE | Stage Communication Panel functional v1 via ProjectStagePublicComment API; create/reply memakai `projectId` eksplisit dari client |
-| **Timeline Evidence / Field Thread** | Local Workflow Polish / Stabilized | Laporan Mandor per RabItem, review Pengawas/Admin, grouped by Stage; role-colored evidence thread |
-| **Admin & Superadmin Control** | Local Dashboard Polish / Stabilized | Admin Operational Summary & Superadmin Global Monitoring Polish; status planning/active/finished clearer |
-| **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview polish, Design vs Construction phase separation, and official verified progress labels |
-| **Design Collaboration & Revision** | Local Workflow v1 / Stabilized | Design thread role-colored, revision counters, dan enforcement batas revisi (3 Major / 5 Minor) |
-| **Local Governance & Persona Control**| Local Workflow v1 / Implemented | Standardized persona management for Superadmin, local governance notices on profile pages, and "Local CRUD" terminology |
+| **Timeline Evidence / Field Thread** | Local Workflow v1 / Stabilized | Laporan Mandor per RabItem (Work Item Thread), review Pengawas/Admin, visibility control (customer-visible), dan role-colored thread v2 |
+| **Admin & Superadmin Control** | Local Dashboard/Governance Polish | Admin Operational Summary & Superadmin Direktori Persona Lokal; status planning/active/finished and action safe-wording stabilized |
+| **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview, Design vs Construction separation, official verified progress, and Work Item Evidence visibility |
+| **Design Collaboration & Revision** | Local Workflow v2 / Stabilized | Design thread role-colored, revision tracker (3 Major / 5 Minor), enforcement limit, dan Arsitek Workspace polish |
+| **Local Governance & Persona Control**| Local Persona Governance v2 / Stabilized | Standardized Direktori Persona Lokal for Superadmin, modal disclaimer (No Auth/JWT), and self-profile governance via GovernanceNotice |
 
 ## Operational Modules Progress
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi secara manual lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
@@ -83,25 +83,28 @@ Pack ini adalah histori operasional lokal, bukan BAST/legal handover, bukan invo
 
 Material Request from RAB Usage juga tidak mengubah Progress SOT: tidak ada update otomatis ke `Project.verifiedProgress`, `ProjectStage.progress`, atau `RabItem.progress`.
 
-## Timeline Evidence & Field Thread Context
-**Timeline Evidence / Field Thread** sudah berstatus **Local Workflow Polish / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem` -> Laporan Mandor per item pekerjaan -> Komentar/Review Pengawas atau Admin.
+## Timeline Evidence & Field Thread Context (Work Item Thread v2)
+**Timeline Evidence / Field Thread** sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem` -> Laporan Mandor per item pekerjaan -> Komentar/Review Pengawas atau Admin.
 
-Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (Evidence Thread). Polish terbaru mencakup:
-- **Role-Colored Evidence**: Mandor (Biru/Bukti Lapangan) dan Pengawas (Amber/Review Kualitas) memiliki visual card yang berbeda.
-- **Work Item Transparency**: Konsumen dapat melihat rincian item pekerjaan RAB yang sedang dikerjakan beserta status verifikasinya.
-- **Visibility Control**: Update ditandai sebagai customer-visible atau internal-only. Catatan internal teknis tidak ditampilkan pada timeline publik Konsumen.
-- **Empty States**: Pesan informatif jika kategori pekerjaan sudah terdaftar namun bukti lapangan belum dipublikasikan.
+Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (Work Item Evidence Thread). Polish v2 mencakup:
+- **Blocker Fix**: Perbaikan crash pada `TLProyek.jsx` dan stabilisasi mapping `RabItem` ke timeline.
+- **Role-Colored Evidence**: Mandor (Biru/Bukti Lapangan), Pengawas (Amber/Review Kualitas), dan Admin (Official/Netral) memiliki visual card yang berbeda.
+- **Work Item Transparency**: Konsumen dapat melihat rincian item pekerjaan RAB yang sedang dikerjakan beserta status verifikasinya langsung dari timeline konstruksi.
+- **Visibility Control**: Admin dapat mengontrol visibility update (customer-visible vs internal-only). Catatan internal teknis tidak ditampilkan pada timeline publik Konsumen.
+- **Official Progress Guard**: Penambahan evidence/comment tidak mengubah `Project.verifiedProgress`; progress resmi tetap melalui Verifikasi Progres manual oleh Pengawas assigned.
 
-## Design Collaboration & Revision Limit Context
-**Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow Polish / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Design Request` -> Timeline kolaborasi polished (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.
+## Design Collaboration & Revision Limit Context (v2)
+**Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow v2 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Design Request` -> Timeline kolaborasi polished (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.
 
-Fitur ini menerapkan **Revision Limits & Oversight** lokal:
+Fitur ini menerapkan **Revision Limits & Workspace Polish** v2:
 - **Revisi Besar (Major)**: Maksimal 3x (Perubahan konsep, fasad utama, layout besar).
 - **Revisi Kecil (Minor)**: Maksimal 5x (Warna finishing, detail plafon, geser pintu minor).
-- **Workspace Polish**: Arsitek memiliki workspace dengan tracker limit revisi; Konsumen memiliki timeline detail dengan disclaimer simulasi; Admin memiliki oversight dashboard untuk limit revisi.
-- Jika limit habis, revisi berikutnya ditahan (**Hold**) dan memerlukan keputusan/bypass Admin secara manual.
+- **Arsitek Workspace v2**: Arsitek memiliki workspace dengan visual tracker limit revisi; monitoring status desain lebih intuitif.
+- **Konsumen Design Timeline**: Tampilan timeline lebih bersih dengan role-colored labels dan disclaimer simulasi revisi yang jelas.
+- **Admin Design Oversight**: Admin memiliki kontrol oversight untuk memantau penggunaan limit revisi dan memberikan peringatan/bypass secara manual.
+- **Hold Logic**: Jika limit habis, revisi berikutnya ditahan (**Hold**) dan memerlukan intervensi Admin.
 
-Data riwayat disimpan dalam `DesignRequestHistory`, dan jumlah revisi dicatat di `DesignRequest.majorRevisionCount` serta `DesignRequest.minorRevisionCount`. DB local sync dilakukan melalui `prisma db push` dan `prisma generate` berhasil. Ini adalah local development workflow, bukan kontrak legal, bukan payment/addendum production, bukan upload production, bukan realtime chat, dan tidak mengubah Progress SOT konstruksi.
+Data riwayat disimpan dalam `DesignRequestHistory`, dan jumlah revisi dicatat di `DesignRequest.majorRevisionCount` serta `DesignRequest.minorRevisionCount`. Ini adalah local development workflow, bukan kontrak legal, bukan payment/addendum production, bukan upload production, bukan realtime chat, dan tidak mengubah Progress SOT konstruksi.
 
 ## Mandor/Pengawas Certificate & Work Experience
 Mandor/Pengawas Certificate & Work Experience sudah berstatus **Local CRUD v1 / Stabilized** untuk Local Development CRUD Integration. Mandor dan Pengawas dapat mengelola data profil lokal/manual berupa Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini. Delete memakai soft-delete endpoint existing.
@@ -148,17 +151,18 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
 3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru tanpa membuka scope auth/payment/upload production.
 
-### Local Governance & Persona Management (Implemented v1)
-Fitur tata kelola persona lokal telah diimplementasikan untuk memberikan transparansi fase pengembangan:
-1. **GovernanceNotice Component**: Pesan peringatan standar pada halaman profil/pengaturan yang menjelaskan batasan "Local CRUD" dan rencana alur validasi manual.
-2. **Standardized Persona Actions**: Seluruh aksi administratif (Tambah/Edit/Hapus) menggunakan terminologi "Persona" dan "Lokal" untuk membedakan simulasi dari user production rill.
-3. **Defensive UI Patterns**: Fitur non-fungsional (seperti Unggah Foto) telah diganti dengan placeholder atau alert informatif yang menjelaskan status fitur "Hold" selama fase Local CRUD.
-4. **Superadmin Global Monitoring**: Dashboard monitoring global stats dan master data sudah API-backed dengan wording simulasi yang jelas.
+### Local Governance & Persona Management (v2 Stabilized)
+Fitur tata kelola persona lokal telah distabilkan (v2) untuk memberikan transparansi fase pengembangan:
+1. **Direktori Persona Lokal**: Terminologi "Data Master" telah diganti menjadi "Direktori Persona" untuk menegaskan bahwa ini adalah database entitas simulasi lokal.
+2. **Standardized Action Labels**: Seluruh aksi administratif menggunakan terminologi "Tambah Persona Lokal" dan konfirmasi penghapusan menggunakan safe-wording (simulasi/non-permanen).
+3. **Form Modal Disclaimer**: Seluruh modal penambahan/pengeditan persona memiliki footer disclaimer: *"Persona ini adalah entitas database lokal untuk simulasi. Tidak melibatkan sistem password, JWT, atau session production."*
+4. **GovernanceNotice Component**: Penegasan self-profile governance; user mengelola profil sendiri, perubahan identitas penting diarahkan ke alur Audit & Approval di masa depan.
+5. **Audit & Approval Local Hold**: Halaman "Log Aktivitas" diubah menjadi "Pusat Audit & Approval Lokal" sebagai placeholder/planned workflow untuk monitoring aktivitas operasional.
 
 Arah produk RKK memisahkan kewenangan pengelolaan akun secara bertahap:
-1. **Superadmin**: Memiliki kendali penuh untuk create, update, dan delete persona semua role melalui local database sync.
-2. **Admin**: Fokus pada operasional proyek; hanya dapat mengubah profil miliknya sendiri.
-3. **Role Lapangan/Konsumen**: Hanya dapat mengubah profil miliknya sendiri dengan pengawasan/notifikasi tata kelola lokal.
+1. **Superadmin**: Pengelola direktori persona lokal (CRUD entitas simulasi).
+2. **Admin**: Operator proyek; hanya dapat mengubah profil miliknya sendiri.
+3. **Role Lapangan/Konsumen**: Hanya dapat mengubah profil miliknya sendiri dengan pengawasan GovernanceNotice.
 
 ### Tata Kelola Perubahan Profil (Governance)
 

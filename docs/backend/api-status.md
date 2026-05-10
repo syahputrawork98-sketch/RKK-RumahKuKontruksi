@@ -35,13 +35,14 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `GET /projects/:id/rab`: Ambil data RAB proyek.
 - `PATCH /projects/:id/verify-progress`: Verifikasi progres fisik oleh Pengawas assigned (Progress SOT).
 - `PATCH /projects/:id/activate`: Aktivasi proyek dari `planning` menjadi `Berjalan` jika readiness checklist terpenuhi.
-- `PATCH /projects/:id/complete`: Complete project lokal setelah closeout validation terpenuhi.
+- **PATCH /projects/:id/complete**: Complete project lokal setelah closeout validation terpenuhi.
 - `GET /projects/:id/progress-history`: Riwayat verifikasi progres proyek.
 
-**Catatan Konsumen Monitoring**:
+**Catatan Konsumen Monitoring (Work Item Thread v2)**:
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
 - `Project.verifiedProgress` adalah Source of Truth (Progress Resmi); `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi.
 - Timeline Konsumen menampilkan label "Progress Resmi (Verified Pengawas)" untuk transparansi kualitas fisik.
+- **Work Item Evidence**: Konsumen melihat bukti pekerjaan nyata per `RabItem` dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin) dan visibility control (customer-visible).
 - Fase Desain dan Fase Konstruksi dipisahkan secara visual; progress resmi hanya berlaku untuk fase konstruksi lapangan.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
 
@@ -195,11 +196,11 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /superadmins/:id`: Update data Superadmin.
 - `DELETE /superadmins/:id`: Hapus Superadmin.
 
-**Catatan Superadmin Governance (Implemented v1)**:
-- **Persona CRUD**: Superadmin memiliki kendali penuh untuk create, update, dan delete persona semua role melalui API lokal. Terminologi "Persona" wajib digunakan di UI.
+**Catatan Superadmin Governance (v2 Implemented)**:
+- **Direktori Persona Lokal**: Superadmin mengelola seluruh entitas/persona role melalui API lokal. Terminologi "Direktori Persona" dan "Persona Lokal" wajib digunakan.
+- **Form Disclaimer**: Setiap aksi CRUD persona menyertakan disclaimer bahwa sistem ini tidak menggunakan production auth (password/JWT).
 - **Monitoring (Simulasi)**: Dashboard global stats, master data, monitoring proyek global, dan audit pengajuan desain menggunakan data rill dari database `localhost` dengan wording simulasi/lokal.
-- **Local Database Sync**: Seluruh penghapusan data menyertakan konfirmasi eksplisit mengenai database lokal untuk menghindari kebingungan user.
-- **Hold**: Audit Log otomatis, kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold.
+- **Hold**: Audit Log otomatis (Placeholder: Pusat Audit & Approval Lokal), kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold.
 
 ## Design Requests (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
@@ -218,7 +219,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Project Bridge hanya membuat project berstatus `planning` sebagai draft lokal. Project draft tidak otomatis aktif, dan aktivasi tetap melalui Project Activation flow terpisah.
 - Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, atau upload file production.
 - Bukan marketplace production, tender production, kontrak legal, payment/escrow, upload file production, auth production, atau RBAC production.
-- **Design Collaboration & Revision Limits**: *Local Workflow Polish / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored. Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Jika limit tercapai, endpoint revision mengembalikan status 400 dengan `isLimitReached: true`. UI Arsitek, Konsumen, dan Admin telah dipolish untuk menampilkan tracker revisi dan status oversight. DB local sync dilakukan via `prisma db push`.
+- **Design Collaboration & Revision v2**: *Local Workflow v2 / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored. Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Endpoint revision memvalidasi limit secara ketat. Arsitek memiliki workspace tracker dan Admin memiliki oversight tracker yang distabilkan.
 - **Status**: *Local Demo Completion / Local E2E Workflow v1 / Polish v2*.
 
 ## Design Tenders (Local Demo Completion / Local E2E Workflow v1)

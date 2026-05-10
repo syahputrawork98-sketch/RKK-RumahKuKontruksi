@@ -82,22 +82,26 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `PATCH /supervisors/:id`: Update profil Pengawas.
 - `DELETE /supervisors/:id`: Hapus Pengawas.
 
-### Certificates (Supervisor)
+### Certificates (Supervisor - Local CRUD v1 / Stabilized)
 - `GET /supervisors/:id/certificates`: List sertifikat pengawas.
 - `POST /supervisors/:id/certificates`: Tambah sertifikat.
 - `PATCH /supervisors/certificates/:certificateId`: Update sertifikat.
-- `DELETE /supervisors/certificates/:certificateId`: Hapus sertifikat.
+- `DELETE /supervisors/certificates/:certificateId`: Soft-delete sertifikat memakai endpoint existing.
 
-### Experiences (Supervisor)
+### Experiences (Supervisor - Local CRUD v1 / Stabilized)
 - `GET /supervisors/:id/experiences`: List pengalaman pengawas.
 - `POST /supervisors/:id/experiences`: Tambah pengalaman.
 - `PATCH /supervisors/experiences/:experienceId`: Update pengalaman.
-- `DELETE /supervisors/experiences/:experienceId`: Hapus pengalaman.
+- `DELETE /supervisors/experiences/:experienceId`: Soft-delete pengalaman kerja memakai endpoint existing.
 
-**Catatan Experience Pengawas**:
-- Experience Read-Only v1 berstatus **Local Experience Summary / Stabilized** dan dibaca dari data operasional lokal: project aktif/selesai, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
+**Catatan Certificate & Work Experience Pengawas**:
+- Mandor/Pengawas Certificate & Work Experience berstatus **Local CRUD v1 / Stabilized** untuk data profil lokal/manual.
+- Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lewat endpoint certificates/experiences di atas.
+- Fitur memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini.
+- Data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
+- Experience Read-Only Summary tetap tersedia sebagai ringkasan data operasional lokal: project aktif/selesai, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
 - Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
-- Endpoint certificates/experiences di atas adalah API lokal/profile draft. Ini bukan sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
+- **Status**: *Mandor/Pengawas Certificate & Work Experience = Local CRUD v1 / Stabilized*.
 
 ## Foremen
 - `GET /foremen`: Ambil semua data Mandor.
@@ -107,22 +111,26 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `DELETE /foremen/:id`: Hapus Mandor.
 - `GET /foremen/:id/projects`: Ambil proyek yang dikerjakan Mandor tertentu.
 
-### Certificates (Foreman)
+### Certificates (Foreman - Local CRUD v1 / Stabilized)
 - `GET /foremen/:id/certificates`: List sertifikat mandor.
 - `POST /foremen/:id/certificates`: Tambah sertifikat.
 - `PATCH /foremen/certificates/:certificateId`: Update sertifikat.
-- `DELETE /foremen/certificates/:certificateId`: Hapus sertifikat.
+- `DELETE /foremen/certificates/:certificateId`: Soft-delete sertifikat memakai endpoint existing.
 
-### Experiences (Foreman)
+### Experiences (Foreman - Local CRUD v1 / Stabilized)
 - `GET /foremen/:id/experiences`: List pengalaman mandor.
 - `POST /foremen/:id/experiences`: Tambah pengalaman.
 - `PATCH /foremen/experiences/:experienceId`: Update pengalaman.
-- `DELETE /foremen/experiences/:experienceId`: Hapus pengalaman.
+- `DELETE /foremen/experiences/:experienceId`: Soft-delete pengalaman kerja memakai endpoint existing.
 
-**Catatan Experience Mandor**:
-- Experience Read-Only v1 berstatus **Local Experience Summary / Stabilized** dan dibaca dari data operasional lokal: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
+**Catatan Certificate & Work Experience Mandor**:
+- Mandor/Pengawas Certificate & Work Experience berstatus **Local CRUD v1 / Stabilized** untuk data profil lokal/manual.
+- Mandor dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lewat endpoint certificates/experiences di atas.
+- Fitur memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini.
+- Data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
+- Experience Read-Only Summary tetap tersedia sebagai ringkasan data operasional lokal: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only.
 - Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
-- Endpoint certificates/experiences di atas adalah API lokal/profile draft. Ini bukan sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, reputation marketplace, atau mekanisme update Progress SOT.
+- **Status**: *Mandor/Pengawas Certificate & Work Experience = Local CRUD v1 / Stabilized*.
 
 ## Architects
 - `GET /architects`: Ambil semua data Arsitek.
@@ -288,4 +296,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Material Request from RAB Usage, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, atau RBAC production.
+- **Local Stabilized Status**: Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, atau RBAC production.

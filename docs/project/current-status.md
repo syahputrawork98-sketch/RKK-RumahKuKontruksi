@@ -19,8 +19,8 @@
 | **Projects** | CRUD Available | Full Lifecycle (Create, Edit, Detail, Assignment) |
 | **Project Stages**| CRUD Available | Plan-based stages for scheduling |
 | **RAB** | Local CRUD v1 / Admin Builder Stabilized | Project RAB Builder untuk RAB Plan, RabCategory, dan RabItem sebagai baseline draft planning lokal |
-| **Supervisors** | CRUD Available | Profile plus local certificates/experiences API draft; Experience Read-Only summary stabilized |
-| **Foremen** | CRUD Available | Profile plus local certificates/experiences API draft; Experience Read-Only summary stabilized |
+| **Supervisors** | CRUD Available | Profile plus Certificate & Work Experience Local CRUD v1 stabilized; Experience Read-Only summary tetap tersedia |
+| **Foremen** | CRUD Available | Profile plus Certificate & Work Experience Local CRUD v1 stabilized; Experience Read-Only summary tetap tersedia |
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
 | **Weekly Journals** | Local E2E Workflow v1 / UI Consistency Stabilized | Mandor creates weekly journal with `claimedProgress` as non-official claim; Pengawas review is administrative only |
@@ -28,7 +28,7 @@
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Material Requests**| Local Workflow v1 / Stabilized | Material Request from RAB Usage lokal: Mandor bisa memakai RabItem sebagai baseline material, Pengawas review, Admin distribusi lokal, Mandor confirm received |
 | **Verification** | Local Workflow v1 / Stabilized | Progress Verification from RAB/Stage Context; `Project.verifiedProgress` tetap progress resmi dan diisi manual oleh Pengawas assigned |
-| **Mandor/Pengawas Experience** | Local Experience Summary / Stabilized | Read-only ringkasan pengalaman dari data operasional lokal; bukan sertifikasi production atau reputation marketplace |
+| **Mandor/Pengawas Certificate & Work Experience** | Local CRUD v1 / Stabilized | Data sertifikat keahlian dan riwayat pengalaman kerja lokal/manual; bukan sertifikasi legal atau reputation marketplace |
 | **Design Request** | Local E2E Workflow v1 / UI Consistency Stabilized | Konsumen create/list permintaan desain lokal; Admin review/manage workflow lokal; Superadmin read-only monitoring |
 | **Design Tender** | Local E2E Workflow v1 / UI Consistency Stabilized | Admin publish tender lokal dan award bid lokal; Arsitek view open tender, submit bid, serta melihat desain aktif/riwayat lokal |
 | **Design to Project Draft** | Local Demo Completion / Local E2E Workflow v1 | Design Request -> Tender -> Award -> assigned/approved -> Project draft/planning lokal sudah berjalan untuk demo localhost |
@@ -52,10 +52,10 @@ Material Request from RAB Usage sudah berstatus **Local Workflow v1 / Stabilized
 
 Backend menjaga validasi local workflow: project harus aktif/`Berjalan`, `foremanId` harus assigned ke project, `supervisorId` harus sesuai project, `stageId` harus milik project, `rabItemId` harus milik project, manual request tanpa `RabItem` wajib punya note/alasan, dan approval tetap menjaga quantity check terhadap remaining RAB. Flow ini tidak membuat inventory production, supplier marketplace, purchase order production, invoice/payment/escrow, atau procurement production. Material Request from RAB Usage juga tidak mengubah Progress SOT: tidak ada update otomatis ke `Project.verifiedProgress`, `ProjectStage.progress`, atau `RabItem.progress`.
 
-## Mandor/Pengawas Experience Summary
-Mandor/Pengawas Experience Read-Only v1 sudah berstatus **Local Experience Summary / Stabilized** untuk Local Development CRUD Integration. Ringkasan pengalaman dibaca dari data operasional lokal: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, review/laporan Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only. Status project aktif mendukung `Berjalan` dan legacy `active`; status project selesai mendukung `Selesai` dan legacy `completed`.
+## Mandor/Pengawas Certificate & Work Experience
+Mandor/Pengawas Certificate & Work Experience sudah berstatus **Local CRUD v1 / Stabilized** untuk Local Development CRUD Integration. Mandor dan Pengawas dapat mengelola data profil lokal/manual berupa Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini. Delete memakai soft-delete endpoint existing.
 
-Experience summary ini bukan CRUD pengalaman manual production, bukan sertifikat production, bukan upload sertifikat, bukan PDF certificate, bukan legal validation, dan bukan rating/scoring/reputation marketplace. Sertifikasi tetap Hold untuk production capability. Experience summary tidak mengubah `Project.verifiedProgress` dan tidak mengubah aturan Progress SOT.
+Data ini belum diverifikasi resmi dan bukan legal certificate, bukan upload dokumen production, bukan PDF certificate, bukan rating/scoring/reputation marketplace, serta bukan dasar sertifikasi production. Experience Read-Only Summary dari data operasional lokal tetap tersedia sebagai ringkasan terpisah: project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, review/laporan Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only. Certificate & Work Experience CRUD maupun Experience Summary tidak mengubah `Project.verifiedProgress` dan tidak mengubah aturan Progress SOT.
 
 ## Design to Project Draft Demo
 Design Request -> Tender -> Project Draft sudah berstatus **Local Demo Completion / Local E2E Workflow v1** untuk Local Development CRUD Integration. Alur lokalnya: Konsumen membuat Design Request lokal, Admin review/manage dan publish tender lokal, Arsitek submit bid lokal, Admin award bid lokal, request masuk fase `assigned`, lalu request dapat masuk fase `approved` sesuai workflow lokal dan dikonversi Admin menjadi Project draft/planning. Project hasil convert tetap berstatus `planning`, tidak otomatis aktif, dan aktivasi tetap lewat Project Activation flow terpisah. Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, upload file production, marketplace production, tender production, auth production, atau RBAC production.

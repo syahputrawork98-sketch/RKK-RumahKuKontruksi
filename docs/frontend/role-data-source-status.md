@@ -25,10 +25,11 @@ Status: **Database-Backed v1**
   - Verifikasi progres: **Local Workflow v1 / Stabilized**. Progress Verification from RAB/Stage Context menampilkan konteks Stage, RAB, dan jurnal Mandor terbaru/ringkas; Pengawas assigned tetap mengisi `Project.verifiedProgress` secara manual sebagai progress resmi (SOT).
   - Jurnal Mandor: **Local E2E Workflow v1 / UI Consistency Stabilized**. Pengawas review Weekly Journal secara administratif; approval jurnal tidak otomatis mengubah `Project.verifiedProgress`.
   - Laporan Mingguan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot `Project.verifiedProgress` saat laporan dibuat.
+  - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Dokumentasi: **Shell / Backend Pending**.
   - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Pengawas review kebutuhan material dan kesesuaian lapangan pada project aktif/`Berjalan`; approval tetap menjaga quantity check terhadap remaining RAB dan tidak mengubah Progress SOT.
-  - Sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
+  - Sertifikasi resmi/legal, upload dokumen production, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 2. Mandor / Foreman
 Status: **Database-Backed v1**
@@ -41,10 +42,11 @@ Status: **Database-Backed v1**
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `foremanId`.
 - **Operational Status**: 
   - Jurnal Mingguan: **Local E2E Workflow v1 / UI Consistency Stabilized**. Mandor membuat Weekly Journal dan mengisi `WeeklyJournal.claimedProgress` sebagai klaim non-resmi yang tidak mengubah `Project.verifiedProgress`. Aktivitas jurnal dapat mereferensikan `projectStageId` dan `rabItemId` secara opsional untuk konteks kerja lokal.
+  - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Mandor dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
   - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Mandor memilih project aktif/`Berjalan`, memilih stage, dapat memilih `RabItem` sebagai baseline material, melihat total RAB qty/approved qty/remaining qty, atau membuat manual/outside-RAB request dengan note/alasan wajib.
-  - Sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
+  - Sertifikasi resmi/legal, upload dokumen production, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 3. Arsitek / Architect
 Status: **Database-Backed v2 / Local E2E Workflow v1**
@@ -73,6 +75,7 @@ Status: **Database-Backed v2**
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
+- **Profile Team Data**: Mandor/Pengawas Certificate & Work Experience: **Local CRUD v1 / Stabilized** untuk data lokal/manual Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, rating/scoring, atau reputation marketplace.
 - **Operational Data**: 
   - Laporan Progress Terverifikasi, Review Laporan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. Admin review/publish Weekly Report sebagai administrasi/publikasi ringkasan; bukan verifikator progress fisik resmi dan bukan pengganti Progress SOT.
   - Pembayaran: **Shell / Backend Pending**.

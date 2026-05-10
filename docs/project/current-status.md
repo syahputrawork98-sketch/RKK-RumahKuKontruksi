@@ -72,6 +72,20 @@ Material Request from RAB Usage sudah berstatus **Local Workflow v1 / Stabilized
 
 Backend menjaga validasi local workflow: project harus aktif/`Berjalan`, `foremanId` harus assigned ke project, `supervisorId` harus sesuai project, `stageId` harus milik project, `rabItemId` harus milik project, manual request tanpa `RabItem` wajib punya note/alasan, dan approval tetap menjaga quantity check terhadap remaining RAB. Flow ini tidak membuat inventory production, supplier marketplace, purchase order production, invoice/payment/escrow, atau procurement production. Material Request from RAB Usage juga tidak mengubah Progress SOT: tidak ada update otomatis ke `Project.verifiedProgress`, `ProjectStage.progress`, atau `RabItem.progress`.
 
+## Product Direction: Consumer Timeline Work Evidence & Field Thread
+Catatan ini adalah **product direction / next workflow candidate** dari Room Chat 00, bukan fitur implemented atau stabilized. Timeline Konsumen ke depan tidak boleh hanya menampilkan kategori pekerjaan dengan progress angka kosong; kategori pekerjaan harus terhubung ke bukti pekerjaan nyata, item RAB, laporan lapangan, dan thread komentar yang aman untuk dilihat Konsumen.
+
+Struktur konsep arah produk:
+`Project -> RAB Plan -> RabCategory/kategori pekerjaan -> RabItem/item pekerjaan -> laporan Mandor per RabItem -> komentar/review Pengawas -> catatan/Admin visibility control -> update customer-visible`.
+
+Masalah saat ini: kategori pekerjaan bisa terlihat punya progress/100%, tetapi item pekerjaan/detail hasil masih kosong. Ini membuat timeline terasa tidak jelas karena kategori berdiri sendiri tanpa bukti, item pekerjaan konkret, atau catatan hasil pekerjaan. Arah perbaikannya adalah Timeline Konsumen menampilkan relasi kategori pekerjaan, item pekerjaan konkret, status/proses pekerjaan, catatan hasil pekerjaan, foto/bukti pekerjaan jika nanti tersedia, dan komentar role terkait jika ditandai customer-visible.
+
+UX yang diinginkan: area kiri/utama menampilkan kategori pekerjaan; area detail menampilkan daftar item pekerjaan/RAB item; saat item diklik, sistem menampilkan progress pekerjaan, catatan, hasil, dan thread komentar. Konsumen hanya melihat update pekerjaan yang aman/customer-visible. Internal note tetap bisa disembunyikan jika sensitif.
+
+Comment thread diarahkan seperti group chat/thread berbasis item pekerjaan, bukan chat bebas global. Setiap role memiliki warna visual sendiri: Mandor, Pengawas, Admin, dan Konsumen jika komentar Konsumen nanti dibuka. Sebagian catatan dapat bersifat internal only, sebagian update dapat customer-visible, dan Admin/Pengawas dapat mengontrol apakah catatan tampil ke Konsumen. Untuk arah awal, default bisa customer-visible kecuali ditandai internal, tetapi keputusan final visibility akan dikunci Room Chat 00.
+
+Batasan arah produk: bukan realtime chat/websocket dulu, bukan upload production besar, bukan legal evidence/BAST, bukan dispute/payment/legal workflow, bukan customer chat production aktif, dan tidak otomatis mengubah `Project.verifiedProgress`. Progress resmi tetap melalui Progress SOT.
+
 ## Mandor/Pengawas Certificate & Work Experience
 Mandor/Pengawas Certificate & Work Experience sudah berstatus **Local CRUD v1 / Stabilized** untuk Local Development CRUD Integration. Mandor dan Pengawas dapat mengelola data profil lokal/manual berupa Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini. Delete memakai soft-delete endpoint existing.
 

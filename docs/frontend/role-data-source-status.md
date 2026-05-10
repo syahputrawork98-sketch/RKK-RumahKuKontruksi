@@ -80,6 +80,7 @@ Status: **Database-Backed v2**
 - **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
+- **Product Direction - Consumer Timeline Evidence**: Planned direction berikutnya adalah menghubungkan `RabCategory`/kategori pekerjaan, `RabItem`/item pekerjaan, laporan Mandor, review Pengawas/Admin, visibility control, dan update customer-visible. Admin/Pengawas perlu kontrol internal-only vs customer-visible; keputusan final visibility dikunci Room Chat 00.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Profile Team Data**: Mandor/Pengawas Certificate & Work Experience: **Local CRUD v1 / Stabilized** untuk data lokal/manual Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, rating/scoring, atau reputation marketplace.
 - **Operational Data**: 
@@ -112,10 +113,18 @@ Status: **Database-Backed v1**
 - **Stage Status Boundary**: Stage selesai/terverifikasi lokal dapat tampil sebagai status tahapan, tetapi bukan progress resmi proyek; `Project.verifiedProgress` tetap berasal dari Verifikasi Progres.
 - **Completion Reader**: Status project selesai lokal dapat dibaca Konsumen sebagai reader status; ini bukan BAST/legal handover, invoice/payment/escrow, atau sertifikat resmi.
 - **Finished Project Timeline**: Timeline Konsumen menampilkan `Pekerjaan Selesai` untuk project `Selesai` sebagai histori operasional lokal; tidak mengubah Progress SOT.
+- **Product Direction - Timeline Evidence Thread**: Planned direction, belum implemented/stabilized. Timeline Konsumen perlu menampilkan kategori pekerjaan, item pekerjaan/RAB item, status/proses, catatan hasil, foto/bukti jika nanti tersedia, dan comment thread role-colored bila customer-visible. Layout diarahkan kategori di area utama/kiri, detail item di area detail, lalu klik item membuka progress, catatan, hasil, dan thread berbasis item pekerjaan.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.
 - **Hold**: Password, auth production, payment, dokumen/legal upload, notification production API, upload foto rill, dan RBAC production tetap ditunda.
+
+## Product Direction Notes
+- Consumer Timeline Work Evidence & Field Thread adalah **planned direction / next workflow candidate**, bukan fitur selesai.
+- Thread komentar diarahkan role-colored untuk Mandor, Pengawas, Admin, dan Konsumen jika komentar Konsumen nanti dibuka.
+- Bentuknya seperti group chat/thread berbasis item pekerjaan, bukan chat bebas global dan bukan realtime chat/websocket dulu.
+- Visibility mendukung internal-only dan customer-visible; Admin/Pengawas dapat mengontrol catatan yang tampil ke Konsumen.
+- Batasan tetap berlaku: bukan upload production besar, bukan legal evidence/BAST, bukan dispute/payment/legal workflow, bukan customer chat production aktif, dan tidak mengubah Progress SOT.
 
 ---
 

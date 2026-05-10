@@ -323,7 +323,12 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                             <p className="text-sm font-bold text-slate-700">{note.content}</p>
                                             {note.projectStageId && (
                                                 <p className="text-[10px] text-slate-400 font-medium italic">
-                                                    Linked to stage ID: {note.projectStageId}
+                                                    Linked to stage: {note.stage?.title || note.projectStageId}
+                                                </p>
+                                            )}
+                                            {note.rabItemId && (
+                                                <p className="text-[10px] text-indigo-500 font-black uppercase tracking-tight">
+                                                    Thread: {note.rabItem?.description || note.rabItemId}
                                                 </p>
                                             )}
                                         </div>

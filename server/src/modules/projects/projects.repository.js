@@ -75,7 +75,15 @@ export const findById = async (id) => {
         }
       },
       stages: {
-        orderBy: { order: 'asc' }
+        orderBy: { order: 'asc' },
+        include: {
+          _count: {
+            select: {
+              journalActivities: true,
+              reportNotes: true
+            }
+          }
+        }
       },
       rabPlans: {
         orderBy: { createdAt: 'desc' },

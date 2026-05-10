@@ -64,7 +64,15 @@ export const findReportById = async (id) => {
         }
       },
       notes: {
-        orderBy: { createdAt: 'asc' }
+        orderBy: { createdAt: 'asc' },
+        include: {
+          stage: {
+            select: { title: true }
+          },
+          rabItem: {
+            select: { description: true }
+          }
+        }
       },
       reviewLogs: {
         orderBy: { createdAt: 'desc' }

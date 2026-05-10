@@ -174,7 +174,6 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                     <th className="px-4 py-3 text-left border-b border-neutral-30">Lokasi</th>
                     <th className="px-4 py-3 text-right border-b border-neutral-30">Vol</th>
                     <th className="px-4 py-3 text-center border-b border-neutral-30">Sat</th>
-                    <th className="px-4 py-3 text-right border-b border-neutral-30">Harga Sat</th>
                     <th className="px-4 py-3 text-right border-b border-neutral-30">Total RAB</th>
                     <th className="px-4 py-3 text-center border-b border-neutral-30">Progress</th>
                     <th className="px-4 py-3 text-right border-b border-neutral-30">Nilai Selesai</th>
@@ -183,51 +182,130 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                 <tbody>
                   {rabItems.length > 0 ? (
                     rabItems.map((item, idx) => (
-                      <tr
-                        key={item.id}
-                        className={`border-b border-neutral-20 hover:bg-neutral-20/50 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-neutral-20/30"}`}
-                      >
-                        <td className="px-4 py-3 text-neutral-50 text-xs">{idx + 1}</td>
-                        <td className="px-4 py-3">
-                          <p className="font-medium text-neutral-90">{item.uraian}</p>
-                          {item.keterangan && (
-                            <p className="text-xs text-neutral-50 mt-0.5 italic">{item.keterangan}</p>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-neutral-60">{item.lokasi}</td>
-                        <td className="px-4 py-3 text-right text-neutral-80 font-mono">{item.volume}</td>
-                        <td className="px-4 py-3 text-center text-neutral-60">{item.satuan}</td>
-                        <td className="px-4 py-3 text-right text-neutral-80 font-mono">
-                          {typeof item.hargaSatuan === "number" && item.hargaSatuan > 0
-                            ? formatCurrency(item.hargaSatuan)
-                            : "-"}
-                        </td>
-                        <td className="px-4 py-3 text-right font-semibold text-neutral-100 font-mono">
-                          {typeof item.total === "number" && item.total > 0
-                            ? formatCurrency(item.total)
-                            : "-"}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <div className="flex flex-col items-center gap-1">
-                            <div className="w-16 h-2 bg-neutral-20 rounded-full overflow-hidden border border-neutral-30">
-                              <div
-                                className={`h-full rounded-full ${item.progress === 100 ? "bg-success-main" : item.progress > 0 ? "bg-primary-main" : "bg-neutral-30"}`}
-                                style={{ width: `${item.progress}%` }}
-                              />
-                            </div>
-                            <span className={`text-xs font-bold ${item.progress === 100 ? "text-success-main" : item.progress > 0 ? "text-primary-main" : "text-neutral-40"}`}>
-                              {item.progress}%
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-right font-semibold font-mono">
-                          <span className={item.nilaiSelesai > 0 ? "text-success-main" : "text-neutral-40"}>
-                            {typeof item.nilaiSelesai === "number" && item.nilaiSelesai > 0
-                              ? formatCurrency(item.nilaiSelesai)
+                      <React.Fragment key={item.id}>
+                        <tr
+                          className={`border-b border-neutral-20 hover:bg-neutral-20/50 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-neutral-20/30"}`}
+                        >
+                          <td className="px-4 py-3 text-neutral-50 text-xs">{idx + 1}</td>
+                          <td className="px-4 py-3">
+                            <p className="font-medium text-neutral-90">{item.uraian || item.description}</p>
+                            {item.keterangan && (
+                              <p className="text-xs text-neutral-50 mt-0.5 italic">{item.keterangan}</p>
+                            )}
+                            {(item.activities?.length > 0 || item.notes?.length > 0) && (
+                              <div className="mt-2 flex gap-2">
+                                <span className="px-2 py-0.5 bg-primary-surface text-primary-main text-[9px] font-black uppercase rounded-md border border-primary-main/20">
+                                  {item.activities?.length || 0} Update Mandor
+                                </span>
+                                <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[9px] font-black uppercase rounded-md border border-amber-200">
+                                  {item.notes?.length || 0} Review Pengawas
+                                </span>
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-neutral-60">{item.lokasi}</td>
+                          <td className="px-4 py-3 text-right text-neutral-80 font-mono">{item.volume}</td>
+                          <td className="px-4 py-3 text-center text-neutral-60">{item.unit || item.satuan}</td>
+                          <td className="px-4 py-3 text-right text-neutral-80 font-mono">
+                            {typeof item.unitPrice === "number" || typeof item.hargaSatuan === "number"
+                              ? formatCurrency(item.unitPrice || item.hargaSatuan)
                               : "-"}
-                          </span>
-                        </td>
-                      </tr>
+                          </td>
+                          <td className="px-4 py-3 text-right font-semibold text-neutral-100 font-mono">
+                            {typeof item.total === "number" && item.total > 0
+                              ? formatCurrency(item.total)
+                              : "-"}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex flex-col items-center gap-1">
+                              <div className="w-16 h-2 bg-neutral-20 rounded-full overflow-hidden border border-neutral-30">
+                                <div
+                                  className={`h-full rounded-full ${item.progress === 100 ? "bg-success-main" : item.progress > 0 ? "bg-primary-main" : "bg-neutral-30"}`}
+                                  style={{ width: `${item.progress}%` }}
+                                />
+                              </div>
+                              <span className={`text-xs font-bold ${item.progress === 100 ? "text-success-main" : item.progress > 0 ? "text-primary-main" : "text-neutral-40"}`}>
+                                {item.progress}%
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-right font-semibold font-mono">
+                            <span className={item.completedValue > 0 || item.nilaiSelesai > 0 ? "text-success-main" : "text-neutral-40"}>
+                              {formatCurrency(item.completedValue || item.nilaiSelesai || 0)}
+                            </span>
+                          </td>
+                        </tr>
+                        {/* Evidence Thread Row */}
+                        {(item.activities?.length > 0 || item.notes?.length > 0) && (
+                          <tr className="bg-neutral-10/50">
+                            <td colSpan={9} className="px-8 py-4">
+                              <div className="space-y-3 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-30">
+                                {/* Mandor Activities */}
+                                {item.activities?.map((act) => (
+                                  <div key={act.id} className="relative pl-8">
+                                    <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-primary-main border-2 border-white shadow-sm flex items-center justify-center">
+                                      <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full rounded-full" />
+                                    </div>
+                                    <div className="bg-white p-3 rounded-xl border border-neutral-30 shadow-sm max-w-2xl">
+                                      <div className="flex justify-between items-start mb-1">
+                                        <span className="text-[10px] font-black uppercase text-primary-main tracking-widest">Update Mandor</span>
+                                        <span className="text-[9px] text-neutral-40">{new Date(act.createdAt).toLocaleDateString('id-ID')}</span>
+                                      </div>
+                                      <p className="text-xs font-bold text-neutral-80">{act.workTitle}</p>
+                                      <p className="text-xs text-neutral-60 mt-1 leading-relaxed">{act.description}</p>
+                                      {act.notes && (
+                                        <p className="text-[10px] text-neutral-50 italic mt-2 border-t pt-2">Note: {act.notes}</p>
+                                      )}
+                                      {act.photos?.length > 0 && (
+                                        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+                                          {act.photos.map((photo, pi) => (
+                                            <div key={pi} className="w-16 h-12 rounded-lg bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden">
+                                              <img src={photo.photoUrl} className="w-full h-full object-cover" />
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+
+                                {/* Supervisor Notes */}
+                                {item.notes?.map((note) => (
+                                  <div key={note.id} className="relative pl-8">
+                                    <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center">
+                                      <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full rounded-full" />
+                                    </div>
+                                    <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-200 shadow-sm max-w-2xl">
+                                      <div className="flex justify-between items-start mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Review Pengawas</span>
+                                          <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase ${
+                                            note.severity === 'critical' ? 'bg-red-500 text-white' :
+                                            note.severity === 'high' ? 'bg-red-100 text-red-600' :
+                                            'bg-amber-100 text-amber-600'
+                                          }`}>
+                                            {note.severity}
+                                          </span>
+                                        </div>
+                                        <span className="text-[9px] text-amber-600/60">{new Date(note.createdAt).toLocaleDateString('id-ID')}</span>
+                                      </div>
+                                      <p className="text-xs font-bold text-amber-900 leading-relaxed italic">"{note.content}"</p>
+                                      {note.progress !== null && (
+                                        <div className="mt-2 flex items-center gap-2">
+                                          <div className="w-full h-1 bg-amber-200 rounded-full overflow-hidden">
+                                            <div className="h-full bg-amber-500" style={{ width: `${note.progress}%` }} />
+                                          </div>
+                                          <span className="text-[10px] font-black text-amber-700">{note.progress}%</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
                     ))
                   ) : (
                     <tr>
@@ -248,7 +326,83 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                   </tr>
                 </tfoot>
               </table>
-            </div>
+              </div>
+
+            {/* General Stage Thread (Unlinked evidence) */}
+            {(data.unlinkedActivities?.length > 0 || data.unlinkedNotes?.length > 0) && (
+              <div className="mt-8 space-y-4">
+                <h3 className="text-s-bold text-neutral-70 flex items-center gap-2 uppercase tracking-widest">
+                  <span className="w-8 h-0.5 bg-neutral-30"></span>
+                  Aktivitas & Umpan Balik Umum Tahapan
+                </h3>
+                <div className="space-y-4 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-30">
+                  {data.unlinkedActivities?.map((act) => (
+                    <div key={act.id} className="relative pl-10">
+                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-primary-main border-2 border-white shadow-sm flex items-center justify-center">
+                        <img src={act.weeklyJournal?.foreman?.avatar || `https://ui-avatars.com/api/?name=${act.weeklyJournal?.foreman?.name || 'M'}&background=3B82F6&color=fff`} className="w-full h-full rounded-full" />
+                      </div>
+                      <div className="bg-white p-4 rounded-2xl border border-neutral-30 shadow-sm max-w-3xl">
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="text-[10px] font-black uppercase text-primary-main tracking-widest">Update Mandor</span>
+                          <span className="text-[10px] text-neutral-40">{new Date(act.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                        </div>
+                        <p className="text-sm font-bold text-neutral-90">{act.workTitle}</p>
+                        <p className="text-sm text-neutral-60 mt-1 leading-relaxed">{act.description}</p>
+                        {act.notes && (
+                          <div className="mt-3 bg-neutral-20/50 p-2 rounded-lg border border-neutral-30">
+                            <p className="text-xs text-neutral-50 italic">Note: {act.notes}</p>
+                          </div>
+                        )}
+                        {act.photos?.length > 0 && (
+                          <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+                            {act.photos.map((photo, pi) => (
+                              <div key={pi} className="w-32 h-24 rounded-xl bg-neutral-20 border border-neutral-30 shrink-0 overflow-hidden shadow-inner">
+                                <img src={photo.photoUrl} className="w-full h-full object-cover hover:scale-110 transition-transform cursor-pointer" alt="Bukti kerja" />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  {data.unlinkedNotes?.map((note) => (
+                    <div key={note.id} className="relative pl-10">
+                      <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-amber-500 border-2 border-white shadow-sm flex items-center justify-center">
+                        <img src={note.report?.supervisor?.avatar || `https://ui-avatars.com/api/?name=${note.report?.supervisor?.name || 'P'}&background=F59E0B&color=fff`} className="w-full h-full rounded-full" />
+                      </div>
+                      <div className="bg-amber-50/50 p-4 rounded-2xl border border-amber-200 shadow-sm max-w-3xl">
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-black uppercase text-amber-700 tracking-widest">Review Pengawas</span>
+                            <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${
+                              note.severity === 'critical' ? 'bg-red-500 text-white' :
+                              note.severity === 'high' ? 'bg-red-100 text-red-600' :
+                              'bg-amber-100 text-amber-600'
+                            }`}>
+                              {note.severity}
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-amber-600/60">{new Date(note.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                        </div>
+                        <p className="text-sm font-bold text-amber-900 leading-relaxed italic">"{note.content}"</p>
+                        {note.progress !== null && (
+                          <div className="mt-4 p-3 bg-white rounded-xl border border-amber-100 flex items-center gap-4">
+                            <div className="flex-1">
+                              <p className="text-[10px] font-black uppercase text-amber-600 mb-1">Verifikasi Progres Tahap</p>
+                              <div className="w-full h-2 bg-amber-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-amber-500" style={{ width: `${note.progress}%` }} />
+                              </div>
+                            </div>
+                            <span className="text-lg font-black text-amber-700">{note.progress}%</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ── 4. Dokumentasi Foto ───────────────────────────────────── */}

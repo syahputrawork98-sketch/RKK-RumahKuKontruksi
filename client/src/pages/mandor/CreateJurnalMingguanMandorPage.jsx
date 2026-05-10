@@ -354,28 +354,31 @@ const CreateJurnalMingguanMandorPage = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest flex justify-between">
-                                        Referensi Item RAB (Opsional)
+                                        Referensi Item RAB (Disarankan)
                                         {loadingContext && <span className="animate-pulse text-[var(--dashboard-primary)]">Loading...</span>}
                                     </label>
                                     <select 
                                         value={activity.rabItemId}
                                         onChange={(e) => handleActivityChange(index, 'rabItemId', e.target.value)}
-                                        className={`w-full bg-white border rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all ${
+                                        className={`w-full bg-white border-2 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all ${
+                                            activity.rabItemId ? 'border-[var(--dashboard-primary)]/30 bg-[var(--dashboard-primary)]/5' : 
                                             contextStatus.rab === 'error' ? 'border-rose-200 bg-rose-50' : 'border-[var(--dashboard-border)]'
                                         }`}
                                     >
                                         <option value="">
                                             {contextStatus.rab === 'loading' ? 'Memuat item RAB...' : 
-                                             contextStatus.rab === 'empty' ? '-- RAB item belum tersedia, aktivitas tetap bisa diisi manual --' :
-                                             contextStatus.rab === 'error' ? '-- Gagal memuat konteks RAB, isi aktivitas manual --' :
-                                             '-- Pilih Item RAB (Opsional) --'}
+                                             contextStatus.rab === 'empty' ? '-- RAB item belum tersedia --' :
+                                             contextStatus.rab === 'error' ? '-- Gagal memuat konteks RAB --' :
+                                             '-- Pilih Item RAB dari Rencana --'}
                                         </option>
+                                        {/* Group by category if possible or just show with category prefix */}
                                         {rabItems.map(item => (
                                             <option key={item.id} value={item.id}>
-                                                [{item.categoryCode}] {item.description}
+                                                [{item.categoryCode}] {item.description} — {item.volume} {item.unit}
                                             </option>
                                         ))}
                                     </select>
+                                    <p className="text-[8px] text-[var(--dashboard-primary)] font-bold italic">* Memilih RAB akan mengotomatisasi judul dan deskripsi.</p>
                                 </div>
 
                                 <div className="space-y-2">

@@ -111,13 +111,37 @@ export const getReportContext = async (req, res, next) => {
       weekEndDate
     });
 
+    // Fetch RAB Items for context
+    const rabPlan = await prisma.rabPlan.findFirst({
+      where: { projectId, status: 'approved' },
+      include: {
+        categories: {
+          include: { items: true }
+        }
+      }
+    });
+
+    const rabItems = [];
+    if (rabPlan) {
+      rabPlan.categories.forEach(cat => {
+        cat.items.forEach(item => {
+          rabItems.push({
+            ...item,
+            categoryName: cat.name,
+            categoryCode: cat.code
+          });
+        });
+      });
+    }
+
     res.json({
       success: true,
       data: serializeDecimal({
         project,
         verifiedProgressSnapshot: project.verifiedProgress,
         verifiedProgressUpdatedAt: project.verifiedProgressUpdatedAt,
-        approvedJournals
+        approvedJournals,
+        rabItems
       })
     });
   } catch (error) {

@@ -54,6 +54,8 @@ const TimelineProyek = () => {
               isVerified: s.isVerified,
               verifiedBy: s.verifiedBy || "Pengawas"
             },
+            evidenceCount: (s._count?.journalActivities || 0) + (s._count?.reportNotes || 0),
+            hasEvidence: (s._count?.journalActivities || 0) > 0 || (s._count?.reportNotes || 0) > 0,
             note: s.note,
             description: s.description
           })),

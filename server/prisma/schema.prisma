@@ -226,6 +226,8 @@ model ProjectStage {
   createdAt        DateTime          @default(now()) @map("created_at")
   updatedAt        DateTime          @updatedAt @map("updated_at")
   materialRequests     MaterialRequest[]
+  journalActivities    WeeklyJournalActivity[]
+  reportNotes          SupervisorWeeklyReportNote[]
   project              Project                     @relation(fields: [projectId], references: [id])
   publicComments       ProjectStagePublicComment[]
 
@@ -291,6 +293,8 @@ model RabItem {
   category             RabCategory           @relation(fields: [categoryId], references: [id])
   project              Project               @relation(fields: [projectId], references: [id])
   rabPlan              RabPlan               @relation(fields: [rabPlanId], references: [id])
+  journalActivities    WeeklyJournalActivity[]
+  reportNotes          SupervisorWeeklyReportNote[]
 
   @@map("rab_items")
 }
@@ -532,6 +536,8 @@ model WeeklyJournalActivity {
   createdAt       DateTime             @default(now()) @map("created_at")
   updatedAt       DateTime             @updatedAt @map("updated_at")
   weeklyJournal   WeeklyJournal        @relation(fields: [weeklyJournalId], references: [id], onDelete: Cascade)
+  stage           ProjectStage?        @relation(fields: [projectStageId], references: [id])
+  rabItem         RabItem?             @relation(fields: [rabItemId], references: [id])
   photos          WeeklyJournalPhoto[]
 
   @@map("weekly_journal_activities")
@@ -643,6 +649,9 @@ model SupervisorWeeklyReportNote {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  stage   ProjectStage? @relation(fields: [projectStageId], references: [id])
+  rabItem RabItem?      @relation(fields: [rabItemId], references: [id])
 
   @@map("supervisor_weekly_report_notes")
 }

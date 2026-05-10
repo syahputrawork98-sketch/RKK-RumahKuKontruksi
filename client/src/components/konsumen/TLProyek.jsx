@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiCheckCircle, FiClock, FiChevronRight, FiMessageSquare, FiCalendar } from "react-icons/fi";
+import { FiCheckCircle, FiClock, FiChevronRight, FiMessageSquare, FiCalendar, FiActivity } from "react-icons/fi";
 
 const TLProyek = ({ timeline = [] }) => {
   return (
@@ -52,13 +52,20 @@ const TLProyek = ({ timeline = [] }) => {
                           {stage.title}
                         </h3>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-sm shrink-0 ${
-                        stage.status === "verified" ? "bg-success-main/10 text-success-main" :
-                        stage.status === "in_progress" ? "bg-primary-main/10 text-primary-main" : "bg-neutral-20 text-neutral-60"
-                      }`}>
-                        {stage.status === "verified" ? "Verified" :
-                         stage.status === "in_progress" ? "In Progress" : "Pending"}
-                      </span>
+                      <div className="flex flex-col gap-1">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-sm shrink-0 text-center ${
+                          stage.status === "verified" ? "bg-success-main/10 text-success-main" :
+                          stage.status === "in_progress" ? "bg-primary-main/10 text-primary-main" : "bg-neutral-20 text-neutral-60"
+                        }`}>
+                          {stage.status === "verified" ? "Verified" :
+                           stage.status === "in_progress" ? "In Progress" : "Pending"}
+                        </span>
+                        {stage.hasEvidence && (
+                          <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 border border-amber-200 rounded-md text-[9px] font-black text-amber-600 uppercase tracking-widest animate-pulse">
+                            <FiActivity size={10} /> {stage.evidenceCount} Bukti Kerja
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Meta Info */}

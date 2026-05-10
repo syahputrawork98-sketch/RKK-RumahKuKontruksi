@@ -326,3 +326,21 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
 - **Local Stabilized Status**: Post-Completion History & Experience Pack, Project Lifecycle Completion Pack, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup BAST/legal handover, progress automation production, legal certificate, document upload production, PDF certificate, procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, deployment production, atau RBAC production.
+
+## Product Direction: Superadmin Account Control & Profile Validation
+Catatan ini adalah **product direction / planned direction / future workflow candidate** dari Room Chat 00.
+
+### Rencana Kewenangan & API Management
+1. **Superadmin Account CRUD**: Direncanakan adanya endpoint untuk Superadmin mengelola akun seluruh role (Admin, Pengawas, Mandor, Arsitek, Konsumen). Ini akan mendukung manajemen entitas lokal secara terpusat.
+2. **Admin Operational Boundary**: Admin dibatasi hanya pada pengelolaan operasional proyek dan data dirinya sendiri. Admin tidak memiliki akses API untuk mengelola akun role lain.
+3. **Profile Change Approval Flow**:
+   - Direncanakan adanya mekanisme "Change Request" untuk data profil penting.
+   - Endpoint `PATCH` pada profil role (Mandor, Pengawas, dll) untuk field sensitif akan diarahkan ke status `pending` di database.
+   - Admin/Superadmin akan memiliki API untuk `approve` atau `reject` perubahan tersebut.
+4. **Local Audit Log**: Setiap perubahan data penting (Telepon, Alamat, Identitas, Sertifikat, Pengalaman) akan dicatat dalam tabel `ChangeLog` lokal untuk menjaga integritas data operasional.
+
+### Kandidat Batch: "Superadmin Account & Profile Change Management Local CRUD v1"
+- CRUD Akun lintas role oleh Superadmin.
+- Self-profile management untuk setiap role.
+- Mekanisme Request & Approval perubahan profil data penting.
+- Implementasi Audit Log lokal sederhana.

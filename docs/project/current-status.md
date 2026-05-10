@@ -139,3 +139,50 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 1. **Admin Publish Update / Stage Communication Source Flow Verification**: Verifikasi jalur Admin sebagai sumber update resmi untuk Stage Communication Panel, termasuk guard role dan payload `projectId`.
 2. **Admin Dashboard Demo Data Cleanup**: Bersihkan mockup "Recent Activity" dan sisa hardcoded demo data di Dashboard Admin agar sinkron dengan API.
 3. **Final UI Consistency Check**: Lakukan audit visual menyeluruh untuk memastikan harmoni antar modul baru tanpa membuka scope auth/payment/upload production.
+
+## Product Direction: Role Authority & Profile Change Governance
+Catatan ini adalah **product direction / planned direction / future workflow candidate** dari Room Chat 00, bukan fitur implemented, bukan stabilized, dan belum enforced di aplikasi. Arah produk RKK memisahkan kewenangan pengelolaan akun dan tata kelola perubahan profil secara bertahap dalam fase local development.
+
+### Pembagian Kewenangan Role (Planned Direction)
+
+1. **Superadmin (Role Tertinggi / Local Management)**:
+   - Memiliki kendali penuh untuk create, update, dan delete akun semua role (Admin, Pengawas, Mandor, Konsumen, Arsitek).
+   - Mengelola sektor atau master data yang dibuka sebagai Local CRUD.
+   - Menangani validasi dan approval atas perubahan data profil penting dari role lain.
+   - Memantau audit log atau change log lokal jika modul log diaktifkan.
+
+2. **Admin (Role Operasional Proyek)**:
+   - Fokus pada manajemen operasional: Proyek, RAB, Tender, Material Request, Stage, dan Closeout.
+   - **Dilarang** mengubah atau mengelola akun role lain.
+   - Hanya dapat mengubah data dan profil miliknya sendiri.
+   - Dapat membantu validasi perubahan data operasional atau profil jika cakupan akses dibuka secara lokal.
+
+3. **Mandor, Pengawas, Arsitek, dan Konsumen**:
+   - Hanya memiliki kewenangan untuk mengubah data dan profil miliknya sendiri.
+   - **Dilarang** mengubah atau mengakses akun orang lain.
+   - Perubahan data penting diarahkan untuk masuk ke antrian validasi Admin/Superadmin.
+   - Setiap perubahan penting wajib tercatat agar memiliki riwayat (traceability).
+
+### Tata Kelola Perubahan Profil (Governance)
+
+Beberapa contoh data penting yang memerlukan validasi atau pencatatan log jika diubah:
+- Nomor telepon dan alamat.
+- Data identitas resmi (KTP/ID) atau profil utama.
+- Data perusahaan atau badan usaha.
+- Sertifikat keahlian dan riwayat pengalaman kerja.
+- Data konsumen yang berdampak pada administrasi proyek.
+- Data Mandor/Pengawas/Arsitek yang berdampak langsung pada operasional lapangan.
+
+### Future Workflow Candidate: Profile Change Request / Local Approval Log v1
+Konsep alur yang direncanakan:
+1. User mengajukan perubahan data melalui form profil.
+2. Jika data bersifat "penting", status berubah menjadi `pending` atau masuk ke antrian `Local Request`.
+3. Admin atau Superadmin melakukan review dan memilih `Approve` atau `Reject`.
+4. Seluruh aktivitas perubahan tersimpan dalam **Audit/Change Log Lokal**.
+5. Alur ini bersifat operasional lokal dan belum merupakan sistem approval production.
+
+### Kandidat Batch Implementasi: "Superadmin Account & Profile Change Management Local CRUD v1"
+Rencana cakupan batch berikutnya:
+1. Implementasi Superadmin CRUD untuk akun seluruh role.
+2. Pengaktifan fitur Edit Profil mandiri untuk setiap role.
+3. Mekanisme Approval/Log untuk perubahan profil data penting secara lokal.

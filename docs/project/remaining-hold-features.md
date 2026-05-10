@@ -60,6 +60,12 @@ Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan 
 - **Scope Aman**: Read/check kontrak data dan UI display existing.
 - **Risiko**: Rendah, selama tidak mengubah formula tanpa keputusan Room Chat 00.
 
+### Rekomendasi 4: Superadmin Account & Profile Change Management Local CRUD v1
+- **Judul**: Superadmin Account & Profile Governance Direction
+- **Alasan**: Sesuai arah produk, Superadmin perlu memiliki kendali akun lintas role dan setiap role dapat mengelola profilnya sendiri dengan tata kelola perubahan data penting yang tercatat/tervalidasi.
+- **Scope Aman**: Local CRUD akun seluruh role oleh Superadmin dan self-profile update, tanpa auth production atau RBAC production.
+- **Risiko**: Rendah; pastikan hanya menggunakan API lokal dan dev persona.
+
 ---
 
 **Konfirmasi Scope**: 

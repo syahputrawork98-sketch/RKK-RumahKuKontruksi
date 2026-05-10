@@ -166,3 +166,17 @@ Selama local development, sistem menggunakan Dev Sign-In untuk memilih role dan 
 
 ## Error Handling Policy
 - Jika API Backend mengembalikan error (misal: Server mati), UI harus menampilkan komponen `ErrorState` atau pesan error yang jelas, bukan kembali menampilkan mock data secara otomatis.
+
+## Product Direction: Role Authority & Profile Change Management
+Catatan ini adalah **product direction / planned direction / future workflow candidate** dari Room Chat 00.
+
+### Arah Kewenangan Superadmin & Admin
+1. **Superadmin**: Diarahkan sebagai role tertinggi untuk manajemen akun lokal. Nantinya dapat melakukan CRUD akun untuk seluruh role (Admin, Pengawas, Mandor, Arsitek, Konsumen). Superadmin juga akan memantau validasi perubahan data penting.
+2. **Admin**: Diarahkan sebagai operator proyek. Admin mengelola operasional proyek (RAB, Stage, Progress, Material Request) tetapi **dilarang** mengelola akun role lain. Admin hanya mengelola profil miliknya sendiri.
+
+### Validasi & Log Perubahan Profil
+- Setiap role (Mandor, Pengawas, Arsitek, Konsumen) hanya bisa mengubah profil miliknya sendiri.
+- Perubahan pada field penting (Telepon, Alamat, Identitas, Sertifikat, Pengalaman) direncanakan masuk ke alur **Profile Change Request**.
+- Perubahan penting akan berstatus `pending` lokal hingga di-approve oleh Admin/Superadmin.
+- Seluruh riwayat perubahan akan dicatat dalam **Audit/Change Log Lokal** untuk menjaga traceability data operasional.
+- Ini adalah bagian dari rencana batch: **"Superadmin Account & Profile Change Management Local CRUD v1"**.

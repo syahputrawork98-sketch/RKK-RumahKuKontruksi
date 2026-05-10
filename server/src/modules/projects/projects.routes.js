@@ -11,6 +11,7 @@ router.patch('/:id/verify-progress', ProjectController.verifyProjectProgress);
 router.patch('/:id/activate', ProjectController.activateProject);
 router.get('/:id/progress-history', ProjectController.getProjectProgressHistory);
 router.get('/:id', ProjectController.getProjectById);
+router.patch('/:id/complete', ProjectController.completeProject);
 router.patch('/:id/stages/:stageId', ProjectController.updateProjectStage);
 router.patch('/:id', ProjectController.updateProject);
 router.delete('/:id', ProjectController.deleteProject);

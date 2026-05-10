@@ -134,6 +134,16 @@ const projectService = {
   },
 
   /**
+   * Complete project (Admin local workflow)
+   * @param {string} id 
+   * @param {Object} data 
+   * @returns {Promise<Object>}
+   */
+  async completeProject(id, data) {
+    return apiClient.patch(`/projects/${id}/complete`, data);
+  },
+
+  /**
    * Update project stage (Supervisor local completion)
    * @param {string} projectId 
    * @param {string} stageId 

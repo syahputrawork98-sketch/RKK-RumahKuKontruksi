@@ -46,6 +46,10 @@ const DetailProyekAdminPage = () => {
     const [rabPlan, setRabPlan] = useState(null);
     const [materialRequests, setMaterialRequests] = useState([]);
     const [loadingLogistik, setLoadingLogistik] = useState(false);
+    const [isCompleting, setIsCompleting] = useState(false);
+    const [completionSuccess, setCompletionSuccess] = useState(false);
+    const [showCompletionModal, setShowCompletionModal] = useState(false);
+    const [completionNote, setCompletionNote] = useState("");
 
     // Stage Form State
     const [showStageModal, setShowStageModal] = useState(false);
@@ -140,6 +144,32 @@ const DetailProyekAdminPage = () => {
         }
     };
 
+    const handleCompleteProject = async () => {
+        if (!projectId || !selectedAdminId) return;
+        
+        try {
+            setIsCompleting(true);
+            const response = await projectService.completeProject(projectId, {
+                adminId: selectedAdminId,
+                note: completionNote
+            });
+
+            if (response.success) {
+                setCompletionSuccess(true);
+                setShowCompletionModal(false);
+                fetchProjectData();
+                setCompletionNote("");
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } catch (err) {
+            console.error("Error completing project:", err);
+            alert(err.response?.data?.message || "Gagal menyelesaikan proyek.");
+        } finally {
+            setIsCompleting(false);
+        }
+    };
+
     if (!selectedAdminId) return <RoleDataState type="empty" message="Pilih Admin persona terlebih dahulu di Topbar." />;
     if (loading) return <RoleDataState type="loading" message="Memuat detail proyek..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjectData} />;
@@ -178,6 +208,10 @@ const DetailProyekAdminPage = () => {
         { id: "logistik", label: "Logistik", icon: FiPackage },
         { id: "readiness", label: "Readiness", icon: FiCheckCircle },
     ];
+
+    if (project && ['active', 'ongoing', 'Berjalan'].includes(project.status)) {
+        tabs.push({ id: "completion", label: "Penyelesaian", icon: FiCheckCircle });
+    }
 
     const getStatusColor = (status) => {
         const s = status?.toLowerCase();
@@ -220,8 +254,35 @@ const DetailProyekAdminPage = () => {
     const readyCount = readinessChecks.filter(c => c.status).length;
     const isReady = readyCount === readinessChecks.length;
 
+    // Completion Readiness Logic
+    const completionChecks = [
+        { 
+            label: "Verified Progress 100%", 
+            status: parseFloat(project?.verifiedProgress || 0) >= 100,
+            desc: "Progres fisik resmi harus sudah mencapai 100% (diverifikasi Pengawas)."
+        },
+        { 
+            label: "Seluruh Tahapan Selesai", 
+            status: stages.length > 0 && stages.every(s => s.status === 'Selesai' || (s.isVerified && parseFloat(s.progress) === 100)),
+            desc: "Setiap item tahapan pekerjaan (Project Stages) harus berstatus Selesai."
+        },
+        { 
+            label: "Logistik Final / Selesai", 
+            status: materialRequests.length === 0 || materialRequests.every(r => ['received', 'completed', 'rejected', 'cancelled'].includes(r.status)),
+            desc: "Tidak boleh ada permintaan material yang masih dalam status Pending atau Processing."
+        },
+    ];
+    const completionReadyCount = completionChecks.filter(c => c.status).length;
+    const isCompletionReady = completionReadyCount === completionChecks.length;
+
     return (
         <div className="animate-fadeIn space-y-6">
+            {completionSuccess && (
+                <div className="bg-purple-500 text-white p-4 rounded-2xl flex items-center gap-3 text-sm font-bold animate-fadeIn shadow-lg shadow-purple-500/20">
+                    <FiCheckCircle size={20} />
+                    Proyek telah berhasil diselesaikan secara lokal. Akses lapangan untuk Mandor & Pengawas kini bersifat Read-Only.
+                </div>
+            )}
             {/* HEADER */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
@@ -750,6 +811,75 @@ const DetailProyekAdminPage = () => {
                                 </div>
                             </div>
                         )}
+
+                        {/* COMPLETION TAB */}
+                        {activeTab === "completion" && (
+                            <div className="space-y-8 animate-fadeIn">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Kesiapan Penyelesaian Lokal</h3>
+                                    <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest ${isCompletionReady ? "bg-purple-500 text-white shadow-lg shadow-purple-500/30" : "bg-amber-500 text-white shadow-lg shadow-amber-500/30"}`}>
+                                        {isCompletionReady ? "SIAP DISELESAIKAN" : "BELUM LENGKAP"}
+                                    </div>
+                                </div>
+
+                                {project.status === 'Selesai' ? (
+                                    <div className="p-12 text-center bg-purple-50 rounded-[3rem] border border-purple-100 space-y-4">
+                                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-purple-500 mx-auto shadow-lg shadow-purple-500/10 border border-purple-100">
+                                            <FiCheckCircle size={40} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-black text-purple-900">Proyek Telah Selesai</h4>
+                                            <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mt-1">Status: Selesai Lokal</p>
+                                        </div>
+                                        <p className="text-sm text-purple-700 max-w-sm mx-auto leading-relaxed">
+                                            Proyek ini sudah ditutup secara lokal oleh Admin. Seluruh aktivitas lapangan telah dihentikan dan data tersimpan sebagai riwayat.
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="grid grid-cols-1 gap-4">
+                                            {completionChecks.map((check, i) => (
+                                                <div key={i} className={`p-6 rounded-3xl border transition-all flex items-start gap-4 ${check.status ? "bg-white border-emerald-100 shadow-sm shadow-emerald-500/5" : "bg-slate-50 border-slate-200 opacity-70"}`}>
+                                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${check.status ? "bg-emerald-500 text-white" : "bg-slate-200 text-slate-400"}`}>
+                                                        {check.status ? <FiCheckCircle size={20} /> : <FiAlertCircle size={20} />}
+                                                    </div>
+                                                    <div>
+                                                        <h4 className={`text-sm font-black uppercase tracking-tight ${check.status ? "text-emerald-700" : "text-slate-500"}`}>{check.label}</h4>
+                                                        <p className="text-[10px] font-bold text-slate-400 uppercase mt-1 leading-relaxed">{check.desc}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="p-6 bg-amber-50 border border-amber-100 rounded-[2rem] flex gap-4 items-start">
+                                            <FiInfo className="text-amber-500 shrink-0 mt-1" size={24} />
+                                            <div>
+                                                <h4 className="text-xs font-black text-amber-700 uppercase tracking-widest">PENTING: Penyelesaian Lokal</h4>
+                                                <p className="text-[10px] text-amber-600 mt-2 leading-relaxed font-bold uppercase">
+                                                    Penyelesaian ini bersifat operasional untuk mengunci project di dashboard Mandor/Pengawas. Ini BUKAN merupakan BAST (Berita Acara Serah Terima) legal atau handover resmi ke konsumen.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="pt-4 flex justify-center">
+                                            {isCompletionReady ? (
+                                                <button 
+                                                    onClick={() => setShowCompletionModal(true)}
+                                                    className="px-10 py-4 bg-purple-600 text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-purple-600/20 hover:scale-105 transition-all animate-bounce"
+                                                >
+                                                    Tandai Proyek Selesai Lokal
+                                                </button>
+                                            ) : (
+                                                <div className="text-center space-y-2 opacity-50">
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 italic">Tombol Penyelesaian Terkunci</p>
+                                                    <p className="text-[9px] font-bold text-slate-400 uppercase">Lengkapi kriteria di atas untuk mengaktifkan fungsi closeout.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -878,6 +1008,58 @@ const DetailProyekAdminPage = () => {
                 stage={selectedStageForComment}
                 projectId={project?.id}
             />
+            
+            {/* COMPLETION MODAL */}
+            {showCompletionModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+                    <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border border-purple-100 animate-slideUp">
+                        <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-purple-50/50">
+                            <div>
+                                <h3 className="text-xl font-black text-purple-900">Konfirmasi Penyelesaian</h3>
+                                <p className="text-[10px] font-black text-purple-400 uppercase tracking-widest mt-1">Local Project Closeout</p>
+                            </div>
+                            <button onClick={() => setShowCompletionModal(false)} className="p-2 hover:bg-white rounded-xl transition-all text-purple-300">
+                                <FiX size={24} />
+                            </button>
+                        </div>
+                        
+                        <div className="p-8 space-y-6">
+                            <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl flex gap-3">
+                                <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" />
+                                <p className="text-[11px] font-bold text-amber-800 leading-relaxed uppercase italic">
+                                    "Tindakan ini akan mengunci proyek. Mandor dan Pengawas tidak akan bisa membuat laporan baru. Tindakan ini BUKAN BAST/Handover resmi dan tidak mengubah Progress SOT."
+                                </p>
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Catatan Closeout (Opsional)</label>
+                                <textarea 
+                                    value={completionNote}
+                                    onChange={(e) => setCompletionNote(e.target.value)}
+                                    placeholder="Tuliskan alasan atau catatan penyelesaian proyek..."
+                                    className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-100 text-sm font-medium focus:ring-2 focus:ring-purple-500/20 focus:outline-none min-h-[100px] transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="p-8 bg-slate-50 border-t border-slate-100 flex gap-3">
+                            <button 
+                                onClick={handleCompleteProject}
+                                disabled={isCompleting}
+                                className="flex-1 py-4 bg-purple-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-purple-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                            >
+                                {isCompleting ? "MEMPROSES..." : "KONFIRMASI SELESAI"}
+                            </button>
+                            <button 
+                                onClick={() => setShowCompletionModal(false)}
+                                className="px-6 py-4 bg-white border border-slate-200 text-slate-400 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
+                            >
+                                BATAL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

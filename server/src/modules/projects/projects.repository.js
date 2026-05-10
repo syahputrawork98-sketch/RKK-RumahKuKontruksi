@@ -254,3 +254,15 @@ export const recalculateProjectVerifiedProgress = async (projectId, tx = prisma)
 
   return updatedProject.verifiedProgress;
 };
+
+export const hasActiveMaterialRequests = async (projectId) => {
+  const activeRequests = await prisma.materialRequest.findMany({
+    where: {
+      projectId,
+      status: {
+        notIn: ['received', 'completed', 'rejected', 'cancelled']
+      }
+    }
+  });
+  return activeRequests.length > 0;
+};

@@ -602,3 +602,88 @@ export const updateProjectStage = async (req, res, next) => {
     next(error);
   }
 };
+
+export const completeProject = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { adminId, note } = req.body;
+
+    if (!adminId) {
+      return res.status(400).json({
+        success: false,
+        message: 'adminId is required for project completion',
+      });
+    }
+
+    const project = await ProjectRepository.findById(id);
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project not found',
+      });
+    }
+
+    // 1. Role/Assignment Validation
+    if (project.adminId !== adminId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Anda tidak memiliki akses untuk menyelesaikan project ini.',
+      });
+    }
+
+    // 2. Status Validation
+    const ongoingStatuses = ['active', 'ongoing', 'Berjalan'];
+    if (!ongoingStatuses.includes(project.status)) {
+      return res.status(400).json({
+        success: false,
+        message: `Project hanya dapat diselesaikan jika statusnya aktif (Berjalan). Status saat ini: ${project.status}`,
+      });
+    }
+
+    // 3. Readiness Checks
+    const blockers = [];
+    
+    // a. Verified Progress must be 100
+    if (parseFloat(project.verifiedProgress) < 100) {
+      blockers.push(`Progres terverifikasi baru ${project.verifiedProgress}%, wajib 100%.`);
+    }
+
+    // b. All stages must be completed
+    const unfinishedStages = project.stages.filter(s => 
+      s.status !== 'Selesai' && 
+      !(s.isVerified === true && parseFloat(s.progress) === 100)
+    );
+    if (unfinishedStages.length > 0) {
+      blockers.push(`${unfinishedStages.length} tahapan pekerjaan belum ditandai selesai.`);
+    }
+
+    // c. No active material requests
+    const hasActiveMR = await ProjectRepository.hasActiveMaterialRequests(id);
+    if (hasActiveMR) {
+      blockers.push("Masih ada permintaan material yang belum final (pending/approved/processing/delivered).");
+    }
+
+    if (blockers.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Proyek belum siap untuk diselesaikan secara lokal.',
+        blockers
+      });
+    }
+
+    // 4. Execution
+    const updatedProject = await ProjectRepository.update(id, {
+      status: 'Selesai',
+      progress: 100, // Sync legacy progress field
+      // We don't touch verifiedProgress here as per instructions
+    });
+
+    res.json({
+      success: true,
+      message: 'Proyek berhasil ditandai Selesai secara lokal.',
+      data: serializeDecimal(updatedProject),
+    });
+  } catch (error) {
+    next(error);
+  }
+};

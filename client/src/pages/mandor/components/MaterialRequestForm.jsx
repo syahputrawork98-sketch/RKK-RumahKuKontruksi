@@ -186,18 +186,23 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                 <option value="">-- Pilih Proyek --</option>
                 {(projects || []).map(p => {
                   if (!p) return null;
-                  const isActive = p.status === 'active' || p.status === 'ongoing' || p.status === 'Berjalan';
+                  const isActive = ['active', 'ongoing', 'Berjalan'].includes(p.status);
+                  const isFinished = p.status === 'Selesai';
                   return (
-                    <option key={p.id} value={p.id}>
-                      {p.projectCode} - {p.name} {!isActive ? `(${p.status === 'planning' || p.status === 'Perencanaan' ? 'Persiapan' : p.status})` : ''}
+                    <option key={p.id} value={p.id} disabled={isFinished}>
+                      {p.projectCode} - {p.name} {isFinished ? '(SELESAI)' : (!isActive ? `(${p.status})` : '')}
                     </option>
                   );
                 })}
               </select>
-              {formData.projectId && !projects.find(p => p.id === formData.projectId)?.status?.match(/active|ongoing|Berjalan/) && (
-                <div className="mt-2 p-3 bg-amber-50 border border-amber-100 rounded-xl flex items-center gap-2 text-[10px] font-bold text-amber-700 animate-pulse">
+              {formData.projectId && !['active', 'ongoing', 'Berjalan'].includes(projects.find(p => p.id === formData.projectId)?.status) && (
+                <div className={`mt-2 p-3 rounded-xl flex items-center gap-2 text-[10px] font-bold animate-pulse border ${projects.find(p => p.id === formData.projectId)?.status === 'Selesai' ? 'bg-purple-50 border-purple-100 text-purple-700' : 'bg-amber-50 border-amber-100 text-amber-700'}`}>
                   <FiAlertCircle />
-                  <span>Proyek masih tahap persiapan. Request material hanya bisa dikirim setelah proyek Aktif/Berjalan.</span>
+                  <span>
+                    {projects.find(p => p.id === formData.projectId)?.status === 'Selesai' 
+                      ? 'Proyek telah selesai. Anda tidak dapat mengajukan material baru untuk proyek ini.' 
+                      : 'Proyek masih tahap persiapan. Request material hanya bisa dikirim setelah proyek Aktif/Berjalan.'}
+                  </span>
                 </div>
               )}
             </div>

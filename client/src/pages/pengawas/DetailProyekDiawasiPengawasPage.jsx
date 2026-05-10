@@ -189,6 +189,24 @@ const DetailProyekDiawasiPengawasPage = () => {
 
     return (
         <div className="animate-fadeIn space-y-6">
+            {project.status === 'Selesai' && (
+                <div className="bg-purple-600 text-white p-6 rounded-[2.5rem] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-purple-600/20 animate-slideDown">
+                    <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md">
+                            <FiCheckCircle size={28} />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black tracking-tight">Proyek Selesai Secara Lokal</h3>
+                            <p className="text-xs font-bold opacity-80 uppercase tracking-widest mt-0.5">Seluruh Tahapan Telah Ditutup</p>
+                        </div>
+                    </div>
+                    <div className="text-right max-w-xs">
+                        <p className="text-[10px] font-black uppercase tracking-tighter leading-relaxed">
+                            Proyek telah ditutup oleh Admin. Seluruh akses verifikasi lapangan telah dihentikan. Data tersimpan sebagai riwayat pengawasan resmi.
+                        </p>
+                    </div>
+                </div>
+            )}
             {/* HEADER */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
@@ -204,9 +222,11 @@ const DetailProyekDiawasiPengawasPage = () => {
                             <span className={`px-3 py-0.5 text-[10px] font-black uppercase rounded-full border ${
                                 project.status === 'Berjalan' 
                                 ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' 
+                                : project.status === 'Selesai'
+                                ? 'bg-purple-500/10 text-purple-500 border-purple-500/20'
                                 : 'bg-slate-500/10 text-slate-500 border-slate-500/20'
                             }`}>
-                                Proyek {project.status}
+                                {project.status}
                             </span>
                         </div>
                         <p className="text-xs text-[var(--dashboard-text-soft)] font-bold mt-0.5 uppercase tracking-wide">{project.name}</p>
@@ -215,9 +235,14 @@ const DetailProyekDiawasiPengawasPage = () => {
                 <div className="flex items-center gap-2">
                     <button 
                         onClick={() => navigate("/pengawas/verifikasi-progres")}
-                        className="px-5 py-2.5 bg-amber-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-500/20 hover:scale-[1.02] transition-all"
+                        disabled={project.status === 'Selesai'}
+                        className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all 
+                            ${project.status === 'Selesai' 
+                                ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200" 
+                                : "bg-amber-500 text-white shadow-lg shadow-amber-500/20 hover:scale-[1.02]"
+                            }`}
                     >
-                        Verifikasi Progress
+                        {project.status === 'Selesai' ? "Hold: Proyek Selesai" : "Verifikasi Progress"}
                     </button>
                 </div>
             </div>

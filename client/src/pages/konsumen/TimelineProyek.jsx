@@ -221,6 +221,36 @@ const TimelineProyek = () => {
         </div>
       </section>
 
+      {project.status === 'Selesai' && (
+        <div className="max-w-6xl mx-auto px-6 mt-8">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gradient-to-r from-teal-600 to-teal-500 text-white p-8 rounded-[40px] shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/20"
+          >
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center backdrop-blur-xl border border-white/30">
+                <FiCheckCircle size={40} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black tracking-tight uppercase">Pekerjaan Selesai</h3>
+                <p className="text-sm font-bold opacity-80 uppercase tracking-widest mt-1">Fase Konstruksi Lapangan Berakhir</p>
+              </div>
+            </div>
+            <div className="md:text-right space-y-2 max-w-md">
+              <p className="text-xs font-bold leading-relaxed opacity-90 italic">
+                "Seluruh tahapan pembangunan dalam kontrak ini telah dinyatakan selesai secara operasional. Terima kasih telah mempercayakan impian hunian Anda kepada RumahKu Konstruksi."
+              </p>
+              <div className="pt-2">
+                <span className="px-4 py-1 bg-white text-teal-600 text-[10px] font-black uppercase rounded-full tracking-widest shadow-lg">
+                  Local Completion Verified
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto px-6 -mt-12 relative z-10 space-y-12">
         {/* 2. Summary Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -61,8 +61,8 @@ Status: **Database-Backed v2 / Local E2E Workflow v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
 - **Design Workflow**: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal, submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost.
-- **Product Direction - Design Collaboration Timeline**: Planned direction, belum implemented/stabilized. Arsitek Timeline diarahkan untuk Design Request, kebutuhan desain, gambar kerja, revisi desain, draft RAB, feedback Konsumen, komentar role-colored Arsitek/Admin/Konsumen, dan visibility customer-visible/internal-only.
-- **Product Direction - Design Revision Limit**: Planned direction, belum enforced. Revisi besar/perubahan tema utama maksimal 3x; revisi kecil/penyesuaian detail maksimal 5x. Arsitek/Admin mengklasifikasikan major/minor dan revisi setelah limit masuk Hold/perlu keputusan Admin.
+- **Design Collaboration Timeline**: **Local Workflow v1 / Stabilized**. Arsitek dapat melihat riwayat kolaborasi Design Request, update thread role-colored, dan feedback Konsumen dalam detail brief.
+- **Design Revision Tracking**: **Local Workflow v1 / Stabilized**. Arsitek melihat counter revisi major/minor dan status "Hold" jika limit (3 major / 5 minor) tercapai.
 - **Hold / Placeholder**: Tahapan desain detail, file upload production, final approved package, dan evaluasi teknis masih Planned/Placeholder.
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
 
@@ -82,8 +82,8 @@ Status: **Database-Backed v2**
 - **Project Activation**: Readiness checklist dan aktivasi `Berjalan`: **DB-Backed v1 / Local Stabilized**.
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
-- **Product Direction - Timeline Evidence & Design Collaboration**: Planned direction berikutnya mencakup Project Timeline dan Design Timeline. Project Timeline menghubungkan `RabCategory`, `RabItem`, laporan Mandor, review Pengawas/Admin, visibility control, dan update customer-visible. Design Timeline menghubungkan Design Request, gambar kerja, revisi desain, draft RAB, komentar Arsitek/Admin/Konsumen, dan visibility customer-visible/internal-only. Keputusan final visibility dikunci Room Chat 00.
-- **Product Direction - Revision Governance**: Planned direction, belum enforced. Admin/Arsitek mengklasifikasikan revisi desain sebagai major/minor; major maksimal 3x dan minor maksimal 5x; revisi setelah limit masuk Hold/perlu keputusan Admin, tanpa membuka invoice tambahan/payment/legal production.
+- **Timeline Evidence & Field Thread**: **Local Workflow v1 / Stabilized**. Admin dapat memantau laporan Mandor per `RabItem`, memberikan review/note, dan mengontrol visibility (customer-visible/internal-only) pada timeline proyek.
+- **Design Collaboration & Revision Governance**: **Local Workflow v1 / Stabilized**. Admin mengelola flow kolaborasi desain, memantau batas revisi (3 major / 5 minor), dan dapat melakukan bypass status "Hold" jika diperlukan melalui manual status update.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Profile Team Data**: Mandor/Pengawas Certificate & Work Experience: **Local CRUD v1 / Stabilized** untuk data lokal/manual Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, rating/scoring, atau reputation marketplace.
 - **Operational Data**: 
@@ -116,22 +116,18 @@ Status: **Database-Backed v1**
 - **Stage Status Boundary**: Stage selesai/terverifikasi lokal dapat tampil sebagai status tahapan, tetapi bukan progress resmi proyek; `Project.verifiedProgress` tetap berasal dari Verifikasi Progres.
 - **Completion Reader**: Status project selesai lokal dapat dibaca Konsumen sebagai reader status; ini bukan BAST/legal handover, invoice/payment/escrow, atau sertifikat resmi.
 - **Finished Project Timeline**: Timeline Konsumen menampilkan `Pekerjaan Selesai` untuk project `Selesai` sebagai histori operasional lokal; tidak mengubah Progress SOT.
-- **Product Direction - Timeline Evidence Thread**: Planned direction, belum implemented/stabilized. Timeline Konsumen perlu menampilkan kategori pekerjaan, item pekerjaan/RAB item, status/proses, catatan hasil, foto/bukti jika nanti tersedia, dan comment thread role-colored bila customer-visible. Layout diarahkan kategori di area utama/kiri, detail item di area detail, lalu klik item membuka progress, catatan, hasil, dan thread berbasis item pekerjaan.
-- **Product Direction - Design Collaboration Timeline**: Planned direction, belum implemented/stabilized. Konsumen dapat melihat timeline desain untuk kebutuhan desain, update gambar kerja, revisi desain, draft RAB, feedback, dan komentar role-colored jika customer-visible; timeline desain terpisah dari Progress SOT konstruksi.
+- **Timeline Evidence Thread**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) yang ditandai customer-visible, termasuk laporan Mandor dan review Pengawas/Admin yang relevan.
+- **Design Collaboration Timeline**: **Local Workflow v1 / Stabilized**. Konsumen dapat memantau riwayat desain, memberikan feedback, dan mengajukan revisi melalui form dengan validasi limit (3 major / 5 minor).
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.
 - **Stage Communication Panel**: Functional v1 untuk read path dan customer reply. Payload create/reply tetap membutuhkan `projectId` eksplisit dan `parentId` untuk reply Konsumen.
 - **Hold**: Password, auth production, payment, dokumen/legal upload, notification production API, upload foto rill, dan RBAC production tetap ditunda.
 
 ## Product Direction Notes
-- Timeline Evidence & Role Thread adalah **planned direction / future workflow candidate**, bukan fitur selesai/stabil dan belum enforced.
-- Ada dua timeline utama: Project Timeline untuk Admin/Pengawas/Mandor/Konsumen, dan Design Collaboration Timeline untuk Konsumen/Arsitek/Admin.
-- Project Timeline berbasis kategori pekerjaan, `RabItem`, laporan Mandor, review Pengawas/Admin, visibility control, dan update customer-visible.
-- Design Timeline berbasis Design Request, kebutuhan desain, gambar kerja, revisi desain, draft RAB, feedback Konsumen, dan komentar Arsitek/Admin/Konsumen.
-- Thread komentar diarahkan role-colored; Project Timeline berbasis item pekerjaan, Design Timeline berbasis design request/gambar kerja/revisi, bukan chat bebas global.
-- Visibility mendukung internal-only dan customer-visible. Arah awal bisa customer-visible by default kecuali ditandai internal-only, tetapi keputusan final visibility dikunci Room Chat 00.
-- Batas revisi desain adalah planned direction: revisi major maksimal 3x, revisi minor maksimal 5x; revisi setelah limit masuk Hold/perlu keputusan Admin.
-- Batasan tetap berlaku: bukan realtime chat/websocket dulu, bukan upload production besar, bukan legal evidence/BAST, bukan dispute/payment/legal workflow, bukan marketplace complaint, bukan PDF certificate/design legal document, bukan customer chat production aktif, dan tidak mengubah Progress SOT.
+Catatan ini adalah referensi arah produk yang sedang atau telah distabilkan untuk Local Workflow v1.
+- **Timeline Evidence & Role Thread**: Menghubungkan aktivitas lapangan nyata (`RabItem`) ke visibility Konsumen.
+- **Design Collaboration & Revision Limits**: Menjaga disiplin iterasi desain dengan batas 3 Major dan 5 Minor revisi secara lokal.
+- **Separation of Concerns**: Timeline Desain dan Timeline Konstruksi tetap terpisah secara visual dan fungsional.
 
 ---
 

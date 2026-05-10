@@ -209,6 +209,8 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - `DELETE /design-requests/:id`: Soft delete Design Request lokal.
 - `PATCH /design-requests/:id/assign`: Assign arsitek lokal pada Design Request.
 - `POST /design-requests/:id/convert-to-project`: Membuat project draft/planning lokal dari Design Request yang eligible.
+- `POST /design-requests/:id/history`: Menambah riwayat kolaborasi pada pengajuan desain.
+- `POST /design-requests/:id/revision`: Mengajukan revisi desain dengan validasi batas revisi (3 Major / 5 Minor).
 
 **Catatan**:
 - Flow lokal: Konsumen create/list Design Request; Admin review/manage Design Request; Arsitek melihat assignment/desain aktif/riwayat lokal; Superadmin read-only monitoring.
@@ -216,6 +218,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Project Bridge hanya membuat project berstatus `planning` sebagai draft lokal. Project draft tidak otomatis aktif, dan aktivasi tetap melalui Project Activation flow terpisah.
 - Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, atau upload file production.
 - Bukan marketplace production, tender production, kontrak legal, payment/escrow, upload file production, auth production, atau RBAC production.
+- **Design Collaboration & Revision Limits**: *Local Workflow v1 / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored. Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Jika limit tercapai, endpoint revision mengembalikan status 400 dengan `isLimitReached: true`. DB local sync dilakukan via `prisma db push`.
 - **Status**: *Local Demo Completion / Local E2E Workflow v1*.
 
 ## Design Tenders (Local Demo Completion / Local E2E Workflow v1)

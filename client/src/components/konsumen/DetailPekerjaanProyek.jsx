@@ -315,11 +315,16 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
                                   ))}
 
                                   {(item.activities?.length === 0 && item.notes?.length === 0) && (
-                                    <div className="pl-8 flex items-center gap-3">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-30"></div>
-                                      <div className="space-y-1">
-                                        <p className="text-[10px] text-neutral-40 font-bold italic">Belum ada update lapangan yang dipublikasikan untuk item ini.</p>
-                                        <p className="text-[9px] text-neutral-30 italic font-medium leading-none">Beberapa laporan mungkin masih dalam proses review internal oleh Tim Admin/Pengawas.</p>
+                                    <div className="pl-8 flex items-start gap-4">
+                                      <div className="w-6 h-6 rounded-full bg-neutral-20 border-2 border-white shadow-sm flex items-center justify-center">
+                                        <FiClock size={12} className="text-neutral-40" />
+                                      </div>
+                                      <div className="bg-neutral-20/30 p-4 rounded-2xl border border-neutral-30/50 max-w-2xl w-full">
+                                        <p className="text-[10px] text-neutral-50 font-black uppercase tracking-widest mb-1">Status Lapangan</p>
+                                        <p className="text-xs text-neutral-40 font-bold italic">Belum ada update lapangan yang dipublikasikan untuk item spesifik ini.</p>
+                                        <p className="text-[9px] text-neutral-30 italic mt-2 leading-relaxed">
+                                          Tim kami mungkin sedang mengerjakan item ini atau laporan detail masih dalam proses verifikasi internal. Silakan cek bagian "Update Umum" di bawah jika tersedia.
+                                        </p>
                                       </div>
                                     </div>
                                   )}

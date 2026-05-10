@@ -315,9 +315,24 @@ const DetailLaporanMingguanPengawasPage = () => {
                                             </span>
                                         </div>
                                         <div>
-                                            <p className="text-[10px] font-black uppercase text-slate-400 mb-1">{note.type}</p>
-                                            <p className="text-xs font-bold text-slate-700">{note.content}</p>
-                                        </div>
+                                             <div className="flex items-center gap-2 mb-1">
+                                                 <p className="text-[10px] font-black uppercase text-slate-400">{note.type}</p>
+                                                 {note.stage && (
+                                                     <span className="text-[9px] font-bold bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                                                         Stage: {note.stage.title}
+                                                     </span>
+                                                 )}
+                                                 {note.rabItem && (
+                                                     <span className="text-[9px] font-bold bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                                                         RAB: {note.rabItem.description}
+                                                     </span>
+                                                 )}
+                                             </div>
+                                             <p className="text-xs font-bold text-slate-700">{note.content}</p>
+                                             {note.progress !== null && (
+                                                 <p className="text-[9px] font-black text-blue-600 uppercase mt-1">Verifikasi Progres: {note.progress}%</p>
+                                             )}
+                                         </div>
                                     </div>
                                 ))}
                             </div>

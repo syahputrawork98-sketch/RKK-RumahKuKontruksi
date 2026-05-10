@@ -1,6 +1,7 @@
 import * as SupervisorReportRepository from './supervisor-weekly-reports.repository.js';
 import * as ProjectRepository from '../projects/projects.repository.js';
 import * as WeeklyJournalRepository from '../weekly-journals/weekly-journals.repository.js';
+import prisma from '../../config/prisma.js';
 import { serializeDecimal } from '../../utils/decimalHelper.js';
 
 export const getReports = async (req, res, next) => {

@@ -367,15 +367,18 @@ const CreateJurnalMingguanMandorPage = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest flex justify-between">
-                                        Referensi Item RAB (Disarankan)
+                                    <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest flex justify-between items-center">
+                                        <span>Referensi Item RAB (Disarankan)</span>
                                         {loadingContext && <span className="animate-pulse text-[var(--dashboard-primary)]">Loading...</span>}
+                                        {!activity.rabItemId && !loadingContext && contextStatus.rab === 'success' && (
+                                            <span className="text-[8px] bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded border border-amber-200 animate-pulse">Mapping Disarankan</span>
+                                        )}
                                     </label>
                                     <select 
                                         value={activity.rabItemId}
                                         onChange={(e) => handleActivityChange(index, 'rabItemId', e.target.value)}
                                         className={`w-full bg-white border-2 rounded-xl px-4 py-2.5 text-xs font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all ${
-                                            activity.rabItemId ? 'border-[var(--dashboard-primary)]/30 bg-[var(--dashboard-primary)]/5' : 
+                                            activity.rabItemId ? 'border-emerald-200 bg-emerald-50/30' :
                                             contextStatus.rab === 'error' ? 'border-rose-200 bg-rose-50' : 'border-[var(--dashboard-border)]'
                                         }`}
                                     >
@@ -385,14 +388,32 @@ const CreateJurnalMingguanMandorPage = () => {
                                              contextStatus.rab === 'error' ? '-- Gagal memuat konteks RAB --' :
                                              '-- Pilih Item RAB dari Rencana --'}
                                         </option>
-                                        {/* Group by category if possible or just show with category prefix */}
-                                        {rabItems.map(item => (
-                                            <option key={item.id} value={item.id}>
-                                                [{item.categoryCode}] {item.description} — {item.volume} {item.unit}
-                                            </option>
+                                        {/* Group by category */}
+                                        {Object.values(rabItems.reduce((acc, item) => {
+                                            const catName = item.categoryName || 'Lainnya';
+                                            if (!acc[catName]) acc[catName] = { name: catName, code: item.categoryCode, items: [] };
+                                            acc[catName].items.push(item);
+                                            return acc;
+                                        }, {})).map(group => (
+                                            <optgroup key={group.name} label={`${group.code ? `[${group.code}] ` : ''}${group.name}`}>
+                                                {group.items.map(item => (
+                                                    <option key={item.id} value={item.id}>
+                                                        {item.description} — {item.volume} {item.unit}
+                                                    </option>
+                                                ))}
+                                            </optgroup>
                                         ))}
                                     </select>
-                                    <p className="text-[8px] text-[var(--dashboard-primary)] font-bold italic">* Memilih RAB akan mengotomatisasi judul dan deskripsi.</p>
+                                    {!activity.rabItemId && (
+                                        <p className="text-[8px] text-amber-600 font-bold italic">
+                                            * Aktivitas tanpa item RAB mungkin tidak muncul di filter detail konsumen.
+                                        </p>
+                                    )}
+                                    {activity.rabItemId && (
+                                        <p className="text-[8px] text-emerald-600 font-bold italic">
+                                            * Terhubung ke RAB: Auto-fill aktif.
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div className="space-y-2">

@@ -414,18 +414,29 @@ const CreateLaporanMingguanPengawasPage = () => {
                                                         </select>
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] ml-1">Link Item RAB (Thread)</label>
-                                                        <select 
-                                                            value={note.rabItemId || ""}
-                                                            onChange={(e) => handleNoteChange(idx, 'rabItemId', e.target.value)}
-                                                            className={`w-full bg-white border rounded-lg px-2 py-1 text-[11px] font-bold outline-none ${note.rabItemId ? 'border-indigo-200 bg-indigo-50' : 'border-slate-200'}`}
-                                                        >
-                                                            <option value="">- Pilih Item (Untuk Thread) -</option>
-                                                            {contextData.rabItems?.map(item => (
-                                                                <option key={item.id} value={item.id}>[{item.categoryCode}] {item.description}</option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
+                                                         <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)] ml-1">Link Item RAB (Thread)</label>
+                                                         <select
+                                                             value={note.rabItemId || ""}
+                                                             onChange={(e) => handleNoteChange(idx, 'rabItemId', e.target.value)}
+                                                             className={`w-full bg-white border rounded-lg px-2 py-1 text-[11px] font-bold outline-none ${note.rabItemId ? 'border-indigo-200 bg-indigo-50' : 'border-slate-200'}`}
+                                                         >
+                                                             <option value="">- Pilih Item (Untuk Thread) -</option>
+                                                             {Object.values((contextData.rabItems || []).reduce((acc, item) => {
+                                                                 const catName = item.categoryName || 'Lainnya';
+                                                                 if (!acc[catName]) acc[catName] = { name: catName, code: item.categoryCode, items: [] };
+                                                                 acc[catName].items.push(item);
+                                                                 return acc;
+                                                             }, {})).map(group => (
+                                                                 <optgroup key={group.name} label={`${group.code ? `[${group.code}] ` : ''}${group.name}`}>
+                                                                     {group.items.map(item => (
+                                                                         <option key={item.id} value={item.id}>
+                                                                             {item.description}
+                                                                         </option>
+                                                                     ))}
+                                                                 </optgroup>
+                                                             ))}
+                                                         </select>
+                                                     </div>
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-2">
                                                     <div className="space-y-1">

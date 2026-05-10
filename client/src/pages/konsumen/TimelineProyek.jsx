@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
 import projectService from "../../services/projectService";
-import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight, FiLayers, FiBox, FiChevronDown, FiEye, FiLock } from "react-icons/fi";
+import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight, FiLayers, FiBox, FiChevronDown, FiEye, FiLock, FiCreditCard } from "react-icons/fi";
+import CustomerPaymentPlanView from "../../components/konsumen/CustomerPaymentPlanView";
 
 const TimelineProyek = () => {
   const location = useLocation();
@@ -15,6 +16,10 @@ const TimelineProyek = () => {
   const [rabData, setRabData] = useState(null);
   const [selectedRabId, setSelectedRabId] = useState(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activePhase, setActivePhase] = useState("construction");
 
   useEffect(() => {
     const fetchProjectDetail = async () => {
@@ -269,6 +274,14 @@ const TimelineProyek = () => {
           >
             <FiActivity size={16} /> Fase Konstruksi
           </button>
+          <button 
+            onClick={() => setActivePhase("payment")}
+            className={`flex-1 md:flex-none px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${
+              activePhase === "payment" ? "bg-teal-600 text-white shadow-lg shadow-teal-600/20" : "text-neutral-50 hover:bg-neutral-10"
+            }`}
+          >
+            <FiCreditCard size={16} /> Rencana Pembayaran
+          </button>
         </div>
       </div>
 
@@ -297,6 +310,10 @@ const TimelineProyek = () => {
               </Link>
             </div>
           </motion.div>
+        </div>
+      ) : activePhase === "payment" ? (
+        <div className="max-w-6xl mx-auto px-6 mt-8">
+            <CustomerPaymentPlanView projectId={projectId} />
         </div>
       ) : (
         <>

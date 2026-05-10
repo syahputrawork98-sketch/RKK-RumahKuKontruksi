@@ -33,6 +33,7 @@ import projectStageService from "../../services/projectStageService";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
 import AdminStageCommentModal from "../../components/admin/AdminStageCommentModal";
+import ProjectPaymentPlanTab from "../../components/admin/payment/ProjectPaymentPlanTab";
 
 const DetailProyekAdminPage = () => {
     const { projectId } = useParams();
@@ -205,6 +206,7 @@ const DetailProyekAdminPage = () => {
         { id: "tim", label: "Tim Project", icon: FiUsers },
         { id: "stages", label: "Stage / Jadwal", icon: FiLayers },
         { id: "rab", label: "RAB Ringkas", icon: FiFileText },
+        { id: "payment", label: "Pembayaran", icon: FiCreditCard },
         { id: "logistik", label: "Logistik", icon: FiPackage },
         { id: "readiness", label: "Readiness", icon: FiCheckCircle },
     ];
@@ -803,6 +805,15 @@ const DetailProyekAdminPage = () => {
                                     </div>
                                 )}
                             </div>
+                        )}
+
+                        {/* PAYMENT TAB */}
+                        {activeTab === "payment" && (
+                            <ProjectPaymentPlanTab 
+                                projectId={projectId} 
+                                actorRole="admin" 
+                                budgetTotal={project.budgetTotal} 
+                            />
                         )}
 
                         {/* READINESS TAB */}

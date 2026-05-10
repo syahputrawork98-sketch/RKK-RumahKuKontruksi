@@ -71,6 +71,7 @@ model Project {
   supervisorWeeklyReports   SupervisorWeeklyReport[]
   designRequests            DesignRequest[]
   stagePublicComments       ProjectStagePublicComment[]
+  customerPaymentPlan       CustomerPaymentPlan?
 
   @@map("projects")
 }
@@ -268,6 +269,7 @@ model RabCategory {
   project     Project   @relation(fields: [projectId], references: [id])
   rabPlan     RabPlan   @relation(fields: [rabPlanId], references: [id])
   items       RabItem[]
+  paymentMilestones CustomerPaymentMilestone[]
 
   @@map("rab_categories")
 }
@@ -834,5 +836,39 @@ model ProfileChangeRequest {
   updatedAt        DateTime  @updatedAt @map("updated_at")
 
   @@map("profile_change_requests")
+}
+
+model CustomerPaymentPlan {
+  id        String   @id @default(cuid())
+  projectId String   @unique @map("project_id")
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type      String   // PROGRESS_BASED, CATEGORY_BASED
+  status    String   @default("active") // active, completed, hold
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  milestones CustomerPaymentMilestone[]
+
+  @@map("customer_payment_plans")
+}
+
+model CustomerPaymentMilestone {
+  id            String               @id @default(cuid())
+  paymentPlanId String               @map("payment_plan_id")
+  plan          CustomerPaymentPlan  @relation(fields: [paymentPlanId], references: [id], onDelete: Cascade)
+  projectId     String               @map("project_id")
+  categoryId    String?              @map("category_id")
+  category      RabCategory?         @relation(fields: [categoryId], references: [id])
+  label         String
+  percentage    Float?               // For PROGRESS_BASED
+  amount        Decimal              @db.Decimal(15, 2)
+  status        String               @default("planned") // planned, due, paid_simulated, hold
+  dueOrder      Int                  @map("due_order")
+  note          String?
+  paidAt        DateTime?            @map("paid_at")
+  createdAt     DateTime             @default(now()) @map("created_at")
+  updatedAt     DateTime             @updatedAt @map("updated_at")
+
+  @@map("customer_payment_milestones")
 }
 

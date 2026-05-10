@@ -27,7 +27,7 @@ Status: **Database-Backed v1**
   - Laporan Mingguan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot `Project.verifiedProgress` saat laporan dibuat.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Dokumentasi: **Shell / Backend Pending**.
-  - Request material: **Local Stabilized / DB-Backed v1**.
+  - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Pengawas review kebutuhan material dan kesesuaian lapangan pada project aktif/`Berjalan`; approval tetap menjaga quantity check terhadap remaining RAB dan tidak mengubah Progress SOT.
   - Sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 2. Mandor / Foreman
@@ -43,7 +43,7 @@ Status: **Database-Backed v1**
   - Jurnal Mingguan: **Local E2E Workflow v1 / UI Consistency Stabilized**. Mandor membuat Weekly Journal dan mengisi `WeeklyJournal.claimedProgress` sebagai klaim non-resmi yang tidak mengubah `Project.verifiedProgress`. Aktivitas jurnal dapat mereferensikan `projectStageId` dan `rabItemId` secara opsional untuk konteks kerja lokal.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
-  - Request material: **Local Stabilized / DB-Backed v1**.
+  - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Mandor memilih project aktif/`Berjalan`, memilih stage, dapat memilih `RabItem` sebagai baseline material, melihat total RAB qty/approved qty/remaining qty, atau membuat manual/outside-RAB request dengan note/alasan wajib.
   - Sertifikasi production, upload sertifikat, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 3. Arsitek / Architect
@@ -76,7 +76,7 @@ Status: **Database-Backed v2**
 - **Operational Data**: 
   - Laporan Progress Terverifikasi, Review Laporan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. Admin review/publish Weekly Report sebagai administrasi/publikasi ringkasan; bukan verifikator progress fisik resmi dan bukan pengganti Progress SOT.
   - Pembayaran: **Shell / Backend Pending**.
-  - Request Material: **Local Stabilized / DB-Backed v1**.
+  - Request Material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Admin menjalankan approval/status distribusi lokal setelah review Pengawas; tidak ada inventory production, supplier marketplace, purchase order production, invoice/payment/escrow, atau procurement production.
 
 ---
 
@@ -88,8 +88,9 @@ Status: **Partial / DB-Backed Local CRUD**
 - **Dashboard & Master Data**: Dashboard memakai global stats lokal, latest projects, dan data Superadmin; halaman data Admin, Superadmin, Konsumen, Pengawas, Mandor, dan Arsitek memakai service API lokal.
 - **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global, Proyek Aktif Global, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Weekly Report Monitoring**: Audit Laporan Pengawas membaca Supervisor Weekly Report lokal secara read-only; Superadmin tidak review, publish, atau mengubah progress resmi.
+- **Material Request Monitoring**: Material Request from RAB Usage berstatus **Local Workflow v1 / Stabilized** untuk read-only monitoring lintas proyek; Superadmin tidak review, approval, distribusi, confirm received, atau mengubah progress resmi.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
-- **Hold / Placeholder**: Kapasitas admin, payment global, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
+- **Hold / Placeholder**: Kapasitas admin, payment global, invoice/payment/escrow, supplier marketplace, purchase order production, inventory production, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
 - **Auth Boundary**: Ini bukan auth production. Dev persona tetap digunakan; tidak ada JWT/session/password/RBAC production.
 
 ### 6. Konsumen

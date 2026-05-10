@@ -233,7 +233,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Bukan workflow legal, payment, upload production, notification production API, auth production, atau RBAC production.
 - **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
 
-## Material Requests (Local E2E Workflow v1 / UI Consistency Stabilized)
+## Material Requests (Local Workflow v1 / Stabilized)
 - `GET /material-requests`: Ambil semua pengajuan material.
 - `GET /material-requests?projectId=:projectId`: List pengajuan per proyek.
 - `GET /material-requests?foremanId=:foremanId`: List pengajuan per Mandor.
@@ -247,10 +247,15 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 
 **Catatan**: 
 - Endpoint sudah tersedia dengan model Prisma `MaterialRequest` dan `MaterialRequestItem`.
-- Flow lokal: Mandor create/submit, Pengawas review/verifikasi, Admin approval/status distribusi lokal, Mandor confirm received, Superadmin read-only monitoring.
-- Status approval, delivery, receipt, dan completion sudah distabilkan untuk local CRUD integration.
-- Bukan production procurement, warehouse/inventory, supplier comparison, payment/invoice/escrow, atau RBAC/auth production.
-- **Status**: *Local E2E Workflow v1 / UI Consistency Stabilized*.
+- Material Request from RAB Usage adalah workflow lokal: Mandor memilih project aktif/`Berjalan`, memilih stage project, dan dapat memilih `RabItem` sebagai baseline material.
+- Sistem menampilkan total RAB qty, approved qty, dan remaining qty untuk konteks pemakaian material berbasis RAB lokal.
+- Manual/outside-RAB request tetap boleh dibuat tanpa `RabItem`, tetapi wajib punya note/alasan.
+- Flow lokal: Mandor create/submit, Pengawas review kebutuhan dan kesesuaian lapangan, Admin approval/status distribusi lokal, Mandor confirm received, Superadmin read-only monitoring.
+- Backend memvalidasi project harus aktif/`Berjalan`, `foremanId` harus assigned ke project, `supervisorId` harus sesuai project, `stageId` harus milik project, `rabItemId` harus milik project, dan manual request tanpa `RabItem` wajib memiliki note/alasan.
+- Approval tetap menjaga quantity check terhadap remaining RAB agar approved qty tidak melewati sisa baseline lokal.
+- Tidak ada inventory production, supplier marketplace, purchase order production, invoice/payment/escrow, procurement production, atau RBAC/auth production.
+- Tidak ada perubahan Progress SOT dan tidak ada update otomatis ke `Project.verifiedProgress`, `ProjectStage.progress`, atau `RabItem.progress`.
+- **Status**: *Material Request from RAB Usage = Local Workflow v1 / Stabilized*.
 
 ## Project Stage Public Comments (Implemented Local Backend v1 / Functional v1)
 - `GET /project-stage-comments/stage/:stageId`: Ambil update publik/thread komentar per stage.
@@ -283,4 +288,4 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No JWT/Token**: Request tidak memerlukan header Authorization.
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
-- **Local Stabilized Status**: Material Request, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup procurement production, warehouse, payment, legal upload, notification API, auth production, atau RBAC production.
+- **Local Stabilized Status**: Material Request from RAB Usage, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration, tetapi belum mencakup procurement production, inventory/warehouse production, supplier marketplace, purchase order production, payment/invoice/escrow, legal upload, notification API, auth production, atau RBAC production.

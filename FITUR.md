@@ -27,7 +27,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Direktori Persona Lokal**: Manajemen entitas simulasi (CRUD user lokal).
 - ✅ **Global Monitoring Summary**: Oversight progres proyek secara global (Read-only).
 - ✅ **Local Persona Governance**: Disclaimer simulasi dan batasan akun lokal.
-- 🕒 **Pusat Audit & Approval Lokal**: Monitoring aktivitas penting (Planned).
+- 🛑 **Pusat Audit & Approval Lokal**: Hold / Preparation Only (Audit Log & Profile Approval belum aktif).
 
 ### 👔 Admin
 - ✅ **Project Activation**: Gatekeeper untuk mengaktifkan proyek dari draft ke berjalan.
@@ -41,7 +41,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Review Jurnal Mandor**: Validasi aktivitas lapangan secara administratif.
 - ✅ **Weekly Report**: Pembuatan laporan mingguan dengan snapshot progres resmi.
 - ✅ **Stage Completion**: Menandai kategori pekerjaan (Stage) yang telah selesai.
-- 🏗️ **Work Item Review**: Thread diskusi kualitas per item pekerjaan.
+- ✅ **Work Item Review**: Thread diskusi kualitas per item pekerjaan (Stabilized).
+- 🏗️ **Visibility Preparation**: Label customer-visible vs internal-only (Local Hold).
 
 ### 👷 Mandor (Foreman)
 - ✅ **Jurnal Mingguan**: Pelaporan aktivitas harian dan klaim progres lapangan.
@@ -51,8 +52,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 
 ### 🏠 Konsumen (Customer)
 - ✅ **Design Request**: Pengajuan permintaan desain baru.
-- ✅ **Project Transparency**: Pantauan progres resmi dan timeline konstruksi.
-- ✅ **Evidence Thread**: Melihat bukti foto/catatan kerja per item pekerjaan.
+- ✅ **Evidence Thread**: Melihat bukti foto/catatan kerja per item pekerjaan (Role-colored).
+- ✅ **Project Transparency**: Pantauan progres resmi (SOT) dan timeline konstruksi.
 - ✅ **Design vs Construction Phase**: Pemisahan visual alur desain dan pembangunan.
 - ✅ **Project History**: Akses data proyek yang sudah selesai.
 
@@ -60,7 +61,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Design Collaboration Timeline**: Alur diskusi desain dengan label peran.
 - ✅ **Revision Limits**: Pembatasan revisi Major (3x) dan Minor (5x) secara sistematis.
 - ✅ **Arsitek Workspace**: Dashboard khusus untuk memantau status tender dan desain aktif.
-- 🏗️ **Design Tender/Bid**: Alur bidding untuk mendapatkan proyek desain.
+- ✅ **Design Tender/Bid**: Alur bidding/bidding simulation polished (Local Simulation).
 
 ---
 

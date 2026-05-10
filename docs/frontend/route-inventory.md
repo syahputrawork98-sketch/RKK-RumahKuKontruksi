@@ -130,7 +130,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Monitoring Material | `/superadmin/monitoring/material` | DB-Backed Read-Only | Audit Material Request global via backend lokal. |
 | Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Read-only monitoring Weekly Report Pengawas via backend lokal; Superadmin tidak review/publish atau mengubah progress resmi. |
 | Eskalasi | `/superadmin/eskalasi` | Hold State | Koreksi data/escalation workflow production masih Hold. |
-| Audit & Approval | `/superadmin/log-aktivitas` | Hold State | Pusat Audit & Approval Lokal (Planned/Placeholder). |
+| Audit & Approval | `/superadmin/log-aktivitas` | Hold State / Preparation | Pusat Audit & Approval Lokal (Planned/Placeholder). Action buttons disabled. |
 | Pengaturan Sistem | `/superadmin/pengaturan` | Hold State | Settings/system configuration production masih Hold. |
 
 ## 7. Konsumen Routes

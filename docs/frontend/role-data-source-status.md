@@ -30,7 +30,8 @@ Status: **Database-Backed v1**
   - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai termasuk project `Selesai`, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Dokumentasi: **Shell / Backend Pending**.
-  - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Pengawas review kebutuhan material dan kesesuaian lapangan pada project aktif/`Berjalan`; approval tetap menjaga quantity check terhadap remaining RAB dan tidak mengubah Progress SOT.
+  - request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Pengawas review kebutuhan material dan kesesuaian lapangan pada project aktif/`Berjalan`; approval tetap menjaga quantity check terhadap remaining RAB dan tidak mengubah Progress SOT.
+  - Visibility Preparation: Label `Visibility: Customer-Visible Preparation` ditambahkan pada jurnal/tahapan sebagai rencana kontrol di masa depan.
   - Sertifikasi resmi/legal, upload dokumen production, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 2. Mandor / Foreman
@@ -60,7 +61,7 @@ Status: **Database-Backed v2 / Local E2E Workflow v1**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
-- Design Workflow: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal, submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost.
+- Design Workflow: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal (local simulation), submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost. Action guards diperjelas sebagai simulasi lokal.
 - **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Arsitek memiliki workspace khusus dengan visual tracker revisi major/minor, role-colored update thread, dan status "Hold" jika limit (3 major / 5 minor) tercapai.
 - **Hold / Placeholder**: Tahapan desain detail, file upload production, final approved package, dan evaluasi teknis masih Planned/Placeholder.
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
@@ -83,6 +84,7 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
 - **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
 - **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Admin dapat memantau laporan Mandor per `RabItem`, memberikan review/note dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin), dan mengontrol visibility (customer-visible/internal-only) pada timeline proyek.
 - **Design Collaboration & Revision Governance v2**: **Local Workflow v2 / Stabilized**. Admin mengelola flow kolaborasi desain, memantau batas revisi (3 major / 5 minor), dan memiliki oversight dashboard dengan revision tracker yang terpolesi.
+- **Visibility Preparation**: Admin memiliki label `Visibility: Customer-Visible Preparation` pada UI operasional untuk menandakan area kontrol visibilitas di masa depan.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Profile Team Data**: Mandor/Pengawas Certificate & Work Experience: **Local CRUD v1 / Stabilized** untuk data lokal/manual Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, rating/scoring, atau reputation marketplace.
 - **Operational Data**: 
@@ -102,7 +104,7 @@ Status: **Database-Backed Local CRUD / Monitoring Polish Stabilized**
 - **Governance Layer (v2 Stabilized)**:
     - **GovernanceNotice**: Pesan peringatan standar pada profil/pengaturan mengenai batasan "Local CRUD".
     - **Safe Action Terminology**: Menggunakan "Persona Lokal" untuk membedakan simulasi dari user production.
-    - **Audit & Approval (Hold)**: Halaman "Audit & Approval Lokal" aktif sebagai placeholder/planned workflow.
+    - **Audit & Approval (Hold)**: Halaman "Audit & Approval Lokal" aktif sebagai **Placeholder / Local Hold**. Action buttons (Export, dll) dinonaktifkan.
 - **Read-Only Monitoring**: Data Pengajuan Desain membaca Design Request/Tender lokal secara global; Monitoring Proyek Global (Simulasi), Proyek Aktif Global, stage completion lokal, dan Laporan Progres Global membaca Project API untuk audit status lintas proyek termasuk `verifiedProgress`.
 - **Operational Boundary**: Superadmin tidak menjadi operator workflow Admin/Pengawas. Aksi assign architect, publish tender, award bid, convert-to-project, dan aktivasi proyek tetap milik flow Admin; update progress resmi tetap milik Progress SOT Pengawas assigned.
 - **Hold / Placeholder**: Kapasitas admin, payment global, invoice/payment/escrow, supplier marketplace, purchase order production, inventory production, eskalasi, audit lanjutan, pengaturan sistem, dan production RBAC masih **Partial / Shell / Hold**.
@@ -113,7 +115,8 @@ Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
 - **Dashboard & Project Overview**: **Local Transparency UX Polish / Stabilized**. Dashboard dan Monitoring Proyek menampilkan label "Progress Resmi (Verified Pengawas)" dan status operasional yang akurat.
 - **Phase Separation**: **Local Transparency UX Polish / Stabilized**. Timeline desain (kolaborasi/revisi) dan timeline konstruksi (lapangan) dipisahkan secara visual melalui Phase Selector.
-- **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas, Netral=Admin) dan status transparansi pekerjaan yang lebih stabil.
+- **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas, Netral=Admin). Label "Progress Resmi (Verified Pengawas)" dipertegas.
+- **Visibility Preparation (Hold)**: Penambahan disclaimer bahwa visibilitas item tertentu sedang dalam tahap persiapan dan belum dikontrol secara dinamis oleh Admin.
 - **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) dengan tampilan timeline yang lebih bersih dan informatif.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Customer API (`GET /api/customers/:id`, `PATCH /api/customers/:id`) dan seed persona `customer-001` sampai `customer-003` sudah dipakai untuk view/update profil dev persona.

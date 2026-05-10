@@ -42,7 +42,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Gunakan `verifiedProgress` sebagai sumber progress resmi untuk tampilan Konsumen.
 - `Project.verifiedProgress` adalah Source of Truth (Progress Resmi); `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi.
 - Timeline Konsumen menampilkan label "Progress Resmi (Verified Pengawas)" untuk transparansi kualitas fisik.
-- **Work Item Evidence**: Konsumen melihat bukti pekerjaan nyata per `RabItem` dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin) dan visibility control (customer-visible).
+- **Work Item Evidence**: Konsumen melihat bukti pekerjaan nyata per `RabItem` dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin). Status visibilitas `customer-visible` dipersiapkan sebagai label UI (Preparation), namun kontrol backend formal (backend-enforced visibility) berstatus **Hold/Planned**.
 - Fase Desain dan Fase Konstruksi dipisahkan secara visual; progress resmi hanya berlaku untuk fase konstruksi lapangan.
 - Seed lokal menyediakan `customer-002` dengan project aktif `project-active-001`, stage aktif, verified progress, dan public timeline comments.
 
@@ -200,7 +200,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - **Direktori Persona Lokal**: Superadmin mengelola seluruh entitas/persona role melalui API lokal. Terminologi "Direktori Persona" dan "Persona Lokal" wajib digunakan.
 - **Form Disclaimer**: Setiap aksi CRUD persona menyertakan disclaimer bahwa sistem ini tidak menggunakan production auth (password/JWT).
 - **Monitoring (Simulasi)**: Dashboard global stats, master data, monitoring proyek global, dan audit pengajuan desain menggunakan data rill dari database `localhost` dengan wording simulasi/lokal.
-- **Hold**: Audit Log otomatis (Placeholder: Pusat Audit & Approval Lokal), kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold.
+- **Hold**: Audit Log otomatis (Placeholder: Pusat Audit & Approval Lokal), Profile Change Approval, kapasitas admin rill, eskalasi sistem, dan payment gateway tetap berstatus Hold. Action buttons pada UI Audit dinonaktifkan.
 
 ## Design Requests (Local Demo Completion / Local E2E Workflow v1)
 - `GET /design-requests`: Ambil list Design Request lokal; dukung filter `customerId`, `architectId`, dan `status`.
@@ -344,6 +344,5 @@ Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/F
 - **GovernanceNotice API Integration**: Halaman pengaturan profil ditarik dari API persona masing-masing dan dilengkapi komponen `GovernanceNotice`.
 - **Photo Upload (Hold)**: UI menampilkan alert "Fitur Hold" pada tombol ubah foto untuk memperjelas batasan fase Local CRUD.
 - **Local Sync Confirm**: Dialog hapus (API DELETE) menyertakan informasi bahwa data dihapus dari database `localhost`.
-
-### 3. Change Tracking (Hold)
-- Mekanisme **Profile Change Request** formal dan **Audit/Change Log** otomatis tetap berstatus "Future Sprint / Hold".
+- **Visibility Control (Hold/Preparation)**: Visibility toggles pada UI Admin/Pengawas saat ini berfungsi sebagai label persiapan (UI-only). Backend enforcement untuk menyembunyikan item secara dinamis dari Konsumen masih Planned.
+- **Profile Change Request (Hold)**: Mekanisme **Profile Change Request** formal dan **Audit/Change Log** otomatis tetap berstatus "Future Sprint / Hold". UI Pusat Audit hanya sebagai placeholder.

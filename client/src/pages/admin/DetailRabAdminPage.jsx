@@ -2,25 +2,22 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
     FiArrowLeft,
-    FiPrinter, 
-    FiPlus, 
-    FiEdit2, 
-    FiTrash2, 
     FiAlertCircle, 
-    FiCheckCircle, 
-    FiChevronDown, 
-    FiChevronUp,
     FiFileText,
-    FiPackage,
-    FiTag,
-    FiX,
-    FiSave,
     FiInfo
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import rabService from "../../services/rabService";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
+
+// Modular Components
+import RabSummarySidebar from "../../components/admin/rab/RabSummarySidebar";
+import RabCategorySection from "../../components/admin/rab/RabCategorySection";
+import RabPlanModal from "../../components/admin/rab/RabPlanModal";
+import RabCategoryModal from "../../components/admin/rab/RabCategoryModal";
+import RabItemModal from "../../components/admin/rab/RabItemModal";
+import ConfirmActionModal from "../../components/admin/rab/ConfirmActionModal";
 
 const DetailRabAdminPage = () => {
     const { projectId } = useParams();
@@ -32,7 +29,6 @@ const DetailRabAdminPage = () => {
     const [error, setError] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [formError, setFormError] = useState(null);
-    const [activeCategory, setActiveCategory] = useState(null);
     const [showPlanModal, setShowPlanModal] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showItemModal, setShowItemModal] = useState(false);
@@ -74,14 +70,6 @@ const DetailRabAdminPage = () => {
             fetchData();
         }
     }, [fetchData, projectId, selectedAdminId]);
-
-    const formatCurrency = (val) => {
-        return new Intl.NumberFormat("id-ID", {
-            style: "currency",
-            currency: "IDR",
-            maximumFractionDigits: 0
-        }).format(val || 0);
-    };
 
     // HANDLERS
     const handleCreatePlan = async (e) => {
@@ -293,340 +281,103 @@ const DetailRabAdminPage = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    {/* SUMMARY SIDEBAR */}
-                    <div className="space-y-6 lg:col-span-1">
-                        <div className="dashboard-card bg-emerald-600 text-white relative overflow-hidden">
-                            <div className="relative z-10">
-                                <p className="text-[10px] font-black uppercase tracking-widest opacity-70">Total Anggaran (RAB)</p>
-                                <h3 className="text-2xl font-black mt-2">{formatCurrency(rabPlan.totalAmount)}</h3>
-                                <div className="mt-6 pt-6 border-t border-white/20 space-y-4">
-                                    <div className="flex justify-between items-center text-[10px] font-bold">
-                                        <span className="opacity-70 uppercase tracking-tighter">Budget Proyek</span>
-                                        <span>{formatCurrency(project.budgetTotal)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-[10px] font-bold">
-                                        <span className="opacity-70 uppercase tracking-tighter">Jumlah Kategori</span>
-                                        <span>{rabPlan.categories?.length || 0}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-[10px] font-bold">
-                                        <span className="opacity-70 uppercase tracking-tighter">Status</span>
-                                        <span className="bg-white/20 px-2 py-0.5 rounded-lg uppercase tracking-widest">{rabPlan.status}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <FiFileText className="absolute -right-6 -bottom-6 w-32 h-32 opacity-10 rotate-12" />
-                        </div>
+                    <RabSummarySidebar 
+                        rabPlan={rabPlan}
+                        project={project}
+                        onAddCategory={() => {
+                            setFormError(null);
+                            setIsEditing(false);
+                            setCategoryForm({ code: "", name: "", description: "", order: (rabPlan.categories?.length || 0) + 1 });
+                            setShowCategoryModal(true);
+                        }}
+                        onRefresh={fetchData}
+                    />
 
-                        <div className="dashboard-card">
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Aksi RAB</h3>
-                            <div className="space-y-3">
-                                <button 
-                                    onClick={() => {
-                                        setFormError(null);
-                                        setIsEditing(false);
-                                        setCategoryForm({ code: "", name: "", description: "", order: (rabPlan.categories?.length || 0) + 1 });
-                                        setShowCategoryModal(true);
-                                    }}
-                                    className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--dashboard-primary)] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] active:scale-95 transition-all"
-                                >
-                                    <FiPlus /> Tambah Kategori
-                                </button>
-                                <button 
-                                    onClick={() => fetchData()}
-                                    className="w-full flex items-center justify-center gap-2 py-3 bg-white text-[var(--dashboard-text-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-surface-soft)] transition-all shadow-sm"
-                                >
-                                    Refresh Data
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-3xl">
-                            <h4 className="text-[10px] font-black text-indigo-700 uppercase mb-2 flex items-center gap-2"><FiInfo /> Baseline Perencanaan</h4>
-                            <p className="text-[10px] text-indigo-600 leading-relaxed font-bold">
-                                Total RAB menyinkronkan budget proyek lokal sebagai baseline perencanaan draft untuk menjaga akurasi estimasi.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* MAIN RAB EDITOR */}
                     <div className="lg:col-span-3 space-y-6">
-                        {rabPlan.categories?.length > 0 ? (
-                            <div className="space-y-6">
-                                {rabPlan.categories.map((cat) => (
-                                    <div key={cat.id} className="dashboard-card p-0 overflow-hidden border-[var(--dashboard-border)] shadow-sm">
-                                        <div className="p-6 bg-[var(--dashboard-surface-soft)] border-b border-[var(--dashboard-border)] flex items-center justify-between">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl bg-white border border-[var(--dashboard-border)] flex items-center justify-center text-[var(--dashboard-primary)] font-black text-xs shadow-sm">
-                                                    {cat.code}
-                                                </div>
-                                                <div>
-                                                    <h4 className="text-sm font-black uppercase tracking-tight">{cat.name}</h4>
-                                                    <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">{formatCurrency(cat.subtotal)}</p>
-                                                </div>
-                                            </div>
-                                             <div className="flex items-center gap-2">
-                                                <button 
-                                                    onClick={() => {
-                                                        setFormError(null);
-                                                        setIsEditing(true);
-                                                        setEditId(cat.id);
-                                                        setCategoryForm({ code: cat.code, name: cat.name, description: cat.description || "", order: cat.order });
-                                                        setShowCategoryModal(true);
-                                                    }}
-                                                    className="p-2 hover:bg-white rounded-xl text-slate-400 hover:text-blue-600 transition-all shadow-sm border border-transparent hover:border-blue-100"
-                                                >
-                                                    <FiEdit2 size={14} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => handleDeleteCategory(cat.id)}
-                                                    className="p-2 hover:bg-white rounded-xl text-slate-400 hover:text-red-600 transition-all shadow-sm border border-transparent hover:border-red-100"
-                                                >
-                                                    <FiTrash2 size={14} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => {
-                                                        setFormError(null);
-                                                        setIsEditing(false);
-                                                        setItemForm({ description: "", volume: 1, unit: "m2", unitPrice: 0, location: "", notes: "", categoryId: cat.id });
-                                                        setShowItemModal(true);
-                                                    }}
-                                                    className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[var(--dashboard-border)] rounded-xl text-[8px] font-black uppercase tracking-widest text-[var(--dashboard-primary)] hover:bg-[var(--dashboard-primary)] hover:text-white transition-all shadow-sm"
-                                                >
-                                                    <FiPlus /> Item
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full text-left">
-                                                <thead>
-                                                    <tr className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] bg-slate-50/50">
-                                                        <th className="py-3 px-6">Item Pekerjaan</th>
-                                                        <th className="py-3 px-2 text-center">Vol</th>
-                                                        <th className="py-3 px-2 text-center">Sat</th>
-                                                        <th className="py-3 px-6 text-right">Harga Satuan</th>
-                                                        <th className="py-3 px-6 text-right">Subtotal</th>
-                                                        <th className="py-3 px-6 text-right">Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {cat.items?.map((item) => (
-                                                        <tr key={item.id} className="border-b border-[var(--dashboard-border)] hover:bg-[var(--dashboard-surface-soft)]/30 transition-all group">
-                                                            <td className="py-4 px-6 text-xs font-bold leading-relaxed text-slate-800">{item.description}</td>
-                                                            <td className="py-4 px-2 text-xs text-center font-black text-slate-800">{parseFloat(item.volume)}</td>
-                                                            <td className="py-4 px-2 text-xs text-center uppercase font-bold text-[var(--dashboard-text-soft)]">{item.unit}</td>
-                                                            <td className="py-4 px-6 text-xs text-right font-medium text-slate-800">{formatCurrency(item.unitPrice)}</td>
-                                                            <td className="py-4 px-6 text-xs text-right font-black text-emerald-700">{formatCurrency(item.total)}</td>
-                                                             <td className="py-4 px-6 text-right">
-                                                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                    <button 
-                                                                        onClick={() => {
-                                                                            setFormError(null);
-                                                                            setIsEditing(true);
-                                                                            setEditId(item.id);
-                                                                            setItemForm({ 
-                                                                                description: item.description, 
-                                                                                volume: parseFloat(item.volume), 
-                                                                                unit: item.unit, 
-                                                                                unitPrice: parseFloat(item.unitPrice), 
-                                                                                location: item.location || "", 
-                                                                                notes: item.notes || "", 
-                                                                                categoryId: cat.id 
-                                                                            });
-                                                                            setShowItemModal(true);
-                                                                        }}
-                                                                        className="p-1.5 hover:bg-white rounded-lg text-slate-400 hover:text-blue-600 transition-all border border-transparent hover:border-blue-100"
-                                                                    >
-                                                                        <FiEdit2 size={12} />
-                                                                    </button>
-                                                                    <button 
-                                                                        onClick={() => handleDeleteItem(item.id)}
-                                                                        className="p-1.5 hover:bg-white rounded-lg text-slate-400 hover:text-red-600 transition-all border border-transparent hover:border-red-100"
-                                                                    >
-                                                                        <FiTrash2 size={12} />
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                    {(!cat.items || cat.items.length === 0) && (
-                                                        <tr>
-                                                            <td colSpan="6" className="py-8 text-center text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest italic">Belum ada item di kategori ini.</td>
-                                                        </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                             <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[2.5rem] border border-[var(--dashboard-border)] shadow-sm">
-                                 <FiTag size={48} className="text-[var(--dashboard-text-soft)] opacity-20 mb-4" />
-                                 <p className="text-sm font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest">Daftar kategori kosong</p>
-                                 <button 
-                                     onClick={() => {
-                                         setFormError(null);
-                                         setIsEditing(false);
-                                         setCategoryForm({ code: "01", name: "", description: "", order: 1 });
-                                         setShowCategoryModal(true);
-                                     }}
-                                     className="mt-4 px-6 py-3 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-primary)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[var(--dashboard-border)] transition-all"
-                                 >
-                                     Tambah Kategori Pertama
-                                 </button>
-                             </div>
-                        )}
+                        <RabCategorySection 
+                            categories={rabPlan.categories}
+                            onEditCategory={(cat) => {
+                                setFormError(null);
+                                setIsEditing(true);
+                                setEditId(cat.id);
+                                setCategoryForm({ code: cat.code, name: cat.name, description: cat.description || "", order: cat.order });
+                                setShowCategoryModal(true);
+                            }}
+                            onDeleteCategory={handleDeleteCategory}
+                            onAddItem={(catId) => {
+                                setFormError(null);
+                                setIsEditing(false);
+                                setItemForm({ description: "", volume: 1, unit: "m2", unitPrice: 0, location: "", notes: "", categoryId: catId });
+                                setShowItemModal(true);
+                            }}
+                            onEditItem={(item, catId) => {
+                                setFormError(null);
+                                setIsEditing(true);
+                                setEditId(item.id);
+                                setItemForm({ 
+                                    description: item.description, 
+                                    volume: parseFloat(item.volume), 
+                                    unit: item.unit, 
+                                    unitPrice: parseFloat(item.unitPrice), 
+                                    location: item.location || "", 
+                                    notes: item.notes || "", 
+                                    categoryId: catId 
+                                });
+                                setShowItemModal(true);
+                            }}
+                            onDeleteItem={handleDeleteItem}
+                            onAddCategoryFirst={() => {
+                                setFormError(null);
+                                setIsEditing(false);
+                                setCategoryForm({ code: "01", name: "", description: "", order: 1 });
+                                setShowCategoryModal(true);
+                            }}
+                        />
                     </div>
                 </div>
             )}
-            {/* MODAL PLAN */}
-            {showPlanModal && (
-                <Modal title="Buat RAB Plan Baru" onClose={() => !submitting && setShowPlanModal(false)}>
-                    <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-2">
-                        <h4 className="text-[10px] font-black text-amber-700 uppercase tracking-widest flex items-center gap-2">
-                            <FiInfo /> Panduan Pengisian
-                        </h4>
-                        <ul className="text-[10px] text-amber-800 space-y-1 list-disc pl-4 font-bold leading-relaxed">
-                            <li>RAB Plan adalah basis data anggaran utama proyek.</li>
-                            <li>Judul minimal 5 karakter, Tipe (misal: Pembangunan/Renovasi).</li>
-                            <li>Data ini akan mensinkronkan budgetTotal proyek secara real-time.</li>
-                        </ul>
-                    </div>
-                    {formError && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-[10px] font-black text-red-600 uppercase flex items-center gap-2 animate-shake">
-                            <FiAlertCircle /> {formError}
-                        </div>
-                    )}
-                    <form onSubmit={handleCreatePlan} className="space-y-4">
-                        <Input 
-                            label="Judul RAB" 
-                            value={planForm.title} 
-                            onChange={e => setPlanForm({...planForm, title: e.target.value})} 
-                            placeholder={`Contoh: RAB Pembangunan - ${project?.name}`} 
-                            required 
-                            disabled={submitting}
-                        />
-                        <div className="grid grid-cols-2 gap-4">
-                            <Input label="Tipe" value={planForm.type} onChange={e => setPlanForm({...planForm, type: e.target.value})} placeholder="Pembangunan" required disabled={submitting} />
-                            <Input label="Versi" value={planForm.version} onChange={e => setPlanForm({...planForm, version: e.target.value})} placeholder="1.0" disabled={submitting} />
-                        </div>
-                        <TextArea label="Catatan (Opsional)" value={planForm.notes} onChange={e => setPlanForm({...planForm, notes: e.target.value})} placeholder="Tambahkan catatan jika diperlukan..." disabled={submitting} />
-                        <SubmitButton label={submitting ? "Memproses..." : "Buat Plan Sekarang"} disabled={submitting} />
-                    </form>
-                </Modal>
-            )}
 
-            {/* MODAL CATEGORY */}
-            {showCategoryModal && (
-                <Modal title={isEditing ? "Edit Kategori" : "Tambah Kategori"} onClose={() => !submitting && setShowCategoryModal(false)}>
-                    {formError && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-[10px] font-black text-red-600 uppercase flex items-center gap-2 animate-shake">
-                            <FiAlertCircle /> {formError}
-                        </div>
-                    )}
-                    <form onSubmit={handleSaveCategory} className="space-y-4">
-                        <div className="grid grid-cols-3 gap-4">
-                            <Input label="Kode" value={categoryForm.code} onChange={e => setCategoryForm({...categoryForm, code: e.target.value})} placeholder="01" required disabled={submitting} />
-                            <div className="col-span-2">
-                                <Input label="Nama Kategori" value={categoryForm.name} onChange={e => setCategoryForm({...categoryForm, name: e.target.value})} placeholder="Pekerjaan Persiapan" required disabled={submitting} />
-                            </div>
-                        </div>
-                        <TextArea label="Deskripsi (Opsional)" value={categoryForm.description} onChange={e => setCategoryForm({...categoryForm, description: e.target.value})} disabled={submitting} />
-                        <SubmitButton label={submitting ? "Menyimpan..." : (isEditing ? "Perbarui" : "Simpan Kategori")} disabled={submitting} />
-                    </form>
-                </Modal>
-            )}
+            <RabPlanModal 
+                isOpen={showPlanModal}
+                onClose={() => setShowPlanModal(false)}
+                planForm={planForm}
+                setPlanForm={setPlanForm}
+                onSubmit={handleCreatePlan}
+                submitting={submitting}
+                formError={formError}
+                projectName={project?.name}
+            />
 
-            {/* MODAL ITEM */}
-            {showItemModal && (
-                <Modal title={isEditing ? "Edit Item" : "Tambah Item Pekerjaan"} onClose={() => !submitting && setShowItemModal(false)}>
-                    {formError && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-[10px] font-black text-red-600 uppercase flex items-center gap-2 animate-shake">
-                            <FiAlertCircle /> {formError}
-                        </div>
-                    )}
-                    <form onSubmit={handleSaveItem} className="space-y-4">
-                        <Input label="Deskripsi Pekerjaan" value={itemForm.description} onChange={e => setItemForm({...itemForm, description: e.target.value})} placeholder="Pemasangan Bowplank" required disabled={submitting} />
-                        <div className="grid grid-cols-2 gap-4">
-                            <Input label="Volume" type="number" step="0.01" value={itemForm.volume} onChange={e => setItemForm({...itemForm, volume: e.target.value})} required disabled={submitting} />
-                            <Input label="Satuan" value={itemForm.unit} onChange={e => setItemForm({...itemForm, unit: e.target.value})} placeholder="m2" required disabled={submitting} />
-                        </div>
-                        <Input label="Lokasi Pekerjaan (Lantai/Ruang)" value={itemForm.location} onChange={e => setItemForm({...itemForm, location: e.target.value})} placeholder="Contoh: Lantai 1 / Kamar Utama" disabled={submitting} />
-                        <Input label="Harga Satuan (Rp)" type="number" value={itemForm.unitPrice} onChange={e => setItemForm({...itemForm, unitPrice: e.target.value})} required disabled={submitting} />
-                        <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex justify-between items-center">
-                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Estimasi Total</span>
-                            <span className="text-sm font-black text-emerald-700">{formatCurrency(itemForm.volume * itemForm.unitPrice)}</span>
-                        </div>
-                        <SubmitButton label={submitting ? "Menyimpan..." : (isEditing ? "Perbarui Item" : "Tambahkan Item")} disabled={submitting} />
-                    </form>
-                </Modal>
-            )}
+            <RabCategoryModal 
+                isOpen={showCategoryModal}
+                onClose={() => setShowCategoryModal(false)}
+                isEditing={isEditing}
+                categoryForm={categoryForm}
+                setCategoryForm={setCategoryForm}
+                onSubmit={handleSaveCategory}
+                submitting={submitting}
+                formError={formError}
+            />
 
-            {/* CONFIRMATION MODAL */}
-            {showConfirmModal.show && (
-                <Modal title={showConfirmModal.title} onClose={() => !submitting && setShowConfirmModal({ show: false })}>
-                    <div className="space-y-6">
-                        {formError && (
-                            <div className="p-3 bg-red-50 border border-red-100 rounded-xl text-[10px] font-black text-red-600 uppercase flex items-center gap-2 animate-shake">
-                                <FiAlertCircle /> {formError}
-                            </div>
-                        )}
-                        <p className="text-sm text-slate-600 font-medium leading-relaxed">{showConfirmModal.message}</p>
-                        <div className="flex gap-3">
-                            <button 
-                                onClick={() => setShowConfirmModal({ show: false })}
-                                disabled={submitting}
-                                className="flex-1 py-3 bg-slate-100 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all disabled:opacity-50"
-                            >
-                                Batal
-                            </button>
-                            <button 
-                                onClick={showConfirmModal.onConfirm}
-                                disabled={submitting}
-                                className="flex-1 py-3 bg-red-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-600/20 disabled:opacity-50"
-                            >
-                                {submitting ? "Memproses..." : "Ya, Lanjutkan"}
-                            </button>
-                        </div>
-                    </div>
-                </Modal>
-            )}
+            <RabItemModal 
+                isOpen={showItemModal}
+                onClose={() => setShowItemModal(false)}
+                isEditing={isEditing}
+                itemForm={itemForm}
+                setItemForm={setItemForm}
+                onSubmit={handleSaveItem}
+                submitting={submitting}
+                formError={formError}
+            />
+
+            <ConfirmActionModal 
+                {...showConfirmModal}
+                onClose={() => setShowConfirmModal({ show: false })}
+                submitting={submitting}
+                formError={formError}
+            />
         </div>
     );
 };
-
-// UI HELPERS
-const Modal = ({ title, children, onClose }) => (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-        <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--dashboard-border)]">
-            <div className="p-6 border-b border-[var(--dashboard-border)] flex justify-between items-center bg-[var(--dashboard-surface-soft)]">
-                <h3 className="font-black text-[10px] uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">{title}</h3>
-                <button onClick={onClose} className="p-2 hover:bg-white rounded-xl transition-all shadow-sm"><FiX /></button>
-            </div>
-            <div className="p-6">{children}</div>
-        </div>
-    </div>
-);
-
-const Input = ({ label, ...props }) => (
-    <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 px-1">{label}</label>
-        <input {...props} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold disabled:opacity-50" />
-    </div>
-);
-
-const TextArea = ({ label, ...props }) => (
-    <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 px-1">{label}</label>
-        <textarea {...props} rows="3" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 transition-all font-bold disabled:opacity-50" />
-    </div>
-);
-
-const SubmitButton = ({ label, ...props }) => (
-    <button type="submit" {...props} className="w-full py-4 bg-[var(--dashboard-primary)] text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-        <FiSave /> {label}
-    </button>
-);
 
 export default DetailRabAdminPage;

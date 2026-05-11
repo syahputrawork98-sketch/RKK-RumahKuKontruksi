@@ -9,7 +9,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - **Goal**: Menstabilkan alur kerja (workflow) operasional antar role menggunakan database rill.
 - **Auth**: Menggunakan **Dev Persona Switcher** (Bukan JWT/Session/Password).
 - **Security**: Tidak ada RBAC production; keamanan didasarkan pada pemilihan persona lokal.
-- **Production Scope**: Fitur Pembayaran (Payment Gateway), Legalitas (BAST/Kontrak Rill), dan Hosting/Deployment berstatus **Hold/Out of Scope**.
+- **Production Scope**: Fitur Pembayaran, BAST/Legal Helper, dan Cloud Upload sekarang **Allowed for phased implementation**. Production auth, JWT, session, password, register, dan full RBAC berstatus **Hold/Out of Scope**.
 
 ---
 
@@ -63,7 +63,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Stage Communication Viewer**: Melihat official update dan membalas thread (Local HTTP Thread).
 - ✅ **Local Approval Intent**: Memberikan sinyal persetujuan desain (Local-only / Non-legal).
 - ✅ **Project History**: Akses data proyek yang sudah selesai (Read-only).
-- 🛑 **Payment/Document Download**: Demo Only / Local Hold.
+- 🕒 **Payment/Document Download**: Planned for staged implementation.
 
 ### 🎨 Arsitek
 - ✅ **Design Collaboration Timeline**: Alur diskusi desain dengan label peran.
@@ -101,10 +101,9 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 ---
 
 ## 🛑 Hold / Out of Scope (Sengaja Ditunda)
-- **Production Auth**: Login rill, JWT, Reset Password, Session Management.
-- **Payment Gateway**: Integrasi bank, Escrow, dan otomatisasi invoice rill.
-- **Legal Flow**: Tanda tangan digital, BAST legal, dan kontrak hukum otomatis.
-- **Production Infrastructure**: Hosting, CDN, Cloud Storage, dan WebSocket/Chat rill.
+- **Production Auth**: Login/Register rill, JWT, Reset Password, Session Management, dan sistem password penuh.
+- **Full Production Security**: Full production RBAC, full user security model, dan deployment hardening.
+- *(Catatan: Invoice helper, BAST helper, payment record, gateway integration bertahap, file/cloud upload, dan in-app notification kini diizinkan masuk ke roadmap prioritas secara bertahap (Planned) sesuai definisi Batch 22B, dan dikeluarkan dari status Hold total).*
 
 ---
 *Dokumen ini diperbarui secara berkala sesuai dengan milestone pengembangan lokal. Arah fundamental Batch 4–6 tersedia di [RAB-Based Construction Workflow & Payment Model](docs/product/rab-based-construction-workflow.md).*

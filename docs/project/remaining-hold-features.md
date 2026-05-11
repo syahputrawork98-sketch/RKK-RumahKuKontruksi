@@ -7,10 +7,10 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | :--- | :--- | :--- | :--- |
 | **Security/Auth** | `admin_gap_analysis.md` | Hold | Tunda (Fase 5+) |
 | **Cetak RAB (PDF/Print)** | `DetailRabAdminPage.jsx` | Belum Tersedia | Tunda |
-| **Financial Stats** | `DashboardAdmin.jsx` | Placeholder / 0 | Tunda (Butuh logic payment) |
+| **Financial Stats** | `DashboardAdmin.jsx` | Placeholder / 0 | Allowed for phased implementation |
 | **Audit Trail (Log)** | `LogAktivitasPage.jsx` | Hold | Tunda |
-| **Notifikasi Production API** | lintas role | Hold | Tunda; belum ada notification service production |
-| **Escrow Logic** | `design-tender-docs` | ❌ Not Implemented | Tunda (Scope Payment) |
+| **Notifikasi Production API** | lintas role | Planned | Planned for staged implementation (In-app first) |
+| **Escrow/Payment Logic** | `design-tender-docs` | ❌ Not Implemented | Planned for staged implementation |
 | **Project Planning Bridge** | `DesignRequestAdminPage.jsx` | ✅ Local Ready | Convert Request to Project sebagai action manual (Batch 16A/B) |
 | **Assignment Final Mandor/Pengawas** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Assignment rill ke entitas `Project.foremanId` / `Project.supervisorId` (Batch 17) |
 | **Project Activation Gate** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Aktivasi manual proyek Draft/Planning ke status Berjalan (Batch 18) |
@@ -18,7 +18,7 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 ## 2. Operasional Lapangan (Mandor & Pengawas)
 | Fitur | Lokasi | Status | Rekomendasi |
 | :--- | :--- | :--- | :--- |
-| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | Placeholder URL | Tunda (Gunakan string URL manual) |
+| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | Placeholder URL | Planned for staged implementation |
 | **Data Tim Harian** | `DetailProyekAktifMandorPage.jsx` | Belum ada di Schema | Tunda |
 | **Material Request Local Flow**| `material-requests.service.js` / MR pages | Stabil Lokal | Selesai untuk local CRUD; warehouse/inventory production tetap tunda |
 | **Report Review Impact** | `DetailLaporanMingguanPengawasAdminPage.jsx` | Stabil Lokal | Selesai untuk local CRUD; audit/publish polish lanjutan opsional |
@@ -28,7 +28,7 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | Fitur | Lokasi | Status | Rekomendasi |
 | :--- | :--- | :--- | :--- |
 | **Katalog Arsitek** | `DashboardArsitek.jsx` | Belum Tersedia | Tunda |
-| **Payment Progress** | `PembayaranAdminPage.jsx` | Placeholder | Tunda |
+| **Payment Progress** | `PembayaranAdminPage.jsx` | Placeholder | Planned for staged implementation |
 
 ## 4. Konsumen
 | Fitur | Lokasi | Status | Rekomendasi |
@@ -55,7 +55,7 @@ Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan 
 - **Judul**: Admin Dashboard Remaining Mock Cleanup
 - **Alasan**: Beberapa statistik/aktivitas admin masih berpotensi placeholder dan perlu diselaraskan dengan API lokal.
 - **Scope Aman**: UI dashboard dan service read-only.
-- **Risiko**: Rendah, selama tidak masuk payment/auth/production finance.
+- **Risiko**: Rendah (Fitur payment/finance kini allowed for phased roadmap, auth production tetap ditunda).
 
 ### Rekomendasi 3: Verified Progress Consistency Audit
 - **Judul**: Verified Progress Consistency Audit
@@ -72,4 +72,4 @@ Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan 
 ---
 
 **Konfirmasi Scope**: 
-Task ini hanya docs/status cleanup dan scan ringan fitur existing yang masih Hold/incomplete. Tidak ada implementasi fitur baru, schema change, auth production, payment, legal upload, production notification API, atau workflow production baru.
+Task ini hanya docs/status cleanup dan scan ringan fitur existing yang masih Hold/incomplete. Fitur payment, legal upload, dan notification API kini diizinkan masuk roadmap secara bertahap (Planned for staged implementation), namun auth production, session, dan full RBAC tetap ditunda (Hold).

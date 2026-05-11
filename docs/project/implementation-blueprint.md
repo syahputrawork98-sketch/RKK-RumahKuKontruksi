@@ -93,11 +93,16 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 - **Dev Sign-In & Persona Session**: Local development tool untuk memilih role/persona tanpa JWT.
 - Sinkronisasi Route Inventory dengan `App.jsx`.
 
-## Modul yang Masih Pending / Experimental
-- **Auth/JWT/RBAC**: Keamanan akses rill di sisi server.
-- **Operational Workflows**: Seluruh modul pelaporan dan verifikasi lapangan (Checklist status).
-- **Design Workflow**: Alur kerja arsitek (Permintaan desain & revisi).
-- **Notification System**: Penghubung antar peran saat terjadi aksi penting.
+## Modul yang Diizinkan Masuk Roadmap (Allowed for phased implementation)
+- **Payment & Finance**: Payment record, gateway preparation, invoice helper.
+- **Legal & Document**: BAST helper, legal document helper, document metadata, file/cloud upload.
+- **Notification System**: In-app notification, realtime notification bertahap.
+- **Operational Workflows**: Seluruh modul pelaporan dan verifikasi lapangan (Checklist status), field issue, daily task.
+- **Design Workflow**: Alur kerja arsitek (Permintaan desain & revisi, design file/package).
+
+## Modul yang Tetap Ditunda (Still Excluded Until Auth Phase)
+- **Auth/JWT/RBAC**: Login/Register rill, session, password system, full production RBAC, dan keamanan akses rill di sisi server.
+- **Security & Deployment**: Deployment hardening dan full security audit.
 
 ## Aturan Pengembangan
 - **Checklist as Guide**: Checklist backend/frontend adalah turunan implementasi, bukan pengganti alur bisnis di `docs/alur/`.

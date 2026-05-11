@@ -38,10 +38,10 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Penutupan Proyek | `/admin/proyek/penutupan` | Shell / Pending | Placeholder serah terima dan penutupan administrasi. |
 | List RAB | `/admin/rab` | Local CRUD v1 / Admin Builder Stabilized | Daftar proyek untuk RAB Builder lokal; RAB adalah baseline draft planning, bukan kontrak final. |
 | Detail RAB | `/admin/rab/:projectId` | Local CRUD v1 / Admin Builder Stabilized | CRUD lokal RAB Plan, kategori pekerjaan, dan item pekerjaan dengan guard delete untuk item/category yang sudah dipakai workflow lain. |
-| Gambar Kerja | `/admin/dokumen/gambar-kerja` | Shell / Pending | Placeholder arsip gambar kerja. |
-| Kontrak | `/admin/dokumen/kontrak` | Shell / Pending | Placeholder dokumen kontrak. |
-| Dokumen Final / BAST | `/admin/dokumen/final` | Shell / Pending | Placeholder dokumen legal akhir. |
-| Change Order | `/admin/dokumen/change-order` | Shell / Pending | Placeholder pencatatan perubahan pekerjaan. |
+| Gambar Kerja | `/admin/dokumen/gambar-kerja` | Planned | Placeholder arsip gambar kerja. |
+| Kontrak | `/admin/dokumen/kontrak` | Planned | Placeholder dokumen kontrak. |
+| Dokumen Final / BAST | `/admin/dokumen/final` | Planned | Placeholder dokumen legal akhir. |
+| Change Order | `/admin/dokumen/change-order` | Planned | Placeholder pencatatan perubahan pekerjaan. |
 | Penugasan Tim | `/admin/penugasan-tim` | DB-Backed v1 | Assign Pengawas/Mandor. |
 | Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring history progress resmi (SOT) dan publish ringkasan; Admin bukan verifikator progress fisik. |
 | Jurnal Mandor Approved | `/admin/monitoring/jurnal-mandor` | Shell / Pending | Placeholder monitoring jurnal Mandor approved. |
@@ -52,9 +52,9 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Publikasi Konsumen | `/admin/publikasi` | Local Stabilized | Source flow Stage Communication; Admin sebagai official source (HTTP thread). |
 | Pembayaran Konsumen | `/admin/pembayaran/konsumen` | Local Stabilized | Local Billing Plan (termin) setup via backend lokal. |
 | Pembayaran Mandor | `/admin/pembayaran/mandor` | Local Stabilized | Foreman Weekly Payment Eligibility monitoring via backend lokal. |
-| Validasi Disbursement | `/admin/pembayaran/validasi` | Shell / Pending | Placeholder validasi pencairan. |
-| Riwayat Pembayaran | `/admin/pembayaran/riwayat` | Shell / Pending | Placeholder arsip transaksi. |
-| Pembayaran | `/admin/pembayaran` | Shell / Pending | Legacy mapping ke halaman pembayaran existing; belum payment production. |
+| Validasi Disbursement | `/admin/pembayaran/validasi` | Planned | Placeholder validasi pencairan (staged implementation). |
+| Riwayat Pembayaran | `/admin/pembayaran/riwayat` | Planned | Placeholder arsip transaksi (staged implementation). |
+| Pembayaran | `/admin/pembayaran` | Planned | Legacy mapping ke halaman pembayaran existing. |
 | Pengaturan | `/admin/pengaturan` | DB-Backed v1 | Profil admin rill. |
 
 ## 3. Pengawas Routes
@@ -64,7 +64,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Proyek Diawasi | `/pengawas/proyek` | DB-Backed v1 | List proyek per pengawas. |
 | Detail Proyek | `/pengawas/proyek/:id` | DB-Backed v1 | Detail teknis proyek. |
 | Verifikasi Progres | `/pengawas/verifikasi-progres` | Local Workflow v1 / Stabilized | Pengawas assigned memperbarui `Project.verifiedProgress` manual sebagai progress resmi (SOT), dengan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas. |
-| Dokumentasi | `/pengawas/dokumentasi` | Shell / Pending | Galeri fisik lapangan. |
+| Dokumentasi | `/pengawas/dokumentasi` | Planned | Galeri fisik lapangan (staged implementation file upload). |
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Report Pengawas dengan `verifiedProgressSnapshot` sebagai snapshot progress resmi saat laporan dibuat. |
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form draft Weekly Report; mengambil `Project.verifiedProgress` menjadi `verifiedProgressSnapshot` dan dapat melampirkan jurnal Mandor approved. |
 | Detail Laporan | `/pengawas/laporan-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit Weekly Report; snapshot bukan mekanisme update progress resmi. |
@@ -82,7 +82,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Tugas Harian | `/mandor/tugas-harian` | Shell / Pending | Checklist pekerjaan. |
 | Laporan Harian | `/mandor/laporan-harian` | Shell / Pending | Logbook harian mandor. |
 | Request Material | `/mandor/request-material` | Local Stabilized | Pengajuan dan konfirmasi penerimaan material via backend lokal. |
-| Dokumentasi | `/mandor/dokumentasi` | Shell / Pending | Foto fisik harian. |
+| Dokumentasi | `/mandor/dokumentasi` | Planned | Foto fisik harian (staged implementation file upload). |
 | Kendala Lapangan | `/mandor/kendala-lapangan` | Shell / Pending | Laporan hambatan. |
 | Jurnal Mingguan | `/mandor/jurnal-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor lokal; `claimedProgress` adalah klaim non-resmi. |
 | Buat Jurnal | `/mandor/jurnal-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form create Weekly Journal Mandor dengan `claimedProgress` non-resmi dan referensi opsional Stage/RAB Item. |
@@ -102,8 +102,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Tahapan Denah | `/arsitek/tahapan/denah` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan 3D | `/arsitek/tahapan/3d` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan Gambar Kerja | `/arsitek/tahapan/gambar-kerja` | Shell / Pending | Placeholder tahapan desain detail. |
-| File Desain | `/arsitek/file-desain` | Partial | Repositori desain lokal; upload/file production tetap Hold. |
-| Revisi Desain | `/arsitek/revisi` | Hold State | Placeholder revisi desain; belum ada workflow revisi/upload file production. |
+| File Desain | `/arsitek/file-desain` | Partial | Repositori desain lokal; cloud upload adapter allowed for staged implementation. |
+| Revisi Desain | `/arsitek/revisi` | Planned | Placeholder revisi desain. |
 | Final Approved | `/arsitek/final-approved` | Shell / Pending | Placeholder paket desain final approved. |
 | Evaluasi Teknis | `/arsitek/evaluasi` | Shell / Pending | Placeholder evaluasi teknis. |
 | Riwayat | `/arsitek/riwayat` | Local E2E Workflow v2 / Stabilized | Riwayat desain/tender lokal termasuk riwayat progres desain yang pernah dikerjakan. |
@@ -120,13 +120,13 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Data Mandor | `/superadmin/data-mandor` | DB-Backed v1 | Direktori Persona Mandor Lokal (CRUD). |
 | Data Arsitek | `/superadmin/data-arsitek` | DB-Backed v1 | Direktori Persona Arsitek Lokal (CRUD). |
 | Data Pengajuan Desain | `/superadmin/data-pengajuan-desain` | DB-Backed Read-Only | Monitoring global Design Request/Tender; oversight limit revisi v2. |
-| Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Hold State | Legalitas perusahaan dan PIC masih Hold; belum ada workflow production. |
+| Data Perusahaan & PIC | `/superadmin/data-perusahaan` | Planned | Legalitas perusahaan dan PIC (staged implementation legal helper). |
 | Monitoring Proyek Global | `/superadmin/proyek` | DB-Backed Read-Only | Overview semua proyek via Project API; perubahan operasional tetap milik Admin/Pengawas. |
 | Proyek Aktif Global | `/superadmin/proyek/aktif` | DB-Backed Read-Only | Filter proyek aktif/berjalan dari Project API. |
 | Relasi Admin-Proyek | `/superadmin/proyek/relasi` | DB-Backed Read-Only | Pemetaan admin-proyek dari Project API untuk audit beban kerja. |
 | Kapasitas Admin | `/superadmin/kapasitas-admin` | DB-Backed Read-Only | Workload view dari Admin API dan Project API; bukan assignment workflow. |
 | Laporan Progres Global | `/superadmin/progres-proyek` | DB-Backed Read-Only | Monitoring `verifiedProgress` lintas proyek; Superadmin tidak mengubah progress resmi. |
-| Pembayaran Global | `/superadmin/pembayaran` | Hold State | Payment global belum production; tidak ada invoice/escrow/payout aktif. |
+| Pembayaran Global | `/superadmin/pembayaran` | Planned | Payment global (staged gateway integration). |
 | Monitoring Material | `/superadmin/monitoring/material` | DB-Backed Read-Only | Audit Material Request global via backend lokal. |
 | Audit Laporan Pengawas | `/superadmin/monitoring/laporan-pengawas` | DB-Backed Read-Only | Read-only monitoring Weekly Report Pengawas via backend lokal; Superadmin tidak review/publish atau mengubah progress resmi. |
 | Eskalasi | `/superadmin/eskalasi` | Hold State | Koreksi data/escalation workflow production masih Hold. |
@@ -142,8 +142,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
 | Permintaan Desain | `/konsumen/permintaan-desain` | Local Workflow v2 / Stabilized | List dan create Design Request lokal; Curated Design Timeline dan Local Approval Intent. |
-| Pembayaran | `/konsumen/pembayaran` | Demo Only / Local Hold | Placeholder termin pembayaran; Demo visual only. |
-| Dokumen | `/konsumen/dokumen` | Demo Only / Local Hold | Placeholder pusat dokumen; Demo visual only. |
+| Pembayaran | `/konsumen/pembayaran` | Planned | Placeholder termin pembayaran (staged implementation). |
+| Dokumen | `/konsumen/dokumen` | Planned | Placeholder pusat dokumen (staged implementation upload). |
 
 ---
 *Terakhir diperbarui: 11 Mei 2026*

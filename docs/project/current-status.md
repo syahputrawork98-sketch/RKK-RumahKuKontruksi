@@ -6,7 +6,7 @@
 - **Production Ready**: No (Features are production-ready in behavior/schema, but the system is not fully production-ready)
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. Developer Persona Switcher tetap menjadi actor/role selector sementara tanpa JWT, session, password, atau RBAC production.
-- **Fokus Saat Ini**: Membangun fitur bisnis yang komprehensif (backend-backed, schema, API, UI, lifecycle, error state) sementara infra production/legal/auth/cloud/payment ditahan. Seluruh label "Live Sync" atau "Real-time" diganti menjadi "Database-backed Workflow".
+- **Fokus Saat Ini**: Membangun fitur bisnis yang komprehensif (backend-backed, schema, API, UI, lifecycle, error state) sementara production auth dan full RBAC ditahan. Fitur seperti payment, legal helper, cloud upload, dan notification boleh masuk roadmap secara bertahap. Seluruh label "Live Sync" atau "Real-time" diganti menjadi "Database-backed Workflow".
 - **Milestone Selesai**:
   - **Batch 1-3**: Core Foundation, Admin Dashboard, Governance, & Visibility Safety.
   - **Batch 4-6**: RAB-based Construction Foundation & Local Payment Eligibility (Stabilized).
@@ -15,6 +15,7 @@
   - **Batch 16-20**: Project Planning Bridge, Final Assignment, Activation Gate, Timeline Alignment, & Material Request Stabilization (Stabilized).
   - **Batch M1–M4**: Modularisasi Frontend (Design Request, Admin RAB, Role Settings, Project Detail Admin & Mandor) — Stabilized No-Behavior-Change.
   - **Batch 21**: Field Issue & Escalation Backend Foundation accepted (Commit e8578b33528e18a624497921df14ea7bbe4b9164). Schema, API, seed, dan integrasi Mandor Kendala Lapangan tersedia. Follow-up: UI review Pengawas/Admin belum dihubungkan, Dashboard Mandor belum memakai count issue real.
+  - **Batch 22B**: Perluasan scope boundary dokumentasi. Payment, invoice, BAST helper, upload, dan notification sekarang allowed for phased production feature completion. Batch 23 diarahkan ke Daily Task & Daily Report Backend Foundation.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -144,11 +145,26 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 - Penugasan Mandor/Pengawas otomatis.
 - Aktivasi otomatis (Harus melalui tombol aktivasi oleh Admin).
 - Project Bridge otomatis ke proyek aktif (Bridge hanya membuat draft/planning lokal).
-- Sistem Pembayaran (Escrow/Payment Gateway).
-- Dokumen Legal Otomatis (SPK, Kontrak).
-- Upload dokumen/file production.
-- Notifikasi production API.
-- Auth Production (Login/Register rill masih ditunda).
+- Sistem Pembayaran: Gateway integration boleh dilakukan secara bertahap, bukan Hold total.
+- Dokumen Legal: BAST helper & invoice helper allowed for phased implementation, jangan klaim e-meterai/tax compliance penuh.
+- Upload dokumen: Cloud upload adapter dan file upload boleh masuk roadmap bertahap.
+- Notifikasi: In-app notification boleh masuk roadmap bertahap. Realtime notification menyusul.
+- Auth Production: Login/Register rill, JWT, Session, Password, Full RBAC (TETAP HOLD - Excluded until Auth Phase).
+
+## Allowed Production Feature Scope (Batch 22B Boundaries)
+Yang sudah boleh masuk roadmap:
+- Payment record, payment gateway preparation, & gateway integration bertahap.
+- Invoice helper, BAST helper, & legal document helper.
+- Document metadata, file upload, & cloud upload adapter.
+- In-app notification & realtime notification bertahap.
+- Field issue/escalation, daily task/report, design file/package, & project closeout.
+
+## Still Excluded Until Auth/Security Phase
+Yang belum boleh masuk roadmap:
+- Production auth, JWT, session login production, & password system.
+- Register/login production.
+- Full production RBAC & full production user security model.
+- Deployment hardening & full security audit.
 
 ## Frontend Role Status
 

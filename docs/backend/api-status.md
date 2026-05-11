@@ -332,9 +332,9 @@ The following APIs are intentionally postponed and should not be implemented bef
 - `GET/POST /daily-reports`: Laporan harian mandor (NOT IMPLEMENTED)
 - `GET/POST /daily-reports`: Laporan harian mandor (NOT IMPLEMENTED)
 - `GET/POST/PATCH /api/field-issues`: Kendala lapangan (DB-Backed v1, Batch 21 completed)
-- `GET/POST /documentation`: Upload foto/video dokumentasi (NOT IMPLEMENTED)
+- `GET/POST /documentation`: Upload foto/video dokumentasi (Planned for phased implementation)
 - `GET/POST /tasks`: Manajemen tugas harian (NOT IMPLEMENTED)
-- `GET/POST /design-files`: Upload file desain (NOT IMPLEMENTED)
+- `GET/POST /design-files`: Upload file desain (Planned for phased implementation)
 - `GET/POST /design-revisions`: Manajemen revisi desain (NOT IMPLEMENTED)
 
 *These endpoints are intentionally postponed to ensure data consistency with the core Project and RAB modules.*
@@ -344,7 +344,7 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **No Role Guard**: Pengecekan role/RBAC rill belum dilakukan di sisi server. Keberadaan API entity tidak otomatis berarti role management sudah final.
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
 - **Non-Realtime**: Seluruh komunikasi (Stage Communication) berbasis polling/request standard, bukan WebSockets.
-- **Payment/Document Production**: Backend untuk integrasi payment gateway dan generation dokumen legal resmi berstatus **Hold**.
+- **Payment/Document Production**: Backend untuk integrasi payment gateway dan generation dokumen legal resmi berstatus **Allowed for phased implementation**.
 - **Local Stabilized Status**: Project Timeline Evidence Polish, Admin & Superadmin Operational Control, Konsumen Project Transparency, Post-Completion History, Project Lifecycle Completion, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk Production-Ready Feature Completion Mode with Developer Persona Switcher.
 - **Wording Standard**: Menggunakan "Official Progress", "Verified by Supervisor", dan "Field Evidence" secara konsisten untuk transparansi Konsumen.
 - **Foreman Payment Eligibility**: Module untuk menentukan kelayakan pembayaran mandor secara mingguan berdasarkan verifikasi lapangan (Local DB-backed).
@@ -360,7 +360,7 @@ Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/F
 
 ### 2. Defensive UI & Placeholder
 - **GovernanceNotice API Integration**: Halaman pengaturan profil ditarik dari API persona masing-masing dan dilengkapi komponen `GovernanceNotice`.
-- **Photo Upload (Hold)**: UI menampilkan alert "Fitur Hold" pada tombol ubah foto untuk memperjelas batasan fase Local CRUD.
+- **Photo Upload (Planned)**: File upload adapter direncanakan masuk roadmap bertahap.
 - **Local Sync Confirm**: Dialog hapus (API DELETE) menyertakan informasi bahwa data dihapus dari database `localhost`.
 - **Profile Change Request (Implemented v1)**: Mekanisme **Profile Change Request** formal dan **Audit Log** otomatis sudah aktif pada aksi penting. UI Pusat Audit Superadmin terhubung ke database rill.
 - **Visibility Guard (Implemented v1)**: Backend enforcement untuk filter visibilitas item (`isVisibleToCustomer`) pada Laporan Mingguan dan Detail Proyek Konsumen sudah diimplementasikan.

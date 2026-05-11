@@ -141,6 +141,11 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                             Keputusan Pasca Desain
                           </span>
                         )}
+                        {log.action === 'admin_mandor_selection_preparation' && (
+                          <span className="ml-2 text-[9px] font-black text-emerald-600 uppercase border border-emerald-200 px-2 py-0.5 rounded-full bg-emerald-50">
+                            Persiapan Seleksi Mandor
+                          </span>
+                        )}
                       </h4>
                     </div>
                     <div className="text-right">

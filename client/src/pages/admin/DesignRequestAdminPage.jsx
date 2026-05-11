@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { 
-    FiPlus, 
-    FiSearch, 
-    FiEdit2, 
-    FiTrash2, 
-    FiUser, 
-    FiMapPin, 
-    FiClock, 
-    FiCheckCircle, 
+import {
+    FiPlus,
+    FiSearch,
+    FiEdit2,
+    FiTrash2,
+    FiUser,
+    FiMapPin,
+    FiClock,
+    FiCheckCircle,
     FiUserPlus,
     FiX,
     FiInfo,
@@ -24,6 +24,7 @@ import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
 import customerService from "../../services/customerService";
 import architectService from "../../services/architectService";
+import foremanService from "../../services/foremanService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import DesignTimeline from "../../components/design/DesignTimeline";
@@ -49,6 +50,9 @@ const DesignRequestAdminPage = () => {
     const [isConvertOpen, setIsConvertOpen] = useState(false);
     const [curatedInstruction, setCuratedInstruction] = useState("");
     const [releaseSummary, setReleaseSummary] = useState("");
+    const [foremen, setForemen] = useState([]);
+    const [selectedMandorIds, setSelectedMandorIds] = useState([]);
+    const [mandorNote, setMandorNote] = useState("");
 
     const [formData, setFormData] = useState({
         title: "",
@@ -154,7 +158,7 @@ const DesignRequestAdminPage = () => {
             alert("Gagal memuat penawaran.");
         }
     };
-    
+
     const handleOpenConvert = (request) => {
         setCurrentRequest(request);
         setIsConvertOpen(true);
@@ -229,7 +233,7 @@ const DesignRequestAdminPage = () => {
         try {
             setSubmitting(true);
             await designRequestService.updateDesignRequest(id, { status });
-            
+
             // Add history log for status change
             await designRequestService.addHistory(id, {
                 action: `status_change_${status}`,
@@ -255,14 +259,40 @@ const DesignRequestAdminPage = () => {
         try {
             setLoading(true);
             const res = await designRequestService.getDesignRequestById(request.id);
-            setSelectedRequest(res.data);
-            
+            const requestData = res.data;
+            setSelectedRequest(requestData);
+
             // Find latest curated instruction in history
-            const latestCurated = (res.data.history || [])
+            const latestCurated = (requestData.history || [])
                 .filter(h => h.action === 'admin_curated_instruction')
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
             setCuratedInstruction(latestCurated?.note || "");
-            
+
+            // Batch 11A: Fetch foremen if decision is continue_to_construction_preparation
+            const latestDecision = (requestData.history || [])
+                .filter(h => h.action === 'customer_post_design_decision')
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+            if (latestDecision?.metadata?.decision === 'continue_to_construction_preparation') {
+                try {
+                    const foremanRes = await foremanService.getAllForemen();
+                    setForemen(foremanRes.data || []);
+
+                    // Pre-populate shortlist if exists
+                    const latestPrep = (requestData.history || [])
+                        .filter(h => h.action === 'admin_mandor_selection_preparation')
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                    setSelectedMandorIds(latestPrep?.metadata?.selectedCandidateIds || []);
+                    setMandorNote(latestPrep?.note || "");
+                } catch (fErr) {
+                    console.error("Error fetching foremen:", fErr);
+                }
+            } else {
+                setForemen([]);
+                setSelectedMandorIds([]);
+                setMandorNote("");
+            }
+
             setLoading(false);
         } catch (err) {
             console.error("Error fetching detail:", err);
@@ -277,7 +307,7 @@ const DesignRequestAdminPage = () => {
             const res = await designRequestService.convertToProject(currentRequest.id, { adminId: selectedAdminId });
             alert("Draft Proyek Berhasil Dibuat!");
             setIsConvertOpen(false);
-            
+
             // Navigate to project detail for setup
             if (res.data?.data?.project?.id) {
                 navigate(`/admin/proyek/${res.data.data.project.id}`);
@@ -291,7 +321,7 @@ const DesignRequestAdminPage = () => {
             setSubmitting(false);
         }
     };
-    
+
     const handleSaveCuratedInstruction = async () => {
         if (!curatedInstruction.trim()) return;
         try {
@@ -303,7 +333,7 @@ const DesignRequestAdminPage = () => {
                 actorName: 'Admin RKK',
                 note: curatedInstruction
             });
-            
+
             // Also add a status log
             await designRequestService.addHistory(selectedRequest.id, {
                 action: 'instruction_sent_to_architect',
@@ -347,6 +377,44 @@ const DesignRequestAdminPage = () => {
         }
     };
 
+    const handleSaveMandorPreparation = async () => {
+        if (selectedMandorIds.length === 0 && !mandorNote.trim()) {
+            alert("Silakan pilih minimal satu mandor atau tulis catatan persiapan.");
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'admin_mandor_selection_preparation',
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: mandorNote,
+                metadata: {
+                    selectedCandidateIds: selectedMandorIds,
+                    preparationStatus: 'shortlist_prepared',
+                    source: 'mandor-selection-preparation'
+                }
+            });
+
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            alert("Persiapan seleksi mandor berhasil disimpan.");
+        } catch (err) {
+            console.error("Error saving mandor prep:", err);
+            alert("Gagal menyimpan persiapan seleksi mandor.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    const toggleMandorSelection = (id) => {
+        setSelectedMandorIds(prev =>
+            prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+        );
+    };
+
     const handleDelete = async (id) => {
         if (window.confirm("Hapus permintaan desain ini dari database lokal? Tindakan ini tidak dapat dibatalkan dalam fase pengembangan ini.")) {
             try {
@@ -358,13 +426,13 @@ const DesignRequestAdminPage = () => {
         }
     };
 
-    const filteredRequests = requests.filter(r => 
+    const filteredRequests = requests.filter(r =>
         r.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         r.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         r.customer?.companyName?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const filteredTenders = tenders.filter(t => 
+    const filteredTenders = tenders.filter(t =>
         t.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.designRequest?.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -399,7 +467,7 @@ const DesignRequestAdminPage = () => {
                     <p className="text-xs text-neutral-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Oversight Proyek Desain RKK</p>
                 </div>
                 {activeTab === "requests" && (
-                    <button 
+                    <button
                         onClick={() => handleOpenForm()}
                         className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-2xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all"
                     >
@@ -411,14 +479,14 @@ const DesignRequestAdminPage = () => {
 
             {/* TABS */}
             <div className="flex items-center gap-2 border-b border-[var(--dashboard-border)]">
-                <button 
+                <button
                     onClick={() => setActiveTab("requests")}
                     className={`px-6 py-3 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${activeTab === "requests" ? "border-[var(--dashboard-primary)] text-[var(--dashboard-primary)]" : "border-transparent text-[var(--dashboard-text-soft)] hover:text-[var(--dashboard-text)]"}`}
                 >
                     <FiList className="inline mr-2" />
                     Permintaan Masuk
                 </button>
-                <button 
+                <button
                     onClick={() => setActiveTab("tenders")}
                     className={`px-6 py-3 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${activeTab === "tenders" ? "border-[var(--dashboard-primary)] text-[var(--dashboard-primary)]" : "border-transparent text-[var(--dashboard-text-soft)] hover:text-[var(--dashboard-text)]"}`}
                 >
@@ -430,8 +498,8 @@ const DesignRequestAdminPage = () => {
             <div className="dashboard-card">
                 <div className="mb-6 relative max-w-md">
                     <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--dashboard-text-soft)]" />
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder={activeTab === "requests" ? "Cari judul atau konsumen..." : "Cari peluang desain..."}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -500,7 +568,7 @@ const DesignRequestAdminPage = () => {
                                                     ) : (
                                                         <>
                                                             {r.status === 'submitted' && (
-                                                                <button 
+                                                                <button
                                                                     onClick={(e) => { e.stopPropagation(); handleOpenPublish(r); }}
                                                                     className="p-1.5 text-teal-600 hover:bg-teal-50 rounded-lg"
                                                                     title="Publish Peluang"
@@ -508,14 +576,14 @@ const DesignRequestAdminPage = () => {
                                                                     <FiZap size={14} />
                                                                 </button>
                                                             )}
-                                                            <button 
+                                                            <button
                                                                 onClick={(e) => { e.stopPropagation(); handleOpenAssign(r); }}
                                                                 className="p-1.5 text-purple-600 hover:bg-purple-50 rounded-lg"
                                                                 title="Assign Arsitek"
                                                             >
                                                                 <FiUserPlus size={14} />
                                                             </button>
-                                                            <button 
+                                                            <button
                                                                 onClick={(e) => { e.stopPropagation(); handleOpenForm(r); }}
                                                                 className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg"
                                                                 title="Edit"
@@ -524,9 +592,9 @@ const DesignRequestAdminPage = () => {
                                                             </button>
                                                         </>
                                                     )}
-                                                    
+
                                                     {r.status === 'approved' && !r.projectId && (
-                                                        <button 
+                                                        <button
                                                             onClick={(e) => { e.stopPropagation(); handleOpenConvert(r); }}
                                                             className="px-2 py-1 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase hover:bg-indigo-700 shadow-sm"
                                                             title="Buat Draft Proyek"
@@ -535,7 +603,7 @@ const DesignRequestAdminPage = () => {
                                                         </button>
                                                     )}
 
-                                                    <button 
+                                                    <button
                                                         onClick={(e) => { e.stopPropagation(); handleOpenDetail(r); }}
                                                         className="p-1.5 text-indigo-500 hover:bg-indigo-50 rounded-lg"
                                                         title="Detail Timeline"
@@ -589,7 +657,7 @@ const DesignRequestAdminPage = () => {
                                                 <span className="px-2 py-1 bg-gray-100 rounded-lg text-[10px] font-black">{t.bids?.length || 0} Bid</span>
                                             </td>
                                             <td className="py-4 px-2 text-right">
-                                                <button 
+                                                <button
                                                     onClick={() => handleOpenBids(t)}
                                                     className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-black border border-blue-100 hover:bg-blue-100 transition-all uppercase tracking-widest"
                                                 >
@@ -611,7 +679,7 @@ const DesignRequestAdminPage = () => {
             {selectedRequest && (
                 <div className="fixed inset-0 z-[1000] flex flex-col bg-white animate-slideInUp overflow-y-auto">
                     <div className="sticky top-0 bg-white/80 backdrop-blur-md px-6 py-4 border-b border-gray-100 flex items-center gap-4 z-20">
-                        <button 
+                        <button
                             onClick={() => setSelectedRequest(null)}
                             className="p-2 hover:bg-gray-100 rounded-xl transition-all"
                         >
@@ -649,8 +717,8 @@ const DesignRequestAdminPage = () => {
 
                             {/* REVISION OVERSIGHT */}
                             <div className={`p-6 rounded-3xl border-2 space-y-4 ${
-                                (selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5) 
-                                ? 'bg-red-50 border-red-200 shadow-lg shadow-red-500/5 animate-pulse' 
+                                (selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5)
+                                ? 'bg-red-50 border-red-200 shadow-lg shadow-red-500/5 animate-pulse'
                                 : 'bg-slate-50 border-slate-100'
                             }`}>
                                 <div className="flex justify-between items-center">
@@ -689,7 +757,7 @@ const DesignRequestAdminPage = () => {
                                         <div className="p-2 bg-emerald-600 text-white rounded-lg"><FiZap size={14} /></div>
                                         <h4 className="text-xs font-black uppercase tracking-widest text-emerald-900">Execution Monitor</h4>
                                     </div>
-                                    
+
                                     <div className="space-y-4">
                                         <div className="p-4 bg-white/60 rounded-2xl border border-emerald-100">
                                             <p className="text-[9px] font-black text-emerald-700 uppercase tracking-widest mb-2">Latest Progress Update</p>
@@ -740,12 +808,12 @@ const DesignRequestAdminPage = () => {
                                         <FiList className="text-indigo-600" size={16} />
                                         <h4 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Post-Design Decision</h4>
                                     </div>
-                                    
+
                                     {(() => {
                                         const latestDecision = (selectedRequest.history || [])
                                             .filter(h => h.action === 'customer_post_design_decision')
                                             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-                                        
+
                                         if (!latestDecision) {
                                             return (
                                                 <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100">
@@ -761,8 +829,8 @@ const DesignRequestAdminPage = () => {
                                                 <div className={`p-4 rounded-2xl border ${decision === 'continue_to_construction_preparation' ? 'bg-indigo-50 border-indigo-200' : 'bg-slate-50 border-slate-200'}`}>
                                                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Keputusan Konsumen:</p>
                                                     <p className={`text-xs font-black mt-1 ${decision === 'continue_to_construction_preparation' ? 'text-indigo-700' : 'text-slate-700'}`}>
-                                                        {decision === 'continue_to_construction_preparation' 
-                                                            ? "Continue to Construction Preparation" 
+                                                        {decision === 'continue_to_construction_preparation'
+                                                            ? "Continue to Construction Preparation"
                                                             : "Design/RAB Only Completed"}
                                                     </p>
                                                 </div>
@@ -787,7 +855,7 @@ const DesignRequestAdminPage = () => {
                                 </h4>
                                 <div className="grid grid-cols-1 gap-3">
                                     {selectedRequest.status === 'submitted' && (
-                                        <button 
+                                        <button
                                             onClick={() => handleUpdateStatus(selectedRequest.id, 'open')}
                                             className="w-full py-3 bg-teal-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal-600/20"
                                         >
@@ -795,7 +863,7 @@ const DesignRequestAdminPage = () => {
                                         </button>
                                     )}
                                     {(selectedRequest.status === 'assigned' || selectedRequest.status === 'in_review') && (
-                                        <button 
+                                        <button
                                             onClick={() => handleUpdateStatus(selectedRequest.id, 'approved')}
                                             className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20"
                                         >
@@ -803,14 +871,14 @@ const DesignRequestAdminPage = () => {
                                         </button>
                                     )}
                                     {selectedRequest.status === 'approved' && !selectedRequest.projectId && (
-                                        <button 
+                                        <button
                                             onClick={() => handleOpenConvert(selectedRequest)}
                                             className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20"
                                         >
                                             Convert to Project
                                         </button>
                                     )}
-                                    <button 
+                                    <button
                                         onClick={() => handleOpenForm(selectedRequest)}
                                         className="w-full py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all"
                                     >
@@ -828,13 +896,13 @@ const DesignRequestAdminPage = () => {
                                 <p className="text-[10px] text-indigo-700 font-bold leading-relaxed italic">
                                     Gunakan area ini untuk merangkum brief Konsumen menjadi instruksi teknis yang jelas bagi Arsitek.
                                 </p>
-                                <textarea 
+                                <textarea
                                     className="w-full p-4 bg-white border border-indigo-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none min-h-[120px]"
                                     placeholder="Tulis instruksi untuk arsitek di sini..."
                                     value={curatedInstruction}
                                     onChange={(e) => setCuratedInstruction(e.target.value)}
                                 />
-                                <button 
+                                <button
                                     onClick={handleSaveCuratedInstruction}
                                     disabled={submitting || !curatedInstruction.trim()}
                                     className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20 disabled:opacity-50"
@@ -866,6 +934,90 @@ const DesignRequestAdminPage = () => {
                                     {submitting ? "Mengirim..." : "Rilis ke Konsumen"}
                                 </button>
                             </div>
+
+                            {/* MANDOR SELECTION PREPARATION PANEL (Batch 11A) */}
+                            {(() => {
+                                const latestDecision = (selectedRequest.history || [])
+                                    .filter(h => h.action === 'customer_post_design_decision')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const isConstructionPrep = latestDecision?.metadata?.decision === 'continue_to_construction_preparation';
+
+                                if (!isConstructionPrep) {
+                                    return (
+                                        <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <FiUserPlus className="text-gray-400" size={16} />
+                                                <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Mandor Prep (Hold)</h4>
+                                            </div>
+                                            <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
+                                                Tersedia setelah Konsumen memilih "Continue to Construction Preparation".
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                return (
+                                    <div className="p-6 bg-white border border-emerald-200 rounded-[2rem] shadow-sm space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className="p-2 bg-emerald-600 text-white rounded-lg"><FiUserPlus size={14} /></div>
+                                                <h4 className="text-xs font-black uppercase tracking-widest text-emerald-900">Mandor Selection Prep</h4>
+                                            </div>
+                                            <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[8px] font-black uppercase rounded">Preparation Layer</span>
+                                        </div>
+
+                                        <p className="text-[10px] text-emerald-700 font-bold leading-relaxed italic">
+                                            Shortlist kandidat Mandor lokal untuk persiapan konstruksi.
+                                        </p>
+
+                                        <div className="space-y-3 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                                            {foremen.length > 0 ? foremen.map(f => (
+                                                <div
+                                                    key={f.id}
+                                                    onClick={() => toggleMandorSelection(f.id)}
+                                                    className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                                                        selectedMandorIds.includes(f.id)
+                                                        ? 'bg-emerald-50 border-emerald-300 ring-2 ring-emerald-500/10'
+                                                        : 'bg-gray-50 border-gray-100 hover:border-emerald-200'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-[10px] ${selectedMandorIds.includes(f.id) ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                                            {f.name?.[0] || 'M'}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-[11px] font-bold text-gray-800">{f.name}</p>
+                                                            <p className="text-[9px] text-gray-500 font-medium">{f.specialization || 'Generalist'} • {f.experienceYears || 0} thn</p>
+                                                        </div>
+                                                    </div>
+                                                    {selectedMandorIds.includes(f.id) && <FiCheckCircle className="text-emerald-600" size={14} />}
+                                                </div>
+                                            )) : (
+                                                <p className="text-[10px] text-gray-400 italic text-center py-4">Memuat data Mandor...</p>
+                                            )}
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">Catatan Persiapan</label>
+                                            <textarea
+                                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-none min-h-[80px]"
+                                                placeholder="Tulis catatan kriteria atau alasan pemilihan shortlist..."
+                                                value={mandorNote}
+                                                onChange={(e) => setMandorNote(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <button
+                                            onClick={handleSaveMandorPreparation}
+                                            disabled={submitting || (selectedMandorIds.length === 0 && !mandorNote.trim())}
+                                            className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
+                                        >
+                                            {submitting ? "Menyimpan..." : "Simpan Shortlist Prep"}
+                                        </button>
+                                    </div>
+                                );
+                            })()}
                         </div>
 
                         {/* RIGHT: TIMELINE */}
@@ -874,7 +1026,7 @@ const DesignRequestAdminPage = () => {
                                 <FiClock className="text-indigo-600" />
                                 Collaboration Timeline
                             </h4>
-                            <DesignTimeline 
+                            <DesignTimeline
                                 history={selectedRequest.history || []}
                                 majorCount={selectedRequest.majorRevisionCount || 0}
                                 minorCount={selectedRequest.minorRevisionCount || 0}
@@ -960,10 +1112,10 @@ const DesignRequestAdminPage = () => {
                         <form onSubmit={handleAssignArchitect} className="p-8 space-y-6">
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Pilih Arsitek</label>
-                                <select 
-                                    required 
-                                    className="dashboard-input border-purple-100 focus:ring-purple-500/20" 
-                                    value={assignData.architectId} 
+                                <select
+                                    required
+                                    className="dashboard-input border-purple-100 focus:ring-purple-500/20"
+                                    value={assignData.architectId}
                                     onChange={(e) => setAssignData({...assignData, architectId: e.target.value})}
                                 >
                                     <option value="">-- Pilih Arsitek --</option>
@@ -998,11 +1150,11 @@ const DesignRequestAdminPage = () => {
                                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Total Jasa Desain (RKK + Arsitek)</label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">Rp</div>
-                                    <input 
-                                        required 
-                                        type="number" 
-                                        className="dashboard-input pl-12 border-teal-100 focus:ring-teal-500/20" 
-                                        value={publishData.baseDesignFee} 
+                                    <input
+                                        required
+                                        type="number"
+                                        className="dashboard-input pl-12 border-teal-100 focus:ring-teal-500/20"
+                                        value={publishData.baseDesignFee}
                                         onChange={(e) => setPublishData({...publishData, baseDesignFee: e.target.value})}
                                     />
                                 </div>
@@ -1064,7 +1216,7 @@ const DesignRequestAdminPage = () => {
                                                 <span className="text-sm font-black text-blue-600">Rp {Number(bid.bidAmount).toLocaleString('id-ID')}</span>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="grid grid-cols-2 gap-4 mb-4">
                                             <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
                                                 <FiCalendar className="shrink-0" />
@@ -1084,7 +1236,7 @@ const DesignRequestAdminPage = () => {
                                         )}
 
                                         {currentTender.status === 'open' && bid.status === 'submitted' && (
-                                            <button 
+                                            <button
                                                 onClick={() => handleAwardBid(currentTender.id, bid.id)}
                                                 disabled={submitting}
                                                 className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
@@ -1152,9 +1304,9 @@ const DesignRequestAdminPage = () => {
                             </div>
                             <div className="pt-4 flex justify-end gap-3">
                                 <button type="button" onClick={() => setIsConvertOpen(false)} className="px-6 py-3 border border-gray-100 text-gray-400 rounded-2xl font-bold text-xs uppercase tracking-widest">Batal</button>
-                                <button 
+                                <button
                                     onClick={handleConvertToProject}
-                                    disabled={submitting} 
+                                    disabled={submitting}
                                     className="px-8 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-600/20 hover:scale-[1.02] transition-all"
                                 >
                                     {submitting ? "Memproses..." : "Konfirmasi Jadi Draft Proyek"}

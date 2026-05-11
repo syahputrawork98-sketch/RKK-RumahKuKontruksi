@@ -20,7 +20,7 @@ import weeklyJournalService from "../../../services/weeklyJournalService";
 import { useAdminPersona } from "../../../context/AdminPersonaContext";
 
 const ForemanPaymentEligibilityTab = ({ projectId }) => {
-    const { admin } = useAdminPersona();
+    const { selectedAdminId } = useAdminPersona();
     const [loading, setLoading] = useState(true);
     const [eligibilities, setEligibilities] = useState([]);
     const [pendingJournals, setPendingJournals] = useState([]);
@@ -78,7 +78,7 @@ const ForemanPaymentEligibilityTab = ({ projectId }) => {
             await foremanPaymentEligibilityService.updateStatus(eligibilityId, {
                 status,
                 actorRole: 'admin',
-                actorId: admin?.id
+                actorId: selectedAdminId
             });
             await fetchData();
             if (selectedEligibility?.id === eligibilityId) {

@@ -11,7 +11,8 @@ import {
     FiAlertTriangle, 
     FiMapPin, 
     FiClock,
-    FiCreditCard
+    FiCreditCard,
+    FiCheckCircle
 } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";

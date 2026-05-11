@@ -1,23 +1,69 @@
-import React, { useState } from "react";
-import { FiCamera, FiFilter, FiMaximize2, FiCalendar } from "react-icons/fi";
+import React, { useState, useEffect } from "react";
+import { FiCamera, FiMaximize2, FiCalendar, FiFile } from "react-icons/fi";
+import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
+import projectDocumentService from "../../services/projectDocumentService";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DokumentasiLapanganPengawasPage = () => {
-    const [activeSubtab, setActiveSubtab] = useState("terbaru");
+    const { selectedSupervisorId } = useSupervisorPersona();
+    const [activeSubtab, setActiveSubtab] = useState("all");
+    const [documents, setDocuments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const documentations = [
-        { id: 1, project: "PRJ-001", stage: "Pasang Keramik", date: "07 Mei 2026", uploader: "Mandor Ahmad", url: "https://placehold.co/400x300?text=Keramik+PRJ001" },
-        { id: 2, project: "PRJ-003", stage: "Finishing Cat", date: "07 Mei 2026", uploader: "Anda (Pengawas)", url: "https://placehold.co/400x300?text=Cat+PRJ003" },
-        { id: 3, project: "PRJ-002", stage: "Pondasi", date: "05 Mei 2026", uploader: "Mandor Hendra", url: "https://placehold.co/400x300?text=Pondasi+PRJ002" },
-        { id: 4, project: "PRJ-001", stage: "Instalasi Listrik", date: "04 Mei 2026", uploader: "Mandor Ahmad", url: "https://placehold.co/400x300?text=Listrik+PRJ001" },
-    ];
+    useEffect(() => {
+        if (!selectedSupervisorId) {
+            setLoading(false);
+            return;
+        }
+        const fetchDocuments = async () => {
+            try {
+                setLoading(true);
+                const data = await projectDocumentService.getDocuments({ category: 'lapangan' });
+                // In a real app we'd filter by projects where supervisor is assigned.
+                setDocuments(data.data || []);
+            } catch (err) {
+                setError(err.message || "Gagal memuat data dokumentasi");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchDocuments();
+    }, [selectedSupervisorId]);
+
+    if (!selectedSupervisorId && !loading) {
+        return (
+            <RolePersonaEmptyState 
+                title="Pilih Persona Pengawas"
+                description="Pilih pengawas untuk melihat dokumentasi lapangan."
+            />
+        );
+    }
+
+    if (loading && documents.length === 0 && !error) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return <RoleDataState type="error" title={error} onRetry={() => window.location.reload()} />;
+    }
+
+    const filteredDocs = documents.filter(doc => {
+        if (activeSubtab === "active") return doc.status === "active";
+        if (activeSubtab === "archive") return doc.status === "archived";
+        return true;
+    });
 
     const subtabs = [
-        { id: "terbaru", label: "Foto Terbaru" },
-        { id: "tahapan", label: "Per Tahapan" },
-        { id: "review", label: "Menunggu Review" },
-        { id: "arsip", label: "Arsip" },
+        { id: "all", label: "Semua Foto" },
+        { id: "active", label: "Aktif" },
+        { id: "archive", label: "Arsip" }
     ];
-
     return (
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -48,10 +94,18 @@ const DokumentasiLapanganPengawasPage = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {documentations.map((doc) => (
+                {filteredDocs.length === 0 ? (
+                    <div className="col-span-full">
+                        <RoleDataState type="empty" title="Tidak ada dokumentasi" description="Belum ada metadata dokumen." />
+                    </div>
+                ) : filteredDocs.map((doc) => (
                     <div key={doc.id} className="dashboard-card p-0 overflow-hidden group">
-                        <div className="aspect-video relative overflow-hidden bg-slate-200">
-                            <img src={doc.url} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Field Doc" />
+                        <div className="aspect-video relative overflow-hidden bg-slate-200 flex items-center justify-center">
+                            {doc.mimeType?.startsWith('image/') ? (
+                                <img src={doc.fileUrl || "https://placehold.co/400x300?text=No+Image"} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt={doc.title} />
+                            ) : (
+                                <FiFile size={48} className="text-slate-400 group-hover:scale-110 transition-all duration-500" />
+                            )}
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
                                 <button className="p-3 bg-white rounded-full text-[var(--dashboard-primary)] shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all">
                                     <FiMaximize2 size={20} />
@@ -59,18 +113,25 @@ const DokumentasiLapanganPengawasPage = () => {
                             </div>
                             <div className="absolute top-2 left-2">
                                 <span className="px-2 py-0.5 bg-black/60 text-white text-[8px] font-black uppercase rounded backdrop-blur-sm border border-white/20">
-                                    {doc.project}
+                                    {doc.projectId}
                                 </span>
                             </div>
                         </div>
                         <div className="p-4 space-y-2">
                             <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-primary)]">
-                                <span>{doc.stage}</span>
-                                <div className="flex items-center gap-1 text-[var(--dashboard-text-soft)]">
-                                    <FiCalendar size={10} /> {doc.date}
+                                <span className="truncate pr-2">{doc.title}</span>
+                                <div className="flex items-center gap-1 text-[var(--dashboard-text-soft)] shrink-0">
+                                    <FiCalendar size={10} /> {new Date(doc.createdAt).toLocaleDateString("id-ID")}
                                 </div>
                             </div>
-                            <p className="text-[10px] text-[var(--dashboard-text-soft)] font-bold italic truncate">Oleh: {doc.uploader}</p>
+                            <p className="text-[10px] text-[var(--dashboard-text-soft)] font-bold italic truncate">Oleh: {doc.uploadedByRole}</p>
+                            <div className="flex items-center gap-2 mt-2">
+                                <span className={`px-2 py-0.5 text-[8px] font-black uppercase rounded ${
+                                    doc.visibility === 'customer_visible' ? 'bg-purple-100 text-purple-600' : 'bg-slate-100 text-slate-500'
+                                }`}>
+                                    {doc.visibility.replace('_', ' ')}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 ))}

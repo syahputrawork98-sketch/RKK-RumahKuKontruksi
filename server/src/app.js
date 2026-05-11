@@ -22,6 +22,7 @@ import foremanPaymentEligibilityRoutes from './modules/foreman-payment-eligibili
 import fieldIssueRoutes from './modules/field-issues/field-issues.routes.js';
 import dailyTaskRoutes from './modules/daily-tasks/daily-tasks.routes.js';
 import dailyReportRoutes from './modules/daily-reports/daily-reports.routes.js';
+import projectDocumentRoutes from './modules/project-documents/project-documents.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -57,6 +58,7 @@ app.use('/api/foreman-payment-eligibility', foremanPaymentEligibilityRoutes);
 app.use('/api/field-issues', fieldIssueRoutes);
 app.use('/api/daily-tasks', dailyTaskRoutes);
 app.use('/api/daily-reports', dailyReportRoutes);
+app.use('/api/project-documents', projectDocumentRoutes);
 
 // Error Handler
 app.use(errorHandler);

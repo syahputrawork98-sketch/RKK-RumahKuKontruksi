@@ -76,6 +76,7 @@ model Project {
   fieldIssues               FieldIssue[]
   dailyTasks                DailyTask[]
   dailyReports              DailyReport[]
+  documents                 ProjectDocument[]
 
   @@map("projects")
 }
@@ -245,6 +246,7 @@ model ProjectStage {
   fieldIssues          FieldIssue[]
   dailyTasks           DailyTask[]
   dailyReports         DailyReport[]
+  documents            ProjectDocument[]
 
   @@map("project_stages")
 }
@@ -986,6 +988,7 @@ model FieldIssue {
   stage            ProjectStage? @relation(fields: [stageId], references: [id])
   rabItem          RabItem?     @relation(fields: [rabItemId], references: [id])
   dailyReports     DailyReport[]
+  documents        ProjectDocument[]
 
   @@map("field_issues")
 }
@@ -1049,6 +1052,41 @@ model DailyReport {
   task             DailyTask?   @relation(fields: [taskId], references: [id])
   stage            ProjectStage? @relation(fields: [stageId], references: [id])
   fieldIssue       FieldIssue?  @relation(fields: [fieldIssueId], references: [id])
+  documents        ProjectDocument[]
 
   @@map("daily_reports")
+}
+
+model ProjectDocument {
+  id               String       @id @default(cuid())
+  projectId        String       @map("project_id")
+  
+  title            String
+  description      String?
+  category         String       // e.g., 'lapangan', 'konsumen', 'desain', 'legal'
+  
+  fileName         String       @map("file_name")
+  fileUrl          String?      @map("file_url") // placeholder for now
+  mimeType         String?      @map("mime_type")
+  size             Int?         // in bytes
+  
+  visibility       String       @default("internal") // internal, customer_visible
+  status           String       @default("active") // active, archived
+  
+  uploadedByRole   String       @map("uploaded_by_role")
+  uploadedById     String       @map("uploaded_by_id")
+  
+  stageId          String?      @map("stage_id")
+  dailyReportId    String?      @map("daily_report_id")
+  fieldIssueId     String?      @map("field_issue_id")
+  
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+  
+  project          Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  stage            ProjectStage? @relation(fields: [stageId], references: [id])
+  dailyReport      DailyReport? @relation(fields: [dailyReportId], references: [id])
+  fieldIssue       FieldIssue?  @relation(fields: [fieldIssueId], references: [id])
+
+  @@map("project_documents")
 }

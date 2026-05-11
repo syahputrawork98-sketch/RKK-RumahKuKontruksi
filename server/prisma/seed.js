@@ -7,6 +7,7 @@ async function main() {
 
   // 0. CLEANUP (Order matters for foreign keys)
   console.log('Cleaning up existing data...');
+  await prisma.projectDocument.deleteMany({});
   await prisma.dailyReport.deleteMany({});
   await prisma.dailyTask.deleteMany({});
   await prisma.fieldIssue.deleteMany({});
@@ -1372,6 +1373,43 @@ async function main() {
       activitySummary: 'Telah menyelesaikan persiapan bekisting pondasi. Sempat terhenti sore karena hujan.',
       blockerSummary: 'Hujan rintik di sore hari memperlambat pekerjaan.',
       taskId: dailyTask1.id
+    }
+  });
+
+  console.log('Seeding Scenario 8: Project Documents...');
+
+  await prisma.projectDocument.create({
+    data: {
+      projectId: activeProject.id,
+      title: 'Foto Lahan Sebelum Konstruksi',
+      description: 'Dokumentasi kondisi lahan sebelum proses perataan',
+      category: 'lapangan',
+      fileName: 'lahan-sebelum-konstruksi.jpg',
+      fileUrl: '/uploads/demo/lahan-sebelum-konstruksi.jpg',
+      mimeType: 'image/jpeg',
+      size: 2048000, // 2MB
+      visibility: 'customer_visible',
+      status: 'active',
+      uploadedByRole: 'pengawas',
+      uploadedById: supervisor1.id,
+      stageId: stage1.id
+    }
+  });
+
+  await prisma.projectDocument.create({
+    data: {
+      projectId: activeProject.id,
+      title: 'Surat Izin Mendirikan Bangunan',
+      description: 'IMB Proyek RKK-001',
+      category: 'legal',
+      fileName: 'imb-rkk-001.pdf',
+      fileUrl: '/uploads/demo/imb-rkk-001.pdf',
+      mimeType: 'application/pdf',
+      size: 1024000, // 1MB
+      visibility: 'internal',
+      status: 'active',
+      uploadedByRole: 'admin',
+      uploadedById: admin1.id
     }
   });
 

@@ -17,7 +17,8 @@ import {
     FiDollarSign,
     FiCalendar,
     FiArrowLeft,
-    FiMessageSquare
+    FiMessageSquare,
+    FiSend
 } from "react-icons/fi";
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
@@ -721,7 +722,7 @@ const DesignRequestAdminPage = () => {
 
                             {/* CUSTOMER APPROVAL STATUS */}
                             {selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
-                                <div className="p-6 bg-emerald-600 text-white rounded-[2rem] shadow-xl shadow-emerald-600/20 animate-bounce">
+                                <div className="p-6 bg-emerald-600 text-white rounded-[2rem] shadow-xl shadow-emerald-600/20">
                                     <div className="flex items-center gap-3">
                                         <div className="p-2 bg-white/20 rounded-xl"><FiAward size={20} /></div>
                                         <div>
@@ -729,6 +730,53 @@ const DesignRequestAdminPage = () => {
                                             <p className="text-xs font-black uppercase tracking-tight">Sudah Disetujui Konsumen</p>
                                         </div>
                                     </div>
+                                </div>
+                            )}
+
+                            {/* POST-DESIGN DECISION MONITOR */}
+                            {selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
+                                <div className="p-6 bg-white border border-indigo-100 rounded-[2rem] shadow-sm space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <FiList className="text-indigo-600" size={16} />
+                                        <h4 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Post-Design Decision</h4>
+                                    </div>
+                                    
+                                    {(() => {
+                                        const latestDecision = (selectedRequest.history || [])
+                                            .filter(h => h.action === 'customer_post_design_decision')
+                                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                                        
+                                        if (!latestDecision) {
+                                            return (
+                                                <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                                                    <p className="text-[10px] text-amber-700 font-bold uppercase tracking-widest">Pending Decision</p>
+                                                    <p className="text-[9px] text-amber-600 font-medium mt-1">Konsumen belum memilih jalur setelah persetujuan desain.</p>
+                                                </div>
+                                            );
+                                        }
+
+                                        const decision = latestDecision.metadata?.decision;
+                                        return (
+                                            <div className="space-y-4">
+                                                <div className={`p-4 rounded-2xl border ${decision === 'continue_to_construction_preparation' ? 'bg-indigo-50 border-indigo-200' : 'bg-slate-50 border-slate-200'}`}>
+                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Keputusan Konsumen:</p>
+                                                    <p className={`text-xs font-black mt-1 ${decision === 'continue_to_construction_preparation' ? 'text-indigo-700' : 'text-slate-700'}`}>
+                                                        {decision === 'continue_to_construction_preparation' 
+                                                            ? "Continue to Construction Preparation" 
+                                                            : "Design/RAB Only Completed"}
+                                                    </p>
+                                                </div>
+
+                                                {decision === 'continue_to_construction_preparation' && (
+                                                    <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                                                        <p className="text-[9px] text-emerald-800 font-bold leading-relaxed uppercase italic">
+                                                            <FiInfo className="inline mr-1" /> Hint: Proses tender Mandor dan assignment Pengawas untuk proyek ini akan ditangani pada batch pengembangan berikutnya.
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })()}
                                 </div>
                             )}
 

@@ -136,6 +136,11 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                             Siap Review
                           </span>
                         )}
+                        {log.action === 'customer_post_design_decision' && (
+                          <span className="ml-2 text-[9px] font-black text-indigo-600 uppercase border border-indigo-200 px-2 py-0.5 rounded-full bg-indigo-50">
+                            Keputusan Pasca Desain
+                          </span>
+                        )}
                       </h4>
                     </div>
                     <div className="text-right">
@@ -156,6 +161,14 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                       <div className="flex items-center gap-2">
                         <span className={`text-[9px] font-black uppercase tracking-tighter px-2 py-0.5 rounded bg-amber-200 text-amber-800`}>
                           {log.metadata?.revisionType === 'major' ? 'Revisi Besar' : 'Revisi Kecil'}
+                        </span>
+                      </div>
+                    )}
+
+                    {log.action === 'customer_post_design_decision' && log.metadata?.decision && (
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[9px] font-black uppercase tracking-tighter px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 border border-indigo-200`}>
+                          Jalur: {log.metadata.decision === 'continue_to_construction_preparation' ? 'Continue to Construction' : 'Design/RAB Only'}
                         </span>
                       </div>
                     )}

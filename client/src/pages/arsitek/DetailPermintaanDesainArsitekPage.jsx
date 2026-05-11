@@ -72,10 +72,8 @@ const DetailPermintaanDesainArsitekPage = () => {
                 await designRequestService.updateDesignRequest(requestId, { status: 'in_review' });
             }
 
-            // Also update status to 'in_progress' if just started
-            if (action === 'architect_started_work') {
-                await designRequestService.updateDesignRequest(requestId, { status: 'in_progress' });
-            }
+            // Note: in_progress status removed as per Batch 8A-1 requirements.
+            // Status remains 'assigned' while architect is working.
 
             alert("Update berhasil disimpan!");
             setProgressForm({
@@ -255,9 +253,10 @@ const DetailPermintaanDesainArsitekPage = () => {
                                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
                                     request.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
                                     request.status === 'in_review' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                    request.status === 'assigned' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
                                     'bg-blue-50 text-blue-600 border-blue-100'
                                 }`}>
-                                    {request.status.replace('_', ' ')}
+                                    {request.status === 'assigned' && request.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' : request.status.replace('_', ' ')}
                                 </span>
                             </div>
 

@@ -349,7 +349,6 @@ const DesignRequestAdminPage = () => {
             open: "bg-teal-50 text-teal-600 border-teal-100",
             assigned: "bg-indigo-50 text-indigo-600 border-indigo-100",
             awarded: "bg-indigo-50 text-indigo-600 border-indigo-100",
-            in_progress: "bg-sky-50 text-sky-600 border-sky-100",
             in_review: "bg-amber-50 text-amber-600 border-amber-100",
             approved: "bg-emerald-50 text-emerald-600 border-emerald-100",
             rejected: "bg-rose-50 text-rose-600 border-rose-100",
@@ -358,7 +357,6 @@ const DesignRequestAdminPage = () => {
         };
         const labels = {
             assigned: "Arsitek Terpilih",
-            in_progress: "Sedang Dikerjakan",
             open: "Tender Aktif",
             approved: "Siap Convert"
         };
@@ -672,10 +670,10 @@ const DesignRequestAdminPage = () => {
                                             {selectedRequest.history?.filter(h => h.action === 'architect_progress_update').length > 0 ? (
                                                 <div className="space-y-1">
                                                     <p className="text-xs font-bold text-slate-700 line-clamp-2 italic">
-                                                        "{selectedRequest.history.filter(h => h.action === 'architect_progress_update')[0].note}"
+                                                        "{selectedRequest.history.filter(h => h.action === 'architect_progress_update').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].note}"
                                                     </p>
                                                     <p className="text-[9px] text-emerald-600 font-bold">
-                                                        Update: {new Date(selectedRequest.history.filter(h => h.action === 'architect_progress_update')[0].createdAt).toLocaleString('id-ID')}
+                                                        Update: {new Date(selectedRequest.history.filter(h => h.action === 'architect_progress_update').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleString('id-ID')}
                                                     </p>
                                                 </div>
                                             ) : (

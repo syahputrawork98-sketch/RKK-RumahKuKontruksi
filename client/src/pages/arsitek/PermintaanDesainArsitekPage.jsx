@@ -277,14 +277,13 @@ const PermintaanDesainArsitekPage = () => {
                                         </div>
                                         <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
                                             r.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
-                                            r.status === 'in_progress' ? "bg-blue-50 text-blue-600 border-blue-100" :
                                             r.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
                                             r.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
                                             "bg-gray-50 text-gray-600 border-gray-100"
                                         }`}>
-                                            {r.status === 'assigned' ? 'Terpilih' : 
-                                             r.status === 'in_progress' ? 'Dikerjakan' :
-                                             r.status === 'in_review' ? 'Proses Review' : 
+                                            {r.status === 'assigned' && r.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' :
+                                             r.status === 'assigned' ? 'Terpilih' :
+                                             r.status === 'in_review' ? 'Proses Review' :
                                              r.status === 'approved' ? 'Selesai' : r.status.replace('_', ' ')}
                                         </span>
                                     </div>
@@ -330,7 +329,7 @@ const PermintaanDesainArsitekPage = () => {
                                                 <div className="flex flex-col border-l border-gray-100 pl-4">
                                                     <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Latest Update</span>
                                                     <span className="text-[10px] font-bold text-indigo-600">
-                                                        {new Date(r.history.filter(h => h.action === 'architect_progress_update')[0].createdAt).toLocaleDateString('id-ID')}
+                                                        {new Date(r.history.filter(h => h.action === 'architect_progress_update').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleDateString('id-ID')}
                                                     </span>
                                                 </div>
                                             )}

@@ -534,7 +534,7 @@ ${formData.materialPreferences || '-'}
                                 </h4>
                                 <DesignTimeline
                                     history={(selectedRequest.history || []).filter(log =>
-                                        ['submitted', 'admin_released_design_to_customer', 'revision_major', 'revision_minor', 'customer_design_feedback', 'customer_design_approved', 'approved', 'rejected'].includes(log.action)
+                                        ['submitted', 'admin_released_design_to_customer', 'revision_major', 'revision_minor', 'customer_design_feedback', 'customer_design_approved', 'customer_post_design_decision', 'approved', 'rejected'].includes(log.action)
                                     )}
                                     majorCount={selectedRequest.majorRevisionCount || 0}
                                     minorCount={selectedRequest.minorRevisionCount || 0}

@@ -18,7 +18,10 @@ import {
     FiCalendar,
     FiArrowLeft,
     FiMessageSquare,
-    FiSend
+    FiSend,
+    FiShield,
+    FiActivity,
+    FiAlertCircle
 } from "react-icons/fi";
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
@@ -1205,6 +1208,114 @@ const DesignRequestAdminPage = () => {
                                             className="w-full py-3 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
                                         >
                                             {submitting ? "Menyimpan..." : "Simpan Readiness Prep"}
+                                        </button>
+                                    </div>
+                                );
+                            })()}
+
+                            {/* CONSTRUCTION TRANSITION SUMMARY (Batch 13) */}
+                            {(() => {
+                                const history = selectedRequest.history || [];
+
+                                const latestDecision = [...history]
+                                    .filter(h => h.action === 'customer_post_design_decision')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const latestMandorPrep = [...history]
+                                    .filter(h => h.action === 'admin_mandor_selection_preparation')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const latestReadiness = [...history]
+                                    .filter(h => h.action === 'admin_construction_readiness_preparation')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const hasPlanning = history.some(h => h.action === 'admin_curated_instruction');
+
+                                const decision = latestDecision?.metadata?.decision;
+
+                                if (!decision && !latestMandorPrep && !latestReadiness) return null;
+
+                                return (
+                                    <div className="p-6 bg-slate-900 text-white rounded-[2rem] shadow-xl space-y-6 overflow-hidden relative">
+                                        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                                            <FiZap size={120} />
+                                        </div>
+
+                                        <div className="flex items-center justify-between relative z-10">
+                                            <div className="flex items-center gap-2">
+                                                <div className="p-2 bg-indigo-500 rounded-lg"><FiActivity size={14} /></div>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-100">Transition Summary</h4>
+                                            </div>
+                                            <span className="px-2 py-0.5 bg-white/10 text-white/60 text-[8px] font-black uppercase rounded">Read-Only</span>
+                                        </div>
+
+                                        <div className="space-y-4 relative z-10">
+                                            {/* Decision Status */}
+                                            <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                                                <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Customer Intent</span>
+                                                <span className={`text-[10px] font-bold ${decision === 'continue_to_construction_preparation' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                                                    {decision === 'continue_to_construction_preparation' ? 'Continue to Construction' :
+                                                     decision === 'design_only_completed' ? 'Design Only (Completed)' : 'Pending Decision'}
+                                                </span>
+                                            </div>
+
+                                            {decision === 'continue_to_construction_preparation' && (
+                                                <>
+                                                    {/* Mandor Prep Status */}
+                                                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                                                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Mandor Shortlist</span>
+                                                        <div className="text-right">
+                                                            <span className={`text-[10px] font-bold ${latestMandorPrep ? 'text-emerald-400' : 'text-white/40'}`}>
+                                                                {latestMandorPrep ? 'Shortlist Prepared' : 'Not Started'}
+                                                            </span>
+                                                            {latestMandorPrep?.metadata?.selectedCandidateIds && (
+                                                                <span className="block text-[8px] font-black text-white/20 uppercase mt-0.5">
+                                                                    {latestMandorPrep.metadata.selectedCandidateIds.length} Kandidat Terpilih
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Supervisor Prep Status */}
+                                                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                                                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Readiness Prep</span>
+                                                        <div className="text-right">
+                                                            <span className={`text-[10px] font-bold ${latestReadiness ? 'text-emerald-400' : 'text-white/40'}`}>
+                                                                {latestReadiness ? 'Readiness Ready' : 'Not Started'}
+                                                            </span>
+                                                            {latestReadiness?.metadata?.selectedSupervisorCandidateIds && (
+                                                                <span className="block text-[8px] font-black text-white/20 uppercase mt-0.5">
+                                                                    {latestReadiness.metadata.selectedSupervisorCandidateIds.length} Pengawas Disiapkan
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Planning Status */}
+                                                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                                                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Project Planning</span>
+                                                        <span className={`text-[10px] font-bold ${hasPlanning ? 'text-emerald-400' : 'text-white/40'}`}>
+                                                            {hasPlanning ? 'Instruction Ready' : 'No Planning Found'}
+                                                        </span>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        <div className="p-4 bg-white/5 rounded-2xl border border-white/10 space-y-3 relative z-10">
+                                            <div className="flex items-center gap-2 text-amber-400">
+                                                <FiAlertCircle size={14} />
+                                                <h5 className="text-[9px] font-black uppercase tracking-widest">Critical Information</h5>
+                                            </div>
+                                            <ul className="space-y-1.5 list-disc list-inside">
+                                                <li className="text-[9px] text-white/60 font-medium">Project belum active construction.</li>
+                                                <li className="text-[9px] text-white/60 font-medium">Mandor/Pengawas belum assigned final.</li>
+                                                <li className="text-[9px] text-white/60 font-medium">Progress SOT belum berjalan.</li>
+                                            </ul>
+                                        </div>
+
+                                        <button disabled className="w-full py-3 bg-white/10 text-white/30 rounded-2xl font-black text-[10px] uppercase tracking-widest cursor-not-allowed">
+                                            Activation Logic In Batch 14
                                         </button>
                                     </div>
                                 );

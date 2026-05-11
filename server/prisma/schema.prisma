@@ -73,6 +73,7 @@ model Project {
   stagePublicComments       ProjectStagePublicComment[]
   customerPaymentPlan       CustomerPaymentPlan?
   foremanWeeklyPaymentEligibilities ForemanWeeklyPaymentEligibility[]
+  fieldIssues               FieldIssue[]
 
   @@map("projects")
 }
@@ -98,6 +99,7 @@ model Supervisor {
   experiences        SupervisorExperience[]
   weeklyJournals     WeeklyJournal[]
   weeklyReports      SupervisorWeeklyReport[]
+  fieldIssues        FieldIssue[]
 
   @@map("supervisors")
 }
@@ -166,6 +168,7 @@ model Foreman {
   projects           Project[]
   weeklyJournals     WeeklyJournal[]
   paymentEligibilities ForemanWeeklyPaymentEligibility[]
+  fieldIssues        FieldIssue[]
 
   @@map("foremen")
 }
@@ -234,6 +237,7 @@ model ProjectStage {
   foremanPaymentEligibilityItems ForemanWeeklyPaymentEligibilityItem[]
   project              Project                     @relation(fields: [projectId], references: [id])
   publicComments       ProjectStagePublicComment[]
+  fieldIssues          FieldIssue[]
 
   @@map("project_stages")
 }
@@ -301,6 +305,7 @@ model RabItem {
   journalActivities    WeeklyJournalActivity[]
   reportNotes          SupervisorWeeklyReportNote[]
   foremanPaymentEligibilityItems ForemanWeeklyPaymentEligibilityItem[]
+  fieldIssues          FieldIssue[]
 
   @@map("rab_items")
 }
@@ -381,6 +386,7 @@ model Admin {
   materialRequests MaterialRequest[]
   foremanWeeklyPaymentEligibilities ForemanWeeklyPaymentEligibility[]
   projects         Project[]
+  fieldIssues      FieldIssue[]
 
   @@map("admins")
 }
@@ -940,4 +946,37 @@ model ForemanWeeklyPaymentEligibilityItem {
   updatedAt        DateTime @updatedAt @map("updated_at")
 
   @@map("foreman_weekly_payment_eligibility_items")
+}
+
+model FieldIssue {
+  id               String       @id @default(cuid())
+  issueCode        String       @unique @map("issue_code")
+  projectId        String       @map("project_id")
+  foremanId        String       @map("foreman_id")
+  supervisorId     String?      @map("supervisor_id")
+  adminId          String?      @map("admin_id")
+  
+  title            String
+  description      String
+  category         String       // Logistik, Alam, Teknis, dll
+  priority         String       @default("medium") // low, medium, high
+  status           String       @default("open") // open, in_review, resolved, rejected, closed
+  
+  stageId          String?      @map("stage_id")
+  rabItemId        String?      @map("rab_item_id")
+  
+  resolutionNote   String?      @map("resolution_note")
+  
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+  resolvedAt       DateTime?    @map("resolved_at")
+  
+  project          Project      @relation(fields: [projectId], references: [id])
+  foreman          Foreman      @relation(fields: [foremanId], references: [id])
+  supervisor       Supervisor?  @relation(fields: [supervisorId], references: [id])
+  admin            Admin?       @relation(fields: [adminId], references: [id])
+  stage            ProjectStage? @relation(fields: [stageId], references: [id])
+  rabItem          RabItem?     @relation(fields: [rabItemId], references: [id])
+
+  @@map("field_issues")
 }

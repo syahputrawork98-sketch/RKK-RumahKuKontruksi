@@ -7,6 +7,7 @@ async function main() {
 
   // 0. CLEANUP (Order matters for foreign keys)
   console.log('Cleaning up existing data...');
+  await prisma.fieldIssue.deleteMany({});
   await prisma.materialRequestHistory.deleteMany({});
   await prisma.materialRequestItem.deleteMany({});
   await prisma.materialRequest.deleteMany({});
@@ -1290,6 +1291,39 @@ async function main() {
       adminId: admin2.id,
       progress: 0,
       // Incomplete: no supervisor, no foreman, no RAB yet
+    }
+  });
+
+  // 8. SCENARIO 6: FIELD ISSUES (KENDALA LAPANGAN)
+  console.log('Seeding Scenario 6: Field Issues...');
+
+  await prisma.fieldIssue.create({
+    data: {
+      id: 'issue-active-001',
+      issueCode: 'ISSUE-24-0001',
+      projectId: activeProject.id,
+      foremanId: foreman1.id,
+      supervisorId: supervisor1.id,
+      title: 'Material Semen Telat',
+      description: 'Pengiriman semen dari pusat logistik belum sampai, pekerjaan pengecoran tertunda.',
+      category: 'Logistik',
+      priority: 'high',
+      status: 'open',
+      stageId: stage2.id
+    }
+  });
+
+  await prisma.fieldIssue.create({
+    data: {
+      id: 'issue-active-002',
+      issueCode: 'ISSUE-24-0002',
+      projectId: activeProject.id,
+      foremanId: foreman1.id,
+      title: 'Cuaca Hujan Lebat',
+      description: 'Pekerjaan outdoor dihentikan sementara karena hujan deras.',
+      category: 'Alam',
+      priority: 'medium',
+      status: 'in_review'
     }
   });
 

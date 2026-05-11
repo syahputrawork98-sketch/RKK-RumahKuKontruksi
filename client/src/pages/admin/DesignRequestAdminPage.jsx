@@ -25,6 +25,7 @@ import designTenderService from "../../services/designTenderService";
 import customerService from "../../services/customerService";
 import architectService from "../../services/architectService";
 import foremanService from "../../services/foremanService";
+import supervisorService from "../../services/supervisorService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import DesignTimeline from "../../components/design/DesignTimeline";
@@ -53,6 +54,9 @@ const DesignRequestAdminPage = () => {
     const [foremen, setForemen] = useState([]);
     const [selectedMandorIds, setSelectedMandorIds] = useState([]);
     const [mandorNote, setMandorNote] = useState("");
+    const [supervisors, setSupervisors] = useState([]);
+    const [selectedSupervisorIds, setSelectedSupervisorIds] = useState([]);
+    const [readinessNote, setReadinessNote] = useState("");
 
     const [formData, setFormData] = useState({
         title: "",
@@ -284,6 +288,27 @@ const DesignRequestAdminPage = () => {
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
                     setSelectedMandorIds(latestPrep?.metadata?.selectedCandidateIds || []);
                     setMandorNote(latestPrep?.note || "");
+
+                    // Batch 12A: Fetch supervisors if Mandor prep is done
+                    if (latestPrep?.metadata?.preparationStatus === 'shortlist_prepared') {
+                        try {
+                            const supervisorRes = await supervisorService.getAllSupervisors();
+                            setSupervisors(supervisorRes.data || []);
+
+                            // Pre-populate readiness if exists
+                            const latestReadiness = (requestData.history || [])
+                                .filter(h => h.action === 'admin_construction_readiness_preparation')
+                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                            setSelectedSupervisorIds(latestReadiness?.metadata?.selectedSupervisorCandidateIds || []);
+                            setReadinessNote(latestReadiness?.note || "");
+                        } catch (sErr) {
+                            console.error("Error fetching supervisors:", sErr);
+                        }
+                    } else {
+                        setSupervisors([]);
+                        setSelectedSupervisorIds([]);
+                        setReadinessNote("");
+                    }
                 } catch (fErr) {
                     console.error("Error fetching foremen:", fErr);
                 }
@@ -291,6 +316,9 @@ const DesignRequestAdminPage = () => {
                 setForemen([]);
                 setSelectedMandorIds([]);
                 setMandorNote("");
+                setSupervisors([]);
+                setSelectedSupervisorIds([]);
+                setReadinessNote("");
             }
 
             setLoading(false);
@@ -411,6 +439,53 @@ const DesignRequestAdminPage = () => {
 
     const toggleMandorSelection = (id) => {
         setSelectedMandorIds(prev =>
+            prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+        );
+    };
+
+    const handleSaveReadinessPreparation = async () => {
+        if (selectedSupervisorIds.length === 0 && !readinessNote.trim()) {
+            alert("Silakan pilih minimal satu pengawas atau tulis catatan kesiapan.");
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+
+            const hasProjectPlanning = (selectedRequest.history || []).some(h => h.action === 'admin_curated_instruction');
+
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'admin_construction_readiness_preparation',
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: readinessNote,
+                metadata: {
+                    selectedSupervisorCandidateIds: selectedSupervisorIds,
+                    readinessStatus: 'readiness_prepared',
+                    checklist: {
+                        customerDecisionExists: true,
+                        mandorPreparationExists: true,
+                        supervisorCandidatePrepared: selectedSupervisorIds.length > 0,
+                        projectPlanningExists: hasProjectPlanning
+                    },
+                    source: 'construction-readiness-preparation'
+                }
+            });
+
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            alert("Persiapan kesiapan konstruksi berhasil disimpan.");
+        } catch (err) {
+            console.error("Error saving readiness prep:", err);
+            alert("Gagal menyimpan persiapan kesiapan konstruksi.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    const toggleSupervisorSelection = (id) => {
+        setSelectedSupervisorIds(prev =>
             prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
         );
     };
@@ -1014,6 +1089,111 @@ const DesignRequestAdminPage = () => {
                                             className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
                                         >
                                             {submitting ? "Menyimpan..." : "Simpan Shortlist Prep"}
+                                        </button>
+                                    </div>
+                                );
+                            })()}
+
+                            {/* CONSTRUCTION READINESS PREPARATION PANEL (Batch 12A) */}
+                            {(() => {
+                                const latestMandorPrep = (selectedRequest.history || [])
+                                    .filter(h => h.action === 'admin_mandor_selection_preparation')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const isMandorReady = latestMandorPrep?.metadata?.preparationStatus === 'shortlist_prepared';
+
+                                if (!isMandorReady) {
+                                    return (
+                                        <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <FiShield className="text-gray-400" size={16} />
+                                                <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Readiness Prep (Hold)</h4>
+                                            </div>
+                                            <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
+                                                Tersedia setelah Mandor Selection Preparation selesai dilakukan.
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                return (
+                                    <div className="p-6 bg-white border border-blue-200 rounded-[2rem] shadow-sm space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className="p-2 bg-blue-600 text-white rounded-lg"><FiShield size={14} /></div>
+                                                <h4 className="text-xs font-black uppercase tracking-widest text-blue-900">Construction Readiness</h4>
+                                            </div>
+                                            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[8px] font-black uppercase rounded">Preparation Layer</span>
+                                        </div>
+
+                                        <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100 space-y-3">
+                                            <h5 className="text-[9px] font-black text-blue-800 uppercase tracking-widest">Readiness Checklist</h5>
+                                            <div className="space-y-2">
+                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
+                                                    <FiCheckCircle className="text-emerald-500" size={12} />
+                                                    <span>Customer Decision: Continue to Construction</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
+                                                    <FiCheckCircle className="text-emerald-500" size={12} />
+                                                    <span>Mandor Selection Preparation: Shortlisted</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
+                                                    {selectedSupervisorIds.length > 0 ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
+                                                    <span>Supervisor Candidate Prepared</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
+                                                    {(selectedRequest.history || []).some(h => h.action === 'admin_curated_instruction') ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
+                                                    <span>Project Planning Instruction Exists</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">Pilih Kandidat Pengawas</label>
+                                            <div className="space-y-2 max-h-[150px] overflow-y-auto pr-2 custom-scrollbar">
+                                                {supervisors.length > 0 ? supervisors.map(s => (
+                                                    <div
+                                                        key={s.id}
+                                                        onClick={() => toggleSupervisorSelection(s.id)}
+                                                        className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                                                            selectedSupervisorIds.includes(s.id)
+                                                            ? 'bg-blue-50 border-blue-300 ring-2 ring-blue-500/10'
+                                                            : 'bg-gray-50 border-gray-100 hover:border-blue-200'
+                                                        }`}
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-[10px] ${selectedSupervisorIds.includes(s.id) ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                                                {s.name?.[0] || 'P'}
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[11px] font-bold text-gray-800">{s.name}</p>
+                                                                <p className="text-[9px] text-gray-500 font-medium">{s.specialization || 'Umum'} • {s.city || 'Lokal'}</p>
+                                                            </div>
+                                                        </div>
+                                                        {selectedSupervisorIds.includes(s.id) && <FiCheckCircle className="text-blue-600" size={14} />}
+                                                    </div>
+                                                )) : (
+                                                    <p className="text-[10px] text-gray-400 italic text-center py-4">Memuat data Pengawas...</p>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">Readiness Note</label>
+                                            <textarea
+                                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none min-h-[80px]"
+                                                placeholder="Tulis catatan kesiapan teknis atau kriteria pengawas..."
+                                                value={readinessNote}
+                                                onChange={(e) => setReadinessNote(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <button
+                                            onClick={handleSaveReadinessPreparation}
+                                            disabled={submitting || (selectedSupervisorIds.length === 0 && !readinessNote.trim())}
+                                            className="w-full py-3 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
+                                        >
+                                            {submitting ? "Menyimpan..." : "Simpan Readiness Prep"}
                                         </button>
                                     </div>
                                 );

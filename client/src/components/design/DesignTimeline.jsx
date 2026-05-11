@@ -146,6 +146,11 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                             Persiapan Seleksi Mandor
                           </span>
                         )}
+                        {log.action === 'admin_construction_readiness_preparation' && (
+                          <span className="ml-2 text-[9px] font-black text-blue-600 uppercase border border-blue-200 px-2 py-0.5 rounded-full bg-blue-50">
+                            Persiapan Kesiapan Konstruksi
+                          </span>
+                        )}
                       </h4>
                     </div>
                     <div className="text-right">

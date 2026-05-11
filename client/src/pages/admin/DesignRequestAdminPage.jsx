@@ -60,6 +60,7 @@ const DesignRequestAdminPage = () => {
     const [supervisors, setSupervisors] = useState([]);
     const [selectedSupervisorIds, setSelectedSupervisorIds] = useState([]);
     const [readinessNote, setReadinessNote] = useState("");
+    const [finalReviewNote, setFinalReviewNote] = useState("");
 
     const [formData, setFormData] = useState({
         title: "",
@@ -291,7 +292,6 @@ const DesignRequestAdminPage = () => {
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
                     setSelectedMandorIds(latestPrep?.metadata?.selectedCandidateIds || []);
                     setMandorNote(latestPrep?.note || "");
-
                     // Batch 12A: Fetch supervisors if Mandor prep is done
                     if (latestPrep?.metadata?.preparationStatus === 'shortlist_prepared') {
                         try {
@@ -323,6 +323,12 @@ const DesignRequestAdminPage = () => {
                 setSelectedSupervisorIds([]);
                 setReadinessNote("");
             }
+
+            // Batch 14: Pre-populate final review if exists
+            const latestReview = (requestData.history || [])
+                .filter(h => h.action === 'admin_construction_transition_review')
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+            setFinalReviewNote(latestReview?.note || "");
 
             setLoading(false);
         } catch (err) {
@@ -491,6 +497,55 @@ const DesignRequestAdminPage = () => {
         setSelectedSupervisorIds(prev =>
             prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
         );
+    };
+
+    const handleSaveFinalReview = async () => {
+        if (!finalReviewNote.trim()) {
+            alert("Silakan tulis catatan review final.");
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+
+            const history = selectedRequest.history || [];
+            const latestDecision = [...history]
+                .filter(h => h.action === 'customer_post_design_decision')
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+            const latestMandorPrep = [...history]
+                .filter(h => h.action === 'admin_mandor_selection_preparation')
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+            const latestReadiness = [...history]
+                .filter(h => h.action === 'admin_construction_readiness_preparation')
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'admin_construction_transition_review',
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: finalReviewNote,
+                metadata: {
+                    reviewStatus: 'reviewed_for_project_planning',
+                    constructionIntentConfirmed: latestDecision?.metadata?.decision === 'continue_to_construction_preparation',
+                    mandorPreparationReviewed: !!latestMandorPrep,
+                    supervisorReadinessReviewed: !!latestReadiness,
+                    nextStepRecommendation: 'project_planning_review_only',
+                    source: 'construction-transition-review'
+                }
+            });
+
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            alert("Review transisi konstruksi berhasil disimpan.");
+        } catch (err) {
+            console.error("Error saving final review:", err);
+            alert("Gagal menyimpan review transisi konstruksi.");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const handleDelete = async (id) => {
@@ -1317,6 +1372,90 @@ const DesignRequestAdminPage = () => {
                                         <button disabled className="w-full py-3 bg-white/10 text-white/30 rounded-2xl font-black text-[10px] uppercase tracking-widest cursor-not-allowed">
                                             Activation Logic In Batch 14
                                         </button>
+                                    </div>
+                                );
+                            })()}
+
+                            {/* CONSTRUCTION TRANSITION FINAL REVIEW (Batch 14) */}
+                            {(() => {
+                                const history = selectedRequest.history || [];
+
+                                const latestDecision = [...history]
+                                    .filter(h => h.action === 'customer_post_design_decision')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const latestMandorPrep = [...history]
+                                    .filter(h => h.action === 'admin_mandor_selection_preparation')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const latestReadiness = [...history]
+                                    .filter(h => h.action === 'admin_construction_readiness_preparation')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const isReadyForReview =
+                                    latestDecision?.metadata?.decision === 'continue_to_construction_preparation' &&
+                                    latestMandorPrep?.metadata?.preparationStatus === 'shortlist_prepared' &&
+                                    latestReadiness?.metadata?.readinessStatus === 'readiness_prepared';
+
+                                if (!isReadyForReview) {
+                                    return (
+                                        <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <FiAward className="text-gray-400" size={16} />
+                                                <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Final Review (Hold)</h4>
+                                            </div>
+                                            <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
+                                                Tersedia setelah seluruh tahapan persiapan konstruksi (Chain 10-12) selesai dilakukan.
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                return (
+                                    <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-[2rem] shadow-sm space-y-6">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className="p-2 bg-emerald-600 text-white rounded-lg"><FiAward size={14} /></div>
+                                                <h4 className="text-xs font-black uppercase tracking-widest text-emerald-900">Final Transition Review</h4>
+                                            </div>
+                                            <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[8px] font-black uppercase rounded">Administrative Gate</span>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <p className="text-[10px] text-emerald-700 font-bold leading-relaxed italic">
+                                                Gunakan panel ini untuk memberikan review akhir sebelum pengajuan ini direkomendasikan untuk Project Planning atau Aktivasi Konstruksi.
+                                            </p>
+
+                                            <div className="space-y-2">
+                                                <label className="text-[9px] font-black uppercase tracking-widest text-emerald-600">Final Review Note</label>
+                                                <textarea
+                                                    className="w-full p-4 bg-white border border-emerald-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-none min-h-[100px]"
+                                                    placeholder="Tulis ringkasan review kelayakan transisi ke konstruksi..."
+                                                    value={finalReviewNote}
+                                                    onChange={(e) => setFinalReviewNote(e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className="p-4 bg-white/60 rounded-2xl border border-emerald-100 space-y-3">
+                                                <div className="flex items-center gap-2 text-emerald-600">
+                                                    <FiInfo size={14} />
+                                                    <h5 className="text-[9px] font-black uppercase tracking-widest">Administrative Marker</h5>
+                                                </div>
+                                                <ul className="space-y-1.5">
+                                                    <li className="text-[9px] text-emerald-700 font-medium leading-relaxed">• Review ini bukan aktivasi konstruksi.</li>
+                                                    <li className="text-[9px] text-emerald-700 font-medium leading-relaxed">• Review ini bukan assignment final Mandor/Pengawas.</li>
+                                                    <li className="text-[9px] text-emerald-700 font-medium leading-relaxed">• Project-backed action tetap membutuhkan keputusan terpisah.</li>
+                                                </ul>
+                                            </div>
+
+                                            <button
+                                                onClick={handleSaveFinalReview}
+                                                disabled={submitting || !finalReviewNote.trim()}
+                                                className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
+                                            >
+                                                {submitting ? "Menyimpan Review..." : "Submit Final Review"}
+                                            </button>
+                                        </div>
                                     </div>
                                 );
                             })()}

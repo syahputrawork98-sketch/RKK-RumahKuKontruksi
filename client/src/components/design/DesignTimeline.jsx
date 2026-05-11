@@ -151,6 +151,11 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                             Persiapan Kesiapan Konstruksi
                           </span>
                         )}
+                        {log.action === 'admin_construction_transition_review' && (
+                          <span className="ml-2 text-[9px] font-black text-emerald-600 uppercase border border-emerald-200 px-2 py-0.5 rounded-full bg-emerald-50">
+                            Review Transisi Konstruksi
+                          </span>
+                        )}
                       </h4>
                     </div>
                     <div className="text-right">

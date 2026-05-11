@@ -100,13 +100,24 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                   {config.icon}
                 </div>
 
-                <div className={`p-5 rounded-3xl border ${isRevision ? 'border-amber-200 bg-amber-50/30' : 'border-slate-100 bg-white'} shadow-sm group hover:border-indigo-200 transition-all`}>
+                <div className={`p-5 rounded-3xl border ${
+                  isRevision ? 'border-amber-200 bg-amber-50/30' : 
+                  log.action === 'admin_curated_instruction' ? 'border-indigo-200 bg-indigo-50/50 ring-2 ring-indigo-500/10 shadow-lg' :
+                  'border-slate-100 bg-white'
+                } shadow-sm group hover:border-indigo-200 transition-all`}>
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <span className={`text-[9px] font-black uppercase tracking-widest ${config.textColor} ${config.bgColor} px-2 py-0.5 rounded-md`}>
                         {config.label}
                       </span>
-                      <h4 className="text-sm font-black text-slate-800 mt-1">{log.actorName || 'User RKK'}</h4>
+                      <h4 className="text-sm font-black text-slate-800 mt-1">
+                        {log.actorName || 'User RKK'}
+                        {log.action === 'admin_curated_instruction' && (
+                          <span className="ml-2 text-[9px] font-black text-indigo-600 uppercase border border-indigo-200 px-2 py-0.5 rounded-full bg-white">
+                            Instruksi Terkurasi
+                          </span>
+                        )}
+                      </h4>
                     </div>
                     <div className="text-right">
                       <p className="text-[10px] font-bold text-slate-400">{new Date(log.createdAt).toLocaleDateString('id-ID')}</p>

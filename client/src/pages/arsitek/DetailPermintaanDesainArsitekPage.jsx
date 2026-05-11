@@ -148,6 +148,27 @@ const DetailPermintaanDesainArsitekPage = () => {
                 </div>
 
                 <div className="space-y-6">
+                    {/* ADMIN CURATED INSTRUCTION (IMPORTANT) */}
+                    <div className="dashboard-card bg-indigo-600 text-white border-none shadow-xl shadow-indigo-600/20">
+                        <div className="flex items-center gap-2 mb-4">
+                            <FiFileText className="text-indigo-200" />
+                            <h3 className="text-[10px] font-black uppercase tracking-widest text-indigo-100">Instruksi Admin (Curated)</h3>
+                        </div>
+                        {request.history?.filter(h => h.action === 'admin_curated_instruction').length > 0 ? (
+                            <div className="space-y-4">
+                                <p className="text-sm font-medium leading-relaxed bg-white/10 p-4 rounded-xl border border-white/10 whitespace-pre-wrap italic">
+                                    "{request.history.filter(h => h.action === 'admin_curated_instruction').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].note}"
+                                </p>
+                                <p className="text-[9px] font-bold text-indigo-200 uppercase tracking-tighter">
+                                    Terakhir diperbarui: {new Date(request.history.filter(h => h.action === 'admin_curated_instruction').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleString('id-ID')}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                                <p className="text-xs font-bold text-indigo-200 italic">Belum ada instruksi teknis terkurasi dari Admin.</p>
+                            </div>
+                        )}
+                    </div>
                     {/* CUSTOMER INFO */}
                     <div className="dashboard-card border-t-4 border-t-[var(--dashboard-primary)]">
                         <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Informasi Konsumen</h3>

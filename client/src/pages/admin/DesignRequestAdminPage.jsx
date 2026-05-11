@@ -46,6 +46,7 @@ const DesignRequestAdminPage = () => {
     const [submitting, setSubmitting] = useState(false);
     const { selectedAdminId } = useAdminPersona();
     const [isConvertOpen, setIsConvertOpen] = useState(false);
+    const [curatedInstruction, setCuratedInstruction] = useState("");
 
     const [formData, setFormData] = useState({
         title: "",
@@ -253,6 +254,13 @@ const DesignRequestAdminPage = () => {
             setLoading(true);
             const res = await designRequestService.getDesignRequestById(request.id);
             setSelectedRequest(res.data);
+            
+            // Find latest curated instruction in history
+            const latestCurated = (res.data.history || [])
+                .filter(h => h.action === 'admin_curated_instruction')
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+            setCuratedInstruction(latestCurated?.note || "");
+            
             setLoading(false);
         } catch (err) {
             console.error("Error fetching detail:", err);
@@ -277,6 +285,37 @@ const DesignRequestAdminPage = () => {
         } catch (err) {
             console.error("Error converting to project:", err);
             alert("Gagal membuat draft proyek: " + (err.response?.data?.message || err.message));
+        } finally {
+            setSubmitting(false);
+        }
+    };
+    
+    const handleSaveCuratedInstruction = async () => {
+        if (!curatedInstruction.trim()) return;
+        try {
+            setSubmitting(true);
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'admin_curated_instruction',
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: curatedInstruction
+            });
+            
+            // Also add a status log
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'instruction_sent_to_architect',
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: 'Instruksi terkurasi telah dikirimkan ke Arsitek.'
+            });
+
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            alert("Instruksi berhasil disimpan dan diteruskan ke Arsitek.");
+        } catch (err) {
+            alert("Gagal menyimpan instruksi.");
         } finally {
             setSubmitting(false);
         }
@@ -566,7 +605,7 @@ const DesignRequestAdminPage = () => {
                                     Status: {getStatusBadge(selectedRequest.status).label}
                                 </span>
                                 <h1 className="text-3xl font-black text-gray-900 leading-tight">{selectedRequest.title}</h1>
-                                <p className="text-sm text-gray-500 leading-relaxed italic">"{selectedRequest.description || 'Tidak ada deskripsi tambahan.'}"</p>
+                                <p className="text-sm text-gray-500 leading-relaxed italic whitespace-pre-wrap">"{selectedRequest.description || 'Tidak ada deskripsi tambahan.'}"</p>
                             </div>
 
                             <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
@@ -654,6 +693,30 @@ const DesignRequestAdminPage = () => {
                                         Edit Brief Detail
                                     </button>
                                 </div>
+                            </div>
+
+                            {/* CURATED INSTRUCTION PANEL */}
+                            <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-[2rem] space-y-4">
+                                <div className="flex items-center gap-2">
+                                    <div className="p-2 bg-indigo-600 text-white rounded-lg"><FiEdit2 size={14} /></div>
+                                    <h4 className="text-xs font-black uppercase tracking-widest text-indigo-900">Curated Instruction</h4>
+                                </div>
+                                <p className="text-[10px] text-indigo-700 font-bold leading-relaxed italic">
+                                    Gunakan area ini untuk merangkum brief Konsumen menjadi instruksi teknis yang jelas bagi Arsitek.
+                                </p>
+                                <textarea 
+                                    className="w-full p-4 bg-white border border-indigo-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none min-h-[120px]"
+                                    placeholder="Tulis instruksi untuk arsitek di sini..."
+                                    value={curatedInstruction}
+                                    onChange={(e) => setCuratedInstruction(e.target.value)}
+                                />
+                                <button 
+                                    onClick={handleSaveCuratedInstruction}
+                                    disabled={submitting || !curatedInstruction.trim()}
+                                    className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+                                >
+                                    {submitting ? "Menyimpan..." : "Update & Kirim ke Arsitek"}
+                                </button>
                             </div>
                         </div>
 

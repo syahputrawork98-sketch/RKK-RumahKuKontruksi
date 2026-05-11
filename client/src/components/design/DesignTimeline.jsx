@@ -51,9 +51,9 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
             <span className={`text-xs font-black ${majorCount >= 3 ? 'text-red-600' : 'text-slate-800'}`}>{majorCount}/3</span>
           </div>
           <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-            <div 
-              className={`h-full transition-all duration-500 ${majorCount >= 3 ? 'bg-red-500' : 'bg-indigo-500'}`} 
-              style={{ width: `${Math.min(100, (majorCount / 3) * 100)}%` }} 
+            <div
+              className={`h-full transition-all duration-500 ${majorCount >= 3 ? 'bg-red-500' : 'bg-indigo-500'}`}
+              style={{ width: `${Math.min(100, (majorCount / 3) * 100)}%` }}
             />
           </div>
           {majorCount >= 3 && (
@@ -69,9 +69,9 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
             <span className={`text-xs font-black ${minorCount >= 5 ? 'text-red-600' : 'text-slate-800'}`}>{minorCount}/5</span>
           </div>
           <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-            <div 
-              className={`h-full transition-all duration-500 ${minorCount >= 5 ? 'bg-red-500' : 'bg-teal-500'}`} 
-              style={{ width: `${Math.min(100, (minorCount / 5) * 100)}%` }} 
+            <div
+              className={`h-full transition-all duration-500 ${minorCount >= 5 ? 'bg-red-500' : 'bg-teal-500'}`}
+              style={{ width: `${Math.min(100, (minorCount / 5) * 100)}%` }}
             />
           </div>
           {minorCount >= 5 && (
@@ -92,7 +92,7 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
           history.map((log, idx) => {
             const config = getRoleConfig(log.actorRole);
             const isRevision = log.action.startsWith('revision_');
-            
+
             return (
               <div key={log.id || idx} className="relative pl-10 animate-fadeIn">
                 {/* Role Marker */}
@@ -101,7 +101,7 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                 </div>
 
                 <div className={`p-5 rounded-3xl border ${
-                  isRevision ? 'border-amber-200 bg-amber-50/30' : 
+                  isRevision ? 'border-amber-200 bg-amber-50/30' :
                   log.action === 'admin_curated_instruction' ? 'border-indigo-200 bg-indigo-50/50 ring-2 ring-indigo-500/10 shadow-lg' :
                   log.action === 'admin_released_design_to_customer' ? 'border-teal-400 bg-teal-50 ring-2 ring-teal-500/10 shadow-md' :
                   log.action === 'customer_design_approved' ? 'border-emerald-600 bg-emerald-600 text-white shadow-xl' :
@@ -187,7 +187,7 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
 
       <div className="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100/50">
         <p className="text-[10px] text-indigo-700 font-bold leading-relaxed uppercase flex items-center gap-2">
-          <FiInfo size={14} className="shrink-0" /> 
+          <FiInfo size={14} className="shrink-0" />
           <span>Local Simulation: Revision limits (3 Major / 5 Minor) are part of the v1 workflow for design quality control.</span>
         </p>
       </div>

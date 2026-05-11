@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     FiPlus,
     FiSearch,
@@ -15,7 +16,6 @@ import {
     FiList,
     FiAward,
     FiDollarSign,
-    FiCalendar,
     FiArrowLeft,
     FiMessageSquare,
     FiSend,
@@ -23,6 +23,13 @@ import {
     FiActivity,
     FiAlertCircle
 } from "react-icons/fi";
+import { 
+    getLatestCustomerPostDesignDecision, 
+    getLatestMandorPreparation, 
+    getLatestConstructionReadiness, 
+    getLatestConstructionTransitionReview,
+    getLatestHistoryByAction
+} from "../../utils/designRequestHistory";
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
 import customerService from "../../services/customerService";
@@ -32,6 +39,19 @@ import supervisorService from "../../services/supervisorService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import DesignTimeline from "../../components/design/DesignTimeline";
+
+// Import Panels
+import PostDesignDecisionMonitorPanel from "../../components/design/admin/PostDesignDecisionMonitorPanel";
+import MandorSelectionPreparationPanel from "../../components/design/admin/MandorSelectionPreparationPanel";
+import ConstructionReadinessPreparationPanel from "../../components/design/admin/ConstructionReadinessPreparationPanel";
+import ConstructionTransitionSummaryPanel from "../../components/design/admin/ConstructionTransitionSummaryPanel";
+import ConstructionTransitionReviewPanel from "../../components/design/admin/ConstructionTransitionReviewPanel";
+import ExecutionMonitorPanel from "../../components/design/admin/ExecutionMonitorPanel";
+import CustomerApprovalStatusPanel from "../../components/design/admin/CustomerApprovalStatusPanel";
+import CuratedInstructionPanel from "../../components/design/admin/CuratedInstructionPanel";
+import ReleaseToCustomerPanel from "../../components/design/admin/ReleaseToCustomerPanel";
+import AdminControlsPanel from "../../components/design/admin/AdminControlsPanel";
+import RevisionMonitoringPanel from "../../components/design/admin/RevisionMonitoringPanel";
 
 const DesignRequestAdminPage = () => {
     const [activeTab, setActiveTab] = useState("requests"); // "requests" or "tenders"
@@ -51,6 +71,7 @@ const DesignRequestAdminPage = () => {
     const [architects, setArchitects] = useState([]);
     const [submitting, setSubmitting] = useState(false);
     const { selectedAdminId } = useAdminPersona();
+    const navigate = useNavigate();
     const [isConvertOpen, setIsConvertOpen] = useState(false);
     const [curatedInstruction, setCuratedInstruction] = useState("");
     const [releaseSummary, setReleaseSummary] = useState("");
@@ -270,16 +291,14 @@ const DesignRequestAdminPage = () => {
             const requestData = res.data;
             setSelectedRequest(requestData);
 
+            const history = requestData.history || [];
+
             // Find latest curated instruction in history
-            const latestCurated = (requestData.history || [])
-                .filter(h => h.action === 'admin_curated_instruction')
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+            const latestCurated = getLatestHistoryByAction(history, 'admin_curated_instruction');
             setCuratedInstruction(latestCurated?.note || "");
 
             // Batch 11A: Fetch foremen if decision is continue_to_construction_preparation
-            const latestDecision = (requestData.history || [])
-                .filter(h => h.action === 'customer_post_design_decision')
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+            const latestDecision = getLatestCustomerPostDesignDecision(history);
 
             if (latestDecision?.metadata?.decision === 'continue_to_construction_preparation') {
                 try {
@@ -287,11 +306,10 @@ const DesignRequestAdminPage = () => {
                     setForemen(foremanRes.data || []);
 
                     // Pre-populate shortlist if exists
-                    const latestPrep = (requestData.history || [])
-                        .filter(h => h.action === 'admin_mandor_selection_preparation')
-                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                    const latestPrep = getLatestMandorPreparation(history);
                     setSelectedMandorIds(latestPrep?.metadata?.selectedCandidateIds || []);
                     setMandorNote(latestPrep?.note || "");
+                    
                     // Batch 12A: Fetch supervisors if Mandor prep is done
                     if (latestPrep?.metadata?.preparationStatus === 'shortlist_prepared') {
                         try {
@@ -299,9 +317,7 @@ const DesignRequestAdminPage = () => {
                             setSupervisors(supervisorRes.data || []);
 
                             // Pre-populate readiness if exists
-                            const latestReadiness = (requestData.history || [])
-                                .filter(h => h.action === 'admin_construction_readiness_preparation')
-                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                            const latestReadiness = getLatestConstructionReadiness(history);
                             setSelectedSupervisorIds(latestReadiness?.metadata?.selectedSupervisorCandidateIds || []);
                             setReadinessNote(latestReadiness?.note || "");
                         } catch (sErr) {
@@ -325,9 +341,7 @@ const DesignRequestAdminPage = () => {
             }
 
             // Batch 14: Pre-populate final review if exists
-            const latestReview = (requestData.history || [])
-                .filter(h => h.action === 'admin_construction_transition_review')
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+            const latestReview = getLatestConstructionTransitionReview(history);
             setFinalReviewNote(latestReview?.note || "");
 
             setLoading(false);
@@ -509,17 +523,9 @@ const DesignRequestAdminPage = () => {
             setSubmitting(true);
 
             const history = selectedRequest.history || [];
-            const latestDecision = [...history]
-                .filter(h => h.action === 'customer_post_design_decision')
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-            const latestMandorPrep = [...history]
-                .filter(h => h.action === 'admin_mandor_selection_preparation')
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-            const latestReadiness = [...history]
-                .filter(h => h.action === 'admin_construction_readiness_preparation')
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+            const latestDecision = getLatestCustomerPostDesignDecision(history);
+            const latestMandorPrep = getLatestMandorPreparation(history);
+            const latestReadiness = getLatestConstructionReadiness(history);
 
             await designRequestService.addHistory(selectedRequest.id, {
                 action: 'admin_construction_transition_review',
@@ -848,617 +854,74 @@ const DesignRequestAdminPage = () => {
                                 </div>
                             </div>
 
-                            {/* REVISION OVERSIGHT */}
-                            <div className={`p-6 rounded-3xl border-2 space-y-4 ${
-                                (selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5)
-                                ? 'bg-red-50 border-red-200 shadow-lg shadow-red-500/5 animate-pulse'
-                                : 'bg-slate-50 border-slate-100'
-                            }`}>
-                                <div className="flex justify-between items-center">
-                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Revision Control</h4>
-                                    {(selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5) && (
-                                        <span className="px-2 py-0.5 bg-red-600 text-white text-[8px] font-black uppercase rounded-md">LIMIT REACHED</span>
-                                    )}
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-[9px] font-bold text-slate-500 uppercase">Major</p>
-                                        <p className={`text-lg font-black ${selectedRequest.majorRevisionCount >= 3 ? 'text-red-600' : 'text-slate-800'}`}>
-                                            {selectedRequest.majorRevisionCount || 0} / 3
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-[9px] font-bold text-slate-500 uppercase">Minor</p>
-                                        <p className={`text-lg font-black ${selectedRequest.minorRevisionCount >= 5 ? 'text-red-600' : 'text-slate-800'}`}>
-                                            {selectedRequest.minorRevisionCount || 0} / 5
-                                        </p>
-                                    </div>
-                                </div>
-                                {(selectedRequest.majorRevisionCount >= 3 || selectedRequest.minorRevisionCount >= 5) && (
-                                    <div className="pt-2 border-t border-red-100">
-                                        <p className="text-[10px] font-bold text-red-700 leading-relaxed uppercase italic">
-                                            Admin Action Required: Revision limit reached. Consider placing on "Hold" or initiating project conversion.
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
+                            <RevisionMonitoringPanel 
+                                majorCount={selectedRequest.majorRevisionCount} 
+                                minorCount={selectedRequest.minorRevisionCount} 
+                            />
 
-                            {/* DESIGN EXECUTION MONITOR (FOR ADMIN) */}
-                            {selectedRequest.architectId && (
-                                <div className="p-6 bg-emerald-50 border border-emerald-100 rounded-[2rem] space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-2 bg-emerald-600 text-white rounded-lg"><FiZap size={14} /></div>
-                                        <h4 className="text-xs font-black uppercase tracking-widest text-emerald-900">Execution Monitor</h4>
-                                    </div>
+                            <AdminControlsPanel 
+                                request={selectedRequest}
+                                onUpdateStatus={handleUpdateStatus}
+                                onOpenConvert={handleOpenConvert}
+                                onOpenForm={handleOpenForm}
+                                submitting={submitting}
+                            />
 
-                                    <div className="space-y-4">
-                                        <div className="p-4 bg-white/60 rounded-2xl border border-emerald-100">
-                                            <p className="text-[9px] font-black text-emerald-700 uppercase tracking-widest mb-2">Latest Progress Update</p>
-                                            {selectedRequest.history?.filter(h => h.action === 'architect_progress_update').length > 0 ? (
-                                                <div className="space-y-1">
-                                                    <p className="text-xs font-bold text-slate-700 line-clamp-2 italic">
-                                                        "{selectedRequest.history.filter(h => h.action === 'architect_progress_update').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].note}"
-                                                    </p>
-                                                    <p className="text-[9px] text-emerald-600 font-bold">
-                                                        Update: {new Date(selectedRequest.history.filter(h => h.action === 'architect_progress_update').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleString('id-ID')}
-                                                    </p>
-                                                </div>
-                                            ) : (
-                                                <p className="text-[10px] text-slate-400 italic">Belum ada progress update tercatat.</p>
-                                            )}
-                                        </div>
+                            <ExecutionMonitorPanel 
+                                history={selectedRequest.history} 
+                                status={selectedRequest.status}
+                                architectId={selectedRequest.architectId}
+                            />
 
-                                        <div className="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
-                                            <p className="text-[9px] font-black text-indigo-700 uppercase tracking-widest mb-1">Next Action Hint</p>
-                                            <p className="text-[10px] font-bold text-slate-600">
-                                                {selectedRequest.history?.some(h => h.action === 'customer_design_approved') ? "Konsumen sudah setuju (Lokal). Lakukan final approval dan convert ke proyek jika siap." :
-                                                 selectedRequest.status === 'in_review' ? "Review draf desain dari arsitek dan berikan feedback / revisi." :
-                                                 selectedRequest.status === 'assigned' ? "Tunggu arsitek mengirimkan progress update atau tanda siap review." :
-                                                 "Proses desain dalam pantauan."}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <CustomerApprovalStatusPanel history={selectedRequest.history} />
 
-                            {/* CUSTOMER APPROVAL STATUS */}
-                            {selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
-                                <div className="p-6 bg-emerald-600 text-white rounded-[2rem] shadow-xl shadow-emerald-600/20">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-white/20 rounded-xl"><FiAward size={20} /></div>
-                                        <div>
-                                            <h4 className="text-[10px] font-black uppercase tracking-widest opacity-80">Customer Approval Intent</h4>
-                                            <p className="text-xs font-black uppercase tracking-tight">Sudah Disetujui Konsumen</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <CuratedInstructionPanel 
+                                instruction={curatedInstruction}
+                                onInstructionChange={setCuratedInstruction}
+                                onSubmit={handleSaveCuratedInstruction}
+                                submitting={submitting}
+                            />
 
-                            {/* POST-DESIGN DECISION MONITOR */}
-                            {selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
-                                <div className="p-6 bg-white border border-indigo-100 rounded-[2rem] shadow-sm space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <FiList className="text-indigo-600" size={16} />
-                                        <h4 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Post-Design Decision</h4>
-                                    </div>
+                            <ReleaseToCustomerPanel 
+                                summary={releaseSummary}
+                                onSummaryChange={setReleaseSummary}
+                                onSubmit={handleReleaseToCustomer}
+                                submitting={submitting}
+                            />
 
-                                    {(() => {
-                                        const latestDecision = (selectedRequest.history || [])
-                                            .filter(h => h.action === 'customer_post_design_decision')
-                                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                            <PostDesignDecisionMonitorPanel history={selectedRequest.history} />
 
-                                        if (!latestDecision) {
-                                            return (
-                                                <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100">
-                                                    <p className="text-[10px] text-amber-700 font-bold uppercase tracking-widest">Pending Decision</p>
-                                                    <p className="text-[9px] text-amber-600 font-medium mt-1">Konsumen belum memilih jalur setelah persetujuan desain.</p>
-                                                </div>
-                                            );
-                                        }
+                            <MandorSelectionPreparationPanel 
+                                history={selectedRequest.history}
+                                foremen={foremen}
+                                selectedMandorIds={selectedMandorIds}
+                                toggleMandorSelection={toggleMandorSelection}
+                                mandorNote={mandorNote}
+                                setMandorNote={setMandorNote}
+                                onSubmit={handleSaveMandorPreparation}
+                                submitting={submitting}
+                            />
 
-                                        const decision = latestDecision.metadata?.decision;
-                                        return (
-                                            <div className="space-y-4">
-                                                <div className={`p-4 rounded-2xl border ${decision === 'continue_to_construction_preparation' ? 'bg-indigo-50 border-indigo-200' : 'bg-slate-50 border-slate-200'}`}>
-                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Keputusan Konsumen:</p>
-                                                    <p className={`text-xs font-black mt-1 ${decision === 'continue_to_construction_preparation' ? 'text-indigo-700' : 'text-slate-700'}`}>
-                                                        {decision === 'continue_to_construction_preparation'
-                                                            ? "Continue to Construction Preparation"
-                                                            : "Design/RAB Only Completed"}
-                                                    </p>
-                                                </div>
+                            <ConstructionReadinessPreparationPanel 
+                                history={selectedRequest.history}
+                                supervisors={supervisors}
+                                selectedSupervisorIds={selectedSupervisorIds}
+                                toggleSupervisorSelection={toggleSupervisorSelection}
+                                readinessNote={readinessNote}
+                                setReadinessNote={setReadinessNote}
+                                onSubmit={handleSaveReadinessPreparation}
+                                submitting={submitting}
+                            />
 
-                                                {decision === 'continue_to_construction_preparation' && (
-                                                    <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
-                                                        <p className="text-[9px] text-emerald-800 font-bold leading-relaxed uppercase italic">
-                                                            <FiInfo className="inline mr-1" /> Hint: Proses tender Mandor dan assignment Pengawas untuk proyek ini akan ditangani pada batch pengembangan berikutnya.
-                                                        </p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })()}
-                                </div>
-                            )}
+                            <ConstructionTransitionSummaryPanel history={selectedRequest.history} />
 
-                            <div className="pt-8 border-t border-gray-100">
-                                <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
-                                    <FiCheckCircle className="text-emerald-600" />
-                                    Admin Controls
-                                </h4>
-                                <div className="grid grid-cols-1 gap-3">
-                                    {selectedRequest.status === 'submitted' && (
-                                        <button
-                                            onClick={() => handleUpdateStatus(selectedRequest.id, 'open')}
-                                            className="w-full py-3 bg-teal-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal-600/20"
-                                        >
-                                            Publish to Tender
-                                        </button>
-                                    )}
-                                    {(selectedRequest.status === 'assigned' || selectedRequest.status === 'in_review') && (
-                                        <button
-                                            onClick={() => handleUpdateStatus(selectedRequest.id, 'approved')}
-                                            className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20"
-                                        >
-                                            Approve Design
-                                        </button>
-                                    )}
-                                    {selectedRequest.status === 'approved' && !selectedRequest.projectId && (
-                                        <button
-                                            onClick={() => handleOpenConvert(selectedRequest)}
-                                            className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20"
-                                        >
-                                            Convert to Project
-                                        </button>
-                                    )}
-                                    <button
-                                        onClick={() => handleOpenForm(selectedRequest)}
-                                        className="w-full py-3 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all"
-                                    >
-                                        Edit Brief Detail
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* CURATED INSTRUCTION PANEL */}
-                            <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-[2rem] space-y-4">
-                                <div className="flex items-center gap-2">
-                                    <div className="p-2 bg-indigo-600 text-white rounded-lg"><FiEdit2 size={14} /></div>
-                                    <h4 className="text-xs font-black uppercase tracking-widest text-indigo-900">Curated Instruction</h4>
-                                </div>
-                                <p className="text-[10px] text-indigo-700 font-bold leading-relaxed italic">
-                                    Gunakan area ini untuk merangkum brief Konsumen menjadi instruksi teknis yang jelas bagi Arsitek.
-                                </p>
-                                <textarea
-                                    className="w-full p-4 bg-white border border-indigo-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none min-h-[120px]"
-                                    placeholder="Tulis instruksi untuk arsitek di sini..."
-                                    value={curatedInstruction}
-                                    onChange={(e) => setCuratedInstruction(e.target.value)}
-                                />
-                                <button
-                                    onClick={handleSaveCuratedInstruction}
-                                    disabled={submitting || !curatedInstruction.trim()}
-                                    className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20 disabled:opacity-50"
-                                >
-                                    {submitting ? "Menyimpan..." : "Update & Kirim ke Arsitek"}
-                                </button>
-                            </div>
-
-                            {/* RELEASE TO CUSTOMER PANEL */}
-                            <div className="p-6 bg-teal-50 border border-teal-100 rounded-[2rem] space-y-4">
-                                <div className="flex items-center gap-2">
-                                    <div className="p-2 bg-teal-600 text-white rounded-lg"><FiSend size={14} /></div>
-                                    <h4 className="text-xs font-black uppercase tracking-widest text-teal-900">Release to Customer</h4>
-                                </div>
-                                <p className="text-[10px] text-teal-700 font-bold leading-relaxed italic">
-                                    Berikan ringkasan progress desain yang layak dilihat oleh Konsumen. Raw architect progress akan disembunyikan.
-                                </p>
-                                <textarea
-                                    className="w-full p-4 bg-white border border-teal-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500/20 resize-none min-h-[100px]"
-                                    placeholder="Tulis ringkasan untuk konsumen..."
-                                    value={releaseSummary}
-                                    onChange={(e) => setReleaseSummary(e.target.value)}
-                                />
-                                <button
-                                    onClick={handleReleaseToCustomer}
-                                    disabled={submitting || !releaseSummary.trim()}
-                                    className="w-full py-3 bg-teal-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal-600/20 disabled:opacity-50"
-                                >
-                                    {submitting ? "Mengirim..." : "Rilis ke Konsumen"}
-                                </button>
-                            </div>
-
-                            {/* MANDOR SELECTION PREPARATION PANEL (Batch 11A) */}
-                            {(() => {
-                                const latestDecision = (selectedRequest.history || [])
-                                    .filter(h => h.action === 'customer_post_design_decision')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const isConstructionPrep = latestDecision?.metadata?.decision === 'continue_to_construction_preparation';
-
-                                if (!isConstructionPrep) {
-                                    return (
-                                        <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <FiUserPlus className="text-gray-400" size={16} />
-                                                <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Mandor Prep (Hold)</h4>
-                                            </div>
-                                            <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
-                                                Tersedia setelah Konsumen memilih "Continue to Construction Preparation".
-                                            </p>
-                                        </div>
-                                    );
-                                }
-
-                                return (
-                                    <div className="p-6 bg-white border border-emerald-200 rounded-[2rem] shadow-sm space-y-6">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <div className="p-2 bg-emerald-600 text-white rounded-lg"><FiUserPlus size={14} /></div>
-                                                <h4 className="text-xs font-black uppercase tracking-widest text-emerald-900">Mandor Selection Prep</h4>
-                                            </div>
-                                            <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[8px] font-black uppercase rounded">Preparation Layer</span>
-                                        </div>
-
-                                        <p className="text-[10px] text-emerald-700 font-bold leading-relaxed italic">
-                                            Shortlist kandidat Mandor lokal untuk persiapan konstruksi.
-                                        </p>
-
-                                        <div className="space-y-3 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
-                                            {foremen.length > 0 ? foremen.map(f => (
-                                                <div
-                                                    key={f.id}
-                                                    onClick={() => toggleMandorSelection(f.id)}
-                                                    className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
-                                                        selectedMandorIds.includes(f.id)
-                                                        ? 'bg-emerald-50 border-emerald-300 ring-2 ring-emerald-500/10'
-                                                        : 'bg-gray-50 border-gray-100 hover:border-emerald-200'
-                                                    }`}
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-[10px] ${selectedMandorIds.includes(f.id) ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
-                                                            {f.name?.[0] || 'M'}
-                                                        </div>
-                                                        <div>
-                                                            <p className="text-[11px] font-bold text-gray-800">{f.name}</p>
-                                                            <p className="text-[9px] text-gray-500 font-medium">{f.specialization || 'Generalist'} • {f.experienceYears || 0} thn</p>
-                                                        </div>
-                                                    </div>
-                                                    {selectedMandorIds.includes(f.id) && <FiCheckCircle className="text-emerald-600" size={14} />}
-                                                </div>
-                                            )) : (
-                                                <p className="text-[10px] text-gray-400 italic text-center py-4">Memuat data Mandor...</p>
-                                            )}
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">Catatan Persiapan</label>
-                                            <textarea
-                                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-none min-h-[80px]"
-                                                placeholder="Tulis catatan kriteria atau alasan pemilihan shortlist..."
-                                                value={mandorNote}
-                                                onChange={(e) => setMandorNote(e.target.value)}
-                                            />
-                                        </div>
-
-                                        <button
-                                            onClick={handleSaveMandorPreparation}
-                                            disabled={submitting || (selectedMandorIds.length === 0 && !mandorNote.trim())}
-                                            className="w-full py-3 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
-                                        >
-                                            {submitting ? "Menyimpan..." : "Simpan Shortlist Prep"}
-                                        </button>
-                                    </div>
-                                );
-                            })()}
-
-                            {/* CONSTRUCTION READINESS PREPARATION PANEL (Batch 12A) */}
-                            {(() => {
-                                const latestDecision = (selectedRequest.history || [])
-                                    .filter(h => h.action === 'customer_post_design_decision')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const hasConstructionIntent = latestDecision?.metadata?.decision === 'continue_to_construction_preparation';
-
-                                const latestMandorPrep = (selectedRequest.history || [])
-                                    .filter(h => h.action === 'admin_mandor_selection_preparation')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const isMandorReady = latestMandorPrep?.metadata?.preparationStatus === 'shortlist_prepared';
-
-                                if (!hasConstructionIntent || !isMandorReady) {
-                                    let holdMessage = "Tersedia setelah Mandor Selection Preparation selesai dilakukan.";
-                                    if (!hasConstructionIntent) {
-                                        holdMessage = "Tersedia setelah Konsumen memilih 'Continue to Construction Preparation'.";
-                                    }
-
-                                    return (
-                                        <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <FiShield className="text-gray-400" size={16} />
-                                                <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Readiness Prep (Hold)</h4>
-                                            </div>
-                                            <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
-                                                {holdMessage}
-                                            </p>
-                                        </div>
-                                    );
-                                }
-
-                                return (
-                                    <div className="p-6 bg-white border border-blue-200 rounded-[2rem] shadow-sm space-y-6">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <div className="p-2 bg-blue-600 text-white rounded-lg"><FiShield size={14} /></div>
-                                                <h4 className="text-xs font-black uppercase tracking-widest text-blue-900">Construction Readiness</h4>
-                                            </div>
-                                            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[8px] font-black uppercase rounded">Preparation Layer</span>
-                                        </div>
-
-                                        <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100 space-y-3">
-                                            <h5 className="text-[9px] font-black text-blue-800 uppercase tracking-widest">Readiness Checklist</h5>
-                                            <div className="space-y-2">
-                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
-                                                    {hasConstructionIntent ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
-                                                    <span>Customer Decision: Continue to Construction</span>
-                                                </div>
-                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
-                                                    {isMandorReady ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
-                                                    <span>Mandor Selection Preparation: Shortlisted</span>
-                                                </div>
-                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
-                                                    {selectedSupervisorIds.length > 0 ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
-                                                    <span>Supervisor Candidate Prepared</span>
-                                                </div>
-                                                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
-                                                    {(selectedRequest.history || []).some(h => h.action === 'admin_curated_instruction') ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
-                                                    <span>Project Planning Instruction Exists</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-3">
-                                            <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">Pilih Kandidat Pengawas</label>
-                                            <div className="space-y-2 max-h-[150px] overflow-y-auto pr-2 custom-scrollbar">
-                                                {supervisors.length > 0 ? supervisors.map(s => (
-                                                    <div
-                                                        key={s.id}
-                                                        onClick={() => toggleSupervisorSelection(s.id)}
-                                                        className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
-                                                            selectedSupervisorIds.includes(s.id)
-                                                            ? 'bg-blue-50 border-blue-300 ring-2 ring-blue-500/10'
-                                                            : 'bg-gray-50 border-gray-100 hover:border-blue-200'
-                                                        }`}
-                                                    >
-                                                        <div className="flex items-center gap-3">
-                                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-[10px] ${selectedSupervisorIds.includes(s.id) ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
-                                                                {s.name?.[0] || 'P'}
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-[11px] font-bold text-gray-800">{s.name}</p>
-                                                                <p className="text-[9px] text-gray-500 font-medium">{s.specialization || 'Umum'} • {s.city || 'Lokal'}</p>
-                                                            </div>
-                                                        </div>
-                                                        {selectedSupervisorIds.includes(s.id) && <FiCheckCircle className="text-blue-600" size={14} />}
-                                                    </div>
-                                                )) : (
-                                                    <p className="text-[10px] text-gray-400 italic text-center py-4">Memuat data Pengawas...</p>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">Readiness Note</label>
-                                            <textarea
-                                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none min-h-[80px]"
-                                                placeholder="Tulis catatan kesiapan teknis atau kriteria pengawas..."
-                                                value={readinessNote}
-                                                onChange={(e) => setReadinessNote(e.target.value)}
-                                            />
-                                        </div>
-
-                                        <button
-                                            onClick={handleSaveReadinessPreparation}
-                                            disabled={submitting || (selectedSupervisorIds.length === 0 && !readinessNote.trim())}
-                                            className="w-full py-3 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
-                                        >
-                                            {submitting ? "Menyimpan..." : "Simpan Readiness Prep"}
-                                        </button>
-                                    </div>
-                                );
-                            })()}
-
-                            {/* CONSTRUCTION TRANSITION SUMMARY (Batch 13) */}
-                            {(() => {
-                                const history = selectedRequest.history || [];
-
-                                const latestDecision = [...history]
-                                    .filter(h => h.action === 'customer_post_design_decision')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const latestMandorPrep = [...history]
-                                    .filter(h => h.action === 'admin_mandor_selection_preparation')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const latestReadiness = [...history]
-                                    .filter(h => h.action === 'admin_construction_readiness_preparation')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const hasPlanning = history.some(h => h.action === 'admin_curated_instruction');
-
-                                const decision = latestDecision?.metadata?.decision;
-
-                                if (!decision && !latestMandorPrep && !latestReadiness) return null;
-
-                                return (
-                                    <div className="p-6 bg-slate-900 text-white rounded-[2rem] shadow-xl space-y-6 overflow-hidden relative">
-                                        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                                            <FiZap size={120} />
-                                        </div>
-
-                                        <div className="flex items-center justify-between relative z-10">
-                                            <div className="flex items-center gap-2">
-                                                <div className="p-2 bg-indigo-500 rounded-lg"><FiActivity size={14} /></div>
-                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-100">Transition Summary</h4>
-                                            </div>
-                                            <span className="px-2 py-0.5 bg-white/10 text-white/60 text-[8px] font-black uppercase rounded">Read-Only</span>
-                                        </div>
-
-                                        <div className="space-y-4 relative z-10">
-                                            {/* Decision Status */}
-                                            <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                                                <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Customer Intent</span>
-                                                <span className={`text-[10px] font-bold ${decision === 'continue_to_construction_preparation' ? 'text-emerald-400' : 'text-amber-400'}`}>
-                                                    {decision === 'continue_to_construction_preparation' ? 'Continue to Construction' :
-                                                     decision === 'design_only_completed' ? 'Design Only (Completed)' : 'Pending Decision'}
-                                                </span>
-                                            </div>
-
-                                            {decision === 'continue_to_construction_preparation' && (
-                                                <>
-                                                    {/* Mandor Prep Status */}
-                                                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                                                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Mandor Shortlist</span>
-                                                        <div className="text-right">
-                                                            <span className={`text-[10px] font-bold ${latestMandorPrep ? 'text-emerald-400' : 'text-white/40'}`}>
-                                                                {latestMandorPrep ? 'Shortlist Prepared' : 'Not Started'}
-                                                            </span>
-                                                            {latestMandorPrep?.metadata?.selectedCandidateIds && (
-                                                                <span className="block text-[8px] font-black text-white/20 uppercase mt-0.5">
-                                                                    {latestMandorPrep.metadata.selectedCandidateIds.length} Kandidat Terpilih
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Supervisor Prep Status */}
-                                                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                                                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Readiness Prep</span>
-                                                        <div className="text-right">
-                                                            <span className={`text-[10px] font-bold ${latestReadiness ? 'text-emerald-400' : 'text-white/40'}`}>
-                                                                {latestReadiness ? 'Readiness Ready' : 'Not Started'}
-                                                            </span>
-                                                            {latestReadiness?.metadata?.selectedSupervisorCandidateIds && (
-                                                                <span className="block text-[8px] font-black text-white/20 uppercase mt-0.5">
-                                                                    {latestReadiness.metadata.selectedSupervisorCandidateIds.length} Pengawas Disiapkan
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Planning Status */}
-                                                    <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                                                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Project Planning</span>
-                                                        <span className={`text-[10px] font-bold ${hasPlanning ? 'text-emerald-400' : 'text-white/40'}`}>
-                                                            {hasPlanning ? 'Instruction Ready' : 'No Planning Found'}
-                                                        </span>
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-
-                                        <div className="p-4 bg-white/5 rounded-2xl border border-white/10 space-y-3 relative z-10">
-                                            <div className="flex items-center gap-2 text-amber-400">
-                                                <FiAlertCircle size={14} />
-                                                <h5 className="text-[9px] font-black uppercase tracking-widest">Critical Information</h5>
-                                            </div>
-                                            <ul className="space-y-1.5 list-disc list-inside">
-                                                <li className="text-[9px] text-white/60 font-medium">Project belum active construction.</li>
-                                                <li className="text-[9px] text-white/60 font-medium">Mandor/Pengawas belum assigned final.</li>
-                                                <li className="text-[9px] text-white/60 font-medium">Progress SOT belum berjalan.</li>
-                                            </ul>
-                                        </div>
-
-                                        <button disabled className="w-full py-3 bg-white/10 text-white/30 rounded-2xl font-black text-[10px] uppercase tracking-widest cursor-not-allowed">
-                                            Activation Logic In Batch 14
-                                        </button>
-                                    </div>
-                                );
-                            })()}
-
-                            {/* CONSTRUCTION TRANSITION FINAL REVIEW (Batch 14) */}
-                            {(() => {
-                                const history = selectedRequest.history || [];
-
-                                const latestDecision = [...history]
-                                    .filter(h => h.action === 'customer_post_design_decision')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const latestMandorPrep = [...history]
-                                    .filter(h => h.action === 'admin_mandor_selection_preparation')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const latestReadiness = [...history]
-                                    .filter(h => h.action === 'admin_construction_readiness_preparation')
-                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
-                                const isReadyForReview =
-                                    latestDecision?.metadata?.decision === 'continue_to_construction_preparation' &&
-                                    latestMandorPrep?.metadata?.preparationStatus === 'shortlist_prepared' &&
-                                    latestReadiness?.metadata?.readinessStatus === 'readiness_prepared';
-
-                                if (!isReadyForReview) {
-                                    return (
-                                        <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <FiAward className="text-gray-400" size={16} />
-                                                <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Final Review (Hold)</h4>
-                                            </div>
-                                            <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
-                                                Tersedia setelah seluruh tahapan persiapan konstruksi (Chain 10-12) selesai dilakukan.
-                                            </p>
-                                        </div>
-                                    );
-                                }
-
-                                return (
-                                    <div className="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-[2rem] shadow-sm space-y-6">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <div className="p-2 bg-emerald-600 text-white rounded-lg"><FiAward size={14} /></div>
-                                                <h4 className="text-xs font-black uppercase tracking-widest text-emerald-900">Final Transition Review</h4>
-                                            </div>
-                                            <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[8px] font-black uppercase rounded">Administrative Gate</span>
-                                        </div>
-
-                                        <div className="space-y-4">
-                                            <p className="text-[10px] text-emerald-700 font-bold leading-relaxed italic">
-                                                Gunakan panel ini untuk memberikan review akhir sebelum pengajuan ini direkomendasikan untuk Project Planning atau Aktivasi Konstruksi.
-                                            </p>
-
-                                            <div className="space-y-2">
-                                                <label className="text-[9px] font-black uppercase tracking-widest text-emerald-600">Final Review Note</label>
-                                                <textarea
-                                                    className="w-full p-4 bg-white border border-emerald-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-none min-h-[100px]"
-                                                    placeholder="Tulis ringkasan review kelayakan transisi ke konstruksi..."
-                                                    value={finalReviewNote}
-                                                    onChange={(e) => setFinalReviewNote(e.target.value)}
-                                                />
-                                            </div>
-
-                                            <div className="p-4 bg-white/60 rounded-2xl border border-emerald-100 space-y-3">
-                                                <div className="flex items-center gap-2 text-emerald-600">
-                                                    <FiInfo size={14} />
-                                                    <h5 className="text-[9px] font-black uppercase tracking-widest">Administrative Marker</h5>
-                                                </div>
-                                                <ul className="space-y-1.5">
-                                                    <li className="text-[9px] text-emerald-700 font-medium leading-relaxed">• Review ini bukan aktivasi konstruksi.</li>
-                                                    <li className="text-[9px] text-emerald-700 font-medium leading-relaxed">• Review ini bukan assignment final Mandor/Pengawas.</li>
-                                                    <li className="text-[9px] text-emerald-700 font-medium leading-relaxed">• Project-backed action tetap membutuhkan keputusan terpisah.</li>
-                                                </ul>
-                                            </div>
-
-                                            <button
-                                                onClick={handleSaveFinalReview}
-                                                disabled={submitting || !finalReviewNote.trim()}
-                                                className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-600/20 hover:scale-[1.01] transition-all disabled:opacity-50"
-                                            >
-                                                {submitting ? "Menyimpan Review..." : "Submit Final Review"}
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })()}
+                            <ConstructionTransitionReviewPanel 
+                                history={selectedRequest.history}
+                                finalReviewNote={finalReviewNote}
+                                setFinalReviewNote={setFinalReviewNote}
+                                onSubmit={handleSaveFinalReview}
+                                submitting={submitting}
+                            />
                         </div>
 
                         {/* RIGHT: TIMELINE */}

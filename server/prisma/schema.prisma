@@ -74,6 +74,8 @@ model Project {
   customerPaymentPlan       CustomerPaymentPlan?
   foremanWeeklyPaymentEligibilities ForemanWeeklyPaymentEligibility[]
   fieldIssues               FieldIssue[]
+  dailyTasks                DailyTask[]
+  dailyReports              DailyReport[]
 
   @@map("projects")
 }
@@ -100,6 +102,7 @@ model Supervisor {
   weeklyJournals     WeeklyJournal[]
   weeklyReports      SupervisorWeeklyReport[]
   fieldIssues        FieldIssue[]
+  dailyReports       DailyReport[]
 
   @@map("supervisors")
 }
@@ -169,6 +172,8 @@ model Foreman {
   weeklyJournals     WeeklyJournal[]
   paymentEligibilities ForemanWeeklyPaymentEligibility[]
   fieldIssues        FieldIssue[]
+  dailyTasks         DailyTask[]
+  dailyReports       DailyReport[]
 
   @@map("foremen")
 }
@@ -238,6 +243,8 @@ model ProjectStage {
   project              Project                     @relation(fields: [projectId], references: [id])
   publicComments       ProjectStagePublicComment[]
   fieldIssues          FieldIssue[]
+  dailyTasks           DailyTask[]
+  dailyReports         DailyReport[]
 
   @@map("project_stages")
 }
@@ -306,6 +313,7 @@ model RabItem {
   reportNotes          SupervisorWeeklyReportNote[]
   foremanPaymentEligibilityItems ForemanWeeklyPaymentEligibilityItem[]
   fieldIssues          FieldIssue[]
+  dailyTasks           DailyTask[]
 
   @@map("rab_items")
 }
@@ -977,6 +985,70 @@ model FieldIssue {
   admin            Admin?       @relation(fields: [adminId], references: [id])
   stage            ProjectStage? @relation(fields: [stageId], references: [id])
   rabItem          RabItem?     @relation(fields: [rabItemId], references: [id])
+  dailyReports     DailyReport[]
 
   @@map("field_issues")
+}
+
+model DailyTask {
+  id               String       @id @default(cuid())
+  projectId        String       @map("project_id")
+  foremanId        String       @map("foreman_id")
+  stageId          String?      @map("stage_id")
+  rabItemId        String?      @map("rab_item_id")
+  
+  title            String
+  description      String?
+  targetDate       DateTime     @map("target_date")
+  status           String       @default("todo") // todo, in_progress, completed, delayed
+  priority         String       @default("medium") // low, medium, high
+  
+  notes            String?
+  
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+  
+  project          Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  foreman          Foreman      @relation(fields: [foremanId], references: [id])
+  stage            ProjectStage? @relation(fields: [stageId], references: [id])
+  rabItem          RabItem?     @relation(fields: [rabItemId], references: [id])
+  dailyReports     DailyReport[]
+
+  @@map("daily_tasks")
+}
+
+model DailyReport {
+  id               String       @id @default(cuid())
+  reportCode       String       @unique @map("report_code")
+  projectId        String       @map("project_id")
+  foremanId        String       @map("foreman_id")
+  supervisorId     String?      @map("supervisor_id")
+  
+  date             DateTime     @map("date")
+  status           String       @default("draft") // draft, submitted, reviewed, rejected
+  
+  weatherSummary   String?      @map("weather_summary")
+  workerCount      Int?         @map("worker_count")
+  activitySummary  String       @map("activity_summary")
+  blockerSummary   String?      @map("blocker_summary")
+  
+  taskId           String?      @map("task_id")
+  stageId          String?      @map("stage_id")
+  fieldIssueId     String?      @map("field_issue_id")
+  
+  supervisorNote   String?      @map("supervisor_note")
+  
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+  submittedAt      DateTime?    @map("submitted_at")
+  reviewedAt       DateTime?    @map("reviewed_at")
+  
+  project          Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  foreman          Foreman      @relation(fields: [foremanId], references: [id])
+  supervisor       Supervisor?  @relation(fields: [supervisorId], references: [id])
+  task             DailyTask?   @relation(fields: [taskId], references: [id])
+  stage            ProjectStage? @relation(fields: [stageId], references: [id])
+  fieldIssue       FieldIssue?  @relation(fields: [fieldIssueId], references: [id])
+
+  @@map("daily_reports")
 }

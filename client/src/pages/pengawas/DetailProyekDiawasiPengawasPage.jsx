@@ -19,6 +19,7 @@ import projectService from "../../services/projectService";
 import rabService from "../../services/rabService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import DailyMonitoringTab from "../../components/common/DailyMonitoringTab";
 
 const DetailProyekDiawasiPengawasPage = () => {
     const { projectId } = useParams();
@@ -129,6 +130,7 @@ const DetailProyekDiawasiPengawasPage = () => {
         { id: "overview", label: "Overview", icon: FiInfo },
         { id: "rab", label: "RAB / Scope", icon: FiFileText },
         { id: "tahapan", label: "Tahapan", icon: FiLayers },
+        { id: "harian", label: "Harian Lapangan", icon: FiFileText },
         { id: "checklist", label: "Checklist", icon: FiCheckCircle },
         { id: "dokumentasi", label: "Dokumentasi", icon: FiCamera },
         { id: "material", label: "Material", icon: FiShoppingCart },
@@ -482,7 +484,10 @@ const DetailProyekDiawasiPengawasPage = () => {
                                 )}
                             </div>
                         )}
-                        {activeTab !== "overview" && activeTab !== "rab" && activeTab !== "tahapan" && (
+                        {activeTab === "harian" && (
+                            <DailyMonitoringTab projectId={projectId} />
+                        )}
+                        {activeTab !== "overview" && activeTab !== "rab" && activeTab !== "tahapan" && activeTab !== "harian" && (
                             <div className="flex flex-col items-center justify-center h-full py-20 text-center space-y-4">
                                 <div className="p-6 bg-[var(--dashboard-surface-soft)] rounded-full text-[var(--dashboard-text-soft)] opacity-30">
                                     <FiActivity size={48} />

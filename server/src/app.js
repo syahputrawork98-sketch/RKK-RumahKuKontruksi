@@ -20,6 +20,8 @@ import profileChangeRequestRoutes from './modules/profile-change-requests/profil
 import customerPaymentPlanRoutes from './modules/customer-payment-plans/customer-payment-plans.routes.js';
 import foremanPaymentEligibilityRoutes from './modules/foreman-payment-eligibility/foreman-payment-eligibility.routes.js';
 import fieldIssueRoutes from './modules/field-issues/field-issues.routes.js';
+import dailyTaskRoutes from './modules/daily-tasks/daily-tasks.routes.js';
+import dailyReportRoutes from './modules/daily-reports/daily-reports.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -53,6 +55,8 @@ app.use('/api/profile-change-requests', profileChangeRequestRoutes);
 app.use('/api/customer-payment-plans', customerPaymentPlanRoutes);
 app.use('/api/foreman-payment-eligibility', foremanPaymentEligibilityRoutes);
 app.use('/api/field-issues', fieldIssueRoutes);
+app.use('/api/daily-tasks', dailyTaskRoutes);
+app.use('/api/daily-reports', dailyReportRoutes);
 
 // Error Handler
 app.use(errorHandler);

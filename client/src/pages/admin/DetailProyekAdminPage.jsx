@@ -26,6 +26,7 @@ import AdminProjectSidebar from "../../components/admin/project-detail/AdminProj
 import AdminProjectActivationModal from "../../components/admin/project-detail/AdminProjectActivationModal";
 import AdminProjectCompletionModal from "../../components/admin/project-detail/AdminProjectCompletionModal";
 import AdminProjectStageModal from "../../components/admin/project-detail/AdminProjectStageModal";
+import DailyMonitoringTab from "../../components/common/DailyMonitoringTab";
 
 const DetailProyekAdminPage = () => {
     const { projectId } = useParams();
@@ -222,6 +223,7 @@ const DetailProyekAdminPage = () => {
         { id: "customer", label: "Customer", icon: FiUser },
         { id: "tim", label: "Tim Project", icon: FiUsers },
         { id: "stages", label: "Stage / Jadwal", icon: FiLayers },
+        { id: "harian", label: "Harian Lapangan", icon: FiFileText },
         { id: "rab", label: "RAB Ringkas", icon: FiFileText },
         { id: "payment", label: "Pembayaran", icon: FiCreditCard },
         { id: "logistik", label: "Logistik", icon: FiPackage },
@@ -286,6 +288,7 @@ const DetailProyekAdminPage = () => {
                                 }}
                             />
                         )}
+                        {activeTab === "harian" && <DailyMonitoringTab projectId={projectId} />}
                         {activeTab === "rab" && <AdminProjectRabTab project={project} rabPlan={rabPlan} />}
                         {activeTab === "logistik" && <AdminProjectLogisticsTab loadingLogistik={loadingLogistik} materialRequests={materialRequests} />}
                         {activeTab === "payment" && (

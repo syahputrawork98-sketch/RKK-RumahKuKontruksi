@@ -6,11 +6,12 @@
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Stage Communication (Non-realtime HTTP thread), dan Local Governance Foundation v1 (Audit Logs, Profile Change Approval, Visibility Guard). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
+- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Design-to-Construction Preparation Flow (Batch 10-15), dan Modularisasi Arsitektur Frontend (Admin Design Request). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
 - **Milestone Selesai**:
   - **Batch 1-3**: Core Foundation, Admin Dashboard, Governance, & Visibility Safety.
   - **Batch 4-6**: RAB-based Construction Foundation & Local Payment Eligibility (Stabilized).
   - **Batch 7-9**: Design/Arsitek Workspace & Curated Customer Review (Stabilized).
+  - **Batch 10-15**: Design-to-Construction Preparation, Construction Readiness, Transition Summary, & Admin Modularization (Stabilized).
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -47,6 +48,12 @@
 | **Customer Payment Plan** | Local Workflow v1 / Stabilized | Local billing plan (termin) setup; DB-backed simulation |
 | **Local Governance & Persona Control** | Local Governance Foundation v1 / Stabilized | Audit Log (Database Activity Logs), Profile Change Approval Queue, dan Visibility Guard (Active) |
 | **Visibility Guard & Safety** | Local Workflow v1 / Stabilized | Kontrol `isVisibleToCustomer` pada Supervisor Weekly Report dan Empty States jujur untuk Konsumen |
+| **Post-Design Decision** | Local Workflow v1 / Stabilized | Konsumen memilih jalur 'Lanjut Konstruksi' atau 'Selesai Desain' (Batch 10A) |
+| **Mandor Selection Preparation** | Local Workflow v1 / Stabilized | Persiapan kandidat Mandor lokal oleh Admin (Batch 11A) |
+| **Construction Readiness Preparation** | Local Workflow v1 / Stabilized | Persiapan kandidat Pengawas dan readiness checklist lokal (Batch 12A) |
+| **Construction Transition Summary** | Local Workflow v1 / Stabilized | Read-only summary transisi desain ke konstruksi (Batch 13) |
+| **Construction Transition Review** | Local Workflow v1 / Stabilized | Final marker review administratif sebelum project planning (Batch 14) |
+| **Modular Admin Design Request** | Stabilized / Modular v1 | Refactor DesignRequestAdminPage menjadi modular components (Batch 15A) |
 | **Stage Communication Source Flow** | Local Workflow v1 / Stabilized | Admin sebagai sumber update resmi; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket) |
 
 ## Operational Modules Progress

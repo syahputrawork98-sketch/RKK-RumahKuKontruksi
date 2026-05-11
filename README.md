@@ -85,6 +85,9 @@ npm run dev
 
 - 🛡️ [**Daftar Fitur & Roadmap (FITUR.md)**](FITUR.md)
 - 📊 [**Current Status**](docs/project/current-status.md)
+- 📜 [**Batch History**](docs/project/batch-history.md)
+- 🔄 [**Design to Construction Flow**](docs/architecture/design-to-construction-flow.md)
+- 🧩 [**Component Map**](docs/architecture/component-map.md)
 - 🔗 [**Route Inventory**](docs/frontend/route-inventory.md)
 - 🔌 [**API Status**](docs/backend/api-status.md)
 - 👥 [**Role Data Source**](docs/frontend/role-data-source-status.md)

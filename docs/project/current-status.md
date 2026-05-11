@@ -6,12 +6,13 @@
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Design-to-Construction Preparation Flow (Batch 10-15), dan Modularisasi Arsitektur Frontend (Admin Design Request). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
+- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Design-to-Construction Preparation Flow (Batch 10-15), dan Modularisasi Arsitektur Frontend (M1–M3: Konsumen Design Request, Admin RAB, dan Role Settings). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
 - **Milestone Selesai**:
   - **Batch 1-3**: Core Foundation, Admin Dashboard, Governance, & Visibility Safety.
   - **Batch 4-6**: RAB-based Construction Foundation & Local Payment Eligibility (Stabilized).
   - **Batch 7-9**: Design/Arsitek Workspace & Curated Customer Review (Stabilized).
   - **Batch 10-15**: Design-to-Construction Preparation, Construction Readiness, Transition Summary, & Admin Modularization (Stabilized).
+  - **Batch M1–M3**: Modularisasi Frontend (Konsumen Design Request, Admin RAB, Role Settings Pengawas/Mandor) — Stabilized No-Behavior-Change.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -151,12 +152,12 @@ Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis
 
 | Role | Data Source | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| **Pengawas** | Backend/Database | DB-Backed v1 | Progress SOT dan Weekly Report Local E2E Workflow v1; Pengawas assigned update `Project.verifiedProgress`, membuat Weekly Report dengan `verifiedProgressSnapshot`, dan review jurnal Mandor secara administratif |
-| **Mandor** | Backend/Database | DB-Backed v1 | Weekly Journal Local E2E Workflow v1; `WeeklyJournal.claimedProgress` tetap klaim non-resmi dan tidak mengubah `Project.verifiedProgress` |
+| **Pengawas** | Backend/Database | Modular v1 | Profil & Pengaturan modular (Batch M3); Progress SOT dan Weekly Report Local E2E Workflow v1 |
+| **Mandor** | Backend/Database | Modular v1 | Profil & Pengaturan modular (Batch M3); Weekly Journal Local E2E Workflow v1 |
 | **Arsitek** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1: open tender lokal, submit bid lokal, desain aktif, dan riwayat lokal |
-| **Admin** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1; Weekly Report review/publish adalah administrasi/publikasi ringkasan, bukan verifikasi fisik atau pengganti Progress SOT |
-| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, read-only Design Request/Tender and Weekly Report monitoring, global project/progress monitoring use local APIs; operational design/progress actions, RBAC, auth production, payment, and system settings remain Hold/Placeholder |
-| **Konsumen** | Backend/Database | DB-Backed v1 | Dashboard, Profil, Design Request create/list lokal, Project Monitoring/Timeline, dan Stage Communication Panel sudah API-backed; progress yang tampil memakai `Project.verifiedProgress` resmi |
+| **Admin** | Backend/Database | Modular v1 | Design Request & RAB modular (Batch 15A, M2); Weekly Report review/publish adalah administrasi/publikasi ringkasan |
+| **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, read-only monitoring; profil management rill ditunda |
+| **Konsumen** | Backend/Database | Modular v1 | Design Request modular (Batch M1); Dashboard, Profil, Project Monitoring/Timeline, dan Stage Communication Panel API-backed |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 | **Local Governance** | Implemented v1 | `LogAktivitasPage.jsx` | Audit Log & Profile Change Approval Queue |
 

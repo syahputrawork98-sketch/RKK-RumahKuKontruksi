@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
-import foremanService from "../../services/foreman.service";
+import foremanService from "../../services/foremanService";
 import { FiUser, FiAward, FiBriefcase } from "react-icons/fi";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";

@@ -38,3 +38,27 @@ Dokumen ini mencatat riwayat pengembangan batch-by-batch pada fase *Local Develo
   - Shared Atoms di `components/design/shared/`.
   - Logic parsing dipindah ke `utils/designRequestHistory.js`.
 - **Validation**: Build-safe, Lint-safe, No-Behavior-Change.
+
+## Batch Modularisasi M1 — Konsumen Design Request
+- **Commit**: `34205022ef14f3fdf8d79179adb3d198d12da82c`
+- **Goal**: Refactor `DesignRequestCustomerPage.jsx` menjadi modular components.
+- **Result**:
+  - File utama turun dari ~715 line menjadi ~302 line.
+  - Komponen baru di `client/src/components/konsumen/design-request/`.
+- **Status**: Accepted, No-Behavior-Change.
+
+## Batch Modularisasi M2 — Admin RAB
+- **Commit**: `6d4fa3ab6cfadacc7b39d802e9efd622935a4294`
+- **Goal**: Refactor `DetailRabAdminPage.jsx` (Admin RAB Builder) menjadi modular components.
+- **Result**:
+  - File utama turun dari ~633 line menjadi ~291 line.
+  - Komponen baru di `client/src/components/admin/rab/`.
+- **Status**: Accepted, No-Behavior-Change.
+
+## Batch Modularisasi M3 — Role Settings Pengawas/Mandor
+- **Commit**: `42c2f6a0fe9709d0b137f04805d92201ad35118e`
+- **Goal**: Refactor monolithic Settings pages for Supervisor and Foreman roles.
+- **Result**:
+  - `PengaturanPengawasPage.jsx` & `PengaturanMandorPage.jsx` dimodularisasi.
+  - Komponen shared baru di `client/src/components/role-settings/`.
+- **Status**: Accepted, No-Behavior-Change.

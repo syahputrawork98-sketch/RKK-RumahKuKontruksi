@@ -18,6 +18,7 @@ Selamat datang di pusat dokumentasi proyek **RumahKu Konstruksi**. Repository in
 ### 4. [Frontend Documentation](./frontend/)
 - [**Role Data Source Status**](./frontend/role-data-source-status.md) - Status integrasi DB vs Mock.
 - [**Frontend Checklist**](./frontend/checklist/README.md) - Panduan implementasi UI.
+- [**Frontend Modularization Map**](./architecture/frontend-modularization-map.md) - Peta arsitektur modular terbaru.
 - [Route Inventory](./frontend/route-inventory.md) - Daftar rute aktual aplikasi.
 
 ## Alur Baca Dokumentasi

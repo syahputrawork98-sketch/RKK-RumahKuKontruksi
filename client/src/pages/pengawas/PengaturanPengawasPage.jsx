@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
-import supervisorService from "../../services/supervisor.service";
+import supervisorService from "../../services/supervisorService";
 import { FiUser, FiAward, FiBriefcase } from "react-icons/fi";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";

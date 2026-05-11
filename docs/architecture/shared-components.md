@@ -27,3 +27,13 @@ Baris indikator status checklist (Done/Pending).
 ### 5. InfoWarningBox
 Box informasi/peringatan dengan styling khusus.
 - **Props**: `message`, `type` (info, warning, success).
+
+## Role-Based Profile Components
+Lokasi: `client/src/components/role-settings/`
+
+Grup komponen ini digunakan bersama oleh Pengawas, Mandor, dan Arsitek (Planned) untuk mengelola profil profesional.
+
+- **RoleStatsCard**: Visualisasi statistik pengalaman lokal.
+- **RoleCapacityCard**: Indikator kapasitas dan status ketersediaan.
+- **RoleCertificateList**: Grid sertifikasi lokal unverified.
+- **RoleGovernanceNoticePanel**: Notice tata kelola identitas lokal.

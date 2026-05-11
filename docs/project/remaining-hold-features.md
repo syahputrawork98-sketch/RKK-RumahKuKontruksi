@@ -35,9 +35,9 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | :--- | :--- | :--- | :--- |
 | **Dashboard Konsumen** | `DashboardKonsumen.jsx` | API-Backed Stabil Lokal | Selesai untuk local CRUD; tetap dev persona, bukan auth production |
 | **Edit Profil** | `Profil.jsx` (Konsumen) | API-Backed Stabil Lokal | Selesai via Customer CRUD API; jangan tambahkan auth/password |
-| **Design Request Konsumen** | `DesignRequestCustomerPage.jsx` | API-Backed Stabil Lokal | Selesai untuk create/list request lokal |
+| **Design Request Konsumen** | `DesignRequestCustomerPage.jsx` | Modular v1 / Stabil Lokal | Selesai modularisasi (Batch M1) |
 | **Project Monitoring / Timeline** | `Proyek.jsx`, `TimelineProyek.jsx`, `DetailTimelineProyek.jsx` | API-Backed Stabil Lokal | Selesai untuk read monitoring proyek dan stage lokal |
-| **Stage Communication Panel** | `StageCommunicationPanel.jsx` | Functional v1 | Read path dan customer reply memakai API; pastikan payload create/reply membawa `projectId` eksplisit |
+| **Stage Communication Panel** | `StageCommunicationPanel.jsx` | Functional v1 | Read path dan customer reply memakai API |
 
 ---
 

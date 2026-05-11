@@ -62,3 +62,65 @@ Dokumen ini mencatat riwayat pengembangan batch-by-batch pada fase *Local Develo
   - `PengaturanPengawasPage.jsx` & `PengaturanMandorPage.jsx` dimodularisasi.
   - Komponen shared baru di `client/src/components/role-settings/`.
 - **Status**: Accepted, No-Behavior-Change.
+
+## Batch 16A — Project Planning Bridge Guard & Readiness UI
+- **Commit**: `fc36171a8d5159db6027ac8c2b0bbaab9bf71864`
+- **Goal**: Memperketat UI readiness untuk manual convert Design Request menjadi Project Draft.
+- **Result**:
+  - Readiness guard di UI Admin Design Request (Approved status, decision = continue, review done).
+  - Convert to Project tetap action manual Admin.
+  - Tidak auto-create/auto-activate/auto-assign.
+- **Status**: Accepted, Local Only.
+
+## Batch 16B — Project Planning Bridge Backend Guard Hardening
+- **Commit**: `6d19877694f460269e16f6f9d08a37c94ed7e168`
+- **Goal**: Memperkuat backend guard untuk endpoint convert-to-project.
+- **Result**:
+  - Validasi ketat (adminId, status approved, decision continue, review exists, no duplicate).
+  - Project hasil convert tetap berstatus `planning`.
+- **Status**: Accepted, Local Only.
+
+## Batch 17 — Final Assignment Mandor/Pengawas
+- **Commit**: `05470f83492d33d517584c18f8526d3911197353`
+- **Goal**: Menstabilkan assignment final manual Mandor dan Pengawas ke Project Draft.
+- **Result**:
+  - Admin dapat mengassign supervisorId dan foremanId secara final ke Project.
+  - Penugasan tersimpan permanen di entitas Project.
+  - Project tetap planning, tidak activate.
+- **Status**: Accepted, Local Only.
+
+## Batch 18 — Project Activation Gate
+- **Commit**: `cd6e9bcd0ca8591d1dfa916e58a04a8aa1987075`
+- **Goal**: Menambahkan activation gate manual untuk mengubah Project Draft menjadi Active Construction.
+- **Result**:
+  - Activation gate manual di Admin detail proyek dengan readiness checklist.
+  - Project berubah status ke `Berjalan` (active) setelah aktivasi.
+  - Tidak auto-activation dari bridge/assignment.
+- **Status**: Accepted, Local Only.
+
+## Batch 19 — Timeline & Progress Display Integration
+- **Commit**: `512033646123c3a8ff3c040511be990004e5303a`
+- **Goal**: Menyelaraskan tampilan timeline dan progress lintas role (Display-only).
+- **Result**:
+  - Konsumen project list memakai StatusBadge.
+  - Timeline Konsumen membedakan tahap Perencanaan, Berjalan, dan Selesai.
+  - verifiedProgress tetap sebagai Official Progress SOT.
+- **Status**: Accepted, Display-Only.
+
+## Batch 20 — Material Request / Field Operations Stabilization
+- **Commit**: `a5fe9e4a0da37e9919c8affa285f20512f90cbc9`
+- **Goal**: Menstabilkan alur Material Request sebagai local logistics workflow.
+- **Result**:
+  - Request material hanya untuk project `Berjalan`.
+  - Planning/Selesai project mendapatkan guard/hold.
+  - Wording diperjelas sebagai local workflow, bukan procurement/payment production.
+- **Status**: Accepted, Local Workflow Stabilization.
+
+## Batch Modularisasi M4 — Project Detail God Page Cleanup
+- **Commit**: `e19d086eff2b94c8d56d430d23de0d2aa83ef2d7`
+- **Goal**: Modularisasi halaman detail proyek Admin dan Mandor.
+- **Result**:
+  - `DetailProyekAdminPage.jsx` & `DetailProyekAktifMandorPage.jsx` direfactor menjadi modular.
+  - Komponen baru di `client/src/components/admin/project-detail/` dan `client/src/components/mandor/project-detail/`.
+  - No behavior change pada activation/material/payment logic.
+- **Status**: Accepted, No-Behavior-Change.

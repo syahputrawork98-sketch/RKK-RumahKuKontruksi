@@ -11,7 +11,11 @@ graph TD
     B -- "Lanjut ke Persiapan Konstruksi" --> D[Mandor Selection Preparation]
     D --> E[Construction Readiness Preparation]
     E --> F[Construction Transition Review]
-    F --> G[Project Planning Bridge - HOLD]
+    F --> G[Project Planning Bridge]
+    G --> H[Project Planning / Draft]
+    H --> I[Final Assignment Mandor/Pengawas]
+    I --> J[Project Activation Gate]
+    J --> K[Active Construction / Berjalan]
 ```
 
 ## Detail Tahapan
@@ -38,5 +42,22 @@ Marker review final oleh Admin untuk memastikan seluruh data persiapan sudah val
 - **Event**: `admin_construction_transition_review`
 - **Recommendation**: `project_planning_review_only` (Status marker untuk fase bridge berikutnya).
 
+### 5. Project Planning Bridge (Batch 16A/B)
+Admin mengonversi Design Request yang sudah disetujui menjadi draft Proyek.
+- **Action**: Manual convert oleh Admin.
+- **Guard**: Status approved, decision confirmed, transition review exists.
+- **Output**: Entitas `Project` baru dengan status `planning`.
+
+### 6. Final Assignment Mandor/Pengawas (Batch 17)
+Admin menetapkan personel operasional rill ke dalam proyek draft.
+- **Action**: Update `supervisorId` dan `foremanId` pada entitas Project.
+- **Note**: Penugasan ini bersifat final dan menjadi basis akses operasional bagi Mandor/Pengawas.
+
+### 7. Project Activation Gate (Batch 18)
+Pintu gerbang terakhir untuk memulai operasional lapangan rill.
+- **Action**: Admin menekan tombol "Aktifkan Proyek" setelah checklist readiness terpenuhi.
+- **Output**: Proyek berubah status menjadi `Berjalan` (active).
+- **Impact**: Membuka akses Material Request dan pelaporan progres resmi.
+
 ## Data Integrity
-Seluruh flow di atas disimpan dalam tabel `DesignRequestHistory`. Tidak ada perubahan langsung pada tabel `Project` untuk menjaga pemisahan antara **Planning Intent** dan **Active Execution**.
+Seluruh flow di atas berawal dari `DesignRequestHistory` dan berakhir pada aktivasi entitas `Project`. Tidak ada auto-activation; seluruh transisi kritis memerlukan intervensi manual Admin untuk menjamin tata kelola operasional lokal.

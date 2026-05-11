@@ -11,9 +11,9 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | **Audit Trail (Log)** | `LogAktivitasPage.jsx` | Hold | Tunda |
 | **Notifikasi Production API** | lintas role | Hold | Tunda; belum ada notification service production |
 | **Escrow Logic** | `design-tender-docs` | ❌ Not Implemented | Tunda (Scope Payment) |
-| **Project Planning Bridge** | `DesignRequestAdminPage.jsx` | 🕒 Hold | Convert Request to Project sebagai action manual (Batch 16+) |
-| **Assignment Final Mandor/Pengawas** | `DesignRequestAdminPage.jsx` | 🕒 Hold | Assignment rill ke entitas Project.foremanId / Project.supervisorId |
-| **Project Activation (from Design)** | `DesignRequestAdminPage.jsx` | 🕒 Hold | Aktivasi otomatis dari flow desain |
+| **Project Planning Bridge** | `DesignRequestAdminPage.jsx` | ✅ Local Ready | Convert Request to Project sebagai action manual (Batch 16A/B) |
+| **Assignment Final Mandor/Pengawas** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Assignment rill ke entitas `Project.foremanId` / `Project.supervisorId` (Batch 17) |
+| **Project Activation Gate** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Aktivasi manual proyek Draft/Planning ke status Berjalan (Batch 18) |
 
 ## 2. Operasional Lapangan (Mandor & Pengawas)
 | Fitur | Lokasi | Status | Rekomendasi |

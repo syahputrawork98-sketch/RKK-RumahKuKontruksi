@@ -6,13 +6,14 @@
 - **Production Ready**: No
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Design-to-Construction Preparation Flow (Batch 10-15), dan Modularisasi Arsitektur Frontend (M1–M3: Konsumen Design Request, Admin RAB, dan Role Settings). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
+- **Fokus Saat Ini**: Stabilisasi Admin Dashboard, Design-to-Construction Bridge (Batch 16A/B), Final Assignment (Batch 17), Project Activation Gate (Batch 18), dan Modularisasi Arsitektur Frontend (M1–M4). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
 - **Milestone Selesai**:
   - **Batch 1-3**: Core Foundation, Admin Dashboard, Governance, & Visibility Safety.
   - **Batch 4-6**: RAB-based Construction Foundation & Local Payment Eligibility (Stabilized).
   - **Batch 7-9**: Design/Arsitek Workspace & Curated Customer Review (Stabilized).
   - **Batch 10-15**: Design-to-Construction Preparation, Construction Readiness, Transition Summary, & Admin Modularization (Stabilized).
-  - **Batch M1–M3**: Modularisasi Frontend (Konsumen Design Request, Admin RAB, Role Settings Pengawas/Mandor) — Stabilized No-Behavior-Change.
+  - **Batch 16-20**: Project Planning Bridge, Final Assignment, Activation Gate, Timeline Alignment, & Material Request Stabilization (Stabilized).
+  - **Batch M1–M4**: Modularisasi Frontend (Design Request, Admin RAB, Role Settings, Project Detail Admin & Mandor) — Stabilized No-Behavior-Change.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 

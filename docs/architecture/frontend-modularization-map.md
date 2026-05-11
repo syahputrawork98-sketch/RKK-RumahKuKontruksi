@@ -58,6 +58,24 @@ Dokumen ini memetakan transisi arsitektur frontend dari halaman monolitik (*God 
     - `RoleCertificateExperienceModal.jsx`: Form CRUD data profesional.
     - `RoleForemanTeamCard.jsx`: Khusus Mandor (Tim Binaan).
 
+### 5. Project Detail Admin & Mandor (Batch M4)
+- **Container**:
+    - `client/src/pages/admin/DetailProyekAdminPage.jsx`
+    - `client/src/pages/mandor/DetailProyekAktifMandorPage.jsx`
+- **Component Folder**:
+    - `client/src/components/admin/project-detail/`
+    - `client/src/components/mandor/project-detail/`
+- **Helpers**:
+    - `client/src/components/admin/project-detail/ProjectDetailUIHelpers.jsx`
+    - `client/src/components/mandor/project-detail/MandorProjectDetailUIHelpers.jsx`
+- **Komponen Utama (Admin)**:
+    - `AdminProjectHeader.jsx`, `AdminProjectTabs.jsx`, `AdminProjectSidebar.jsx`
+    - `AdminProjectOverviewTab.jsx`, `AdminProjectCustomerTab.jsx`, `AdminProjectStagesTab.jsx`
+    - `AdminProjectActivationModal.jsx`, `AdminProjectCompletionModal.jsx`
+- **Komponen Utama (Mandor)**:
+    - `MandorProjectHeader.jsx`, `MandorProjectTabs.jsx`, `MandorProjectSidebar.jsx`
+    - `MandorProjectOverviewTab.jsx`, `MandorProjectScopeTab.jsx`, `MandorProjectJournalTab.jsx`
+
 ## Status Verifikasi
 | Batch | Status | Validation |
 | :--- | :--- | :--- |
@@ -65,3 +83,4 @@ Dokumen ini memetakan transisi arsitektur frontend dari halaman monolitik (*God 
 | **M1** | Accepted | No-behavior-change (~715 to ~302 lines) |
 | **M2** | Accepted | No-behavior-change (~633 to ~291 lines) |
 | **M3** | Accepted | Shared role settings components (High Reusability) |
+| **M4** | Accepted | Admin & Mandor Project Detail modularized (Stability Guaranteed) |

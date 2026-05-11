@@ -40,4 +40,5 @@ Modul kesiapan konstruksi berfungsi sebagai "Preparation Layer" antara desain ar
 
 ## Constraints
 - **Role**: Hanya Admin yang dapat memproses preparation layer ini.
-- **Project Link**: Jika Design Request sudah terhubung ke `Project` (draft), data persiapan ini akan menjadi baseline input bagi Admin saat melakukan "Project Planning Bridge".
+- **Project Link**: Data persiapan ini menjadi baseline rujukan bagi Admin saat melakukan "Project Planning Bridge" (Batch 16) dan "Final Assignment" (Batch 17).
+- **Gate Integrity**: Proyek tidak dapat dibridge jika transition review belum dilakukan.

@@ -1096,13 +1096,24 @@ const DesignRequestAdminPage = () => {
 
                             {/* CONSTRUCTION READINESS PREPARATION PANEL (Batch 12A) */}
                             {(() => {
+                                const latestDecision = (selectedRequest.history || [])
+                                    .filter(h => h.action === 'customer_post_design_decision')
+                                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+                                const hasConstructionIntent = latestDecision?.metadata?.decision === 'continue_to_construction_preparation';
+
                                 const latestMandorPrep = (selectedRequest.history || [])
                                     .filter(h => h.action === 'admin_mandor_selection_preparation')
                                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
 
                                 const isMandorReady = latestMandorPrep?.metadata?.preparationStatus === 'shortlist_prepared';
 
-                                if (!isMandorReady) {
+                                if (!hasConstructionIntent || !isMandorReady) {
+                                    let holdMessage = "Tersedia setelah Mandor Selection Preparation selesai dilakukan.";
+                                    if (!hasConstructionIntent) {
+                                        holdMessage = "Tersedia setelah Konsumen memilih 'Continue to Construction Preparation'.";
+                                    }
+
                                     return (
                                         <div className="p-6 bg-gray-50 border border-gray-200 rounded-[2rem] opacity-60">
                                             <div className="flex items-center gap-2 mb-2">
@@ -1110,7 +1121,7 @@ const DesignRequestAdminPage = () => {
                                                 <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Readiness Prep (Hold)</h4>
                                             </div>
                                             <p className="text-[9px] text-gray-400 font-bold italic leading-relaxed">
-                                                Tersedia setelah Mandor Selection Preparation selesai dilakukan.
+                                                {holdMessage}
                                             </p>
                                         </div>
                                     );
@@ -1130,11 +1141,11 @@ const DesignRequestAdminPage = () => {
                                             <h5 className="text-[9px] font-black text-blue-800 uppercase tracking-widest">Readiness Checklist</h5>
                                             <div className="space-y-2">
                                                 <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
-                                                    <FiCheckCircle className="text-emerald-500" size={12} />
+                                                    {hasConstructionIntent ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
                                                     <span>Customer Decision: Continue to Construction</span>
                                                 </div>
                                                 <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">
-                                                    <FiCheckCircle className="text-emerald-500" size={12} />
+                                                    {isMandorReady ? <FiCheckCircle className="text-emerald-500" size={12} /> : <FiClock className="text-blue-400" size={12} />}
                                                     <span>Mandor Selection Preparation: Shortlisted</span>
                                                 </div>
                                                 <div className="flex items-center gap-2 text-[10px] font-bold text-blue-700">

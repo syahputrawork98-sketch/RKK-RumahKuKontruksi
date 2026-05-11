@@ -140,6 +140,30 @@ const RequestMaterialMandorPage = () => {
                 ))}
             </div>
 
+            {/* DISCLAIMER LOCAL WORKFLOW */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2 bg-blue-50/50 border border-blue-100 rounded-3xl p-5 flex items-start gap-4">
+                    <FiInfo className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+                    <div>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-700 mb-1">Local Logistics Workflow</h4>
+                        <p className="text-[11px] text-blue-600 font-medium leading-relaxed italic">
+                            Halaman ini digunakan untuk koordinasi kebutuhan material lapangan. Ini <span className="font-black">BUKAN sistem procurement produksi</span>, 
+                            bukan purchase order, dan tidak mencatat transaksi keuangan/pembayaran riil. 
+                            Status 'Dikirim' berarti material telah dialokasikan secara lokal untuk distribusi ke site.
+                        </p>
+                    </div>
+                </div>
+                <div className="bg-amber-50/50 border border-amber-100 rounded-3xl p-5 flex items-start gap-4">
+                    <FiAlertCircle className="text-amber-500 mt-1 flex-shrink-0" size={20} />
+                    <div>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-700 mb-1">Konfirmasi Penerimaan</h4>
+                        <p className="text-[11px] text-amber-600 font-medium leading-relaxed italic">
+                            Mandor wajib melakukan konfirmasi 'Terima di Site' setelah material fisik sampai di lokasi untuk menutup siklus request lokal ini.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <div className="dashboard-card min-h-[400px]">
                 <div className="flex flex-col md:flex-row gap-4 mb-6">
                     <div className="flex-1 relative">

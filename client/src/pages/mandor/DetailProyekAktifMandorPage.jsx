@@ -317,7 +317,38 @@ const DetailProyekAktifMandorPage = () => {
                                 <ForemanPaymentReadOnlyView projectId={projectId} />
                             </div>
                         )}
-                        {activeTab !== "overview" && activeTab !== "scope" && activeTab !== "payment" && (
+                        {activeTab === "material" && (
+                            <div className="space-y-6 animate-fadeIn">
+                                <div className="bg-blue-50/50 border border-blue-100 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-blue-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+                                            <FiShoppingCart size={24} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight">Manajemen Material Lokal</h4>
+                                            <p className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">
+                                                Gunakan modul ini untuk mengajukan kebutuhan material harian di lokasi proyek. 
+                                                Seluruh pengajuan akan diverifikasi oleh Pengawas sebelum diproses oleh Admin Logistik.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        onClick={() => navigate("/mandor/request-material")}
+                                        disabled={project.status === 'Selesai'}
+                                        className="px-6 py-3 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 whitespace-nowrap"
+                                    >
+                                        Buka Request Material
+                                    </button>
+                                </div>
+
+                                <div className="p-8 border-2 border-dashed border-slate-200 rounded-[2.5rem] text-center space-y-3 bg-slate-50/50">
+                                    <FiInfo size={32} className="text-slate-300 mx-auto" />
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Ringkasan Stok Site (Hold)</p>
+                                    <p className="text-[9px] text-slate-400 font-medium italic">Fitur monitoring stok material tersisa di site sedang dikembangkan.</p>
+                                </div>
+                            </div>
+                        )}
+                        {activeTab !== "overview" && activeTab !== "scope" && activeTab !== "payment" && activeTab !== "material" && (
                             <div className="flex flex-col items-center justify-center h-full py-12 text-[var(--dashboard-text-soft)] italic opacity-50">
                                 <p className="text-sm font-bold">Modul {activeTab.toUpperCase()} sedang disiapkan...</p>
                                 <p className="text-[10px] mt-2 tracking-widest">Foreman Role Dashboard v1.0</p>

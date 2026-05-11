@@ -112,6 +112,18 @@ const RequestMaterialAdminPage = () => {
                     <h2 className="text-2xl font-extrabold tracking-tight">Status Distribusi Lokal</h2>
                     <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Monitoring approval operasional dan status distribusi material proyek.</p>
                 </div>
+                
+                {/* Disclaimer Box */}
+                <div className="bg-blue-50/50 border border-blue-100 rounded-3xl p-5 flex items-start gap-4 max-w-xl">
+                    <FiInfo className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+                    <div>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-700 mb-1">Local Distribution Management</h4>
+                        <p className="text-[11px] text-blue-600 font-medium leading-relaxed italic">
+                            Ini adalah sistem koordinasi logistik lokal. <span className="font-black">Bukan Purchase Order produksi</span> dan tidak terhubung ke real-inventory/warehouse. 
+                            Gunakan status ini untuk memantau pergerakan material di site tanpa efek finansial.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <div className="dashboard-card border-slate-200 shadow-xl shadow-slate-200/20">

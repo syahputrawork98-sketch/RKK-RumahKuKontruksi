@@ -792,6 +792,17 @@ const DetailProyekAdminPage = () => {
                                     </Link>
                                 </div>
 
+                                <div className="bg-blue-50/50 border border-blue-100 rounded-3xl p-5 flex items-start gap-4">
+                                    <FiInfo className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-700 mb-1">Local Logistics Monitoring</h4>
+                                        <p className="text-[11px] text-blue-600 font-medium leading-relaxed italic">
+                                            Daftar ini mencatat koordinasi kebutuhan material di lapangan. <span className="font-black">Bukan sistem procurement perbankan</span>. 
+                                            Status distribusi di sini bersifat informatif untuk manajemen site lokal.
+                                        </p>
+                                    </div>
+                                </div>
+
                                 {loadingLogistik ? (
                                     <div className="py-20 text-center">
                                         <div className="w-8 h-8 border-2 border-[var(--dashboard-primary)] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>

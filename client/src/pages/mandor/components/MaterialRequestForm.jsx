@@ -172,6 +172,17 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
 
         {/* FORM */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-8 space-y-8">
+          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex items-start gap-3">
+            <FiInfo className="text-blue-500 mt-0.5 flex-shrink-0" size={16} />
+            <div>
+              <p className="text-[10px] text-blue-700 font-bold uppercase tracking-widest mb-1">Local Workflow Optimization</p>
+              <p className="text-[10px] text-blue-600 font-medium leading-relaxed italic">
+                Material Request ini adalah <span className="font-black underline">Workflow Lokal</span> untuk koordinasi logistik lapangan. 
+                Sistem ini tidak terhubung ke real-inventory, purchase order, atau transaksi finansial perbankan.
+              </p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* PROJECT SELECT */}
             <div className="space-y-2">
@@ -189,19 +200,19 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                   const isActive = ['active', 'ongoing', 'Berjalan'].includes(p.status);
                   const isFinished = p.status === 'Selesai';
                   return (
-                    <option key={p.id} value={p.id} disabled={isFinished}>
-                      {p.projectCode} - {p.name} {isFinished ? '(SELESAI)' : (!isActive ? `(${p.status})` : '')}
+                    <option key={p.id} value={p.id} disabled={isFinished || !isActive}>
+                      {p.projectCode} - {p.name} {isFinished ? '(SELESAI)' : (!isActive ? `(${p.status?.toUpperCase()})` : '')}
                     </option>
                   );
                 })}
               </select>
               {formData.projectId && !['active', 'ongoing', 'Berjalan'].includes(projects.find(p => p.id === formData.projectId)?.status) && (
                 <div className={`mt-2 p-3 rounded-xl flex items-center gap-2 text-[10px] font-bold animate-pulse border ${projects.find(p => p.id === formData.projectId)?.status === 'Selesai' ? 'bg-purple-50 border-purple-100 text-purple-700' : 'bg-amber-50 border-amber-100 text-amber-700'}`}>
-                  <FiAlertCircle />
+                  <FiAlertCircle className="flex-shrink-0" />
                   <span>
                     {projects.find(p => p.id === formData.projectId)?.status === 'Selesai' 
-                      ? 'Proyek telah selesai. Anda tidak dapat mengajukan material baru untuk proyek ini.' 
-                      : 'Proyek masih tahap persiapan. Request material hanya bisa dikirim setelah proyek Aktif/Berjalan.'}
+                      ? 'HOLD: Proyek telah selesai. Arsip Material Request hanya untuk referensi.' 
+                      : 'HOLD: Proyek masih Tahap Perencanaan. Anda baru bisa mengajukan material setelah Proyek di-Aktivasi oleh Admin.'}
                   </span>
                 </div>
               )}
@@ -215,7 +226,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                 value={formData.stageId}
                 onChange={handleInputChange}
                 required
-                disabled={!formData.projectId || loadingStages}
+                disabled={!formData.projectId || loadingStages || !['active', 'ongoing', 'Berjalan'].includes(projects.find(p => p.id === formData.projectId)?.status)}
                 className="w-full px-4 py-3 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 outline-none disabled:opacity-50"
               >
                 <option value="">{loadingStages ? 'Memuat...' : '-- Pilih Tahap --'}</option>
@@ -311,7 +322,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                     {/* RAB ITEM SELECTION */}
                     <div className="md:col-span-4 space-y-2">
-                      <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Ambil dari RAB (Opsional)</label>
+                      <label className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Ambil dari RAB (Baseline Lokal)</label>
                       
                       {formData.projectId && rabItems.length > 0 && (
                         <input
@@ -328,7 +339,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                         onChange={(e) => handleItemChange(index, 'rabItemId', e.target.value)}
                         className="w-full px-3 py-2 bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-xl text-xs font-bold focus:ring-2 focus:ring-[var(--dashboard-primary)]/20 outline-none"
                       >
-                        <option value="">-- Manual / Luar RAB Lokal --</option>
+                        <option value="">-- Manual / Tambahan Lokal --</option>
                         {rabItems.length > 0 ? (
                           Object.entries(groupedRabItems).map(([category, items]) => (
                             <optgroup key={category} label={category.toUpperCase()}>
@@ -399,7 +410,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                         {parseFloat(item.requestedQty) > item.remainingRabQty ? (
                           <>
                             <FiAlertCircle className="flex-shrink-0" />
-                            <span className="uppercase tracking-tight">Melebihi Sisa Kuota RAB! (Tersedia: {item.remainingRabQty} {item.unit})</span>
+                            <span className="uppercase tracking-tight">Melebihi Sisa Alokasi RAB! (Tersedia: {item.remainingRabQty} {item.unit})</span>
                           </>
                         ) : (
                           <>
@@ -415,8 +426,8 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
                     </div>
                   ) : (
                     <div className="flex items-center gap-2 p-3 bg-amber-500/5 border border-amber-500/20 rounded-xl text-[10px] font-black text-amber-600 uppercase tracking-tight italic">
-                      <FiAlertCircle size={12} />
-                      <span>Material di luar baseline RAB lokal. Mohon lampirkan alasan yang jelas pada catatan di bawah.</span>
+                      <FiAlertCircle size={12} className="flex-shrink-0" />
+                      <span>Material Tambahan (Luar RAB Baseline). Mohon lampirkan alasan yang jelas pada catatan di bawah.</span>
                     </div>
                   )}
 
@@ -448,7 +459,7 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
           <button
             type="submit"
             onClick={handleSubmit}
-            disabled={loading || !formData.projectId || !formData.stageId || !projects.find(p => p.id === formData.projectId)?.status?.match(/active|ongoing|Berjalan/)}
+            disabled={loading || !formData.projectId || !formData.stageId || !['active', 'ongoing', 'Berjalan'].includes(projects.find(p => p.id === formData.projectId)?.status)}
             className="px-8 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
           >
             {loading ? 'Mengirim...' : 'Kirim Pengajuan'}

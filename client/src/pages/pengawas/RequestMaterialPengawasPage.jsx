@@ -157,12 +157,16 @@ const RequestMaterialPengawasPage = () => {
                 </div>
                 
                 {/* Disclaimer Box */}
-                <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-4 flex items-start gap-3 max-w-sm">
-                    <FiInfo className="text-amber-500 mt-0.5 flex-shrink-0" size={16} />
-                    <p className="text-[10px] text-amber-700 font-medium leading-relaxed italic">
-                        <span className="font-black uppercase tracking-widest block mb-0.5">Catatan Pengawas:</span>
-                        Anda memverifikasi kebutuhan & kesesuaian lapangan. Proses distribusi lokal diatur oleh Admin Operasional.
-                    </p>
+                <div className="bg-blue-50/50 border border-blue-100 rounded-3xl p-5 flex items-start gap-4 max-w-xl">
+                    <FiInfo className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+                    <div>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-700 mb-1">Local Verification Workflow</h4>
+                        <p className="text-[11px] text-blue-600 font-medium leading-relaxed italic">
+                            Anda memverifikasi kebutuhan & kesesuaian material di lapangan. 
+                            Ini <span className="font-black">BUKAN otorisasi pembayaran</span> atau real procurement. 
+                            Proses distribusi lokal sepenuhnya diatur oleh Admin Operasional.
+                        </p>
+                    </div>
                 </div>
             </div>
 

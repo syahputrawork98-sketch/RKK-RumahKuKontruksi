@@ -20,6 +20,7 @@ Status: **Database-Backed v1**
 **Behavior UI:**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Projects**: Seluruh statistik dan daftar proyek ditarik dari database berdasarkan `supervisorId`.
+- **RAB-Linked Reports**: Laporan mingguan dan verifikasi progres mengacu pada struktur RAB (`RabItem`) untuk akurasi data lapangan.
 - **No Fallback**: Jika database kosong, tampilkan *Empty State* proyek, jangan tampilkan data mock.
 - **Operational Status**: 
   - Verifikasi progres: **Local Workflow v1 / Stabilized**. Progress Verification from RAB/Stage Context menampilkan konteks Stage, RAB, dan jurnal Mandor terbaru/ringkas; Pengawas assigned tetap mengisi `Project.verifiedProgress` secara manual sebagai progress resmi (SOT).
@@ -49,6 +50,7 @@ Status: **Database-Backed v1**
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai termasuk project `Selesai`, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` read-only.
   - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
   - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Mandor memilih project aktif/`Berjalan`, memilih stage, dapat memilih `RabItem` sebagai baseline material, melihat total RAB qty/approved qty/remaining qty, atau membuat manual/outside-RAB request dengan note/alasan wajib; project `Selesai` ditahan.
+  - Payment Status: **Local Payment Eligibility = Local Workflow v1 / Stabilized**. Mandor melihat status kelayakan pembayaran mingguan yang telah di-review oleh Admin secara lokal.
   - Sertifikasi resmi/legal, upload dokumen production, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**.
 
 ### 3. Arsitek / Architect
@@ -61,7 +63,7 @@ Status: **Database-Backed v2 / Local E2E Workflow v1**
 - **No Persona Selected**: Menampilkan `RolePersonaEmptyState` (Wajib).
 - **Dashboard & Profil**: Nama, email, spesialisasi, sertifikat, dan pengalaman ditarik dari database.
 - Design Workflow: Design Request/Tender berstatus **Local E2E Workflow v1 / UI Consistency Stabilized**. Arsitek dapat melihat open tender lokal (local simulation), submit bid lokal, serta melihat desain aktif dan riwayat lokal melalui backend localhost. Action guards diperjelas sebagai simulasi lokal.
-- **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Arsitek memiliki workspace khusus dengan visual tracker revisi major/minor, role-colored update thread, dan status "Hold" jika limit (3 major / 5 minor) tercapai.
+- **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Arsitek memiliki workspace khusus dengan visual tracker revisi major/minor, role-colored update thread, menerima curated instruction dari Admin, mencatat progress desain harian, dan menandai "Ready for Review" jika draf siap.
 - **Hold / Placeholder**: Tahapan desain detail, file upload production, final approved package, dan evaluasi teknis masih Planned/Placeholder.
 - **No Fallback**: Data profil utama dilarang fallback ke mock.
 
@@ -82,7 +84,7 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
 - **Publikasi Konsumen**: Stage communication source/update flow tersedia untuk local verification; belum production RBAC.
 - **RAB**: Project RAB Builder untuk RAB Plan, kategori pekerjaan, dan item pekerjaan: **Local CRUD v1 / Admin Builder Stabilized**. RAB adalah baseline draft planning lokal, bukan kontrak final/payment/legal production.
 - **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Admin dapat memantau laporan Mandor per `RabItem`, memberikan review/note dengan visual **Role-Colored Evidence** (Mandor/Pengawas/Admin), dan mengontrol visibility (customer-visible/internal-only) pada timeline proyek.
-- **Design Collaboration & Revision Governance v2**: **Local Workflow v2 / Stabilized**. Admin mengelola flow kolaborasi desain, memantau batas revisi (3 major / 5 minor), dan memiliki oversight dashboard dengan revision tracker yang terpolesi.
+- **Design Collaboration & Revision Governance v2**: **Local Workflow v2 / Stabilized**. Admin mengelola flow kolaborasi desain, memberikan curated instructions ke arsitek, merilis ringkasan desain ke konsumen (`admin_released_design_to_customer`), memantau batas revisi (3 major / 5 minor), dan memantau persetujuan lokal konsumen (`customer_design_approved`).
 - **Visibility Preparation**: Admin memiliki label `Visibility: Customer-Visible Preparation` pada UI operasional untuk menandakan area kontrol visibilitas di masa depan.
 - **Penugasan Tim**: Data Pengawas dan Mandor: **DB-Backed v1**.
 - **Profile Team Data**: Mandor/Pengawas Certificate & Work Experience: **Local CRUD v1 / Stabilized** untuk data lokal/manual Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan bukan legal certificate, upload dokumen production, PDF certificate, rating/scoring, atau reputation marketplace.
@@ -117,7 +119,7 @@ Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Action Guard**: Pembayaran dan Download Dokumen berstatus **Demo Only / Local Hold**.
 - **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas, Netral=Admin). Label "Progress Resmi (Verified Pengawas)" dipertegas.
 - **Visibility Preparation (Hold)**: Penambahan disclaimer bahwa visibilitas item tertentu sedang dalam tahap persiapan dan belum dikontrol secara dinamis oleh Admin.
-- **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) dengan tampilan timeline yang lebih bersih dan informatif.
+- **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) melalui **Curated Design Timeline** yang hanya menampilkan milestones penting; Konsumen dapat memberikan **Local Approval Intent** jika desain sudah sesuai.
 - **Design Request**: List dan create permintaan desain memakai API lokal berdasarkan persona Konsumen. Status flow: **Local E2E Workflow v1 / UI Consistency Stabilized**.
 - **CRUD Profil**: Perubahan data profil sensitif (Email, HP, NIK) diarahkan ke **Profile Change Approval Queue** dan baru diterapkan ke database setelah disetujui Admin/Superadmin (Apply Local Workflow).
 - **Stage Communication Panel**: **Functional v1 / Local Thread / Stabilized**. Admin sebagai official source; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket). Label "Local Thread (Non-Realtime)" digunakan untuk transparansi.

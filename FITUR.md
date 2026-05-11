@@ -37,6 +37,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Operational Control Summary**: Dashboard ringkasan status operasional proyek (DB-Backed / Stabilized).
 - ✅ **Stage Communication Source Flow**: Sumber update resmi untuk timeline/thread konsumen (Stabilized).
 - ✅ **Project Lifecycle Completion**: Penutupan proyek secara administratif/lokal (Action Guarded).
+- ✅ **Customer Billing Plan**: Pengaturan termin pembayaran lokal (Local Billing Plan / Simulasi).
+- ✅ **Foreman Payment Eligibility**: Penentuan kelayakan pembayaran mandor mingguan (Local Eligibility).
 - 🛑 **Audit & Approval formal**: Local Hold / Planned.
 
 ### 🔍 Pengawas (Supervisor)
@@ -51,20 +53,23 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Jurnal Mingguan**: Pelaporan aktivitas harian dan klaim progres lapangan.
 - ✅ **Material Request from RAB**: Permintaan bahan bangunan berdasarkan data RAB.
 - ✅ **Work Item Evidence**: Unggah bukti kerja per item pekerjaan.
+- ✅ **Weekly Payment Status**: Pantauan status kelayakan pembayaran mingguan (Read-only).
 - ✅ **Experience History**: Riwayat proyek yang pernah dikerjakan secara lokal.
 
 ### 🏠 Konsumen (Customer)
 - ✅ **Design Request**: Pengajuan permintaan desain baru.
 - ✅ **Evidence Thread**: Melihat bukti foto/catatan kerja per item pekerjaan (Role-colored).
-- ✅ **Project Transparency**: Pantauan progres resmi (SOT) dan timeline konstruksi.
+- ✅ **Project Transparency**: Pantauan progres resmi (SOT) dan timeline konstruksi berbasis RAB Tree.
 - ✅ **Stage Communication Viewer**: Melihat official update dan membalas thread (Local HTTP Thread).
+- ✅ **Local Approval Intent**: Memberikan sinyal persetujuan desain (Local-only / Non-legal).
 - ✅ **Project History**: Akses data proyek yang sudah selesai (Read-only).
 - 🛑 **Payment/Document Download**: Demo Only / Local Hold.
 
 ### 🎨 Arsitek
 - ✅ **Design Collaboration Timeline**: Alur diskusi desain dengan label peran.
 - ✅ **Revision Limits**: Pembatasan revisi Major (3x) dan Minor (5x) secara sistematis.
-- ✅ **Arsitek Workspace**: Dashboard khusus untuk memantau status tender dan desain aktif.
+- ✅ **Arsitek Workspace**: Dashboard untuk memantau instruksi admin, progres desain, dan status tender.
+- ✅ **Design Progress Update**: Pencatatan progres desain lokal ke timeline (Local Workflow).
 - ✅ **Design Tender/Bid**: Alur bidding/bidding simulation polished (Local Simulation).
 
 ---

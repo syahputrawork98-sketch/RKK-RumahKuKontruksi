@@ -229,7 +229,9 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Project Bridge hanya membuat project berstatus `planning` sebagai draft lokal. Project draft tidak otomatis aktif, dan aktivasi tetap melalui Project Activation flow terpisah.
 - Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, atau upload file production.
 - Bukan marketplace production, tender production, kontrak legal, payment/escrow, upload file production, auth production, atau RBAC production.
-- **Design Collaboration & Revision v2**: *Local Workflow v2 / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored. Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Endpoint revision memvalidasi limit secara ketat. Arsitek memiliki workspace tracker dan Admin memiliki oversight tracker yang distabilkan.
+- **Design Collaboration & Revision v2**: *Local Workflow v2 / Stabilized*. Alur kolaborasi menggunakan `DesignRequestHistory` untuk thread role-colored.
+  - Riwayat aksi: `admin_curated_instruction` (Admin), `architect_started_work` (Arsitek), `architect_progress_update` (Arsitek), `architect_ready_for_review` (Arsitek), `admin_released_design_to_customer` (Admin), `customer_design_approved` (Konsumen).
+  - Revisi dibatasi: **Major (3x)** dan **Minor (5x)**. Endpoint revision memvalidasi limit secara ketat. Arsitek memiliki workspace tracker dan Admin memiliki oversight tracker yang distabilkan.
 - **Status**: *Local Demo Completion / Local E2E Workflow v1 / Polish v2*.
 
 ## Design Tenders (Local Demo Completion / Local E2E Workflow v1)
@@ -345,6 +347,8 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **Payment/Document Production**: Backend untuk integrasi payment gateway dan generation dokumen legal resmi berstatus **Hold**.
 - **Local Stabilized Status**: Project Timeline Evidence Polish, Admin & Superadmin Operational Control, Konsumen Project Transparency, Post-Completion History, Project Lifecycle Completion, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk local CRUD integration.
 - **Wording Standard**: Menggunakan "Official Progress", "Verified by Supervisor", dan "Field Evidence" secara konsisten untuk transparansi Konsumen.
+- **Foreman Payment Eligibility**: Module untuk menentukan kelayakan pembayaran mandor secara mingguan berdasarkan verifikasi lapangan (Local DB-backed).
+- **Customer Payment Plan**: Module untuk mengatur termin pembayaran (billing plan) konsumen secara lokal (Local DB-backed).
 
 ## Local Governance & Persona Control (Implemented v1)
 Tata kelola persona dan kontrol profil lokal telah diimplementasikan dalam API/Frontend flow:

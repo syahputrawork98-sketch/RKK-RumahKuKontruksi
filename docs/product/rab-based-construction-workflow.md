@@ -112,9 +112,11 @@ RKK melakukan pembayaran kepada Mandor berdasarkan validitas pekerjaan di lapang
 - Penentuan kelayakan pembayaran Mandor berdasarkan verifikasi item pekerjaan mingguan.
 - Admin approval flow untuk status pembayaran lokal.
 
-### Batch 7–9: Design & Architect Foundation
-- Alur kolaborasi: Konsumen <-> Admin <-> Arsitek.
-- Arsitek mengerjakan desain/RAB awal berdasarkan instruksi Admin.
+### Batch 7–9: Design & Architect Foundation (Stabilized)
+- **Fase Desain**: Alur kolaborasi terstruktur antara Konsumen, Admin, dan Arsitek.
+- **Curated Flow**: Admin bertindak sebagai kurator instruksi (`admin_curated_instruction`) dan rilis desain (`admin_released_design_to_customer`).
+- **Bridge to Construction**: Hasil desain yang disetujui secara lokal (`customer_design_approved`) dikonversi oleh Admin menjadi draf proyek (`planning`) yang kemudian diisi dengan struktur RAB rill.
+- **Integration Principle**: Fase desain menghasilkan arah arsitektur yang menjadi baseline bagi Admin untuk menyusun RAB dan Stage konstruksi di fase berikutnya.
 - Tetap bersifat Local Development Workflow.
 
 ## 12. Batasan Pengembangan (Guards)

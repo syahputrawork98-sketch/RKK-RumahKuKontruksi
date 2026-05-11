@@ -28,7 +28,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Dashboard | `/admin/dashboard` | DB-Backed / Stabilized | Statistik rill & Operational Summary (DB-Backed activity). |
 | Data Konsumen | `/admin/konsumen/data` | DB-Backed v1 | Manajemen data customer lokal. |
-| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | Local Workflow v2 / Stabilized | Review/manage Design Request lokal, monitoring limit revisi (3 Major / 5 Minor), dan oversight tracker v2; bukan tender production. |
+| Pengajuan Desain Konsumen | `/admin/konsumen/pengajuan-desain` | Local Workflow v2 / Stabilized | Review/manage Design Request lokal, curated instructions, release summary to customer, monitoring limit revisi (3 Major / 5 Minor), dan oversight tracker v2. |
 | Pengajuan Konstruksi | `/admin/konsumen/pengajuan-konstruksi` | Shell / Pending | Placeholder konversi pengajuan konstruksi. |
 | Validasi Pengajuan | `/admin/konsumen/validasi` | Shell / Pending | Placeholder checklist validasi administrasi. |
 | List Proyek | `/admin/proyek` | DB-Backed v1 | Manajemen proyek rill. |
@@ -50,8 +50,8 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Detail Review | `/admin/laporan-mingguan-pengawas/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Review/approve/reject/publish Weekly Report secara administratif; tidak menggantikan Progress SOT dan tidak mengubah `Project.verifiedProgress` sebagai aksi verifikasi fisik. |
 | Kendala & Eskalasi | `/admin/monitoring/kendala` | Shell / Pending | Placeholder kendala lapangan untuk keputusan Admin. |
 | Publikasi Konsumen | `/admin/publikasi` | Local Stabilized | Source flow Stage Communication; Admin sebagai official source (HTTP thread). |
-| Pembayaran Konsumen | `/admin/pembayaran/konsumen` | Shell / Pending | Placeholder invoice/bukti bayar konsumen. |
-| Pembayaran Mandor | `/admin/pembayaran/mandor` | Shell / Pending | Placeholder opname/disbursement mitra. |
+| Pembayaran Konsumen | `/admin/pembayaran/konsumen` | Local Stabilized | Local Billing Plan (termin) setup via backend lokal. |
+| Pembayaran Mandor | `/admin/pembayaran/mandor` | Local Stabilized | Foreman Weekly Payment Eligibility monitoring via backend lokal. |
 | Validasi Disbursement | `/admin/pembayaran/validasi` | Shell / Pending | Placeholder validasi pencairan. |
 | Riwayat Pembayaran | `/admin/pembayaran/riwayat` | Shell / Pending | Placeholder arsip transaksi. |
 | Pembayaran | `/admin/pembayaran` | Shell / Pending | Legacy mapping ke halaman pembayaran existing; belum payment production. |
@@ -97,7 +97,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Peluang Desain | `/arsitek/peluang-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | Arsitek melihat open tender lokal dan submit bid lokal; bukan marketplace production. |
 | Permintaan Desain | `/arsitek/permintaan-desain`| Local E2E Workflow v1 / UI Consistency Stabilized | Legacy mapping ke peluang/permintaan desain lokal. |
 | Detail Permintaan | `/arsitek/permintaan-desain/:requestId`| Local E2E Workflow v1 / UI Consistency Stabilized | Detail brief/tender desain lokal dan aksi bid lokal. |
-| Desain Aktif | `/arsitek/desain-aktif` | Local E2E Workflow v1 / UI Consistency Stabilized | Monitoring desain aktif lokal berdasarkan assignment/award lokal. |
+| Desain Aktif | `/arsitek/desain-aktif` | Local Workflow v2 / Stabilized | Monitoring desain aktif lokal, menerima curated instruction, dan update progres harian. |
 | Tahapan Konsep | `/arsitek/tahapan/konsep` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan Denah | `/arsitek/tahapan/denah` | Shell / Pending | Placeholder tahapan desain detail. |
 | Tahapan 3D | `/arsitek/tahapan/3d` | Shell / Pending | Placeholder tahapan desain detail. |
@@ -106,7 +106,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Revisi Desain | `/arsitek/revisi` | Hold State | Placeholder revisi desain; belum ada workflow revisi/upload file production. |
 | Final Approved | `/arsitek/final-approved` | Shell / Pending | Placeholder paket desain final approved. |
 | Evaluasi Teknis | `/arsitek/evaluasi` | Shell / Pending | Placeholder evaluasi teknis. |
-| Riwayat | `/arsitek/riwayat` | Local E2E Workflow v1 / UI Consistency Stabilized | Riwayat desain/tender lokal dari workflow simulasi localhost. |
+| Riwayat | `/arsitek/riwayat` | Local E2E Workflow v2 / Stabilized | Riwayat desain/tender lokal termasuk riwayat progres desain yang pernah dikerjakan. |
 | Pengaturan | `/arsitek/pengaturan` | DB-Backed v1 | Profil arsitek rill dengan GovernanceNotice. |
 
 ## 6. Superadmin Routes
@@ -138,12 +138,12 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 |---|---|---|---|
 | Proyek Saya | `/konsumen/proyek` | DB-Backed v1 | Project API memakai filter `customerId` dari dev persona dan menampilkan `Project.verifiedProgress` resmi. |
 | Timeline | `/konsumen/timeline-proyek` | DB-Backed v1 | ProjectStage dan `Project.verifiedProgress` resmi dipakai untuk timeline Konsumen lokal; alias lama `/konsumen/TimelineProyek` tetap tersedia. |
-| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed / Stabilized | Work Item Evidence Thread, Stage Communication (Replier mode), dan Progress Resmi. |
+| Detail Progres | `/konsumen/timeline-proyek/:stageId`| DB-Backed / Stabilized | Work Item Evidence Thread (RAB-linked), Stage Communication (Replier mode), dan Progress Resmi. |
 | Timeline Alias Mobile | `/konsumen/timeline` | DB-Backed v1 | Alias compatibility untuk timeline mobile. |
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
-| Permintaan Desain | `/konsumen/permintaan-desain` | Local E2E Workflow v1 / UI Consistency Stabilized | List dan create Design Request lokal memakai API berdasarkan `customerId`; bukan marketplace/tender production. |
+| Permintaan Desain | `/konsumen/permintaan-desain` | Local Workflow v2 / Stabilized | List dan create Design Request lokal; Curated Design Timeline dan Local Approval Intent. |
 | Pembayaran | `/konsumen/pembayaran` | Demo Only / Local Hold | Placeholder termin pembayaran; Demo visual only. |
 | Dokumen | `/konsumen/dokumen` | Demo Only / Local Hold | Placeholder pusat dokumen; Demo visual only. |
 
 ---
-*Terakhir diperbarui: 10 Mei 2026*
+*Terakhir diperbarui: 11 Mei 2026*

@@ -8,9 +8,9 @@
 - **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
 - **Fokus Saat Ini**: Stabilisasi Admin Dashboard (DB-backed statistics), Stage Communication (Non-realtime HTTP thread), dan Local Governance Foundation v1 (Audit Logs, Profile Change Approval, Visibility Guard). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
 - **Milestone Selesai**:
-  - **Batch 1**: Admin Dashboard Cleanup & Stage Communication Source Flow.
-  - **Batch 2**: Local Governance Foundation v1 (Backend/Initial UI).
-  - **Batch 3**: Governance Finalization & Visibility Safety (Verified Profile Apply & Report Visibility Guard).
+  - **Batch 1-3**: Core Foundation, Admin Dashboard, Governance, & Visibility Safety.
+  - **Batch 4-6**: RAB-based Construction Foundation & Local Payment Eligibility (Stabilized).
+  - **Batch 7-9**: Design/Arsitek Workspace & Curated Customer Review (Stabilized).
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -42,7 +42,9 @@
 | **Design Tender** | Local Workflow v1 / Stabilized | Local simulation polished; status/action guard clearer; bukan marketplace production |
 | **Admin & Superadmin Control** | Local Dashboard/Governance Polish | Admin Operational Summary (DB-backed activity) & Superadmin Direktori Persona Lokal; status planning/active/finished and action safe-wording stabilized |
 | **Konsumen Transparency Polish** | Local Transparency UX Polish / Stabilized | Consumer Project Overview, payment/doc demo hold, official verified progress, and Stage Communication viewer (HTTP thread) |
-| **Design Collaboration & Revision** | Local Workflow v2 / Stabilized | Design thread role-colored, revision tracker (3 Major / 5 Minor), enforcement limit, and Arsitek Workspace polish |
+| **Design Collaboration & Revision** | Local Workflow v2 / Stabilized | Design thread role-colored, revision tracker (3 Major / 5 Minor), enforcement limit, curated customer timeline, and local approval intent |
+| **Foreman Payment Eligibility** | Local Workflow v1 / Stabilized | Local eligibility check for weekly foreman payment; DB-backed simulation |
+| **Customer Payment Plan** | Local Workflow v1 / Stabilized | Local billing plan (termin) setup; DB-backed simulation |
 | **Local Governance & Persona Control** | Local Governance Foundation v1 / Stabilized | Audit Log (Database Activity Logs), Profile Change Approval Queue, dan Visibility Guard (Active) |
 | **Visibility Guard & Safety** | Local Workflow v1 / Stabilized | Kontrol `isVisibleToCustomer` pada Supervisor Weekly Report dan Empty States jujur untuk Konsumen |
 | **Stage Communication Source Flow** | Local Workflow v1 / Stabilized | Admin sebagai sumber update resmi; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket) |
@@ -108,7 +110,7 @@ Fitur ini menerapkan **Revision Limits & Workspace Polish** v2:
 - **Admin Design Oversight**: Admin memiliki kontrol oversight untuk memantau penggunaan limit revisi dan memberikan peringatan/bypass secara manual.
 - **Hold Logic**: Jika limit habis, revisi berikutnya ditahan (**Hold**) dan memerlukan intervensi Admin.
 
-Data riwayat disimpan dalam `DesignRequestHistory`, dan jumlah revisi dicatat di `DesignRequest.majorRevisionCount` serta `DesignRequest.minorRevisionCount`. Ini adalah local development workflow, bukan kontrak legal, bukan payment/addendum production, bukan upload production, bukan realtime chat, dan tidak mengubah Progress SOT konstruksi.
+Data riwayat disimpan dalam `DesignRequestHistory`, dan jumlah revisi dicatat di `DesignRequest.majorRevisionCount` serta `DesignRequest.minorRevisionCount`. Fitur ini mencakup alur kurasi Admin (`admin_curated_instruction`), progres arsitek (`architect_progress_update`), hingga rilis ke konsumen (`admin_released_design_to_customer`) dan persetujuan lokal (`customer_design_approved`). Ini adalah local development workflow, bukan kontrak legal, bukan payment/addendum production, bukan upload production, bukan realtime chat, dan tidak mengubah Progress SOT konstruksi.
 
 ## Mandor/Pengawas Certificate & Work Experience
 Mandor/Pengawas Certificate & Work Experience sudah berstatus **Local CRUD v1 / Stabilized** untuk Local Development CRUD Integration. Mandor dan Pengawas dapat mengelola data profil lokal/manual berupa Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini. Delete memakai soft-delete endpoint existing.

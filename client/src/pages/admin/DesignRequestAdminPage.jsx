@@ -17,11 +17,13 @@ import {
     FiAward,
     FiDollarSign,
     FiArrowLeft,
+    FiArrowRight,
     FiMessageSquare,
     FiSend,
     FiShield,
     FiActivity,
-    FiAlertCircle
+    FiAlertCircle,
+    FiCalendar
 } from "react-icons/fi";
 import { 
     getLatestCustomerPostDesignDecision, 
@@ -184,6 +186,7 @@ const DesignRequestAdminPage = () => {
             setCurrentTender({ ...tender, bids: res.data });
             setIsBidsOpen(true);
         } catch (err) {
+            console.error("Error loading bids:", err);
             alert("Gagal memuat penawaran.");
         }
     };
@@ -205,6 +208,7 @@ const DesignRequestAdminPage = () => {
             setIsFormOpen(false);
             fetchData();
         } catch (err) {
+            console.error("Error saving data:", err);
             alert("Gagal menyimpan data.");
         } finally {
             setSubmitting(false);
@@ -219,6 +223,7 @@ const DesignRequestAdminPage = () => {
             setIsAssignOpen(false);
             fetchData();
         } catch (err) {
+            console.error("Error assigning architect:", err);
             alert("Gagal menugaskan arsitek.");
         } finally {
             setSubmitting(false);
@@ -238,6 +243,7 @@ const DesignRequestAdminPage = () => {
             setIsPublishOpen(false);
             fetchData();
         } catch (err) {
+            console.error("Error publishing tender:", err);
             alert("Gagal mempublish peluang desain.");
         } finally {
             setSubmitting(false);
@@ -252,6 +258,7 @@ const DesignRequestAdminPage = () => {
             setIsBidsOpen(false);
             fetchData();
         } catch (err) {
+            console.error("Error awarding bid:", err);
             alert("Gagal memilih arsitek.");
         } finally {
             setSubmitting(false);
@@ -278,6 +285,7 @@ const DesignRequestAdminPage = () => {
                 setSelectedRequest(res.data);
             }
         } catch (err) {
+            console.error("Error updating status:", err);
             alert("Gagal memperbarui status.");
         } finally {
             setSubmitting(false);
@@ -398,6 +406,7 @@ const DesignRequestAdminPage = () => {
             setSelectedRequest(res.data);
             alert("Instruksi berhasil disimpan dan diteruskan ke Arsitek.");
         } catch (err) {
+            console.error("Error saving curated instruction:", err);
             alert("Gagal menyimpan instruksi.");
         } finally {
             setSubmitting(false);
@@ -422,6 +431,7 @@ const DesignRequestAdminPage = () => {
             setReleaseSummary("");
             alert("Ringkasan desain telah dirilis ke Konsumen.");
         } catch (err) {
+            console.error("Error releasing design:", err);
             alert("Gagal merilis desain.");
         } finally {
             setSubmitting(false);
@@ -560,6 +570,7 @@ const DesignRequestAdminPage = () => {
                 await designRequestService.deleteDesignRequest(id);
                 fetchData();
             } catch (err) {
+                console.error("Error deleting request:", err);
                 alert("Gagal menghapus.");
             }
         }
@@ -722,12 +733,19 @@ const DesignRequestAdminPage = () => {
                                                             >
                                                                 <FiUserPlus size={14} />
                                                             </button>
-                                                            <button
+                                                                <button
                                                                 onClick={(e) => { e.stopPropagation(); handleOpenForm(r); }}
                                                                 className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg"
                                                                 title="Edit"
                                                             >
                                                                 <FiEdit2 size={14} />
+                                                            </button>
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); handleDelete(r.id); }}
+                                                                className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg"
+                                                                title="Hapus"
+                                                            >
+                                                                <FiTrash2 size={14} />
                                                             </button>
                                                         </>
                                                     )}

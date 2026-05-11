@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiType, FiFileText, FiClock } from "react-icons/fi";
+import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiType, FiFileText, FiClock, FiPenTool, FiZap, FiCheckCircle } from "react-icons/fi";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
@@ -14,6 +14,15 @@ const DetailPermintaanDesainArsitekPage = () => {
     const [request, setRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
+    
+    // Progress Update Form State
+    const [progressForm, setProgressForm] = useState({
+        stage: "Preliminary",
+        progressPercent: "",
+        note: "",
+        issues: ""
+    });
 
     const fetchRequest = async () => {
         try {
@@ -25,6 +34,62 @@ const DetailPermintaanDesainArsitekPage = () => {
             console.error("Error fetching request detail:", err);
             setError("Data tidak ditemukan atau terjadi kesalahan server.");
             setLoading(false);
+        }
+    };
+    
+    const handleAddProgress = async (action = 'architect_progress_update') => {
+        if (action === 'architect_progress_update' && !progressForm.note.trim()) {
+            alert("Harap isi catatan progress.");
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            
+            let note = "";
+            if (action === 'architect_started_work') {
+                note = "Arsitek telah memulai pengerjaan desain.";
+            } else if (action === 'architect_ready_for_review') {
+                note = "Arsitek telah menandai desain ini SIAP UNTUK REVIEW.";
+            } else {
+                note = `[${progressForm.stage}] Progress: ${progressForm.progressPercent || '0'}%\nCatatan: ${progressForm.note}\nKendala: ${progressForm.issues || '-'}`;
+            }
+
+            await designRequestService.addHistory(requestId, {
+                action,
+                actorRole: 'architect',
+                actorId: selectedArchitectId,
+                actorName: 'Arsitek Mitra',
+                note,
+                metadata: action === 'architect_progress_update' ? {
+                    stage: progressForm.stage,
+                    progressPercent: progressForm.progressPercent
+                } : {}
+            });
+
+            // If ready for review, update main status
+            if (action === 'architect_ready_for_review') {
+                await designRequestService.updateDesignRequest(requestId, { status: 'in_review' });
+            }
+
+            // Also update status to 'in_progress' if just started
+            if (action === 'architect_started_work') {
+                await designRequestService.updateDesignRequest(requestId, { status: 'in_progress' });
+            }
+
+            alert("Update berhasil disimpan!");
+            setProgressForm({
+                stage: "Preliminary",
+                progressPercent: "",
+                note: "",
+                issues: ""
+            });
+            fetchRequest();
+        } catch (err) {
+            console.error("Error adding progress:", err);
+            alert("Gagal menyimpan update.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -247,6 +312,100 @@ const DetailPermintaanDesainArsitekPage = () => {
                                 </ul>
                             </div>
                     </div>
+
+                    {/* PROGRESS UPDATE WORKSPACE (FOR ARCHITECT) */}
+                    {!['approved', 'project_created', 'finished'].includes(request.status) && (
+                        <div className="dashboard-card border-t-4 border-t-indigo-600 bg-indigo-50/20">
+                            <div className="flex items-center gap-2 mb-6">
+                                <FiPenTool className="text-indigo-600" />
+                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-indigo-900">Workspace Eksekusi Desain</h3>
+                            </div>
+
+                            <div className="space-y-6">
+                                {/* ACTION BUTTONS */}
+                                <div className="flex flex-wrap gap-3">
+                                    {!request.history?.some(h => h.action === 'architect_started_work') && (
+                                        <button 
+                                            onClick={() => handleAddProgress('architect_started_work')}
+                                            disabled={submitting}
+                                            className="px-6 py-2 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-indigo-600/10 hover:bg-indigo-700 transition-all"
+                                        >
+                                            <FiZap className="inline mr-2" /> Mulai Kerja
+                                        </button>
+                                    )}
+
+                                    <button 
+                                        onClick={() => handleAddProgress('architect_ready_for_review')}
+                                        disabled={submitting || request.status === 'in_review'}
+                                        className="px-6 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-600/10 hover:bg-emerald-700 transition-all disabled:opacity-50"
+                                    >
+                                        <FiCheckCircle className="inline mr-2" /> Tandai Siap Review
+                                    </button>
+                                </div>
+
+                                {/* PROGRESS FORM */}
+                                <div className="p-6 bg-white rounded-[2rem] border border-indigo-100 shadow-sm space-y-4">
+                                    <p className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Catat Progress Desain Lokal</p>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-bold text-slate-400 uppercase">Tahapan / Stage</label>
+                                            <select 
+                                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                                                value={progressForm.stage}
+                                                onChange={(e) => setProgressForm({...progressForm, stage: e.target.value})}
+                                            >
+                                                <option value="Preliminary">Preliminary Design</option>
+                                                <option value="Schematic">Schematic Design</option>
+                                                <option value="Design Development">Design Development</option>
+                                                <option value="Final Detail">Final Detail / Finishing</option>
+                                            </select>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-bold text-slate-400 uppercase">Progress (%)</label>
+                                            <input 
+                                                type="number"
+                                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                                                placeholder="0-100"
+                                                value={progressForm.progressPercent}
+                                                onChange={(e) => setProgressForm({...progressForm, progressPercent: e.target.value})}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-slate-400 uppercase">Catatan Aktivitas</label>
+                                        <textarea 
+                                            rows="2"
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none"
+                                            placeholder="Apa yang dikerjakan hari ini?..."
+                                            value={progressForm.note}
+                                            onChange={(e) => setProgressForm({...progressForm, note: e.target.value})}
+                                        />
+                                    </div>
+
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-slate-400 uppercase">Kendala (Opsional)</label>
+                                        <textarea 
+                                            rows="1"
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none"
+                                            placeholder="Ada kendala teknis atau butuh klarifikasi?..."
+                                            value={progressForm.issues}
+                                            onChange={(e) => setProgressForm({...progressForm, issues: e.target.value})}
+                                        />
+                                    </div>
+
+                                    <button 
+                                        onClick={() => handleAddProgress()}
+                                        disabled={submitting || !progressForm.note.trim()}
+                                        className="w-full py-3 bg-indigo-50 text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-widest border border-indigo-100 hover:bg-indigo-100 transition-all"
+                                    >
+                                        {submitting ? "Menyimpan..." : "Simpan Update Progress"}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -103,6 +103,8 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                 <div className={`p-5 rounded-3xl border ${
                   isRevision ? 'border-amber-200 bg-amber-50/30' : 
                   log.action === 'admin_curated_instruction' ? 'border-indigo-200 bg-indigo-50/50 ring-2 ring-indigo-500/10 shadow-lg' :
+                  log.action === 'architect_started_work' ? 'border-emerald-200 bg-emerald-50/30' :
+                  log.action === 'architect_ready_for_review' ? 'border-indigo-600 bg-indigo-600 text-white shadow-xl' :
                   'border-slate-100 bg-white'
                 } shadow-sm group hover:border-indigo-200 transition-all`}>
                   <div className="flex justify-between items-start mb-3">
@@ -117,6 +119,11 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                             Instruksi Terkurasi
                           </span>
                         )}
+                        {log.action === 'architect_ready_for_review' && (
+                          <span className="ml-2 text-[9px] font-black text-white uppercase border border-white/20 px-2 py-0.5 rounded-full bg-white/10">
+                            Siap Review
+                          </span>
+                        )}
                       </h4>
                     </div>
                     <div className="text-right">
@@ -127,8 +134,8 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
 
                   <div className="space-y-3">
                     <div className="flex gap-2">
-                      <FiMessageSquare className="text-slate-300 mt-1 flex-shrink-0" size={14} />
-                      <p className="text-xs font-bold text-slate-600 leading-relaxed whitespace-pre-wrap italic">
+                      <FiMessageSquare className={`mt-1 flex-shrink-0 ${log.action === 'architect_ready_for_review' ? 'text-indigo-200' : 'text-slate-300'}`} size={14} />
+                      <p className={`text-xs font-bold leading-relaxed whitespace-pre-wrap italic ${log.action === 'architect_ready_for_review' ? 'text-white' : 'text-slate-600'}`}>
                         "{log.note || 'Melakukan pembaruan pada desain.'}"
                       </p>
                     </div>

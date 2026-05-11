@@ -277,12 +277,35 @@ const PermintaanDesainArsitekPage = () => {
                                         </div>
                                         <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
                                             r.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
+                                            r.status === 'in_progress' ? "bg-blue-50 text-blue-600 border-blue-100" :
                                             r.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
                                             r.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
                                             "bg-gray-50 text-gray-600 border-gray-100"
                                         }`}>
-                                            {r.status === 'assigned' ? 'Terpilih' : r.status === 'in_review' ? 'Proses Review' : r.status === 'approved' ? 'Selesai' : r.status.replace('_', ' ')}
+                                            {r.status === 'assigned' ? 'Terpilih' : 
+                                             r.status === 'in_progress' ? 'Dikerjakan' :
+                                             r.status === 'in_review' ? 'Proses Review' : 
+                                             r.status === 'approved' ? 'Selesai' : r.status.replace('_', ' ')}
                                         </span>
+                                    </div>
+
+                                    {/* WORKSPACE INDICATORS */}
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {r.history?.some(h => h.action === 'admin_curated_instruction') ? (
+                                            <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[8px] font-black uppercase rounded border border-indigo-100 flex items-center gap-1">
+                                                <FiInfo size={10} /> Instruksi Admin Ada
+                                            </span>
+                                        ) : (
+                                            <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-black uppercase rounded border border-amber-100 flex items-center gap-1">
+                                                <FiClock size={10} /> Menunggu Instruksi
+                                            </span>
+                                        )}
+                                        
+                                        {r.history?.some(h => h.action === 'architect_progress_update') && (
+                                            <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[8px] font-black uppercase rounded border border-emerald-100 flex items-center gap-1">
+                                                <FiZap size={10} /> Progress Update Tersedia
+                                            </span>
+                                        )}
                                     </div>
 
                                     <div className="space-y-2 mb-6">
@@ -303,6 +326,14 @@ const PermintaanDesainArsitekPage = () => {
                                                 <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Minor Rev.</span>
                                                 <span className={`text-[10px] font-black ${r.minorRevisionCount >= 5 ? 'text-red-500' : 'text-slate-700'}`}>{r.minorRevisionCount || 0}/5</span>
                                             </div>
+                                            {r.history?.filter(h => h.action === 'architect_progress_update').length > 0 && (
+                                                <div className="flex flex-col border-l border-gray-100 pl-4">
+                                                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Latest Update</span>
+                                                    <span className="text-[10px] font-bold text-indigo-600">
+                                                        {new Date(r.history.filter(h => h.action === 'architect_progress_update')[0].createdAt).toLocaleDateString('id-ID')}
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 

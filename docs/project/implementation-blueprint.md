@@ -74,6 +74,7 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 4. **Progress to Customer** (Level 2 -> Level 3 Target)
 5. **Payment Foreman** (Level 2 -> Level 3 Target)
 6. **Material Request Local Workflow** (Local E2E Workflow v1 / UI Consistency Stabilized)
+7. **Documentation Metadata Foundation** (Implemented Local v1)
 
 > [!NOTE]
 > Jangan semua workflow dipaksa detail sekaligus untuk menghindari kontradiksi. Project Progress menjadi prioritas utama karena merupakan dasar dari modul payment, laporan, dan publikasi konsumen.
@@ -86,6 +87,7 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 5. **Progress-to-Customer**: Publikasi progres terpercaya ke pelanggan.
 6. **Payment Foreman**: Alur keuangan berbasis capaian kerja.
 7. **Material Request Local Workflow**: Alur kebutuhan material lokal lintas Mandor, Pengawas, Admin, dan Superadmin read-only monitoring.
+8. **Documentation Metadata**: Fondasi metadata dokumen dan dokumentasi lapangan (API-backed metadata list).
 
 ## Modul yang Dipertahankan (Stable)
 - Core CRUD untuk entitas: Customer, Project, Supervisor, Foreman, Architect, Admin, Superadmin.

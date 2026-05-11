@@ -324,6 +324,38 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Stage Communication Panel Konsumen sudah memakai read path dan customer reply lokal. Payload `POST` tetap wajib menyertakan `projectId`, `authorRole`, `message`, dan `parentId` untuk reply Konsumen.
 - Update/delete masih perlu guard role yang lebih tegas sebelum dianggap production-ready.
 
+## Project Documents (Metadata-only v1, Batch 24)
+- `GET /project-documents`: Ambil daftar metadata dokumen proyek dengan filter (projectId, category, visibility, status).
+- `GET /project-documents/:id`: Ambil detail metadata dokumen.
+- `POST /project-documents`: Membuat metadata dokumen baru (belum upload binary).
+- `PATCH /project-documents/:id`: Update metadata dokumen.
+- `DELETE /project-documents/:id`: Hapus metadata dokumen (soft delete).
+
+**Catatan**:
+- Status: **API-Backed Metadata (Batch 24)**.
+- Module ini hanya mengelola **Metadata** dokumen di database.
+- Belum mendukung upload file binary (S3/Cloud/Local Storage). Field `fileUrl` saat ini berisi placeholder atau URL manual.
+- Kategori dokumen: `lapangan`, `legal`, `konsumen`, `internal`, `arsitek`.
+- Visibility: `internal`, `customer_visible`, `role_specific`.
+
+## Field Issues (Batch 21)
+- `GET /field-issues`: Ambil daftar kendala lapangan.
+- `GET /field-issues/:id`: Detail kendala.
+- `POST /field-issues`: Buat kendala baru.
+- `PATCH /field-issues/:id`: Update status/resolusi kendala.
+
+**Catatan**:
+- Status: **DB-Backed v1 (Batch 21)**.
+
+## Daily Tasks & Daily Reports (Batch 23)
+- `GET /daily-reports`: Daftar laporan harian.
+- `POST /daily-reports`: Buat laporan harian.
+- `GET /daily-tasks`: Daftar tugas harian.
+- `POST /daily-tasks`: Buat tugas harian.
+
+**Catatan**:
+- Status: **DB-Backed v1 (Batch 23)**.
+
 ## Auth
 - **NOT IMPLEMENTED**: Endpoint login/register belum tersedia. Autentikasi disimulasi di frontend melalui persona selector.
 

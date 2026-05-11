@@ -15,7 +15,10 @@
   - **Batch 16-20**: Project Planning Bridge, Final Assignment, Activation Gate, Timeline Alignment, & Material Request Stabilization (Stabilized).
   - **Batch M1–M4**: Modularisasi Frontend (Design Request, Admin RAB, Role Settings, Project Detail Admin & Mandor) — Stabilized No-Behavior-Change.
   - **Batch 21**: Field Issue & Escalation Backend Foundation accepted (Commit e8578b33528e18a624497921df14ea7bbe4b9164). Schema, API, seed, dan integrasi Mandor Kendala Lapangan tersedia. Follow-up: UI review Pengawas/Admin belum dihubungkan, Dashboard Mandor belum memakai count issue real.
-  - **Batch 22B**: Perluasan scope boundary dokumentasi. Payment, invoice, BAST helper, upload, dan notification sekarang allowed for phased production feature completion. Batch 23 diarahkan ke Daily Task & Daily Report Backend Foundation.
+  - **Batch 22**: Project Mode Reframing & Documentation Alignment accepted (Commit 254490f72e3374bafb7eaed0b539a2b5fdfb5c9f).
+  - **Batch 22B**: Perluasan scope boundary dokumentasi (Commit b6d46b8fae0b629b102de07e4b6536a328080633). Payment, invoice, BAST helper, upload, dan notification allowed for phased production feature completion.
+  - **Batch 23**: Daily Task & Daily Report Backend-Backed Foundation accepted (Commit 30fc0789044c19a4a93c18baa303cd8fca349230).
+  - **Batch 24**: Documentation Metadata Foundation accepted (Commit 28250a7a5592a16723c24daa8cd1ee9a9f310c47). ProjectDocument schema, `/api/project-documents` API, dan metadata list UI Mandor/Pengawas Dokumentasi sudah API-backed. Masih metadata only (belum upload binary/cloud). Next recommended: **Batch 25 — Upload Adapter Lokal + Documentation UI Completion** (sebaiknya local upload adapter first).
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 

@@ -22,7 +22,7 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | **Data Tim Harian** | `DetailProyekAktifMandorPage.jsx` | Belum ada di Schema | Tunda |
 | **Material Request Local Flow**| `material-requests.service.js` / MR pages | Stabil Lokal | Selesai untuk local CRUD; warehouse/inventory production tetap tunda |
 | **Report Review Impact** | `DetailLaporanMingguanPengawasAdminPage.jsx` | Stabil Lokal | Selesai untuk local CRUD; audit/publish polish lanjutan opsional |
-| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | `placehold.co` | Tunda |
+| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | API-Backed Metadata List (Batch 24) | Upload binary ditunda (Batch 25 local first) |
 
 ## 3. Mitra (Arsitek)
 | Fitur | Lokasi | Status | Rekomendasi |
@@ -44,6 +44,12 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 ## Rekomendasi Next Task
 
 Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan flow Konsumen utama sudah masuk status stabil lokal. Next task yang paling aman tanpa membuka scope payment/auth besar:
+
+### Rekomendasi 0: Batch 25 Upload Adapter Lokal + Documentation UI Completion
+- **Judul**: Batch 25 Upload Adapter Lokal
+- **Alasan**: Melanjutkan Batch 24 Documentation Metadata Foundation yang sudah membuat API & Schema. Perlu membuat fitur create/upload dokumen dari UI, dengan catatan menggunakan local upload adapter (multer lokal) terlebih dahulu, bukan cloud production.
+- **Scope Aman**: Implementasi upload endpoint lokal (Node.js/multer), simpan file di `/uploads` lokal, simpan path ke `fileUrl` di database, dan hubungkan ke UI Documentation Lapangan Mandor/Pengawas.
+- **Risiko**: Rendah, asalkan dibatasi sebagai fitur simulasi lokal tanpa library cloud eksternal.
 
 ### Rekomendasi 1: Admin Publish Update / Stage Communication Source Flow Verification
 - **Judul**: Admin Publish Update untuk Stage Communication Panel

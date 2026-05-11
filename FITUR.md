@@ -39,6 +39,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Project Lifecycle Completion**: Penutupan proyek secara administratif/lokal (Action Guarded).
 - ✅ **Customer Billing Plan**: Pengaturan termin pembayaran lokal (Local Billing Plan / Simulasi).
 - ✅ **Foreman Payment Eligibility**: Penentuan kelayakan pembayaran mandor mingguan (Local Eligibility).
+- ✅ **Project Document Archive**: Pusat arsip dokumen digital (API-Backed Metadata v1).
 - 🛑 **Audit & Approval formal**: Local Hold / Planned.
 
 ### 🔍 Pengawas (Supervisor)
@@ -48,6 +49,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Stage Completion**: Menandai kategori pekerjaan (Stage) yang telah selesai.
 - ✅ **Work Item Review**: Thread diskusi kualitas per item pekerjaan (Stabilized).
 - ✅ **Visibility Guard**: Kontrol `isVisibleToCustomer` untuk laporan pengawas (Stabilized).
+- ✅ **Dokumentasi Lapangan**: Galeri foto perkembangan fisik (API-Backed Metadata List).
 
 ### 👷 Mandor (Foreman)
 - ✅ **Jurnal Mingguan**: Pelaporan aktivitas harian dan klaim progres lapangan.
@@ -55,6 +57,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Work Item Evidence**: Unggah bukti kerja per item pekerjaan.
 - ✅ **Weekly Payment Status**: Pantauan status kelayakan pembayaran mingguan (Read-only).
 - ✅ **Experience History**: Riwayat proyek yang pernah dikerjakan secara lokal.
+- ✅ **Dokumentasi Harian**: Bukti visual pekerjaan lapangan (API-Backed Metadata List).
+- ✅ **Daily Report & Daily Task**: Pelaporan dan checklist aktivitas harian (DB-Backed v1).
 
 ### 🏠 Konsumen (Customer)
 - ✅ **Design Request**: Pengajuan permintaan desain baru.
@@ -63,7 +67,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Stage Communication Viewer**: Melihat official update dan membalas thread (Local HTTP Thread).
 - ✅ **Local Approval Intent**: Memberikan sinyal persetujuan desain (Local-only / Non-legal).
 - ✅ **Project History**: Akses data proyek yang sudah selesai (Read-only).
-- 🕒 **Payment/Document Download**: Planned for staged implementation.
+- ✅ **Document Download**: Akses dokumen Gambar Kerja, Kontrak, dan BAST (API-Backed Metadata v1).
+- 🕒 **Payment**: Planned for staged implementation.
 
 ### 🎨 Arsitek
 - ✅ **Design Collaboration Timeline**: Alur diskusi desain dengan label peran.
@@ -95,7 +100,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 
 ## 🚀 Planned / Fitur Berikutnya
 - **Advanced RBAC Simulation**: Simulasi role-based access control yang lebih mendalam secara lokal.
-- **Project Document Archive**: Pusat arsip dokumen digital rill (Local DB-backed).
+- ✅ **Project Document Archive**: Pusat arsip dokumen digital (API-Backed Metadata v1).
+- 🏗️ **Local Upload Adapter**: Implementasi penyimpanan file lokal (Batch 25 Target).
 - **UX Soften**: Memperhalus wording "Hold" pada modul payment/detail pekerjaan Konsumen.
 
 ---

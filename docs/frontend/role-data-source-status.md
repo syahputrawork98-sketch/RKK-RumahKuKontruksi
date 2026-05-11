@@ -30,7 +30,7 @@ Status: **Database-Backed v1**
   - Laporan Mingguan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot `Project.verifiedProgress` saat laporan dibuat.
   - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Pengawas dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai termasuk project `Selesai`, jurnal, aktivitas pekerjaan, laporan/review Pengawas, material request jika tersedia, dan `Project.verifiedProgress` read-only.
-  - Dokumentasi: **Shell / Backend Pending**.
+  - Dokumentasi: **API-Backed Metadata List (Batch 24)**. Menampilkan daftar metadata dokumen/foto lapangan dari database; upload binary menyusul (Batch 25).
   - Visibility Guard: **Local Workflow v1 / Stabilized**. Kontrol `isVisibleToCustomer` aktif pada backend; Konsumen hanya dapat melihat laporan mingguan yang sudah dipublikasikan.
   - Sertifikasi resmi/legal, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**. (Upload dokumen production: Planned for staged implementation).
 
@@ -48,7 +48,8 @@ Status: **Database-Backed v1**
   - Post-Completion History & Experience Pack: **Local Workflow v1 / Stabilized**. Detail project Mandor menampilkan banner selesai untuk project `Selesai`; Mandor tetap bisa membaca histori project/jurnal/material request, tetapi Lapor Progres dan action lapangan baru ditahan.
   - Certificate & Work Experience: **Local CRUD v1 / Stabilized**. Mandor dapat mengelola Sertifikat Keahlian dan Riwayat Pengalaman Kerja lokal/manual memakai schema/backend existing tanpa schema/seed baru; data belum diverifikasi resmi dan delete memakai soft-delete endpoint existing.
   - Experience Read-Only: **Local Experience Summary / Stabilized**. Ringkasan pengalaman dibaca dari project aktif/selesai termasuk project `Selesai`, jurnal Mandor, aktivitas pekerjaan, material request jika tersedia, dan `Project.verifiedProgress` read-only.
-  - Tugas harian, laporan harian, dokumentasi, kendala: **Shell / Backend Pending**.
+  - Tugas harian, laporan harian, kendala: **Shell / Backend Pending**.
+  - Dokumentasi: **API-Backed Metadata List (Batch 24)**. Menampilkan daftar metadata dokumen/foto harian dari database; upload binary menyusul (Batch 25).
   - Request material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Mandor memilih project aktif/`Berjalan`, memilih stage, dapat memilih `RabItem` sebagai baseline material, melihat total RAB qty/approved qty/remaining qty, atau membuat manual/outside-RAB request dengan note/alasan wajib; project `Selesai` ditahan.
   - Payment Status: **Local Payment Eligibility = Local Workflow v1 / Stabilized**. Mandor melihat status kelayakan pembayaran mingguan yang telah di-review oleh Admin secara lokal.
   - Sertifikasi resmi/legal, PDF certificate, legal validation, rating/scoring, dan reputation marketplace: **Hold / Not Production**. (Upload dokumen production: Planned for staged implementation).
@@ -92,6 +93,7 @@ Status: **Database-Backed v2 / Local Dashboard Polish Stabilized**
   - Laporan Progress Terverifikasi, Review Laporan Pengawas: **Local E2E Workflow v1 / UI Consistency Stabilized**. Admin review/publish Weekly Report sebagai administrasi/publikasi ringkasan; bukan verifikator progress fisik resmi dan bukan pengganti Progress SOT.
   - Project selesai: **Reader/Status Local Workflow v1 / Stabilized**. Admin dapat membaca status selesai lokal; closeout/history tidak mengubah `Project.verifiedProgress` dan bukan sertifikat otomatis/resmi, atau marketplace reputation/scoring. (BAST/legal helper dan invoice/payment record allowed bertahap).
   - Pembayaran: **Shell / Backend Pending**.
+  - Dokumen: **API-Backed Metadata (Batch 24)**. Metadata untuk Gambar Kerja, Kontrak, dan BAST tersedia via API `/api/project-documents`.
   - Request Material: **Material Request from RAB Usage = Local Workflow v1 / Stabilized**. Admin menjalankan approval/status distribusi lokal setelah review Pengawas; tidak ada inventory production, supplier marketplace, purchase order production, atau procurement production. (Invoice/payment record allowed bertahap).
 
 ---
@@ -116,7 +118,7 @@ Status: **Database-Backed v1 / Local Transparency Polish Stabilized**
 - **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`
 - **Dashboard & Project Overview**: **Local Transparency UX Polish / Stabilized**. Dashboard dan Monitoring Proyek menampilkan label "Progress Resmi (Verified Pengawas)" dan status operasional yang akurat.
 - **Phase Separation**: **Local Transparency UX Polish / Stabilized**. Timeline desain dan timeline konstruksi dipisahkan secara visual.
-- **Action Guard**: Pembayaran dan Download Dokumen berstatus **Demo Only / Planned for staged implementation**.
+- **Action Guard**: Pembayaran berstatus **Demo Only / Planned for staged implementation**. Download Dokumen berstatus **API-Backed Metadata (Batch 24)**.
 - **Timeline Evidence & Work Item Thread v2**: **Local Workflow v1 / Stabilized**. Konsumen melihat bukti pekerjaan nyata per item pekerjaan (`RabItem`) dengan visual **Role-Colored Evidence** (Biru=Mandor, Amber=Pengawas, Netral=Admin). Label "Progress Resmi (Verified Pengawas)" dipertegas.
 - **Visibility Preparation (Hold)**: Penambahan disclaimer bahwa visibilitas item tertentu sedang dalam tahap persiapan dan belum dikontrol secara dinamis oleh Admin.
 - **Design Collaboration & Revision v2**: **Local Workflow v2 / Stabilized**. Konsumen memantau riwayat desain, feedback, dan revisi (limit 3 major / 5 minor) melalui **Curated Design Timeline** yang hanya menampilkan milestones penting; Konsumen dapat memberikan **Local Approval Intent** jika desain sudah sesuai.

@@ -124,3 +124,42 @@ Dokumen ini mencatat riwayat pengembangan batch-by-batch pada fase *Local Develo
   - Komponen baru di `client/src/components/admin/project-detail/` dan `client/src/components/mandor/project-detail/`.
   - No behavior change pada activation/material/payment logic.
 - **Status**: Accepted, No-Behavior-Change.
+
+## Batch 21 — Field Issue & Escalation Backend Foundation
+- **Commit**: `e8578b33528e18a624497921df14ea7bbe4b9164`
+- **Goal**: Membuat fondasi backend untuk kendala lapangan (Field Issue).
+- **Result**:
+  - Model `ProjectIssue` tersedia di Prisma.
+  - API `/api/field-issues` aktif.
+  - Integrasi Mandor Kendala Lapangan (List & Create).
+- **Status**: Accepted, Local Backend Foundation.
+
+## Batch 22 — Project Mode Reframing & Documentation Alignment
+- **Commit**: `254490f72e3374bafb7eaed0b539a2b5fdfb5c9f`
+- **Goal**: Mengubah framing proyek ke Production-Ready Feature Completion Mode.
+- **Result**: Update dokumentasi besar-besaran untuk menyelaraskan visi proyek dengan Developer Persona Switcher.
+- **Status**: Accepted, Documentation-Only.
+
+## Batch 22B — Expand Production Feature Scope Boundaries
+- **Commit**: `b6d46b8fae0b629b102de07e4b6536a328080633`
+- **Goal**: Memperluas batasan fitur produksi yang diizinkan masuk roadmap.
+- **Result**: Dokumentasi mencatat bahwa Payment, Invoice, BAST, Upload, dan Notification diizinkan secara bertahap.
+- **Status**: Accepted, Documentation-Only.
+
+## Batch 23 — Daily Task & Daily Report Backend-Backed Foundation
+- **Commit**: `30fc0789044c19a4a93c18baa303cd8fca349230`
+- **Goal**: Membangun fondasi backend untuk aktivitas harian mandor.
+- **Result**:
+  - Model `DailyTask` dan `DailyReport` tersedia.
+  - API `/api/daily-reports` dan `/api/daily-tasks` aktif.
+- **Status**: Accepted, Local Backend Foundation.
+
+## Batch 24 — Documentation Metadata Foundation
+- **Commit**: `28250a7a5592a16723c24daa8cd1ee9a9f310c47`
+- **Goal**: Membangun fondasi metadata dokumen sebelum masuk fase upload binary.
+- **Result**:
+  - Model `ProjectDocument` tersedia dengan relasi lengkap.
+  - API `/api/project-documents` aktif.
+  - Halaman Dokumentasi Lapangan Mandor & Pengawas sudah API-backed (metadata list).
+  - Seed demo dokumentasi tersedia.
+- **Status**: Accepted, Local Backend Foundation (Metadata-only).

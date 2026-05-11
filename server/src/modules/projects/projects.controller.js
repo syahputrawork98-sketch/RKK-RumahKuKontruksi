@@ -192,6 +192,26 @@ export const updateProject = async (req, res, next) => {
       });
     }
 
+    // 0. SOT INTEGRITY GUARDS
+    // Prevent changing status to active/Berjalan via this general endpoint
+    if (data.status && data.status !== project.status) {
+      const activeStatuses = ['active', 'ongoing', 'Berjalan'];
+      if (activeStatuses.includes(data.status)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Status proyek tidak dapat diubah menjadi Aktif/Berjalan melalui endpoint ini. Gunakan endpoint Aktivasi.'
+        });
+      }
+    }
+
+    // Prevent changing verifiedProgress via general update
+    if (data.verifiedProgress !== undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'Progress terverifikasi (SOT) tidak dapat diubah secara langsung melalui endpoint ini.'
+      });
+    }
+
     // Check customer if changing
     if (customerId && customerId !== project.customerId) {
       const customer = await CustomerRepository.findById(customerId);

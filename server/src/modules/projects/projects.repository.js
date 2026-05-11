@@ -57,6 +57,13 @@ export const findAll = async (filters = {}) => {
           rabPlans: true,
           stages: true
         }
+      },
+      designRequests: {
+        select: {
+          id: true,
+          title: true,
+          status: true
+        }
       }
     },
     orderBy: { createdAt: 'desc' },
@@ -120,10 +127,10 @@ export const findById = async (id) => {
         }
       },
       designRequests: {
-        select: {
-          id: true,
-          title: true,
-          status: true
+        include: {
+          history: {
+            orderBy: { createdAt: 'desc' }
+          }
         }
       }
     },

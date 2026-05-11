@@ -1,6 +1,6 @@
 # Remaining Hold & Incomplete Features Scan
 
-Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokumen, tetapi masih berstatus **Hold**, **Planned**, **Coming Soon**, atau **Placeholder** pada fase *Local Development CRUD Integration*.
+Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokumen, tetapi masih berstatus **Hold**, **Planned**, **Coming Soon**, atau **Placeholder** pada fase *Production-Ready Feature Completion Mode with Developer Persona Switcher*.
 
 ## 1. Admin & Project Management
 | Fitur | Lokasi | Status | Rekomendasi |

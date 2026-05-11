@@ -1,12 +1,12 @@
 # Current Status - RKK RumahKu Konstruksi
 
 ## Status Umum
-- **Phase**: Local Development CRUD Integration Phase
+- **Phase**: Production-Ready Feature Completion Mode with Developer Persona Switcher
 - **Environment**: Localhost only
-- **Production Ready**: No
+- **Production Ready**: No (Features are production-ready in behavior/schema, but the system is not fully production-ready)
 - **Auth System**: NOT IMPLEMENTED (Intentionally postponed)
-- **Persona Switcher**: Dev-only persona selector is used for role simulation. This system is local-only and does not use JWT, sessions, or passwords.
-- **Fokus Saat Ini**: Stabilisasi Admin Dashboard, Design-to-Construction Bridge (Batch 16A/B), Final Assignment (Batch 17), Project Activation Gate (Batch 18), dan Modularisasi Arsitektur Frontend (M1–M4). Seluruh label "Live Sync" atau "Real-time" telah diganti menjadi "Local DB Snapshot" atau "Database-backed Local Workflow" untuk transparansi operasional lokal.
+- **Persona Switcher**: Dev-only persona selector is used for role simulation. Developer Persona Switcher tetap menjadi actor/role selector sementara tanpa JWT, session, password, atau RBAC production.
+- **Fokus Saat Ini**: Membangun fitur bisnis yang komprehensif (backend-backed, schema, API, UI, lifecycle, error state) sementara infra production/legal/auth/cloud/payment ditahan. Seluruh label "Live Sync" atau "Real-time" diganti menjadi "Database-backed Workflow".
 - **Milestone Selesai**:
   - **Batch 1-3**: Core Foundation, Admin Dashboard, Governance, & Visibility Safety.
   - **Batch 4-6**: RAB-based Construction Foundation & Local Payment Eligibility (Stabilized).
@@ -14,6 +14,7 @@
   - **Batch 10-15**: Design-to-Construction Preparation, Construction Readiness, Transition Summary, & Admin Modularization (Stabilized).
   - **Batch 16-20**: Project Planning Bridge, Final Assignment, Activation Gate, Timeline Alignment, & Material Request Stabilization (Stabilized).
   - **Batch M1–M4**: Modularisasi Frontend (Design Request, Admin RAB, Role Settings, Project Detail Admin & Mandor) — Stabilized No-Behavior-Change.
+  - **Batch 21**: Field Issue & Escalation Backend Foundation accepted (Commit e8578b33528e18a624497921df14ea7bbe4b9164). Schema, API, seed, dan integrasi Mandor Kendala Lapangan tersedia. Follow-up: UI review Pengawas/Admin belum dihubungkan, Dashboard Mandor belum memakai count issue real.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -62,17 +63,17 @@
 Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi secara manual lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
 
 ## Progress Verification Context
-Progress Verification from RAB/Stage Context berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: Pengawas memilih project aktif, sistem menampilkan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas untuk UI support, lalu Pengawas tetap mengisi `verifiedProgress` secara manual dan submit melalui `PATCH /projects/:id/verify-progress`. Backend menyimpan `Project.verifiedProgress`, `verifiedProgressUpdatedAt`, `verifiedProgressById`, dan `ProgressVerificationLog`.
+Progress Verification from RAB/Stage Context berstatus **Local Workflow v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Alurnya: Pengawas memilih project aktif, sistem menampilkan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas untuk UI support, lalu Pengawas tetap mengisi `verifiedProgress` secara manual dan submit melalui `PATCH /projects/:id/verify-progress`. Backend menyimpan `Project.verifiedProgress`, `verifiedProgressUpdatedAt`, `verifiedProgressById`, dan `ProgressVerificationLog`.
 
 Jika `stageId` dikirim, backend memvalidasi bahwa Stage tersebut milik project yang sedang diverifikasi. RAB context membaca approved RAB terlebih dahulu dan fallback ke latest RAB untuk kebutuhan local development/planning jika belum ada approved RAB. RAB, ProjectStage, Jurnal Mandor, dan review jurnal tidak otomatis mengubah `Project.verifiedProgress`; tidak ada progress automation production dan tidak ada perubahan aturan Progress SOT.
 
 ## Project Stage Completion Context
-Project Stage Completion sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: Pengawas assigned membuka detail proyek, menandai stage sebagai selesai lokal, lalu backend memvalidasi stage milik project dan Pengawas tersebut assigned ke project. Jika valid, stage berubah menjadi selesai/terverifikasi lokal melalui `PATCH /projects/:projectId/stages/:stageId`.
+Project Stage Completion sudah berstatus **Local Workflow v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Alurnya: Pengawas assigned membuka detail proyek, menandai stage sebagai selesai lokal, lalu backend memvalidasi stage milik project dan Pengawas tersebut assigned ke project. Jika valid, stage berubah menjadi selesai/terverifikasi lokal melalui `PATCH /projects/:projectId/stages/:stageId`.
 
 Stage completion bukan progress resmi proyek dan tidak mengubah `Project.verifiedProgress`; progress resmi tetap melalui Verifikasi Progres. Flow ini tidak memanggil `recalculateProjectVerifiedProgress`, tidak mengubah `RabItem.progress`, tidak otomatis menyelesaikan Material Request, dan tidak membuka payment, legal, auth, atau deployment production.
 
 ## Project Lifecycle Completion Context
-Project Lifecycle Completion Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Batch ini mencakup tiga fitur utama: Admin complete project lokal, Mandor/Pengawas post-completion guard, dan reader status selesai untuk Konsumen/Admin/Superadmin. Complete project dijalankan Admin melalui `PATCH /projects/:id/complete`.
+Project Lifecycle Completion Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Batch ini mencakup tiga fitur utama: Admin complete project lokal, Mandor/Pengawas post-completion guard, dan reader status selesai untuk Konsumen/Admin/Superadmin. Complete project dijalankan Admin melalui `PATCH /projects/:id/complete`.
 
 ## Admin & Superadmin Operational Control Polish
 **Admin & Superadmin Operational Control Polish** sudah berstatus **Local Dashboard/Monitoring Polish / Stabilized**.
@@ -90,7 +91,7 @@ Project Lifecycle Completion Pack sudah berstatus **Local Workflow v1 / Stabiliz
 Closeout lokal memvalidasi project harus `Berjalan`, `Project.verifiedProgress` wajib 100%, semua stage wajib selesai, dan tidak ada Material Request aktif. Jika closeout valid, project masuk status selesai lokal; Mandor/Pengawas tetap bisa membaca histori, tetapi action lapangan baru ditahan setelah project selesai. Closeout lokal tidak mengubah `Project.verifiedProgress`; progress resmi tetap berasal dari Verifikasi Progres. Ini bukan BAST/legal handover, bukan invoice/payment/escrow, bukan sertifikat resmi, dan bukan lifecycle/legal production.
 
 ## Post-Completion History & Experience Context
-Post-Completion History & Experience Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Batch ini mencakup tiga fitur utama: Finished Project History Reader, Completed Project Guard for Mandor/Pengawas, dan Experience Summary from Completed Projects. Setelah project `Selesai`, histori operasional lokal tetap bisa dibaca oleh role terkait, sementara aksi lapangan baru ditahan.
+Post-Completion History & Experience Pack sudah berstatus **Local Workflow v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Batch ini mencakup tiga fitur utama: Finished Project History Reader, Completed Project Guard for Mandor/Pengawas, dan Experience Summary from Completed Projects. Setelah project `Selesai`, histori operasional lokal tetap bisa dibaca oleh role terkait, sementara aksi lapangan baru ditahan.
 
 Backend guard menjaga project selesai tetap read-only untuk workflow lapangan: `verifyProjectProgress` menolak project `Selesai`, `updateProjectStage` menolak project `Selesai`, dan update Weekly Journal ditahan jika parent project sudah selesai. Frontend guard menampilkan Verifikasi Progress Pengawas sebagai read-only untuk project `Selesai`; detail project Mandor menampilkan banner selesai; Lapor Progres ditahan; dan Material Request Mandor menahan project `Selesai`. Reader menampilkan status `Pekerjaan Selesai` pada timeline Konsumen, dan project `Selesai` masuk ke pengalaman lokal Mandor/Pengawas.
 
@@ -101,7 +102,7 @@ Pack ini adalah histori operasional lokal, bukan BAST/legal handover, bukan invo
 Material Request from RAB Usage juga tidak mengubah Progress SOT: tidak ada update otomatis ke `Project.verifiedProgress`, `ProjectStage.progress`, atau `RabItem.progress`.
 
 ## Timeline Evidence & Field Thread Context (Work Item Thread v2)
-**Timeline Evidence / Field Thread** sudah berstatus **Local Workflow v1 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem` -> Laporan Mandor per item pekerjaan -> Komentar/Review Pengawas atau Admin.
+**Timeline Evidence / Field Thread** sudah berstatus **Local Workflow v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Alurnya: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem` -> Laporan Mandor per item pekerjaan -> Komentar/Review Pengawas atau Admin.
 
 Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (Work Item Evidence Thread). Polish v2 mencakup:
 - **Official Progress Guard**: Penambahan evidence/comment tidak mengubah `Project.verifiedProgress`; progress resmi tetap melalui Verifikasi Progres manual oleh Pengawas assigned.
@@ -109,7 +110,7 @@ Timeline ini mengarahkan Konsumen ke bukti pekerjaan nyata per item pekerjaan (W
 - **Visibility Preparation**: Penambahan label `Visibility: Customer-Visible Preparation` pada detail pekerjaan dan jurnal untuk transparansi rencana kontrol Admin di masa depan.
 
 ## Design Collaboration & Revision Limit Context (v2)
-**Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow v2 / Stabilized** untuk Local Development CRUD Integration. Alurnya: `Design Request` -> Timeline kolaborasi polished (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.
+**Design Collaboration Timeline & Revision Limit** sudah berstatus **Local Workflow v2 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Alurnya: `Design Request` -> Timeline kolaborasi polished (Konsumen, Arsitek, Admin) -> Update thread role-colored -> Permintaan revisi.
 
 Fitur ini menerapkan **Revision Limits & Workspace Polish** v2:
 - **Revisi Besar (Major)**: Maksimal 3x (Perubahan konsep, fasad utama, layout besar).
@@ -122,12 +123,12 @@ Fitur ini menerapkan **Revision Limits & Workspace Polish** v2:
 Data riwayat disimpan dalam `DesignRequestHistory`, dan jumlah revisi dicatat di `DesignRequest.majorRevisionCount` serta `DesignRequest.minorRevisionCount`. Fitur ini mencakup alur kurasi Admin (`admin_curated_instruction`), progres arsitek (`architect_progress_update`), hingga rilis ke konsumen (`admin_released_design_to_customer`) dan persetujuan lokal (`customer_design_approved`). Ini adalah local development workflow, bukan kontrak legal, bukan payment/addendum production, bukan upload production, bukan realtime chat, dan tidak mengubah Progress SOT konstruksi.
 
 ## Mandor/Pengawas Certificate & Work Experience
-Mandor/Pengawas Certificate & Work Experience sudah berstatus **Local CRUD v1 / Stabilized** untuk Local Development CRUD Integration. Mandor dan Pengawas dapat mengelola data profil lokal/manual berupa Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini. Delete memakai soft-delete endpoint existing.
+Mandor/Pengawas Certificate & Work Experience sudah berstatus **Local CRUD v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Mandor dan Pengawas dapat mengelola data profil lokal/manual berupa Sertifikat Keahlian dan Riwayat Pengalaman Kerja memakai schema/backend existing, tanpa schema baru dan tanpa seed baru pada batch docs ini. Delete memakai soft-delete endpoint existing.
 
 Data ini belum diverifikasi resmi dan bukan legal certificate, bukan upload dokumen production, bukan PDF certificate, bukan rating/scoring/reputation marketplace, serta bukan dasar sertifikasi production. Experience Read-Only Summary dari data operasional lokal tetap tersedia sebagai ringkasan terpisah: project aktif/selesai termasuk project `Selesai`, jurnal Mandor, aktivitas pekerjaan, review/laporan Pengawas, material request jika tersedia, dan `Project.verifiedProgress` sebagai data resmi read-only. Certificate & Work Experience CRUD maupun Experience Summary tidak mengubah `Project.verifiedProgress` dan tidak mengubah aturan Progress SOT.
 
 ## Design to Project Draft Demo
-Design Request -> Tender -> Project Draft sudah berstatus **Local Demo Completion / Local E2E Workflow v1** untuk Local Development CRUD Integration. Alur lokalnya: Konsumen membuat Design Request lokal, Admin review/manage dan publish tender lokal, Arsitek submit bid lokal, Admin award bid lokal, request masuk fase `assigned`, lalu request dapat masuk fase `approved` sesuai workflow lokal dan dikonversi Admin menjadi Project draft/planning. Project hasil convert tetap berstatus `planning`, tidak otomatis aktif, dan aktivasi tetap lewat Project Activation flow terpisah. Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, upload file production, marketplace production, tender production, auth production, atau RBAC production.
+Design Request -> Tender -> Project Draft sudah berstatus **Local Demo Completion / Local E2E Workflow v1** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Alur lokalnya: Konsumen membuat Design Request lokal, Admin review/manage dan publish tender lokal, Arsitek submit bid lokal, Admin award bid lokal, request masuk fase `assigned`, lalu request dapat masuk fase `approved` sesuai workflow lokal dan dikonversi Admin menjadi Project draft/planning. Project hasil convert tetap berstatus `planning`, tidak otomatis aktif, dan aktivasi tetap lewat Project Activation flow terpisah. Convert tidak otomatis membuat RAB, stage, penugasan tim production, payment/escrow/invoice, kontrak legal, upload file production, marketplace production, tender production, auth production, atau RBAC production.
 
 ### Project Activation Flow (Final)
 1. **Planning Mode**: Proyek hasil bridge atau manual berstatus `planning` (Persiapan). Pada fase ini, proyek belum dianggap aktif.

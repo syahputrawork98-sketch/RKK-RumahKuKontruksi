@@ -1,11 +1,11 @@
 # Daftar Fitur & Status Proyek (RKK)
 
-Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang direncanakan, serta batasan pengembangan dalam fase **Local Development CRUD Integration**.
+Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang direncanakan, serta batasan pengembangan dalam fase **Production-Ready Feature Completion Mode with Developer Persona Switcher**.
 
 ---
 
 ## 🚦 Status Umum & Batasan
-- **Phase**: Local Development CRUD Integration.
+- **Phase**: Production-Ready Feature Completion Mode with Developer Persona Switcher.
 - **Goal**: Menstabilkan alur kerja (workflow) operasional antar role menggunakan database rill.
 - **Auth**: Menggunakan **Dev Persona Switcher** (Bukan JWT/Session/Password).
 - **Security**: Tidak ada RBAC production; keamanan didasarkan pada pemilihan persona lokal.

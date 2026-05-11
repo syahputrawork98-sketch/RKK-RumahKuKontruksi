@@ -6,6 +6,7 @@ import projectService from "../../services/projectService";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const Proyek = () => {
   const navigate = useNavigate();
@@ -41,26 +42,7 @@ const Proyek = () => {
     fetchProjects();
   }, [selectedCustomerId]);
 
-  // Status mapping for visual consistency
-  const getStatusConfig = (status) => {
-    const s = (status || "").toLowerCase();
-    switch (s) {
-      case "selesai":
-      case "completed":
-        return { badge: "bg-emerald-500 text-white", progress: "bg-emerald-500", label: "Selesai" };
-      case "berjalan":
-      case "ongoing":
-      case "active":
-        return { badge: "bg-teal-500 text-white", progress: "bg-teal-500", label: "Berjalan" };
-      case "ditunda":
-      case "perencanaan":
-      case "planning":
-      case "penawaran":
-        return { badge: "bg-amber-500 text-white", progress: "bg-amber-500", label: "Perencanaan" };
-      default:
-        return { badge: "bg-slate-400 text-white", progress: "bg-slate-400", label: status || "Unknown" };
-    }
-  };
+  // Status mapping logic removed in favor of StatusBadge component
 
   if (!selectedCustomerId && !loading) {
     return (
@@ -130,9 +112,7 @@ const Proyek = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute top-6 right-6">
-                    <span className={`px-4 py-1.5 rounded-full text-white font-black text-[9px] uppercase tracking-[0.2em] shadow-xl backdrop-blur-md ${config.badge}`}>
-                      {config.label}
-                    </span>
+                    <StatusBadge type="project" status={proyek.status} />
                   </div>
                 </div>
 
@@ -175,7 +155,7 @@ const Proyek = () => {
                           initial={{ width: 0 }}
                           animate={{ width: `${verifiedProgress}%` }}
                           transition={{ duration: 1.5, ease: "easeOut" }}
-                          className={`h-full rounded-full shadow-lg shadow-teal-500/20 ${config.progress}`}
+                          className={`h-full rounded-full shadow-lg shadow-teal-500/20 ${['selesai', 'completed'].includes(proyek.status?.toLowerCase()) ? 'bg-emerald-500' : 'bg-teal-500'}`}
                         />
                       </div>
                     </div>

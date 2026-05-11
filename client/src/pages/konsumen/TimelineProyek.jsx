@@ -189,8 +189,8 @@ const TimelineProyek = () => {
                 ['active', 'ongoing', 'Berjalan'].includes(project.status) ? "bg-emerald-600" :
                 ['finished', 'Selesai'].includes(project.status) ? "bg-blue-600" : "bg-amber-500"
               }`}>
-                {['active', 'ongoing', 'Berjalan'].includes(project.status) ? "Operasional Aktif" : 
-                 ['finished', 'Selesai'].includes(project.status) ? "Proyek Selesai" : "Fase Persiapan"}
+                {['active', 'ongoing', 'Berjalan'].includes(project.status) ? "Pekerjaan Berjalan" : 
+                 ['finished', 'Selesai'].includes(project.status) ? "Proyek Selesai" : "Tahap Perencanaan"}
               </span>
               <span className="px-4 py-1.5 bg-white/20 backdrop-blur-md text-white text-[10px] font-black rounded-full border border-white/20 uppercase tracking-wider">
                 {project.type || "Pembangunan"}
@@ -593,7 +593,27 @@ const TimelineProyek = () => {
                 </div>
               )}
 
-              {filteredTimeline.length > 0 ? (
+              {['planning', 'perencanaan'].includes(project.status?.toLowerCase()) ? (
+                <div className="bg-white rounded-[40px] border border-amber-200 p-16 text-center space-y-6 shadow-xl shadow-amber-500/5">
+                  <div className="w-24 h-24 bg-amber-50 rounded-[32px] flex items-center justify-center mx-auto text-amber-500 border border-amber-100">
+                    <FiClock size={48} className="animate-pulse" />
+                  </div>
+                  <div className="max-w-md mx-auto space-y-3">
+                    <h3 className="text-2xl font-black text-neutral-100 uppercase tracking-tight">Timeline Sedang Disiapkan</h3>
+                    <p className="text-sm text-neutral-60 leading-relaxed font-medium">
+                      Proyek Anda saat ini masih dalam <span className="text-amber-600 font-bold uppercase">Fase Perencanaan</span>. Timeline pelaksanaan lapangan akan muncul di sini setelah tim Admin & Pengawas mengaktifkan jadwal konstruksi rill.
+                    </p>
+                    <div className="pt-4 flex flex-col items-center gap-2">
+                        <span className="px-4 py-1.5 bg-amber-50 text-amber-600 text-[10px] font-black rounded-full border border-amber-100 uppercase tracking-widest">
+                            Menunggu Aktivasi Proyek
+                        </span>
+                        <p className="text-[10px] text-neutral-40 italic">
+                            Silakan cek berkala atau hubungi Admin RKK melalui tombol bantuan jika diperlukan.
+                        </p>
+                    </div>
+                  </div>
+                </div>
+              ) : filteredTimeline.length > 0 ? (
                 <TLProyek timeline={filteredTimeline} />
               ) : (
                 <div className="bg-white rounded-[40px] border-2 border-dashed border-neutral-30 p-20 text-center space-y-4">

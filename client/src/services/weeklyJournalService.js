@@ -24,6 +24,10 @@ const reviewWeeklyJournal = async (id, payload) => {
   return apiClient.post(`/weekly-journals/${id}/review`, payload);
 };
 
+const getJournalsByProject = async (projectId) => {
+  return apiClient.get('/weekly-journals', { params: { projectId } });
+};
+
 export default {
   getWeeklyJournals,
   getWeeklyJournalById,
@@ -31,5 +35,6 @@ export default {
   updateWeeklyJournal,
   submitWeeklyJournal,
   reviewWeeklyJournal,
+  getJournalsByProject,
 };
 

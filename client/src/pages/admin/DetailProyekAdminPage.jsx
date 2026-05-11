@@ -34,6 +34,7 @@ import { useAdminPersona } from "../../context/AdminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
 import AdminStageCommentModal from "../../components/admin/AdminStageCommentModal";
 import ProjectPaymentPlanTab from "../../components/admin/payment/ProjectPaymentPlanTab";
+import ForemanPaymentEligibilityTab from "../../components/admin/payment/ForemanPaymentEligibilityTab";
 
 const DetailProyekAdminPage = () => {
     const { projectId } = useParams();
@@ -51,6 +52,7 @@ const DetailProyekAdminPage = () => {
     const [completionSuccess, setCompletionSuccess] = useState(false);
     const [showCompletionModal, setShowCompletionModal] = useState(false);
     const [completionNote, setCompletionNote] = useState("");
+    const [paymentSubTab, setPaymentSubTab] = useState("customer");
 
     // Stage Form State
     const [showStageModal, setShowStageModal] = useState(false);
@@ -809,11 +811,34 @@ const DetailProyekAdminPage = () => {
 
                         {/* PAYMENT TAB */}
                         {activeTab === "payment" && (
-                            <ProjectPaymentPlanTab 
-                                projectId={projectId} 
-                                actorRole="admin" 
-                                budgetTotal={project.budgetTotal} 
-                            />
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-4 border-b border-[var(--dashboard-border)] mb-6">
+                                    <button 
+                                        onClick={() => setPaymentSubTab("customer")}
+                                        className={`pb-3 px-4 text-xs font-black uppercase tracking-widest transition-all relative ${paymentSubTab === 'customer' ? 'text-[var(--dashboard-primary)]' : 'text-slate-400 hover:text-slate-600'}`}
+                                    >
+                                        Customer Billing Plan
+                                        {paymentSubTab === 'customer' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--dashboard-primary)] rounded-t-full" />}
+                                    </button>
+                                    <button 
+                                        onClick={() => setPaymentSubTab("foreman")}
+                                        className={`pb-3 px-4 text-xs font-black uppercase tracking-widest transition-all relative ${paymentSubTab === 'foreman' ? 'text-[var(--dashboard-primary)]' : 'text-slate-400 hover:text-slate-600'}`}
+                                    >
+                                        Mandor Payment Eligibility
+                                        {paymentSubTab === 'foreman' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--dashboard-primary)] rounded-t-full" />}
+                                    </button>
+                                </div>
+
+                                {paymentSubTab === "customer" ? (
+                                    <ProjectPaymentPlanTab 
+                                        projectId={projectId} 
+                                        actorRole="admin" 
+                                        budgetTotal={project.budgetTotal} 
+                                    />
+                                ) : (
+                                    <ForemanPaymentEligibilityTab projectId={projectId} />
+                                )}
+                            </div>
                         )}
 
                         {/* READINESS TAB */}

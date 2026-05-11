@@ -1,26 +1,24 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:3001/api/foreman-payment-eligibility';
+import apiClient from './apiClient';
 
 const foremanPaymentEligibilityService = {
     getAll: async (params = {}) => {
-        return await axios.get(API_URL, { params });
+        return await apiClient.get('/foreman-payment-eligibility', { params });
     },
 
     getById: async (id) => {
-        return await axios.get(`${API_URL}/${id}`);
+        return await apiClient.get(`/foreman-payment-eligibility/${id}`);
     },
 
     initializeFromJournal: async (data) => {
-        return await axios.post(`${API_URL}/initialize`, data);
+        return await apiClient.post('/foreman-payment-eligibility/initialize', data);
     },
 
     updateStatus: async (id, data) => {
-        return await axios.patch(`${API_URL}/${id}/status`, data);
+        return await apiClient.patch(`/foreman-payment-eligibility/${id}/status`, data);
     },
 
     updateItemStatus: async (itemId, data) => {
-        return await axios.patch(`${API_URL}/items/${itemId}/status`, data);
+        return await apiClient.patch(`/foreman-payment-eligibility/items/${itemId}/status`, data);
     }
 };
 

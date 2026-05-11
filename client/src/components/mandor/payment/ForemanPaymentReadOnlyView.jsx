@@ -1,0 +1,205 @@
+import React, { useState, useEffect } from "react";
+import { 
+    FiUser, 
+    FiCalendar, 
+    FiCheckCircle, 
+    FiAlertCircle, 
+    FiInfo, 
+    FiClock, 
+    FiDollarSign,
+    FiFileText,
+    FiSearch,
+    FiX
+} from "react-icons/fi";
+import foremanPaymentEligibilityService from "../../../services/foremanPaymentEligibilityService";
+
+const ForemanPaymentReadOnlyView = ({ projectId }) => {
+    const [loading, setLoading] = useState(true);
+    const [eligibilities, setEligibilities] = useState([]);
+    const [selectedEligibility, setSelectedEligibility] = useState(null);
+    const [showDetailModal, setShowDetailModal] = useState(false);
+
+    useEffect(() => {
+        fetchData();
+    }, [projectId]);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const eligRes = await foremanPaymentEligibilityService.getAll({ projectId });
+            setEligibilities(eligRes.data || []);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoading(false);
+        }
+    };
+
+    const formatCurrency = (val) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(val || 0);
+    };
+
+    const getStatusColor = (status) => {
+        const colors = {
+            pending_review: "bg-amber-100 text-amber-700 border-amber-200",
+            eligible: "bg-emerald-100 text-emerald-700 border-emerald-200",
+            partial: "bg-blue-100 text-blue-700 border-blue-200",
+            hold: "bg-slate-100 text-slate-700 border-slate-200",
+            correction_required: "bg-rose-100 text-rose-700 border-rose-200",
+            paid_simulated: "bg-purple-100 text-purple-700 border-purple-200"
+        };
+        return colors[status] || "bg-slate-100 text-slate-500 border-slate-200";
+    };
+
+    if (loading) return <div className="py-10 text-center"><p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat Status Pembayaran...</p></div>;
+
+    return (
+        <div className="space-y-8 animate-fadeIn">
+            {/* Summary / Disclaimer */}
+            <div className="p-6 bg-blue-50 border border-blue-100 rounded-[2rem] flex gap-4 items-start shadow-sm">
+                <FiInfo className="text-blue-500 shrink-0 mt-1" size={24} />
+                <div className="space-y-1">
+                    <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest">Informasi Pembayaran (Simulasi Lokal)</h4>
+                    <p className="text-[10px] text-blue-600 leading-relaxed font-bold uppercase italic tracking-tighter">
+                        Ini adalah daftar kelayakan pembayaran mingguan Anda. Status 'Lunas' atau 'Eligible' bersifat simulasi administratif lokal untuk kebutuhan verifikasi progres RKK.
+                    </p>
+                </div>
+            </div>
+
+            {/* Eligibility List */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between px-2">
+                    <h3 className="font-black text-[10px] uppercase tracking-[0.2em] text-slate-400">Status Pembayaran Mingguan</h3>
+                </div>
+
+                {eligibilities.length === 0 ? (
+                    <div className="py-20 text-center bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+                        <FiFileText size={48} className="mx-auto text-slate-200 mb-4" />
+                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Belum ada data pembayaran mingguan.</p>
+                        <p className="text-[10px] text-slate-300 uppercase mt-1 italic">Tunggu Admin melakukan review pada jurnal mingguan Anda.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 gap-4">
+                        {eligibilities.map(e => (
+                            <div key={e.id} className="group bg-white border border-slate-100 rounded-[2rem] p-6 transition-all hover:border-blue-500/30 hover:shadow-xl hover:shadow-slate-200/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div className="flex items-center gap-5">
+                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black border ${
+                                        e.status === 'paid_simulated' ? 'bg-purple-50 text-purple-600 border-purple-100' :
+                                        e.status === 'eligible' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                        'bg-slate-50 text-slate-400 border-slate-100'
+                                    }`}>
+                                        <FiDollarSign />
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <h4 className="text-base font-black text-slate-800">Minggu {e.weekNumber}</h4>
+                                            <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border ${getStatusColor(e.status)}`}>
+                                                {e.status.replace(/_/g, ' ')}
+                                            </span>
+                                        </div>
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                            <FiCalendar /> {new Date(e.periodStart).toLocaleDateString('id-ID')} - {new Date(e.periodEnd).toLocaleDateString('id-ID')}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col md:items-end gap-3">
+                                    <div className="text-right">
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Jumlah Disetujui</p>
+                                        <p className="text-xl font-black text-slate-900">{formatCurrency(e.approvedAmount || e.estimatedAmount)}</p>
+                                    </div>
+                                    <button 
+                                        onClick={() => { setSelectedEligibility(e); setShowDetailModal(true); }}
+                                        className="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all flex items-center gap-2"
+                                    >
+                                        <FiSearch /> Lihat Rincian
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* DETAIL MODAL */}
+            {showDetailModal && selectedEligibility && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+                    <div className="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
+                        <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+                            <div>
+                                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Rincian Pembayaran</h3>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Read-only View</p>
+                            </div>
+                            <button onClick={() => setShowDetailModal(false)} className="p-2 hover:bg-white rounded-xl transition-all text-slate-300">
+                                <FiX size={24} />
+                            </button>
+                        </div>
+
+                        <div className="p-8 overflow-y-auto flex-1 space-y-8 custom-scrollbar">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border inline-block ${getStatusColor(selectedEligibility.status)}`}>
+                                        {selectedEligibility.status.replace(/_/g, ' ')}
+                                    </span>
+                                </div>
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Disetujui</p>
+                                    <p className="text-lg font-black text-blue-600">{formatCurrency(selectedEligibility.approvedAmount || selectedEligibility.estimatedAmount)}</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-slate-400 ml-2">Item Pekerjaan</h4>
+                                <div className="space-y-3">
+                                    {selectedEligibility.items?.map((item, idx) => (
+                                        <div key={item.id} className="p-5 bg-white border border-slate-100 rounded-3xl flex items-center justify-between shadow-sm">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-xs font-black text-slate-400">
+                                                    {idx + 1}
+                                                </div>
+                                                <div>
+                                                    <h5 className="text-sm font-black text-slate-800">{item.description}</h5>
+                                                    <p className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">
+                                                        RAB Item: {item.rabItem?.description || 'N/A'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-sm font-black text-slate-800">{formatCurrency(item.estimatedAmount)}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {selectedEligibility.adminNote && (
+                                <div className="p-6 bg-amber-50 border border-amber-100 rounded-3xl">
+                                    <h5 className="text-[10px] font-black text-amber-700 uppercase tracking-widest flex items-center gap-2 mb-2">
+                                        <FiInfo /> Catatan Admin
+                                    </h5>
+                                    <p className="text-xs font-bold text-amber-800 italic">"{selectedEligibility.adminNote}"</p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="p-8 bg-slate-50 border-t border-slate-100">
+                            <button 
+                                onClick={() => setShowDetailModal(false)}
+                                className="w-full py-4 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-slate-800/20 hover:scale-[1.02] transition-all"
+                            >
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ForemanPaymentReadOnlyView;

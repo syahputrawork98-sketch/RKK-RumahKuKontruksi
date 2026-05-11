@@ -9,7 +9,8 @@ import {
     FiArrowRight,
     FiFileText,
     FiClock,
-    FiCheck
+    FiCheck,
+    FiActivity
 } from "react-icons/fi";
 import customerPaymentPlanService from "../../../services/customerPaymentPlanService";
 import RoleDataState from "../../common/RoleDataState";

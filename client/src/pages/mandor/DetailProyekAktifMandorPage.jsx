@@ -10,13 +10,15 @@ import {
     FiCamera, 
     FiAlertTriangle, 
     FiMapPin, 
-    FiClock 
+    FiClock,
+    FiCreditCard
 } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectService from "../../services/projectService";
 import rabService from "../../services/rabService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import ForemanPaymentReadOnlyView from "../../components/mandor/payment/ForemanPaymentReadOnlyView";
 
 const DetailProyekAktifMandorPage = () => {
     const { projectId } = useParams();
@@ -74,6 +76,7 @@ const DetailProyekAktifMandorPage = () => {
         { id: "tim", label: "Tim Lapangan", icon: FiUsers },
         { id: "material", label: "Material", icon: FiShoppingCart },
         { id: "dokumentasi", label: "Dokumentasi", icon: FiCamera },
+        { id: "payment", label: "Pembayaran", icon: FiCreditCard },
         { id: "kendala", label: "Kendala", icon: FiAlertTriangle },
     ];
 
@@ -308,7 +311,12 @@ const DetailProyekAktifMandorPage = () => {
                                 )}
                             </div>
                         )}
-                        {activeTab !== "overview" && activeTab !== "scope" && (
+                        {activeTab === "payment" && (
+                            <div className="animate-fadeIn">
+                                <ForemanPaymentReadOnlyView projectId={projectId} />
+                            </div>
+                        )}
+                        {activeTab !== "overview" && activeTab !== "scope" && activeTab !== "payment" && (
                             <div className="flex flex-col items-center justify-center h-full py-12 text-[var(--dashboard-text-soft)] italic opacity-50">
                                 <p className="text-sm font-bold">Modul {activeTab.toUpperCase()} sedang disiapkan...</p>
                                 <p className="text-[10px] mt-2 tracking-widest">Foreman Role Dashboard v1.0</p>

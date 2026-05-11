@@ -40,12 +40,12 @@ const ForemanPaymentEligibilityTab = ({ projectId }) => {
                 weeklyJournalService.getJournalsByProject(projectId)
             ]);
             
-            setEligibilities(eligRes.data.data);
+            setEligibilities(eligRes.data || []);
             
             // Filter journals that don't have eligibility yet
-            const existingJournalIds = eligRes.data.data.map(e => e.weeklyJournalId);
-            const pending = journalsRes.data.data.filter(j => 
-                j.status === 'reviewed' && !existingJournalIds.includes(j.id)
+            const existingJournalIds = (eligRes.data || []).map(e => e.weeklyJournalId);
+            const pending = (journalsRes.data || []).filter(j => 
+                j.status === 'approved' && !existingJournalIds.includes(j.id)
             );
             setPendingJournals(pending);
             
@@ -66,7 +66,7 @@ const ForemanPaymentEligibilityTab = ({ projectId }) => {
             await fetchData();
             setUpdating(false);
         } catch (error) {
-            alert("Gagal inisialisasi: " + (error.response?.data?.message || error.message));
+            alert("Gagal inisialisasi: " + error.message);
             setUpdating(false);
         }
     };
@@ -83,11 +83,11 @@ const ForemanPaymentEligibilityTab = ({ projectId }) => {
             await fetchData();
             if (selectedEligibility?.id === eligibilityId) {
                 const res = await foremanPaymentEligibilityService.getById(eligibilityId);
-                setSelectedEligibility(res.data.data);
+                setSelectedEligibility(res.data);
             }
             setUpdating(false);
         } catch (error) {
-            alert("Gagal update status: " + (error.response?.data?.message || error.message));
+            alert("Gagal update status: " + error.message);
             setUpdating(false);
         }
     };

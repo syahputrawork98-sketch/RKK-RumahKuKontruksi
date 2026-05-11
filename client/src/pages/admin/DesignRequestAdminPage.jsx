@@ -30,7 +30,8 @@ import {
     getLatestMandorPreparation, 
     getLatestConstructionReadiness, 
     getLatestConstructionTransitionReview,
-    getLatestHistoryByAction
+    getLatestHistoryByAction,
+    getProjectBridgeReadiness
 } from "../../utils/designRequestHistory";
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
@@ -191,9 +192,18 @@ const DesignRequestAdminPage = () => {
         }
     };
 
-    const handleOpenConvert = (request) => {
-        setCurrentRequest(request);
-        setIsConvertOpen(true);
+    const handleOpenConvert = async (request) => {
+        try {
+            setLoading(true);
+            const res = await designRequestService.getDesignRequestById(request.id);
+            setCurrentRequest(res.data);
+            setIsConvertOpen(true);
+        } catch (err) {
+            console.error("Error fetching request for conversion:", err);
+            alert("Gagal memuat detail pengajuan untuk konversi.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmitForm = async (e) => {
@@ -1218,18 +1228,50 @@ const DesignRequestAdminPage = () => {
                                         <span className="text-xs font-black text-indigo-600">Rp {Number(currentRequest.estimatedBudget || 0).toLocaleString('id-ID')}</span>
                                     </div>
                                 </div>
-                                <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl">
-                                    <p className="text-[10px] text-amber-700 font-medium leading-relaxed">
-                                        Tindakan ini akan membuat draft proyek konstruksi baru. RAB detail, tahapan kerja, dan penugasan tim lapangan tetap harus dilakukan secara manual di menu <strong>Proyek</strong>.
+                                <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl space-y-3">
+                                    <p className="text-[10px] text-amber-700 font-bold uppercase tracking-widest flex items-center gap-2">
+                                        <FiAlertCircle size={14} />
+                                        Bridge Governance Notice
                                     </p>
+                                    <ul className="space-y-1">
+                                        {[
+                                            "Membuat Project Draft/Planning",
+                                            "Tidak mengaktifkan proyek secara otomatis",
+                                            "Tidak melakukan assignment final Mandor/Pengawas",
+                                            "Tidak mengubah Progress SOT (Verified Progress)"
+                                        ].map((text, i) => (
+                                            <li key={i} className="flex items-start gap-2 text-[10px] text-amber-800 leading-relaxed font-medium">
+                                                <span className="mt-1.5 w-1 h-1 bg-amber-400 rounded-full shrink-0" />
+                                                <span>{text}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
+
+                                {!getProjectBridgeReadiness(currentRequest).isReady && (
+                                    <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl space-y-2">
+                                        <p className="text-[10px] text-rose-700 font-black uppercase tracking-widest">Readiness Blocked:</p>
+                                        <div className="space-y-1">
+                                            {getProjectBridgeReadiness(currentRequest).reasons.map((reason, idx) => (
+                                                <div key={idx} className="flex items-start gap-2 text-[10px] text-rose-600 font-medium leading-tight">
+                                                    <FiX className="mt-0.5 shrink-0" size={10} />
+                                                    <span>{reason}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <div className="pt-4 flex justify-end gap-3">
                                 <button type="button" onClick={() => setIsConvertOpen(false)} className="px-6 py-3 border border-gray-100 text-gray-400 rounded-2xl font-bold text-xs uppercase tracking-widest">Batal</button>
                                 <button
                                     onClick={handleConvertToProject}
-                                    disabled={submitting}
-                                    className="px-8 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-600/20 hover:scale-[1.02] transition-all"
+                                    disabled={submitting || !getProjectBridgeReadiness(currentRequest).isReady}
+                                    className={`px-8 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg transition-all ${
+                                        getProjectBridgeReadiness(currentRequest).isReady
+                                        ? 'bg-indigo-600 text-white shadow-indigo-600/20 hover:scale-[1.02]'
+                                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    }`}
                                 >
                                     {submitting ? "Memproses..." : "Konfirmasi Jadi Draft Proyek"}
                                 </button>

@@ -64,3 +64,45 @@ export const getConstructionTransitionFlags = (history) => {
         hasReview: hasHistoryAction(history, 'admin_construction_transition_review')
     };
 };
+
+export const getProjectBridgeReadiness = (request) => {
+    if (!request) return { isReady: false, reasons: ["Data tidak ditemukan."] };
+
+    const history = request.history || [];
+    const reasons = [];
+
+    // 1. Status Check
+    const isApproved = request.status === 'approved' || request.status === 'project_created' || request.status === 'finished';
+
+    // 2. Project Existence Check
+    const hasNoProject = !request.projectId && request.status !== 'project_created';
+
+    // 3. Customer Intent Check
+    const latestDecision = getLatestCustomerPostDesignDecision(history);
+    const customerWantsConstruction = latestDecision?.metadata?.decision === 'continue_to_construction_preparation';
+
+    // 4. Admin Review Check
+    const hasFinalReview = hasHistoryAction(history, 'admin_construction_transition_review');
+
+    if (!isApproved) {
+        reasons.push("Status pengajuan belum Approved.");
+    }
+    if (!hasNoProject) {
+        reasons.push("Project draft sudah pernah dibuat untuk pengajuan ini.");
+    }
+    if (!customerWantsConstruction) {
+        reasons.push("Konsumen belum memilih alur 'Lanjut Konstruksi'.");
+    }
+    if (!hasFinalReview) {
+        reasons.push("Review transisi final dari Admin belum dilakukan.");
+    }
+
+    return {
+        isReady: isApproved && hasNoProject && customerWantsConstruction && hasFinalReview,
+        isApproved,
+        hasNoProject,
+        customerWantsConstruction,
+        hasFinalReview,
+        reasons
+    };
+};

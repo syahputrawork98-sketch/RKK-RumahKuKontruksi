@@ -1,4 +1,5 @@
 import * as DesignRequestRepository from './design-requests.repository.js';
+import prisma from '../../config/prisma.js';
 
 export const getDesignRequests = async (req, res, next) => {
   try {
@@ -92,22 +93,50 @@ export const convertToProject = async (req, res, next) => {
     const { id } = req.params;
     const { adminId } = req.body;
 
+    // 0. Hard Guard: Admin ID Check
+    if (!adminId) {
+      return res.status(400).json({ success: false, message: 'Admin ID diperlukan untuk inisialisasi project draft.' });
+    }
+
     const request = await DesignRequestRepository.findById(id);
     if (!request) {
       return res.status(404).json({ success: false, message: 'Design request not found' });
     }
 
-    // Eligibility Checks
+    // 1. Eligibility Check: Status
     if (request.status !== 'approved') {
-      return res.status(400).json({ success: false, message: 'Design request must be approved before conversion' });
+      return res.status(400).json({ success: false, message: 'Pengajuan desain harus dalam status Approved.' });
     }
 
+    // 2. Eligibility Check: Customer
     if (!request.customerId) {
-      return res.status(400).json({ success: false, message: 'Design request must have a linked customer' });
+      return res.status(400).json({ success: false, message: 'Pengajuan desain tidak memiliki data Konsumen yang valid.' });
     }
 
+    // 3. Eligibility Check: Existing Project Link (DesignRequest side)
     if (request.projectId) {
-      return res.status(400).json({ success: false, message: 'Design request already has an associated project' });
+      return res.status(400).json({ success: false, message: 'Project draft sudah pernah dibuat untuk pengajuan ini (DesignRequest link exists).' });
+    }
+
+    // 4. Eligibility Check: History Decision (Customer Intent)
+    const history = request.history || [];
+    const latestDecision = history.find(h => h.action === 'customer_post_design_decision');
+    if (!latestDecision || latestDecision.metadata?.decision !== 'continue_to_construction_preparation') {
+      return res.status(400).json({ success: false, message: 'Konsumen belum memilih alur Lanjut Konstruksi.' });
+    }
+
+    // 5. Eligibility Check: History Review (Admin Governance)
+    const hasFinalReview = history.some(h => h.action === 'admin_construction_transition_review');
+    if (!hasFinalReview) {
+      return res.status(400).json({ success: false, message: 'Review transisi final dari Admin belum dilakukan.' });
+    }
+
+    // 6. Hard Guard: Duplicate Project (Project side via sourceDesignRequestId)
+    const existingProject = await prisma.project.findFirst({
+      where: { sourceDesignRequestId: id }
+    });
+    if (existingProject) {
+      return res.status(400).json({ success: false, message: `Project draft sudah ada di sistem (ID: ${existingProject.projectCode}).` });
     }
 
     const projectData = {
@@ -116,9 +145,9 @@ export const convertToProject = async (req, res, next) => {
       customerId: request.customerId,
       location: request.location,
       budgetTotal: request.estimatedBudget || 0,
-      adminId: adminId || null,
+      adminId: adminId,
       type: 'Pembangunan',
-      status: 'planning'
+      status: 'planning' // Strictly draft/planning
     };
 
     const result = await DesignRequestRepository.convertToProject(id, projectData);

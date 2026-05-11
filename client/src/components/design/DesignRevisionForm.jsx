@@ -97,17 +97,20 @@ const DesignRevisionForm = ({
         className="w-full py-4 bg-slate-800 hover:bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-slate-800/30 disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {loading ? <FiRefreshCw className="animate-spin" /> : <FiSend />}
-        Ajukan Revisi Desain
+        Ajukan Revisi (Lokal)
       </button>
 
-      {(isMajorLimitReached || isMinorLimitReached) && (
-        <div className="bg-amber-50 p-3 rounded-xl border border-amber-100 flex gap-2">
+      <div className="bg-amber-50 p-4 rounded-2xl border border-amber-100 space-y-2">
+        <div className="flex gap-2">
           <FiAlertCircle size={14} className="text-amber-500 flex-shrink-0 mt-0.5" />
-          <p className="text-[9px] text-amber-700 font-bold leading-relaxed uppercase">
-            Batas revisi lokal untuk kategori terpilih telah tercapai. Perubahan berikutnya perlu dikonsultasikan langsung dengan Admin.
+          <p className="text-[9px] text-amber-700 font-black leading-relaxed uppercase">
+            SIMULASI LOKAL: Batas revisi (3 Major / 5 Minor) berlaku dalam fase pengembangan v1.
           </p>
         </div>
-      )}
+        <p className="text-[8px] text-slate-400 font-bold leading-tight italic">
+          * Pengajuan revisi ini hanya bersifat instruksi desain lokal dan tidak memiliki implikasi legal atau perubahan kontrak fisik.
+        </p>
+      </div>
     </form>
   );
 };

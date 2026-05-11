@@ -103,6 +103,8 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                 <div className={`p-5 rounded-3xl border ${
                   isRevision ? 'border-amber-200 bg-amber-50/30' : 
                   log.action === 'admin_curated_instruction' ? 'border-indigo-200 bg-indigo-50/50 ring-2 ring-indigo-500/10 shadow-lg' :
+                  log.action === 'admin_released_design_to_customer' ? 'border-teal-400 bg-teal-50 ring-2 ring-teal-500/10 shadow-md' :
+                  log.action === 'customer_design_approved' ? 'border-emerald-600 bg-emerald-600 text-white shadow-xl' :
                   log.action === 'architect_started_work' ? 'border-emerald-200 bg-emerald-50/30' :
                   log.action === 'architect_ready_for_review' ? 'border-indigo-600 bg-indigo-600 text-white shadow-xl' :
                   'border-slate-100 bg-white'
@@ -119,6 +121,16 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                             Instruksi Terkurasi
                           </span>
                         )}
+                        {log.action === 'admin_released_design_to_customer' && (
+                          <span className="ml-2 text-[9px] font-black text-teal-600 uppercase border border-teal-200 px-2 py-0.5 rounded-full bg-white">
+                            Release ke Konsumen
+                          </span>
+                        )}
+                        {log.action === 'customer_design_approved' && (
+                          <span className="ml-2 text-[9px] font-black text-white uppercase border border-white/20 px-2 py-0.5 rounded-full bg-white/10">
+                            Persetujuan Desain
+                          </span>
+                        )}
                         {log.action === 'architect_ready_for_review' && (
                           <span className="ml-2 text-[9px] font-black text-white uppercase border border-white/20 px-2 py-0.5 rounded-full bg-white/10">
                             Siap Review
@@ -127,8 +139,8 @@ const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
                       </h4>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] font-bold text-slate-400">{new Date(log.createdAt).toLocaleDateString('id-ID')}</p>
-                      <p className="text-[9px] font-medium text-slate-400">{new Date(log.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</p>
+                      <p className={`text-[10px] font-bold ${log.action === 'customer_design_approved' ? 'text-emerald-100' : 'text-slate-400'}`}>{new Date(log.createdAt).toLocaleDateString('id-ID')}</p>
+                      <p className={`text-[9px] font-medium ${log.action === 'customer_design_approved' ? 'text-emerald-200' : 'text-slate-400'}`}>{new Date(log.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
                   </div>
 

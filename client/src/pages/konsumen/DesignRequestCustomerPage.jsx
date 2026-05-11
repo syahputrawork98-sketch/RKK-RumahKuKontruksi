@@ -124,6 +124,33 @@ const DesignRequestCustomerPage = () => {
         }
     };
 
+    const handleApproveDesign = async () => {
+        if (!selectedRequest || !selectedCustomerId) return;
+        if (!window.confirm("Apakah Anda sudah puas dengan desain ini? Persetujuan ini bersifat simulasi lokal untuk melanjutkan ke tahap berikutnya.")) return;
+
+        try {
+            setSubmitting(true);
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'customer_design_approved',
+                actorRole: 'customer',
+                actorId: selectedCustomerId,
+                actorName: requests.find(r => r.customerId === selectedCustomerId)?.customer?.name || "Konsumen RKK",
+                note: "Konsumen telah memberikan persetujuan desain (Simulasi Lokal).",
+                metadata: { approvalType: 'local-intent' }
+            });
+            
+            // Refresh detail
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            alert("Terima kasih! Persetujuan Anda telah dicatat. Admin akan melakukan review final.");
+        } catch (err) {
+            console.error("Error approving design:", err);
+            alert("Gagal memberikan persetujuan.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!selectedCustomerId) return;
@@ -357,7 +384,6 @@ ${formData.materialPreferences || '-'}
                                     <p className="text-xs font-bold text-gray-700">Rp {Number(selectedRequest.estimatedBudget || 0).toLocaleString('id-ID')}</p>
                                 </div>
                             </div>
-
                             <div className="pt-8 border-t border-gray-100">
                                 <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
                                     <FiRefreshCw className="text-teal-600" />
@@ -370,20 +396,57 @@ ${formData.materialPreferences || '-'}
                                     loading={submitting}
                                 />
                             </div>
+
+                            {/* CUSTOMER APPROVAL BUTTON */}
+                            {selectedRequest.status === 'in_review' && !selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
+                                <div className="pt-8 border-t border-gray-100">
+                                    <button
+                                        onClick={handleApproveDesign}
+                                        disabled={submitting}
+                                        className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-emerald-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                    >
+                                        <FiCheckCircle className="inline mr-2" /> Setujui Desain Lokal
+                                    </button>
+                                    <p className="text-[8px] text-gray-400 font-bold text-center mt-3 uppercase tracking-tighter italic">
+                                        * Gunakan tombol ini jika desain sudah sesuai keinginan.
+                                    </p>
+                                </div>
+                            )}
+
+                            {selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
+                                <div className="pt-8 border-t border-gray-100 bg-emerald-50/50 p-6 rounded-[2rem] border border-emerald-100 text-center">
+                                    <FiCheckCircle className="text-emerald-600 text-3xl mx-auto mb-2" />
+                                    <h4 className="text-xs font-black text-emerald-800 uppercase">Sudah Disetujui</h4>
+                                    <p className="text-[9px] text-emerald-600 font-bold mt-1 uppercase tracking-tighter">
+                                        Menunggu konfirmasi final dari Admin untuk tahap berikutnya.
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         {/* RIGHT: TIMELINE */}
-                        <div className="lg:col-span-2">
-                            <h4 className="text-sm font-black text-gray-800 mb-8 flex items-center gap-2">
-                                <FiClock className="text-indigo-600" />
-                                Timeline Kolaborasi
-                            </h4>
-                            <DesignTimeline 
-                                history={selectedRequest.history || []}
-                                majorCount={selectedRequest.majorRevisionCount || 0}
-                                minorCount={selectedRequest.minorRevisionCount || 0}
-                            />
-                        </div>
+                             <div className="lg:col-span-2">
+                                <h4 className="text-sm font-black text-gray-800 mb-8 flex items-center gap-2">
+                                    <FiClock className="text-indigo-600" />
+                                    Timeline Ringkasan Desain
+                                </h4>
+                                <DesignTimeline
+                                    history={(selectedRequest.history || []).filter(log =>
+                                        ['submitted', 'admin_released_design_to_customer', 'revision_major', 'revision_minor', 'customer_design_feedback', 'customer_design_approved', 'approved', 'rejected'].includes(log.action)
+                                    )}
+                                    majorCount={selectedRequest.majorRevisionCount || 0}
+                                    minorCount={selectedRequest.minorRevisionCount || 0}
+                                />
+                                {(selectedRequest.history || []).filter(h => h.action === 'admin_released_design_to_customer').length === 0 && (
+                                    <div className="mt-8 p-8 bg-gray-50 rounded-[2rem] border border-dashed border-gray-200 text-center">
+                                        <FiInfo className="text-gray-300 text-4xl mx-auto mb-4" />
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
+                                            Belum ada ringkasan desain yang dirilis oleh Admin.<br/>
+                                            Proses desain sedang dikerjakan secara internal oleh Arsitek.
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
                     </div>
                 </div>
             )}

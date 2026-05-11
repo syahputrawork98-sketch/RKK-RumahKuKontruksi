@@ -47,6 +47,7 @@ const DesignRequestAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
     const [isConvertOpen, setIsConvertOpen] = useState(false);
     const [curatedInstruction, setCuratedInstruction] = useState("");
+    const [releaseSummary, setReleaseSummary] = useState("");
 
     const [formData, setFormData] = useState({
         title: "",
@@ -316,6 +317,30 @@ const DesignRequestAdminPage = () => {
             alert("Instruksi berhasil disimpan dan diteruskan ke Arsitek.");
         } catch (err) {
             alert("Gagal menyimpan instruksi.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    const handleReleaseToCustomer = async () => {
+        if (!releaseSummary.trim()) return;
+        try {
+            setSubmitting(true);
+            await designRequestService.addHistory(selectedRequest.id, {
+                action: 'admin_released_design_to_customer',
+                actorRole: 'admin',
+                actorId: selectedAdminId || 'admin-system',
+                actorName: 'Admin RKK',
+                note: releaseSummary,
+                metadata: { visibility: 'customer-visible', source: 'design-review' }
+            });
+
+            const res = await designRequestService.getDesignRequestById(selectedRequest.id);
+            setSelectedRequest(res.data);
+            setReleaseSummary("");
+            alert("Ringkasan desain telah dirilis ke Konsumen.");
+        } catch (err) {
+            alert("Gagal merilis desain.");
         } finally {
             setSubmitting(false);
         }
@@ -684,10 +709,24 @@ const DesignRequestAdminPage = () => {
                                         <div className="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
                                             <p className="text-[9px] font-black text-indigo-700 uppercase tracking-widest mb-1">Next Action Hint</p>
                                             <p className="text-[10px] font-bold text-slate-600">
-                                                {selectedRequest.status === 'in_review' ? "Review draf desain dari arsitek dan berikan feedback / revisi." :
+                                                {selectedRequest.history?.some(h => h.action === 'customer_design_approved') ? "Konsumen sudah setuju (Lokal). Lakukan final approval dan convert ke proyek jika siap." :
+                                                 selectedRequest.status === 'in_review' ? "Review draf desain dari arsitek dan berikan feedback / revisi." :
                                                  selectedRequest.status === 'assigned' ? "Tunggu arsitek mengirimkan progress update atau tanda siap review." :
                                                  "Proses desain dalam pantauan."}
                                             </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* CUSTOMER APPROVAL STATUS */}
+                            {selectedRequest.history?.some(h => h.action === 'customer_design_approved') && (
+                                <div className="p-6 bg-emerald-600 text-white rounded-[2rem] shadow-xl shadow-emerald-600/20 animate-bounce">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-white/20 rounded-xl"><FiAward size={20} /></div>
+                                        <div>
+                                            <h4 className="text-[10px] font-black uppercase tracking-widest opacity-80">Customer Approval Intent</h4>
+                                            <p className="text-xs font-black uppercase tracking-tight">Sudah Disetujui Konsumen</p>
                                         </div>
                                     </div>
                                 </div>
@@ -753,6 +792,30 @@ const DesignRequestAdminPage = () => {
                                     className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-600/20 disabled:opacity-50"
                                 >
                                     {submitting ? "Menyimpan..." : "Update & Kirim ke Arsitek"}
+                                </button>
+                            </div>
+
+                            {/* RELEASE TO CUSTOMER PANEL */}
+                            <div className="p-6 bg-teal-50 border border-teal-100 rounded-[2rem] space-y-4">
+                                <div className="flex items-center gap-2">
+                                    <div className="p-2 bg-teal-600 text-white rounded-lg"><FiSend size={14} /></div>
+                                    <h4 className="text-xs font-black uppercase tracking-widest text-teal-900">Release to Customer</h4>
+                                </div>
+                                <p className="text-[10px] text-teal-700 font-bold leading-relaxed italic">
+                                    Berikan ringkasan progress desain yang layak dilihat oleh Konsumen. Raw architect progress akan disembunyikan.
+                                </p>
+                                <textarea
+                                    className="w-full p-4 bg-white border border-teal-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500/20 resize-none min-h-[100px]"
+                                    placeholder="Tulis ringkasan untuk konsumen..."
+                                    value={releaseSummary}
+                                    onChange={(e) => setReleaseSummary(e.target.value)}
+                                />
+                                <button
+                                    onClick={handleReleaseToCustomer}
+                                    disabled={submitting || !releaseSummary.trim()}
+                                    className="w-full py-3 bg-teal-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal-600/20 disabled:opacity-50"
+                                >
+                                    {submitting ? "Mengirim..." : "Rilis ke Konsumen"}
                                 </button>
                             </div>
                         </div>

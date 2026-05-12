@@ -31,6 +31,8 @@ Aksi berikut **TIDAK BOLEH** mengubah `Project.verifiedProgress`:
 - Penandaan Stage Completion (Penyelesaian Tahap).
 - Komentar pada Stage Communication.
 - Pengunggahan Dokumen Proyek.
+- Pengelolaan Daily Task & Daily Report.
+- Pencatatan & Resolusi Field Issue (Kendala Lapangan).
 
 ---
 *Prinsip: Progres lahir dari verifikasi lapangan nyata, bukan dari administrasi dokumen.*

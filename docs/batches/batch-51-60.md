@@ -1,0 +1,39 @@
+# Batch History 51 - 60
+
+## Batch 51 — Docs History Finalization
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**: Finalisasi histori dokumentasi Batch 45-50 dan sinkronisasi status roadmap.
+
+## Batch 52 — Mandor Daily Task + Daily Report Local Workflow Completion
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**: 
+  - Implementasi backend-backed fitur Daily Task dan Daily Report untuk Mandor.
+  - Aktivasi route `/mandor/tugas-harian` dan `/mandor/laporan-harian`.
+  - Integrasi dashboard Mandor untuk menampilkan jumlah tugas tertunda.
+
+## Batch 53 — Field Issue / Kendala Lapangan Local Workflow Completion
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Implementasi modul Kendala Lapangan (Field Issue) secara DB-backed.
+  - Mandor dapat melaporkan kendala; Pengawas dan Admin dapat memberikan resolusi/monitoring.
+  - Sinkronisasi notifikasi dasar in-app untuk pelaporan kendala.
+
+## Batch 54 — Field Issue Route & Monitoring Stabilization
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Stabilisasi route dan dashboard lintas role (Mandor, Pengawas, Admin) untuk Field Issue.
+  - Menghapus sisa placeholder "Hold" pada modul kendala.
+  - Standarisasi `fieldIssues.service.js` menggunakan pola `apiClient.js`.
+  - Penyesuaian `DashboardStats` agar mendukung navigasi CTA.
+
+## Batch 55 — Operational Workflow Documentation Sync
+- **Status**: Active (Current)
+- **Commit**: `In Progress`
+- **Ringkasan**:
+  - Sinkronisasi seluruh dokumentasi aktif (current-status, modules, api-map) sesuai implementasi Batch 52-54.
+  - Penegasan batasan operasional: Daily Task, Daily Report, dan Field Issue **tidak mengubah** Progres Resmi (Progress SOT).
+  - Pembersihan follow-up lama yang sudah terselesaikan.

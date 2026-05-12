@@ -12,6 +12,7 @@ Role Pengawas adalah pemegang otoritas tertinggi dalam verifikasi progres fisik 
 ## 🛡️ Aturan Otoritas
 - **Stage Completion**: Menandai tahap selesai bersifat informatif dan tidak otomatis mengubah `verifiedProgress` total proyek.
 - **Official Source**: Pengawas adalah katalis utama dalam sinkronisasi data lapangan ke sistem.
+- **Operational Logs**: Kendala Lapangan (Field Issue) berfungsi sebagai logbook operasional untuk koordinasi teknis dan **tidak mengubah** Progres Resmi proyek.
 
 ## 📊 Technical Context
 - **Context**: `SupervisorPersonaContext`

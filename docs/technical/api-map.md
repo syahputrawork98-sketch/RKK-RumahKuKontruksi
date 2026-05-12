@@ -31,8 +31,9 @@
 | `GET/POST` | `/weekly-reports` | Stabilized | Laporan mingguan Pengawas & Review Admin. |
 | `PATCH` | `/weekly-reports/:id/publish`| Stabilized | Publikasi laporan ke timeline Konsumen. |
 | `GET/POST` | `/material-requests` | Stabilized | Request material (RAB-linked). |
-| `GET/POST` | `/field-issues` | Stabilized | Pencatatan kendala lapangan. |
-| `GET/POST` | `/daily-reports` | Stabilized | Laporan harian teknis. |
+| `GET/POST` | `/field-issues` | Stabilized | Pelaporan & resolusi kendala lapangan (Mandor/Pengawas/Admin). |
+| `GET/POST` | `/daily-tasks` | Stabilized | Penugasan harian (Supervisor -> Mandor). |
+| `GET/POST` | `/daily-reports` | Stabilized | Laporan harian mandor (Local logbook). |
 | `GET/POST` | `/project-stage-comments` | Stabilized | Komunikasi publik per stage (HTTP CRUD). |
 
 ### 🎨 Design Request & Tender

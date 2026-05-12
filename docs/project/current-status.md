@@ -4,7 +4,7 @@
 - **Phase**: Local Development Feature Completion with production-minded quality.
 - **Environment**: Localhost (Local Development).
 - **Production Ready**: **No**.
-- **Last Batch**: Batch 54 (Field Issue Workflow Stabilization).
+- **Last Batch**: Batch 55 (Operational Workflow Documentation Sync).
 - **Progress SOT**: `Project.verifiedProgress` adalah satu-satunya sumber progress resmi (Verified by Supervisor).
 
 ## 🚀 Status Modul Utama (Local API)
@@ -13,6 +13,8 @@
 | **Projects** | Stabilized | Lifecycle proyek dari planning hingga completion. |
 | **Weekly Journals** | Stabilized | Pelaporan Mandor & Review Pengawas (Local Workflow). |
 | **Weekly Reports** | Stabilized | Laporan Mingguan Pengawas & Review Admin. |
+| **Daily Tasks** | Stabilized | Penugasan harian mandor (Local Workflow DB-backed). |
+| **Daily Reports** | Stabilized | Pelaporan harian mandor (Local Workflow DB-backed). |
 | **Field Issues** | Stabilized | Pelaporan kendala lapangan (Mandor) & Resolusi (Pengawas/Admin). |
 | **Material Requests**| Stabilized | Request material berbasis RAB (Local Distribution). |
 | **Design Requests** | Stabilized | E2E Design Workflow & Bridge-to-Project. |
@@ -27,6 +29,6 @@
 - [**Scope Guard**](./scope-guard.md)
 
 ---
-*Terakhir diperbarui: Batch 54.*
+*Terakhir diperbarui: Batch 55.*
 > [!NOTE]
-> Batch 54 telah menuntaskan migrasi seluruh placeholder "Hold" pada modul Kendala Lapangan ke sistem operasional yang terhubung dengan Database/API di seluruh dashboard (Mandor, Pengawas, Admin).
+> Batch 52–54 telah menuntaskan stabilisasi alur operasional harian (Daily Task/Report) dan Kendala Lapangan (Field Issue) secara DB-backed. Batch 55 melakukan sinkronisasi dokumentasi untuk mencerminkan status tersebut.

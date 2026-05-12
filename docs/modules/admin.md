@@ -13,6 +13,7 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 ## 🛡️ Batasan Role (Boundary)
 - **Bukan Verifikator Fisik**: Admin tidak melakukan verifikasi progres fisik di lapangan; wewenang ini eksklusif milik Pengawas.
 - **Hold Production**: Fitur pembayaran rill, pembuatan dokumen legal resmi (kontrak/BAST), dan procurement production masih berstatus Hold.
+- **Operational Logs**: Monitoring Kendala Lapangan berfungsi sebagai logbook operasional untuk transparansi tim dan **tidak mengubah** Progres Resmi proyek.
 
 ## 📊 Technical Context
 - **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`.

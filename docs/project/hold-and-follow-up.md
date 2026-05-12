@@ -6,7 +6,7 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 - **Production Infrastructure**: Auth (JWT/Password), Deployment, Cloud Storage, Payment Gateway.
 - **Advanced Real-time**: WebSocket / Direct Chat (Tetap menggunakan HTTP CRUD).
 - **Reputation System**: Marketplace, Rating, Scoring resmi.
-- **Shell Routes**: Seluruh route yang masih berstatus shell/static (e.g. Laporan Harian Mandor) dilarang dikembangkan menjadi logic operasional tanpa persetujuan.
+- **Shell Routes**: Seluruh route yang masih berstatus shell/static (e.g. Katalog Vendor) dilarang dikembangkan menjadi logic operasional tanpa persetujuan.
 
 ## 🛠️ Technical Follow-up
 - **Reporting**: Ekspor PDF/Excel untuk RAB dan Laporan.
@@ -22,6 +22,8 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 - **Progress Verification Core**: Sudah stabil di Batch 33 & 43.
 - **RAB Builder**: Sudah stabil di Batch 34 & 42.
 - **Material Request Workflow**: Sudah stabil di Batch 41.
+- **Foreman Daily Workflow (Task/Report)**: Sudah stabil di Batch 52.
+- **Field Issue Workflow**: Sudah stabil di Batch 54.
 
 ---
 *Catatan: Dokumen ini menggantikan `remaining-hold-features.md`.*

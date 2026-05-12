@@ -15,12 +15,14 @@ Roadmap aktif saat ini:
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
-1. **Progress SOT**: Inti verifikasi progres resmi lapangan.
-2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor.
-3. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan.
-4. **Weekly Report**: Konsolidasi laporan manajerial & publikasi.
-5. **Material Request**: Pengadaan material berbasis RAB.
-6. **Payment Eligibility**: Simulasi kelayakan pembayaran berbasis performa.
+1. **Progress SOT**: Inti verifikasi progres resmi lapangan. (Stabilized)
+2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor. (Stabilized)
+3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Batch 52 - Active)
+4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Stabilized)
+5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Batch 54 - Active)
+6. **Weekly Report**: Konsolidasi laporan manajerial & publikasi. (Stabilized)
+7. **Material Request**: Pengadaan material berbasis RAB. (Stabilized)
+8. **Payment Eligibility**: Simulasi kelayakan pembayaran berbasis performa. (Active)
 
 ## 🌟 Future Optional
 - **Analytics Dashboard v2**: Visualisasi statistik global untuk Superadmin.

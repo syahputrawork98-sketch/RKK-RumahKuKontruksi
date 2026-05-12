@@ -6,7 +6,8 @@ import {
     FiFileText,
     FiShoppingCart,
     FiBriefcase,
-    FiAlertTriangle
+    FiAlertTriangle,
+    FiActivity
 } from "react-icons/fi";
 import fieldIssueService from "../../services/fieldIssues.service";
 import {
@@ -39,20 +40,26 @@ const DashboardPengawas = () => {
                 setIsLoading(true);
                 setError(null);
                 
-                const [projRes, statsRes, issuesRes] = await Promise.all([
+                const results = await Promise.allSettled([
                     projectService.getProjects({ supervisorId: selectedSupervisorId }),
                     supervisorService.getSupervisorStats(selectedSupervisorId),
                     fieldIssueService.getFieldIssues({ supervisorId: selectedSupervisorId, status: "open" })
                 ]);
 
-                if (projRes.success) {
-                    setProjects(projRes.data);
+                const [projRes, statsRes, issuesRes] = results;
+
+                if (projRes.status === 'fulfilled' && projRes.value.success) {
+                    setProjects(projRes.value.data);
                 }
-                if (statsRes.success) {
-                    setStatsData(statsRes.data);
+                if (statsRes.status === 'fulfilled' && statsRes.value.success) {
+                    setStatsData(statsRes.value.data);
                 }
-                if (issuesRes.data) {
-                    setActiveIssues(issuesRes.data.length);
+                if (issuesRes.status === 'fulfilled' && issuesRes.value.data) {
+                    setActiveIssues(issuesRes.value.data.length);
+                }
+
+                if (projRes.status === 'rejected') {
+                    setError("Gagal memuat data proyek aktif.");
                 }
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);

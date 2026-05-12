@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiPlus, FiSearch, FiFilter, FiChevronRight, FiClock, FiCheckCircle, FiPackage, FiTruck, FiAlertCircle } from "react-icons/fi";
+import { FiPlus, FiSearch, FiFilter, FiChevronRight, FiClock, FiCheckCircle, FiPackage, FiTruck, FiAlertCircle, FiInfo } from "react-icons/fi";
 import MaterialRequestForm from "./components/MaterialRequestForm";
 import materialRequestService from "../../services/materialRequestService";
 import StatusBadge from "../../components/common/StatusBadge";
@@ -81,21 +81,6 @@ const RequestMaterialMandorPage = () => {
             alert(response.message || "Gagal mengonfirmasi penerimaan.");
         }
         setActionLoading(false);
-    };
-
-    const getStatusInfo = (status) => {
-        switch (status) {
-            case 'draft': return { label: 'Draft', color: 'bg-slate-500/10 text-slate-500', icon: <FiClock /> };
-            case 'submitted': return { label: 'Diajukan', color: 'bg-blue-500/10 text-blue-500', icon: <FiClock /> };
-            case 'approved_by_supervisor': return { label: 'Disetujui Pengawas', color: 'bg-emerald-500/10 text-emerald-500', icon: <FiCheckCircle /> };
-            case 'approved_by_admin': return { label: 'Disetujui Admin', color: 'bg-emerald-600/10 text-emerald-600', icon: <FiCheckCircle /> };
-            case 'processing': return { label: 'Diproses', color: 'bg-amber-500/10 text-amber-500', icon: <FiPackage /> };
-            case 'delivered': return { label: 'Dikirim', color: 'bg-indigo-500/10 text-indigo-500', icon: <FiTruck /> };
-            case 'received': return { label: 'Diterima', color: 'bg-emerald-500 text-white', icon: <FiCheckCircle /> };
-            case 'completed': return { label: 'Selesai', color: 'bg-emerald-700 text-white', icon: <FiCheckCircle /> };
-            case 'rejected': return { label: 'Ditolak', color: 'bg-red-500/10 text-red-500', icon: <FiAlertCircle /> };
-            default: return { label: status, color: 'bg-slate-500/10 text-slate-500', icon: <FiClock /> };
-        }
     };
 
     const filteredRequests = (requests || []).filter(req => {

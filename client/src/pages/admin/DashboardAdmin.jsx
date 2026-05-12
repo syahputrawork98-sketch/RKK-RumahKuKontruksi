@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { 
     FiLayers, 
     FiActivity, 
@@ -42,16 +42,23 @@ const DashboardAdmin = () => {
         try {
             setLoading(true);
             setError(null);
-            const [statsRes, issuesRes] = await Promise.all([
+            const results = await Promise.allSettled([
                 adminService.getDashboardStats({ adminId: selectedAdminId }),
                 fieldIssueService.getFieldIssues({ status: 'open' })
             ]);
-            if (statsRes.success) {
-                setStats(statsRes.data);
+
+            const [statsRes, issuesRes] = results;
+
+            if (statsRes.status === 'fulfilled' && statsRes.value.success) {
+                setStats(statsRes.value.data);
             }
-            if (issuesRes.data) {
-                setOpenIssues(issuesRes.data.slice(0, 5));
-                setOpenIssuesCount(issuesRes.data.length);
+            if (issuesRes.status === 'fulfilled' && issuesRes.value.data) {
+                setOpenIssues(issuesRes.value.data.slice(0, 5));
+                setOpenIssuesCount(issuesRes.value.data.length);
+            }
+
+            if (statsRes.status === 'rejected') {
+                setError("Gagal memuat data statistik utama.");
             }
         } catch (err) {
             console.error("Failed to fetch dashboard stats:", err);
@@ -83,12 +90,8 @@ const DashboardAdmin = () => {
 
     if (!stats || !stats.projects) return <RoleDataState type="empty" message="Data dashboard tidak tersedia atau masih kosong." />;
 
-    const { projects, customers, financials, recentProjects, reports, materialRequests } = stats;
+    const { projects, reports, materialRequests } = stats;
 
-    // Calculate derived stats
-    const totalProjects = Array.isArray(projects) 
-        ? projects.reduce((sum, p) => sum + (p._count?._all || p._count || 0), 0)
-        : 0;
 
     const activeProjects = Array.isArray(projects) 
         ? projects.find(p => {
@@ -104,12 +107,6 @@ const DashboardAdmin = () => {
         })?._count?._all || 0
         : 0;
 
-    const finishedProjects = Array.isArray(projects)
-        ? projects.find(p => {
-            const s = p.status?.toLowerCase();
-            return s === "finished" || s === "selesai";
-        })?._count?._all || 0
-        : 0;
     
     // Reports stats
     const pendingReports = reports?.filter(r => {
@@ -117,10 +114,6 @@ const DashboardAdmin = () => {
         return s === "submitted" || s === "pending";
     }).reduce((sum, r) => sum + (r._count?._all || 0), 0) || 0;
 
-    const underReviewReports = reports?.find(r => {
-        const s = r.status?.toLowerCase();
-        return s === "under_admin_review" || s === "start_admin_review";
-    })?._count?._all || 0;
     
     // Material stats
     const pendingMaterials = materialRequests?.find(m => {

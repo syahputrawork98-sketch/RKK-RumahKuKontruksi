@@ -11,7 +11,8 @@ import {
     FiInfo,
     FiStar,
     FiClock,
-    FiChevronRight
+    FiChevronRight,
+    FiCheckCircle
 } from "react-icons/fi";
 import {
     DashboardHeader,
@@ -35,7 +36,6 @@ const DashboardMandor = () => {
     const [projects, setProjects] = useState([]);
     const [recentJournals, setRecentJournals] = useState([]);
     const [pendingTasks, setPendingTasks] = useState([]);
-    const [recentReports, setRecentReports] = useState([]);
     const [statsData, setStatsData] = useState(null);
     const [activeIssues, setActiveIssues] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -51,7 +51,7 @@ const DashboardMandor = () => {
                 setLoading(true);
                 setError(null);
                 
-                const [projRes, statsRes, journalRes, tasksRes, reportsRes, issuesRes] = await Promise.all([
+                const results = await Promise.allSettled([
                     projectService.getProjects({ foremanId: selectedForemanId }),
                     foremanService.getForemanStats(selectedForemanId),
                     weeklyJournalService.getWeeklyJournals({ 
@@ -64,15 +64,24 @@ const DashboardMandor = () => {
                     fieldIssueService.getFieldIssues({ foremanId: selectedForemanId, status: "open" })
                 ]);
                 
-                if (projRes.success) setProjects(projRes.data);
-                if (statsRes.success) setStatsData(statsRes.data);
-                if (journalRes.success) setRecentJournals(journalRes.data.slice(0, 3));
-                if (tasksRes.success) setPendingTasks(tasksRes.data.slice(0, 5));
-                if (reportsRes.success) setRecentReports(reportsRes.data.slice(0, 3));
-                if (issuesRes.data) setActiveIssues(issuesRes.data.length);
+                const [projRes, statsRes, journalRes, tasksRes, reportsRes, issuesRes] = results;
+                
+                if (projRes.status === 'fulfilled' && projRes.value.success) setProjects(projRes.value.data);
+                if (statsRes.status === 'fulfilled' && statsRes.value.success) setStatsData(statsRes.value.data);
+                if (journalRes.status === 'fulfilled' && journalRes.value.success) setRecentJournals(journalRes.value.data.slice(0, 3));
+                if (tasksRes.status === 'fulfilled' && tasksRes.value.success) setPendingTasks(tasksRes.value.data.slice(0, 5));
+                if (reportsRes.status === 'fulfilled' && reportsRes.value.success) {
+                    // Daily reports are fetched but not displayed as a list on main dashboard currently
+                }
+                if (issuesRes.status === 'fulfilled' && issuesRes.value.data) setActiveIssues(issuesRes.value.data.length);
+
+                // If critical projects fetch failed
+                if (projRes.status === 'rejected') {
+                    setError("Gagal mengambil data proyek.");
+                }
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);
-                setError("Gagal mengambil data operasional dari database.");
+                setError("Terjadi kesalahan sistem saat memuat dashboard.");
             } finally {
                 setLoading(false);
             }
@@ -127,8 +136,6 @@ const DashboardMandor = () => {
     }
 
     // In current local development, priority tasks and recent activities are focused on Weekly Journals
-    const priorityTasks = pendingTasks;
-    const recentActivities = recentReports;
 
     return (
         <div className="animate-fadeIn space-y-6">
@@ -235,8 +242,8 @@ const DashboardMandor = () => {
                             <button onClick={() => navigate("/mandor/tugas-harian")} className="text-[10px] font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
                         </div>
                         <div className="space-y-3">
-                            {priorityTasks.length > 0 ? (
-                                priorityTasks.map(task => (
+                            {pendingTasks.length > 0 ? (
+                                pendingTasks.map(task => (
                                     <div key={task.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <div className={`w-1.5 h-1.5 rounded-full ${task.priority === 'high' ? 'bg-red-500' : 'bg-blue-500'}`} />

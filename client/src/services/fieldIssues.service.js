@@ -18,4 +18,9 @@ const fieldIssueService = {
   }
 };
 
+export const getFieldIssues = fieldIssueService.getFieldIssues;
+export const getFieldIssueById = fieldIssueService.getFieldIssueById;
+export const createFieldIssue = fieldIssueService.createFieldIssue;
+export const updateFieldIssueStatus = fieldIssueService.updateFieldIssueStatus;
+
 export default fieldIssueService;

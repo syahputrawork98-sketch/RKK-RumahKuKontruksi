@@ -3,9 +3,10 @@
 Dokumen ini mencatat rencana pengembangan aktif setelah Batch 45.
 
 ## 🎯 Active Next (Priority)
-Rencana batch segera:
-1. **Batch 46 — Lightweight Factory/Helper Optimization**: Optimasi sistem seeding dan helper database untuk mempercepat development lokal.
-2. **Batch 47 — Advanced Local Reporting**: Implementasi ekspor data (PDF/Excel) sederhana untuk laporan progres dan RAB.
+Roadmap aktif saat ini:
+1. **Docs Cleanup (Batch 45–50)**: **Closed**. Struktur dokumentasi telah dimodernisasi.
+2. **Next Milestone**: Kembali ke **Local Development Feature Completion**.
+3. **Feature Candidate**: Kandidat fitur baru (misal: Reporting PDF/Excel atau Seeding Optimization) menunggu instruksi/keputusan dari Room Chat 00.
 
 ## 🛠️ Technical Follow-up
 - **UI/UX Micro-interactions**: Penambahan animasi transisi menggunakan Framer Motion.

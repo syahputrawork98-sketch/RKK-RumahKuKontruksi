@@ -31,6 +31,30 @@
 - **Ringkasan**: Analisa mendalam folder temporary-review untuk persiapan merge & delete.
 
 ## Batch 47 — Temporary Review Merge & Selective Deletion
-- **Status**: Accepted (In Progress)
+- **Status**: Accepted
 - **Commit**: Not recorded
 - **Ringkasan**: Merge isi penting dari temporary-review ke docs aktif dan menghapus file yang sudah aman.
+
+## Batch 48 — Final Temporary Review Decision
+- **Status**: Accepted with Notes
+- **Commit**: Not applicable / analysis only
+- **Ringkasan**:
+  - Menentukan keputusan final untuk file temporary-review tersisa.
+  - `role-data-source-status.md` dan `implementation-blueprint.md` aman delete.
+  - `api-status.md` dan `route-inventory.md` perlu small final merge sebelum delete.
+
+## Batch 49 — Final Temporary Review Merge & Cleanup
+- **Status**: Accepted
+- **Commit**: `e20678afab58e4532d41285910dc846af36c3326`
+- **Ringkasan**:
+  - Melakukan small final merge dari `api-status.md` dan `route-inventory.md`.
+  - Menghapus file temporary-review tersisa.
+  - Menutup temporary-review sebagai gudang sementara.
+
+## Batch 50 — Final Docs Structure Checkpoint
+- **Status**: Accepted with Notes
+- **Commit**: Not applicable / analysis only
+- **Ringkasan**:
+  - Memvalidasi struktur docs baru.
+  - Menutup roadmap docs cleanup Batch 45–50.
+  - Mencatat follow-up minor histori docs.

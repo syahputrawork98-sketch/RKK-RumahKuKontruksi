@@ -7,8 +7,6 @@ import { seedProjects } from './seed/modules/projects.seed.js';
 import { seedRab } from './seed/modules/rab.seed.js';
 import { seedStagesAndProgress } from './seed/modules/stages-progress.seed.js';
 import { seedMaterialRequests } from './seed/modules/material-requests.seed.js';
-import { seedWeeklyJournals } from './seed/modules/weekly-journals.seed.js';
-import { seedSupervisorWeeklyReports } from './seed/modules/supervisor-weekly-reports.seed.js';
 
 
 const prisma = new PrismaClient();
@@ -189,10 +187,8 @@ async function main() {
   await seedRab(prisma, context);
   await seedStagesAndProgress(prisma, context);
 
-  // 30D-1: MATERIAL REQUESTS, WEEKLY JOURNALS & REPORTS (Modularized)
+  // 30D-1: MATERIAL REQUESTS (Modularized)
   await seedMaterialRequests(prisma, context);
-  await seedWeeklyJournals(prisma, context);
-  await seedSupervisorWeeklyReports(prisma, context);
 
   // Destructure variables needed for downstream feature seeds
   const { activeProject1: activeProject, activeProject2, finishedProject1: finishedProject } = context.projects;

@@ -1,48 +1,11 @@
 /**
  * Supervisor Weekly Report Seed Module
- * Handles creation of SupervisorWeeklyReport, SupervisorWeeklyReportJournal, and SupervisorWeeklyReportNote.
+ * NOTE: As of Batch 30D-1, no existing seeding logic for SupervisorWeeklyReport
+ * was found in the monolithic seed.js. This file is prepared as a placeholder
+ * for future domain-specific seeding.
  */
 
 export const seedSupervisorWeeklyReports = async (prisma, ctx) => {
-  console.log('Seeding Supervisor Weekly Reports...');
-
-  const { activeProject1: activeProject } = ctx.projects;
-  const { supervisor1 } = ctx.supervisors;
-  const { admin1 } = ctx.admins;
-  const { journal1 } = ctx.weeklyJournals;
-  const { stageActive1_1: stage1 } = ctx.stages;
-
-  const report1 = await prisma.supervisorWeeklyReport.create({
-    data: {
-      id: 'swr-active-001',
-      projectId: activeProject.id,
-      supervisorId: supervisor1.id,
-      weekStartDate: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000),
-      weekEndDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
-      status: 'approved',
-      submittedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-      reviewedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000),
-      reviewedByAdminId: admin1.id,
-      isVisibleToCustomer: true,
-      summary: 'Pekerjaan minggu pertama berjalan lancar. Persiapan lahan selesai 100%.',
-      journals: {
-        create: [
-          { weeklyJournalId: journal1.id }
-        ]
-      },
-      notes: {
-        create: [
-          {
-            stage: { connect: { id: stage1.id } },
-            type: 'PROGRESS',
-            content: 'Verifikasi progres persiapan lahan.',
-            progress: 100
-          }
-        ]
-      }
-    }
-  });
-
-  ctx.supervisorWeeklyReports = { report1 };
-  console.log('Supervisor Weekly Reports seeded successfully.');
+  // TODO: Implement SupervisorWeeklyReport seeding once official demo data is defined.
+  // console.log('Seeding Supervisor Weekly Reports... (Placeholder)');
 };

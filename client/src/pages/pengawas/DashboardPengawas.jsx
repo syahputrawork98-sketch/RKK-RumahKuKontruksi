@@ -7,8 +7,10 @@ import {
     FiShoppingCart,
     FiActivity,
     FiStar,
-    FiBriefcase
+    FiBriefcase,
+    FiAlertTriangle
 } from "react-icons/fi";
+import { getFieldIssues } from "../../services/fieldIssues.service";
 import {
     DashboardHeader,
     DashboardStats,
@@ -25,6 +27,7 @@ const DashboardPengawas = () => {
     const { selectedSupervisor, selectedSupervisorId } = useSupervisorPersona();
     const [projects, setProjects] = useState([]);
     const [statsData, setStatsData] = useState(null);
+    const [activeIssues, setActiveIssues] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -38,9 +41,10 @@ const DashboardPengawas = () => {
                 setIsLoading(true);
                 setError(null);
                 
-                const [projRes, statsRes] = await Promise.all([
+                const [projRes, statsRes, issuesRes] = await Promise.all([
                     projectService.getProjects({ supervisorId: selectedSupervisorId }),
-                    supervisorService.getSupervisorStats(selectedSupervisorId)
+                    supervisorService.getSupervisorStats(selectedSupervisorId),
+                    getFieldIssues({ supervisorId: selectedSupervisorId, status: "open" })
                 ]);
 
                 if (projRes.success) {
@@ -48,6 +52,9 @@ const DashboardPengawas = () => {
                 }
                 if (statsRes.success) {
                     setStatsData(statsRes.data);
+                }
+                if (issuesRes.data) {
+                    setActiveIssues(issuesRes.data.length);
                 }
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);
@@ -92,6 +99,13 @@ const DashboardPengawas = () => {
             icon: FiShoppingCart, 
             color: "#E11428",
             subLabel: "Butuh Approval" 
+        },
+        { 
+            label: "Kendala Lapangan", 
+            value: activeIssues, 
+            icon: FiAlertTriangle, 
+            color: "#E11428",
+            subLabel: "Perlu Solusi" 
         },
     ];
 

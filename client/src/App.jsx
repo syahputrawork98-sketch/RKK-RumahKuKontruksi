@@ -68,6 +68,7 @@ import AktivasiProyekAdminPage from "./pages/admin/AktivasiProyekAdminPage";
 import PublikasiKonsumenAdminPage from "./pages/admin/PublikasiKonsumenAdminPage";
 import PembayaranAdminPage from "./pages/admin/PembayaranAdminPage";
 import AdministrativeHelperDocumentsPage from "./pages/admin/AdministrativeHelperDocumentsPage";
+import KendalaLapanganAdminPage from "./pages/admin/KendalaLapanganAdminPage";
 
 // ===== HALAMAN PENGAWAS =====
 import PengawasLayout from "./layouts/PengawasLayout";
@@ -79,6 +80,7 @@ import DokumentasiLapanganPengawasPage from "./pages/pengawas/DokumentasiLapanga
 import LaporanMingguanPengawasPage from "./pages/pengawas/LaporanMingguanPengawasPage";
 import CreateLaporanMingguanPengawasPage from "./pages/pengawas/CreateLaporanMingguanPengawasPage";
 import DetailLaporanMingguanPengawasPage from "./pages/pengawas/DetailLaporanMingguanPengawasPage";
+import KendalaLapanganPengawasPage from "./pages/pengawas/KendalaLapanganPengawasPage";
 import RequestMaterialPengawasPage from "./pages/pengawas/RequestMaterialPengawasPage";
 import PengaturanPengawasPage from "./pages/pengawas/PengaturanPengawasPage";
 import JurnalMandorPengawasPage from "./pages/pengawas/JurnalMandorPengawasPage";
@@ -89,6 +91,7 @@ import MandorLayout from "./layouts/MandorLayout";
 import DashboardMandor from "./pages/mandor/DashboardMandor";
 import ProyekAktifMandorPage from "./pages/mandor/ProyekAktifMandorPage";
 import DetailProyekAktifMandorPage from "./pages/mandor/DetailProyekAktifMandorPage";
+import KendalaLapanganMandorPage from "./pages/mandor/KendalaLapanganMandorPage";
 import RequestMaterialMandorPage from "./pages/mandor/RequestMaterialMandorPage";
 import PengaturanMandorPage from "./pages/mandor/PengaturanMandorPage";
 import JurnalMingguanMandorPage from "./pages/mandor/JurnalMingguanMandorPage";
@@ -248,7 +251,7 @@ function App() {
             <Route path="laporan-mingguan-pengawas" element={<LaporanMingguanPengawasAdminPage />} />
             <Route path="laporan-mingguan-pengawas/:reportId" element={<DetailLaporanMingguanPengawasAdminPage />} />
             <Route path="request-material" element={<RequestMaterialAdminPage />} />
-            <Route path="monitoring/kendala" element={<AdminHoldState title="Kendala & Eskalasi" description="Daftar kendala lapangan yang memerlukan keputusan Admin." />} />
+            <Route path="monitoring/kendala" element={<KendalaLapanganAdminPage />} />
             
             <Route path="publikasi" element={<PublikasiKonsumenAdminPage />} />
 
@@ -289,7 +292,7 @@ function App() {
             <Route path="laporan-mingguan/create" element={<CreateLaporanMingguanPengawasPage />} />
             <Route path="laporan-mingguan/:reportId" element={<DetailLaporanMingguanPengawasPage />} />
             <Route path="request-material" element={<RequestMaterialPengawasPage />} />
-            <Route path="kendala" element={<PengawasHoldState title="Kendala & Rekomendasi" description="Pelaporan kendala teknis dan pemberian rekomendasi solusi." />} />
+            <Route path="kendala" element={<KendalaLapanganPengawasPage />} />
             <Route path="dokumentasi" element={<DokumentasiLapanganPengawasPage />} />
             <Route path="pengaturan" element={<PengaturanPengawasPage />} />
           </Route>
@@ -320,7 +323,7 @@ function App() {
             <Route path="tugas-harian" element={<TugasHarianMandorPage />} />
             <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
             <Route path="request-material" element={<RequestMaterialMandorPage />} />
-            <Route path="kendala-lapangan" element={<MandorHoldState title="Kendala Lapangan" description="Pelaporan hambatan atau masalah teknis dari lapangan." />} />
+            <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
             <Route path="dokumentasi" element={<MandorHoldState title="Dokumentasi Lapangan" description="Unggah bukti visual pekerjaan harian." />} />
             
             {/* PELUANG PROYEK */}

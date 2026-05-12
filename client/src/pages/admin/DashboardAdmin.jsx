@@ -23,10 +23,12 @@ import {
 import adminService from "../../services/adminService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
+import { getFieldIssues } from "../../services/fieldIssues.service";
 
 const DashboardAdmin = () => {
     const { selectedAdminId } = useAdminPersona();
     const [stats, setStats] = useState(null);
+    const [openIssuesCount, setOpenIssuesCount] = useState(0);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
 
@@ -39,9 +41,15 @@ const DashboardAdmin = () => {
         try {
             setLoading(true);
             setError(null);
-            const response = await adminService.getDashboardStats({ adminId: selectedAdminId });
-            if (response.success) {
-                setStats(response.data);
+            const [statsRes, issuesRes] = await Promise.all([
+                adminService.getDashboardStats({ adminId: selectedAdminId }),
+                getFieldIssues({ status: 'open' })
+            ]);
+            if (statsRes.success) {
+                setStats(statsRes.data);
+            }
+            if (issuesRes.data) {
+                setOpenIssuesCount(issuesRes.data.length);
             }
         } catch (err) {
             console.error("Failed to fetch dashboard stats:", err);
@@ -119,10 +127,10 @@ const DashboardAdmin = () => {
     })?._count?._all || 0;
 
     const dashboardStats = [
-        { label: "Proyek Aktif", value: activeProjects, icon: FiActivity, color: "#10B981" },
-        { label: "Dalam Persiapan", value: planningProjects, icon: FiLayers, color: "#0EA5E9" },
-        { label: "Request Material", value: pendingMaterials, icon: FiPackage, color: "#F59E0B" },
-        { label: "Review Laporan", value: pendingReports + underReviewReports, icon: FiFileText, color: "#7C3AED" },
+        { label: "Proyek Aktif", value: activeProjects, icon: FiLayers, color: "#1A4D2E" },
+        { label: "Proyek Perencanaan", value: planningProjects, icon: FiActivity, color: "#0EA5E9" },
+        { label: "Material Request", value: stats?.materialRequests?.filter(m => m.status === 'submitted').length || 0, icon: FiPackage, color: "#F59E0B" },
+        { label: "Kendala Terbuka", value: openIssuesCount, icon: FiAlertCircle, color: "#E11428" },
     ];
 
     const recentActivities = [

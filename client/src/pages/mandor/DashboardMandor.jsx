@@ -27,6 +27,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 import StatusBadge from "../../components/common/StatusBadge";
 import dailyTaskService from "../../services/dailyTaskService";
 import dailyReportService from "../../services/dailyReportService";
+import { getFieldIssues } from "../../services/fieldIssues.service";
 
 const DashboardMandor = () => {
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ const DashboardMandor = () => {
     const [pendingTasks, setPendingTasks] = useState([]);
     const [recentReports, setRecentReports] = useState([]);
     const [statsData, setStatsData] = useState(null);
+    const [activeIssues, setActiveIssues] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -49,7 +51,7 @@ const DashboardMandor = () => {
                 setLoading(true);
                 setError(null);
                 
-                const [projRes, statsRes, journalRes, tasksRes, reportsRes] = await Promise.all([
+                const [projRes, statsRes, journalRes, tasksRes, reportsRes, issuesRes] = await Promise.all([
                     projectService.getProjects({ foremanId: selectedForemanId }),
                     foremanService.getForemanStats(selectedForemanId),
                     weeklyJournalService.getWeeklyJournals({ 
@@ -58,7 +60,8 @@ const DashboardMandor = () => {
                         foremanId: selectedForemanId 
                     }),
                     dailyTaskService.getAllTasks({ foremanId: selectedForemanId, status: "todo" }),
-                    dailyReportService.getAllReports({ foremanId: selectedForemanId })
+                    dailyReportService.getAllReports({ foremanId: selectedForemanId }),
+                    getFieldIssues({ foremanId: selectedForemanId, status: "open" })
                 ]);
                 
                 if (projRes.success) setProjects(projRes.data);
@@ -66,6 +69,7 @@ const DashboardMandor = () => {
                 if (journalRes.success) setRecentJournals(journalRes.data.slice(0, 3));
                 if (tasksRes.success) setPendingTasks(tasksRes.data.slice(0, 5));
                 if (reportsRes.success) setRecentReports(reportsRes.data.slice(0, 3));
+                if (issuesRes.data) setActiveIssues(issuesRes.data.length);
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);
                 setError("Gagal mengambil data operasional dari database.");
@@ -96,7 +100,7 @@ const DashboardMandor = () => {
         { label: "Jurnal Pending", value: pendingJournalsCount, icon: FiList, color: "#0EA5E9" },
         { label: "Progres Terverifikasi", value: `${avgProgress}%`, icon: FiActivity, color: "#16A34A" },
         { label: "Request Material", value: pendingMaterialsCount, icon: FiShoppingCart, color: "#F59E0B" },
-        { label: "Kendala Lapangan", value: 0, icon: FiAlertTriangle, color: "#E11428" },
+        { label: "Kendala Lapangan", value: activeIssues, icon: FiAlertTriangle, color: "#E11428" },
     ];
 
     if (!selectedForemanId && !loading) {

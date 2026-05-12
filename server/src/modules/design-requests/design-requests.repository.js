@@ -113,7 +113,8 @@ export const convertToProject = async (id, projectData) => {
     const updatedRequest = await tx.designRequest.update({
       where: { id },
       data: { 
-        projectId: project.id 
+        projectId: project.id,
+        status: 'project_created'
       },
       include: {
         project: true

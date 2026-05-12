@@ -242,6 +242,8 @@ ${formData.materialPreferences || '-'}
     if (!selectedCustomerId) return <RoleDataState type="empty" message="Pilih persona konsumen terlebih dahulu." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchRequests} />;
 
+    const hasRequests = requests.length > 0;
+
     return (
         <div className="animate-fadeIn space-y-8 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -269,12 +271,34 @@ ${formData.materialPreferences || '-'}
                 </div>
             </div>
 
-            <DesignRequestList 
-                requests={filteredRequests}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                onOpenDetail={handleOpenDetail}
-            />
+            {hasRequests ? (
+                <DesignRequestList 
+                    requests={filteredRequests}
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    onOpenDetail={handleOpenDetail}
+                />
+            ) : (
+                <div className="bg-white rounded-[2.5rem] border border-gray-100 p-20 text-center shadow-sm">
+                    <div className="max-w-md mx-auto space-y-6">
+                        <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto text-indigo-600">
+                            <FiPenTool size={40} />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black text-gray-800">Belum Ada Pengajuan Desain</h3>
+                            <p className="text-sm text-gray-500 font-medium mt-2 leading-relaxed">
+                                Anda belum memiliki riwayat pengajuan desain. Mulailah dengan membuat brief baru untuk mengonsultasikan hunian impian Anda dengan tim arsitek kami.
+                            </p>
+                        </div>
+                        <button 
+                            onClick={handleOpenForm}
+                            className="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-600/20"
+                        >
+                            <FiPlus size={16} /> Konsultasi Desain Sekarang
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <DesignRequestDetailOverlay 
                 selectedRequest={selectedRequest}

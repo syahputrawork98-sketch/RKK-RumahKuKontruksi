@@ -609,12 +609,14 @@ const DesignRequestAdminPage = () => {
             approved: "bg-emerald-50 text-emerald-600 border-emerald-100",
             rejected: "bg-rose-50 text-rose-600 border-rose-100",
             draft: "bg-gray-50 text-gray-600 border-gray-100",
-            cancelled: "bg-gray-100 text-gray-500 border-gray-200"
+            cancelled: "bg-gray-100 text-gray-500 border-gray-200",
+            project_created: "bg-purple-50 text-purple-600 border-purple-100"
         };
         const labels = {
             assigned: "Arsitek Terpilih",
             open: "Tender Aktif",
-            approved: "Siap Convert"
+            approved: "Siap Convert",
+            project_created: "Proyek Draft"
         };
         return { style: styles[status] || styles.draft, label: labels[status] || status.replace('_', ' ') };
     };
@@ -762,7 +764,7 @@ const DesignRequestAdminPage = () => {
                                                         </>
                                                     )}
 
-                                                    {r.status === 'approved' && !r.projectId && (
+                                                    {(r.status === 'approved' || r.status === 'project_created') && !r.projectId && (
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleOpenConvert(r); }}
                                                             className="px-2 py-1 bg-indigo-600 text-white rounded-lg text-[9px] font-black uppercase hover:bg-indigo-700 shadow-sm"
@@ -770,6 +772,12 @@ const DesignRequestAdminPage = () => {
                                                         >
                                                             Draft Proyek
                                                         </button>
+                                                    )}
+
+                                                    {r.projectId && (
+                                                        <div className="flex items-center gap-1 px-2 py-1 bg-purple-50 text-purple-600 rounded-lg text-[9px] font-bold border border-purple-100">
+                                                            <FiCheckCircle size={10} /> Drafted
+                                                        </div>
                                                     )}
 
                                                     <button

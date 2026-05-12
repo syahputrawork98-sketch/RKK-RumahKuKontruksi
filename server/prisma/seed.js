@@ -9,6 +9,10 @@ import { seedStagesAndProgress } from './seed/modules/stages-progress.seed.js';
 import { seedMaterialRequests } from './seed/modules/material-requests.seed.js';
 import { seedFieldIssues } from './seed/modules/field-issues.seed.js';
 import { seedDailyOperations } from './seed/modules/daily-operations.seed.js';
+import { seedProjectDocuments } from './seed/modules/project-documents.seed.js';
+import { seedPayments } from './seed/modules/payments.seed.js';
+import { seedHelperDocuments } from './seed/modules/helper-documents.seed.js';
+import { seedNotifications } from './seed/modules/notifications.seed.js';
 
 
 const prisma = new PrismaClient();
@@ -196,218 +200,18 @@ async function main() {
   await seedFieldIssues(prisma, context);
   await seedDailyOperations(prisma, context);
 
+  // 30D-3: DOCUMENTS, PAYMENTS, HELPERS & NOTIFICATIONS (Modularized)
+  await seedProjectDocuments(prisma, context);
+  await seedPayments(prisma, context);
+  await seedHelperDocuments(prisma, context);
+  await seedNotifications(prisma, context);
+
   // Destructure variables needed for downstream feature seeds
   const { activeProject1: activeProject, activeProject2, finishedProject1: finishedProject } = context.projects;
   const { itemSemen1: item1, itemBesi1: item2 } = context.rabItems;
   const { stageActive1_1: stage1, stageActive1_2: stage2, stageFinished1: finishedStage } = context.stages;
 
 
-  console.log('Seeding Scenario 8: Project Documents...');
-
-  await prisma.projectDocument.create({
-    data: {
-      projectId: activeProject.id,
-      title: 'Foto Lahan Sebelum Konstruksi',
-      description: 'Dokumentasi kondisi lahan sebelum proses perataan',
-      category: 'lapangan',
-      fileName: 'lahan-sebelum-konstruksi.jpg',
-      fileUrl: '/uploads/demo/lahan-sebelum-konstruksi.jpg',
-      mimeType: 'image/jpeg',
-      size: 2048000, // 2MB
-      visibility: 'customer_visible',
-      status: 'active',
-      uploadedByRole: 'pengawas',
-      uploadedById: supervisor1.id,
-      stageId: stage1.id
-    }
-  });
-
-  await prisma.projectDocument.create({
-    data: {
-      projectId: activeProject.id,
-      title: 'Surat Izin Mendirikan Bangunan',
-      description: 'IMB Proyek RKK-001',
-      category: 'legal',
-      fileName: 'imb-rkk-001.pdf',
-      fileUrl: '/uploads/demo/imb-rkk-001.pdf',
-      mimeType: 'application/pdf',
-      size: 1024000, // 1MB
-      visibility: 'internal',
-      status: 'active',
-      uploadedByRole: 'admin',
-      uploadedById: admin1.id
-    }
-  });
-
-  // 14. PAYMENT RECORDS
-  console.log('Seeding Payment Records...');
-  await prisma.paymentRecord.create({
-    data: {
-      paymentCode: 'PAY-2024-0001',
-      projectId: 'project-active-001',
-      customerId: 'customer-002',
-      type: 'CUSTOMER_PAYMENT',
-      amount: 250000000,
-      status: 'verified',
-      dueDate: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000),
-      paidAt: new Date(Date.now() - 38 * 24 * 60 * 60 * 1000),
-      verifiedAt: new Date(Date.now() - 37 * 24 * 60 * 60 * 1000),
-      verifiedByRole: 'admin',
-      verifiedById: 'admin-001',
-      note: 'DP 1 / Termin 1 Pembangunan BSD Mewah'
-    }
-  });
-
-  await prisma.paymentRecord.create({
-    data: {
-      paymentCode: 'PAY-2024-0002',
-      projectId: 'project-active-001',
-      customerId: 'customer-002',
-      type: 'CUSTOMER_PAYMENT',
-      amount: 250000000,
-      status: 'verified',
-      dueDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
-      paidAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-      verifiedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
-      verifiedByRole: 'admin',
-      verifiedById: 'admin-001',
-      note: 'Termin 2 Pembangunan BSD Mewah'
-    }
-  });
-
-  await prisma.paymentRecord.create({
-    data: {
-      paymentCode: 'PAY-2024-0003',
-      projectId: 'project-active-001',
-      customerId: 'customer-002',
-      type: 'CUSTOMER_PAYMENT',
-      amount: 500000000,
-      status: 'pending',
-      dueDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
-      note: 'Termin 3 - Menunggu progres 50%'
-    }
-  });
-
-  await prisma.paymentRecord.create({
-    data: {
-      paymentCode: 'PAY-FRM-0001',
-      projectId: 'project-active-001',
-      foremanId: 'foreman-001',
-      type: 'FOREMAN_PAYMENT',
-      amount: 15000000,
-      status: 'verified',
-      dueDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
-      paidAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-      verifiedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000),
-      verifiedByRole: 'admin',
-      verifiedById: 'admin-001',
-      note: 'Pembayaran Mingguan Mandor - Minggu 1'
-    }
-  });
-
-
-  // ===== ADMINISTRATIVE HELPER DOCUMENTS =====
-
-  console.log('Seeding Administrative Helper Documents...');
-  await prisma.administrativeHelperDocument.createMany({
-    data: [
-      {
-        documentCode: 'INV-DRAFT-001',
-        projectId: 'project-active-001',
-        customerId: 'customer-002',
-        type: 'INVOICE',
-        title: 'Draft Invoice Progres 25%',
-        status: 'draft',
-        summaryData: 'Invoice penagihan progres pekerjaan 25% sesuai milestone.',
-        contentJson: {
-          items: [
-            { desc: 'Pekerjaan Struktur', amount: 50000000 },
-            { desc: 'Pekerjaan Dinding', amount: 25000000 }
-          ],
-          total: 75000000,
-          bankInfo: 'BCA 1234567890 a/n RumahKu Konstruksi'
-        },
-        createdByRole: 'admin',
-        createdById: 'admin-001'
-      },
-      {
-        documentCode: 'BAST-DRAFT-001',
-        projectId: 'project-active-001',
-        customerId: 'customer-002',
-        type: 'BAST',
-        title: 'Draft BAST-1 (Serah Terima Tahap 1)',
-        status: 'reviewed',
-        summaryData: 'Draft berita acara serah terima pekerjaan tahap awal.',
-        contentJson: {
-          scope: 'Pondasi dan Struktur Utama',
-          condition: 'Baik',
-          notes: 'Beberapa catra kecil perlu finishing'
-        },
-        createdByRole: 'admin',
-        createdById: 'admin-001'
-      },
-      {
-        documentCode: 'LEGAL-HELP-001',
-        projectId: 'project-active-001',
-        customerId: 'customer-002',
-        type: 'LEGAL_HELPER',
-        title: 'Draft Addendum Perubahan Spesifikasi Keramik',
-        status: 'released',
-        summaryData: 'Dokumen pembantu untuk perubahan material dari keramik standar ke granit.',
-        contentJson: {
-          originalItem: 'Keramik 40x40 Putih',
-          newItem: 'Granit 60x60 Cream',
-          additionalCost: 15000000
-        },
-        createdByRole: 'admin',
-        createdById: 'admin-001',
-        releasedAt: new Date()
-      }
-    ]
-  });
-
-  // ===== APP NOTIFICATIONS =====
-  console.log('Seeding App Notifications...');
-  await prisma.appNotification.createMany({
-    data: [
-      {
-        recipientRole: 'admin',
-        recipientId: 'admin-001',
-        actorRole: 'foreman',
-        actorId: 'foreman-001',
-        eventType: 'FIELD_ISSUE_CREATED',
-        entityType: 'FieldIssue',
-        title: 'Kendala Lapangan Baru',
-        message: 'Mandor Mulyadi melaporkan kendala cuaca ekstrem di proyek BSD.',
-        linkPath: '/admin/monitoring/kendala',
-        createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000)
-      },
-      {
-        recipientRole: 'supervisor',
-        recipientId: 'supervisor-001',
-        actorRole: 'foreman',
-        actorId: 'foreman-001',
-        eventType: 'FIELD_ISSUE_CREATED',
-        entityType: 'FieldIssue',
-        title: 'Kendala Baru Perlu Verifikasi',
-        message: 'Ada laporan kendala teknis dari Mandor Mulyadi.',
-        linkPath: '/pengawas/kendala',
-        createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000)
-      },
-      {
-        recipientRole: 'customer',
-        recipientId: 'customer-002',
-        actorRole: 'admin',
-        actorId: 'admin-001',
-        eventType: 'DOCUMENT_RELEASED',
-        entityType: 'AdministrativeHelperDocument',
-        title: 'Dokumen Baru Dirilis',
-        message: 'Admin telah merilis draft BAST untuk Anda tinjau.',
-        linkPath: '/konsumen/dokumen',
-        createdAt: new Date(Date.now() - 30 * 60 * 1000)
-      }
-    ]
-  });
 
 
 

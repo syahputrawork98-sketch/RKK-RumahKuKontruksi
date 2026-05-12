@@ -5,6 +5,7 @@ import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const CreateLaporanMingguanPengawasPage = () => {
     const navigate = useNavigate();
@@ -221,7 +222,12 @@ const CreateLaporanMingguanPengawasPage = () => {
                         disabled={contextLoading || !selectedProjectId || !weekStartDate || !weekEndDate}
                         className="w-full py-3 bg-slate-800 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-900 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                     >
-                        {contextLoading ? "Memuat Data..." : "Load Data Konteks (Jurnal & Progres)"}
+                        {contextLoading ? (
+                            <>
+                                <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                Memuat Data...
+                            </>
+                        ) : "Load Data Konteks (Jurnal & Progres)"}
                     </button>
                 </div>
 
@@ -440,7 +446,7 @@ const CreateLaporanMingguanPengawasPage = () => {
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-2">
                                                     <div className="space-y-1">
-                                                        <label className="text-[9px] font-black uppercase text-blue-600 ml-1">Update Progres Lapangan (Verifikasi)</label>
+                                                        <label className="text-[9px] font-black uppercase text-blue-600 ml-1">Update Progres Lapangan (Reporting Only)</label>
                                                         <input 
                                                             type="number"
                                                             min="0"
@@ -451,6 +457,9 @@ const CreateLaporanMingguanPengawasPage = () => {
                                                             placeholder="0-100"
                                                             disabled={!note.projectStageId}
                                                         />
+                                                        <p className="text-[8px] text-blue-500 italic mt-0.5 ml-1 leading-tight">
+                                                            *Data snapshot administratif, tidak mengubah Progres Resmi (SOT).
+                                                        </p>
                                                     </div>
                                                     <div className="space-y-1">
                                                         {/* Spacer for alignment */}

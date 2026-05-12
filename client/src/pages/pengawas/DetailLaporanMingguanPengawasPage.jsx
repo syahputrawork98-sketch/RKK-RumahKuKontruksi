@@ -330,7 +330,7 @@ const DetailLaporanMingguanPengawasPage = () => {
                                              </div>
                                              <p className="text-xs font-bold text-slate-700">{note.content}</p>
                                              {note.progress !== null && (
-                                                 <p className="text-[9px] font-black text-blue-600 uppercase mt-1">Verifikasi Progres: {note.progress}%</p>
+                                                 <p className="text-[9px] font-black text-blue-600 uppercase mt-1 italic tracking-tighter">Reported Progress (Snapshot): {note.progress}%</p>
                                              )}
                                          </div>
                                     </div>
@@ -354,7 +354,7 @@ const DetailLaporanMingguanPengawasPage = () => {
                             <div className="flex items-start gap-2">
                                 <FiInfo className="mt-0.5 flex-shrink-0" />
                                 <p className="text-[10px] font-medium leading-tight opacity-90 italic">
-                                    Snapshot progres resmi saat laporan dibuat. Persetujuan laporan mingguan bersifat administratif dan tidak memodifikasi progres fisik resmi (SOT).
+                                    PENTING: Snapshot progres resmi saat laporan dibuat. Persetujuan laporan mingguan bersifat administratif dan TIDAK mengubah Progres Fisik Resmi (SOT).
                                 </p>
                             </div>
                         </div>

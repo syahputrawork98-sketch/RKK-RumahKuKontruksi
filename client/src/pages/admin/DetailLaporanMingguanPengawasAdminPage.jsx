@@ -7,6 +7,7 @@ import {
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorReportStatusBadge";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailLaporanMingguanPengawasAdminPage = () => {
     const { reportId } = useParams();
@@ -208,13 +209,17 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                         </button>
                     )}
                     {(report.status === 'reviewed' || report.status === 'approved') && (
-                        <button 
-                            onClick={() => handleActionRequest('publish')}
-                            disabled={actionLoading}
-                            className="px-6 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 disabled:opacity-50 transition-all shadow-lg shadow-emerald-600/20 flex items-center gap-2"
-                        >
-                            <FiSend /> Publish Laporan
-                        </button>
+                        <div className="group relative">
+                            <button 
+                                disabled={true}
+                                className="px-6 py-2 bg-slate-300 text-slate-500 rounded-xl font-bold text-xs uppercase tracking-widest cursor-not-allowed flex items-center gap-2 border border-slate-200"
+                            >
+                                <FiSend /> Publish Laporan (Hold)
+                            </button>
+                            <div className="absolute top-full right-0 mt-2 w-48 bg-slate-800 text-white text-[9px] p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 font-bold uppercase tracking-tighter">
+                                Fitur Publikasi Konsumen sedang ditangguhkan (Hold) untuk stabilisasi arsitektur lokal.
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>
@@ -397,7 +402,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                             <div className="bg-blue-50 p-3 rounded-xl border border-blue-100 flex gap-2">
                                 <FiInfo size={14} className="text-blue-500 flex-shrink-0 mt-0.5" />
                                 <p className="text-[9px] text-blue-700 font-bold leading-relaxed uppercase">
-                                    Konfirmasi 'APPROVE' bersifat administratif untuk menyetujui isi laporan. Update progres fisik tetap hanya melalui Verifikasi Progres Pengawas.
+                                    PENTING: 'APPROVE' bersifat administratif. Tindakan ini TIDAK akan memperbarui Progres Fisik/SOT Proyek. Update Progres Resmi tetap wajib melalui menu Verifikasi Progres.
                                 </p>
                             </div>
 
@@ -431,11 +436,10 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                 )}
                                 {(report.status === 'approved' || report.status === 'reviewed') && (
                                      <button 
-                                        onClick={() => handleActionRequest('publish')}
-                                        disabled={actionLoading}
-                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-emerald-600/30 disabled:opacity-50"
+                                        disabled={true}
+                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-slate-100 text-slate-400 rounded-xl font-bold text-[10px] uppercase tracking-widest cursor-not-allowed border border-slate-200"
                                     >
-                                        <FiSend /> Publish ke Konsumen
+                                        <FiSend /> Publish (Feature Hold)
                                     </button>
                                 )}
                             </div>

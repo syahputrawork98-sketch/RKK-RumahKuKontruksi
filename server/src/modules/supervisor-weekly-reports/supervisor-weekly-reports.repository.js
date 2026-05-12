@@ -175,38 +175,9 @@ export const updateReportStatus = async (id, data) => {
       }
     });
 
-    // PROGRESS UPDATE LOGIC on APPROVAL
-    if (status === 'approved') {
-      const notesWithProgress = report.notes.filter(n => n.projectStageId && n.progress !== null);
-      
-      for (const note of notesWithProgress) {
-        // Update ProjectStage
-        await tx.projectStage.update({
-          where: { id: note.projectStageId },
-          data: {
-            progress: Math.min(100, Math.max(0, Math.round(note.progress))),
-            isVerified: true,
-            verifiedAt: new Date(),
-            verifiedBy: actorId
-          }
-        });
-
-        // Optional: Create verification log
-        await tx.progressVerificationLog.create({
-          data: {
-            projectId: report.projectId,
-            supervisorId: report.supervisorId,
-            stageId: note.projectStageId,
-            previousProgress: 0, // We don't have the previous progress easily here without extra query
-            newProgress: note.progress,
-            notes: `Verified via Weekly Report: ${note.content}`
-          }
-        });
-      }
-
-      // Recalculate Project verifiedProgress
-      await recalculateProjectVerifiedProgress(report.projectId, tx);
-    }
+    // PROGRESS UPDATE LOGIC on APPROVAL - REMOVED to maintain SOT Integrity
+    // Weekly Reports are administrative snapshots and should not trigger official progress updates.
+    // Official progress updates must go through the dedicated Progress Verification workflow.
 
     await tx.supervisorWeeklyReportReviewLog.create({
       data: {

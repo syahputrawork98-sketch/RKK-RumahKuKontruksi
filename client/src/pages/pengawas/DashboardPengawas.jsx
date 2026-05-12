@@ -105,11 +105,7 @@ const DashboardPengawas = () => {
     }
 
     if (isLoading && projects.length === 0 && !error) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
-            </div>
-        );
+        return <RoleDataState type="loading" message="Menganalisis pengawasan proyek..." />;
     }
 
     if (error) {
@@ -177,9 +173,11 @@ const DashboardPengawas = () => {
                                     </div>
                                 );
                             }) : (
-                                <div className="p-12 text-center text-slate-400 font-medium border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
-                                    Belum ada proyek yang ditugaskan ke Anda.
-                                </div>
+                                <RoleDataState 
+                                    type="empty" 
+                                    title="Belum Ada Proyek" 
+                                    message="Saat ini belum ada proyek aktif yang ditugaskan ke Anda." 
+                                />
                             )}
                         </div>
                     </div>

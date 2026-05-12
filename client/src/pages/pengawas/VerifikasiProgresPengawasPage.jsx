@@ -140,12 +140,7 @@ const VerifikasiProgresPengawasPage = () => {
     }
 
     if (loading && projects.length === 0) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat data proyek...</p>
-            </div>
-        );
+        return <RoleDataState type="loading" message="Memuat data proyek..." />;
     }
 
     return (

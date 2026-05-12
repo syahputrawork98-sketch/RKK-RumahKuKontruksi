@@ -54,11 +54,7 @@ const ProyekAktifMandorPage = () => {
     }
 
     if (loading && projects.length === 0 && !error) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
-            </div>
-        );
+        return <RoleDataState type="loading" message="Memuat proyek aktif..." />;
     }
 
     if (error) {
@@ -198,8 +194,12 @@ const ProyekAktifMandorPage = () => {
                         </div>
                     );
                 }) : (
-                    <div className="col-span-2 py-20 text-center text-slate-400 font-medium italic border-2 border-dashed border-slate-100 rounded-2xl">
-                        Tidak ada proyek dalam kategori ini.
+                    <div className="col-span-full">
+                        <RoleDataState 
+                            type="empty" 
+                            title="Tidak Ada Proyek" 
+                            message={`Tidak ada proyek dalam kategori "${subtabs.find(t => t.id === activeSubtab)?.label}" saat ini.`} 
+                        />
                     </div>
                 )}
             </div>

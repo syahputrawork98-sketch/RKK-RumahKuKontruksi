@@ -152,13 +152,11 @@ const MonitoringMaterialGlobalPage = () => {
                         </table>
                     </div>
                 ) : (
-                    <div className="p-20 text-center flex flex-col items-center justify-center">
-                        <FiPackage size={40} className="text-gray-200 mb-4" />
-                        <h3 className="text-lg font-black text-[var(--dashboard-text)] mb-2">Tidak Ada Data Material</h3>
-                        <p className="text-sm text-[var(--dashboard-text-soft)] italic">
-                            Belum ada pengajuan material yang terdeteksi di sistem lokal.
-                        </p>
-                    </div>
+                    <RoleDataState 
+                        type="empty" 
+                        title="Tidak Ada Data Material" 
+                        message="Belum ada pengajuan material yang terdeteksi di sistem lokal." 
+                    />
                 )}
             </div>
 

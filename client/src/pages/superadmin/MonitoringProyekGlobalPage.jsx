@@ -266,17 +266,13 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                         </table>
                     </div>
                 ) : (
-                    <div className="p-20 text-center flex flex-col items-center justify-center">
-                        <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-200 mb-4 border border-dashed border-gray-200">
-                            <FiLayers size={32} />
-                        </div>
-                        <h3 className="text-lg font-black text-[var(--dashboard-text)] mb-2">Tidak Ada Data Proyek</h3>
-                        <p className="text-sm text-[var(--dashboard-text-soft)] italic max-w-xs">
-                            {searchQuery || statusFilter !== "all" 
-                                ? "Coba ganti kata kunci atau filter status untuk hasil lain."
-                                : "Belum ada proyek yang terdaftar di database sistem lokal."}
-                        </p>
-                    </div>
+                    <RoleDataState 
+                        type="empty" 
+                        title="Tidak Ada Data Proyek" 
+                        message={searchQuery || statusFilter !== "all" 
+                            ? "Coba ganti kata kunci atau filter status untuk hasil lain."
+                            : "Belum ada proyek yang terdaftar di database sistem lokal."} 
+                    />
                 )}
             </div>
 

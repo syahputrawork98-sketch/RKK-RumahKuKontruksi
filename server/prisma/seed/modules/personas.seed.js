@@ -237,6 +237,168 @@ export const seedPersonas = async (prisma, ctx) => {
 
   ctx.supervisors = { supervisor1, supervisor2, supervisor3 };
 
+  // --- CERTIFICATES & EXPERIENCES ---
+  console.log('Seeding Persona Certificates & Experiences...');
+
+  await prisma.supervisorCertificate.createMany({
+    data: [
+      {
+        id: 'spv-cert-001',
+        supervisorId: supervisor1.id,
+        title: 'Ahli K3 Konstruksi Muda',
+        issuer: 'Kemnaker RI',
+        certificateNumber: 'K3-SPV-001',
+        issuedAt: new Date('2021-02-01'),
+        expiredAt: new Date('2027-02-01'),
+        fileType: 'pdf',
+        status: 'valid'
+      },
+      {
+        id: 'spv-cert-002',
+        supervisorId: supervisor2.id,
+        title: 'Pengawas Bangunan Gedung',
+        issuer: 'LPJK',
+        certificateNumber: 'LPJK-SPV-002',
+        issuedAt: new Date('2020-06-15'),
+        expiredAt: new Date('2026-06-15'),
+        fileType: 'pdf',
+        status: 'valid'
+      }
+    ]
+  });
+
+  await prisma.supervisorExperience.createMany({
+    data: [
+      {
+        id: 'spv-exp-001',
+        supervisorId: supervisor1.id,
+        projectName: 'Rumah Cluster Alam Sutera',
+        companyName: 'RKK Internal',
+        role: 'Site Supervisor',
+        location: 'Tangerang Selatan',
+        startYear: 2021,
+        endYear: 2022,
+        description: 'Mengawasi struktur rumah dua lantai dan koordinasi progress mingguan.'
+      },
+      {
+        id: 'spv-exp-002',
+        supervisorId: supervisor2.id,
+        projectName: 'Renovasi Kantor Kemang',
+        companyName: 'RKK Internal',
+        role: 'Quality Supervisor',
+        location: 'Jakarta Selatan',
+        startYear: 2022,
+        endYear: 2023,
+        description: 'Kontrol mutu finishing dan verifikasi pekerjaan interior.'
+      }
+    ]
+  });
+
+  await prisma.foremanCertificate.createMany({
+    data: [
+      {
+        id: 'foreman-cert-001',
+        foremanId: foreman1.id,
+        title: 'Sertifikat Tukang Struktur',
+        issuer: 'LPJK',
+        certificateNumber: 'FRM-STR-001',
+        issuedAt: new Date('2019-04-20'),
+        fileType: 'pdf',
+        status: 'valid'
+      },
+      {
+        id: 'foreman-cert-002',
+        foremanId: foreman2.id,
+        title: 'Sertifikat Mandor Bangunan Gedung',
+        issuer: 'BNSP',
+        certificateNumber: 'FRM-BDG-002',
+        issuedAt: new Date('2020-08-12'),
+        fileType: 'pdf',
+        status: 'valid'
+      }
+    ]
+  });
+
+  await prisma.foremanExperience.createMany({
+    data: [
+      {
+        id: 'foreman-exp-001',
+        foremanId: foreman1.id,
+        projectName: 'Pembangunan Rumah Pondok Indah',
+        companyName: 'RKK Internal',
+        role: 'Mandor Struktur',
+        location: 'Jakarta Selatan',
+        startYear: 2020,
+        endYear: 2021,
+        description: 'Mengelola tim struktur untuk pekerjaan pondasi, sloof, kolom, dan dak.'
+      },
+      {
+        id: 'foreman-exp-002',
+        foremanId: foreman2.id,
+        projectName: 'Renovasi Ruko Serpong',
+        companyName: 'CV Bangun Sejahtera',
+        role: 'Mandor Utama',
+        location: 'Serpong',
+        startYear: 2021,
+        endYear: 2022,
+        description: 'Koordinasi renovasi fasad dan pekerjaan finishing komersial.'
+      }
+    ]
+  });
+
+  await prisma.architectCertificate.createMany({
+    data: [
+      {
+        id: 'arch-cert-001',
+        architectId: arch1.id,
+        title: 'Sertifikat Keahlian Arsitek Madya',
+        issuer: 'IAI',
+        certificateNumber: 'IAI-ARCH-001',
+        issuedAt: new Date('2018-05-05'),
+        fileType: 'pdf',
+        status: 'valid'
+      },
+      {
+        id: 'arch-cert-002',
+        architectId: arch4.id,
+        title: 'Green Building Associate',
+        issuer: 'GBC Indonesia',
+        certificateNumber: 'GBC-ARCH-004',
+        issuedAt: new Date('2022-11-11'),
+        fileType: 'pdf',
+        status: 'valid'
+      }
+    ]
+  });
+
+  await prisma.architectExperience.createMany({
+    data: [
+      {
+        id: 'arch-exp-001',
+        architectId: arch1.id,
+        projectName: 'Rumah Compact Lebak Bulus',
+        companyName: 'RKK Internal',
+        role: 'Lead Architect',
+        location: 'Jakarta Selatan',
+        startYear: 2021,
+        endYear: 2022,
+        description: 'Desain rumah compact modern dengan optimasi cahaya alami.'
+      },
+      {
+        id: 'arch-exp-002',
+        architectId: arch4.id,
+        projectName: 'Villa Tropis Sentul',
+        companyName: 'Studio Laras',
+        role: 'Architect',
+        location: 'Sentul',
+        startYear: 2022,
+        endYear: 2023,
+        description: 'Konsep hunian tropis dengan ventilasi silang dan material lokal.'
+      }
+    ]
+  });
+
   console.log('Personas seeded successfully.');
 };
+
 

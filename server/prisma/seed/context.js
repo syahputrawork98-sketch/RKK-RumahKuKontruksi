@@ -15,6 +15,12 @@ export const createSeedContext = () => {
     projects: {},
     designRequests: {},
     rabPlans: {},
+    rabCategories: {},
+    rabItems: {},
+    stages: {},
+    progressLogs: {},
+    comments: {},
     // Add more as needed during domain modularization
   };
 };
+

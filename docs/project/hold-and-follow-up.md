@@ -6,6 +6,7 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 - **Production Infrastructure**: Auth (JWT/Password), Deployment, Cloud Storage, Payment Gateway.
 - **Advanced Real-time**: WebSocket / Direct Chat (Tetap menggunakan HTTP CRUD).
 - **Reputation System**: Marketplace, Rating, Scoring resmi.
+- **Shell Routes**: Seluruh route yang masih berstatus shell/static (e.g. Laporan Harian Mandor) dilarang dikembangkan menjadi logic operasional tanpa persetujuan.
 
 ## 🛠️ Technical Follow-up
 - **Reporting**: Ekspor PDF/Excel untuk RAB dan Laporan.

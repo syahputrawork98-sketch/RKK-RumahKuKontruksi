@@ -15,12 +15,19 @@ Frontend RKK menggunakan **Vite + React** dengan fokus pada pengalaman pengguna 
 ## 🗺️ Key Route Map
 | Role | Base Path | Key Features | Status |
 | :--- | :--- | :--- | :--- |
-| **Admin** | `/admin` | Dashboard, Project List, RAB Builder, Material Request. | Stabilized |
-| **Mandor** | `/mandor` | Weekly Journal, Material Request, Project Detail. | Stabilized |
-| **Pengawas**| `/pengawas`| Progress Verification, Journal Review, Weekly Report. | Stabilized |
-| **Konsumen**| `/konsumen`| Project Monitoring, Timeline, Stage Communication. | Stabilized |
-| **Arsitek** | `/arsitek` | Design Tender, Workspace, Revision Tracker. | Stabilized |
-| **Superadmin**| `/superadmin`| Persona Directory, Global Monitoring, Audit Logs. | Stabilized |
+| **Admin** | `/admin` | `/dashboard`, `/proyek`, `/rab`, `/request-material`, `/laporan-mingguan-pengawas`. | Stabilized |
+| **Mandor** | `/mandor` | `/proyek-aktif`, `/jurnal-mingguan`, `/request-material`. | Stabilized |
+| **Pengawas**| `/pengawas`| `/proyek`, `/verifikasi-progres`, `/jurnal-mandor`, `/laporan-mingguan`. | Stabilized |
+| **Konsumen**| `/konsumen`| `/proyek`, `/timeline-proyek`, `/permintaan-desain`, `/dokumen`. | Stabilized |
+| **Arsitek** | `/arsitek` | `/peluang-desain`, `/desain-aktif`, `/riwayat`. | Stabilized |
+| **Superadmin**| `/superadmin`| `/dashboard`, `/data-*` (Persona), `/proyek`, `/log-aktivitas`. | Stabilized |
+
+## 🚧 Known Shell/Hold Routes
+Beberapa route berikut sudah terdaftar namun masih bersifat shell atau menunggu implementasi backend lanjut:
+- **Mandor**: `/tugas-harian`, `/laporan-harian`, `/kendala-lapangan` (Shell).
+- **Arsitek**: `/tahapan/*` (Konsep, Denah, 3D) masih bersifat placeholder visual.
+- **Finance**: `/pembayaran` (Admin/Konsumen) saat ini hanya simulasi pencatatan lokal.
+- **Production-Related**: Seluruh route yang berkaitan dengan payment gateway, legal rill, dan deployment masih dalam status **Hold**.
 
 ---
 *Untuk kebijakan pengambilan data, silakan merujuk ke [Data Source Policy](./data-source-policy.md).*

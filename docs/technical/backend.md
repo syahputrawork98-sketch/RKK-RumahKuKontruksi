@@ -15,6 +15,7 @@ Backend RKK dibangun menggunakan **Node.js (Express)** dengan **Prisma ORM** unt
 - **Non-Realtime**: Tidak ada dukungan WebSocket; seluruh update berbasis request-response standar.
 - **No RBAC Guard**: Pengecekan role/permission di sisi server belum diimplementasikan secara ketat.
 - **No Financial Production**: Tidak ada integrasi payment gateway atau sistem akuntansi legal rill.
+- **Administrative Helpers**: Modul dokumen (BAST/Invoice) hanya bersifat metadata helper, bukan dokumen legal resmi atau sistem invoice production.
 
 ## 📡 API Standard Response
 Seluruh response menggunakan format JSON standar:

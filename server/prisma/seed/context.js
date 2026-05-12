@@ -20,7 +20,9 @@ export const createSeedContext = () => {
     stages: {},
     progressLogs: {},
     comments: {},
-    // Add more as needed during domain modularization
+    materialRequests: {},
+    weeklyJournals: {},
+    supervisorWeeklyReports: {},
   };
 };
 

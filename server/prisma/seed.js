@@ -6,6 +6,9 @@ import { seedCustomers } from './seed/modules/customers.seed.js';
 import { seedProjects } from './seed/modules/projects.seed.js';
 import { seedRab } from './seed/modules/rab.seed.js';
 import { seedStagesAndProgress } from './seed/modules/stages-progress.seed.js';
+import { seedMaterialRequests } from './seed/modules/material-requests.seed.js';
+import { seedWeeklyJournals } from './seed/modules/weekly-journals.seed.js';
+import { seedSupervisorWeeklyReports } from './seed/modules/supervisor-weekly-reports.seed.js';
 
 
 const prisma = new PrismaClient();
@@ -181,71 +184,20 @@ async function main() {
     }
   });
 
-    // 3. SCENARIOS: PROJECTS, RAB, STAGES & PROGRESS
+  // 3. PROJECTS, RAB, STAGES (Modularized)
   await seedProjects(prisma, context);
   await seedRab(prisma, context);
   await seedStagesAndProgress(prisma, context);
+
+  // 30D-1: MATERIAL REQUESTS, WEEKLY JOURNALS & REPORTS (Modularized)
+  await seedMaterialRequests(prisma, context);
+  await seedWeeklyJournals(prisma, context);
+  await seedSupervisorWeeklyReports(prisma, context);
 
   // Destructure variables needed for downstream feature seeds
   const { activeProject1: activeProject, activeProject2, finishedProject1: finishedProject } = context.projects;
   const { itemSemen1: item1, itemBesi1: item2 } = context.rabItems;
   const { stageActive1_1: stage1, stageActive1_2: stage2, stageFinished1: finishedStage } = context.stages;
-
-  // Material Requests
-  await prisma.materialRequest.create({
-    data: {
-      id: 'mr-pending-001',
-      requestCode: 'MR-24-0001',
-      projectId: activeProject.id,
-      stageId: stage2.id,
-      foremanId: foreman1.id,
-      supervisorId: supervisor1.id,
-      status: 'pending',
-      priority: 'high',
-      neededDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      reason: 'Untuk pengecoran pondasi sisi timur.',
-      items: {
-        create: [
-          {
-            materialName: 'Semen Portland (50kg)',
-            requestedQty: 50,
-            unit: 'Zak',
-            rabItemId: item1.id
-          }
-        ]
-      }
-    }
-  });
-
-  await prisma.materialRequest.create({
-    data: {
-      id: 'mr-approved-001',
-      requestCode: 'MR-24-0002',
-      projectId: activeProject.id,
-      stageId: stage2.id,
-      foremanId: foreman1.id,
-      supervisorId: supervisor1.id,
-      adminId: admin1.id,
-      status: 'approved',
-      priority: 'medium',
-      neededDate: new Date(),
-      reason: 'Kebutuhan besi untuk kolom.',
-      submittedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-      supervisorReviewedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-      adminReviewedAt: new Date(),
-      items: {
-        create: [
-          {
-            materialName: 'Besi Beton 12mm',
-            requestedQty: 20,
-            approvedQty: 20,
-            unit: 'Batang',
-            rabItemId: item2.id
-          }
-        ]
-      }
-    }
-  });
 
   // 8. SCENARIO 6: FIELD ISSUES (KENDALA LAPANGAN)
   console.log('Seeding Scenario 6: Field Issues...');

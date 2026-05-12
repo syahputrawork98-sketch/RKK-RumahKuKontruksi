@@ -163,3 +163,27 @@ Dokumen ini mencatat riwayat pengembangan batch-by-batch pada fase *Local Develo
   - Halaman Dokumentasi Lapangan Mandor & Pengawas sudah API-backed (metadata list).
   - Seed demo dokumentasi tersedia.
 - **Status**: Accepted, Local Backend Foundation (Metadata-only).
+## Batch 31 — Core Runtime & Route Smoke Stabilization
+- **Goal**: Memperbaiki runtime errors dan route crash pada dashboard utama semua role.
+- **Result**: Stabilisasi menu sidebar, perbaikan import path, dan penanganan blank pages saat data kosong/loading.
+- **Status**: Accepted, Local Stability.
+
+## Batch 32 — Mandor Weekly Journal Stabilization
+- **Goal**: Menstabilkan alur pembuatan Jurnal Mingguan Mandor.
+- **Result**: CRUD Jurnal Mingguan API-backed, loading/error states standar, dan proteksi agar pengiriman jurnal tidak mengubah status proyek secara ilegal.
+- **Status**: Accepted, Local Workflow Stabilization.
+
+## Batch 33 — Pengawas Journal Review + Progress Verification Stabilization
+- **Goal**: Menstabilkan alur review jurnal oleh Pengawas dan verifikasi progres resmi.
+- **Result**: Pengawas dapat membuka detail jurnal Mandor, me-review (Approve/Reject), dan memperbarui progres fisik resmi (SOT) dengan konteks Stage & RAB yang akurat.
+- **Status**: Accepted, Local Workflow Stabilization.
+
+## Batch 34 — Pengawas Weekly Report + Admin Review Final Stabilization
+- **Goal**: Menstabilkan Laporan Mingguan Pengawas dan review oleh Admin.
+- **Result**: Laporan Mingguan Pengawas API-backed, Admin review flow (Approved/Revision/Reject) stabil, fitur Publish diletakkan pada status **Hold**, dan Progress SOT dilindungi (Review Admin tidak mengubah progres fisik).
+- **Status**: Accepted, Local Workflow Stabilization.
+
+## Batch 35 — Docs Sync Ringan (Checkpoint 31–34)
+- **Goal**: Sinkronisasi dokumentasi dan penegasan kembali aturan Progress Source of Truth (SOT).
+- **Result**: `current-status.md` dan `remaining-hold-features.md` diperbarui; status Batch 31-34 tercatat resmi.
+- **Status**: Accepted, Documentation-Only.

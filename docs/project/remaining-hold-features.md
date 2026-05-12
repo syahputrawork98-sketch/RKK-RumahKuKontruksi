@@ -18,11 +18,11 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 ## 2. Operasional Lapangan (Mandor & Pengawas)
 | Fitur | Lokasi | Status | Rekomendasi |
 | :--- | :--- | :--- | :--- |
-| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | ✅ Local Upload | Local upload adapter available (Batch 25) |
-| **Data Tim Harian** | `DetailProyekAktifMandorPage.jsx` | Belum ada di Schema | Tunda |
-| **Material Request Local Flow**| `material-requests.service.js` / MR pages | Stabil Lokal | Selesai untuk local CRUD; warehouse/inventory production tetap tunda |
-| **Report Review Impact** | `DetailLaporanMingguanPengawasAdminPage.jsx` | Stabil Lokal | Selesai untuk local CRUD; audit/publish polish lanjutan opsional |
-| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | ✅ Local Upload | Supported via Local Upload Adapter (Batch 25) |
+| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | ⚠️ Placeholder UI / Hold | Backend ready (Batch 25), but UI upload action and cloud storage integration are still on **Hold**. |
+| **Publish Laporan ke Konsumen** | `DetailLaporanMingguanPengawasAdminPage.jsx` | ⚠️ Hold | Admin review flow available (Batch 34), but actual publishing to Customer Timeline is on **Hold** for architecture stabilization. |
+| **Material Request Local Flow**| `material-requests.service.js` / MR pages | ✅ Stabil Lokal | Selesai untuk local CRUD; warehouse/inventory production tetap tunda |
+| **Report Review Impact** | `DetailLaporanMingguanPengawasAdminPage.jsx` | ✅ Stabil Lokal | Admin review flow stabilized with Progress SOT guard (Batch 34); no automatic physical progress updates. |
+| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | ✅ Local Upload | Metadata backed by API; binary upload adapter functional (Batch 25). |
 
 ## 3. Mitra (Arsitek)
 | Fitur | Lokasi | Status | Rekomendasi |
@@ -78,4 +78,9 @@ Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan 
 ---
 
 **Konfirmasi Scope**: 
-Task ini hanya docs/status cleanup dan scan ringan fitur existing yang masih Hold/incomplete. Fitur payment, legal upload, dan notification API kini diizinkan masuk roadmap secara bertahap (Planned for staged implementation), namun auth production, session, dan full RBAC tetap ditunda (Hold).
+Task ini hanya docs/status cleanup dan scan ringan fitur existing yang masih Hold/incomplete.
+- **Progress SOT**: Dijamin aman (manual only via Pengawas assigned).
+- **Publish to Customer**: HOLD.
+- **Photo Upload (Binary)**: UI Action HOLD (Metadata only).
+- **Production Auth/RBAC**: HOLD.
+- **Payment/Gateway**: Planned for staged implementation (Simulasi Lokal).

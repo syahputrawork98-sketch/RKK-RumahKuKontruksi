@@ -25,6 +25,11 @@
   - **Batch 28**: Notification Foundation accepted (Commit 88600ae8f22b65e19cd2055cf4f8c124c042d88f). Model AppNotification dan `/api/notifications` tersedia (Polling-based).
   - **Batch 29**: Design File / Package Completion accepted (Commit 8fafef941c48408936955dbe9cbeca8e47d83941). Upload file desain oleh arsitek dan review/release oleh admin.
   - **Batch 30A-30D-4**: Seed Modularization accepted. `seed.js` sekarang menjadi lean orchestrator yang memanggil modul domain terpisah (Personas, Customers, Projects, RAB, Stages, Material Requests, Field Issues, Daily Operations, Documents, Payments, Notifications, Design Flow).
+  - **Batch 31**: Core Runtime & Route Smoke Stabilization accepted. Perbaikan massal pada menu dashboard, route crash, import error, dan stabilisasi blank pages lintas role.
+  - **Batch 32**: Mandor Weekly Journal Stabilization accepted. Workflow Jurnal Mingguan Mandor sudah stabil dengan API-backed CRUD, loading/error states, dan proteksi Project Status.
+  - **Batch 33**: Pengawas Journal Review + Progress Verification Stabilization accepted. Pengawas dapat me-review jurnal Mandor dan melakukan Verifikasi Progres Proyek dengan konteks Stage & RAB yang akurat (title/description fix).
+  - **Batch 34**: Pengawas Weekly Report + Admin Review Final Stabilization accepted. Alur Laporan Mingguan Pengawas dan Review Admin sudah stabil; fitur Publish Konsumen resmi diletakkan pada status **Hold**; proteksi Progress SOT diperketat (Admin approval tidak mengubah progres fisik).
+  - **Batch 35**: Docs Sync & Checkpoint accepted. Sinkronisasi dokumentasi status Batch 31-34 dan penegasan kembali aturan Progress SOT. Tidak ada blocking, aman lanjut Batch 36.
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -42,8 +47,8 @@
 | **Foremen** | CRUD Available | Profile plus Certificate & Work Experience Local CRUD v1 stabilized; Experience Read-Only summary tetap tersedia |
 | **Architects** | CRUD Available | Profile, Certificates, and Experiences included |
 | **Auth/Login** | NOT IMPLEMENTED | Using Dev Persona Selector on frontend |
-| **Weekly Journals** | Local E2E Workflow v1 / UI Consistency Stabilized | Mandor creates weekly journal with `claimedProgress` as non-official claim; Pengawas review is administrative only |
-| **Weekly Reports** | Local E2E Workflow v1 / UI Consistency Stabilized | Pengawas creates report with `verifiedProgressSnapshot`; Admin review/publish is administrative/customer-summary flow |
+| **Weekly Journals** | Local E2E Workflow v1 / Stabilized (Batch 32-33) | Mandor creates weekly journal; Pengawas reviews; loading/error/empty states implemented; Mapping RabItem/Stage stabilized |
+| **Weekly Reports** | Local E2E Workflow v1 / Stabilized (Batch 34) | Pengawas creates report with administrative snapshot; Admin review/approve with SOT guard; Publish feature on Hold |
 | **Project Activation**| DONE | Readiness Checklist & Activation Gate (Berjalan) |
 | **Project Stage Completion** | Local Workflow v1 / Stabilized | Pengawas assigned menandai stage selesai/terverifikasi lokal; tidak mengubah `Project.verifiedProgress` |
 | **Project Lifecycle Completion Pack** | Local Workflow v1 / Stabilized | Admin complete project lokal, post-completion guard Mandor/Pengawas, dan reader status selesai |
@@ -74,7 +79,14 @@
 | **Stage Communication Source Flow** | Local Workflow v1 / Stabilized | Admin sebagai sumber update resmi; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket) |
 
 ## Operational Modules Progress
-Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT: `Project.verifiedProgress` adalah sumber progress resmi, `WeeklyJournal.claimedProgress` adalah klaim Mandor non-resmi, dan `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya snapshot progress resmi saat laporan dibuat. RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis. Review/approval Weekly Journal tidak otomatis mengubah `Project.verifiedProgress`; review/publish Weekly Report oleh Admin adalah administrasi/publikasi ringkasan, bukan verifikasi fisik progress. Pengawas assigned tetap pihak yang memperbarui progress fisik resmi secara manual lewat Progress SOT flow. Konsumen melihat progress resmi, dan Superadmin hanya read-only monitoring.
+Modul operasional inti (Progress Monitoring, Journal Mandor, Report Pengawas) telah dipindahkan ke database (DB-Backed v1). Progress Verification from RAB/Stage Context sudah berstatus **Local Workflow v1 / Stabilized** dan tetap mengikuti prinsip Progress SOT:
+1. **Project.verifiedProgress** adalah satu-satunya sumber progress resmi (Source of Truth).
+2. **WeeklyJournal.claimedProgress** adalah klaim Mandor non-resmi untuk keperluan reporting lapangan.
+3. **Review Jurnal Mandor** oleh Pengawas bersifat administratif dan tidak mengubah `Project.verifiedProgress`.
+4. **SupervisorWeeklyReport.verifiedProgressSnapshot** hanya rekaman (snapshot) administratif progress resmi saat laporan dibuat.
+5. **Review/Approve/Publish Weekly Report** oleh Admin bersifat administratif/publikasi ringkasan dan **TIDAK BOLEH** mengubah `Project.verifiedProgress`.
+6. **Progress Resmi** hanya dapat diperbarui secara manual oleh Pengawas assigned melalui alur *Verifikasi Progres Proyek*.
+RAB, ProjectStage, dan Jurnal Mandor menjadi konteks pendukung, bukan penghitung progress otomatis.
 
 ## Progress Verification Context
 Progress Verification from RAB/Stage Context berstatus **Local Workflow v1 / Stabilized** untuk Production-Ready Feature Completion Mode with Developer Persona Switcher. Alurnya: Pengawas memilih project aktif, sistem menampilkan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas untuk UI support, lalu Pengawas tetap mengisi `verifiedProgress` secara manual dan submit melalui `PATCH /projects/:id/verify-progress`. Backend menyimpan `Project.verifiedProgress`, `verifiedProgressUpdatedAt`, `verifiedProgressById`, dan `ProgressVerificationLog`.

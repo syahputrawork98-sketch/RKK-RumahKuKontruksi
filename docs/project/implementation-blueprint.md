@@ -71,10 +71,12 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 > [!NOTE]
 > Laporan Mingguan Pengawas menjadi workflow berikutnya setelah Jurnal Mingguan Mandor karena laporan ini merangkum jurnal approved dan progress verified menjadi evaluasi resmi untuk Admin. Laporan tidak boleh membuat progress baru, payment, atau publikasi Konsumen secara otomatis.
 
-4. **Progress to Customer** (Level 2 -> Level 3 Target)
-5. **Payment Foreman** (Level 2 -> Level 3 Target)
-6. **Material Request Local Workflow** (Local E2E Workflow v1 / UI Consistency Stabilized)
-7. **Documentation Metadata Foundation** (Implemented Local v1)
+7. **Documentation & Local Upload** (Implemented Local v2)
+8. **Payment & Billing Simulation** (Implemented Local v1)
+9. **Administrative Helper Documents** (Implemented Local v1)
+10. **In-App Notification System** (Implemented Local v1)
+11. **Design File & Package** (Implemented Local v1)
+12. **Modular Seed Architecture** (Implemented Local v1)
 
 > [!NOTE]
 > Jangan semua workflow dipaksa detail sekaligus untuk menghindari kontradiksi. Project Progress menjadi prioritas utama karena merupakan dasar dari modul payment, laporan, dan publikasi konsumen.
@@ -87,7 +89,11 @@ Saat ini target berikutnya adalah menaikkan workflow prioritas dari Level 2 ke L
 5. **Progress-to-Customer**: Publikasi progres terpercaya ke pelanggan.
 6. **Payment Foreman**: Alur keuangan berbasis capaian kerja.
 7. **Material Request Local Workflow**: Alur kebutuhan material lokal lintas Mandor, Pengawas, Admin, dan Superadmin read-only monitoring.
-8. **Documentation Metadata**: Fondasi metadata dokumen dan dokumentasi lapangan (API-backed metadata list).
+8. **Documentation & Local Upload**: Alur unggah dokumen proyek ke storage lokal (uploads/).
+9. **Payment & Billing**: Pencatatan termin pembayaran konsumen dan kelayakan pembayaran mandor.
+10. **Helper Documents**: Fondasi pembuatan invoice, BAST, dan dokumen legal administratif.
+11. **Notification Foundation**: Sistem notifikasi in-app untuk event operasional penting.
+12. **Modular Seed**: Arsitektur seed yang terpecah per domain (lean orchestrator).
 
 ## Modul yang Dipertahankan (Stable)
 - Core CRUD untuk entitas: Customer, Project, Supervisor, Foreman, Architect, Admin, Superadmin.

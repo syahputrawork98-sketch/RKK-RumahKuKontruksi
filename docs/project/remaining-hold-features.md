@@ -7,10 +7,10 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 | :--- | :--- | :--- | :--- |
 | **Security/Auth** | `admin_gap_analysis.md` | Hold | Tunda (Fase 5+) |
 | **Cetak RAB (PDF/Print)** | `DetailRabAdminPage.jsx` | Belum Tersedia | Tunda |
-| **Financial Stats** | `DashboardAdmin.jsx` | Placeholder / 0 | Allowed for phased implementation |
-| **Audit Trail (Log)** | `LogAktivitasPage.jsx` | Hold | Tunda |
-| **Notifikasi Production API** | lintas role | Planned | Planned for staged implementation (In-app first) |
-| **Escrow/Payment Logic** | `design-tender-docs` | ❌ Not Implemented | Planned for staged implementation |
+| **Financial Stats** | `DashboardAdmin.jsx` | ✅ DB-Backed v1 | PaymentRecord simulation available (Batch 26) |
+| **Audit Trail (Log)** | `LogAktivitasPage.jsx` | ✅ Implemented v1 | Database Activity Logs available (Batch 30A-D) |
+| **Notifikasi Production API** | lintas role | ✅ Polling Implemented | In-app notification with polling (Batch 28) |
+| **Escrow/Payment Logic** | `design-tender-docs` | ✅ Local Ready | PaymentRecord & Billing Plan simulation (Batch 26) |
 | **Project Planning Bridge** | `DesignRequestAdminPage.jsx` | ✅ Local Ready | Convert Request to Project sebagai action manual (Batch 16A/B) |
 | **Assignment Final Mandor/Pengawas** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Assignment rill ke entitas `Project.foremanId` / `Project.supervisorId` (Batch 17) |
 | **Project Activation Gate** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Aktivasi manual proyek Draft/Planning ke status Berjalan (Batch 18) |
@@ -18,11 +18,11 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 ## 2. Operasional Lapangan (Mandor & Pengawas)
 | Fitur | Lokasi | Status | Rekomendasi |
 | :--- | :--- | :--- | :--- |
-| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | Placeholder URL | Planned for staged implementation |
+| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | ✅ Local Upload | Local upload adapter available (Batch 25) |
 | **Data Tim Harian** | `DetailProyekAktifMandorPage.jsx` | Belum ada di Schema | Tunda |
 | **Material Request Local Flow**| `material-requests.service.js` / MR pages | Stabil Lokal | Selesai untuk local CRUD; warehouse/inventory production tetap tunda |
 | **Report Review Impact** | `DetailLaporanMingguanPengawasAdminPage.jsx` | Stabil Lokal | Selesai untuk local CRUD; audit/publish polish lanjutan opsional |
-| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | API-Backed Metadata List (Batch 24) | Upload binary ditunda (Batch 25 local first) |
+| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | ✅ Local Upload | Supported via Local Upload Adapter (Batch 25) |
 
 ## 3. Mitra (Arsitek)
 | Fitur | Lokasi | Status | Rekomendasi |
@@ -45,11 +45,11 @@ Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokum
 
 Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan flow Konsumen utama sudah masuk status stabil lokal. Next task yang paling aman tanpa membuka scope payment/auth besar:
 
-### Rekomendasi 0: Batch 25 Upload Adapter Lokal + Documentation UI Completion
-- **Judul**: Batch 25 Upload Adapter Lokal
-- **Alasan**: Melanjutkan Batch 24 Documentation Metadata Foundation yang sudah membuat API & Schema. Perlu membuat fitur create/upload dokumen dari UI, dengan catatan menggunakan local upload adapter (multer lokal) terlebih dahulu, bukan cloud production.
-- **Scope Aman**: Implementasi upload endpoint lokal (Node.js/multer), simpan file di `/uploads` lokal, simpan path ke `fileUrl` di database, dan hubungkan ke UI Documentation Lapangan Mandor/Pengawas.
-- **Risiko**: Rendah, asalkan dibatasi sebagai fitur simulasi lokal tanpa library cloud eksternal.
+### Rekomendasi 0: Batch 30E — Lightweight Factory / Helper Introduction
+- **Judul**: Batch 30E Factory/Helper Seed Optimization
+- **Alasan**: Modularisasi `seed.js` sudah selesai (30D-4). `seed.js` sekarang sudah lean. Langkah berikutnya adalah merapikan pembuatan data dengan factory/helper ringan agar tidak banyak duplikasi kode di dalam modul seed.
+- **Scope Aman**: Hanya helper internal seed, tidak mengubah schema atau bisnis logic.
+- **Risiko**: Rendah.
 
 ### Rekomendasi 1: Admin Publish Update / Stage Communication Source Flow Verification
 - **Judul**: Admin Publish Update untuk Stage Communication Panel

@@ -324,19 +324,48 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 - Stage Communication Panel Konsumen sudah memakai read path dan customer reply lokal. Payload `POST` tetap wajib menyertakan `projectId`, `authorRole`, `message`, dan `parentId` untuk reply Konsumen.
 - Update/delete masih perlu guard role yang lebih tegas sebelum dianggap production-ready.
 
-## Project Documents (Metadata-only v1, Batch 24)
+## Project Documents (Local Upload v2, Batch 25)
 - `GET /project-documents`: Ambil daftar metadata dokumen proyek dengan filter (projectId, category, visibility, status).
 - `GET /project-documents/:id`: Ambil detail metadata dokumen.
-- `POST /project-documents`: Membuat metadata dokumen baru (belum upload binary).
+- `POST /project-documents`: Membuat metadata dokumen baru.
+- `POST /project-documents/upload`: Unggah file binary ke storage lokal (`uploads/`) menggunakan multer dan simpan metadatanya.
 - `PATCH /project-documents/:id`: Update metadata dokumen.
 - `DELETE /project-documents/:id`: Hapus metadata dokumen (soft delete).
 
 **Catatan**:
-- Status: **API-Backed Metadata (Batch 24)**.
-- Module ini hanya mengelola **Metadata** dokumen di database.
-- Belum mendukung upload file binary (S3/Cloud/Local Storage). Field `fileUrl` saat ini berisi placeholder atau URL manual.
+- Status: **Local Upload / DB-Backed (Batch 25)**.
+- Module mendukung upload file binary ke folder `uploads/` server secara lokal.
+- Field `fileUrl` berisi path lokal (e.g., `/uploads/filename.pdf`).
 - Kategori dokumen: `lapangan`, `legal`, `konsumen`, `internal`, `arsitek`.
 - Visibility: `internal`, `customer_visible`, `role_specific`.
+
+## Payment Records (Batch 26)
+- `GET /payment-records`: Ambil daftar riwayat pembayaran lokal.
+- `POST /payment-records`: Mencatat transaksi pembayaran baru (Simulasi).
+- `GET /payment-records/:id`: Detail transaksi pembayaran.
+
+**Catatan**:
+- Status: **Local Record Simulation (Batch 26)**.
+- Digunakan untuk mencatat termin pembayaran konsumen dan kelayakan pembayaran mandor secara manual/lokal.
+- Mendukung tipe: `INCOME` (dari konsumen) dan `EXPENSE` (ke mandor/mitra).
+
+## Helper Documents (Batch 27)
+- `GET /administrative-helper-documents`: Ambil daftar dokumen administratif (Invoice, BAST, Legal).
+- `POST /administrative-helper-documents`: Buat dokumen pembantu baru.
+- `GET /administrative-helper-documents/:id`: Detail dokumen.
+
+**Catatan**:
+- Status: **Administrative Helper Foundation (Batch 27)**.
+- Mendukung metadata untuk pembuatan Invoice otomatis, BAST, dan dokumen legalitas pendukung lainnya.
+
+## Notifications (Batch 28)
+- `GET /notifications`: Ambil daftar notifikasi untuk user/role aktif.
+- `PATCH /notifications/:id/read`: Tandai notifikasi sebagai terbaca.
+- `POST /notifications/broadcast`: (Admin-only) Kirim notifikasi ke role tertentu.
+
+**Catatan**:
+- Status: **In-App Notification Polling (Batch 28)**.
+- Menggunakan mekanisme polling dari frontend, bukan WebSocket.
 
 ## Field Issues (Batch 21)
 - `GET /field-issues`: Ambil daftar kendala lapangan.

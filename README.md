@@ -49,8 +49,9 @@ npm install
 npx prisma generate
 npx prisma db push
 
-# (Opsional) Reset & Seed data testing
-# Perhatian: Ini akan menghapus data lama dan mengisi skenario demo lengkap
+# Reset & Seed data testing
+# Perhatian: Ini akan menghapus data lama dan mengisi skenario demo lengkap via Lean Orchestrator
+# Module: Personas, Customers, Projects, RAB, Stages, Material Requests, Field Issues, Operations, Documents, Payments, Notifications, Design Flow.
 npm run db:seed
 
 # Jalankan server

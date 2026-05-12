@@ -18,7 +18,13 @@
   - **Batch 22**: Project Mode Reframing & Documentation Alignment accepted (Commit 254490f72e3374bafb7eaed0b539a2b5fdfb5c9f).
   - **Batch 22B**: Perluasan scope boundary dokumentasi (Commit b6d46b8fae0b629b102de07e4b6536a328080633). Payment, invoice, BAST helper, upload, dan notification allowed for phased production feature completion.
   - **Batch 23**: Daily Task & Daily Report Backend-Backed Foundation accepted (Commit 30fc0789044c19a4a93c18baa303cd8fca349230).
-  - **Batch 24**: Documentation Metadata Foundation accepted (Commit 28250a7a5592a16723c24daa8cd1ee9a9f310c47). ProjectDocument schema, `/api/project-documents` API, dan metadata list UI Mandor/Pengawas Dokumentasi sudah API-backed. Masih metadata only (belum upload binary/cloud). Next recommended: **Batch 25 — Upload Adapter Lokal + Documentation UI Completion** (sebaiknya local upload adapter first).
+  - **Batch 24**: Documentation Metadata Foundation accepted (Commit 28250a7a5592a16723c24daa8cd1ee9a9f310c47). ProjectDocument schema, `/api/project-documents` API, dan metadata list UI Mandor/Pengawas Dokumentasi sudah API-backed.
+  - **Batch 25**: Upload Adapter Lokal + Documentation UI Completion accepted (Commit ada3234c6c2e2b7e8cccaedfa9c3dea24b88cdbb). Local upload adapter (multer) dan POST `/api/project-documents/upload` tersedia.
+  - **Batch 26**: Payment Record Local Completion accepted (Commit 5fe85f29691a724502e54853699776d2c433ad07). Model PaymentRecord dan `/api/payment-records` tersedia untuk simulasi pembayaran lokal.
+  - **Batch 27**: Invoice Helper + BAST/Legal Document Helper Foundation accepted (Commit 4367dcf48b7d531fba4918cb36967c9a2e6d1d66). Model AdministrativeHelperDocument mendukung INVOICE, BAST, dan LEGAL_HELPER.
+  - **Batch 28**: Notification Foundation accepted (Commit 88600ae8f22b65e19cd2055cf4f8c124c042d88f). Model AppNotification dan `/api/notifications` tersedia (Polling-based).
+  - **Batch 29**: Design File / Package Completion accepted (Commit 8fafef941c48408936955dbe9cbeca8e47d83941). Upload file desain oleh arsitek dan review/release oleh admin.
+  - **Batch 30A-30D-4**: Seed Modularization accepted. `seed.js` sekarang menjadi lean orchestrator yang memanggil modul domain terpisah (Personas, Customers, Projects, RAB, Stages, Material Requests, Field Issues, Daily Operations, Documents, Payments, Notifications, Design Flow).
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 
@@ -61,6 +67,10 @@
 | **Construction Transition Summary** | Local Workflow v1 / Stabilized | Read-only summary transisi desain ke konstruksi (Batch 13) |
 | **Construction Transition Review** | Local Workflow v1 / Stabilized | Final marker review administratif sebelum project planning (Batch 14) |
 | **Modular Admin Design Request** | Stabilized / Modular v1 | Refactor DesignRequestAdminPage menjadi modular components (Batch 15A) |
+| **Project-Documents** | DB-Backed / Local Upload | `/api/project-documents`, supports local file upload (multer) |
+| **Payment-Records** | DB-Backed / Simulation | `/api/payment-records` for local financial tracking |
+| **Helper-Documents**| DB-Backed / Simulation | `/api/administrative-helper-documents` (Invoice, BAST, Legal) |
+| **Notifications** | DB-Backed / Polling | `/api/notifications` with in-app topbar integration |
 | **Stage Communication Source Flow** | Local Workflow v1 / Stabilized | Admin sebagai sumber update resmi; Konsumen sebagai replier; berbasis HTTP CRUD (Bukan WebSocket) |
 
 ## Operational Modules Progress
@@ -178,13 +188,14 @@ Yang belum boleh masuk roadmap:
 | **Arsitek** | Backend/Database | DB-Backed v2 | Design Request/Tender Local E2E Workflow v1: open tender lokal, submit bid lokal, desain aktif, dan riwayat lokal |
 | **Admin** | Backend/Database | Modular v1 | Design Request & RAB modular (Batch 15A, M2); Weekly Report review/publish adalah administrasi/publikasi ringkasan |
 | **Superadmin** | Backend/Partial | DB-Backed Local CRUD | Dashboard global stats, master data, read-only monitoring; profil management rill ditunda |
-| **Konsumen** | Backend/Database | Modular v1 | Design Request modular (Batch M1); Dashboard, Profil, Project Monitoring/Timeline, dan Stage Communication Panel API-backed |
+| **Konsumen** | Backend/Database | Modular v1 | Design Request modular (Batch M1); Dashboard, Profil, Project Monitoring/Timeline, Stage Communication, dan Released Documents API-backed |
 | **Admin Gap** | Analyzed | `admin_gap_analysis.md` | Audit of all Admin pages for DB integration |
 | **Local Governance** | Implemented v1 | `LogAktivitasPage.jsx` | Audit Log & Profile Change Approval Queue |
 
 ## Next Recommended Actions
 1. **Admin Operation Stabilization**: Audit all Admin pages for missing DB integrations (Material Request approval, Journal Review, etc.).
 2. **Role-Based Analytics**: Implement lightweight dashboard analytics for Superadmin using real DB data aggregation.
+3. **Batch 30E — Lightweight Factory / Helper Introduction**: Rencana optimisasi seed modular dengan factory/helper ringan (Belum dikerjakan).
 
 
 ### Local Governance & Persona Management (v1 Stabilized)

@@ -38,9 +38,9 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Penutupan Proyek | `/admin/proyek/penutupan` | Shell / Pending | Placeholder serah terima dan penutupan administrasi. |
 | List RAB | `/admin/rab` | Local CRUD v1 / Admin Builder Stabilized | Daftar proyek untuk RAB Builder lokal; RAB adalah baseline draft planning, bukan kontrak final. |
 | Detail RAB | `/admin/rab/:projectId` | Local CRUD v1 / Admin Builder Stabilized | CRUD lokal RAB Plan, kategori pekerjaan, dan item pekerjaan dengan guard delete untuk item/category yang sudah dipakai workflow lain. |
-| Gambar Kerja | `/admin/dokumen/gambar-kerja` | API-Backed Metadata (Batch 24) | Placeholder arsip gambar kerja (metadata only). |
-| Kontrak | `/admin/dokumen/kontrak` | API-Backed Metadata (Batch 24) | Pusat dokumen kontrak konsumen dan mitra (metadata only). |
-| Dokumen Final / BAST | `/admin/dokumen/final` | API-Backed Metadata (Batch 24) | Arsip Berita Acara Serah Terima dan dokumen legalitas akhir (metadata only). |
+| Gambar Kerja | `/admin/dokumen/gambar-kerja` | ✅ Local Upload | Arsip gambar kerja dengan local upload adapter (Batch 25). |
+| Kontrak | `/admin/dokumen/kontrak` | ✅ Local Upload | Pusat dokumen kontrak dengan local upload adapter (Batch 25). |
+| Dokumen Final / BAST | `/admin/dokumen/final` | ✅ Local Upload | Arsip BAST dan dokumen legalitas akhir (Batch 25). |
 | Change Order | `/admin/dokumen/change-order` | Planned | Placeholder pencatatan perubahan pekerjaan. |
 | Penugasan Tim | `/admin/penugasan-tim` | DB-Backed v1 | Assign Pengawas/Mandor. |
 | Laporan Progress | `/admin/laporan-progress` | DB-Backed v1 | Monitoring history progress resmi (SOT) dan publish ringkasan; Admin bukan verifikator progress fisik. |
@@ -56,6 +56,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Riwayat Pembayaran | `/admin/pembayaran/riwayat` | Planned | Placeholder arsip transaksi (staged implementation). |
 | Pembayaran | `/admin/pembayaran` | Planned | Legacy mapping ke halaman pembayaran existing. |
 | Pengaturan | `/admin/pengaturan` | DB-Backed v1 | Profil admin rill. |
+| Notifikasi | `/notifications` | ✅ DB-Backed v1 | Topbar notifications polling (Batch 28). |
 
 ## 3. Pengawas Routes
 | Halaman | Route | Status | Catatan |
@@ -64,7 +65,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Proyek Diawasi | `/pengawas/proyek` | DB-Backed v1 | List proyek per pengawas. |
 | Detail Proyek | `/pengawas/proyek/:id` | DB-Backed v1 | Detail teknis proyek. |
 | Verifikasi Progres | `/pengawas/verifikasi-progres` | Local Workflow v1 / Stabilized | Pengawas assigned memperbarui `Project.verifiedProgress` manual sebagai progress resmi (SOT), dengan konteks pendukung Stage, RAB, dan jurnal Mandor terbaru/ringkas. |
-| Dokumentasi | `/pengawas/dokumentasi` | API-Backed Metadata List (Batch 24) | Galeri fisik lapangan berbasis API metadata. |
+| Dokumentasi | `/pengawas/dokumentasi` | ✅ Local Upload | Galeri fisik lapangan dengan local upload adapter (Batch 25). |
 | Laporan Mingguan | `/pengawas/laporan-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Report Pengawas dengan `verifiedProgressSnapshot` sebagai snapshot progress resmi saat laporan dibuat. |
 | Buat Laporan | `/pengawas/laporan-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form draft Weekly Report; mengambil `Project.verifiedProgress` menjadi `verifiedProgressSnapshot` dan dapat melampirkan jurnal Mandor approved. |
 | Detail Laporan | `/pengawas/laporan-mingguan/:id` | Local E2E Workflow v1 / UI Consistency Stabilized | Detail, edit, dan submit Weekly Report; snapshot bukan mekanisme update progress resmi. |
@@ -82,7 +83,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Tugas Harian | `/mandor/tugas-harian` | Shell / Pending | Checklist pekerjaan. |
 | Laporan Harian | `/mandor/laporan-harian` | Shell / Pending | Logbook harian mandor. |
 | Request Material | `/mandor/request-material` | Local Stabilized | Pengajuan dan konfirmasi penerimaan material via backend lokal. |
-| Dokumentasi | `/mandor/dokumentasi` | API-Backed Metadata List (Batch 24) | Foto fisik harian berbasis API metadata. |
+| Dokumentasi | `/mandor/dokumentasi` | ✅ Local Upload | Foto fisik harian dengan local upload adapter (Batch 25). |
 | Kendala Lapangan | `/mandor/kendala-lapangan` | Shell / Pending | Laporan hambatan. |
 | Jurnal Mingguan | `/mandor/jurnal-mingguan` | Local E2E Workflow v1 / UI Consistency Stabilized | List Weekly Journal Mandor lokal; `claimedProgress` adalah klaim non-resmi. |
 | Buat Jurnal | `/mandor/jurnal-mingguan/create` | Local E2E Workflow v1 / UI Consistency Stabilized | Form create Weekly Journal Mandor dengan `claimedProgress` non-resmi dan referensi opsional Stage/RAB Item. |
@@ -143,7 +144,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 | Profil | `/konsumen/profil` | DB-Backed v1 | Customer API dipakai untuk view/update profil dev persona. |
 | Permintaan Desain | `/konsumen/permintaan-desain` | Local Workflow v2 / Stabilized | List dan create Design Request lokal; Curated Design Timeline dan Local Approval Intent. |
 | Pembayaran | `/konsumen/pembayaran` | Planned | Placeholder termin pembayaran (staged implementation). |
-| Dokumen | `/konsumen/dokumen` | API-Backed Metadata (Batch 24) | Pusat dokumen metadata (staged implementation upload). |
+| Dokumen | `/konsumen/dokumen` | ✅ DB-Backed v1 | Akses dokumen released oleh Admin (Batch 27). |
 
 ---
 *Terakhir diperbarui: 11 Mei 2026*

@@ -202,8 +202,50 @@ const CreateJurnalMingguanMandorPage = () => {
         }
     };
 
-    if (!selectedForemanId && !loading) {
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat data proyek...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="p-10">
+                <RoleDataState 
+                    type="error"
+                    title="Gagal Memuat Data"
+                    description={error}
+                    onRetry={() => window.location.reload()}
+                />
+            </div>
+        );
+    }
+
+    if (!selectedForemanId) {
         return <RolePersonaEmptyState description="Pilih akun Mandor untuk membuat jurnal mingguan." />;
+    }
+
+    if (projects.length === 0) {
+        return (
+            <div className="p-10">
+                <RoleDataState 
+                    type="empty"
+                    title="Tidak Ada Proyek assigned"
+                    description="Anda belum memiliki proyek yang ditugaskan. Hubungi Admin atau Pengawas untuk penugasan proyek."
+                />
+                <div className="mt-6 flex justify-center">
+                    <button 
+                        onClick={() => navigate("/mandor/jurnal-mingguan")}
+                        className="px-6 py-2 bg-slate-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest"
+                    >
+                        Kembali ke Daftar
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (

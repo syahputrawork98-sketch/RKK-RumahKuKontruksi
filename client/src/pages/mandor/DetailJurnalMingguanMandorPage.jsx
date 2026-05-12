@@ -5,6 +5,7 @@ import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
 import WeeklyJournalStatusBadge from "../../components/weekly-journals/WeeklyJournalStatusBadge";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailJurnalMingguanMandorPage = () => {
     const { journalId } = useParams();
@@ -96,16 +97,42 @@ const DetailJurnalMingguanMandorPage = () => {
 
     if (loading && !journal) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat detail jurnal...</p>
             </div>
         );
     }
 
-    if (!journal) return <div className="text-center py-20">Jurnal tidak ditemukan.</div>;
+    if (error) {
+        return (
+            <div className="p-10">
+                <RoleDataState 
+                    type="error"
+                    title="Gagal Memuat Jurnal"
+                    description={error}
+                    onRetry={fetchJournal}
+                />
+            </div>
+        );
+    }
 
-    const canEdit = journal.status === 'draft' || journal.status === 'revision_requested';
+    if (!journal) {
+        return (
+            <div className="p-10">
+                <RoleDataState 
+                    type="empty"
+                    title="Jurnal Tidak Ditemukan"
+                    description="Jurnal yang Anda cari tidak tersedia atau Anda tidak memiliki akses."
+                />
+            </div>
+        );
+    }
+
+    const isProjectFinished = journal.project?.status === 'Selesai' || journal.project?.status === 'completed';
+    const canEdit = !isProjectFinished && (journal.status === 'draft' || journal.status === 'revision_requested');
     const canSubmit = canEdit;
+    const canSeeReviewHistory = journal.reviewLogs?.length > 0;
 
     return (
         <div className="animate-fadeIn space-y-6 pb-20">
@@ -168,6 +195,19 @@ const DetailJurnalMingguanMandorPage = () => {
                             "{journal.reviewLogs[0].note}"
                         </p>
                     )}
+                </div>
+            )}
+
+            {/* PROJECT FINISHED ALERT */}
+            {(journal.project?.status === 'Selesai' || journal.project?.status === 'completed') && (
+                <div className="bg-amber-500/10 border border-amber-500/20 p-5 rounded-2xl space-y-2">
+                    <div className="flex items-center gap-2 text-amber-600">
+                        <FiInfo size={18} />
+                        <h4 className="text-sm font-black uppercase tracking-widest">Proyek Selesai</h4>
+                    </div>
+                    <p className="text-[10px] font-bold text-amber-800 leading-relaxed uppercase">
+                        Proyek ini telah berstatus Selesai. Seluruh jurnal bersifat Read-Only (Hanya Baca).
+                    </p>
                 </div>
             )}
 

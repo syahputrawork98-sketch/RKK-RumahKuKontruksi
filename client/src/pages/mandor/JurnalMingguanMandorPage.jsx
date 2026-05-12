@@ -51,8 +51,9 @@ const JurnalMingguanMandorPage = () => {
 
     if (loading && journals.length === 0 && !error) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat jurnal mingguan...</p>
             </div>
         );
     }

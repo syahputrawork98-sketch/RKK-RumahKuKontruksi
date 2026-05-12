@@ -61,8 +61,9 @@ const JurnalMandorPengawasPage = () => {
 
     if (loading && journals.length === 0 && !error) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat jurnal mandor...</p>
             </div>
         );
     }
@@ -146,8 +147,12 @@ const JurnalMandorPengawasPage = () => {
                         </div>
                     </Link>
                 )) : (
-                    <div className="py-20 text-center text-slate-400 font-medium italic border-2 border-dashed border-slate-100 rounded-2xl">
-                        Tidak ada jurnal mandor untuk status ini.
+                    <div className="py-10">
+                        <RoleDataState 
+                            type="empty"
+                            title="Tidak Ada Jurnal"
+                            description={filterStatus === "all" ? "Belum ada jurnal mingguan yang dikirimkan oleh Mandor." : `Tidak ada jurnal dengan status "${statusOptions.find(o => o.id === filterStatus)?.label}".`}
+                        />
                     </div>
                 )}
             </div>

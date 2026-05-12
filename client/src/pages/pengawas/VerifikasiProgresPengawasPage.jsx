@@ -141,8 +141,9 @@ const VerifikasiProgresPengawasPage = () => {
 
     if (loading && projects.length === 0) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat data proyek...</p>
             </div>
         );
     }
@@ -237,8 +238,12 @@ const VerifikasiProgresPengawasPage = () => {
                         </div>
                     ))}
                     {projects.length === 0 && (
-                        <div className="col-span-full py-12 dashboard-card border-dashed border-2 text-center text-[var(--dashboard-text-soft)] uppercase font-black text-xs tracking-widest">
-                            Tidak ada proyek yang ditugaskan kepada Anda.
+                        <div className="col-span-full py-10">
+                            <RoleDataState 
+                                type="empty"
+                                title="Tidak Ada Proyek"
+                                description="Tidak ada proyek yang ditugaskan kepada Anda sebagai Pengawas."
+                            />
                         </div>
                     )}
                 </div>
@@ -291,7 +296,7 @@ const VerifikasiProgresPengawasPage = () => {
                                             <option value="">-- Pilih Tahapan (Opsional) --</option>
                                             {stages.map(stage => (
                                                 <option key={stage.id} value={stage.id}>
-                                                    {stage.name} (Progress: {stage.progress || 0}%)
+                                                    {stage.title} (Progress: {stage.progress || 0}%)
                                                 </option>
                                             ))}
                                         </select>
@@ -385,7 +390,7 @@ const VerifikasiProgresPengawasPage = () => {
                                                     {stages.length > 0 ? stages.map(stage => (
                                                         <div key={stage.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)]">
                                                             <div className="flex justify-between items-start mb-1">
-                                                                <span className="text-[11px] font-black">{stage.name}</span>
+                                                                <span className="text-[11px] font-black">{stage.title}</span>
                                                                 <span className="text-[10px] font-black text-[var(--dashboard-primary)]">{stage.progress || 0}%</span>
                                                             </div>
                                                             <div className="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
@@ -411,7 +416,7 @@ const VerifikasiProgresPengawasPage = () => {
                                                             <div className="space-y-1">
                                                                 {cat.items?.slice(0, 3).map(item => (
                                                                     <div key={item.id} className="flex justify-between text-[9px] font-bold">
-                                                                        <span className="truncate pr-2">{item.name}</span>
+                                                                        <span className="truncate pr-2">{item.description}</span>
                                                                         <span className="shrink-0">{item.volume} {item.unit}</span>
                                                                     </div>
                                                                 ))}

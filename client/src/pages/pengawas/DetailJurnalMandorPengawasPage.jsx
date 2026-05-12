@@ -5,6 +5,7 @@ import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
 import WeeklyJournalStatusBadge from "../../components/weekly-journals/WeeklyJournalStatusBadge";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const DetailJurnalMandorPengawasPage = () => {
     const { journalId } = useParams();
@@ -80,30 +81,37 @@ const DetailJurnalMandorPengawasPage = () => {
 
     if (loading && !journal) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[var(--dashboard-primary)] border-t-transparent"></div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Memuat detail jurnal...</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="max-w-2xl mx-auto py-20">
-                <div className="bg-rose-50 border border-rose-100 p-8 rounded-3xl text-center space-y-4">
-                    <FiAlertCircle size={48} className="mx-auto text-rose-500" />
-                    <h3 className="text-lg font-black text-slate-800">{error}</h3>
-                    <button 
-                        onClick={fetchJournal}
-                        className="px-8 py-3 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all"
-                    >
-                        Coba Lagi
-                    </button>
-                </div>
+            <div className="p-10">
+                <RoleDataState 
+                    type="error"
+                    title="Gagal Memuat Jurnal"
+                    description={error}
+                    onRetry={fetchJournal}
+                />
             </div>
         );
     }
 
-    if (!journal) return <div className="text-center py-20">Jurnal tidak ditemukan.</div>;
+    if (!journal) {
+        return (
+            <div className="p-10">
+                <RoleDataState 
+                    type="empty"
+                    title="Jurnal Tidak Ditemukan"
+                    description="Jurnal yang Anda cari tidak tersedia atau Anda tidak memiliki akses."
+                />
+            </div>
+        );
+    }
 
     const isPendingReview = journal.status === 'submitted' || journal.status === 'under_review';
 

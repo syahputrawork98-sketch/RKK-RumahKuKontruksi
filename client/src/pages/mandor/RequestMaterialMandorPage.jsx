@@ -108,6 +108,18 @@ const RequestMaterialMandorPage = () => {
         );
     });
 
+    if (!selectedForemanId) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="text-center">
+                    <FiPackage className="mx-auto text-[var(--dashboard-text-soft)] mb-4" size={40} />
+                    <h3 className="text-lg font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Pilih Akun Mandor</h3>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-2 italic font-medium">Pilih persona Mandor untuk melihat dan mengelola pengajuan material lapangan.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -325,6 +337,26 @@ const RequestMaterialMandorPage = () => {
                                                     <p className="text-lg font-black text-slate-800">{item.requestedQty} <span className="text-[10px] uppercase text-slate-400">{item.unit}</span></p>
                                                 </div>
                                             </div>
+
+                                            {item.rabItemId && (
+                                                <div className="grid grid-cols-3 gap-3 p-4 bg-slate-50/50 rounded-3xl border border-slate-100 mt-4 shadow-inner">
+                                                    <div className="text-center">
+                                                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Total RAB</p>
+                                                        <p className="text-[11px] font-black text-slate-700">{item.totalRabQty || 0} <span className="text-[8px] opacity-50 uppercase">{item.unit}</span></p>
+                                                    </div>
+                                                    <div className="text-center border-x border-slate-200/50">
+                                                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Disetujui</p>
+                                                        <p className="text-[11px] font-black text-slate-700">{item.totalApprovedQty || 0} <span className="text-[8px] opacity-50 uppercase">{item.unit}</span></p>
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Sisa Kuota</p>
+                                                        <p className="text-[11px] font-black text-emerald-600">
+                                                            {item.remainingRabQty || 0} <span className="text-[8px] opacity-50 uppercase">{item.unit}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )}
+
                                             {item.note && (
                                                 <div className="mt-4 pt-4 border-t border-slate-50 flex items-start gap-2">
                                                     <span className="text-[8px] font-black text-slate-300 uppercase tracking-widest mt-0.5 flex-shrink-0 italic">Ket:</span>

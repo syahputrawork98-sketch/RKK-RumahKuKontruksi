@@ -131,11 +131,7 @@ const RequestMaterialPengawasPage = () => {
     }
 
     if (loading && requests.length === 0 && !error) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--dashboard-primary)]"></div>
-            </div>
-        );
+        return <RoleDataState type="loading" />;
     }
 
     if (error) {
@@ -254,12 +250,11 @@ const RequestMaterialPengawasPage = () => {
                             </tbody>
                         </table>
                     ) : (
-                        <div className="py-20 text-center">
-                            <FiPackage size={40} className="mx-auto text-slate-100 mb-4" />
-                            <p className="text-xs font-black uppercase tracking-widest text-slate-300">
-                                {searchQuery ? "Tidak ada hasil untuk pencarian Anda." : "Tidak ada permintaan material."}
-                            </p>
-                        </div>
+                        <RoleDataState 
+                            type="empty"
+                            title={searchQuery ? "Hasil Pencarian Kosong" : "Belum Ada Pengajuan"}
+                            description={searchQuery ? `Tidak ditemukan request material dengan kata kunci "${searchQuery}".` : "Daftar pengajuan material akan muncul di sini."}
+                        />
                     )}
                 </div>
             </div>
@@ -352,7 +347,7 @@ const RequestMaterialPengawasPage = () => {
                                                     <div className="grid grid-cols-3 gap-3 p-4 bg-slate-50/50 rounded-3xl border border-slate-100 mt-4 shadow-inner">
                                                         <div className="text-center">
                                                             <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Total RAB</p>
-                                                            <p className="text-[11px] font-black text-slate-700">{item.rabItem?.volume || 0} <span className="text-[8px] opacity-50 uppercase">{item.unit}</span></p>
+                                                            <p className="text-[11px] font-black text-slate-700">{item.totalRabQty || 0} <span className="text-[8px] opacity-50 uppercase">{item.unit}</span></p>
                                                         </div>
                                                         <div className="text-center border-x border-slate-200/50">
                                                             <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Disetujui</p>

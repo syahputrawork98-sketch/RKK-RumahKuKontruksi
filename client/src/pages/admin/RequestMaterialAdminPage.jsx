@@ -63,6 +63,12 @@ const RequestMaterialAdminPage = () => {
     const handleAction = async (newStatus) => {
         if (!selectedAdminId || !selectedRequest) return;
         
+        // Basic validation for note on rejection
+        if (newStatus === 'rejected' && !note.trim()) {
+            alert("Mohon berikan alasan penolakan pada kolom catatan.");
+            return;
+        }
+
         setActionLoading(true);
         const response = await materialRequestService.updateStatus(selectedRequest.id, {
             status: newStatus,
@@ -291,7 +297,7 @@ const RequestMaterialAdminPage = () => {
                                                     <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-200/50 mt-2">
                                                         <div className="text-center">
                                                             <p className="text-[8px] font-black text-slate-400 uppercase">Total RAB</p>
-                                                            <p className="text-[10px] font-black text-slate-700">{item.rabItem.volume} {item.unit}</p>
+                                                            <p className="text-[10px] font-black text-slate-700">{item.totalRabQty || 0} {item.unit}</p>
                                                         </div>
                                                         <div className="text-center border-x border-slate-200/50">
                                                             <p className="text-[8px] font-black text-slate-400 uppercase">Sudah Disetujui</p>

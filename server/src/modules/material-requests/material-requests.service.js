@@ -46,7 +46,14 @@ export const getRequestById = async (id) => {
 
   // Enhance items with remaining RAB info
   const enhancedItems = await Promise.all(request.items.map(async (item) => {
-    if (!item.rabItemId) return { ...item, remainingRabQty: 0, totalApprovedQty: 0 };
+    if (!item.rabItemId || !item.rabItem) {
+      return { 
+        ...item, 
+        remainingRabQty: 0, 
+        totalApprovedQty: 0,
+        totalRabQty: 0
+      };
+    }
 
     const approvedItems = await prisma.materialRequestItem.findMany({
       where: {
@@ -59,14 +66,15 @@ export const getRequestById = async (id) => {
       select: { requestedQty: true }
     });
 
-    const totalApprovedQty = approvedItems.reduce((sum, i) => sum + parseFloat(i.requestedQty), 0);
-    const rabQty = parseFloat(item.rabItem.volume);
+    const totalApprovedQty = approvedItems.reduce((sum, i) => sum + (parseFloat(i.requestedQty) || 0), 0);
+    const rabQty = parseFloat(item.rabItem.volume) || 0;
     const remainingRabQty = Math.max(0, rabQty - totalApprovedQty);
 
     return {
       ...item,
       totalApprovedQty,
-      remainingRabQty
+      remainingRabQty,
+      totalRabQty: rabQty
     };
   }));
 
@@ -220,8 +228,8 @@ export const getRabUsageByProject = async (projectId) => {
       select: { requestedQty: true }
     });
 
-    const totalApprovedQty = approvedItems.reduce((sum, i) => sum + parseFloat(i.requestedQty), 0);
-    const rabQty = parseFloat(item.volume);
+    const totalApprovedQty = approvedItems.reduce((sum, i) => sum + (parseFloat(i.requestedQty) || 0), 0);
+    const rabQty = parseFloat(item.volume) || 0;
     const remainingRabQty = Math.max(0, rabQty - totalApprovedQty);
 
     return {
@@ -263,8 +271,8 @@ export const updateRequestStatus = async (id, data) => {
 
       // 2. RAB Quantity Check
       for (const item of currentRequest.items) {
-        if (item.rabItemId) {
-          const requestedQty = parseFloat(item.requestedQty);
+        if (item.rabItemId && item.rabItem) {
+          const requestedQty = parseFloat(item.requestedQty) || 0;
           
           // RE-CALCULATE inside transaction to ensure accuracy
           const approvedItems = await tx.materialRequestItem.findMany({
@@ -278,8 +286,8 @@ export const updateRequestStatus = async (id, data) => {
             select: { requestedQty: true }
           });
 
-          const totalApprovedQty = approvedItems.reduce((sum, i) => sum + parseFloat(i.requestedQty), 0);
-          const rabQty = parseFloat(item.rabItem.volume);
+          const totalApprovedQty = approvedItems.reduce((sum, i) => sum + (parseFloat(i.requestedQty) || 0), 0);
+          const rabQty = parseFloat(item.rabItem.volume) || 0;
           const remainingRabQty = Math.max(0, rabQty - totalApprovedQty);
           
           if (requestedQty > remainingRabQty) {

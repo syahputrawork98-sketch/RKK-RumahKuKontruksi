@@ -191,7 +191,6 @@ async function main() {
   const { itemSemen1: item1, itemBesi1: item2 } = context.rabItems;
   const { stageActive1_1: stage1, stageActive1_2: stage2, stageFinished1: finishedStage } = context.stages;
 
-
   // Material Requests
   await prisma.materialRequest.create({
     data: {

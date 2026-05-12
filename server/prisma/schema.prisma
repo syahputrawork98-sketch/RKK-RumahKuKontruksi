@@ -29,6 +29,7 @@ model Customer {
   updatedAt      DateTime  @updatedAt @map("updated_at")
   projects       Project[]
   designRequests DesignRequest[]
+  paymentRecords PaymentRecord[]
 
   @@map("customers")
 }
@@ -77,9 +78,11 @@ model Project {
   dailyTasks                DailyTask[]
   dailyReports              DailyReport[]
   documents                 ProjectDocument[]
+  paymentRecords            PaymentRecord[]
 
   @@map("projects")
 }
+
 
 model Supervisor {
   id                 String                    @id @default(cuid())
@@ -175,6 +178,7 @@ model Foreman {
   fieldIssues        FieldIssue[]
   dailyTasks         DailyTask[]
   dailyReports       DailyReport[]
+  paymentRecords     PaymentRecord[]
 
   @@map("foremen")
 }
@@ -1087,6 +1091,46 @@ model ProjectDocument {
   stage            ProjectStage? @relation(fields: [stageId], references: [id])
   dailyReport      DailyReport? @relation(fields: [dailyReportId], references: [id])
   fieldIssue       FieldIssue?  @relation(fields: [fieldIssueId], references: [id])
+  paymentRecords   PaymentRecord[]
 
   @@map("project_documents")
 }
+
+model PaymentRecord {
+  id               String       @id @default(cuid())
+  paymentCode      String       @unique @map("payment_code")
+  
+  projectId        String       @map("project_id")
+  project          Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  customerId       String?      @map("customer_id")
+  customer         Customer?    @relation(fields: [customerId], references: [id])
+  
+  foremanId        String?      @map("foreman_id")
+  foreman          Foreman?     @relation(fields: [foremanId], references: [id])
+  
+  type             String       // CUSTOMER_PAYMENT, FOREMAN_PAYMENT
+  amount           Decimal      @db.Decimal(15, 2)
+  status           String       @default("pending") // pending, paid, verified, rejected
+  
+  dueDate          DateTime?    @map("due_date")
+  paidAt           DateTime?    @map("paid_at")
+  
+  verifiedAt       DateTime?    @map("verified_at")
+  verifiedByRole   String?      @map("verified_by_role")
+  verifiedById     String?      @map("verified_by_id")
+  
+  note             String?
+  
+  proofDocumentId  String?      @map("proof_document_id")
+  proofDocument    ProjectDocument? @relation(fields: [proofDocumentId], references: [id])
+  
+  milestoneId      String?      @map("milestone_id")
+  eligibilityId    String?      @map("eligibility_id")
+  
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  @@map("payment_records")
+}
+

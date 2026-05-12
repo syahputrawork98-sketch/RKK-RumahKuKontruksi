@@ -9,26 +9,35 @@ import {
     FiCheck
 } from "react-icons/fi";
 import customerPaymentPlanService from "../../services/customerPaymentPlanService";
+import apiClient from "../../services/apiClient";
+
 
 const CustomerPaymentPlanView = ({ projectId }) => {
     const [loading, setLoading] = useState(true);
     const [plan, setPlan] = useState(null);
 
+    const [payments, setPayments] = useState([]);
+
     useEffect(() => {
-        const fetchPlan = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await customerPaymentPlanService.getPaymentPlan(projectId);
-                setPlan(response.data);
+                const [planRes, payRes] = await Promise.all([
+                    customerPaymentPlanService.getPaymentPlan(projectId),
+                    apiClient.get(`/payment-records?projectId=${projectId}`)
+                ]);
+                setPlan(planRes.data);
+                setPayments(payRes.data || []);
                 setLoading(false);
             } catch (error) {
-                console.error("Error fetching payment plan:", error);
+                console.error("Error fetching payment data:", error);
                 setLoading(false);
             }
         };
 
-        if (projectId) fetchPlan();
+        if (projectId) fetchData();
     }, [projectId]);
+
 
     const formatCurrency = (val) => {
         return new Intl.NumberFormat("id-ID", {
@@ -157,7 +166,63 @@ const CustomerPaymentPlanView = ({ projectId }) => {
                 </div>
             </div>
 
+            {/* Transaction History */}
+            <div className="space-y-6">
+                <h3 className="text-xl font-black text-neutral-100 flex items-center gap-3">
+                    <FiClock className="text-teal-600" /> Riwayat Transaksi (Payment Records)
+                </h3>
+                <div className="bg-white rounded-[40px] border border-neutral-30 shadow-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-neutral-10/50">
+                                <tr>
+                                    <th className="px-8 py-5 text-[10px] font-black text-neutral-40 uppercase tracking-widest">Transaksi</th>
+                                    <th className="px-8 py-5 text-[10px] font-black text-neutral-40 uppercase tracking-widest">Nominal</th>
+                                    <th className="px-8 py-5 text-[10px] font-black text-neutral-40 uppercase tracking-widest">Status Record</th>
+                                    <th className="px-8 py-5 text-[10px] font-black text-neutral-40 uppercase tracking-widest text-right">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-neutral-20">
+                                {payments.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="4" className="px-8 py-10 text-center text-[10px] font-black text-neutral-40 uppercase tracking-widest italic">
+                                            Belum ada rekaman transaksi yang disinkronkan.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    payments.map(p => (
+                                        <tr key={p.id} className="hover:bg-neutral-10 transition-colors">
+                                            <td className="px-8 py-6">
+                                                <p className="text-[10px] font-black text-teal-600 mb-1">{p.paymentCode}</p>
+                                                <p className="text-xs font-bold text-neutral-100">{new Date(p.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                            </td>
+                                            <td className="px-8 py-6 text-base font-black text-neutral-100">
+                                                {formatCurrency(p.amount)}
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${
+                                                    p.status === 'verified' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                    p.status === 'paid' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                                                    'bg-amber-50 text-amber-600 border-amber-100'
+                                                }`}>
+                                                    {p.status === 'verified' ? <FiCheckCircle /> : <FiClock />}
+                                                    {p.status === 'verified' ? 'TERVERIFIKASI' : 'MENUNGGU VALIDASI'}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-6 text-right text-[10px] font-bold text-neutral-50 uppercase italic leading-tight max-w-[200px]">
+                                                {p.note || "Record administratif RKK"}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             {/* Disclaimer */}
+
             <div className="p-8 bg-neutral-10 border border-neutral-30 rounded-[40px] flex gap-6 items-start">
                 <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-teal-600 shadow-sm border border-neutral-20 shrink-0">
                     <FiInfo size={24} />

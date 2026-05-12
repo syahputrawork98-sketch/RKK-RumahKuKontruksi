@@ -7,6 +7,7 @@ async function main() {
 
   // 0. CLEANUP (Order matters for foreign keys)
   console.log('Cleaning up existing data...');
+  await prisma.paymentRecord.deleteMany({});
   await prisma.projectDocument.deleteMany({});
   await prisma.dailyReport.deleteMany({});
   await prisma.dailyTask.deleteMany({});
@@ -1413,6 +1414,86 @@ async function main() {
     }
   });
 
+  // 14. PAYMENT RECORDS
+  console.log('Seeding Payment Records...');
+  await prisma.paymentRecord.create({
+    data: {
+      paymentCode: 'PAY-2024-0001',
+      projectId: 'project-active-001',
+      customerId: 'customer-002',
+      type: 'CUSTOMER_PAYMENT',
+      amount: 250000000,
+      status: 'verified',
+      dueDate: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000),
+      paidAt: new Date(Date.now() - 38 * 24 * 60 * 60 * 1000),
+      verifiedAt: new Date(Date.now() - 37 * 24 * 60 * 60 * 1000),
+      verifiedByRole: 'admin',
+      verifiedById: 'admin-001',
+      note: 'DP 1 / Termin 1 Pembangunan BSD Mewah'
+    }
+  });
+
+  await prisma.paymentRecord.create({
+    data: {
+      paymentCode: 'PAY-2024-0002',
+      projectId: 'project-active-001',
+      customerId: 'customer-002',
+      type: 'CUSTOMER_PAYMENT',
+      amount: 250000000,
+      status: 'verified',
+      dueDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+      paidAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      verifiedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+      verifiedByRole: 'admin',
+      verifiedById: 'admin-001',
+      note: 'Termin 2 Pembangunan BSD Mewah'
+    }
+  });
+
+  await prisma.paymentRecord.create({
+    data: {
+      paymentCode: 'PAY-2024-0003',
+      projectId: 'project-active-001',
+      customerId: 'customer-002',
+      type: 'CUSTOMER_PAYMENT',
+      amount: 500000000,
+      status: 'pending',
+      dueDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+      note: 'Termin 3 - Menunggu progres 50%'
+    }
+  });
+
+  await prisma.paymentRecord.create({
+    data: {
+      paymentCode: 'PAY-FRM-0001',
+      projectId: 'project-active-001',
+      foremanId: 'foreman-001',
+      type: 'FOREMAN_PAYMENT',
+      amount: 15000000,
+      status: 'verified',
+      dueDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+      paidAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
+      verifiedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000),
+      verifiedByRole: 'admin',
+      verifiedById: 'admin-001',
+      note: 'Pembayaran Mingguan Mandor - Minggu 1'
+    }
+  });
+
+  await prisma.paymentRecord.create({
+    data: {
+      paymentCode: 'PAY-FRM-0002',
+      projectId: 'project-active-001',
+      foremanId: 'foreman-001',
+      type: 'FOREMAN_PAYMENT',
+      amount: 12500000,
+      status: 'paid',
+      dueDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      paidAt: new Date(),
+      note: 'Pembayaran Mingguan Mandor - Minggu 2. Menunggu verifikasi admin.'
+    }
+  });
+
   console.log('--- CURATED SEED DATA CLEANUP FINISHED ---');
 }
 
@@ -1424,4 +1505,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-

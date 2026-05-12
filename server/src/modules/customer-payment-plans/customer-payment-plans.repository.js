@@ -61,14 +61,50 @@ export const updatePlan = async (id, data) => {
 };
 
 export const updateMilestoneStatus = async (milestoneId, status, paidAt = null) => {
-  return await prisma.customerPaymentMilestone.update({
-    where: { id: milestoneId },
-    data: { 
-      status,
-      paidAt: status === 'paid_simulated' ? (paidAt || new Date()) : undefined
+  return await prisma.$transaction(async (tx) => {
+    const milestone = await tx.customerPaymentMilestone.findUnique({
+      where: { id: milestoneId },
+      include: {
+        plan: {
+          include: {
+            project: true
+          }
+        }
+      }
+    });
+
+    const updatedMilestone = await tx.customerPaymentMilestone.update({
+      where: { id: milestoneId },
+      data: { 
+        status,
+        paidAt: status === 'paid_simulated' ? (paidAt || new Date()) : undefined
+      }
+    });
+
+    // Create PaymentRecord foundation if status is paid_simulated
+    if (status === 'paid_simulated' && milestone) {
+      const count = await tx.paymentRecord.count();
+      const paymentCode = `PAY-CUST-${Date.now()}-${(count + 1).toString().padStart(4, '0')}`;
+      
+      await tx.paymentRecord.create({
+        data: {
+          paymentCode,
+          projectId: milestone.projectId,
+          customerId: milestone.plan.project.customerId,
+          type: 'CUSTOMER_PAYMENT',
+          amount: milestone.amount,
+          status: 'paid', // Initial status is paid, waiting for admin verification
+          milestoneId: milestone.id,
+          note: `Simulated payment for milestone: ${milestone.label}`,
+          paidAt: updatedMilestone.paidAt
+        }
+      });
     }
+
+    return updatedMilestone;
   });
 };
+
 
 export const getProjectRabDetails = async (projectId) => {
   return await prisma.rabPlan.findFirst({

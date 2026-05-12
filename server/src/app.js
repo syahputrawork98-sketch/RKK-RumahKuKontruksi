@@ -23,6 +23,7 @@ import fieldIssueRoutes from './modules/field-issues/field-issues.routes.js';
 import dailyTaskRoutes from './modules/daily-tasks/daily-tasks.routes.js';
 import dailyReportRoutes from './modules/daily-reports/daily-reports.routes.js';
 import projectDocumentRoutes from './modules/project-documents/project-documents.routes.js';
+import paymentRecordsRouter from './modules/payment-records/payment-records.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -61,6 +62,7 @@ app.use('/api/field-issues', fieldIssueRoutes);
 app.use('/api/daily-tasks', dailyTaskRoutes);
 app.use('/api/daily-reports', dailyReportRoutes);
 app.use('/api/project-documents', projectDocumentRoutes);
+app.use('/api/payment-records', paymentRecordsRouter);
 
 // Error Handler
 app.use(errorHandler);

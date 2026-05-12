@@ -65,6 +65,7 @@ import CustomerAdminPage from "./pages/admin/CustomerAdminPage";
 import DesignRequestAdminPage from "./pages/admin/DesignRequestAdminPage";
 import AktivasiProyekAdminPage from "./pages/admin/AktivasiProyekAdminPage";
 import PublikasiKonsumenAdminPage from "./pages/admin/PublikasiKonsumenAdminPage";
+import PembayaranAdminPage from "./pages/admin/PembayaranAdminPage";
 
 // ===== HALAMAN PENGAWAS =====
 import PengawasLayout from "./layouts/PengawasLayout";
@@ -245,11 +246,11 @@ function App() {
             <Route path="publikasi" element={<PublikasiKonsumenAdminPage />} />
 
             {/* PEMBAYARAN */}
-            <Route path="pembayaran/konsumen" element={<AdminHoldState title="Pembayaran Konsumen" description="Monitoring invoice dan bukti bayar dari konsumen." />} />
-            <Route path="pembayaran/mandor" element={<AdminHoldState title="Pembayaran Mandor" description="Proses opname dan disbursement untuk mitra mandor." />} />
-            <Route path="pembayaran/validasi" element={<AdminHoldState title="Validasi Disbursement" description="Verifikasi akhir sebelum dana dicairkan ke mitra." />} />
-            <Route path="pembayaran/riwayat" element={<AdminHoldState title="Riwayat Pembayaran" description="Arsip seluruh transaksi keuangan proyek." />} />
-            <Route path="pembayaran" element={<AdminHoldState title="Manajemen Pembayaran" description="Modul validasi pembayaran konsumen dan monitoring termin proyek." />} />
+             <Route path="pembayaran" element={<PembayaranAdminPage />} />
+             <Route path="pembayaran/konsumen" element={<PembayaranAdminPage />} />
+             <Route path="pembayaran/mandor" element={<PembayaranAdminPage />} />
+             <Route path="pembayaran/validasi" element={<PembayaranAdminPage />} />
+             <Route path="pembayaran/riwayat" element={<PembayaranAdminPage />} />
 
             <Route path="pengaturan" element={<PengaturanAdminPage />} />
           </Route>

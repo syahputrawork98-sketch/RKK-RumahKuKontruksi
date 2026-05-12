@@ -81,18 +81,48 @@ class ForemanPaymentEligibilityRepository {
 
     async updateStatus(id, updateData) {
         const { status, adminNote, reviewedById, reviewedAt, paidAt, approvedAmount } = updateData;
-        return await prisma.foremanWeeklyPaymentEligibility.update({
-            where: { id },
-            data: {
-                ...(status && { status }),
-                ...(adminNote && { adminNote }),
-                ...(reviewedById && { reviewedById }),
-                ...(reviewedAt && { reviewedAt }),
-                ...(paidAt && { paidAt }),
-                ...(approvedAmount !== undefined && { approvedAmount })
+        
+        return await prisma.$transaction(async (tx) => {
+            const eligibility = await tx.foremanWeeklyPaymentEligibility.findUnique({
+                where: { id }
+            });
+
+            const updated = await tx.foremanWeeklyPaymentEligibility.update({
+                where: { id },
+                data: {
+                    ...(status && { status }),
+                    ...(adminNote && { adminNote }),
+                    ...(reviewedById && { reviewedById }),
+                    ...(reviewedAt && { reviewedAt }),
+                    ...(paidAt && { paidAt: status === 'paid_simulated' ? (paidAt || new Date()) : undefined }),
+                    ...(approvedAmount !== undefined && { approvedAmount })
+                }
+            });
+
+            // Create PaymentRecord foundation if status is paid_simulated
+            if (status === 'paid_simulated' && eligibility) {
+                const count = await tx.paymentRecord.count();
+                const paymentCode = `PAY-FRM-${Date.now()}-${(count + 1).toString().padStart(4, '0')}`;
+                
+                await tx.paymentRecord.create({
+                    data: {
+                        paymentCode,
+                        projectId: eligibility.projectId,
+                        foremanId: eligibility.foremanId,
+                        type: 'FOREMAN_PAYMENT',
+                        amount: approvedAmount || eligibility.approvedAmount || eligibility.estimatedAmount || 0,
+                        status: 'paid', // Initial status is paid, waiting for admin verification
+                        eligibilityId: eligibility.id,
+                        note: `Simulated payment for Foreman weekly eligibility. Week: ${eligibility.weekNumber}`,
+                        paidAt: updated.paidAt
+                    }
+                });
             }
+
+            return updated;
         });
     }
+
 
     async updateItemStatus(itemId, updateData) {
         return await prisma.foremanWeeklyPaymentEligibilityItem.update({

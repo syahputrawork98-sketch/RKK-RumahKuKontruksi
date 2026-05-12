@@ -30,6 +30,7 @@ model Customer {
   projects       Project[]
   designRequests DesignRequest[]
   paymentRecords PaymentRecord[]
+  administrativeHelperDocuments AdministrativeHelperDocument[]
 
   @@map("customers")
 }
@@ -79,6 +80,7 @@ model Project {
   dailyReports              DailyReport[]
   documents                 ProjectDocument[]
   paymentRecords            PaymentRecord[]
+  administrativeHelperDocuments AdministrativeHelperDocument[]
 
   @@map("projects")
 }
@@ -1130,7 +1132,35 @@ model PaymentRecord {
   
   createdAt        DateTime     @default(now()) @map("created_at")
   updatedAt        DateTime     @updatedAt @map("updated_at")
+  administrativeHelperDocuments AdministrativeHelperDocument[]
+
 
   @@map("payment_records")
 }
 
+
+model AdministrativeHelperDocument {
+  id              String         @id @default(cuid())
+  documentCode    String         @unique @map("document_code")
+  projectId       String         @map("project_id")
+  customerId      String?        @map("customer_id")
+  paymentRecordId String?        @map("payment_record_id")
+  type            String         // INVOICE, BAST, LEGAL_HELPER
+  title           String
+  status          String         @default("draft") // draft, reviewed, released, archived
+  contentJson     Json?          @map("content_json")
+  summaryData     String?        @map("summary_data")
+  note            String?
+  issuedAt        DateTime?      @map("issued_at")
+  releasedAt      DateTime?      @map("released_at")
+  createdById     String?        @map("created_by_id")
+  createdByRole   String?        @map("created_by_role")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  project         Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  customer        Customer?      @relation(fields: [customerId], references: [id])
+  paymentRecord   PaymentRecord? @relation(fields: [paymentRecordId], references: [id])
+
+  @@map("administrative_helper_documents")
+}

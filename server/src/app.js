@@ -24,6 +24,7 @@ import dailyTaskRoutes from './modules/daily-tasks/daily-tasks.routes.js';
 import dailyReportRoutes from './modules/daily-reports/daily-reports.routes.js';
 import projectDocumentRoutes from './modules/project-documents/project-documents.routes.js';
 import paymentRecordsRouter from './modules/payment-records/payment-records.routes.js';
+import administrativeHelperDocumentRoutes from './modules/administrative-helper-documents/administrative-helper-documents.routes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -63,6 +64,7 @@ app.use('/api/daily-tasks', dailyTaskRoutes);
 app.use('/api/daily-reports', dailyReportRoutes);
 app.use('/api/project-documents', projectDocumentRoutes);
 app.use('/api/payment-records', paymentRecordsRouter);
+app.use('/api/administrative-helper-documents', administrativeHelperDocumentRoutes);
 
 // Error Handler
 app.use(errorHandler);

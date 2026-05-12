@@ -24,6 +24,7 @@ import Proyek from "./pages/konsumen/Proyek";
 import Profil from "./pages/konsumen/Profil";
 import DashboardKonsumen from "./pages/konsumen/DashboardKonsumen";
 import PlaceholderKonsumenPage from "./pages/konsumen/PlaceholderKonsumenPage";
+import CustomerAdministrativeHelperDocumentsPage from "./pages/konsumen/CustomerAdministrativeHelperDocumentsPage";
 
 // ===== HALAMAN SUPER ADMIN =====
 import SuperadminLayout from "./layouts/SuperAdminLayout";
@@ -66,6 +67,7 @@ import DesignRequestAdminPage from "./pages/admin/DesignRequestAdminPage";
 import AktivasiProyekAdminPage from "./pages/admin/AktivasiProyekAdminPage";
 import PublikasiKonsumenAdminPage from "./pages/admin/PublikasiKonsumenAdminPage";
 import PembayaranAdminPage from "./pages/admin/PembayaranAdminPage";
+import AdministrativeHelperDocumentsPage from "./pages/admin/AdministrativeHelperDocumentsPage";
 
 // ===== HALAMAN PENGAWAS =====
 import PengawasLayout from "./layouts/PengawasLayout";
@@ -154,7 +156,7 @@ function App() {
             
             {/* Keuangan & Dokumen */}
             <Route path="pembayaran" element={<PlaceholderKonsumenPage title="Pembayaran & Termin" description="Halaman ini menampilkan jadwal termin dan status pembayaran resmi proyek Anda." status="Planned" dos={["Melihat jadwal termin", "Melihat riwayat pembayaran", "Download invoice/kwitansi resmi"]} donts={["Melakukan pembayaran ke rekening pribadi mitra", "Mengubah nilai kontrak tanpa addendum"]} notes="Pembayaran resmi hanya dilakukan ke rekening perusahaan RKK. Pembayaran tidak secara otomatis menciptakan progress proyek." />} />
-            <Route path="dokumen" element={<PlaceholderKonsumenPage title="Pusat Dokumen" description="Akses ke seluruh dokumen legal, kontrak, dan gambar kerja yang telah disetujui." status="Planned" dos={["Download dokumen kontrak", "Melihat gambar kerja final", "Akses Berita Acara (BAST)"]} donts={["Mengedit dokumen yang sudah TTD", "Melihat draft internal yang belum dipublish"]} notes="Pastikan Anda menyimpan salinan digital untuk keperluan administrasi pribadi." />} />
+            <Route path="dokumen" element={<CustomerAdministrativeHelperDocumentsPage />} />
             
             <Route path="profil" element={<Profil />} />
           </Route>
@@ -192,6 +194,8 @@ function App() {
             {/* MONITORING GLOBAL */}
             <Route path="progres-proyek" element={<LaporanProgresGlobal />} />
             <Route path="pembayaran" element={<SuperadminHoldState title="Pembayaran Global" description="Monitoring arus kas global, tagihan konsumen, dan opname mandor." />} />
+            <Route path="pembayaran/helper-documents" element={<AdministrativeHelperDocumentsPage />} />
+
             <Route path="monitoring/material" element={<MonitoringMaterialGlobal />} />
             <Route path="monitoring/laporan-pengawas" element={<AuditLaporanPengawas />} />
             
@@ -231,8 +235,9 @@ function App() {
             <Route path="rab" element={<RabAdminPage />} />
             <Route path="rab/:projectId" element={<DetailRabAdminPage />} />
             <Route path="dokumen/gambar-kerja" element={<AdminHoldState title="Arsip Gambar Kerja" description="Manajemen file gambar kerja final untuk lapangan." />} />
-            <Route path="dokumen/kontrak" element={<AdminHoldState title="Manajemen Kontrak" description="Pusat dokumen kontrak konsumen dan mitra." />} />
-            <Route path="dokumen/final" element={<AdminHoldState title="Dokumen Final / BAST" description="Arsip Berita Acara Serah Terima dan dokumen legalitas akhir." />} />
+            <Route path="dokumen/kontrak" element={<AdministrativeHelperDocumentsPage />} />
+            <Route path="dokumen/final" element={<AdministrativeHelperDocumentsPage />} />
+            <Route path="dokumen/helper" element={<AdministrativeHelperDocumentsPage />} />
             <Route path="dokumen/change-order" element={<AdminHoldState title="Change Order (CO)" description="Pencatatan perubahan pekerjaan dan biaya selama proyek." />} />
 
             {/* MONITORING LAPANGAN */}

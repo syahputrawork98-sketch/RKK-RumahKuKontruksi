@@ -54,6 +54,7 @@ export default [
         items: [
             { label: "RAB Proyek", href: "/admin/rab" },
             { label: "Gambar Kerja", href: "/admin/dokumen/gambar-kerja" },
+            { label: "Helper Dokumen", href: "/admin/dokumen/helper" },
             { label: "Kontrak", href: "/admin/dokumen/kontrak" },
             { label: "Dokumen Final", href: "/admin/dokumen/final" },
             { label: "Change Order", href: "/admin/dokumen/change-order" },

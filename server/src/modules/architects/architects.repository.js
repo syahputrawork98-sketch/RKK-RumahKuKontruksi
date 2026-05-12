@@ -12,8 +12,17 @@ export const findById = async (id) => {
     where: { id, deletedAt: null },
     include: {
       certificates: { where: { deletedAt: null } },
-      experiences: { where: { deletedAt: null } }
+      experiences: { where: { deletedAt: null } },
+      _count: {
+        select: { designRequests: true }
+      }
     }
+  });
+};
+
+export const findByEmail = async (email) => {
+  return await prisma.architect.findFirst({
+    where: { email, deletedAt: null }
   });
 };
 

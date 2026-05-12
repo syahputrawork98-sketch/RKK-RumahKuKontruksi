@@ -40,6 +40,11 @@ export const createArchitect = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Name and Email are required' });
     }
 
+    const existing = await ArchitectRepository.findByEmail(email);
+    if (existing) {
+      return res.status(400).json({ success: false, message: 'Email already exists' });
+    }
+
     const architect = await ArchitectRepository.create({ name, email, ...rest });
     res.status(201).json({ success: true, data: architect });
   } catch (error) {
@@ -50,6 +55,15 @@ export const createArchitect = async (req, res, next) => {
 export const updateArchitect = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { email } = req.body;
+
+    if (email) {
+      const existing = await ArchitectRepository.findByEmail(email);
+      if (existing && existing.id !== id) {
+        return res.status(400).json({ success: false, message: 'Email already exists' });
+      }
+    }
+
     const architect = await ArchitectRepository.update(id, req.body);
     res.json({ success: true, data: architect });
   } catch (error) {
@@ -60,6 +74,16 @@ export const updateArchitect = async (req, res, next) => {
 export const deleteArchitect = async (req, res, next) => {
   try {
     const { id } = req.params;
+    
+    // Check if architect has active design requests
+    const architect = await ArchitectRepository.findById(id);
+    if (architect?._count?.designRequests > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot delete architect with assigned design requests. Please reassign or complete requests first.'
+      });
+    }
+
     await ArchitectRepository.softDelete(id);
     res.json({ success: true, message: 'Architect deactivated successfully' });
   } catch (error) {

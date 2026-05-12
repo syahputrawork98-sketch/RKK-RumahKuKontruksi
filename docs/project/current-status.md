@@ -30,6 +30,10 @@
   - **Batch 33**: Pengawas Journal Review + Progress Verification Stabilization accepted. Pengawas dapat me-review jurnal Mandor dan melakukan Verifikasi Progres Proyek dengan konteks Stage & RAB yang akurat (title/description fix).
   - **Batch 34**: Pengawas Weekly Report + Admin Review Final Stabilization accepted. Alur Laporan Mingguan Pengawas dan Review Admin sudah stabil; fitur Publish Konsumen resmi diletakkan pada status **Hold**; proteksi Progress SOT diperketat (Admin approval tidak mengubah progres fisik).
   - **Batch 35**: Docs Sync & Checkpoint accepted. Sinkronisasi dokumentasi status Batch 31-34 dan penegasan kembali aturan Progress SOT. Tidak ada blocking, aman lanjut Batch 36.
+  - **Batch 36**: Konsumen Dashboard/Profile/Project Monitoring Stabilization accepted. Stabilisasi dashboard, profil, dan monitoring proyek untuk persona Konsumen.
+  - **Batch 37**: Konsumen Timeline + Stage Communication Polish accepted. Stabilisasi timeline proyek konsumen dan panel komunikasi Stage (Admin-Konsumen).
+  - **Batch 38**: Design Request + Design-to-Project Bridge Stabilization accepted. Stabilisasi alur permintaan desain hingga konversi menjadi draft proyek konstruksi.
+  - **Batch 39**: Superadmin CRUD Final Pass accepted. Stabilisasi CRUD persona lokal (Admin, Mandor, Pengawas, Arsitek, Konsumen) dengan proteksi delete safety dan branding "Local Persona Management".
 - **Curated Seed Data**: Database lokal telah dibersihkan dan diisi dengan skenario demo yang utuh (Design Flow, Project Bridge, Active Construction, Finished Project, Superadmin Stats, stage/progress/comment demo). Gunakan `npm run db:seed` (alias dari `node prisma/seed.js`) untuk reset data testing.
 - **Arah Produk**: Konsep fundamental untuk fase konstruksi dan pembayaran rill telah dikunci dalam [RAB-Based Construction Workflow & Payment Model](../product/rab-based-construction-workflow.md) sebagai panduan Batch 4–6.
 

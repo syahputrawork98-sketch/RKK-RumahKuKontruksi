@@ -35,13 +35,27 @@ export const getSupervisorById = async (req, res, next) => {
 
 export const createSupervisor = async (req, res, next) => {
   try {
-    const { name, ...rest } = req.body;
-    if (!name) {
-      return res.status(400).json({ success: false, message: 'Name is required' });
+    const { name, email, ...rest } = req.body;
+    if (!name || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Name and email are required',
+      });
     }
 
-    const supervisor = await SupervisorRepository.create({ name, ...rest });
-    res.status(201).json({ success: true, data: supervisor });
+    const existing = await SupervisorRepository.findByEmail(email);
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email already exists',
+      });
+    }
+
+    const supervisor = await SupervisorRepository.create({ name, email, ...rest });
+    res.status(201).json({
+      success: true,
+      data: supervisor,
+    });
   } catch (error) {
     next(error);
   }
@@ -50,6 +64,15 @@ export const createSupervisor = async (req, res, next) => {
 export const updateSupervisor = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { email } = req.body;
+
+    if (email) {
+      const existing = await SupervisorRepository.findByEmail(email);
+      if (existing && existing.id !== id) {
+        return res.status(400).json({ success: false, message: 'Email already exists' });
+      }
+    }
+
     const supervisor = await SupervisorRepository.update(id, req.body);
     res.json({ success: true, data: supervisor });
   } catch (error) {
@@ -60,6 +83,16 @@ export const updateSupervisor = async (req, res, next) => {
 export const deleteSupervisor = async (req, res, next) => {
   try {
     const { id } = req.params;
+    
+    // Check if supervisor has active projects
+    const supervisor = await SupervisorRepository.findById(id);
+    if (supervisor?._count?.projects > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot delete supervisor with assigned projects. Please reassign projects first.'
+      });
+    }
+
     await SupervisorRepository.softDelete(id);
     res.json({ success: true, message: 'Supervisor deactivated successfully' });
   } catch (error) {

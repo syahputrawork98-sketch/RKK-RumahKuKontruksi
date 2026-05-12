@@ -25,6 +25,12 @@ export const findById = async (id) => {
   });
 };
 
+export const findByEmail = async (email) => {
+  return await prisma.supervisor.findFirst({
+    where: { email, deletedAt: null }
+  });
+};
+
 export const create = async (data) => {
   return await prisma.supervisor.create({ data });
 };

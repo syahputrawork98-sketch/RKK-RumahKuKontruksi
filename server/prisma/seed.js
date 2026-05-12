@@ -7,6 +7,8 @@ import { seedProjects } from './seed/modules/projects.seed.js';
 import { seedRab } from './seed/modules/rab.seed.js';
 import { seedStagesAndProgress } from './seed/modules/stages-progress.seed.js';
 import { seedMaterialRequests } from './seed/modules/material-requests.seed.js';
+import { seedFieldIssues } from './seed/modules/field-issues.seed.js';
+import { seedDailyOperations } from './seed/modules/daily-operations.seed.js';
 
 
 const prisma = new PrismaClient();
@@ -190,89 +192,15 @@ async function main() {
   // 30D-1: MATERIAL REQUESTS (Modularized)
   await seedMaterialRequests(prisma, context);
 
+  // 30D-2: FIELD ISSUES & DAILY OPERATIONS (Modularized)
+  await seedFieldIssues(prisma, context);
+  await seedDailyOperations(prisma, context);
+
   // Destructure variables needed for downstream feature seeds
   const { activeProject1: activeProject, activeProject2, finishedProject1: finishedProject } = context.projects;
   const { itemSemen1: item1, itemBesi1: item2 } = context.rabItems;
   const { stageActive1_1: stage1, stageActive1_2: stage2, stageFinished1: finishedStage } = context.stages;
 
-  // 8. SCENARIO 6: FIELD ISSUES (KENDALA LAPANGAN)
-  console.log('Seeding Scenario 6: Field Issues...');
-
-  await prisma.fieldIssue.create({
-    data: {
-      id: 'issue-active-001',
-      issueCode: 'ISSUE-24-0001',
-      projectId: activeProject.id,
-      foremanId: foreman1.id,
-      supervisorId: supervisor1.id,
-      title: 'Material Semen Telat',
-      description: 'Pengiriman semen dari pusat logistik belum sampai, pekerjaan pengecoran tertunda.',
-      category: 'Logistik',
-      priority: 'high',
-      status: 'open',
-      stageId: stage2.id
-    }
-  });
-
-  await prisma.fieldIssue.create({
-    data: {
-      id: 'issue-active-002',
-      issueCode: 'ISSUE-24-0002',
-      projectId: activeProject.id,
-      foremanId: foreman1.id,
-      title: 'Cuaca Hujan Lebat',
-      description: 'Pekerjaan outdoor dihentikan sementara karena hujan deras.',
-      category: 'Alam',
-      priority: 'medium',
-      status: 'in_review'
-    }
-  });
-
-  console.log('Seeding Scenario 7: Daily Tasks & Reports...');
-
-  const dailyTask1 = await prisma.dailyTask.create({
-    data: {
-      id: 'task-active-001',
-      projectId: activeProject.id,
-      foremanId: foreman1.id,
-      stageId: stage2.id,
-      rabItemId: item2.id,
-      title: 'Persiapan Bekisting Pondasi',
-      description: 'Menyiapkan bekisting untuk pengecoran pondasi blok A',
-      targetDate: new Date(),
-      status: 'completed',
-      priority: 'high'
-    }
-  });
-
-  const dailyTask2 = await prisma.dailyTask.create({
-    data: {
-      id: 'task-active-002',
-      projectId: activeProject.id,
-      foremanId: foreman1.id,
-      stageId: stage2.id,
-      title: 'Pembersihan Area',
-      targetDate: new Date(),
-      status: 'todo',
-      priority: 'medium'
-    }
-  });
-
-  await prisma.dailyReport.create({
-    data: {
-      id: 'report-active-001',
-      reportCode: 'DR-2024-001',
-      projectId: activeProject.id,
-      foremanId: foreman1.id,
-      date: new Date(),
-      status: 'draft',
-      weatherSummary: 'Cerah di pagi hari, hujan ringan di sore',
-      workerCount: 5,
-      activitySummary: 'Telah menyelesaikan persiapan bekisting pondasi. Sempat terhenti sore karena hujan.',
-      blockerSummary: 'Hujan rintik di sore hari memperlambat pekerjaan.',
-      taskId: dailyTask1.id
-    }
-  });
 
   console.log('Seeding Scenario 8: Project Documents...');
 

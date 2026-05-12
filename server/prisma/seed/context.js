@@ -21,6 +21,9 @@ export const createSeedContext = () => {
     progressLogs: {},
     comments: {},
     materialRequests: {},
+    fieldIssues: {},
+    dailyTasks: {},
+    dailyReports: {},
   };
 };
 

@@ -9,6 +9,7 @@ async function main() {
   console.log('Cleaning up existing data...');
   await prisma.paymentRecord.deleteMany({});
   await prisma.administrativeHelperDocument.deleteMany({});
+  await prisma.appNotification.deleteMany({});
   await prisma.projectDocument.deleteMany({});
   await prisma.dailyReport.deleteMany({});
   await prisma.dailyTask.deleteMany({});
@@ -1541,6 +1542,50 @@ async function main() {
       }
     ]
   });
+
+  // ===== APP NOTIFICATIONS =====
+  console.log('Seeding App Notifications...');
+  await prisma.appNotification.createMany({
+    data: [
+      {
+        recipientRole: 'admin',
+        recipientId: 'admin-001',
+        actorRole: 'foreman',
+        actorId: 'foreman-001',
+        eventType: 'FIELD_ISSUE_CREATED',
+        entityType: 'FieldIssue',
+        title: 'Kendala Lapangan Baru',
+        message: 'Mandor Mulyadi melaporkan kendala cuaca ekstrem di proyek BSD.',
+        linkPath: '/admin/monitoring/kendala',
+        createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'supervisor',
+        recipientId: 'supervisor-001',
+        actorRole: 'foreman',
+        actorId: 'foreman-001',
+        eventType: 'FIELD_ISSUE_CREATED',
+        entityType: 'FieldIssue',
+        title: 'Kendala Baru Perlu Verifikasi',
+        message: 'Ada laporan kendala teknis dari Mandor Mulyadi.',
+        linkPath: '/pengawas/kendala',
+        createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'customer',
+        recipientId: 'customer-002',
+        actorRole: 'admin',
+        actorId: 'admin-001',
+        eventType: 'DOCUMENT_RELEASED',
+        entityType: 'AdministrativeHelperDocument',
+        title: 'Dokumen Baru Dirilis',
+        message: 'Admin telah merilis draft BAST untuk Anda tinjau.',
+        linkPath: '/konsumen/dokumen',
+        createdAt: new Date(Date.now() - 30 * 60 * 1000)
+      }
+    ]
+  });
+
 
 
   console.log('--- CURATED SEED DATA CLEANUP FINISHED ---');

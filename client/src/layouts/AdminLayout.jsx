@@ -52,10 +52,11 @@ const AdminLayout = () => {
                     isCollapsed={isCollapsed}
                     theme={theme}
                     onToggleTheme={toggleTheme}
-                    notificationService={notificationService}
-                    dummyNotifications={dummyNotifications}
+                    recipientRole="admin"
+                    recipientId={selectedAdmin?.id}
                     showAdminSwitcher={true}
                 />
+
 
                 {/* PAGE CONTENT VIA OUTLET */}
                 <main className="dashboard-page flex-1 mt-16 p-6 overflow-y-auto">

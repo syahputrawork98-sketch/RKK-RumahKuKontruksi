@@ -1,4 +1,5 @@
 import * as Repository from './administrative-helper-documents.repository.js';
+import { createNotification } from '../notifications/notifications.service.js';
 
 export const getDocuments = async (filters) => {
   return await Repository.findAll(filters);
@@ -18,5 +19,31 @@ export const createDraft = async (data) => {
 };
 
 export const patchStatus = async (id, status) => {
-  return await Repository.updateStatus(id, status);
+  const document = await Repository.updateStatus(id, status);
+
+  if (status === 'released') {
+    // Fetch full detail for notification
+    const detail = await Repository.findById(id);
+    if (detail && detail.customerId) {
+      try {
+        await createNotification({
+          recipientRole: 'customer',
+          recipientId: detail.customerId,
+          actorRole: 'admin',
+          actorId: detail.createdById,
+          eventType: 'DOCUMENT_RELEASED',
+          entityType: 'AdministrativeHelperDocument',
+          entityId: detail.id,
+          title: 'Dokumen Baru Dirilis',
+          message: `Admin telah merilis dokumen "${detail.title}" untuk proyek Anda.`,
+          linkPath: '/konsumen/dokumen'
+        });
+      } catch (err) {
+        console.error('Document Notification Error:', err);
+      }
+    }
+  }
+
+  return document;
 };
+

@@ -2,12 +2,17 @@
 import React from "react";
 import LogNotifikasi from "./LogNotifikasi";
 
-const TopbarNotification = ({ notifList }) => {
+const TopbarNotification = ({ notifList, onMarkRead, onMarkAllRead }) => {
     return (
         <div className="absolute right-0 mt-3 z-50">
-            <LogNotifikasi notifList={notifList} />
+            <LogNotifikasi 
+                notifList={notifList} 
+                onMarkRead={onMarkRead}
+                onMarkAllRead={onMarkAllRead}
+            />
         </div>
     );
 };
+
 
 export default TopbarNotification;

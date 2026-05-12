@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { createNotification } from '../notifications/notifications.service.js';
 
 const prisma = new PrismaClient();
 
@@ -48,7 +49,7 @@ export const createIssue = async (data) => {
   });
   const issueCode = `ISSUE-${projectId.substring(0,4).toUpperCase()}-${(count + 1).toString().padStart(4, '0')}`;
 
-  return prisma.fieldIssue.create({
+  const issue = await prisma.fieldIssue.create({
     data: {
       issueCode,
       projectId,
@@ -62,6 +63,49 @@ export const createIssue = async (data) => {
       rabItemId
     }
   });
+
+  // Trigger Notifications
+  try {
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+      select: { supervisorId: true, adminId: true, name: true }
+    });
+
+    if (project) {
+      const notificationData = {
+        actorRole: 'foreman',
+        actorId: foremanId,
+        eventType: 'FIELD_ISSUE_CREATED',
+        entityType: 'FieldIssue',
+        entityId: issue.id,
+        title: 'Kendala Lapangan Baru',
+        message: `Mandor melaporkan kendala "${title}" di proyek ${project.name}`,
+        linkPath: '/admin/monitoring/kendala' // Admin link
+      };
+
+      if (project.adminId) {
+        await createNotification({ 
+          ...notificationData, 
+          recipientRole: 'admin', 
+          recipientId: project.adminId 
+        });
+      }
+
+      if (project.supervisorId) {
+        await createNotification({ 
+          ...notificationData, 
+          recipientRole: 'supervisor', 
+          recipientId: project.supervisorId,
+          linkPath: '/pengawas/kendala' // Supervisor link
+        });
+      }
+    }
+  } catch (err) {
+    console.error('FieldIssue Notification Error:', err);
+  }
+
+  return issue;
+
 };
 
 export const updateStatus = async (id, status, actorId, resolutionNote) => {

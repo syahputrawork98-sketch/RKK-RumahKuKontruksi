@@ -13,11 +13,13 @@ import {
   FaTimes, 
   FaChevronDown,
   FaQuestionCircle,
-  FaUserCog
+  FaUserCog,
+  FaCheckDouble
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import projectService from "../../services/projectService";
+import notificationService from "../../services/notificationService";
 
 const CustomerTopbar = () => {
   const { customers, selectedCustomerId, selectedCustomer, handleSelectCustomer, loading: personaLoading } = useCustomerPersona();
@@ -27,36 +29,73 @@ const CustomerTopbar = () => {
   const [isPersonaListOpen, setIsPersonaListOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
   
+  const [notifList, setNotifList] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Fetch first active project for context badge
-  useEffect(() => {
-    const fetchActiveProject = async () => {
-      if (selectedCustomerId) {
-        try {
-          const response = await projectService.getProjects({ 
-            customerId: selectedCustomerId,
-            status: 'active' 
-          });
-          if (response.success && response.data.length > 0) {
-            setActiveProject(response.data[0]);
+  const fetchActiveProject = async () => {
+    if (selectedCustomerId) {
+      try {
+        const response = await projectService.getProjects({ 
+          customerId: selectedCustomerId,
+          status: 'active' 
+        });
+        if (response.success && response.data.length > 0) {
+          setActiveProject(response.data[0]);
+        } else {
+          const allProj = await projectService.getProjects({ customerId: selectedCustomerId });
+          if (allProj.success && allProj.data.length > 0) {
+            setActiveProject(allProj.data[0]);
           } else {
-            // Try any project if no active one
-            const allProj = await projectService.getProjects({ customerId: selectedCustomerId });
-            if (allProj.success && allProj.data.length > 0) {
-              setActiveProject(allProj.data[0]);
-            } else {
-              setActiveProject(null);
-            }
+            setActiveProject(null);
           }
-        } catch (err) {
-          console.error("Failed to fetch context project:", err);
         }
+      } catch (err) {
+        console.error("Failed to fetch context project:", err);
       }
-    };
+    }
+  };
+
+  const fetchNotifications = async () => {
+    if (!selectedCustomerId) return;
+    try {
+      const [listRes, countRes] = await Promise.all([
+        notificationService.getNotifications('customer', selectedCustomerId),
+        notificationService.getUnreadCount('customer', selectedCustomerId)
+      ]);
+      setNotifList(listRes.data || []);
+      setUnreadCount(countRes.data?.count || 0);
+    } catch (err) {
+      console.error("Failed to fetch customer notifications:", err);
+    }
+  };
+
+  useEffect(() => {
     fetchActiveProject();
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000);
+    return () => clearInterval(interval);
   }, [selectedCustomerId]);
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      await notificationService.markAsRead(id);
+      fetchNotifications();
+    } catch (err) {
+      console.error("Error marking as read:", err);
+    }
+  };
+
+  const handleMarkAllRead = async () => {
+    try {
+      await notificationService.markAllAsRead('customer', selectedCustomerId);
+      fetchNotifications();
+    } catch (err) {
+      console.error("Error marking all read:", err);
+    }
+  };
 
   const navLinks = [
     { name: "Beranda", path: "/konsumen/dashboard", icon: <FaHome /> },
@@ -70,12 +109,6 @@ const CustomerTopbar = () => {
     { name: "Permintaan Desain", path: "/konsumen/permintaan-desain", icon: <FaProjectDiagram /> },
     { name: "Pembayaran", path: "/konsumen/pembayaran", icon: <FaWallet /> },
     { name: "Dokumen", path: "/konsumen/dokumen", icon: <FaFileAlt /> },
-  ];
-
-  const notifications = [
-    { id: 1, text: "Progress minggu ini sudah dipublish", time: "2 jam yang lalu", type: "progress" },
-    { id: 2, text: "[Hold] Fitur riwayat pembayaran akan tersedia setelah integrasi invoice.", time: "Local Dev", type: "payment" },
-    { id: 3, text: "Gunakan Persona Switcher untuk tes data proyek berbeda.", time: "Info", type: "info" },
   ];
 
   const handleLogout = () => {
@@ -165,7 +198,9 @@ const CustomerTopbar = () => {
                 className={`p-2.5 rounded-full transition-colors relative ${isNotifOpen ? "bg-teal-50 text-teal-600" : "text-gray-400 hover:bg-gray-50 hover:text-teal-600"}`}
               >
                 <FaBell size={20} />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                )}
               </button>
 
               <AnimatePresence>
@@ -179,28 +214,46 @@ const CustomerTopbar = () => {
                       className="absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-20"
                     >
                       <div className="p-4 bg-teal-600 text-white flex justify-between items-center">
-                        <h3 className="font-bold">Notifikasi</h3>
-                        <button 
-                          className="text-xs bg-white/20 px-2 py-1 rounded cursor-not-allowed opacity-70"
-                          onClick={(e) => { e.stopPropagation(); alert("Fitur notifikasi (API) sedang disiapkan (Hold)."); }}
-                        >
-                          Tandai Dibaca
-                        </button>
+                        <h3 className="font-bold text-sm uppercase tracking-widest">Notifikasi</h3>
+                        {notifList.some(n => !n.readAt) && (
+                          <button 
+                            className="text-[10px] bg-white/20 px-2 py-1 rounded hover:bg-white/30 transition-colors uppercase font-black"
+                            onClick={(e) => { e.stopPropagation(); handleMarkAllRead(); }}
+                          >
+                            Mark All Read
+                          </button>
+                        )}
                       </div>
                       <div className="max-h-96 overflow-y-auto">
-                        {notifications.map((notif) => (
-                          <div key={notif.id} className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer">
-                            <p className="text-sm text-gray-800 mb-1 leading-relaxed">{notif.text}</p>
-                            <p className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">{notif.time}</p>
+                        {notifList.length === 0 ? (
+                          <div className="p-8 text-center text-gray-400 italic text-xs">
+                            Tidak ada notifikasi baru.
                           </div>
-                        ))}
+                        ) : (
+                          notifList.map((notif) => (
+                            <div 
+                              key={notif.id} 
+                              onClick={() => !notif.readAt && handleMarkAsRead(notif.id)}
+                              className={`p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer relative ${!notif.readAt ? "bg-teal-50/30" : ""}`}
+                            >
+                              {!notif.readAt && <div className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-8 bg-teal-500 rounded-full" />}
+                              <p className={`text-sm mb-1 leading-relaxed ${!notif.readAt ? "font-bold text-teal-900" : "text-gray-600"}`}>
+                                {notif.title}
+                              </p>
+                              <p className="text-[11px] text-gray-500 line-clamp-2 mb-1">{notif.message}</p>
+                              <p className="text-[9px] text-gray-400 uppercase font-black tracking-wider">
+                                {new Date(notif.createdAt).toLocaleDateString('id-ID')} • {new Date(notif.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                              </p>
+                            </div>
+                          ))
+                        )}
                       </div>
                       <div className="p-3 text-center bg-gray-50">
                         <button 
-                          className="text-xs text-teal-600 font-bold hover:underline opacity-50 cursor-help"
-                          onClick={() => alert("Halaman riwayat notifikasi belum tersedia (Phase Local CRUD).")}
+                          className="text-[10px] text-teal-600 font-black uppercase tracking-widest hover:underline"
+                          onClick={() => navigate("/konsumen/dokumen")}
                         >
-                          Lihat Semua
+                          Lihat Aktivitas
                         </button>
                       </div>
                     </motion.div>
@@ -253,7 +306,6 @@ const CustomerTopbar = () => {
                         <button 
                           onClick={() => {
                             setIsPersonaListOpen(!isPersonaListOpen);
-                            // Keep dropdown open when toggling persona list
                           }}
                           className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm text-teal-700 bg-teal-50 hover:bg-teal-100 transition-all font-bold"
                         >
@@ -285,9 +337,6 @@ const CustomerTopbar = () => {
                                   <span className="truncate">{c.name}</span>
                                 </button>
                               ))}
-                              {customers.length === 0 && (
-                                <p className="text-[10px] text-gray-400 text-center py-2 italic">Data konsumen tidak tersedia</p>
-                              )}
                             </motion.div>
                           )}
                         </AnimatePresence>

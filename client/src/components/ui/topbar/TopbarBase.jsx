@@ -11,14 +11,18 @@ import ArchitectSwitcher from "./ArchitectSwitcher";
 import AdminSwitcher from "./AdminSwitcher";
 import SuperadminSwitcher from "./SuperadminSwitcher";
 
+import notificationService from "../../../services/notificationService";
+
 const TopbarBase = ({
     title,
     user,
-    notificationService,
+    // notificationService, // Remove or rename to avoid conflict
     dummyNotifications,
     isCollapsed,
     theme,
     onToggleTheme,
+    recipientRole,
+    recipientId,
     showSupervisorSwitcher = false,
     showForemanSwitcher = false,
     showArchitectSwitcher = false,
@@ -29,20 +33,47 @@ const TopbarBase = ({
     const [openMenu, setOpenMenu] = useState(false);
     const [openNotif, setOpenNotif] = useState(false);
     const [notifList, setNotifList] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+
+    const fetchNotifications = async () => {
+        if (!recipientRole || !recipientId) return;
+        try {
+            const [listRes, countRes] = await Promise.all([
+                notificationService.getNotifications(recipientRole, recipientId),
+                notificationService.getUnreadCount(recipientRole, recipientId)
+            ]);
+            setNotifList(listRes.data || []);
+            setUnreadCount(countRes.data?.count || 0);
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+        }
+    };
 
     useEffect(() => {
-        setNotifList(dummyNotifications || []);
+        fetchNotifications();
+        // Polling every 60 seconds (since no realtime yet)
+        const interval = setInterval(fetchNotifications, 60000);
+        return () => clearInterval(interval);
+    }, [recipientRole, recipientId]);
 
-        if (notificationService) {
-            const unsub = notificationService.subscribe((notif) =>
-                setNotifList((prev) => [{ ...notif, read: false }, ...prev])
-            );
-
-            return () => unsub();
+    const handleMarkAsRead = async (id) => {
+        try {
+            await notificationService.markAsRead(id);
+            fetchNotifications();
+        } catch (error) {
+            console.error("Error marking as read:", error);
         }
-    }, []);
+    };
 
-    const unreadCount = notifList.filter((n) => !n.read).length;
+    const handleMarkAllRead = async () => {
+        try {
+            await notificationService.markAllAsRead(recipientRole, recipientId);
+            fetchNotifications();
+        } catch (error) {
+            console.error("Error marking all read:", error);
+        }
+    };
+
 
     return (
         <header
@@ -96,7 +127,11 @@ const TopbarBase = ({
                     </button>
 
                     {openNotif && (
-                        <TopbarNotification notifList={notifList} />
+                        <TopbarNotification 
+                            notifList={notifList} 
+                            onMarkRead={handleMarkAsRead}
+                            onMarkAllRead={handleMarkAllRead}
+                        />
                     )}
                 </div>
 

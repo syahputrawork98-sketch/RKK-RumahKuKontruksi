@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { createNotification } from '../notifications/notifications.service.js';
 
 const prisma = new PrismaClient();
 
@@ -71,13 +72,40 @@ export const updateReport = async (id, data) => {
 };
 
 export const submitReport = async (id) => {
-  return prisma.dailyReport.update({
+  const report = await prisma.dailyReport.update({
     where: { id },
     data: { 
       status: 'submitted',
       submittedAt: new Date()
+    },
+    include: {
+      project: { select: { name: true, adminId: true } },
+      supervisor: { select: { id: true, name: true } }
     }
   });
+
+  // Trigger Notification to Admin
+  if (report.project?.adminId) {
+    try {
+      await createNotification({
+        recipientRole: 'admin',
+        recipientId: report.project.adminId,
+        actorRole: 'supervisor',
+        actorId: report.supervisorId,
+        eventType: 'DAILY_REPORT_SUBMITTED',
+        entityType: 'DailyReport',
+        entityId: report.id,
+        title: 'Laporan Mingguan Masuk',
+        message: `Pengawas ${report.supervisor?.name || ''} telah mensubmit laporan untuk proyek ${report.project.name}`,
+        linkPath: '/admin/laporan-mingguan-pengawas'
+      });
+    } catch (err) {
+      console.error('DailyReport Notification Error:', err);
+    }
+  }
+
+  return report;
+
 };
 
 export const reviewReport = async (id, supervisorId, status, note) => {

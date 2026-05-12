@@ -1164,3 +1164,27 @@ model AdministrativeHelperDocument {
 
   @@map("administrative_helper_documents")
 }
+
+model AppNotification {
+  id            String    @id @default(cuid())
+  recipientRole String    @map("recipient_role") // admin, superadmin, supervisor, foreman, architect, customer
+  recipientId   String    @map("recipient_id")
+  
+  actorRole     String?   @map("actor_role")
+  actorId       String?   @map("actor_id")
+  
+  eventType     String    @map("event_type") // e.g. FIELD_ISSUE_CREATED
+  entityType    String?   @map("entity_type") // e.g. FieldIssue
+  entityId      String?   @map("entity_id")
+  
+  title         String
+  message       String
+  linkPath      String?   @map("link_path")
+  
+  readAt        DateTime? @map("read_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("app_notifications")
+}
+

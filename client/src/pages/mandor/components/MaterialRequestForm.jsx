@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FiX, FiPlus, FiTrash2, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import { FiX, FiPlus, FiTrash2, FiAlertCircle, FiCheckCircle, FiInfo } from 'react-icons/fi';
 import projectService from '../../../services/projectService';
 import materialRequestService from '../../../services/materialRequestService';
 import { useForemanPersona } from '../../../context/ForemanPersonaContext';
 
 const MaterialRequestForm = ({ onClose, onSuccess }) => {
-  const { selectedForemanId, selectedForeman } = useForemanPersona();
+  const { selectedForemanId } = useForemanPersona();
   const [projects, setProjects] = useState([]);
   const [stages, setStages] = useState([]);
   const [rabItems, setRabItems] = useState([]);
@@ -20,20 +20,16 @@ const MaterialRequestForm = ({ onClose, onSuccess }) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [loadingProjects, setLoadingProjects] = useState(false);
   const [loadingStages, setLoadingStages] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
       if (!selectedForemanId) return;
-      setLoadingProjects(true);
       try {
         const response = await projectService.getProjects({ foremanId: selectedForemanId });
         setProjects(response.data || []);
       } catch (error) {
         console.error('Failed to fetch projects:', error);
-      } finally {
-        setLoadingProjects(false);
       }
     };
     fetchProjects();

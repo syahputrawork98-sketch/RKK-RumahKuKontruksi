@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+
 
 /**
  * Generic API client for RKK data service
@@ -20,12 +21,21 @@ const apiClient = {
       }
     }
     
+    const isFormData = options.body instanceof FormData;
+    
+    const defaultHeaders = isFormData ? {} : { 'Content-Type': 'application/json' };
+
     const defaultOptions = {
       headers: {
-        'Content-Type': 'application/json',
+        ...defaultHeaders,
+        ...options.headers,
       },
       ...options,
     };
+
+    if (options.body && !isFormData && typeof options.body === 'object') {
+      defaultOptions.body = JSON.stringify(options.body);
+    }
 
     try {
       const response = await fetch(url, defaultOptions);
@@ -50,7 +60,7 @@ const apiClient = {
     return this.request(endpoint, {
       ...options,
       method: 'POST',
-      body: JSON.stringify(body),
+      body: body,
     });
   },
 
@@ -58,9 +68,10 @@ const apiClient = {
     return this.request(endpoint, {
       ...options,
       method: 'PATCH',
-      body: JSON.stringify(body),
+      body: body,
     });
   },
+
 
   delete(endpoint, options = {}) {
     return this.request(endpoint, { ...options, method: 'DELETE' });

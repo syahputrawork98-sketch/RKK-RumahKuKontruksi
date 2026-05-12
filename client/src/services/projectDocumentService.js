@@ -24,6 +24,13 @@ const projectDocumentService = {
     const response = await apiClient.post('/project-documents', data);
     return response.data;
   },
+  
+  uploadDocument: async (formData) => {
+    const response = await apiClient.post('/project-documents/upload', formData);
+    return response.data;
+  },
+
+
 
   updateDocumentStatus: async (id, status) => {
     const response = await apiClient.patch(`/project-documents/${id}/status`, { status });

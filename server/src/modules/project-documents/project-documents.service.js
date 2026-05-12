@@ -14,8 +14,18 @@ export const getDocuments = async (filters = {}) => {
 
   const documents = await prisma.projectDocument.findMany({
     where,
+    include: {
+      project: {
+        select: {
+          id: true,
+          projectCode: true,
+          name: true
+        }
+      }
+    },
     orderBy: { createdAt: 'desc' }
   });
+
 
   return documents;
 };

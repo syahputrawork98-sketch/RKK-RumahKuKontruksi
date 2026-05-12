@@ -37,6 +37,43 @@ export const createDocument = async (req, res) => {
   }
 };
 
+export const uploadDocument = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: 'No file uploaded' });
+    }
+
+    const { projectId, title, description, category, visibility, uploadedByRole, uploadedById, stageId, dailyReportId, fieldIssueId } = req.body;
+
+    // Basic validation
+    if (!projectId || !title || !category || !visibility) {
+      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    }
+
+    const documentData = {
+      projectId,
+      title,
+      description,
+      category,
+      visibility,
+      fileName: req.file.originalname,
+      fileUrl: `/uploads/documents/${req.file.filename}`,
+      mimeType: req.file.mimetype,
+      size: req.file.size,
+      uploadedByRole,
+      uploadedById,
+      stageId,
+      dailyReportId,
+      fieldIssueId
+    };
+
+    const document = await projectDocumentService.createDocument(documentData);
+    res.status(201).json({ success: true, data: document });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
 export const updateDocumentStatus = async (req, res) => {
   try {
     const { status } = req.body;

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { FiCamera, FiMaximize2, FiCalendar, FiFile } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import projectDocumentService from "../../services/projectDocumentService";
+import { API_BASE_URL } from "../../services/apiClient";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import UploadDocumentModal from "../../components/common/UploadDocumentModal";
 
 const DokumentasiLapanganMandorPage = () => {
     const { selectedForemanId } = useForemanPersona();
@@ -11,26 +13,35 @@ const DokumentasiLapanganMandorPage = () => {
     const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
+    const fetchDocuments = async () => {
+        if (!selectedForemanId) return;
+        try {
+            setLoading(true);
+            const data = await projectDocumentService.getDocuments({ category: 'lapangan' });
+            setDocuments(data.data || []);
+        } catch (err) {
+            setError(err.message || "Gagal memuat data dokumentasi");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (!selectedForemanId) {
             setLoading(false);
             return;
         }
-        const fetchDocuments = async () => {
-            try {
-                setLoading(true);
-                const data = await projectDocumentService.getDocuments({ category: 'lapangan' });
-                // In a real app we'd filter by projects where foreman is assigned.
-                setDocuments(data.data || []);
-            } catch (err) {
-                setError(err.message || "Gagal memuat data dokumentasi");
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchDocuments();
     }, [selectedForemanId]);
+
+    const getFileUrl = (url) => {
+        if (!url) return "https://placehold.co/400x300?text=No+Image";
+        if (url.startsWith('http')) return url;
+        const base = API_BASE_URL.replace('/api', '');
+        return `${base}${url}`;
+    };
 
     if (!selectedForemanId && !loading) {
         return (
@@ -50,7 +61,7 @@ const DokumentasiLapanganMandorPage = () => {
     }
 
     if (error) {
-        return <RoleDataState type="error" title={error} onRetry={() => window.location.reload()} />;
+        return <RoleDataState type="error" title={error} onRetry={() => fetchDocuments()} />;
     }
 
     const filteredDocs = documents.filter(doc => {
@@ -73,10 +84,22 @@ const DokumentasiLapanganMandorPage = () => {
                     <h2 className="text-2xl font-extrabold tracking-tight">Dokumentasi Lapangan</h2>
                     <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Unggah bukti visual pekerjaan harian untuk keperluan logbook dan verifikasi.</p>
                 </div>
-                <button className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-2xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all">
+                <button 
+                    onClick={() => setIsUploadModalOpen(true)}
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--dashboard-primary)] text-white rounded-2xl font-bold text-sm shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] transition-all"
+                >
                     <FiCamera /> Ambil & Unggah Foto
                 </button>
             </div>
+
+            <UploadDocumentModal 
+                isOpen={isUploadModalOpen}
+                onClose={() => setIsUploadModalOpen(false)}
+                onSuccess={fetchDocuments}
+                uploadedByRole="mandor"
+                uploadedById={selectedForemanId}
+                category="lapangan"
+            />
 
             {/* SUBTABS */}
             <div className="flex items-center gap-2 border-b border-[var(--dashboard-border)] pb-0 overflow-x-auto scrollbar-hide">
@@ -104,7 +127,7 @@ const DokumentasiLapanganMandorPage = () => {
                     <div key={doc.id} className="dashboard-card p-0 overflow-hidden group">
                         <div className="aspect-video relative overflow-hidden bg-slate-200 flex items-center justify-center">
                             {doc.mimeType?.startsWith('image/') ? (
-                                <img src={doc.fileUrl || "https://placehold.co/400x300?text=No+Image"} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt={doc.title} />
+                                <img src={getFileUrl(doc.fileUrl)} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt={doc.title} />
                             ) : (
                                 <FiFile size={48} className="text-slate-400 group-hover:scale-110 transition-all duration-500" />
                             )}
@@ -115,7 +138,7 @@ const DokumentasiLapanganMandorPage = () => {
                             </div>
                             <div className="absolute top-2 left-2">
                                 <span className="px-2 py-0.5 bg-black/60 text-white text-[8px] font-black uppercase rounded backdrop-blur-sm border border-white/20">
-                                    {doc.projectId}
+                                    {doc.project?.projectCode || doc.projectId}
                                 </span>
                             </div>
                         </div>

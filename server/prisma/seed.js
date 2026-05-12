@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import { cleanupDatabase } from './seed/cleanup.js';
 import { createSeedContext } from './seed/context.js';
+import { seedPersonas } from './seed/modules/personas.seed.js';
+import { seedCustomers } from './seed/modules/customers.seed.js';
+
 
 const prisma = new PrismaClient();
 
@@ -10,293 +13,18 @@ async function main() {
   const context = createSeedContext();
 
   // 1. MASTER ROLES
-  console.log('Seeding Master Roles (Admins, Architects, Foremen, Supervisors)...');
-  
-  const admin1 = await prisma.admin.create({
-    data: {
-      id: 'admin-001',
-      name: 'Budi Santoso',
-      email: 'budi.admin@rkk.local',
-      phone: '081234567001',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=admin-001'
-    }
-  });
-
-  const admin2 = await prisma.admin.create({
-    data: {
-      id: 'admin-002',
-      name: 'Siti Rahma',
-      email: 'siti.admin@rkk.local',
-      phone: '081234567002',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=admin-002'
-    }
-  });
-
-  await prisma.admin.create({
-    data: {
-      id: 'admin-003',
-      name: 'Agus Pranoto',
-      email: 'agus.admin@rkk.local',
-      phone: '081234567003',
-      status: 'inactive',
-      avatar: 'https://i.pravatar.cc/150?u=admin-003'
-    }
-  });
-
-  await prisma.superadmin.create({
-    data: {
-      id: 'superadmin-001',
-      name: 'Superadmin RKK',
-      email: 'superadmin@rkk.local',
-      phone: '081234567000',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=superadmin-001'
-    }
-  });
-
-  await prisma.superadmin.createMany({
-    data: [
-      {
-        id: 'superadmin-002',
-        name: 'Maya Kusumawardani',
-        email: 'maya.superadmin@rkk.local',
-        phone: '081234567011',
-        status: 'active',
-        avatar: 'https://i.pravatar.cc/150?u=superadmin-002'
-      },
-      {
-        id: 'superadmin-003',
-        name: 'Rizal Audit',
-        email: 'rizal.audit@rkk.local',
-        phone: '081234567012',
-        status: 'inactive',
-        avatar: 'https://i.pravatar.cc/150?u=superadmin-003'
-      }
-    ]
-  });
-
-  const arch1 = await prisma.architect.create({
-    data: {
-      id: 'architect-001',
-      name: 'Andika Pratama',
-      email: 'andika.arch@rkk.local',
-      phone: '081122334401',
-      employmentType: 'fulltime',
-      specialization: 'Modern Minimalist',
-      experienceYears: 8,
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=architect-001'
-    }
-  });
-
-  const arch2 = await prisma.architect.create({
-    data: {
-      id: 'architect-002',
-      name: 'Nabila Putri',
-      email: 'nabila.arch@rkk.local',
-      phone: '081122334402',
-      employmentType: 'freelance',
-      specialization: 'Interior Design',
-      experienceYears: 5,
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=architect-002'
-    }
-  });
-
-  const arch3 = await prisma.architect.create({
-    data: {
-      id: 'architect-003',
-      name: 'Raka Wicaksono',
-      email: 'raka.arch@rkk.local',
-      phone: '081122334403',
-      employmentType: 'freelance',
-      specialization: 'Industrial / Commercial',
-      experienceYears: 12,
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=architect-003'
-    }
-  });
-
-  const arch4 = await prisma.architect.create({
-    data: {
-      id: 'architect-004',
-      name: 'Tania Larasati',
-      email: 'tania.arch@rkk.local',
-      phone: '081122334404',
-      employmentType: 'fulltime',
-      specialization: 'Tropical Residential',
-      experienceYears: 7,
-      skillTags: ['residential', 'tropical', 'renovation'],
-      maxDesignCapacity: 3,
-      status: 'active',
-      joinedAt: new Date('2023-03-15'),
-      notes: 'Arsitek internal untuk desain rumah tropis dan renovasi hunian.',
-      avatar: 'https://i.pravatar.cc/150?u=architect-004'
-    }
-  });
-
-  const foreman1 = await prisma.foreman.create({
-    data: {
-      id: 'foreman-001',
-      name: 'Mulyadi',
-      email: 'mulyadi.foreman@rkk.local',
-      phone: '081333444001',
-      vendorType: 'individual',
-      specialization: 'Struktur & Sipil',
-      experienceYears: 15,
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=foreman-001'
-    }
-  });
-
-  const foreman2 = await prisma.foreman.create({
-    data: {
-      id: 'foreman-002',
-      name: 'Hasan Basri',
-      email: 'hasan.foreman@rkk.local',
-      phone: '081333444002',
-      vendorType: 'company',
-      companyName: 'CV Bangun Sejahtera',
-      specialization: 'Generalist',
-      experienceYears: 10,
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=foreman-002'
-    }
-  });
-
-  const foreman3 = await prisma.foreman.create({
-    data: {
-      id: 'foreman-003',
-      name: 'Joko Lestari',
-      email: 'joko.foreman@rkk.local',
-      phone: '081333444003',
-      vendorType: 'company',
-      companyName: 'CV Pilar Nusantara',
-      address: 'Jl. Raya Bogor KM 29, Depok',
-      specialization: 'Finishing & Renovasi',
-      experienceYears: 8,
-      skillTags: ['finishing', 'renovasi', 'interior'],
-      teamSummary: { tukang: 10, helper: 6, kepalaTukang: 2 },
-      maxProjectCapacity: 2,
-      status: 'active',
-      joinedAt: new Date('2022-09-10'),
-      notes: 'Mandor cadangan untuk proyek renovasi dan finishing interior.',
-      avatar: 'https://i.pravatar.cc/150?u=foreman-003'
-    }
-  });
-
-  const supervisor1 = await prisma.supervisor.create({
-    data: {
-      id: 'supervisor-001',
-      name: 'Dimas Prakoso',
-      email: 'dimas.spv@rkk.local',
-      phone: '081444555001',
-      specialization: 'Struktur & Sipil',
-      city: 'Jakarta',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-001'
-    }
-  });
-
-  const supervisor2 = await prisma.supervisor.create({
-    data: {
-      id: 'supervisor-002',
-      name: 'Ratna Dewi',
-      email: 'ratna.spv@rkk.local',
-      phone: '081444555002',
-      specialization: 'Arsitektur',
-      city: 'Bekasi',
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-002'
-    }
-  });
+  await seedPersonas(prisma, context);
+  const { admin1, admin2 } = context.admins;
+  const { arch1, arch2, arch3, arch4 } = context.architects;
+  const { foreman1, foreman2, foreman3 } = context.foremen;
+  const { supervisor1, supervisor2, supervisor3 } = context.supervisors;
 
   // 2. CUSTOMERS
-  console.log('Seeding Customers...');
-  const customer1 = await prisma.customer.create({
-    data: {
-      id: 'customer-001',
-      name: 'Iwan Setiawan',
-      email: 'iwan@gmail.com',
-      phone: '081222220001',
-      customerType: 'individual',
-      address: 'Jl. Melati No. 5, Jakarta Selatan',
-      identityNumber: '3174010101800001',
-      occupation: 'Karyawan Swasta',
-      notes: 'Persona demo konsumen individu untuk alur desain baru dan proyek planning.',
-      avatar: 'https://i.pravatar.cc/150?u=customer-001'
-    }
-  });
-
-  const customer2 = await prisma.customer.create({
-    data: {
-      id: 'customer-002',
-      name: 'Sari Kartika',
-      email: 'sari@gmail.com',
-      phone: '081222220002',
-      customerType: 'individual',
-      address: 'BSD City, Tangerang Selatan',
-      identityNumber: '3674014502870002',
-      occupation: 'Pemilik Usaha Kuliner',
-      notes: 'Persona demo konsumen individu dengan proyek konstruksi aktif untuk monitoring timeline.',
-      avatar: 'https://i.pravatar.cc/150?u=customer-002'
-    }
-  });
-
-  const customer3 = await prisma.customer.create({
-    data: {
-      id: 'customer-003',
-      name: 'PT Maju Jaya',
-      email: 'admin@majujaya.co.id',
-      phone: '021-55566677',
-      customerType: 'company',
-      companyName: 'PT Maju Jaya Properti',
-      picName: 'Hendra',
-      picPosition: 'Project Owner Representative',
-      address: 'Kuningan, Jakarta Pusat',
-      taxNumber: '01.234.567.8-901.000',
-      businessField: 'Properti dan Manajemen Gedung',
-      notes: 'Persona demo konsumen perusahaan untuk design-to-project bridge dan proyek draft.',
-      avatar: 'https://i.pravatar.cc/150?u=customer-003'
-    }
-  });
-
-  const customer4 = await prisma.customer.create({
-    data: {
-      id: 'customer-004',
-      name: 'Reno Aditya',
-      email: 'reno.aditya@gmail.com',
-      phone: '081222220004',
-      customerType: 'individual',
-      address: 'Jl. Bunga Raya No. 12, Depok',
-      identityNumber: '3276011201900004',
-      occupation: 'Konsultan IT',
-      notes: 'Persona demo konsumen dengan proyek renovasi aktif kedua untuk dashboard dan monitoring multi-project.',
-      avatar: 'https://i.pravatar.cc/150?u=customer-004'
-    }
-  });
-
-  const customer5 = await prisma.customer.create({
-    data: {
-      id: 'customer-005',
-      name: 'CV Sinar Kosan',
-      email: 'owner@sinarkosan.local',
-      phone: '021-77889900',
-      customerType: 'company',
-      companyName: 'CV Sinar Kosan Mandiri',
-      picName: 'Wulan Prameswari',
-      picPosition: 'Owner',
-      address: 'Margonda, Depok',
-      taxNumber: '02.345.678.9-012.000',
-      businessField: 'Properti Kos dan Kontrakan',
-      notes: 'Persona demo perusahaan kecil untuk proyek selesai dan histori konstruksi.',
-      avatar: 'https://i.pravatar.cc/150?u=customer-005'
-    }
-  });
+  await seedCustomers(prisma, context);
+  const { customer1, customer2, customer3, customer4, customer5 } = context.customers;
 
   // 3. SCENARIO 1: DESIGN FLOW
+
   console.log('Seeding Scenario 1: Design Flow...');
   
   // DR 1: Submitted (New)
@@ -600,20 +328,8 @@ async function main() {
     }
   });
 
-  const supervisor3 = await prisma.supervisor.create({
-    data: {
-      id: 'supervisor-003',
-      name: 'Yusuf Mahendra',
-      email: 'yusuf.spv@rkk.local',
-      phone: '081444555003',
-      specialization: 'MEP & Finishing',
-      bio: 'Pengawas lapangan dengan pengalaman renovasi rumah tinggal dan koordinasi MEP ringan.',
-      city: 'Depok',
-      maxProjectCapacity: 2,
-      status: 'active',
-      avatar: 'https://i.pravatar.cc/150?u=supervisor-003'
-    }
-  });
+
+
 
   await prisma.supervisorCertificate.createMany({
     data: [

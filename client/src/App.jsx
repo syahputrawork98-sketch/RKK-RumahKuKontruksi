@@ -94,6 +94,8 @@ import PengaturanMandorPage from "./pages/mandor/PengaturanMandorPage";
 import JurnalMingguanMandorPage from "./pages/mandor/JurnalMingguanMandorPage";
 import CreateJurnalMingguanMandorPage from "./pages/mandor/CreateJurnalMingguanMandorPage";
 import DetailJurnalMingguanMandorPage from "./pages/mandor/DetailJurnalMingguanMandorPage";
+import TugasHarianMandorPage from "./pages/mandor/TugasHarianMandorPage";
+import LaporanHarianMandorPage from "./pages/mandor/LaporanHarianMandorPage";
 
 // ===== HALAMAN ARSITEK =====
 import ArsitekLayout from "./layouts/ArsitekLayout";
@@ -315,6 +317,8 @@ function App() {
             <Route path="jurnal-mingguan" element={<JurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/create" element={<CreateJurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/:journalId" element={<DetailJurnalMingguanMandorPage />} />
+            <Route path="tugas-harian" element={<TugasHarianMandorPage />} />
+            <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
             <Route path="request-material" element={<RequestMaterialMandorPage />} />
             <Route path="kendala-lapangan" element={<MandorHoldState title="Kendala Lapangan" description="Pelaporan hambatan atau masalah teknis dari lapangan." />} />
             <Route path="dokumentasi" element={<MandorHoldState title="Dokumentasi Lapangan" description="Unggah bukti visual pekerjaan harian." />} />

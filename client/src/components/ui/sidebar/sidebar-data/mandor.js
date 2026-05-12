@@ -40,7 +40,19 @@ export default [
     },
     {
         type: "item",
+        icon: FiClipboard,
+        label: "Tugas Harian",
+        href: "/mandor/tugas-harian",
+    },
+    {
+        type: "item",
         icon: FiFileText,
+        label: "Laporan Harian",
+        href: "/mandor/laporan-harian",
+    },
+    {
+        type: "item",
+        icon: FiBriefcase,
         label: "Jurnal Mingguan",
         href: "/mandor/jurnal-mingguan",
         activeStartsWith: "/mandor/jurnal-mingguan"

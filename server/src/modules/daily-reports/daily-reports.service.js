@@ -80,6 +80,7 @@ export const submitReport = async (id) => {
     },
     include: {
       project: { select: { name: true, adminId: true } },
+      foreman: { select: { id: true, name: true } },
       supervisor: { select: { id: true, name: true } }
     }
   });
@@ -90,14 +91,14 @@ export const submitReport = async (id) => {
       await createNotification({
         recipientRole: 'admin',
         recipientId: report.project.adminId,
-        actorRole: 'supervisor',
-        actorId: report.supervisorId,
+        actorRole: 'foreman',
+        actorId: report.foremanId,
         eventType: 'DAILY_REPORT_SUBMITTED',
         entityType: 'DailyReport',
         entityId: report.id,
-        title: 'Laporan Mingguan Masuk',
-        message: `Pengawas ${report.supervisor?.name || ''} telah mensubmit laporan untuk proyek ${report.project.name}`,
-        linkPath: '/admin/laporan-mingguan-pengawas'
+        title: 'Laporan Harian Masuk',
+        message: `Mandor ${report.foreman?.name || ''} telah mensubmit laporan harian untuk proyek ${report.project.name}`,
+        linkPath: '/admin/monitoring/jurnal-mandor'
       });
     } catch (err) {
       console.error('DailyReport Notification Error:', err);

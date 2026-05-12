@@ -10,7 +10,8 @@ import {
     FiUsers,
     FiInfo,
     FiStar,
-    FiClock
+    FiClock,
+    FiChevronRight
 } from "react-icons/fi";
 import {
     DashboardHeader,
@@ -24,12 +25,16 @@ import weeklyJournalService from "../../services/weeklyJournalService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 import StatusBadge from "../../components/common/StatusBadge";
+import dailyTaskService from "../../services/dailyTaskService";
+import dailyReportService from "../../services/dailyReportService";
 
 const DashboardMandor = () => {
     const navigate = useNavigate();
     const { selectedForeman, selectedForemanId } = useForemanPersona();
     const [projects, setProjects] = useState([]);
     const [recentJournals, setRecentJournals] = useState([]);
+    const [pendingTasks, setPendingTasks] = useState([]);
+    const [recentReports, setRecentReports] = useState([]);
     const [statsData, setStatsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -44,19 +49,23 @@ const DashboardMandor = () => {
                 setLoading(true);
                 setError(null);
                 
-                const [projRes, statsRes, journalRes] = await Promise.all([
+                const [projRes, statsRes, journalRes, tasksRes, reportsRes] = await Promise.all([
                     projectService.getProjects({ foremanId: selectedForemanId }),
                     foremanService.getForemanStats(selectedForemanId),
                     weeklyJournalService.getWeeklyJournals({ 
                         actorRole: "mandor", 
                         actorId: selectedForemanId,
                         foremanId: selectedForemanId 
-                    })
+                    }),
+                    dailyTaskService.getAllTasks({ foremanId: selectedForemanId, status: "todo" }),
+                    dailyReportService.getAllReports({ foremanId: selectedForemanId })
                 ]);
                 
                 if (projRes.success) setProjects(projRes.data);
                 if (statsRes.success) setStatsData(statsRes.data);
                 if (journalRes.success) setRecentJournals(journalRes.data.slice(0, 3));
+                if (tasksRes.success) setPendingTasks(tasksRes.data.slice(0, 5));
+                if (reportsRes.success) setRecentReports(reportsRes.data.slice(0, 3));
             } catch (err) {
                 console.error("Failed to fetch dashboard data:", err);
                 setError("Gagal mengambil data operasional dari database.");
@@ -114,8 +123,8 @@ const DashboardMandor = () => {
     }
 
     // In current local development, priority tasks and recent activities are focused on Weekly Journals
-    const priorityTasks = []; // Future: Daily Tasks model
-    const recentActivities = []; // Future: Combined Logbook
+    const priorityTasks = pendingTasks;
+    const recentActivities = recentReports;
 
     return (
         <div className="animate-fadeIn space-y-6">
@@ -177,12 +186,15 @@ const DashboardMandor = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="dashboard-card bg-slate-100 dark:bg-slate-800/50 text-slate-400 p-6 relative overflow-hidden border-dashed">
-                            <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Harian (Hold)</h3>
-                            <p className="text-2xl font-black mb-1 italic">Belum Tersedia</p>
-                            <p className="text-[10px] opacity-70">Modul laporan harian masih dalam tahap pengembangan schema.</p>
-                            <button disabled className="mt-4 px-4 py-2 bg-slate-200 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest cursor-not-allowed">Segera Hadir</button>
-                            <FiFileText className="absolute -right-4 -bottom-4 text-slate-500/10 w-24 h-24" />
+                        <div 
+                            onClick={() => navigate("/mandor/laporan-harian")}
+                            className="dashboard-card bg-emerald-500/5 text-emerald-600 p-6 relative overflow-hidden border-emerald-500/20 cursor-pointer hover:border-emerald-500/40 transition-all group"
+                        >
+                            <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Harian / Logbook</h3>
+                            <p className="text-2xl font-black mb-1">Operasional</p>
+                            <p className="text-[10px] opacity-70">Catat aktivitas, cuaca, dan jumlah pekerja harian.</p>
+                            <button className="mt-4 px-4 py-2 bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest group-hover:scale-105 transition-all">Lihat Logbook</button>
+                            <FiFileText className="absolute -right-4 -bottom-4 text-emerald-500/10 w-24 h-24" />
                         </div>
                         <div className="dashboard-card p-6 flex flex-col justify-between border-dashed bg-[var(--dashboard-primary)]/5">
                             <div className="flex items-center justify-between mb-4">
@@ -213,10 +225,26 @@ const DashboardMandor = () => {
                 </div>
 
                 <div className="space-y-6">
-                    <div className="dashboard-card min-h-[200px] flex flex-col items-center justify-center text-center p-8 border-dashed">
-                        <FiActivity size={32} className="text-slate-200 mb-2" />
-                        <h3 className="font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)]">Logbook Aktivitas</h3>
-                        <p className="text-[10px] text-slate-400 mt-2 italic">Aktivitas mingguan akan muncul di sini setelah jurnal disubmit.</p>
+                    <div className="dashboard-card">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Tugas Hari Ini</h3>
+                            <button onClick={() => navigate("/mandor/tugas-harian")} className="text-[10px] font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
+                        </div>
+                        <div className="space-y-3">
+                            {priorityTasks.length > 0 ? (
+                                priorityTasks.map(task => (
+                                    <div key={task.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className={`w-1.5 h-1.5 rounded-full ${task.priority === 'high' ? 'bg-red-500' : 'bg-blue-500'}`} />
+                                            <span className="text-[10px] font-bold line-clamp-1">{task.title}</span>
+                                        </div>
+                                        <FiChevronRight className="text-slate-300" size={12} />
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="py-4 text-center text-[10px] font-medium text-slate-400 italic">Tidak ada tugas tertunda.</div>
+                            )}
+                        </div>
                     </div>
                     
                     <div className="dashboard-card border-dashed">

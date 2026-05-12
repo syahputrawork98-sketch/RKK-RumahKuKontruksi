@@ -5,8 +5,11 @@ import StageCommunicationPanel from "../../components/konsumen/StageCommunicatio
 import projectStageService from "../../services/projectStageService";
 import { FiArrowLeft } from "react-icons/fi";
 import RoleDataState from "../../components/common/RoleDataState";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const DetailTimelineProyek = () => {
+  const { selectedCustomerId, loading: personaLoading } = useCustomerPersona();
   const { stageId } = useParams();
   const [stage, setStage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +35,19 @@ const DetailTimelineProyek = () => {
     if (stageId) fetchStageDetail();
   }, [stageId]);
 
-  if (loading) return <RoleDataState type="loading" message="Memuat detail tahapan..." />;
+  if (!selectedCustomerId && !personaLoading) {
+    return (
+      <div className="container mx-auto px-6 py-10">
+        <RolePersonaEmptyState 
+          title="Detail Tahap Pekerjaan"
+          description="Silakan pilih persona Konsumen terlebih dahulu untuk melihat detail dan progres tahapan pembangunan Anda."
+          icon="🔍"
+        />
+      </div>
+    );
+  }
+
+  if (personaLoading || (loading && !stage)) return <RoleDataState type="loading" message="Memuat detail tahapan..." />;
 
   if (error || !stage) {
     return (

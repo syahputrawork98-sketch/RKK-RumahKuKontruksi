@@ -5,8 +5,12 @@ import TLProyek from "../../components/konsumen/TLProyek";
 import projectService from "../../services/projectService";
 import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight, FiLayers, FiBox, FiChevronDown, FiEye, FiLock, FiCreditCard } from "react-icons/fi";
 import CustomerPaymentPlanView from "../../components/konsumen/CustomerPaymentPlanView";
+import { useCustomerPersona } from "../../context/CustomerPersonaContext";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 
 const TimelineProyek = () => {
+  const { selectedCustomerId, loading: personaLoading } = useCustomerPersona();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const queryProjectId = queryParams.get("projectId");
@@ -109,6 +113,20 @@ const TimelineProyek = () => {
 
     fetchProjectDetail();
   }, [projectId]);
+
+  if (!selectedCustomerId && !personaLoading) {
+    return (
+      <div className="container mx-auto px-6 py-10">
+        <RolePersonaEmptyState 
+          title="Timeline Proyek"
+          description="Silakan pilih persona Konsumen terlebih dahulu untuk melihat detail timeline dan progres pembangunan Anda."
+          icon="📅"
+        />
+      </div>
+    );
+  }
+
+  if (personaLoading) return <RoleDataState type="loading" message="Memverifikasi persona..." />;
 
   if (!projectId) {
     return (

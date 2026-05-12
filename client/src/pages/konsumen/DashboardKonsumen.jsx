@@ -10,6 +10,7 @@ import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import projectService from "../../services/projectService";
 import designRequestService from "../../services/designRequestService";
 import RoleDataState from "../../components/common/RoleDataState";
+import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 
 const DashboardKonsumen = () => {
     const navigate = useNavigate();
@@ -50,6 +51,31 @@ const DashboardKonsumen = () => {
     useEffect(() => {
         fetchDashboardData();
     }, [selectedCustomerId]);
+
+    if (!selectedCustomerId && !loading) {
+        return (
+            <div className="container mx-auto px-6 py-10">
+                <RolePersonaEmptyState 
+                    title="Dashboard Konsumen"
+                    description="Silakan pilih persona Konsumen terlebih dahulu menggunakan Persona Switcher untuk melihat ringkasan proyek dan aktivitas desain Anda."
+                    icon="🏠"
+                />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="container mx-auto px-6 py-10">
+                <RoleDataState 
+                    type="error"
+                    title="Gagal Memuat Dashboard"
+                    description={error}
+                    onRetry={fetchDashboardData}
+                />
+            </div>
+        );
+    }
 
     if (loading && projects.length === 0) return <RoleDataState type="loading" message="Menyiapkan dashboard Anda..." />;
 

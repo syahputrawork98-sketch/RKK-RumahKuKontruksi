@@ -9,6 +9,8 @@ import {
 import DesignTimeline from "../../design/DesignTimeline";
 import DesignRevisionForm from "../../design/DesignRevisionForm";
 import PostDesignDecisionPanel from "./PostDesignDecisionPanel";
+import DesignFilesGallery from "./DesignFilesGallery";
+
 
 const DesignRequestDetailOverlay = ({ 
     selectedRequest, 
@@ -74,6 +76,9 @@ const DesignRequestDetailOverlay = ({
                             <p className="text-xs font-bold text-gray-700">Rp {Number(selectedRequest.estimatedBudget || 0).toLocaleString('id-ID')}</p>
                         </div>
                     </div>
+
+                    <DesignFilesGallery designRequestId={selectedRequest.id} />
+
                     <div className="pt-8 border-t border-gray-100">
                         <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
                             <FiRefreshCw className="text-teal-600" />

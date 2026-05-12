@@ -55,6 +55,8 @@ import CuratedInstructionPanel from "../../components/design/admin/CuratedInstru
 import ReleaseToCustomerPanel from "../../components/design/admin/ReleaseToCustomerPanel";
 import AdminControlsPanel from "../../components/design/admin/AdminControlsPanel";
 import RevisionMonitoringPanel from "../../components/design/admin/RevisionMonitoringPanel";
+import DesignDocumentReviewPanel from "../../components/design/admin/DesignDocumentReviewPanel";
+
 
 const DesignRequestAdminPage = () => {
     const [activeTab, setActiveTab] = useState("requests"); // "requests" or "tenders"
@@ -916,6 +918,12 @@ const DesignRequestAdminPage = () => {
                                 onSubmit={handleReleaseToCustomer}
                                 submitting={submitting}
                             />
+
+                            <DesignDocumentReviewPanel 
+                                designRequestId={selectedRequest.id}
+                                customerId={selectedRequest.customerId}
+                            />
+
 
                             <PostDesignDecisionMonitorPanel history={selectedRequest.history} />
 

@@ -4,12 +4,14 @@ export const getDocuments = async (req, res) => {
   try {
     const filters = {
       projectId: req.query.projectId,
+      designRequestId: req.query.designRequestId,
       category: req.query.category,
       visibility: req.query.visibility,
       uploadedByRole: req.query.uploadedByRole,
       uploadedById: req.query.uploadedById,
       status: req.query.status,
       stageId: req.query.stageId
+
     };
 
     const documents = await projectDocumentService.getDocuments(filters);
@@ -43,15 +45,18 @@ export const uploadDocument = async (req, res) => {
       return res.status(400).json({ success: false, error: 'No file uploaded' });
     }
 
-    const { projectId, title, description, category, visibility, uploadedByRole, uploadedById, stageId, dailyReportId, fieldIssueId } = req.body;
+    const { projectId, designRequestId, title, description, category, visibility, uploadedByRole, uploadedById, stageId, dailyReportId, fieldIssueId } = req.body;
+
 
     // Basic validation
-    if (!projectId || !title || !category || !visibility) {
-      return res.status(400).json({ success: false, error: 'Missing required fields' });
+    if ((!projectId && !designRequestId) || !title || !category || !visibility) {
+      return res.status(400).json({ success: false, error: 'Missing required fields (projectId or designRequestId)' });
     }
+
 
     const documentData = {
       projectId,
+      designRequestId,
       title,
       description,
       category,
@@ -66,6 +71,7 @@ export const uploadDocument = async (req, res) => {
       dailyReportId,
       fieldIssueId
     };
+
 
     const document = await projectDocumentService.createDocument(documentData);
     res.status(201).json({ success: true, data: document });
@@ -83,6 +89,17 @@ export const updateDocumentStatus = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
+export const updateDocumentVisibility = async (req, res) => {
+  try {
+    const { visibility } = req.body;
+    const document = await projectDocumentService.updateDocumentVisibility(req.params.id, visibility);
+    res.json({ success: true, data: document });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
 
 export const deleteDocument = async (req, res) => {
   try {

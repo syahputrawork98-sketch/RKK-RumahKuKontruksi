@@ -3,26 +3,44 @@ import { FiX, FiUpload, FiInfo, FiCheckCircle } from "react-icons/fi";
 import projectDocumentService from "../../services/projectDocumentService";
 import apiClient from "../../services/apiClient";
 
-const UploadDocumentModal = ({ isOpen, onClose, onSuccess, category = "lapangan", uploadedByRole, uploadedById }) => {
+const UploadDocumentModal = ({ 
+    isOpen, 
+    onClose, 
+    onSuccess, 
+    category = "lapangan", 
+    uploadedByRole, 
+    uploadedById,
+    initialProjectId = "",
+    initialDesignRequestId = ""
+}) => {
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [projects, setProjects] = useState([]);
     const [fetchingProjects, setFetchingProjects] = useState(false);
 
     const [formData, setFormData] = useState({
-        projectId: "",
+        projectId: initialProjectId,
+        designRequestId: initialDesignRequestId,
         title: "",
         description: "",
         visibility: "internal",
         stageId: "",
     });
+
     const [file, setFile] = useState(null);
 
     useEffect(() => {
         if (isOpen) {
             fetchProjects();
+            setFormData(prev => ({
+                ...prev,
+                projectId: initialProjectId,
+                designRequestId: initialDesignRequestId
+            }));
         }
-    }, [isOpen]);
+    }, [isOpen, initialProjectId, initialDesignRequestId]);
+
 
     const fetchProjects = async () => {
         try {
@@ -64,7 +82,8 @@ const UploadDocumentModal = ({ isOpen, onClose, onSuccess, category = "lapangan"
 
             const data = new FormData();
             data.append("file", file);
-            data.append("projectId", formData.projectId);
+            if (formData.projectId) data.append("projectId", formData.projectId);
+            if (formData.designRequestId) data.append("designRequestId", formData.designRequestId);
             data.append("title", formData.title);
             data.append("description", formData.description);
             data.append("category", category);
@@ -72,6 +91,7 @@ const UploadDocumentModal = ({ isOpen, onClose, onSuccess, category = "lapangan"
             data.append("uploadedByRole", uploadedByRole);
             data.append("uploadedById", uploadedById);
             if (formData.stageId) data.append("stageId", formData.stageId);
+
 
             await projectDocumentService.uploadDocument(data);
             onSuccess();

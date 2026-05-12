@@ -764,6 +764,8 @@ model DesignRequest {
   minorRevisionCount Int @default(0) @map("minor_revision_count")
 
   history         DesignRequestHistory[]
+  documents       ProjectDocument[]
+
 
   @@map("design_requests")
 }
@@ -1065,7 +1067,8 @@ model DailyReport {
 
 model ProjectDocument {
   id               String       @id @default(cuid())
-  projectId        String       @map("project_id")
+  projectId        String?      @map("project_id")
+  designRequestId  String?      @map("design_request_id")
   
   title            String
   description      String?
@@ -1089,7 +1092,8 @@ model ProjectDocument {
   createdAt        DateTime     @default(now()) @map("created_at")
   updatedAt        DateTime     @updatedAt @map("updated_at")
   
-  project          Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project          Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  designRequest    DesignRequest? @relation(fields: [designRequestId], references: [id])
   stage            ProjectStage? @relation(fields: [stageId], references: [id])
   dailyReport      DailyReport? @relation(fields: [dailyReportId], references: [id])
   fieldIssue       FieldIssue?  @relation(fields: [fieldIssueId], references: [id])
@@ -1097,6 +1101,7 @@ model ProjectDocument {
 
   @@map("project_documents")
 }
+
 
 model PaymentRecord {
   id               String       @id @default(cuid())

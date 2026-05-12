@@ -6,6 +6,9 @@ import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 import DesignTimeline from "../../components/design/DesignTimeline";
+import projectDocumentService from "../../services/projectDocumentService";
+import UploadDocumentModal from "../../components/common/UploadDocumentModal";
+
 
 const DetailPermintaanDesainArsitekPage = () => {
     const { requestId } = useParams();
@@ -24,18 +27,42 @@ const DetailPermintaanDesainArsitekPage = () => {
         issues: ""
     });
 
+    const [documents, setDocuments] = useState([]);
+    const [loadingDocs, setLoadingDocs] = useState(false);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
+
     const fetchRequest = async () => {
         try {
             setLoading(true);
             const res = await designRequestService.getDesignRequestById(requestId);
             setRequest(res.data);
             setLoading(false);
+            // After fetching request, fetch documents
+            fetchDocuments();
         } catch (err) {
             console.error("Error fetching request detail:", err);
             setError("Data tidak ditemukan atau terjadi kesalahan server.");
             setLoading(false);
         }
     };
+
+    const fetchDocuments = async () => {
+        try {
+            setLoadingDocs(true);
+            const res = await projectDocumentService.getDocuments({
+                designRequestId: requestId
+            });
+            if (res.success) {
+                setDocuments(res.data || []);
+            }
+        } catch (err) {
+            console.error("Error fetching documents:", err);
+        } finally {
+            setLoadingDocs(false);
+        }
+    };
+
     
     const handleAddProgress = async (action = 'architect_progress_update') => {
         if (action === 'architect_progress_update' && !progressForm.note.trim()) {
@@ -207,7 +234,66 @@ const DetailPermintaanDesainArsitekPage = () => {
                                 minorCount={request.minorRevisionCount || 0}
                             />
                         </div>
+
+                        {/* DESIGN FILES SECTION */}
+                        <div className="dashboard-card">
+                            <div className="flex items-center justify-between mb-8">
+                                <div className="flex items-center gap-2">
+                                    <FiFileText className="text-[var(--dashboard-primary)]" />
+                                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[var(--dashboard-text-soft)]">Penyimpanan File Desain</h3>
+                                </div>
+                                <button 
+                                    onClick={() => setIsUploadModalOpen(true)}
+                                    className="px-4 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary-dark)] transition-all flex items-center gap-2"
+                                >
+                                    <FiUpload size={14} /> Upload File
+                                </button>
+                            </div>
+
+                            {loadingDocs ? (
+                                <div className="py-10 text-center">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--dashboard-primary)] mx-auto"></div>
+                                </div>
+                            ) : documents.length > 0 ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {documents.map((doc) => (
+                                        <div key={doc.id} className="p-4 bg-gray-50 border border-gray-100 rounded-2xl hover:border-indigo-200 transition-all group">
+                                            <div className="flex items-start gap-3">
+                                                <div className="p-2.5 bg-white rounded-xl text-indigo-500 shadow-sm">
+                                                    <FiFileText size={20} />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-xs font-bold text-gray-800 truncate mb-0.5">{doc.title}</p>
+                                                    <p className="text-[9px] text-gray-400 font-medium truncate mb-2 italic">{doc.fileName}</p>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-tighter border ${
+                                                            doc.visibility === 'customer_visible' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-100 text-slate-500 border-slate-200'
+                                                        }`}>
+                                                            {doc.visibility === 'customer_visible' ? 'Released' : 'Internal'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <a 
+                                                    href={doc.fileUrl ? `http://localhost:4000${doc.fileUrl}` : "#"} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer"
+                                                    className="p-2 bg-white border border-gray-100 text-gray-400 rounded-xl hover:text-indigo-600 hover:border-indigo-600 transition-all"
+                                                >
+                                                    <FiExternalLink size={14} />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="py-12 text-center bg-gray-50/50 rounded-3xl border-2 border-dashed border-gray-100">
+                                    <FiFileText className="mx-auto text-gray-200 mb-3" size={32} />
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest italic">Belum ada file desain yang diunggah.</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
+
                 </div>
 
                 <div className="space-y-6">
@@ -407,8 +493,20 @@ const DetailPermintaanDesainArsitekPage = () => {
                     )}
                 </div>
             </div>
+            {/* UPLOAD MODAL */}
+            <UploadDocumentModal 
+                isOpen={isUploadModalOpen}
+                onClose={() => setIsUploadModalOpen(false)}
+                onSuccess={fetchDocuments}
+                category="desain"
+                uploadedByRole="architect"
+                uploadedById={selectedArchitectId}
+                initialProjectId={request.projectId || ""}
+                initialDesignRequestId={requestId}
+            />
         </div>
     );
 };
+
 
 export default DetailPermintaanDesainArsitekPage;

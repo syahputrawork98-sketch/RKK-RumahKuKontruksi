@@ -5,12 +5,14 @@ export const getDocuments = async (filters = {}) => {
   const where = {};
   
   if (filters.projectId) where.projectId = filters.projectId;
+  if (filters.designRequestId) where.designRequestId = filters.designRequestId;
   if (filters.category) where.category = filters.category;
   if (filters.visibility) where.visibility = filters.visibility;
   if (filters.uploadedByRole) where.uploadedByRole = filters.uploadedByRole;
   if (filters.uploadedById) where.uploadedById = filters.uploadedById;
   if (filters.status) where.status = filters.status;
   if (filters.stageId) where.stageId = filters.stageId;
+
 
   const documents = await prisma.projectDocument.findMany({
     where,
@@ -58,6 +60,16 @@ export const updateDocumentStatus = async (id, status) => {
 
   return document;
 };
+
+export const updateDocumentVisibility = async (id, visibility) => {
+  const document = await prisma.projectDocument.update({
+    where: { id },
+    data: { visibility }
+  });
+
+  return document;
+};
+
 
 export const deleteDocument = async (id) => {
   await prisma.projectDocument.delete({

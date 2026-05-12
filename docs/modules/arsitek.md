@@ -11,5 +11,10 @@ Role Arsitek bertanggung jawab atas pembuatan desain dan kolaborasi draf teknis 
 ## 🛡️ Batasan
 - **Local Simulation**: Belum terintegrasi dengan marketplace arsitek rill atau sistem pembayaran termin desain otomatis.
 
+## 📊 Technical Context
+- **Services**: `architectService`, `designRequestService`, `designTenderService`.
+- **Revision Limits**: Kedisiplinan iterasi dijaga dengan batas 3 Major dan 5 Minor revisi.
+- **Design Package**: Dukungan pengunggahan paket desain melalui backend localhost (Batch 29).
+
 ---
 *Status: Database-Backed v2 / Local E2E Workflow v1.*

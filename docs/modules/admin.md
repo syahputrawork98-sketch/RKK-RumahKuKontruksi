@@ -13,5 +13,10 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 - **Bukan Verifikator Fisik**: Admin tidak melakukan verifikasi progres fisik di lapangan; wewenang ini eksklusif milik Pengawas.
 - **Hold Production**: Fitur pembayaran rill, pembuatan dokumen legal resmi (kontrak/BAST), dan procurement production masih berstatus Hold.
 
+## 📊 Technical Context
+- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`.
+- **Bridge Boundary**: Konversi Design Request hanya menghasilkan draf proyek (`planning`) tanpa aktivasi otomatis.
+- **Closeout Validation**: Penyelesaian proyek mensyaratkan progres 100%, seluruh stage selesai, dan tidak ada Material Request aktif.
+
 ---
 *Status: Database-Backed / Local Dashboard Polish Stabilized.*

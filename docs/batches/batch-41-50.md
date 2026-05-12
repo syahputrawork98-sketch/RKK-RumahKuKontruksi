@@ -21,6 +21,16 @@
 - **Ringkasan**: Pemetaan rujukan dokumentasi dan analisa kelayakan folder docs/.
 
 ## Batch 45 — Docs Professional Restructure & Cleanup
-- **Status**: Accepted (In Progress)
+- **Status**: Accepted
 - **Commit**: Not recorded
 - **Ringkasan**: Restrukturisasi besar folder docs/ menjadi format profesional dan modular.
+
+## Batch 46 — Temporary Review Validation
+- **Status**: Accepted
+- **Commit**: Not recorded
+- **Ringkasan**: Analisa mendalam folder temporary-review untuk persiapan merge & delete.
+
+## Batch 47 — Temporary Review Merge & Selective Deletion
+- **Status**: Accepted (In Progress)
+- **Commit**: Not recorded
+- **Ringkasan**: Merge isi penting dari temporary-review ke docs aktif dan menghapus file yang sudah aman.

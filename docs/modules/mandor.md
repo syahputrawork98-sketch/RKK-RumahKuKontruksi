@@ -13,5 +13,10 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 - **Claimed Progress**: Angka progres yang diinput Mandor bersifat klaim administratif dan tidak mengubah Progres Resmi proyek.
 - **Post-Completion**: Proyek yang sudah `Selesai` berstatus read-only bagi Mandor.
 
+## 📊 Technical Context
+- **Context**: `ForemanPersonaContext`
+- **Services**: `foremanService`, `projectService`
+- **Reference**: Jurnal Mingguan dapat merujuk `projectStageId` dan `rabItemId` secara opsional untuk konteks pekerjaan.
+
 ---
 *Status: Database-Backed v1.*

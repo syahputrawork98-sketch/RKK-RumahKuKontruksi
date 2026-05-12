@@ -6,6 +6,8 @@ Sistem ini menggunakan **Developer Persona Switcher** sebagai pengganti sistem a
 - **PersonaContext**: Menyimpan ID dan data role aktif di state aplikasi.
 - **LocalStorage**: Menyimpan pilihan persona terakhir agar tidak hilang saat refresh.
 - **No Password**: Berpindah role hanya memerlukan satu klik pada modal switcher (Dev Sign-In).
+- **Storage Key**: `rkk.devAuth` menyimpan data persona aktif.
+- **Legacy Persona Sync**: Mensinkronkan ID terpilih ke key lama (contoh: `rkk.dev.selectedSupervisorId`) untuk kompatibilitas context.
 
 ## 🛡️ Batasan
 - **Bukan Auth Rill**: Tidak ada token JWT, session server-side, atau enkripsi password.

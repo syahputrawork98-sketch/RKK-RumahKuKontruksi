@@ -12,5 +12,10 @@ Role Pengawas adalah pemegang otoritas tertinggi dalam verifikasi progres fisik 
 - **Stage Completion**: Menandai tahap selesai bersifat informatif dan tidak otomatis mengubah `verifiedProgress` total proyek.
 - **Official Source**: Pengawas adalah katalis utama dalam sinkronisasi data lapangan ke sistem.
 
+## 📊 Technical Context
+- **Context**: `SupervisorPersonaContext`
+- **Services**: `supervisorService`, `projectService`
+- **Verification Snapshot**: `SupervisorWeeklyReport.verifiedProgressSnapshot` hanya merekam status progres saat laporan dibuat.
+
 ---
 *Status: Database-Backed v1.*

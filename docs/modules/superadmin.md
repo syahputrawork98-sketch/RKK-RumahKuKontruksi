@@ -11,5 +11,10 @@ Role Superadmin berfungsi sebagai pengawas sistem global dan pengelola direktori
 - **Bukan Operator**: Superadmin tidak menjalankan workflow harian (seperti assign arsitek atau update progress).
 - **No Production Auth**: Pengelolaan user tetap dalam konteks persona lokal tanpa sistem autentikasi rill.
 
+## 📊 Technical Context
+- **Services**: `superadminService`, `adminService`, `supervisorService`, `foremanService`, `customerService`, `architectService`, `projectService`, `designRequestService`, `designTenderService`.
+- **Governance Layer**: Peringatan standar mengenai batasan "Local CRUD" pada setiap formulir persona.
+- **Audit Center**: Pusat pemantauan `ActivityLog` database dan antrian `ProfileChangeRequest`.
+
 ---
 *Status: Database-Backed Local CRUD / Monitoring Polish Stabilized.*

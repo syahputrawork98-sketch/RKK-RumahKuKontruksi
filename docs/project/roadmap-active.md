@@ -12,6 +12,15 @@ Rencana batch segera:
 - **Enhanced Governance**: Perluasan log aktivitas untuk aksi administratif sensitif.
 - **Defensive Validation**: Penguatan validasi sisi client pada form-form kritikal.
 
+## 🏗️ Workflow Priority Order
+Peta jalan urutan implementasi modul operasional:
+1. **Progress SOT**: Inti verifikasi progres resmi lapangan.
+2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor.
+3. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan.
+4. **Weekly Report**: Konsolidasi laporan manajerial & publikasi.
+5. **Material Request**: Pengadaan material berbasis RAB.
+6. **Payment Eligibility**: Simulasi kelayakan pembayaran berbasis performa.
+
 ## 🌟 Future Optional
 - **Analytics Dashboard v2**: Visualisasi statistik global untuk Superadmin.
 - **Support Ticketing System**: Placeholder sistem bantuan internal.

@@ -10,6 +10,20 @@ Dokumen ini mendefinisikan aturan otoritas data progres fisik proyek untuk mengh
 5. **Admin Review/Approve Weekly Report** tidak memiliki wewenang untuk mengubah progress fisik lapangan.
 6. **Progress Resmi** hanya dapat berubah melalui modul **Verifikasi Progres** yang dilakukan secara manual oleh **Pengawas assigned**.
 
+## 📊 Technical Field Mapping
+| Data | Field Sumber | Otoritas | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **Progress Resmi** | `Project.verifiedProgress` | Pengawas | Diperbarui via modul Verifikasi Progres. |
+| **Pencatat Progress**| `Project.verifiedProgressById` | Pengawas | ID Pengawas yang melakukan verifikasi terakhir. |
+| **Progress Tahap** | `ProjectStage.progress` | Pengawas | Diperbarui saat verifikasi tahap pekerjaan. |
+| **Verifikator Tahap**| `ProjectStage.verifiedBy` | Pengawas | ID Pengawas yang memverifikasi tahap tersebut. |
+| **Log Verifikasi** | `ProgressVerificationLog` | Sistem | Histori detail perubahan persentase progres. |
+| **Klaim Mandor** | `WeeklyJournal.claimedProgress` | Mandor | Klaim subjektif, bukan progres resmi. |
+
+## 🔄 Relasi Jurnal vs Laporan
+- **WeeklyJournal (Mandor)**: Aktivitas lapangan. Reviewer dicatat di `reviewedById`.
+- **SupervisorWeeklyReport (Pengawas)**: Evaluasi mingguan. Merujuk pada jurnal mandor (`SupervisorWeeklyReportJournal`). Reviewer Admin dicatat di `reviewedByAdminId`.
+
 ## 🛑 Action Guards (No Progress Impact)
 Aksi berikut **TIDAK BOLEH** mengubah `Project.verifiedProgress`:
 - Pembuatan/Approval Material Request.

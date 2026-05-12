@@ -13,5 +13,10 @@ Modul ini menangani pengadaan material proyek berbasis baseline RAB.
 - **Outside-RAB**: Penambahan material di luar RAB diperbolehkan dengan catatan wajib dan approval khusus Admin.
 - **No Inventory**: Sistem hanya mencatat status distribusi administratif, belum terhubung ke sistem inventory gudang rill.
 
+## 📊 Technical Authority
+- **Baseline Valid**: Sumber data kuantitas valid adalah `RabItem.volume`.
+- **Reference**: `MaterialRequestItem` wajib merujuk pada `RabItem` jika tersedia dalam perencanaan.
+- **Additional Material**: Item di luar RAB ditandai dengan `isAdditionalMaterial = true` dan memerlukan validasi ekstra.
+
 ---
 *Status: Material Request from RAB Usage = Local Workflow v1 / Stabilized.*

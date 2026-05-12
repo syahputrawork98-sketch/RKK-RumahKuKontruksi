@@ -13,5 +13,10 @@ Role Konsumen fokus pada transparansi informasi proyek dan komunikasi dengan pih
 - **Simulation Only**: Fitur pembayaran dan pengunduhan dokumen legal masih bersifat simulasi lokal.
 - **Non-Realtime**: Panel komunikasi tidak menggunakan WebSocket (Refresh-based/Polling).
 
+## 📊 Technical Context
+- **Services**: `customerService`, `designRequestService`, `projectService`, `projectStageService`, `projectStageCommentService`.
+- **UX Polish**: Pemisahan visual yang jelas antara fase Desain dan Konstruksi pada timeline.
+- **Role-Colored Evidence**: Menampilkan bukti pekerjaan dengan visual pembeda role (Mandor, Pengawas, Admin).
+
 ---
 *Status: Database-Backed v1 / Local Transparency Polish Stabilized.*

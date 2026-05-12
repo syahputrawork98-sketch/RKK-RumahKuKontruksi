@@ -11,5 +11,14 @@ Dokumen ini mengatur kebijakan penggunaan data (Database vs Mock) untuk menjaga 
 - **UI Prototyping**: Fitur baru yang belum memiliki skema backend boleh menggunakan mock data selama fase draf UI.
 - **Seeding**: Mock data digunakan sebagai referensi untuk sistem **Modular Seed** guna mengisi database lokal.
 
+## 🛡️ Error Handling Policy
+- Jika API Backend mengembalikan error (misal: Server mati), UI harus menampilkan komponen `ErrorState` atau pesan error yang jelas, bukan kembali menampilkan mock data secara otomatis.
+
+## 👤 Role Authority & Profile Governance
+- **Superadmin**: Pengelola direktori persona lokal (CRUD entitas simulasi).
+- **Admin**: Operator proyek; hanya dapat mengubah profil sendiri.
+- **Role Lain**: Hanya dapat mengubah profil sendiri dengan batasan field penting yang memerlukan validasi di masa depan.
+- **Profile Change Approval**: Perubahan data sensitif (Email, HP, NIK) diarahkan ke antrian persetujuan Admin/Superadmin.
+
 ---
 *Status: Mandor, Pengawas, Admin, Arsitek, dan Konsumen Dashboard sudah sepenuhnya DB-Backed.*

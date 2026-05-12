@@ -1,4 +1,9 @@
-# Next Actions - Frontend Development
+# Next Actions - Frontend Development (Historical)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference/historical.**
+> Untuk prioritas pengembangan terbaru, silakan merujuk ke [**docs/project/current-status.md**](../project/current-status.md).
+
 
 Daftar prioritas pekerjaan berikutnya untuk tim frontend RKK.
 

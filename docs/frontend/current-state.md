@@ -1,4 +1,9 @@
-# Current State Frontend
+# Current State Frontend (Historical)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference/historical.**
+> Untuk status terbaru, silakan merujuk ke [**docs/project/current-status.md**](../project/current-status.md) dan [**docs/frontend/role-data-source-status.md**](./role-data-source-status.md).
+
 
 ## Kondisi Umum
 Frontend RKK saat ini adalah **prototype fungsional** yang sangat lengkap secara UI. Aplikasi berjalan stabil menggunakan **Vite + React** dan telah mengadopsi sistem desain publik yang konsisten (`public-card`, `btn-public-primary`, dll).

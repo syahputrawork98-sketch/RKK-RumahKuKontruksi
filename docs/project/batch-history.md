@@ -187,3 +187,47 @@ Dokumen ini mencatat riwayat pengembangan batch-by-batch pada fase *Local Develo
 - **Goal**: Sinkronisasi dokumentasi dan penegasan kembali aturan Progress Source of Truth (SOT).
 - **Result**: `current-status.md` dan `remaining-hold-features.md` diperbarui; status Batch 31-34 tercatat resmi.
 - **Status**: Accepted, Documentation-Only.
+## Batch 36 — Konsumen Dashboard/Profile/Project Monitoring Stabilization
+- **Goal**: Menstabilkan dashboard, profil, dan fitur monitoring proyek untuk Konsumen.
+- **Result**: Data ditarik dari database lokal (Local CRUD Integration); verifiedProgress tampil sebagai Official Progress.
+- **Status**: Accepted.
+
+## Batch 37 — Konsumen Timeline + Stage Communication Polish
+- **Goal**: Memperluas fitur monitoring dengan timeline mendalam dan panel komunikasi per tahap (Stage).
+- **Result**: Admin-Consumer communication thread (HTTP-based) stabil; visual phase selector (Design vs Construction) aktif.
+- **Status**: Accepted.
+
+## Batch 38 — Design Request + Design-to-Project Bridge Stabilization
+- **Goal**: Menstabilkan alur konversi Design Request menjadi Project Planning.
+- **Result**: Validasi anti-duplikasi diperketat; bridge hanya membuat draft proyek berstatus planning.
+- **Status**: Accepted.
+
+## Batch 39 — Superadmin CRUD Final Pass
+- **Goal**: Menyelesaikan CRUD persona lokal untuk role Superadmin.
+- **Result**: Manajemen user lokal (Admin, Mandor, Pengawas, Arsitek, Konsumen) stabil dengan delete safety.
+- **Status**: Accepted.
+
+## Batch 40 — Checkpoint Review
+- **Goal**: Melakukan review menyeluruh stabilitas sistem setelah Batch 31-39.
+- **Result**: Tidak ada blocker mayor; sistem dinyatakan stabil untuk fase Local Integration.
+- **Status**: Accepted.
+
+## Batch 41 — Admin Material Request Follow-up Stabilization
+- **Goal**: Memperkuat alur rejection pada Material Request.
+- **Result**: Admin wajib menyertakan note saat menolak request; visibility log diperbaiki.
+- **Status**: Accepted.
+
+## Batch 42 — UI Consistency Cleanup Across Roles
+- **Goal**: Standarisasi loading, empty, dan error state lintas role.
+- **Result**: Penggunaan `RoleDataState` dan `RolePersonaEmptyState` diwajibkan; wording dashboard diselaraskan ke "Local Simulation".
+- **Status**: Accepted.
+
+## Batch 43 — Final Checkpoint Integration
+- **Goal**: Verifikasi akhir seluruh workflow integrasi lokal.
+- **Result**: Sistem dinyatakan "Local Feature Complete"; siap untuk fase pendokumentasian dan pembersihan.
+- **Status**: Accepted with notes.
+
+## Batch 44 — Docs Inventory & Source-of-Truth Mapping
+- **Goal**: Analisa kelayakan folder dokumentasi dan pemetaan rujukan utama (Source of Truth).
+- **Result**: Teridentifikasi perlunya refactor folder `docs/` untuk mempertegas index dan menyelaraskan wording project.
+- **Status**: Accepted with notes.

@@ -1,32 +1,48 @@
-# Documentation - RumahKu Konstruksi
+# Documentation - RKK RumahKu Konstruksi
 
-Selamat datang di pusat dokumentasi proyek **RumahKu Konstruksi**. Repository ini diatur secara terstruktur untuk memudahkan navigasi informasi teknis dan manajerial selama fase integrasi CRUD lokal.
+Selamat datang di pusat dokumentasi proyek **RumahKu Konstruksi (RKK)**.
 
-### 1. [Project Management & Strategy](./project/)
-- [**Implementation Blueprint**](./project/implementation-blueprint.md) - Peta besar hasil sinkronisasi.
-- [Current Status](./project/current-status.md) - Kondisi pengembangan terbaru.
-- [Commit Rules](./project/commit-rules.md) - Panduan standarisasi kontribusi.
-
-### 2. [Business Workflow / Alur](./alur/)
-- [**Master Workflow**](./alur/README.md) - Sumber logika bisnis utama (*Single Source of Truth*).
-
-### 3. [Backend Documentation](./backend/)
-- [**Backend Roles**](./backend/roles/README.md) - Scope data per peran.
-- [**Backend Checklist**](./backend/checklist/README.md) - Panduan implementasi server.
-- [API Status](./backend/api-status.md) - Daftar endpoint aktual.
-
-### 4. [Frontend Documentation](./frontend/)
-- [**Role Data Source Status**](./frontend/role-data-source-status.md) - Status integrasi DB vs Mock.
-- [**Frontend Checklist**](./frontend/checklist/README.md) - Panduan implementasi UI.
-- [**Frontend Modularization Map**](./architecture/frontend-modularization-map.md) - Peta arsitektur modular terbaru.
-- [Route Inventory](./frontend/route-inventory.md) - Daftar rute aktual aplikasi.
-
-## Alur Baca Dokumentasi
-Untuk memahami sistem RKK secara menyeluruh, ikuti urutan berikut:
-1. **Bisnis**: Pahami alur di [**docs/alur**](./alur/README.md).
-2. **Peta Besar**: Baca [**Implementation Blueprint**](./project/implementation-blueprint.md).
-3. **Aturan Peran**: Cek [**Backend Roles**](./backend/roles/README.md) dan [**Frontend Roles**](./frontend/roles/README.md).
-4. **Implementasi**: Gunakan [**Backend Checklist**](./backend/checklist/README.md) dan [**Frontend Checklist**](./frontend/checklist/README.md) sebagai panduan pengerjaan kode.
+## Project Context & Phase
+**Current Phase**: Local Development Feature Completion with production-minded quality.
+**Environment**: Localhost only (`localhost:4000` API, `localhost:5173` Client).
+**Status**: Project ini membangun fitur bisnis komprehensif dengan standar kualitas produksi, namun **TIDAK** ditujukan untuk production deployment dalam waktu dekat. Fokus utama adalah stabilitas fungsionalitas lokal (CRUD Integration).
 
 ---
-*Catatan: Project ini mengutamakan stabilitas fungsionalitas lokal sebelum mengimplementasikan sistem autentikasi dan deployment produksi.*
+
+## 🏗️ Core Source of Truth (SOT)
+Dokumen-dokumen berikut adalah rujukan utama yang menggambarkan kondisi sistem saat ini:
+
+### 1. Project Management & Status
+- [**Current Status**](./project/current-status.md) - **RUJUKAN UTAMA** kondisi pengembangan terbaru dan milestone aktif.
+- [**Implementation Blueprint**](./project/implementation-blueprint.md) - Peta arsitektur dan sinkronisasi fitur besar.
+- [**Remaining Hold Features**](./project/remaining-hold-features.md) - Daftar fitur yang ditahan (Hold) atau direncanakan berikutnya.
+
+### 2. Technical Inventory
+- [**API Status (Backend)**](./backend/api-status.md) - Daftar endpoint aktual yang tersedia di server.
+- [**Role Data Source Status (Frontend)**](./frontend/role-data-source-status.md) - Status integrasi database vs mock per role.
+- [**Route Inventory (Frontend)**](./frontend/route-inventory.md) - Daftar rute aplikasi yang aktif.
+
+### 3. Business Logic
+- [**Master Workflow**](./alur/README.md) - Logika bisnis utama proyek (Design-to-Construction).
+- [**Source of Truth (Database)**](./database/source-of-truth.md) - Definisi integritas data (Progress SOT).
+
+---
+
+## 📜 Historical & Reference Documents
+Dokumen berikut bersifat pendukung atau catatan sejarah perkembangan:
+
+- [**Batch History**](./project/batch-history.md) - Catatan lengkap progres batch-by-batch (Batch 1 sampai Batch 44).
+- [**Commit Rules**](./project/commit-rules.md) - Panduan standarisasi kontribusi.
+- [**Archived Analysis**](./project/admin_gap_analysis.md) - Analisa gap integrasi yang sudah sebagian besar diselesaikan.
+
+---
+
+## 👨‍💻 Arahan Developer Baru
+Jika Anda baru bergabung dalam pengembangan RKK, ikuti urutan baca berikut:
+1. Pahami **Visi Produk** di [Implementation Blueprint](./project/implementation-blueprint.md).
+2. Pahami **Alur Bisnis** di [Master Workflow](./alur/README.md).
+3. Cek **Status Terkini** di [Current Status](./project/current-status.md) untuk mengetahui batch apa yang sedang dikerjakan.
+4. Gunakan **Dev Persona Switcher** di aplikasi untuk mensimulasikan role tanpa perlu sistem login rill.
+
+---
+*Catatan: Project ini mengutamakan stabilitas fungsionalitas lokal sebelum mengimplementasikan sistem autentikasi, security hardening, dan deployment produksi.*

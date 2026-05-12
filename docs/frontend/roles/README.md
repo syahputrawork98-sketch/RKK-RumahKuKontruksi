@@ -1,4 +1,9 @@
-# Frontend Roles Documentation
+# Frontend Roles Documentation (Reference)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference.**
+> Status integrasi data per role yang lebih akurat dapat dilihat di [**docs/frontend/role-data-source-status.md**](../role-data-source-status.md).
+
 
 Dokumentasi detail implementasi antarmuka berdasarkan peran (role) pengguna di aplikasi RKK.
 

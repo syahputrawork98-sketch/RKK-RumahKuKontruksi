@@ -3,7 +3,7 @@
 Panduan mengenai sumber data (Data Source) yang digunakan oleh setiap role di frontend selama fase transisi CRUD.
 
 ## Kebijakan Umum (Policy)
-Sesuai dengan strategi pengembangan *Production-Ready Feature Completion Mode with Developer Persona Switcher*:
+Sesuai dengan strategi pengembangan *Local Development Feature Completion with production-minded quality with Developer Persona Switcher*:
 1. **DB-Backed Roles**: Role yang sudah memiliki modul backend lengkap **dilarang** menggunakan mock data sebagai sumber data utama di UI.
 2. **Mock-First Roles**: Role yang belum memiliki modul backend diperbolehkan tetap menggunakan mock data hingga tahap migrasi backend-nya dimulai.
 

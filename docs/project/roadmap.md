@@ -1,4 +1,8 @@
-# Project Roadmap
+# Project Roadmap (Historical)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference/historical.**
+> Milestone pengembangan sekarang dicatat secara batch di [**docs/project/current-status.md**](./current-status.md) dan [**docs/project/batch-history.md**](./batch-history.md).
 
 ## Phase 1: Structure & Frontend (Current)
 - [x] Penataan struktur folder root.

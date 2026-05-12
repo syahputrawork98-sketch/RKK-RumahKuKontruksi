@@ -7,7 +7,7 @@ Daftar seluruh route yang terdaftar di aplikasi berdasarkan `client/src/App.jsx`
 - **Partial**: Sebagian data rill, sebagian masih mock/shell.
 - **Shell / Static**: UI sudah ada tetapi data masih bersifat statis/manual.
 - **Mock-First**: Masih menggunakan data dummy dari folder `mock/`.
-- **Local Stabilized**: Terhubung ke backend lokal dan sudah distabilkan untuk fase Production-Ready Feature Completion Mode with Developer Persona Switcher, tetapi belum production-ready system penuh.
+- **Local Stabilized**: Terhubung ke backend lokal dan sudah distabilkan untuk fase Local Development Feature Completion with production-minded quality with Developer Persona Switcher, tetapi belum production-ready system penuh.
 - **Experimental / Backend Draft**: Terhubung ke backend yang masih dalam tahap eksperimen (belum final).
 - **Operational Backend Pending**: UI sudah siap, namun menunggu implementasi backend operasional.
 

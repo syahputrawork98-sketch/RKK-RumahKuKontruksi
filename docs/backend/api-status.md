@@ -98,7 +98,7 @@ Daftar endpoint yang tersedia pada backend server (Localhost) untuk fase integra
 **Catatan**:
 - Struktur lokal: `Project` -> `RAB Plan` -> `RabCategory` -> `RabItem`.
 - RAB adalah baseline lokal/draft planning untuk scope, volume, unit, harga satuan, subtotal kategori, dan total plan; bukan kontrak final, invoice, payment, escrow, atau dokumen legal production.
-- Admin dapat CRUD lokal RAB plan/category/item untuk Production-Ready Feature Completion Mode with Developer Persona Switcher.
+- Admin dapat CRUD lokal RAB plan/category/item untuk Local Development Feature Completion with production-minded quality with Developer Persona Switcher.
 - Delete guard: `RabItem` yang sudah dipakai Material Request tidak boleh dihapus; `RabItem` yang sudah dipakai Weekly Journal tidak boleh dihapus; `RabCategory` yang masih punya item tidak boleh dihapus.
 - RAB Builder tidak mengubah Progress SOT. `Project.verifiedProgress` tetap Source of Truth lewat Verifikasi Progres manual oleh Pengawas assigned.
 - **Status**: *Local CRUD v1 / Admin Builder Stabilized*.
@@ -406,7 +406,7 @@ The following APIs are intentionally postponed and should not be implemented bef
 - **Local Development**: API hanya dioptimalkan untuk berjalan di localhost.
 - **Non-Realtime**: Seluruh komunikasi (Stage Communication) berbasis polling/request standard, bukan WebSockets.
 - **Payment/Document Production**: Backend untuk integrasi payment gateway dan generation dokumen legal resmi berstatus **Allowed for phased implementation**.
-- **Local Stabilized Status**: Project Timeline Evidence Polish, Admin & Superadmin Operational Control, Konsumen Project Transparency, Post-Completion History, Project Lifecycle Completion, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk Production-Ready Feature Completion Mode with Developer Persona Switcher.
+- **Local Stabilized Status**: Project Timeline Evidence Polish, Admin & Superadmin Operational Control, Konsumen Project Transparency, Post-Completion History, Project Lifecycle Completion, Project Stage Completion, Material Request from RAB Usage, Mandor/Pengawas Certificate & Work Experience, Weekly Journal, Supervisor Weekly Report, Project Activation, dan flow Konsumen utama sudah distabilkan untuk Local Development Feature Completion with production-minded quality with Developer Persona Switcher.
 - **Wording Standard**: Menggunakan "Official Progress", "Verified by Supervisor", dan "Field Evidence" secara konsisten untuk transparansi Konsumen.
 - **Foreman Payment Eligibility**: Module untuk menentukan kelayakan pembayaran mandor secara mingguan berdasarkan verifikasi lapangan (Local DB-backed).
 - **Customer Payment Plan**: Module untuk mengatur termin pembayaran (billing plan) konsumen secara lokal (Local DB-backed).

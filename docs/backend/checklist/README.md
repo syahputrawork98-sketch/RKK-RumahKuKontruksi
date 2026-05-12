@@ -1,4 +1,8 @@
-# Backend Checklist
+# Backend Checklist (Reference)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference.**
+> Checklist ini berfungsi sebagai blueprint awal. Untuk status implementasi aktual, silakan merujuk ke [**docs/backend/api-status.md**](../api-status.md).
 
 Checklist backend adalah turunan dari [docs/alur](../../alur/README.md) ke kebutuhan implementasi server.
 

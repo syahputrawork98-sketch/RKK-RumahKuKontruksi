@@ -1,4 +1,9 @@
-# Frontend Checklist
+# Frontend Checklist (Reference)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference.**
+> Checklist ini berfungsi sebagai blueprint awal. Untuk status integrasi aktual, silakan merujuk ke [**docs/frontend/role-data-source-status.md**](../role-data-source-status.md) dan [**docs/frontend/route-inventory.md**](../route-inventory.md).
+
 
 Checklist frontend adalah turunan dari [docs/alur](../../alur/README.md) ke kebutuhan UI/client.
 

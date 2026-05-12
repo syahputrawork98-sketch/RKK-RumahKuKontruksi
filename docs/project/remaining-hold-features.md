@@ -1,86 +1,62 @@
-# Remaining Hold & Incomplete Features Scan
+# Remaining Hold & Follow-up Features
 
-Dokumen ini mencatat fitur-fitur yang sudah ada di UI atau direncanakan di dokumen, tetapi masih berstatus **Hold**, **Planned**, **Coming Soon**, atau **Placeholder** pada fase *Production-Ready Feature Completion Mode with Developer Persona Switcher*.
-
-## 1. Admin & Project Management
-| Fitur | Lokasi | Status | Rekomendasi |
-| :--- | :--- | :--- | :--- |
-| **Security/Auth** | `admin_gap_analysis.md` | Hold | Tunda (Fase 5+) |
-| **Cetak RAB (PDF/Print)** | `DetailRabAdminPage.jsx` | Belum Tersedia | Tunda |
-| **Financial Stats** | `DashboardAdmin.jsx` | ✅ DB-Backed v1 | PaymentRecord simulation available (Batch 26) |
-| **Audit Trail (Log)** | `LogAktivitasPage.jsx` | ✅ Implemented v1 | Database Activity Logs available (Batch 30A-D) |
-| **Notifikasi Production API** | lintas role | ✅ Polling Implemented | In-app notification with polling (Batch 28) |
-| **Escrow/Payment Logic** | `design-tender-docs` | ✅ Local Ready | PaymentRecord & Billing Plan simulation (Batch 26) |
-| **Project Planning Bridge** | `DesignRequestAdminPage.jsx` | ✅ Local Ready | Convert Request to Project sebagai action manual (Batch 16A/B) |
-| **Assignment Final Mandor/Pengawas** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Assignment rill ke entitas `Project.foremanId` / `Project.supervisorId` (Batch 17) |
-| **Project Activation Gate** | `DetailProyekAdminPage.jsx` | ✅ Local Ready | Aktivasi manual proyek Draft/Planning ke status Berjalan (Batch 18) |
-
-## 2. Operasional Lapangan (Mandor & Pengawas)
-| Fitur | Lokasi | Status | Rekomendasi |
-| :--- | :--- | :--- | :--- |
-| **Upload Foto Rill** | `CreateJurnalMingguanMandorPage.jsx` | ⚠️ Placeholder UI / Hold | Backend ready (Batch 25), but UI upload action and cloud storage integration are still on **Hold**. |
-| **Publish Laporan ke Konsumen** | `DetailLaporanMingguanPengawasAdminPage.jsx` | ⚠️ Hold | Admin review flow available (Batch 34), but actual publishing to Customer Timeline is on **Hold** for architecture stabilization. |
-| **Material Request Local Flow**| `material-requests.service.js` / MR pages | ✅ Stabil Lokal | Selesai untuk local CRUD; warehouse/inventory production tetap tunda |
-| **Report Review Impact** | `DetailLaporanMingguanPengawasAdminPage.jsx` | ✅ Stabil Lokal | Admin review flow stabilized with Progress SOT guard (Batch 34); no automatic physical progress updates. |
-| **Dokumentasi Lapangan** | `DokumentasiLapanganPengawasPage.jsx` | ✅ Local Upload | Metadata backed by API; binary upload adapter functional (Batch 25). |
-
-## 3. Mitra (Arsitek)
-| Fitur | Lokasi | Status | Rekomendasi |
-| :--- | :--- | :--- | :--- |
-| **Katalog Arsitek** | `DashboardArsitek.jsx` | Belum Tersedia | Tunda |
-| **Payment Progress** | `PembayaranAdminPage.jsx` | Placeholder | Planned for staged implementation |
-
-## 4. Konsumen
-| Fitur | Lokasi | Status | Rekomendasi |
-| :--- | :--- | :--- | :--- |
-| **Dashboard Konsumen** | `DashboardKonsumen.jsx` | API-Backed Stabil Lokal | Selesai untuk local CRUD; tetap dev persona, bukan auth production |
-| **Edit Profil** | `Profil.jsx` (Konsumen) | API-Backed Stabil Lokal | Selesai via Customer CRUD API; jangan tambahkan auth/password |
-| **Design Request Konsumen** | `DesignRequestCustomerPage.jsx` | Modular v1 / Stabil Lokal | Selesai modularisasi (Batch M1) |
-| **Project Monitoring / Timeline** | `Proyek.jsx`, `TimelineProyek.jsx`, `DetailTimelineProyek.jsx` | API-Backed Stabil Lokal | Selesai untuk read monitoring proyek dan stage lokal |
-| **Stage Communication Panel** | `StageCommunicationPanel.jsx` | Functional v1 | Read path dan customer reply memakai API |
+Dokumen ini mencatat fitur-fitur yang masih berstatus **Hold**, **Planned**, atau **Future Optional** pada fase *Local Development Feature Completion*.
 
 ---
 
-## Rekomendasi Next Task
+## 🛑 1. Valid Hold (Strictly Postponed)
+Fitur-fitur ini **TIDAK** dibuka pada fase Local Development dan memerlukan infrastruktur security/production rill.
 
-Berdasarkan hasil scan terbaru, Material Request, Supervisor Weekly Report, dan flow Konsumen utama sudah masuk status stabil lokal. Next task yang paling aman tanpa membuka scope payment/auth besar:
-
-### Rekomendasi 0: Batch 30E — Lightweight Factory / Helper Introduction
-- **Judul**: Batch 30E Factory/Helper Seed Optimization
-- **Alasan**: Modularisasi `seed.js` sudah selesai (30D-4). `seed.js` sekarang sudah lean. Langkah berikutnya adalah merapikan pembuatan data dengan factory/helper ringan agar tidak banyak duplikasi kode di dalam modul seed.
-- **Scope Aman**: Hanya helper internal seed, tidak mengubah schema atau bisnis logic.
-- **Risiko**: Rendah.
-
-### Rekomendasi 1: Admin Publish Update / Stage Communication Source Flow Verification
-- **Judul**: Admin Publish Update untuk Stage Communication Panel
-- **Alasan**: Panel Konsumen sudah functional v1. Jalur Admin sebagai sumber update resmi perlu diverifikasi agar role guard, payload `projectId`, dan status published tetap konsisten.
-- **Scope Aman**: Modul stage communication existing dan route ProjectStagePublicComment, tanpa schema/auth/payment.
-- **Risiko**: Sedang-rendah; jangan membuka update/delete bebas tanpa validasi role.
-
-### Rekomendasi 2: Admin Dashboard Demo Data Cleanup
-- **Judul**: Admin Dashboard Remaining Mock Cleanup
-- **Alasan**: Beberapa statistik/aktivitas admin masih berpotensi placeholder dan perlu diselaraskan dengan API lokal.
-- **Scope Aman**: UI dashboard dan service read-only.
-- **Risiko**: Rendah (Fitur payment/finance kini allowed for phased roadmap, auth production tetap ditunda).
-
-### Rekomendasi 3: Verified Progress Consistency Audit
-- **Judul**: Verified Progress Consistency Audit
-- **Alasan**: Tampilan progress dipakai oleh Admin, Pengawas, dan Konsumen. Perlu cek ringan konsistensi antara `progress`, `verifiedProgress`, stage progress, dan log verifikasi.
-- **Scope Aman**: Read/check kontrak data dan UI display existing.
-- **Risiko**: Rendah, selama tidak mengubah formula tanpa keputusan Room Chat 00.
-
-### Rekomendasi 4: Superadmin Account & Profile Change Management Local CRUD v1
-- **Judul**: Superadmin Account & Profile Governance Direction
-- **Alasan**: Sesuai arah produk, Superadmin perlu memiliki kendali akun lintas role dan setiap role dapat mengelola profilnya sendiri dengan tata kelola perubahan data penting yang tercatat/tervalidasi.
-- **Scope Aman**: Local CRUD akun seluruh role oleh Superadmin dan self-profile update, tanpa auth production atau RBAC production.
-- **Risiko**: Rendah; pastikan hanya menggunakan API lokal dan dev persona.
+| Fitur | Lokasi | Alasan Hold |
+| :--- | :--- | :--- |
+| **Production Auth & RBAC** | Lintas Role | Menunggu fase Security Hardening (JWT, Session, Password). |
+| **Production Deployment** | Infrastructure | Project saat ini eksklusif untuk localhost. |
+| **Real-time Chat / WebSocket** | Stage Communication | Menggunakan polling/HTTP thread sederhana untuk stabilitas lokal. |
+| **Cloud Storage (S3/GCS)** | Document Upload | Menggunakan local binary upload (`/uploads`). |
+| **Official Payment Gateway** | Finance | Menggunakan simulasi `PaymentRecord` lokal. |
+| **Marketplace & Reputation** | Mitra (Mandor/Arsitek) | Sistem scoring/rating rill belum diaktifkan. |
 
 ---
 
-**Konfirmasi Scope**: 
-Task ini hanya docs/status cleanup dan scan ringan fitur existing yang masih Hold/incomplete.
-- **Progress SOT**: Dijamin aman (manual only via Pengawas assigned).
-- **Publish to Customer**: HOLD.
-- **Photo Upload (Binary)**: UI Action HOLD (Metadata only).
-- **Production Auth/RBAC**: HOLD.
-- **Payment/Gateway**: Planned for staged implementation (Simulasi Lokal).
+## 🛠️ 2. Technical Follow-up (Roadmap Candidates)
+Fitur yang secara teknis memungkinkan diimplementasikan secara lokal sebagai penyempurnaan CRUD.
+
+| Fitur | Lokasi | Catatan |
+| :--- | :--- | :--- |
+| **Publish Laporan ke Konsumen** | Report Admin | Mekanisme kontrol visibilitas rill ke timeline konsumen. |
+| **Export Data (PDF/Excel)** | RAB & Report | Penambahan fitur cetak/ekspor dokumen administratif lokal. |
+| **Defensive Input Validation** | Form Entry | Penguatan validasi sisi client untuk mencegah data anomali. |
+| **In-app Notifications v2** | Topbar | Optimasi polling dan kategori notifikasi. |
+
+---
+
+## 🌟 3. Future Optional (Phased Implementation)
+Fitur tambahan yang dapat masuk roadmap jika scope lokal diperluas.
+
+| Fitur | Lokasi | Status |
+| :--- | :--- | :--- |
+| **Katalog Arsitek/Mitra** | Dashboard | Planned as read-only gallery. |
+| **Sistem Ticketing / Bantuan** | Support | Placeholder. |
+| **Analytics Dashboard v2** | Superadmin | Advanced data aggregation (Global Stats). |
+
+---
+
+## 📜 4. Outdated / Already Stabilized (Reference Only)
+Fitur yang sebelumnya direncanakan atau direkomendasikan namun sudah dianggap selesai atau tidak lagi menjadi prioritas teknis.
+
+- **Batch 30E (Lightweight Factory)**: Bersifat teknis internal seed; prioritas dialihkan ke stabilitas workflow UI.
+- **Admin Publish Update (Verification)**: Sudah tercover sebagian di Batch 37 & 43.
+- **Admin Dashboard Demo Cleanup**: Sudah dilakukan di Batch 39 & 42.
+- **Verified Progress Consistency Audit**: Sudah dilakukan di Batch 33 & 43.
+
+---
+
+## 🛡️ Scope Guard (Safety First)
+Sistem RKK pada fase ini **SENGAJA TIDAK** membuat fitur berikut secara otomatis demi menjaga kontrol administratif:
+- RAB & Stages otomatis (Harus direncanakan manual).
+- Penugasan Tim otomatis.
+- Aktivasi proyek otomatis (Aktivasi manual oleh Admin).
+- Transaksi finansial rill (Hanya simulasi database).
+
+---
+*Terakhir diperbarui setelah Batch 44.*

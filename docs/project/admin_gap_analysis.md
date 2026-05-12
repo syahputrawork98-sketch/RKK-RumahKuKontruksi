@@ -1,4 +1,8 @@
-# Admin Feature Gap Analysis - RKK Repository
+# Admin Feature Gap Analysis (Historical)
+
+> [!NOTE]
+> **Dokumen ini bersifat reference/historical.**
+> Mayoritas gap yang teridentifikasi di sini sudah diselesaikan dalam Batch 31-43.
 
 ## 1. Executive Summary
 This document summarizes the current state of the Admin module in the RKK (RumahKu Konstruksi) repository. The goal is to move towards a full database-backed operational flow while maintaining a clear boundary on non-production features (Auth, Payment, Customer Portal).

@@ -14,6 +14,8 @@ export const createSeedContext = () => {
     customers: {},
     projects: {},
     designRequests: {},
+    designTenders: {},
+    designTenderBids: {},
     rabPlans: {},
     rabCategories: {},
     rabItems: {},

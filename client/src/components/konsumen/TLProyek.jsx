@@ -140,8 +140,12 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                     {/* Progress bar */}
                     <div className="space-y-3 pt-2">
                       <div className="flex justify-between items-end">
-                        <div className="space-y-0.5">
-                          <p className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">Progress Resmi (SOT)</p>
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[9px] font-black bg-neutral-100 text-neutral-50 px-2 py-0.5 rounded border border-neutral-20 uppercase tracking-widest flex items-center gap-1">
+                              <FiCheckCircle size={10} className="text-success-main" /> Progress Resmi (SOT)
+                            </span>
+                          </div>
                           <p className="text-[10px] font-black text-neutral-90 italic">
                             {stage.status === 'verified' ? 'Tervalidasi 100% (Final)' : 'Verified by Pengawas'}
                           </p>

@@ -149,9 +149,8 @@ const TimelineProyek = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-10 bg-gray-50">
-        <span className="loading loading-spinner loading-lg text-teal-600"></span>
-        <p className="mt-4 text-gray-500">Memuat detail proyek...</p>
+      <div className="container mx-auto px-6 py-20">
+        <RoleDataState type="loading" message="Menyusun timeline konstruksi rill Anda..." />
       </div>
     );
   }
@@ -171,10 +170,15 @@ const TimelineProyek = () => {
 
   const hasTimeline = Array.isArray(project.timeline) && project.timeline.length > 0;
   const filteredTimeline = (selectedCategoryId || selectedRabId)
-    ? project.timeline.filter(item =>
-        (selectedCategoryId && item.categoryId === selectedCategoryId) ||
-        (selectedRabId && (project.stages?.find(s => s.id === item.id)?.rabItems?.some(ri => ri.id === selectedRabId)))
-      )
+    ? project.timeline.filter(item => {
+        if (selectedCategoryId && item.categoryId === selectedCategoryId) return true;
+        if (selectedRabId) {
+          // Check if this stage contains the selected RAB item
+          const stage = project.stages?.find(s => s.id === item.id);
+          return stage?.rabItems?.some(ri => ri.id === selectedRabId);
+        }
+        return false;
+      })
     : project.timeline;
 
 
@@ -619,7 +623,7 @@ const TimelineProyek = () => {
                   <div className="max-w-md mx-auto space-y-3">
                     <h3 className="text-2xl font-black text-neutral-100 uppercase tracking-tight">Timeline Sedang Disiapkan</h3>
                     <p className="text-sm text-neutral-60 leading-relaxed font-medium">
-                      Proyek Anda saat ini masih dalam <span className="text-amber-600 font-bold uppercase">Fase Perencanaan</span>. Timeline pelaksanaan lapangan akan muncul di sini setelah tim Admin & Pengawas mengaktifkan jadwal konstruksi rill.
+                      Proyek Anda saat ini masih dalam <span className="text-amber-600 font-bold uppercase">Fase Perencanaan</span>. Timeline pelaksanaan lapangan (SOT) akan muncul di sini setelah tim Admin & Pengawas mengaktifkan jadwal konstruksi rill.
                     </p>
                     <div className="pt-4 flex flex-col items-center gap-2">
                         <span className="px-4 py-1.5 bg-amber-50 text-amber-600 text-[10px] font-black rounded-full border border-amber-100 uppercase tracking-widest">

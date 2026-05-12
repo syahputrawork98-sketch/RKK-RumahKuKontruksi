@@ -5,6 +5,19 @@ import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 
 const StageCommunicationPanel = ({ stageId, projectId }) => {
   const { selectedCustomerId, selectedCustomer } = useCustomerPersona();
+  
+  if (!stageId) {
+    return (
+      <div className="bg-neutral-20 rounded-[32px] border border-dashed border-neutral-30 p-10 text-center space-y-4">
+        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-neutral-30 mx-auto shadow-sm">
+          <FiAlertCircle size={32} />
+        </div>
+        <p className="text-s-bold text-neutral-50 uppercase tracking-widest">Tahap Tidak Valid</p>
+        <p className="text-xs text-neutral-40 italic">ID Tahap tidak ditemukan. Tidak dapat memuat diskusi.</p>
+      </div>
+    );
+  }
+
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -93,18 +106,22 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
   return (
     <div className="flex flex-col h-full space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-[32px] border border-neutral-30 p-6 shadow-sm">
+      <div className="bg-white rounded-[32px] border border-neutral-30 p-6 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-1 h-full bg-primary-main" />
         <h3 className="text-heading-s-bold text-neutral-100 flex items-center gap-3">
-          <FiMessageSquare className="text-primary-main" /> Update Resmi Tahap
+          <FiMessageSquare className="text-primary-main" /> Korespondensi Resmi
         </h3>
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest">
-            Customer-visible update
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-widest flex items-center gap-1">
+            <FiCheckCircle size={10} /> Official Channel
           </span>
-          <span className="text-[9px] font-black text-neutral-40 uppercase tracking-widest">
-            Local Thread (Non-Realtime)
+          <span className="text-[9px] font-black text-neutral-40 uppercase bg-neutral-20 px-2 py-0.5 rounded border border-neutral-30 tracking-widest">
+            CRUD Trace
           </span>
         </div>
+        <p className="text-[9px] text-neutral-40 mt-3 italic leading-relaxed">
+          Saluran komunikasi resmi antara Konsumen dan Manajemen RKK (Admin). Seluruh percakapan tercatat dalam log proyek.
+        </p>
       </div>
 
       {/* Discussion List */}
@@ -125,8 +142,8 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
               {/* Parent Comment (Admin Update) */}
               <div className="bg-white rounded-[24px] p-5 border border-primary-main/10 shadow-sm relative overflow-hidden hover:shadow-md transition-shadow duration-300">
                 {comment.isOfficial && (
-                  <div className="absolute top-0 right-0 px-3 py-1 bg-primary-main text-white text-[9px] font-black uppercase tracking-widest rounded-bl-xl shadow-sm">
-                    Official Update
+                  <div className="absolute top-0 right-0 px-3 py-1 bg-primary-main text-white text-[9px] font-black uppercase tracking-widest rounded-bl-xl shadow-sm flex items-center gap-1">
+                    <FiCheckCircle size={10} /> RKK OFFICIAL
                   </div>
                 )}
                 <div className="flex items-center gap-2 mb-3">

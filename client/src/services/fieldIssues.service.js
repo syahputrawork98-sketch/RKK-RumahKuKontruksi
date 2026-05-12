@@ -1,21 +1,21 @@
-import api from './apiClient';
+import apiClient from './apiClient.js';
 
-export const getFieldIssues = async (filters = {}) => {
-  const response = await api.get('/field-issues', { params: filters });
-  return response;
+const fieldIssueService = {
+  getFieldIssues: async (filters = {}) => {
+    return apiClient.get('/field-issues', { params: filters });
+  },
+
+  getFieldIssueById: async (id) => {
+    return apiClient.get(`/field-issues/${id}`);
+  },
+
+  createFieldIssue: async (data) => {
+    return apiClient.post('/field-issues', data);
+  },
+
+  updateFieldIssueStatus: async (id, data) => {
+    return apiClient.patch(`/field-issues/${id}/status`, data);
+  }
 };
 
-export const getFieldIssueById = async (id) => {
-  const response = await api.get(`/field-issues/${id}`);
-  return response;
-};
-
-export const createFieldIssue = async (data) => {
-  const response = await api.post('/field-issues', data);
-  return response;
-};
-
-export const updateFieldIssueStatus = async (id, data) => {
-  const response = await api.patch(`/field-issues/${id}/status`, data);
-  return response;
-};
+export default fieldIssueService;

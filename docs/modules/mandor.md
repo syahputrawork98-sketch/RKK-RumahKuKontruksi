@@ -5,6 +5,7 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 ## 🏗️ Fitur Utama
 - **Weekly Journal**: Melaporkan aktivitas mingguan dan klaim progres (`claimedProgress`).
 - **Material Request**: Mengajukan kebutuhan material berdasarkan acuan RAB.
+- **Field Issue**: Melaporkan kendala teknis atau alam di lapangan untuk dikoordinasikan.
 - **Project Detail**: Memantau info teknis proyek aktif yang ditugaskan.
 - **Documentation**: Mengunggah foto bukti pekerjaan harian ke storage lokal.
 

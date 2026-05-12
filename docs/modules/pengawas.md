@@ -7,6 +7,7 @@ Role Pengawas adalah pemegang otoritas tertinggi dalam verifikasi progres fisik 
 - **Journal Review**: Melakukan review administratif (Approve/Reject) terhadap jurnal Mandor.
 - **Weekly Report**: Menyusun laporan evaluasi mingguan dengan snapshot progres resmi.
 - **Material Review**: Memverifikasi permintaan material Mandor sebelum diteruskan ke Admin.
+- **Field Issue Resolution**: Memberikan arahan teknis/solusi atas kendala yang dilaporkan Mandor.
 
 ## 🛡️ Aturan Otoritas
 - **Stage Completion**: Menandai tahap selesai bersifat informatif dan tidak otomatis mengubah `verifiedProgress` total proyek.

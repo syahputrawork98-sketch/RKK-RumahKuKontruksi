@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiAlertTriangle, FiPlus, FiClock, FiCheckCircle, FiChevronRight, FiX } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
-import { getFieldIssues, updateFieldIssueStatus, createFieldIssue } from "../../services/fieldIssues.service";
+import fieldIssueService from "../../services/fieldIssues.service";
 import projectService from "../../services/projectService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
@@ -35,7 +35,7 @@ const KendalaLapanganMandorPage = () => {
         try {
             setLoading(true);
             const [issuesRes, projectsRes] = await Promise.all([
-                getFieldIssues({ foremanId: selectedForemanId }),
+                fieldIssueService.getFieldIssues({ foremanId: selectedForemanId }),
                 projectService.getProjects({ foremanId: selectedForemanId })
             ]);
             setIssues(issuesRes.data || []);
@@ -60,7 +60,7 @@ const KendalaLapanganMandorPage = () => {
         e.preventDefault();
         try {
             setSubmitting(true);
-            const data = await createFieldIssue({ ...newIssue, foremanId: selectedForemanId });
+            const data = await fieldIssueService.createFieldIssue({ ...newIssue, foremanId: selectedForemanId });
             setIssues([data.data, ...issues]);
             setIsFormOpen(false);
             setNewIssue({ 
@@ -81,7 +81,7 @@ const KendalaLapanganMandorPage = () => {
     const handleMarkResolved = async (id) => {
         if (!confirm("Tandai kendala ini sebagai selesai?")) return;
         try {
-            await updateFieldIssueStatus(id, { status: "resolved" });
+            await fieldIssueService.updateFieldIssueStatus(id, { status: "resolved" });
             setIssues(issues.map(issue => issue.id === id ? { ...issue, status: "resolved" } : issue));
         } catch (err) {
             alert("Gagal memperbarui status kendala: " + err.message);

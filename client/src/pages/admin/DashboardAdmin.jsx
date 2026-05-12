@@ -23,11 +23,12 @@ import {
 import adminService from "../../services/adminService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
-import { getFieldIssues } from "../../services/fieldIssues.service";
+import fieldIssueService from "../../services/fieldIssues.service";
 
 const DashboardAdmin = () => {
     const { selectedAdminId } = useAdminPersona();
     const [stats, setStats] = useState(null);
+    const [openIssues, setOpenIssues] = useState([]);
     const [openIssuesCount, setOpenIssuesCount] = useState(0);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -43,12 +44,13 @@ const DashboardAdmin = () => {
             setError(null);
             const [statsRes, issuesRes] = await Promise.all([
                 adminService.getDashboardStats({ adminId: selectedAdminId }),
-                getFieldIssues({ status: 'open' })
+                fieldIssueService.getFieldIssues({ status: 'open' })
             ]);
             if (statsRes.success) {
                 setStats(statsRes.data);
             }
             if (issuesRes.data) {
+                setOpenIssues(issuesRes.data.slice(0, 5));
                 setOpenIssuesCount(issuesRes.data.length);
             }
         } catch (err) {
@@ -127,10 +129,10 @@ const DashboardAdmin = () => {
     })?._count?._all || 0;
 
     const dashboardStats = [
-        { label: "Proyek Aktif", value: activeProjects, icon: FiLayers, color: "#1A4D2E" },
-        { label: "Proyek Perencanaan", value: planningProjects, icon: FiActivity, color: "#0EA5E9" },
-        { label: "Material Request", value: stats?.materialRequests?.filter(m => m.status === 'submitted').length || 0, icon: FiPackage, color: "#F59E0B" },
-        { label: "Kendala Terbuka", value: openIssuesCount, icon: FiAlertCircle, color: "#E11428" },
+        { label: "Proyek Aktif", value: activeProjects, icon: FiLayers, color: "#1A4D2E", href: "/admin/proyek" },
+        { label: "Proyek Perencanaan", value: planningProjects, icon: FiActivity, color: "#0EA5E9", href: "/admin/proyek" },
+        { label: "Material Request", value: stats?.materialRequests?.filter(m => m.status === 'submitted').length || 0, icon: FiPackage, color: "#F59E0B", href: "/admin/request-material" },
+        { label: "Kendala Terbuka", value: openIssuesCount, icon: FiAlertCircle, color: "#E11428", href: "/admin/monitoring/kendala" },
     ];
 
     const recentActivities = [
@@ -160,8 +162,17 @@ const DashboardAdmin = () => {
             timestamp: new Date(m.createdAt),
             icon: FiPackage,
             color: '#F59E0B'
+        })),
+        ...(openIssues || []).map(i => ({
+            id: `issue-${i.id}`,
+            type: 'issue',
+            title: `Kendala: ${i.title}`,
+            subtitle: `Proyek: ${i.project?.projectCode} | Prioritas: ${i.priority}`,
+            timestamp: new Date(i.createdAt),
+            icon: FiAlertCircle,
+            color: '#E11428'
         }))
-    ].sort((a, b) => b.timestamp - a.timestamp).slice(0, 5);
+    ].sort((a, b) => b.timestamp - a.timestamp).slice(0, 8);
 
     return (
         <div className="animate-fadeIn space-y-8 pb-20">

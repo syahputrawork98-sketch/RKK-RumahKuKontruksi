@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiAlertTriangle, FiCheckCircle, FiChevronRight, FiClock, FiUser, FiLayers, FiActivity } from "react-icons/fi";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
-import { getFieldIssues, updateFieldIssueStatus } from "../../services/fieldIssues.service";
+import fieldIssueService from "../../services/fieldIssues.service";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 import StatusBadge from "../../components/common/StatusBadge";
@@ -21,7 +21,7 @@ const KendalaLapanganAdminPage = () => {
         try {
             setLoading(true);
             // Admin sees all issues for monitoring
-            const data = await getFieldIssues({});
+            const data = await fieldIssueService.getFieldIssues({});
             setIssues(data.data || []);
         } catch (err) {
             setError(err.message || "Gagal memuat data kendala");
@@ -39,7 +39,7 @@ const KendalaLapanganAdminPage = () => {
         if (resolutionNote === null) return;
 
         try {
-            await updateFieldIssueStatus(id, { status, resolutionNote, adminId: selectedAdminId });
+            await fieldIssueService.updateFieldIssueStatus(id, { status, resolutionNote, adminId: selectedAdminId });
             setIssues(issues.map(issue => issue.id === id ? { ...issue, status, resolutionNote } : issue));
         } catch (err) {
             alert("Gagal memperbarui status: " + err.message);

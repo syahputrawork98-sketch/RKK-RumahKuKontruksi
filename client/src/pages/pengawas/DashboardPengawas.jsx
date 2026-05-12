@@ -5,12 +5,10 @@ import {
     FiCamera, 
     FiFileText,
     FiShoppingCart,
-    FiActivity,
-    FiStar,
     FiBriefcase,
     FiAlertTriangle
 } from "react-icons/fi";
-import { getFieldIssues } from "../../services/fieldIssues.service";
+import fieldIssueService from "../../services/fieldIssues.service";
 import {
     DashboardHeader,
     DashboardStats,
@@ -44,7 +42,7 @@ const DashboardPengawas = () => {
                 const [projRes, statsRes, issuesRes] = await Promise.all([
                     projectService.getProjects({ supervisorId: selectedSupervisorId }),
                     supervisorService.getSupervisorStats(selectedSupervisorId),
-                    getFieldIssues({ supervisorId: selectedSupervisorId, status: "open" })
+                    fieldIssueService.getFieldIssues({ supervisorId: selectedSupervisorId, status: "open" })
                 ]);
 
                 if (projRes.success) {
@@ -78,34 +76,39 @@ const DashboardPengawas = () => {
             label: "Proyek Diawasi", 
             value: statsData?.activeProjects || projects.length, 
             icon: FiLayers, 
-            color: "#1A4D2E" 
+            color: "#1A4D2E",
+            href: "/pengawas/proyek"
         },
         { 
             label: "Review Jurnal", 
             value: getCountByStatus(statsData?.journals, 'submitted'), 
             icon: FiCheckSquare, 
             color: "#F59E0B",
-            subLabel: "Menunggu Review" 
+            subLabel: "Menunggu Review",
+            href: "/pengawas/jurnal-mandor"
         },
         { 
             label: "Progres Rata-rata", 
             value: statsData ? `${Math.round(statsData.avgProgress)}%` : "0%", 
             icon: FiActivity, 
-            color: "#0EA5E9" 
+            color: "#0EA5E9",
+            href: "/pengawas/verifikasi-progres"
         },
         { 
             label: "Request Material", 
             value: getCountByStatus(statsData?.materialRequests, 'submitted'), 
             icon: FiShoppingCart, 
             color: "#E11428",
-            subLabel: "Butuh Approval" 
+            subLabel: "Butuh Approval",
+            href: "/pengawas/request-material"
         },
         { 
             label: "Kendala Lapangan", 
             value: activeIssues, 
             icon: FiAlertTriangle, 
             color: "#E11428",
-            subLabel: "Perlu Solusi" 
+            subLabel: "Perlu Solusi",
+            href: "/pengawas/kendala"
         },
     ];
 
@@ -236,16 +239,51 @@ const DashboardPengawas = () => {
 
                 <div className="space-y-6">
                     <div className="dashboard-card">
-                        <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-primary)]">Aktivitas Lapangan</h3>
-                        <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
-                            Belum tersedia / Backend Pending
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-bold text-[xs] uppercase tracking-widest text-[var(--dashboard-primary)]">Monitoring Kendala</h3>
+                            <a href="/pengawas/kendala" className="text-[10px] font-bold text-[var(--dashboard-primary)] hover:underline uppercase tracking-tighter">Buka Semua</a>
                         </div>
+                        {activeIssues > 0 ? (
+                            <div className="p-5 bg-red-50 dark:bg-red-900/10 rounded-[28px] border border-red-100 dark:border-red-900/20 shadow-sm">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-2xl bg-red-500 flex items-center justify-center text-white shadow-lg shadow-red-500/20">
+                                        <FiAlertTriangle size={20} />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-sm font-black text-red-600 uppercase tracking-tight">{activeIssues} Kendala Aktif</h4>
+                                        <p className="text-[10px] text-red-500 font-bold opacity-80 uppercase tracking-tighter">Perlu Solusi Teknis</p>
+                                    </div>
+                                </div>
+                                <p className="text-[11px] font-medium text-red-800 dark:text-red-300 leading-relaxed italic mb-4">
+                                    "Beberapa kendala lapangan dilaporkan oleh Mandor dan menunggu arahan solusi dari Anda."
+                                </p>
+                                <button 
+                                    onClick={() => window.location.href = "/pengawas/kendala"}
+                                    className="w-full py-3 bg-red-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-red-600/30 hover:scale-[1.02] transition-all"
+                                >
+                                    Berikan Arahan Solusi
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="py-12 text-center bg-[var(--dashboard-surface-soft)] rounded-[32px] border border-dashed border-[var(--dashboard-border)]">
+                                <FiCheckCircle className="mx-auto text-emerald-500 mb-3 opacity-30" size={32} />
+                                <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Operasional Lancar</p>
+                                <p className="text-[10px] text-slate-400 mt-2 px-8 italic">Tidak ada kendala lapangan yang dilaporkan saat ini.</p>
+                            </div>
+                        )}
                     </div>
                     
-                    <div className="dashboard-card">
-                        <h3 className="font-bold text-sm mb-4 uppercase tracking-widest text-[var(--dashboard-primary)]">Dokumentasi Terbaru</h3>
-                        <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-2xl">
-                            Belum tersedia / Backend Pending
+                    <div className="dashboard-card group">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-bold text-xs uppercase tracking-widest text-[var(--dashboard-primary)]">Dokumentasi Terbaru</h3>
+                            <a href="/pengawas/proyek" className="text-[10px] font-bold text-[var(--dashboard-primary)] hover:underline uppercase tracking-tighter">Lihat Galeri</a>
+                        </div>
+                        <div className="py-12 text-center bg-[var(--dashboard-surface-soft)] rounded-[32px] border border-dashed border-[var(--dashboard-border)]">
+                            <FiCamera className="mx-auto text-slate-300 mb-3" size={32} />
+                            <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Sinkronisasi Visual</p>
+                            <p className="text-[10px] text-slate-400 mt-2 px-8 italic font-medium leading-relaxed">
+                                Foto harian dari Mandor akan muncul di sini setelah diunggah melalui Jurnal Mingguan.
+                            </p>
                         </div>
                     </div>
                 </div>

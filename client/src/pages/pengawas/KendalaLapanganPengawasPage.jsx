@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiAlertTriangle, FiCheckCircle, FiChevronRight, FiClock, FiUser, FiLayers } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
-import { getFieldIssues, updateFieldIssueStatus } from "../../services/fieldIssues.service";
+import fieldIssueService from "../../services/fieldIssues.service";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
 import StatusBadge from "../../components/common/StatusBadge";
@@ -23,7 +23,7 @@ const KendalaLapanganPengawasPage = () => {
             // On the backend, we filter by supervisorId if we want, 
             // but usually we want to see issues for projects this supervisor is assigned to.
             // For now, let's just get all and filter locally or use the existing service.
-            const data = await getFieldIssues({ supervisorId: selectedSupervisorId });
+            const data = await fieldIssueService.getFieldIssues({ supervisorId: selectedSupervisorId });
             setIssues(data.data || []);
         } catch (err) {
             setError(err.message || "Gagal memuat data kendala");
@@ -41,7 +41,7 @@ const KendalaLapanganPengawasPage = () => {
         if (resolutionNote === null) return; // Cancelled
 
         try {
-            await updateFieldIssueStatus(id, { status, resolutionNote });
+            await fieldIssueService.updateFieldIssueStatus(id, { status, resolutionNote });
             setIssues(issues.map(issue => issue.id === id ? { ...issue, status, resolutionNote } : issue));
         } catch (err) {
             alert("Gagal memperbarui status: " + err.message);

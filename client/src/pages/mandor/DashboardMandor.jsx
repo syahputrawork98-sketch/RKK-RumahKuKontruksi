@@ -27,7 +27,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 import StatusBadge from "../../components/common/StatusBadge";
 import dailyTaskService from "../../services/dailyTaskService";
 import dailyReportService from "../../services/dailyReportService";
-import { getFieldIssues } from "../../services/fieldIssues.service";
+import fieldIssueService from "../../services/fieldIssues.service";
 
 const DashboardMandor = () => {
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ const DashboardMandor = () => {
                     }),
                     dailyTaskService.getAllTasks({ foremanId: selectedForemanId, status: "todo" }),
                     dailyReportService.getAllReports({ foremanId: selectedForemanId }),
-                    getFieldIssues({ foremanId: selectedForemanId, status: "open" })
+                    fieldIssueService.getFieldIssues({ foremanId: selectedForemanId, status: "open" })
                 ]);
                 
                 if (projRes.success) setProjects(projRes.data);
@@ -96,11 +96,11 @@ const DashboardMandor = () => {
         : 0;
 
     const stats = [
-        { label: "Proyek Aktif", value: activeProjectsCount, icon: FiLayers, color: "#1A4D2E" },
-        { label: "Jurnal Pending", value: pendingJournalsCount, icon: FiList, color: "#0EA5E9" },
-        { label: "Progres Terverifikasi", value: `${avgProgress}%`, icon: FiActivity, color: "#16A34A" },
-        { label: "Request Material", value: pendingMaterialsCount, icon: FiShoppingCart, color: "#F59E0B" },
-        { label: "Kendala Lapangan", value: activeIssues, icon: FiAlertTriangle, color: "#E11428" },
+        { label: "Proyek Aktif", value: activeProjectsCount, icon: FiLayers, color: "#1A4D2E", href: "/mandor/proyek-aktif" },
+        { label: "Jurnal Pending", value: pendingJournalsCount, icon: FiList, color: "#0EA5E9", href: "/mandor/jurnal-mingguan" },
+        { label: "Progres Terverifikasi", value: `${avgProgress}%`, icon: FiActivity, color: "#16A34A", href: "/mandor/proyek-aktif" },
+        { label: "Request Material", value: pendingMaterialsCount, icon: FiShoppingCart, color: "#F59E0B", href: "/mandor/request-material" },
+        { label: "Kendala Lapangan", value: activeIssues, icon: FiAlertTriangle, color: "#E11428", href: "/mandor/kendala-lapangan" },
     ];
 
     if (!selectedForemanId && !loading) {
@@ -251,10 +251,33 @@ const DashboardMandor = () => {
                         </div>
                     </div>
                     
-                    <div className="dashboard-card border-dashed">
-                        <h3 className="font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-4">Kendala Lapangan (Hold)</h3>
-                        <div className="p-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-2 border-dashed border-slate-50 rounded-2xl italic">
-                            Modul kendala sedang disiapkan
+                    <div className="dashboard-card">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-bold text-xs uppercase tracking-widest text-[var(--dashboard-primary)]">Kendala Lapangan Aktif</h3>
+                            <Link to="/mandor/kendala-lapangan" className="text-[10px] font-bold text-[var(--dashboard-primary)] hover:underline uppercase tracking-tighter">Lapor Baru</Link>
+                        </div>
+                        <div className="space-y-3">
+                            {activeIssues > 0 ? (
+                                <div className="p-4 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-100 dark:border-red-900/20">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                        <span className="text-[10px] font-black text-red-600 uppercase">Perhatian Diperlukan</span>
+                                    </div>
+                                    <p className="text-xs font-bold text-red-800 dark:text-red-300">Anda memiliki {activeIssues} kendala lapangan yang sedang aktif atau dalam peninjauan.</p>
+                                    <button 
+                                        onClick={() => navigate("/mandor/kendala-lapangan")}
+                                        className="mt-3 w-full py-2 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest"
+                                    >
+                                        Buka Monitoring Kendala
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="py-8 text-center bg-[var(--dashboard-surface-soft)] rounded-2xl border border-dashed border-[var(--dashboard-border)]">
+                                    <FiCheckCircle className="mx-auto text-emerald-500 mb-2 opacity-50" size={24} />
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Semua Aman</p>
+                                    <p className="text-[8px] text-slate-400 mt-1 px-4 italic">Belum ada laporan kendala yang aktif saat ini.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

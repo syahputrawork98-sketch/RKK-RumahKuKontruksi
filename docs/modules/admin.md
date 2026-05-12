@@ -7,6 +7,7 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 - **RAB Management**: Menyusun baseline RAB (Plan/Category/Item) sebagai acuan kerja.
 - **Material Request Approval**: Melakukan approval akhir dan pemantauan distribusi material.
 - **Weekly Report Review**: Meninjau laporan mingguan Pengawas sebelum dipublikasikan ke Konsumen.
+- **Field Issue Monitoring**: Memantau eskalasi kendala lapangan dan memastikan resolusi akhir (Archive/Close).
 - **Design Management**: Mengelola alur permintaan desain hingga konversi menjadi draf proyek.
 
 ## 🛡️ Batasan Role (Boundary)

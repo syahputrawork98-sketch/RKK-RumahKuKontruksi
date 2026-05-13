@@ -98,33 +98,49 @@ const JurnalMingguanMandorPage = () => {
                         to={`/mandor/jurnal-mingguan/${journal.id}`}
                         className="dashboard-card group hover:border-[var(--dashboard-primary)]/50 transition-all p-5 flex flex-col md:flex-row md:items-center justify-between gap-4"
                     >
-                        <div className="flex items-start gap-4">
-                            <div className="p-3 bg-[var(--dashboard-surface-soft)] rounded-2xl text-[var(--dashboard-primary)] group-hover:bg-[var(--dashboard-primary)] group-hover:text-white transition-all">
+                        <div className="flex items-start gap-4 flex-1">
+                            <div className="p-3 bg-[var(--dashboard-surface-soft)] rounded-2xl text-[var(--dashboard-primary)] group-hover:bg-[var(--dashboard-primary)] group-hover:text-white transition-all shrink-0">
                                 <FiCalendar size={20} />
                             </div>
-                            <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{journal.project?.projectCode}</span>
+                            <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2 mb-1">
+                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest bg-[var(--dashboard-primary)]/10 px-2 py-0.5 rounded">
+                                        {journal.project?.projectCode || "PRJ-??"}
+                                    </span>
                                     <StatusBadge type="journal" status={journal.status} />
                                 </div>
-                                <h3 className="text-lg font-black leading-tight group-hover:text-[var(--dashboard-primary)] transition-colors">{journal.project?.name}</h3>
-                                <p className="text-xs font-bold text-[var(--dashboard-text-soft)] mt-1">
-                                    Periode: {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
-                                </p>
+                                <h3 className="text-lg font-black leading-tight group-hover:text-[var(--dashboard-primary)] transition-colors truncate">
+                                    {journal.project?.name || "Proyek Tanpa Nama"}
+                                </h3>
+                                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
+                                    <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase flex items-center gap-1.5">
+                                        <FiCalendar className="text-[var(--dashboard-primary)]" /> 
+                                        {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
+                                    </p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase flex items-center gap-1.5">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                                        {journal.activities?.length || 0} Aktivitas Dilaporkan
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4">
+                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 border-t md:border-t-0 pt-4 md:pt-0 border-slate-50">
                             <div className="text-left md:text-right">
-                                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Klaim Progres (Non-Resmi)</p>
-                                <p className="text-xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="hidden md:block text-right">
-                                    <p className="text-[8px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Dibuat pada</p>
-                                    <p className="text-[10px] font-bold">{new Date(journal.createdAt).toLocaleDateString('id-ID')}</p>
+                                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Klaim Progres</p>
+                                <div className="flex items-baseline gap-1">
+                                    <p className="text-2xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}</p>
+                                    <span className="text-xs font-black text-[var(--dashboard-primary)]">%</span>
                                 </div>
-                                <FiChevronRight className="text-[var(--dashboard-text-soft)] group-hover:text-[var(--dashboard-primary)] group-hover:translate-x-1 transition-all" size={20} />
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="hidden md:block text-right">
+                                    <p className="text-[8px] font-black text-slate-300 uppercase tracking-tighter">Dibuat pada</p>
+                                    <p className="text-[10px] font-bold text-slate-500">{new Date(journal.createdAt).toLocaleDateString('id-ID')}</p>
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-[var(--dashboard-primary)]/10 transition-all">
+                                    <FiChevronRight className="text-slate-300 group-hover:text-[var(--dashboard-primary)] transition-all" size={20} />
+                                </div>
                             </div>
                         </div>
                     </Link>

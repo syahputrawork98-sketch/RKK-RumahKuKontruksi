@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiArrowLeft, FiSave, FiPlus, FiTrash2, FiInfo } from "react-icons/fi";
+import { FiArrowLeft, FiSave, FiPlus, FiTrash2, FiInfo, FiAlertCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
@@ -343,7 +343,13 @@ const CreateJurnalMingguanMandorPage = () => {
                                 onChange={(e) => setFormData({...formData, claimedProgress: e.target.value})}
                                 className="w-full bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-[var(--dashboard-primary)] transition-all"
                             />
-                            <p className="text-[9px] text-amber-600 font-bold italic mt-1">* Klaim non-resmi berdasarkan aktivitas lapangan Anda.</p>
+                            <div className="mt-2 p-3 bg-amber-50 border border-amber-100 rounded-xl flex items-start gap-2">
+                                <FiAlertCircle className="text-amber-600 mt-0.5 shrink-0" size={14} />
+                                <p className="text-[9px] font-bold text-amber-700 leading-relaxed uppercase">
+                                    Penting: Progres yang Anda klaim adalah data administratif Mandor. 
+                                    Progres resmi proyek (SOT) tetap menggunakan <span className="font-black">Project.verifiedProgress</span> yang hanya diperbarui oleh Pengawas.
+                                </p>
+                            </div>
                         </div>
 
                         <div className="space-y-2">

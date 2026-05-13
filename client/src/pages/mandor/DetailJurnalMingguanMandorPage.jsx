@@ -145,11 +145,13 @@ const DetailJurnalMingguanMandorPage = () => {
                         <FiArrowLeft size={20} />
                     </button>
                     <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
                             <WeeklyJournalStatusBadge status={journal.status} />
-                            <span className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">{journal.project?.projectCode}</span>
+                            <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest bg-[var(--dashboard-primary)]/10 px-2 py-0.5 rounded">
+                                {journal.project?.projectCode || "PRJ-??"}
+                            </span>
                         </div>
-                        <h2 className="text-2xl font-extrabold tracking-tight">{journal.project?.name}</h2>
+                        <h2 className="text-2xl font-extrabold tracking-tight">{journal.project?.name || "Detail Jurnal"}</h2>
                     </div>
                 </div>
                 
@@ -289,22 +291,25 @@ const DetailJurnalMingguanMandorPage = () => {
 
                                 {/* CONTEXT CHIPS */}
                                 {(activity.projectStage || activity.rabItem) && (
-                                    <div className="flex flex-wrap gap-2 mb-3">
+                                    <div className="flex flex-wrap gap-2 mb-4">
                                         {activity.projectStage && (
-                                            <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 border border-blue-100 rounded-lg">
-                                                <span className="text-[8px] font-black text-blue-600 uppercase">Tahapan:</span>
-                                                <span className="text-[9px] font-bold text-blue-700">{activity.projectStage.name}</span>
+                                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-xl">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                                                <span className="text-[8px] font-black text-blue-400 uppercase tracking-tighter">Tahapan:</span>
+                                                <span className="text-[10px] font-extrabold text-blue-700">{activity.projectStage.name}</span>
                                             </div>
                                         )}
                                         {activity.rabItem ? (
-                                            <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 border border-emerald-100 rounded-lg">
-                                                <span className="text-[8px] font-black text-emerald-600 uppercase">RAB:</span>
-                                                <span className="text-[9px] font-bold text-emerald-700">[{activity.rabItem.category?.code || '??'}] {activity.rabItem.description}</span>
+                                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-100 rounded-xl">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                                                <span className="text-[8px] font-black text-emerald-400 uppercase tracking-tighter">Item RAB:</span>
+                                                <span className="text-[10px] font-extrabold text-emerald-700">[{activity.rabItem.category?.code || activity.rabItem.code || '??'}] {activity.rabItem.description}</span>
                                             </div>
                                         ) : (
-                                            <div className="flex items-center gap-1.5 px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg">
-                                                <span className="text-[8px] font-black text-slate-400 uppercase">RAB:</span>
-                                                <span className="text-[9px] font-bold text-slate-400 italic">Belum terhubung ke Item RAB</span>
+                                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-xl">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                                                <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Item RAB:</span>
+                                                <span className="text-[10px] font-bold text-slate-400 italic">Manual / Tanpa Referensi RAB</span>
                                             </div>
                                         )}
                                     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiPlus, FiFileText, FiCloud, FiUsers, FiChevronRight, FiX, FiCheck } from "react-icons/fi";
+import { FiPlus, FiFileText, FiCloud, FiUsers, FiChevronRight, FiX, FiCheck, FiAlertCircle } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import dailyReportService from "../../services/dailyReportService";
 import projectService from "../../services/projectService";
@@ -157,30 +157,43 @@ const LaporanHarianMandorPage = () => {
                 {filteredReports.length === 0 ? (
                     <RoleDataState type="empty" title="Tidak ada laporan" description="Tidak ada laporan harian dengan status ini." />
                 ) : filteredReports.map((report) => (
-                    <div key={report.id} className="dashboard-card hover:border-[var(--dashboard-primary)]/30 transition-all">
+                    <div key={report.id} className="dashboard-card group hover:border-[var(--dashboard-primary)]/50 transition-all overflow-hidden border-l-4 border-l-[var(--dashboard-primary)]">
                         <div className="flex flex-col md:flex-row justify-between gap-6">
                             <div className="flex-1 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{report.projectId}</span>
-                                        <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[8px] font-black uppercase rounded tracking-tighter border border-slate-200">
-                                            Logbook
+                                        <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest bg-[var(--dashboard-primary)]/10 px-2 py-0.5 rounded">
+                                            {projects.find(p => p.id === report.projectId)?.projectCode || "PRJ-??"}
+                                        </span>
+                                        <span className="text-xs font-black text-slate-800">
+                                            {projects.find(p => p.id === report.projectId)?.name || "Proyek Lapangan"}
                                         </span>
                                     </div>
-                                    <span className="text-xs font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">{new Date(report.date).toLocaleDateString("id-ID")}</span>
-                                </div>
-                                <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Ringkasan Pekerjaan</p>
-                                    <h4 className="text-sm font-bold leading-relaxed">"{report.activitySummary}"</h4>
-                                </div>
-                                <div className="flex items-center gap-6">
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-1.5 bg-blue-500/10 text-blue-500 rounded-lg"><FiUsers size={12} /></div>
-                                        <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase">{report.workerCount} Pekerja</span>
+                                    <div className="flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg">
+                                        <FiFileText size={12} className="text-slate-400" />
+                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{new Date(report.date).toLocaleDateString("id-ID")}</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-1.5 bg-amber-500/10 text-amber-500 rounded-lg"><FiCloud size={12} /></div>
-                                        <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase">Cuaca: {report.weatherSummary}</span>
+                                </div>
+                                <div className="space-y-2 bg-[var(--dashboard-surface-soft)] p-4 rounded-2xl border border-slate-50 group-hover:border-[var(--dashboard-primary)]/10 transition-all">
+                                    <p className="text-[9px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest mb-1 opacity-70">Aktivitas Hari Ini</p>
+                                    <h4 className="text-sm font-bold leading-relaxed text-slate-700 italic">"{report.activitySummary}"</h4>
+                                    {report.blockerSummary && (
+                                        <div className="mt-2 pt-2 border-t border-slate-100">
+                                            <p className="text-[9px] font-black text-amber-600 uppercase tracking-widest flex items-center gap-1">
+                                                <FiAlertCircle size={10} /> Kendala:
+                                            </p>
+                                            <p className="text-[10px] font-bold text-amber-700 italic">{report.blockerSummary}</p>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
+                                        <FiUsers size={12} />
+                                        <span className="text-[10px] font-black uppercase">{report.workerCount || 0} Pekerja</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-600 rounded-xl border border-amber-100">
+                                        <FiCloud size={12} />
+                                        <span className="text-[10px] font-black uppercase">Cuaca: {report.weatherSummary}</span>
                                     </div>
                                 </div>
                             </div>

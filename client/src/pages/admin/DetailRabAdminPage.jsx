@@ -213,33 +213,24 @@ const DetailRabAdminPage = () => {
     if (loading) return <RoleDataState type="loading" message="Memverifikasi data dan kepemilikan RAB..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchData} />;
     
-    if (project && project.adminId !== selectedAdminId) {
-        return (
-            <div className="p-8 text-center space-y-6 bg-white rounded-3xl border border-red-100 animate-fadeIn max-w-md mx-auto my-20 shadow-xl shadow-red-500/5">
-                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto text-red-500 mb-2">
-                    <FiAlertCircle size={40} />
-                </div>
-                <div>
-                    <h2 className="text-xl font-black text-slate-800">Akses Ditolak</h2>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Forbidden Access</p>
-                    <p className="text-sm text-slate-500 mt-4 leading-relaxed">
-                        Anda tidak memiliki izin untuk melihat RAB proyek ini. Proyek ini bukan di bawah tanggung jawab persona Anda.
-                    </p>
-                </div>
-                <button 
-                    onClick={() => navigate("/admin/rab")} 
-                    className="w-full py-3 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-slate-800/20"
-                >
-                    Kembali ke Daftar RAB
-                </button>
-            </div>
-        );
-    }
+    // Soft warning: RAB di luar tanggung jawab Admin aktif — tidak diblokir untuk monitoring administratif lokal.
+    const isOtherAdminProject = project && project.adminId && project.adminId !== selectedAdminId;
 
     if (!project) return <RoleDataState type="empty" message="Proyek tidak ditemukan." />;
 
     return (
         <div className="animate-fadeIn space-y-6">
+            {isOtherAdminProject && (
+                <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl flex items-start gap-3 shadow-sm">
+                    <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" />
+                    <div>
+                        <h4 className="text-[10px] font-black text-amber-800 uppercase tracking-widest">Administrative Monitoring Mode</h4>
+                        <p className="text-[10px] text-amber-700 leading-relaxed font-bold">
+                            Proyek ini tercatat atas nama Admin lain. Anda dapat melihat RAB untuk koordinasi administratif, namun disarankan tidak melakukan perubahan krusial.
+                        </p>
+                    </div>
+                </div>
+            )}
             {/* HEADER */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
@@ -304,7 +295,7 @@ const DetailRabAdminPage = () => {
                         onAddCategory={() => {
                             setFormError(null);
                             setIsEditing(false);
-                            setCategoryForm({ code: "", name: "", description: "", order: (rabPlan.categories?.length || 0) + 1 });
+                            setCategoryForm({ code: "", name: "", description: "", order: (Array.isArray(rabPlan.categories) ? rabPlan.categories.length : 0) + 1 });
                             setShowCategoryModal(true);
                         }}
                         onImportCsv={() => {

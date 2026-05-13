@@ -37,7 +37,7 @@ const AdministrativeHelperDocumentsPage = () => {
             if (filterStatus !== "ALL") params.status = filterStatus;
             
             const response = await administrativeHelperDocumentService.getDocuments(params);
-            setDocuments(response.data || []);
+            setDocuments(Array.isArray(response.data) ? response.data : []);
             setLoading(false);
         } catch (error) {
             console.error("Error fetching helper documents:", error);
@@ -100,21 +100,21 @@ const AdministrativeHelperDocumentsPage = () => {
                         <FiFileText size={80} />
                     </div>
                     <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-1">Total Draft</p>
-                    <h4 className="text-3xl font-black text-neutral-900">{documents.length}</h4>
+                    <h4 className="text-3xl font-black text-neutral-900">{Array.isArray(documents) ? documents.length : 0}</h4>
                 </div>
                 <div className="bg-white p-8 rounded-[40px] border border-neutral-100 shadow-xl relative overflow-hidden group">
                     <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform">
                         <FiClock size={80} />
                     </div>
                     <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-1">Menunggu Review</p>
-                    <h4 className="text-3xl font-black text-blue-600">{documents.filter(d => d.status === 'draft').length}</h4>
+                    <h4 className="text-3xl font-black text-blue-600">{(Array.isArray(documents) ? documents : []).filter(d => d.status === 'draft').length}</h4>
                 </div>
                 <div className="bg-white p-8 rounded-[40px] border border-neutral-100 shadow-xl relative overflow-hidden group">
                     <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform">
                         <FiCheckCircle size={80} />
                     </div>
                     <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest mb-1">Siap Rilis</p>
-                    <h4 className="text-3xl font-black text-emerald-600">{documents.filter(d => d.status === 'reviewed').length}</h4>
+                    <h4 className="text-3xl font-black text-emerald-600">{(Array.isArray(documents) ? documents : []).filter(d => d.status === 'reviewed').length}</h4>
                 </div>
             </div>
 
@@ -167,7 +167,7 @@ const AdministrativeHelperDocumentsPage = () => {
                 />
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {documents.map((doc, idx) => {
+                    {(Array.isArray(documents) ? documents : []).map((doc, idx) => {
                         const typeInfo = getTypeLabel(doc.type);
                         return (
                             <motion.div 

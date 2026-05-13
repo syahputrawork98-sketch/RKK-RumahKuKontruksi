@@ -22,7 +22,7 @@ const RabAdminPage = () => {
             setLoading(true);
             setError(null);
             const res = await projectService.getProjects({ adminId: selectedAdminId });
-            setProjects(res.data || []);
+            setProjects(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
             console.error("Error fetching projects for RAB:", err);
             setError("Gagal memuat data proyek untuk RAB. Pastikan backend aktif.");
@@ -48,24 +48,29 @@ const RabAdminPage = () => {
     };
 
     const getStatusInfo = (project) => {
-        const latestPlan = project.rabPlans?.[0];
-        const planCount = project._count?.rabPlans || 0;
-
-        if (planCount === 0) return { label: "BELUM ADA", color: "bg-slate-50 text-slate-400 border-slate-100", icon: <FiClock /> };
+        if (!project) return { label: "N/A", color: "bg-slate-50 text-slate-400 border-slate-100", icon: <FiInfo /> };
         
-        if (latestPlan.status === 'active') return { label: "AKTIF", color: "bg-emerald-50 text-emerald-600 border-emerald-100", icon: <FiCheckCircle /> };
-        if (latestPlan.status === 'approved') return { label: "FINAL", color: "bg-indigo-50 text-indigo-600 border-indigo-100", icon: <FiCheckCircle /> };
-        if (latestPlan.status === 'draft') return { label: "DRAFT", color: "bg-amber-50 text-amber-600 border-amber-100", icon: <FiClock /> };
+        const rabPlans = Array.isArray(project.rabPlans) ? project.rabPlans : [];
+        const planCount = project._count?.rabPlans || rabPlans.length;
+        const latestPlan = rabPlans[0];
+
+        if (planCount === 0 || !latestPlan) return { label: "BELUM ADA", color: "bg-slate-50 text-slate-400 border-slate-100", icon: <FiClock /> };
+        
+        const status = latestPlan.status?.toLowerCase();
+        if (status === 'active') return { label: "AKTIF", color: "bg-emerald-50 text-emerald-600 border-emerald-100", icon: <FiCheckCircle /> };
+        if (status === 'approved') return { label: "FINAL", color: "bg-indigo-50 text-indigo-600 border-indigo-100", icon: <FiCheckCircle /> };
+        if (status === 'draft') return { label: "DRAFT", color: "bg-amber-50 text-amber-600 border-amber-100", icon: <FiClock /> };
         if (latestPlan.totalAmount <= 0) return { label: "PERLU REVIEW", color: "bg-red-50 text-red-600 border-red-100", icon: <FiAlertCircle /> };
         
-        return { label: latestPlan.status.toUpperCase(), color: "bg-slate-50 text-slate-400 border-slate-100", icon: <FiInfo /> };
+        return { label: (status || 'UNKNOWN').toUpperCase(), color: "bg-slate-50 text-slate-400 border-slate-100", icon: <FiInfo /> };
     };
 
-    const filteredProjects = projects.filter(prj => 
-        prj.projectCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prj.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        prj.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredProjects = (Array.isArray(projects) ? projects : []).filter(prj => {
+        if (!prj) return false;
+        return (prj.projectCode?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (prj.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (prj.customer?.name?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+    });
 
     if (loading) return <RoleDataState type="loading" message="Menganalisis status RAB proyek..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjects} />;

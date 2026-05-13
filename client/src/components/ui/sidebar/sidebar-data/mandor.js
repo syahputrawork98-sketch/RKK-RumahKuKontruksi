@@ -33,7 +33,7 @@ export default [
         label: "Informasi Kerja",
         activeStartsWith: "/mandor/info",
         items: [
-            { label: "Scope & RAB Ringkas", href: "/mandor/info/rab" },
+            { label: "Informasi RAB", href: "/mandor/info/rab" },
             { label: "Gambar Kerja", href: "/mandor/info/gambar-kerja" },
             { label: "Jadwal Kerja", href: "/mandor/info/jadwal" },
         ],
@@ -60,7 +60,7 @@ export default [
     {
         type: "item",
         icon: FiShoppingCart,
-        label: "Material Request",
+        label: "Kebutuhan Material",
         href: "/mandor/request-material",
     },
     {
@@ -72,7 +72,7 @@ export default [
     {
         type: "item",
         icon: FiCamera,
-        label: "Dokumentasi / Galeri",
+        label: "Dokumentasi Lapangan",
         href: "/mandor/dokumentasi",
     },
     {

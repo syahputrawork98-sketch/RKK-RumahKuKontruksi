@@ -103,6 +103,7 @@ import MandorRabInfoPage from "./pages/mandor/MandorRabInfoPage";
 import MandorJadwalInfoPage from "./pages/mandor/MandorJadwalInfoPage";
 import MandorGambarKerjaInfoPage from "./pages/mandor/MandorGambarKerjaInfoPage";
 import MandorDokumentasiPage from "./pages/mandor/MandorDokumentasiPage";
+import PembayaranMandorPage from "./pages/mandor/PembayaranMandorPage";
 
 // ===== HALAMAN ARSITEK =====
 import ArsitekLayout from "./layouts/ArsitekLayout";
@@ -337,7 +338,7 @@ function App() {
             <Route path="peluang/penawaran" element={<MandorHoldState title="Penawaran Saya" description="Daftar bidding/penawaran yang sedang diajukan ke RKK." />} />
             <Route path="peluang/riwayat" element={<MandorHoldState title="Riwayat Penawaran" description="Arsip seluruh penawaran proyek yang pernah diikuti." />} />
             
-            <Route path="pembayaran" element={<MandorHoldState title="Status Pembayaran" description="Monitoring pengajuan opname dan status pembayaran dari RKK." />} />
+            <Route path="pembayaran" element={<PembayaranMandorPage />} />
 
             <Route path="pengaturan" element={<PengaturanMandorPage />} />
           </Route>

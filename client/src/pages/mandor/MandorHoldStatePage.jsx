@@ -27,15 +27,16 @@ const MandorHoldStatePage = ({ title, description }) => {
                 </div>
                 <h2 className="text-xl font-black text-[var(--dashboard-text)] mb-3">Modul Konstruksi Ditangguhkan</h2>
                 <p className="text-sm text-[var(--dashboard-text-soft)] max-w-md leading-relaxed italic mb-8">
-                    Halaman ini berkaitan dengan manajemen teknis lapangan tingkat lanjut (upload dokumentasi fisik, manajemen tim harian, atau opname pembayaran). Di fase <strong>Local Development CRUD Integration</strong>, akses dibatasi pada Jurnal Mingguan untuk menjaga akurasi progres Source of Truth.
+                    Halaman ini berkaitan dengan manajemen teknis lapangan tingkat lanjut atau fitur marketplace/peluang proyek eksternal. 
+                    Di fase <strong>Local Development CRUD Integration</strong>, akses difokuskan pada operasional proyek aktif (Jurnal, Laporan, Material, Kendala) untuk memastikan kestabilan data lapangan.
                 </p>
                 
                 <div className="flex flex-col items-center gap-4">
                     <div className="px-6 py-3 bg-[var(--dashboard-primary)] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-[var(--dashboard-primary)]/20">
-                        Menunggu Integrasi Field Evidence & Billing v2
+                        Menunggu Integrasi Ekosistem Marketplace v2
                     </div>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
-                        Status: Construction Workflow Queue
+                        Status: Construction Ecosystem Queue
                     </p>
                 </div>
             </div>

@@ -22,6 +22,7 @@ const PengaturanMandorPage = () => {
     const [activeTab, setActiveTab] = useState("profil");
     const [certificates, setCertificates] = useState([]);
     const [experiences, setExperiences] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [statsData, setStatsData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isActionLoading, setIsActionLoading] = useState(false);
@@ -39,14 +40,16 @@ const PengaturanMandorPage = () => {
         try {
             setIsLoading(true);
             setError(null);
-            const [certs, exps, stats] = await Promise.all([
+            const [certs, exps, stats, projs] = await Promise.all([
                 foremanService.getCertificates(selectedForemanId),
                 foremanService.getExperiences(selectedForemanId),
-                foremanService.getForemanStats(selectedForemanId)
+                foremanService.getForemanStats(selectedForemanId),
+                foremanService.getForemanProjects(selectedForemanId)
             ]);
             if (certs.success) setCertificates(certs.data);
             if (exps.success) setExperiences(exps.data);
             if (stats.success) setStatsData(stats.data);
+            if (projs.success) setProjects(projs.data || []);
         } catch (err) {
             console.error("Failed to fetch foreman details:", err);
             setError("Gagal memuat detail profil mandor.");
@@ -248,6 +251,35 @@ const PengaturanMandorPage = () => {
                         persona={selectedForeman}
                         type="foreman"
                     />
+
+                    {/* Proyek Aktif Section */}
+                    <div className="dashboard-card space-y-4">
+                        <div className="flex items-center gap-3 border-b border-[var(--dashboard-border)] pb-4">
+                            <FiBriefcase className="text-[var(--dashboard-primary)]" size={18} />
+                            <h3 className="font-bold text-sm">Proyek Konstruksi Aktif</h3>
+                        </div>
+                        <div className="space-y-3">
+                            {projects.filter(p => ['active', 'ongoing', 'Berjalan'].includes(p.status)).length > 0 ? (
+                                projects.filter(p => ['active', 'ongoing', 'Berjalan'].includes(p.status)).map(p => (
+                                    <div key={p.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] space-y-1">
+                                        <p className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-tighter">{p.projectCode}</p>
+                                        <p className="text-xs font-black text-slate-800 line-clamp-1">{p.name}</p>
+                                        <div className="flex items-center justify-between mt-2">
+                                            <span className="text-[8px] font-black text-emerald-600 uppercase">Status: Berjalan</span>
+                                            <span className="text-[8px] font-black text-slate-400 uppercase">{p.location || 'Lokasi Terdaftar'}</span>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-[10px] text-slate-400 italic font-medium text-center py-4 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                                    Belum ada proyek aktif yang ditugaskan.
+                                </p>
+                            )}
+                        </div>
+                        <p className="text-[9px] text-[var(--dashboard-text-soft)] font-medium leading-relaxed italic">
+                            Daftar di atas adalah proyek yang saat ini sedang Anda tangani secara operasional di lapangan.
+                        </p>
+                    </div>
 
                     <RoleForemanTeamCard />
 

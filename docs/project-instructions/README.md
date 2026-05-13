@@ -2,6 +2,9 @@
 
 Daftar Instruksi dan SOP (Standard Operating Procedure) untuk pengelolaan workflow pengembangan proyek RumahKu Konstruksi (RKK).
 
+> [!IMPORTANT]
+> Folder ini adalah **pusat detail SOP workflow RKK**. Aturan di sini bersifat mengikat dan mendalam, sementara *Add Instructions ChatGPT Project* hanya berisi ringkasan aturan inti.
+
 ## 📋 Daftar SOP
 
 ### 1. [Room Chat 00: Master / Pengambil Keputusan](./room-00-sop.md)

@@ -6,7 +6,8 @@ Room Chat 01 adalah room khusus yang didedikasikan untuk eksplorasi, pembacaan k
 1. **Dilarang Edit**: Tidak diperbolehkan melakukan `write_to_file`, `replace_file_content`, atau perintah modifikasi lainnya.
 2. **Dilarang Implementasi**: Fokus hanya pada pemahaman sistem.
 3. **Dilarang Commit & Push**: Tidak ada aktivitas Git yang mengubah state repository.
-4. **Output Analisa**: Memberikan laporan temuan, saran arsitektur, atau deteksi bug kepada Room 00.
+4. **Bukan Batch Implementasi**: Sesi di Room 01 tidak dihitung sebagai batch pengembangan.
+5. **Output Analisa**: Memberikan laporan temuan, saran arsitektur, atau deteksi bug kepada Room 00. Room 01 tidak mengambil keputusan final.
 
 ## 🛠️ Alur Kerja
 - Membaca file (`view_file`), list direktori (`list_dir`), dan melakukan pencarian (`grep_search`).

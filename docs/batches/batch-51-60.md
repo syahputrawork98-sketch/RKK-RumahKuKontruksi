@@ -32,9 +32,10 @@
 
 ## Batch 55 — Operational Workflow Documentation Sync
 - **Status**: Accepted
-- **Commit**: `Not recorded`
+- **Commit**: `abb5e2176b2ae7d4eb4053e72c0174a7fdf5e932`
 - **Ringkasan**:
   - Sinkronisasi seluruh dokumentasi aktif (current-status, modules, api-map) sesuai implementasi Batch 52-54.
   - **Penambahan SOP Workflow Room RKK**: Menyimpan aturan main Room 00, Room 01, dan Gemini 3 Flash langsung ke dalam repo (`docs/project-instructions/`).
   - Penegasan batasan operasional: Daily Task, Daily Report, dan Field Issue **tidak mengubah** Progres Resmi (Progress SOT).
+  - Konsolidasi aturan main AI Agent: Room 01 (Analysis Only), Room 00 (Master Decision), Gemini 3F (Executor).
   - Pembersihan follow-up lama yang sudah terselesaikan.

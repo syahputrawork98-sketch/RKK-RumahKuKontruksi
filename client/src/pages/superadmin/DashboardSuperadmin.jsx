@@ -78,7 +78,7 @@ const DashboardSuperadmin = () => {
     { label: "Total Klien", value: dbStats?.customers || 0, icon: Users, color: "#0EA5A4" },
     { label: "Mitra Mandor", value: dbStats?.foremen || 0, icon: HardHat, color: "#F59E0B" },
     { label: "Mitra Arsitek", value: dbStats?.architects || 0, icon: PenTool, color: "#2563EB" },
-    { label: "Admin Internal", value: dbStats?.admins || 0, icon: ShieldCheck, color: "#7C3AED" },
+    { label: "Persona Admin", value: dbStats?.admins || 0, icon: ShieldCheck, color: "#7C3AED" },
     { label: "Pengawas", value: dbStats?.supervisors || 0, icon: HardHat, color: "#0EA5A4" },
     { label: "Superadmin", value: superadminCount, icon: ShieldCheck, color: "#EF4444" },
   ];

@@ -166,7 +166,7 @@ const AuditLaporanPengawasPage = () => {
                 <div className="flex-1">
                     <h4 className="font-black text-lg tracking-tight mb-1">Kualitas & Kepatuhan Pelaporan</h4>
                     <p className="text-xs text-white/60 leading-relaxed font-medium">
-                        Halaman audit ini memastikan setiap pengawas memberikan laporan yang valid dan tepat waktu. Superadmin memantau konsistensi snapshot progres terhadap jurnal harian mandor untuk menjaga integritas data yang akan dipublikasikan ke konsumen.
+                        Halaman audit ini memastikan setiap pengawas memberikan laporan yang valid dan tepat waktu dalam lingkungan Local Development. Superadmin memantau konsistensi snapshot progres terhadap jurnal harian mandor sebagai bagian dari tata kelola (governance) data lokal.
                     </p>
                 </div>
             </div>

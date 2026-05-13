@@ -42,7 +42,7 @@ const LogAktivitasPage = () => {
                 status,
                 reviewedByRole: 'superadmin',
                 reviewedById: selectedSuperadminId,
-                note: status === 'approved' ? 'Disetujui oleh Superadmin' : 'Ditolak oleh Superadmin'
+                note: status === 'approved' ? 'Disetujui secara administratif (Local Governance)' : 'Ditolak secara administratif (Local Governance)'
             });
             fetchData();
         } catch (error) {
@@ -67,13 +67,13 @@ const LogAktivitasPage = () => {
                             onClick={() => setActiveTab("audit")}
                             className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'audit' ? 'bg-white text-neutral-800 shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
                         >
-                            Audit Trail
+                            Jejak Aktivitas
                         </button>
                         <button 
                             onClick={() => setActiveTab("approval")}
                             className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'approval' ? 'bg-white text-neutral-800 shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
                         >
-                            Approval Queue
+                            Antrean Persetujuan
                         </button>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ const LogAktivitasPage = () => {
             {loading ? (
                 <div className="py-20 flex flex-col items-center justify-center">
                     <div className="w-12 h-12 border-4 border-neutral-200 border-t-amber-500 rounded-full animate-spin mb-4"></div>
-                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">Memuat Data Governance...</p>
+                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">Memuat Jejak Aktivitas Lokal...</p>
                 </div>
             ) : (
                 <div className="space-y-6">
@@ -151,7 +151,7 @@ const LogAktivitasPage = () => {
                                         )) : (
                                             <tr>
                                                 <td colSpan="5" className="px-6 py-20 text-center">
-                                                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">Belum ada log aktivitas tercatat.</p>
+                                                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">Belum ada jejak aktivitas lokal tercatat.</p>
                                                 </td>
                                             </tr>
                                         )}
@@ -223,7 +223,7 @@ const LogAktivitasPage = () => {
                                     <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-neutral-200 mb-6 shadow-sm border border-neutral-100">
                                         <FiAlertCircle size={32} />
                                     </div>
-                                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">Tidak ada antrian approval profil.</p>
+                                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest">Tidak ada antrean persetujuan profil lokal.</p>
                                 </div>
                             )}
                         </div>

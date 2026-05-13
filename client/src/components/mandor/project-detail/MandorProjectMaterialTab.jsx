@@ -52,7 +52,7 @@ const MandorProjectMaterialTab = ({ project, requests = [] }) => {
                     <h4 className="text-2xl font-black text-slate-800">{activeRequests}</h4>
                 </div>
                 <div className="p-5 bg-white border border-slate-100 rounded-3xl text-center shadow-sm">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Terikirim / Diterima</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Terkirim / Diterima</p>
                     <h4 className="text-2xl font-black text-emerald-600">{deliveredRequests}</h4>
                 </div>
                 <div className="p-5 bg-slate-50 border border-slate-100 border-dashed rounded-3xl text-center opacity-70">

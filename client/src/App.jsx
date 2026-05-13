@@ -99,6 +99,10 @@ import CreateJurnalMingguanMandorPage from "./pages/mandor/CreateJurnalMingguanM
 import DetailJurnalMingguanMandorPage from "./pages/mandor/DetailJurnalMingguanMandorPage";
 import TugasHarianMandorPage from "./pages/mandor/TugasHarianMandorPage";
 import LaporanHarianMandorPage from "./pages/mandor/LaporanHarianMandorPage";
+import MandorRabInfoPage from "./pages/mandor/MandorRabInfoPage";
+import MandorJadwalInfoPage from "./pages/mandor/MandorJadwalInfoPage";
+import MandorGambarKerjaInfoPage from "./pages/mandor/MandorGambarKerjaInfoPage";
+import MandorDokumentasiPage from "./pages/mandor/MandorDokumentasiPage";
 
 // ===== HALAMAN ARSITEK =====
 import ArsitekLayout from "./layouts/ArsitekLayout";
@@ -315,9 +319,9 @@ function App() {
             <Route path="proyek-aktif/:projectId" element={<DetailProyekAktifMandorPage />} />
             
             {/* INFORMASI KERJA */}
-            <Route path="info/rab" element={<MandorHoldState title="RAB & Scope Mandor" description="Daftar pekerjaan dan volume yang menjadi tanggung jawab Mandor." />} />
-            <Route path="info/gambar-kerja" element={<MandorHoldState title="Gambar Kerja Lapangan" description="Akses visual gambar kerja untuk panduan pengerjaan fisik." />} />
-            <Route path="info/jadwal" element={<MandorHoldState title="Jadwal Kerja Mandor" description="Target harian/mingguan yang harus dicapai di lapangan." />} />
+            <Route path="info/rab" element={<MandorRabInfoPage />} />
+            <Route path="info/gambar-kerja" element={<MandorGambarKerjaInfoPage />} />
+            <Route path="info/jadwal" element={<MandorJadwalInfoPage />} />
 
             <Route path="jurnal-mingguan" element={<JurnalMingguanMandorPage />} />
             <Route path="jurnal-mingguan/create" element={<CreateJurnalMingguanMandorPage />} />
@@ -326,7 +330,7 @@ function App() {
             <Route path="laporan-harian" element={<LaporanHarianMandorPage />} />
             <Route path="request-material" element={<RequestMaterialMandorPage />} />
             <Route path="kendala-lapangan" element={<KendalaLapanganMandorPage />} />
-            <Route path="dokumentasi" element={<MandorHoldState title="Dokumentasi Lapangan" description="Unggah bukti visual pekerjaan harian." />} />
+            <Route path="dokumentasi" element={<MandorDokumentasiPage />} />
             
             {/* PELUANG PROYEK */}
             <Route path="peluang/posting" element={<MandorHoldState title="Project Posting" description="Daftar proyek baru yang mencari mitra mandor." />} />

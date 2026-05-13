@@ -31,7 +31,15 @@ Dokumen ini adalah **Source of Truth** tunggal untuk prosedur kerja AI Agent (Ro
     *   **Dilarang Keras**: 
         *   Melakukan perintah git (*add, commit, push*).
         *   Memberikan instruksi commit/push kepada USER.
+        *   Menulis bagian "**Instruksi untuk USER**" di laporan akhir.
+        *   Menyarankan tindakan manual git kepada USER dalam bentuk apapun.
         *   Melakukan loop analisa-fix-check tanpa instruksi baru dari Room Chat 00.
+    *   **Format Laporan Akhir (Wajib)**:
+        1. File yang diubah
+        2. Ringkasan perubahan
+        3. Hasil smoke test/check
+        4. Konfirmasi scope (sesuai/tidak dengan instruksi Room 00)
+        5. Risiko tersisa (jika ada)
 
 ## 2. Alur Kerja Batch (SOP Operasional)
 

@@ -65,3 +65,11 @@
   - Penghapusan folder `docs/project-instructions/` secara total.
   - Pembersihan seluruh referensi ke folder legacy di `docs/README.md` dan `docs/project/workflow-sop.md`.
   - Pemusatan seluruh SOP aktif di `docs/project/workflow-sop.md` untuk menghindari kebingungan agen AI.
+
+## Batch 59 — Clarify Gemini 3F Reporting Boundaries
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Pembaruan `docs/project/workflow-sop.md` untuk mempertegas batasan laporan Gemini 3F.
+  - Penambahan larangan menulis "Instruksi untuk USER" dan perintah git bagi Gemini 3F.
+  - Standarisasi format laporan akhir Gemini 3F (File, Ringkasan, Check, Scope, Risiko).

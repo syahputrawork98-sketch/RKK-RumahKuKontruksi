@@ -367,10 +367,12 @@ const VerifikasiProgresPengawasPage = () => {
 
                             {showContext && (
                                 <div className="space-y-6 animate-fadeIn">
-                                    <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
-                                        <p className="text-[10px] font-bold text-blue-700 leading-relaxed uppercase">
-                                            Data di bawah ini dikumpulkan dari perencanaan (Stages/RAB) dan laporan lapangan (Jurnal Mandor) untuk membantu Anda mengambil keputusan. Data ini tidak otomatis mengubah progress resmi.
-                                        </p>
+                                    <div className="p-4 bg-slate-100/50 border border-slate-200 rounded-2xl flex gap-3">
+                                        <FiInfo className="text-slate-400 mt-1 flex-shrink-0" size={18} />
+                                        <div className="text-[10px] font-medium leading-relaxed italic text-slate-500">
+                                            <p className="font-black uppercase tracking-widest text-[9px] mb-1">Technical Reference Panel (Read-Only)</p>
+                                            <p>Data di bawah ini disinkronkan dari perencanaan (Stages/RAB) dan laporan lapangan (Jurnal Mandor) untuk membantu validasi fisik Anda. <strong>Data ini bersifat referensi dan tidak dapat diubah di sini.</strong></p>
+                                        </div>
                                     </div>
 
                                     {loadingContext ? (

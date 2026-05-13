@@ -133,18 +133,18 @@ const DashboardAdmin = () => {
 
     
     // Material stats — materialRequests is a grouped-count array: [{ status, _count: { _all } }]
-    // Pending = requests awaiting Admin action: submitted by supervisor or approved_by_supervisor
-    const pendingMaterials = (Array.isArray(materialRequests) ? materialRequests : []).reduce((sum, m) => {
-        const s = m.status?.toLowerCase();
+    const materialReqArray = Array.isArray(materialRequests) ? materialRequests : [];
+    
+    const pendingMaterialsCount = getGroupedCount(materialReqArray, 'approved_by_supervisor')
+        + getGroupedCount(materialReqArray, 'submitted');
+
+    const pendingMaterials = materialReqArray.reduce((sum, m) => {
+        const s = m?.status?.toLowerCase();
         if (s === "approved_by_supervisor" || s === "submitted") {
-            return sum + (m._count?._all || 0);
+            return sum + (m?._count?._all || 0);
         }
         return sum;
     }, 0);
-
-    // Material Request stat card: pending requests awaiting Admin processing
-    const pendingMaterialsCount = getGroupedCount(materialRequests, 'approved_by_supervisor')
-        + getGroupedCount(materialRequests, 'submitted');
 
     const dashboardStats = [
         { label: "Proyek Aktif", value: activeProjects, icon: FiLayers, color: "#1A4D2E", href: "/admin/proyek" },

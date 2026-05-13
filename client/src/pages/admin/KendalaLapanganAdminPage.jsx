@@ -11,9 +11,9 @@ import StatusBadge from "../../components/common/StatusBadge";
 const STATUS_MAP = {
     open:      { label: "Dilaporkan Mandor",      color: "bg-amber-50 text-amber-600 border-amber-200" },
     in_review: { label: "Dalam Review Pengawas",  color: "bg-blue-50 text-blue-600 border-blue-200" },
-    resolved:  { label: "Resolved oleh Pengawas", color: "bg-emerald-50 text-emerald-600 border-emerald-200" },
-    closed:    { label: "Closed Administratif",   color: "bg-slate-100 text-slate-500 border-slate-200" },
-    rejected:  { label: "Ditolak",                color: "bg-red-50 text-red-500 border-red-200" },
+    resolved:  { label: "Siap Ditutup (Resolved)",     color: "bg-emerald-50 text-emerald-600 border-emerald-200" },
+    closed:    { label: "Closed & Diarsipkan",        color: "bg-slate-50 text-slate-400 border-slate-100" },
+    rejected:  { label: "Ditolak / Invalid",          color: "bg-rose-50 text-rose-500 border-rose-200" },
 };
 
 const getStatusDisplay = (status) =>

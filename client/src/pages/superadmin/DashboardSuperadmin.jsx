@@ -22,6 +22,7 @@ import {
 } from "@client/components/ui/dashboard";
 import superadminService from "../../services/superadminService";
 import projectService from "../../services/projectService";
+import * as governanceService from "../../services/governanceService";
 import RoleDataState from "../../components/common/RoleDataState";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
@@ -29,16 +30,18 @@ const DashboardSuperadmin = () => {
   const { selectedSuperadminId } = useSuperadminPersona();
   const [dbStats, setDbStats] = useState(null);
   const [superadminCount, setSuperadminCount] = useState(0);
+  const [activities, setActivities] = useState([]);
   const [latestProjects, setLatestProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [statsRes, projectsRes, superRes] = await Promise.all([
+      const [statsRes, projectsRes, superRes, logsRes] = await Promise.all([
         superadminService.getGlobalStats(),
         projectService.getProjects({ limit: 5 }),
-        superadminService.getSuperadmins()
+        superadminService.getSuperadmins(),
+        governanceService.getAuditLogs({ limit: 5 })
       ]);
 
       if (statsRes.success) setDbStats(statsRes.data);
@@ -51,6 +54,14 @@ const DashboardSuperadmin = () => {
               progress: p.verifiedProgress || p.progress || 0,
               status: p.status,
               nilai: new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.budgetTotal)
+          })));
+      }
+
+      if (logsRes.success) {
+          setActivities((logsRes.data || []).map(log => ({
+              id: log.id,
+              text: `${log.actorRole.toUpperCase()} melakukan ${log.action}: ${log.summary}`,
+              time: new Date(log.createdAt).toLocaleString('id-ID', { hour: '2-digit', minute: '2-digit' })
           })));
       }
     } catch (err) {
@@ -83,21 +94,13 @@ const DashboardSuperadmin = () => {
     { label: "Superadmin", value: superadminCount, icon: ShieldCheck, color: "#EF4444" },
   ];
 
-  const activities = [
-    {
-      id: 1,
-      text: "Sistem monitoring operasional database-backed aktif.",
-      time: "Aktif",
-    }
-  ];
-
   const deadlines = []; // Hold state for deadlines
 
   const weeklySummary = [
-    { label: "Proyek Baru", value: "-", icon: FolderPlus, color: "#2563EB" },
-    { label: "Proyek Selesai", value: "-", icon: CheckCircle2, color: "#16A34A" },
-    { label: "Mitra Mandor Aktif", value: "-", icon: HardHat, color: "#F59E0B" },
-    { label: "Pesan Masuk", value: "-", icon: MessageSquare, color: "#7C3AED" },
+    { label: "Antrean Persetujuan", value: dbStats?.pendingProfileChanges || 0, icon: ShieldCheck, color: "#EF4444" },
+    { label: "Jejak Audit Baru", value: dbStats?.totalAuditLogs || 0, icon: ClipboardList, color: "#7C3AED" },
+    { label: "Proyek Terpantau", value: dbStats?.projectsRunning || 0, icon: Building2, color: "#2563EB" },
+    { label: "Mitra Terdaftar", value: (dbStats?.foremen || 0) + (dbStats?.architects || 0), icon: HardHat, color: "#F59E0B" },
   ];
 
   return (
@@ -123,10 +126,7 @@ const DashboardSuperadmin = () => {
         </div>
 
         <div className="relative group">
-            <div className="absolute inset-0 bg-[var(--dashboard-surface)]/40 backdrop-blur-[1px] z-10 flex items-center justify-center rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="bg-white/90 px-3 py-1.5 rounded-xl text-[10px] font-bold text-gray-500 shadow-sm border border-gray-100">Hold Section</span>
-            </div>
-            <DashboardWeeklySummary summary={weeklySummary} />
+            <DashboardWeeklySummary summary={weeklySummary} title="Ringkasan Tata Kelola" />
         </div>
       </div>
 

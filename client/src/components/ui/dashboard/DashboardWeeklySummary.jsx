@@ -4,10 +4,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FolderPlus, CheckCircle2, Hammer, MessageSquare } from "lucide-react";
 
-export const DashboardWeeklySummary = ({ summary }) => (
+export const DashboardWeeklySummary = ({ summary, title = "Ringkasan Mingguan" }) => (
     <div className="bg-white p-6 rounded-xl shadow">
         <h2 className="text-lg font-semibold text-[#1A4D2E] mb-4">
-            Ringkasan Mingguan
+            {title}
         </h2>
 
         <div className="grid grid-cols-1 gap-4">

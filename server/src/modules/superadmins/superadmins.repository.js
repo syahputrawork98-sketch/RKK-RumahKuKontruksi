@@ -48,7 +48,9 @@ export const getStats = async () => {
     architectCount,
     customerCount,
     projectRunningCount,
-    projectFinishedCount
+    projectFinishedCount,
+    auditLogCount,
+    pendingProfileChangeCount
   ] = await Promise.all([
     prisma.admin.count({ where: { deletedAt: null } }),
     prisma.supervisor.count({ where: { deletedAt: null } }),
@@ -68,7 +70,9 @@ export const getStats = async () => {
           in: ['finish', 'selesai', 'Finished', 'Selesai'] 
         } 
       } 
-    })
+    }),
+    prisma.auditLog.count(),
+    prisma.profileChangeRequest.count({ where: { status: 'pending' } })
   ]);
 
   return {
@@ -78,6 +82,8 @@ export const getStats = async () => {
     architects: architectCount,
     customers: customerCount,
     projectsRunning: projectRunningCount,
-    projectsFinished: projectFinishedCount
+    projectsFinished: projectFinishedCount,
+    totalAuditLogs: auditLogCount,
+    pendingProfileChanges: pendingProfileChangeCount
   };
 };

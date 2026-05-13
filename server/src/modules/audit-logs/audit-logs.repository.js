@@ -8,9 +8,9 @@ export const create = async (data) => {
 
 export const findAll = async (params = {}) => {
   const { search, actorRole, entityType, limit = 50 } = params;
-  
+
   const where = {};
-  
+
   if (search) {
     where.OR = [
       { action: { contains: search, mode: 'insensitive' } },
@@ -18,7 +18,7 @@ export const findAll = async (params = {}) => {
       { actorName: { contains: search, mode: 'insensitive' } }
     ];
   }
-  
+
   if (actorRole) where.actorRole = actorRole;
   if (entityType) where.entityType = entityType;
 

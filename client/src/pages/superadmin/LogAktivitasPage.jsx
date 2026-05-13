@@ -12,6 +12,12 @@ const LogAktivitasPage = () => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [expandedLog, setExpandedLog] = useState(null);
+
+    const isSensitive = (action) => {
+        const sensitiveKeywords = ['delete', 'remove', 'rejected', 'verified_progress', 'payment'];
+        return sensitiveKeywords.some(key => action.toLowerCase().includes(key));
+    };
 
     useEffect(() => {
         if (selectedSuperadminId) {
@@ -55,7 +61,7 @@ const LogAktivitasPage = () => {
     }
 
     return (
-        <div className="animate-fadeIn">
+        <div className="animate-fadeIn pb-20">
             <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
                     <h1 className="dashboard-title text-4xl font-black tracking-tighter uppercase text-neutral-800">Governance & Audit Center</h1>
@@ -64,18 +70,28 @@ const LogAktivitasPage = () => {
                 <div className="flex items-center gap-3">
                     <div className="flex bg-neutral-100 p-1 rounded-2xl border border-neutral-200">
                         <button 
-                            onClick={() => setActiveTab("audit")}
+                            onClick={() => { setActiveTab("audit"); setExpandedLog(null); }}
                             className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'audit' ? 'bg-white text-neutral-800 shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
                         >
                             Jejak Aktivitas
                         </button>
                         <button 
-                            onClick={() => setActiveTab("approval")}
+                            onClick={() => { setActiveTab("approval"); setExpandedLog(null); }}
                             className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'approval' ? 'bg-white text-neutral-800 shadow-sm' : 'text-neutral-400 hover:text-neutral-600'}`}
                         >
                             Antrean Persetujuan
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-start gap-4 mb-8">
+                <FiInfo className="text-amber-600 shrink-0 mt-1" />
+                <div>
+                    <p className="text-[10px] font-black text-amber-800 uppercase tracking-widest">Local Simulation Governance</p>
+                    <p className="text-[10px] text-amber-700 font-bold mt-1 leading-relaxed italic uppercase tracking-tighter">
+                        Audit ini mencatat aktivitas simulasi operasional pada environment localhost. Seluruh jejak audit disimpan dalam database PostgreSQL lokal untuk pemantauan integritas data selama fase pengembangan.
+                    </p>
                 </div>
             </div>
 
@@ -118,36 +134,85 @@ const LogAktivitasPage = () => {
                                     </thead>
                                     <tbody className="divide-y divide-neutral-50">
                                         {logs.length > 0 ? logs.map((log) => (
-                                            <tr key={log.id} className="hover:bg-neutral-50/30 transition-colors">
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex flex-col">
-                                                        <span className="text-[11px] font-black text-neutral-800 tracking-tight">{format(new Date(log.createdAt), "dd MMM yyyy")}</span>
-                                                        <span className="text-[9px] font-bold text-neutral-400">{format(new Date(log.createdAt), "HH:mm:ss")}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <span className="px-2 py-1 bg-indigo-50 text-indigo-600 text-[9px] font-black uppercase tracking-widest rounded-md border border-indigo-100">
-                                                        {log.action}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-6 h-6 bg-neutral-200 rounded-lg flex items-center justify-center text-neutral-500">
-                                                            <FiUser size={12} />
-                                                        </div>
+                                            <React.Fragment key={log.id}>
+                                                <tr 
+                                                    onClick={() => setExpandedLog(expandedLog === log.id ? null : log.id)}
+                                                    className={`hover:bg-neutral-50/30 transition-colors cursor-pointer ${expandedLog === log.id ? 'bg-amber-50/30' : ''}`}
+                                                >
+                                                    <td className="px-6 py-4 whitespace-nowrap">
                                                         <div className="flex flex-col">
-                                                            <span className="text-[11px] font-bold text-neutral-700 leading-none">{log.actorName || log.actorId}</span>
-                                                            <span className="text-[9px] font-black text-neutral-400 uppercase tracking-tighter">{log.actorRole}</span>
+                                                            <span className="text-[11px] font-black text-neutral-800 tracking-tight">{format(new Date(log.createdAt), "dd MMM yyyy")}</span>
+                                                            <span className="text-[9px] font-bold text-neutral-400">{format(new Date(log.createdAt), "HH:mm:ss")}</span>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 text-[11px] font-bold text-neutral-500 italic">
-                                                    {log.entityType} ({log.entityId.substring(0, 8)}...)
-                                                </td>
-                                                <td className="px-6 py-4 text-[11px] font-medium text-neutral-600 max-w-xs truncate">
-                                                    {log.summary}
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest rounded-md border ${
+                                                            isSensitive(log.action) 
+                                                            ? 'bg-rose-50 text-rose-600 border-rose-100' 
+                                                            : 'bg-indigo-50 text-indigo-600 border-indigo-100'
+                                                        }`}>
+                                                            {log.action}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-6 h-6 bg-neutral-200 rounded-lg flex items-center justify-center text-neutral-500">
+                                                                <FiUser size={12} />
+                                                            </div>
+                                                            <div className="flex flex-col">
+                                                                <span className="text-[11px] font-bold text-neutral-700 leading-none">{log.actorName || log.actorId}</span>
+                                                                <span className="text-[9px] font-black text-neutral-400 uppercase tracking-tighter">{log.actorRole}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-[11px] font-bold text-neutral-500 italic">
+                                                        {log.entityType}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-[11px] font-medium text-neutral-600 max-w-xs truncate">
+                                                        {log.summary}
+                                                    </td>
+                                                </tr>
+                                                {expandedLog === log.id && (
+                                                    <tr className="bg-amber-50/20 border-b border-amber-100">
+                                                        <td colSpan="5" className="px-10 py-6">
+                                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                                <div>
+                                                                    <h4 className="text-[10px] font-black text-amber-800 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                                                        <FiInfo size={12} /> Data Audit Lengkap
+                                                                    </h4>
+                                                                    <div className="space-y-4">
+                                                                        <div className="p-4 bg-white border border-amber-100 rounded-2xl shadow-sm">
+                                                                            <p className="text-[9px] font-black text-neutral-400 uppercase tracking-widest mb-2">Metadata JSON</p>
+                                                                            <pre className="text-[10px] font-mono text-neutral-600 bg-neutral-50 p-3 rounded-xl overflow-x-auto">
+                                                                                {JSON.stringify(log.metadata || {}, null, 2)}
+                                                                            </pre>
+                                                                        </div>
+                                                                        <div className="grid grid-cols-2 gap-4">
+                                                                            <div className="p-3 bg-white border border-neutral-100 rounded-xl">
+                                                                                <p className="text-[8px] font-black text-neutral-400 uppercase mb-1">Entity ID</p>
+                                                                                <p className="text-[10px] font-bold text-neutral-700 break-all">{log.entityId}</p>
+                                                                            </div>
+                                                                            <div className="p-3 bg-white border border-neutral-100 rounded-xl">
+                                                                                <p className="text-[8px] font-black text-neutral-400 uppercase mb-1">Actor ID</p>
+                                                                                <p className="text-[10px] font-bold text-neutral-700 break-all">{log.actorId}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex flex-col justify-center text-center p-8 bg-neutral-50/50 rounded-3xl border border-dashed border-neutral-200">
+                                                                    <FiLock className="mx-auto text-neutral-300 mb-4" size={32} />
+                                                                    <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Sensitive Action Insight</p>
+                                                                    <p className="text-[10px] text-neutral-500 font-medium mt-2 italic">
+                                                                        {isSensitive(log.action) 
+                                                                            ? "Aksi ini bersifat sensitif karena mempengaruhi integritas data utama (Penghapusan/Keuangan/Progres)." 
+                                                                            : "Aksi ini bersifat operasional standar."}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </React.Fragment>
                                         )) : (
                                             <tr>
                                                 <td colSpan="5" className="px-6 py-20 text-center">

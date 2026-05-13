@@ -93,8 +93,9 @@ const MandorProjectScopeTab = ({ stages }) => {
                                                         <table className="w-full text-left border-collapse">
                                                             <thead>
                                                                 <tr className="border-b border-slate-100">
-                                                                    <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">No</th>
+                                                                    <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest w-10">No</th>
                                                                     <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[200px]">Uraian Pekerjaan</th>
+                                                                    <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Satuan</th>
                                                                     <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Volume</th>
                                                                     <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Harga Satuan</th>
                                                                     <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Jumlah</th>
@@ -110,8 +111,10 @@ const MandorProjectScopeTab = ({ stages }) => {
                                                                             <p className="text-[9px] text-slate-400 mt-0.5">ID: {item.id}</p>
                                                                         </td>
                                                                         <td className="py-4 text-center">
+                                                                            <span className="text-[10px] font-black text-slate-500 uppercase">{item.unit}</span>
+                                                                        </td>
+                                                                        <td className="py-4 text-center">
                                                                             <span className="text-xs font-black text-slate-600">{Number(item.volume)}</span>
-                                                                            <span className="text-[10px] font-bold text-slate-400 ml-1">{item.unit}</span>
                                                                         </td>
                                                                         <td className="py-4 text-right text-xs font-bold text-slate-500">
                                                                             {formatCurrency(Number(item.unitPrice))}

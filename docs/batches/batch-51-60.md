@@ -38,4 +38,22 @@
   - **Penambahan SOP Workflow Room RKK**: Menyimpan aturan main Room 00, Room 01, dan Gemini 3 Flash langsung ke dalam repo (`docs/project-instructions/`).
   - Penegasan batasan operasional: Daily Task, Daily Report, dan Field Issue **tidak mengubah** Progres Resmi (Progress SOT).
   - Konsolidasi aturan main AI Agent: Room 01 (Analysis Only), Room 00 (Master Decision), Gemini 3F (Executor).
-  - Pembersihan follow-up lama yang sudah terselesaikan.
+
+## Batch 56 — Konsumen Timeline & Discussion UI/UX Polish
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Polishing halaman Konsumen Timeline Proyek (persona Sari Kartika).
+  - Implementasi layout dua panel (Navigation Rail RAB) yang stabil dan responsif.
+  - Perbaikan istilah: "Progres Rill" menjadi "**Progres Resmi**" (SOT).
+  - Penambahan visual Role Legend untuk identitas diskusi per tahapan.
+  - CTA terpadu "Buka Diskusi & Detail" untuk akses stage-level thread.
+
+## Batch 57 — SOP Source of Truth Consolidation
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Konsolidasi seluruh Standard Operating Procedure (SOP) alur kerja AI Agent ke satu pusat: `docs/project/workflow-sop.md`.
+  - Menandai folder `docs/project-instructions/` sebagai **LEGACY** untuk menghindari ambiguitas rujukan.
+  - Pembaruan `docs/README.md` dan `docs/project/current-status.md` agar menunjuk ke SOP terkonsolidasi.
+  - Penegasan alur: Room 00 (Master Planner), Room 01 (Analysis-Only), Gemini 3F (Executor-Only).

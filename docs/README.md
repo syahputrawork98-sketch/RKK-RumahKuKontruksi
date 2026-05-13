@@ -18,6 +18,7 @@ Berisi status aktif proyek, roadmap terdekat, batasan scope (Scope Guard), dan t
 - [Current Status](./project/current-status.md)
 - [Active Roadmap](./project/roadmap-active.md)
 - [Scope Guard](./project/scope-guard.md)
+- [Workflow SOP (AI Agents)](./project/workflow-sop.md)
 - [Hold & Follow-up](./project/hold-and-follow-up.md)
 
 ### 2. [Modules & Roles](./modules/)
@@ -30,8 +31,8 @@ Detail teknis backend, frontend, database, API map, kebijakan data source, dan p
 
 Riwayat pengembangan proyek yang dibagi per 10 batch untuk memudahkan pelacakan progres.
 
-### 5. [Project Instructions](./project-instructions/)
-Berisi Standard Operating Procedure (SOP) untuk alur kerja pengembangan menggunakan AI agent (Room 00, Room 01, Gemini 3 Flash).
+### 5. [Legacy Instructions](./project-instructions/)
+Folder ini berisi rujukan SOP lama (Legacy). Seluruh aturan alur kerja aktif sekarang dipusatkan di **[Workflow SOP](./project/workflow-sop.md)**.
 
 
 ---

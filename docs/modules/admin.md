@@ -20,10 +20,10 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 - **Operational Logs**: Monitoring Kendala Lapangan berfungsi sebagai logbook operasional untuk transparansi tim dan **tidak mengubah** Progres Resmi proyek.
 - **Publish to Customer**: Tombol publikasi laporan mingguan ke Customer-facing timeline tetap **Hold**.
 
-## 📊 Technical Context (Batch 61–79 Hardening)
+## 📊 Technical Context (Batch 61–89 Hardening)
 - **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`, `fieldIssueService`, `supervisorWeeklyReportService`, `progressService`, `rabService`, `administrativeHelperDocumentService`.
-- **StatusBadge**: Komponen `StatusBadge.jsx` mendukung tipe `material`, `issue`, dan `priority`.
-- **Integrated Flow**: Dashboard Admin kini terintegrasi dengan workflow harian Pengawas & Mandor (Batch 71-72).
+- **StatusBadge**: Komponen `StatusBadge.jsx` mendukung tipe `project`, `design`, `material`, `issue`, dan `stage`. Diharmonisasi pada Batch 89.
+- **Integrated Flow**: Dashboard Admin kini terintegrasi dengan workflow harian Pengawas & Mandor.
 - **Data Integrity**: Null-safety standar (Array guards & optional chaining) diterapkan di seluruh halaman Admin.
 
 ## 🔑 Prinsip SOT yang Tidak Boleh Dilanggar

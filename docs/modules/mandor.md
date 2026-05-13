@@ -3,7 +3,7 @@
 Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pelaporan harian, mingguan, dan pengelolaan kebutuhan logistik serta kendala proyek.
 
 ## Status
-**Hardened — Local CRUD Integration (Batch 71-73)**
+**Hardened — Local CRUD Integration (Batch 71-89)**
 
 ## Fitur Aktif
 - **Dashboard**: Ringkasan tugas, material request aktif, dan kendala lapangan.
@@ -35,4 +35,4 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 - **Ecosystem**: Belum terhubung ke fitur bidding/marketplace.
 
 ---
-*Terakhir diperbarui: Batch 80 — Docs Sync + Checkpoint.*
+*Terakhir diperbarui: Batch 90 — Docs Sync + Checkpoint.*

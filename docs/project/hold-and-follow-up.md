@@ -14,12 +14,21 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 
 ## 🛠️ Technical Follow-up
 - **Reporting**: Ekspor PDF/Excel untuk RAB dan Laporan (Status: **Hold/Future**).
-- **Runtime Resilience**: Audit menyeluruh terhadap error runtime pada komponen state-heavy pasca-integrasi Batch 71-79.
-- **Null-Safety Guard**: Penguatan guard pada data relasional (e.g. project owner, stage linked items).
-- **Field Issue — Resolved-before-Closed**: Workflow ini telah diimplementasikan di Batch 73. Admin hanya dapat menutup (Close) isu setelah Pengawas menandainya sebagai Resolved secara teknis.
-- **Design Request Bridge**: Data dari Design Request telah terhubung ke draf proyek di Batch 75. Follow-up: Memperluas metadata yang diturunkan (lokasi, budget limit).
+- **Backend Hard Guards (Minor)**: 
+  - **Field Issue**: Implementasi guard pada controller/repository agar status `closed` hanya diterima jika status saat ini adalah `resolved`.
+  - **Helper Documents**: Implementasi strict status transition guard pada backend (draft → reviewed → released).
+- **Runtime Resilience**: Audit Batch 81 telah membersihkan sebagian besar ReferenceError. Follow-up: Monitoring regresi pada state-heavy components.
+- **Design Request Bridge**: Data dari Design Request telah terhubung ke draf proyek. Follow-up: Memperluas metadata yang diturunkan (lokasi, budget limit).
 - **StatusBadge.jsx — Visual Monitor**: Terus pantau regresi visual pada komponen StatusBadge seiring bertambahnya status operasional baru.
-- **Administrative Helper Documents**: Modul dokumen administratif draf untuk Konsumen telah dibuka di Batch 79. Follow-up: Implementasi versioning draf lokal sederhana.
+- **Administrative Helper Documents**: Modul dokumen administratif draf untuk Konsumen telah dibuka. Follow-up: Implementasi versioning draf lokal sederhana.
+- **Build & Schema Verification**: 
+  - `npm run build` (Client): **Pass** (with minor CSS/chunk warnings).
+  - `npx prisma validate`: **Pass**.
+
+## ⚠️ Remaining Risks & Follow-up
+- **Persona Context Overlap**: Memerlukan audit berkala pada komponen bersama (common components) yang menggunakan hook persona spesifik agar tidak crash saat diakses role lain.
+- **Database Consistency**: Sinkronisasi draf proyek dari Design Request ke Project SOT memerlukan validasi integritas data relasional yang ketat.
+- **Progress SOT Integrity**: Wajib dipastikan bahwa tidak ada bypass manual pada database yang mengubah `verifiedProgress` di luar workflow Pengawas.
 
 ## 🌟 Future Optional
 - **Analytics Dashboard v2**: Visualisasi statistik global dengan grafik (Chart.js/Recharts integration).
@@ -27,17 +36,13 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 ## 📜 Already Stabilized / Historical
 - **Progress Verification Core**: Sudah stabil di Batch 33, 43, & Pengawas Batch 02.
 - **RAB Builder**: Sudah stabil di Batch 34, 42, & Admin Batch 68.
-- **Field Issue Workflow**: Hardened in Batch 73 (Resolve-vs-Close).
-- **Integrated Daily Monitoring**: Hardened in Batch 71 & 72.
-- **Design Request coordination**: Hardened in Batch 75.
-- **Consumer Transparency Route**: Polished in Batch 74.
-- **Superadmin Local Governance**: Polished in Batch 76 & 77.
-- **Administrative Docs Portal**: Polished in Batch 79.
-
-## ⚠️ Remaining Risks & Follow-up
-- **Persona Context Overlap**: Memerlukan audit pada komponen bersama (common components) yang menggunakan hook persona spesifik agar tidak crash saat diakses role lain (Solved for DailyMonitoringTab in Batch 80).
-- **Database Consistency**: Sinkronisasi draf proyek dari Design Request ke Project SOT memerlukan validasi integritas data relasional yang ketat.
+- **Field Issue Workflow**: Hardened in Batch 73/86 (Resolve-vs-Close).
+- **Integrated Daily Monitoring**: Hardened in Batch 71, 72, & 86.
+- **Design Request coordination**: Hardened in Batch 75 & 84.
+- **Consumer Transparency Route**: Polished in Batch 74 & 83.
+- **Superadmin Local Governance**: Polished in Batch 76, 77, & 85.
+- **Administrative Docs Portal**: Polished in Batch 79 & 82.
 
 ---
 
-*Catatan: Dokumen ini menggantikan `remaining-hold-features.md`. Terakhir diperbarui: Batch 80.*
+*Catatan: Dokumen ini menggantikan `remaining-hold-features.md`. Terakhir diperbarui: Batch 90.*

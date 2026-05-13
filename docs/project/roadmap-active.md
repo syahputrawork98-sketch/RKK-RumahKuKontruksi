@@ -14,28 +14,36 @@ Roadmap yang telah diselesaikan:
    - **Batch 76-77**: Superadmin Governance & Audit Polish.
    - **Batch 78**: Pengawas Technical Read-only Panels.
    - **Batch 79**: Konsumen Administrative Helper Documents.
-3. **Latest Checkpoint**: **Batch 80 — Docs Sync + Checkpoint**. (Accepted)
+3. **Local Polish & Stability (Batch 81–89)**: **Completed**.
+   - **Batch 81**: Runtime & Null-Safety Sweep.
+   - **Batch 82**: Admin Helper Documents Local CRUD.
+   - **Batch 83**: Konsumen Timeline visibility & VerifiedProgress SOT.
+   - **Batch 84**: Design Request revision flow (Major/Minor limit).
+   - **Batch 85**: Superadmin Governance & Audit Polish.
+   - **Batch 86**: Operational Roles Polish (Field Issue wording).
+   - **Batch 87**: Seed/Data Scenario Completion.
+   - **Batch 88**: Placeholder/Hold wording cleanup.
+   - **Batch 89**: Final Feature Closure Pass & StatusBadge harmonization.
+4. **Latest Checkpoint**: **Batch 90 — Docs Sync + Checkpoint**. (Accepted)
 
-## 🛠️ Next Focus (Batch 81–90 Candidate Cycle)
+## 🛠️ Next Focus (Batch 91+ Candidate Cycle)
 Rekomendasi pengembangan selanjutnya (Post-Checkpoint):
-- **Runtime Audit**: Audit menyeluruh terhadap error runtime (ReferenceError, Context errors) pada state-heavy components.
-- **Null-Safety Guard**: Memastikan seluruh data relasional yang bersifat opsional memiliki default empty state yang premium.
-- **Konsumen/Arsitek Follow-up**: Memperdalam transparansi feedback pada draf desain sebelum konversi proyek.
-- **Superadmin Governance Follow-up**: Finalisasi antrian audit untuk aksi sensitif lintas role.
-- **Local Workflow Final Hardening**: Menutup celah kecil pada alur operasional sebelum masuk ke fase pembersihan kode (Refactoring).
+- **Backend Hard Guard**: Implementasi hard-guard pada level controller/repository untuk transisi status sensitif (e.g. Field Issue closed, Helper Doc release).
+- **Extended Operational Analytics**: Penambahan panel monitoring performa vendor/mandor berbasis history tugas (Local Simulation).
+- **Technical Debt Audit**: Review sisa warning pada build client (chunk sizes, CSS unknown rules) dan audit dependensi backend.
+- **Advanced Simulation Scenarios**: Pembuatan skenario proyek kompleks (multi-stage overlap, critical issues) untuk menguji ketahanan UI.
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
 1. **Progress SOT**: Inti verifikasi progres resmi lapangan. (Stabilized)
 2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor. (Stabilized)
-3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Hardened - Batch 72)
-4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Hardened - Batch 71)
-5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Hardened - Batch 73)
-6. **Design Workflow**: Customer–Architect coordination. (Hardened - Batch 75)
-7. **Consumer Transparency**: Timeline, Docs, & Progress. (Hardened - Batch 74, 79)
-8. **Superadmin Governance**: Audit & Persona management. (Hardened - Batch 76, 77)
-9. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 80 - Checkpoint)
+3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Hardened)
+4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Hardened)
+5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Hardened)
+6. **Design Workflow**: Customer–Architect coordination. (Hardened)
+7. **Consumer Transparency**: Timeline, Docs, & Progress. (Hardened)
+8. **Superadmin Governance**: Audit & Persona management. (Hardened)
+9. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 90 - Checkpoint)
 
 ---
-*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) tetap berstatus **Hold**. Terakhir diperbarui: Batch 80.*
-
+*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) tetap berstatus **Hold**. Terakhir diperbarui: Batch 90.*

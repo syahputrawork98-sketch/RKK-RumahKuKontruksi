@@ -68,9 +68,9 @@ const LaporanProgressAdminPage = () => {
         fetchHistory(project.id);
     };
 
-    const filteredProjects = projects.filter(p => 
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        p.projectCode.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredProjects = (Array.isArray(projects) ? projects : []).filter(p =>
+        p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.projectCode?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (loading && projects.length === 0) {
@@ -277,7 +277,7 @@ const LaporanProgressAdminPage = () => {
                         {/* Panel Footer */}
                         <div className="p-6 border-t border-slate-100 bg-slate-50">
                             <p className="text-[9px] font-bold text-slate-400 uppercase leading-relaxed text-center italic">
-                                * Riwayat di atas adalah catatan perubahan progress resmi proyek.
+                                * Riwayat ini mencatat perubahan <strong>verifiedProgress</strong> yang dilakukan Pengawas melalui verifikasi lapangan. Admin tidak mengubah progress resmi.
                             </p>
                         </div>
                     </div>

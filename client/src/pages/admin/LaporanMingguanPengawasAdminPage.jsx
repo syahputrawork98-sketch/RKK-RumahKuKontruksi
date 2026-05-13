@@ -48,8 +48,19 @@ const LaporanMingguanPengawasAdminPage = () => {
         fetchReports();
     }, [fetchReports]);
 
-    const filteredReports = reports.filter(r => {
-        const matchesSearch = 
+    // Status label mapping for display
+    const STATUS_LABELS = {
+        all: 'Semua',
+        submitted: 'Menunggu Review',
+        under_admin_review: 'Sedang Ditinjau',
+        approved: 'Disetujui',
+        published: 'Dipublikasi',
+        revision_requested: 'Perlu Revisi',
+        rejected: 'Ditolak',
+    };
+
+    const filteredReports = (Array.isArray(reports) ? reports : []).filter(r => {
+        const matchesSearch =
             r.supervisor?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             r.project?.name?.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesSearch;
@@ -108,12 +119,12 @@ const LaporanMingguanPengawasAdminPage = () => {
                         key={status}
                         onClick={() => setStatusFilter(status)}
                         className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                            statusFilter === status 
-                            ? "bg-slate-800 text-white" 
+                            statusFilter === status
+                            ? "bg-slate-800 text-white"
                             : "bg-white border border-[var(--dashboard-border)] text-[var(--dashboard-text-soft)] hover:border-slate-800"
                         }`}
                     >
-                        {status === 'submitted' ? 'Menunggu Review' : status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, ' ')}
+                        {STATUS_LABELS[status] ?? status.replace(/_/g, ' ')}
                     </button>
                 ))}
             </div>
@@ -162,8 +173,8 @@ const LaporanMingguanPengawasAdminPage = () => {
                                             </span>
                                         </td>
                                         <td className="py-4 px-6 text-center">
-                                            <span className="text-sm font-black text-blue-600">
-                                                {report.verifiedProgressSnapshot}%
+                                            <span className="text-sm font-black text-blue-600" title="Snapshot progress saat laporan diajukan">
+                                                {report.verifiedProgressSnapshot != null ? `${report.verifiedProgressSnapshot}%` : '-'}
                                             </span>
                                         </td>
                                         <td className="py-4 px-6">

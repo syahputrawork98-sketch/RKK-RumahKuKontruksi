@@ -289,7 +289,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Mandor: {link.weeklyJournal?.foreman?.name}</span>
                                             <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-2 py-0.5 rounded">Verified</span>
                                         </div>
-                                        <p className="text-xs font-bold text-slate-700">Snap Progress: {link.weeklyJournal?.verifiedProgressSnapshot}%</p>
+                                        <p className="text-xs font-bold text-slate-700">Snap Progress: {link.weeklyJournal?.verifiedProgressSnapshot != null ? `${link.weeklyJournal.verifiedProgressSnapshot}%` : '-'}</p>
                                         <div className="mt-2 text-[9px] font-medium text-slate-400 uppercase tracking-widest flex items-center gap-1">
                                             {link.weeklyJournal?.activities?.length || 0} Aktivitas Lapangan
                                         </div>
@@ -302,7 +302,7 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                     {/* Detailed Notes / Progress Updates */}
                     <div className="dashboard-card p-6">
                         <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] border-b pb-3 mb-4 flex items-center gap-2">
-                            <FiFileText /> Catatan Detail & Update Progres
+                            <FiFileText /> Catatan Detail Laporan Lapangan
                         </h3>
                         {report.notes?.length === 0 ? (
                             <p className="text-xs text-slate-400 italic text-center py-4">Tidak ada catatan detail tambahan.</p>
@@ -337,10 +337,11 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                                 </p>
                                             )}
                                         </div>
-                                        {note.progress !== null && (
-                                            <div className="text-right">
-                                                <p className="text-[10px] font-black uppercase text-blue-600">Reported Progress</p>
-                                                <p className="text-2xl font-black text-blue-900">{note.progress}%</p>
+                                        {note.progress != null && (
+                                             <div className="text-right">
+                                                <p className="text-[10px] font-black uppercase text-amber-600">Progres Dilaporkan (Klaim)</p>
+                                                <p className="text-2xl font-black text-amber-700">{note.progress}%</p>
+                                                <p className="text-[8px] text-slate-400 italic mt-0.5">Bukan verifiedProgress SOT</p>
                                             </div>
                                         )}
                                     </div>
@@ -356,10 +357,10 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                     <div className="dashboard-card p-6 bg-slate-900 text-white border-none shadow-xl overflow-hidden relative">
                         <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/5 rounded-full blur-2xl"></div>
                         <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 border-b border-white/10 pb-2">
-                            Progress Snapshot
+                            Snapshot Progress (Saat Laporan Diajukan)
                         </h3>
                         <div className="text-center py-4">
-                            <span className="text-6xl font-black text-white">{report.verifiedProgressSnapshot}%</span>
+                            <span className="text-6xl font-black text-white">{report.verifiedProgressSnapshot ?? '-'}{report.verifiedProgressSnapshot != null ? '%' : ''}</span>
                         </div>
                         <div className="mt-4 pt-4 border-t border-white/10">
                             <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1">
@@ -367,8 +368,11 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                                 <span className="text-emerald-400">Verified</span>
                             </div>
                             <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                <div className="h-full bg-emerald-500" style={{ width: `${report.verifiedProgressSnapshot}%` }}></div>
+                                <div className="h-full bg-emerald-500" style={{ width: `${report.verifiedProgressSnapshot ?? 0}%` }}></div>
                             </div>
+                            <p className="text-[9px] text-slate-500 italic mt-3 leading-relaxed">
+                                Nilai ini adalah rekam jejak <strong className="text-slate-400">verifiedProgress</strong> saat laporan diajukan — bukan progress resmi saat ini.
+                            </p>
                         </div>
                     </div>
 
@@ -452,23 +456,27 @@ const DetailLaporanMingguanPengawasAdminPage = () => {
                             <FiClock /> Timeline Review
                         </h3>
                         <div className="space-y-6 relative before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
-                            {report.reviewLogs?.map((log) => (
-                                <div key={log.id} className="relative pl-6">
-                                    <div className="absolute left-0 top-1 w-3 h-3 rounded-full bg-white border-2 border-slate-300 group-hover:border-slate-800"></div>
-                                    <p className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{log.action.replace(/_/g, ' ')}</p>
-                                    <p className="text-[11px] font-bold text-slate-700 mt-0.5">
-                                        {log.actorRole === 'admin' ? 'Admin' : 'Pengawas'}
-                                    </p>
-                                    <p className="text-[9px] text-slate-400 font-medium">
-                                        {new Date(log.createdAt).toLocaleString('id-ID')}
-                                    </p>
-                                    {log.note && (
-                                        <div className="text-[10px] text-amber-700 bg-amber-50 p-2 rounded-lg mt-2 font-medium italic border border-amber-100 leading-tight">
-                                            "{log.note}"
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                            {report.reviewLogs?.length > 0 ? (
+                                report.reviewLogs.map((log) => (
+                                    <div key={log.id} className="relative pl-6">
+                                        <div className="absolute left-0 top-1 w-3 h-3 rounded-full bg-white border-2 border-slate-300 group-hover:border-slate-800"></div>
+                                        <p className="text-[9px] font-black uppercase text-slate-400 tracking-widest">{log.action.replace(/_/g, ' ')}</p>
+                                        <p className="text-[11px] font-bold text-slate-700 mt-0.5">
+                                            {log.actorRole === 'admin' ? 'Admin' : 'Pengawas'}
+                                        </p>
+                                        <p className="text-[9px] text-slate-400 font-medium">
+                                            {new Date(log.createdAt).toLocaleString('id-ID')}
+                                        </p>
+                                        {log.note && (
+                                            <div className="text-[10px] text-amber-700 bg-amber-50 p-2 rounded-lg mt-2 font-medium italic border border-amber-100 leading-tight">
+                                                "{log.note}"
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-[10px] text-slate-400 italic text-center py-4">Belum ada aktivitas review.</p>
+                            )}
                         </div>
                     </div>
                 </div>

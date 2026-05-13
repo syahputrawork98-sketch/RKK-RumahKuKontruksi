@@ -98,7 +98,13 @@ const TimelineProyek = () => {
               avatar: raw.foreman?.avatar || `https://ui-avatars.com/api/?name=${raw.foreman?.name || 'Mandor'}&background=3B82F6&color=fff`,
               status: raw.foreman ? "Aktif" : "N/A"
             }
-          }
+          },
+          releasedDocuments: (raw.administrativeHelperDocuments || []).map(doc => ({
+            id: doc.id,
+            title: doc.title,
+            type: doc.type,
+            date: doc.releasedAt ? new Date(doc.releasedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'
+          }))
         };
 
         setProject(mappedProject);
@@ -256,7 +262,9 @@ const TimelineProyek = () => {
               <div className="flex justify-between items-end mb-2">
                 <div className="space-y-1">
                   <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] opacity-80">Transparansi Progres</span>
-                  <p className="text-sm font-black text-white uppercase tracking-widest">Progress Resmi (Verified Pengawas)</p>
+                  <p className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-2">
+                    Progress Resmi <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] border border-white/30">Source of Truth</span>
+                  </p>
                 </div>
                 <span className="text-4xl font-black text-teal-400">{project.verifiedProgress}%</span>
               </div>
@@ -622,6 +630,61 @@ const TimelineProyek = () => {
                   <div className="flex items-center gap-2 text-[9px] text-neutral-40 font-medium italic">
                     <FiInfo className="shrink-0" />
                     <span>Hanya item pekerjaan yang relevan dengan pengerjaan resmi yang ditampilkan di struktur ini.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* DOKUMEN ADMINISTRATIF SIDEBAR CARD */}
+              <div className="w-full mt-8">
+                <div className="bg-white rounded-[32px] border border-neutral-30 shadow-xl overflow-hidden">
+                  <div className="p-6 border-b border-neutral-20 bg-neutral-10/50">
+                    <h3 className="text-[10px] font-black text-neutral-100 uppercase tracking-[0.2em] flex items-center gap-2">
+                      <FiFileText className="text-primary-main" /> Dokumen Resmi Terbit
+                    </h3>
+                    <p className="text-[10px] text-neutral-50 mt-1 italic leading-tight">
+                      Arsip dokumen administratif yang sudah dirilis oleh tim Admin RKK.
+                    </p>
+                  </div>
+
+                  <div className="p-4 space-y-3">
+                    {project.releasedDocuments && project.releasedDocuments.length > 0 ? (
+                      project.releasedDocuments.map((doc) => (
+                        <Link
+                          key={doc.id}
+                          to="/konsumen/dokumen"
+                          className="w-full flex items-center gap-3 p-3 rounded-2xl bg-neutral-20 hover:bg-neutral-30 border border-neutral-30/50 transition-all group"
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary-main shadow-sm border border-neutral-30 group-hover:scale-105 transition-transform">
+                            <FiFileText size={18} />
+                          </div>
+                          <div className="flex-1 overflow-hidden">
+                            <p className="text-[11px] font-black text-neutral-80 uppercase truncate">{doc.title}</p>
+                            <div className="flex items-center justify-between mt-0.5">
+                              <span className="text-[9px] font-bold text-primary-main bg-primary-surface px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                                {doc.type}
+                              </span>
+                              <span className="text-[9px] text-neutral-40 font-bold">{doc.date}</span>
+                            </div>
+                          </div>
+                        </Link>
+                      ))
+                    ) : (
+                      <div className="py-8 text-center space-y-2">
+                        <div className="w-10 h-10 bg-neutral-10 rounded-full flex items-center justify-center mx-auto text-neutral-30">
+                          <FiInfo size={16} />
+                        </div>
+                        <p className="text-[9px] text-neutral-40 font-bold uppercase tracking-widest italic">Belum Ada Dokumen</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-4 bg-teal-50 border-t border-teal-100">
+                    <Link
+                      to="/konsumen/dokumen"
+                      className="w-full py-2 bg-teal-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-teal-700 transition-colors shadow-lg shadow-teal-600/20"
+                    >
+                      Buka Portal Dokumen <FiArrowRight size={12} />
+                    </Link>
                   </div>
                 </div>
               </div>

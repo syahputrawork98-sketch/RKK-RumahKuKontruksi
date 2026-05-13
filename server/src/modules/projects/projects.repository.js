@@ -132,6 +132,10 @@ export const findById = async (id) => {
             orderBy: { createdAt: 'desc' }
           }
         }
+      },
+      administrativeHelperDocuments: {
+        where: { status: 'released' },
+        orderBy: { releasedAt: 'desc' }
       }
     },
   });

@@ -1,8 +1,8 @@
-# RKK - RumahKu Konstruksi (Production-Ready Feature Completion)
+# RKK - RumahKu Konstruksi (Local Development Feature Completion)
 
 Repository utama untuk proyek **RumahKu Konstruksi**. Platform ini dirancang untuk menghubungkan Konsumen, Arsitek, Admin, Pengawas, dan Mandor dalam satu ekosistem pembangunan rumah yang transparan.
 
-Saat ini proyek berada dalam fase **Production-Ready Feature Completion Mode with Developer Persona Switcher**. Seluruh fungsionalitas dijalankan di lingkungan lokal dengan integrasi database untuk mendukung simulasi operasional rill.
+Proyek ini berada pada fase **Local Development Feature Completion with production-minded quality**. Seluruh fungsionalitas dijalankan di lingkungan lokal dengan integrasi database untuk mendukung simulasi operasional rill. Sistem belum menggunakan production auth/JWT/session/password/RBAC.
 
 ---
 
@@ -77,8 +77,9 @@ npm run dev
 ## 📌 Catatan Teknis Penting
 
 - **API Base URL**: Frontend dikonfigurasi untuk mengakses API di `http://localhost:4000/api`. Pastikan backend dalam keadaan hidup (`running`) untuk menghindari error `net::ERR_CONNECTION_REFUSED`.
-- **Persona Selector**: Karena sistem autentikasi rill (JWT/Login) belum diaktifkan, gunakan **Persona Switcher** di sidebar/profil untuk berpindah role (Konsumen, Admin, dsb).
-- **Progress SOT**: Progress proyek bersifat manual (Verified Progress). Perubahan pada jurnal atau item pekerjaan tidak mengubah progress utama secara otomatis.
+- **Persona Selector**: Sistem menggunakan **Dev Persona Switcher** untuk mensimulasikan role secara lokal. Belum menggunakan production auth/JWT/session/password.
+- **Progress SOT**: `Project.verifiedProgress` tetap menjadi Source of Truth progres resmi proyek. Perubahan pada jurnal atau item pekerjaan tidak mengubah progress utama secara otomatis.
+- **Roadmap Payment**: Payment Gateway, Invoice Internal Production Flow, dan Payment Proof Upload masuk roadmap fase berikutnya dan belum dianggap selesai penuh.
 
 ---
 
@@ -94,4 +95,4 @@ npm run dev
 - 👥 [**Role Data Source**](docs/frontend/role-data-source-status.md)
 
 ---
-*© 2026 RumahKu Konstruksi - Production-Ready Feature Completion Mode.*
+*© 2026 RumahKu Konstruksi - Local Development Feature Completion Mode.*

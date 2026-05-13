@@ -31,10 +31,6 @@ Detail teknis backend, frontend, database, API map, kebijakan data source, dan p
 
 Riwayat pengembangan proyek yang dibagi per 10 batch untuk memudahkan pelacakan progres.
 
-### 5. [Legacy Instructions](./project-instructions/)
-Folder ini berisi rujukan SOP lama (Legacy). Seluruh aturan alur kerja aktif sekarang dipusatkan di **[Workflow SOP](./project/workflow-sop.md)**.
-
-
 ---
 
 ## 🏛️ Archive

@@ -57,3 +57,11 @@
   - Menandai folder `docs/project-instructions/` sebagai **LEGACY** untuk menghindari ambiguitas rujukan.
   - Pembaruan `docs/README.md` dan `docs/project/current-status.md` agar menunjuk ke SOP terkonsolidasi.
   - Penegasan alur: Room 00 (Master Planner), Room 01 (Analysis-Only), Gemini 3F (Executor-Only).
+
+## Batch 58 — Cleanup Legacy Documentation Folder
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Penghapusan folder `docs/project-instructions/` secara total.
+  - Pembersihan seluruh referensi ke folder legacy di `docs/README.md` dan `docs/project/workflow-sop.md`.
+  - Pemusatan seluruh SOP aktif di `docs/project/workflow-sop.md` untuk menghindari kebingungan agen AI.

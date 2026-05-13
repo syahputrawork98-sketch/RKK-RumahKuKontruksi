@@ -48,6 +48,3 @@ Dokumen ini adalah **Source of Truth** tunggal untuk prosedur kerja AI Agent (Ro
 *   **Git Operations**: Seluruh operasi git (*add, commit, push*) dilakukan secara **MANUAL** oleh USER di terminal lokal. AI Agent tidak memiliki akses/wewenang untuk menyentuh history git.
 *   **Validation**: Room Chat 00 mengevaluasi laporan Gemini. Jika hasil pengecekan (*lint/check*) sukses dan file yang diubah sesuai, batch dianggap selesai. Tidak perlu meminta USER melakukan validasi manual berulang-ulang sebagai standar prosedur kecuali jika terdapat ambiguitas tinggi.
 
----
-> [!IMPORTANT]
-> Seluruh detail teknis di folder `docs/project-instructions/` kini bersifat **LEGACY**. Rujukan utama adalah file ini.

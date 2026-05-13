@@ -77,6 +77,9 @@ import ProyekDiawasiPengawasPage from "./pages/pengawas/ProyekDiawasiPengawasPag
 import DetailProyekDiawasiPengawasPage from "./pages/pengawas/DetailProyekDiawasiPengawasPage";
 import VerifikasiProgresPengawasPage from "./pages/pengawas/VerifikasiProgresPengawasPage";
 import DokumentasiLapanganPengawasPage from "./pages/pengawas/DokumentasiLapanganPengawasPage";
+import TeknisGambarKerjaPage from "./pages/pengawas/TeknisGambarKerjaPage";
+import TeknisRabBaselinePage from "./pages/pengawas/TeknisRabBaselinePage";
+import TeknisJadwalPage from "./pages/pengawas/TeknisJadwalPage";
 import LaporanMingguanPengawasPage from "./pages/pengawas/LaporanMingguanPengawasPage";
 import CreateLaporanMingguanPengawasPage from "./pages/pengawas/CreateLaporanMingguanPengawasPage";
 import DetailLaporanMingguanPengawasPage from "./pages/pengawas/DetailLaporanMingguanPengawasPage";
@@ -290,9 +293,9 @@ function App() {
             <Route path="proyek/:projectId" element={<DetailProyekDiawasiPengawasPage />} />
             
             {/* DETAIL TEKNIS */}
-            <Route path="teknis/gambar-kerja" element={<PengawasHoldState title="Gambar Kerja (Technical)" description="Akses gambar kerja terbaru untuk pengawasan lapangan." />} />
-            <Route path="teknis/rab-baseline" element={<PengawasHoldState title="RAB & Scope Baseline" description="Acuan pekerjaan sesuai kontrak untuk verifikasi progress." />} />
-            <Route path="teknis/jadwal" element={<PengawasHoldState title="Jadwal / Kurva S" description="Monitoring timeline dan deviasi waktu proyek." />} />
+            <Route path="teknis/gambar-kerja" element={<TeknisGambarKerjaPage />} />
+            <Route path="teknis/rab-baseline" element={<TeknisRabBaselinePage />} />
+            <Route path="teknis/jadwal" element={<TeknisJadwalPage />} />
             
             <Route path="jurnal-mandor" element={<JurnalMandorPengawasPage />} />
             <Route path="jurnal-mandor/:journalId" element={<DetailJurnalMandorPengawasPage />} />

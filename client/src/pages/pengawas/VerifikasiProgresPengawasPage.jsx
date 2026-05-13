@@ -37,7 +37,7 @@ const VerifikasiProgresPengawasPage = () => {
                 setLoading(true);
                 const response = await projectService.getProjects({ supervisorId: selectedSupervisorId });
                 if (response.success) {
-                    setProjects(response.data);
+                    setProjects(response.data || []);
                 }
             } catch (err) {
                 console.error(err);
@@ -73,10 +73,10 @@ const VerifikasiProgresPengawasPage = () => {
                 })
             ]);
 
-            if (historyRes.success) setHistory(historyRes.data.history);
-            if (stagesRes.success) setStages(stagesRes.data);
-            if (rabRes.success) setRab(rabRes.data);
-            if (journalsRes.success) setJournals(journalsRes.data);
+            if (historyRes.success) setHistory(historyRes.data?.history || []);
+            if (stagesRes.success) setStages(stagesRes.data || []);
+            if (rabRes.success) setRab(rabRes.data || null);
+            if (journalsRes.success) setJournals(journalsRes.data || []);
         } catch (err) {
             console.error("Failed to fetch context:", err);
         } finally {
@@ -120,7 +120,7 @@ const VerifikasiProgresPengawasPage = () => {
                     actorRole: 'pengawas',
                     actorId: selectedSupervisorId
                 });
-                setHistory(historyRes.data.history);
+                setHistory(historyRes.data?.history || []);
                 setNotes("");
             }
         } catch (err) {

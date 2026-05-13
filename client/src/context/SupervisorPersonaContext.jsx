@@ -18,7 +18,7 @@ export const SupervisorPersonaProvider = ({ children }) => {
       setError(null);
       const response = await supervisorService.getAllSupervisors();
       if (response.success) {
-        setSupervisors(response.data);
+        setSupervisors(response.data || []);
       }
     } catch (err) {
       console.error('Failed to fetch supervisors:', err);

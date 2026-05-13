@@ -51,7 +51,7 @@ const DashboardPengawas = () => {
                 const [projRes, statsRes, issuesRes] = results;
 
                 if (projRes.status === 'fulfilled' && projRes.value.success) {
-                    setProjects(projRes.value.data);
+                    setProjects(projRes.value.data || []);
                 }
                 if (statsRes.status === 'fulfilled' && statsRes.value.success) {
                     setStatsData(statsRes.value.data);
@@ -229,13 +229,13 @@ const DashboardPengawas = () => {
                                 <div className="flex justify-between items-center border-b border-[var(--dashboard-border)]/50 pb-2">
                                     <span className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Review Jurnal</span>
                                     <span className="text-xs font-black">
-                                        {(statsData?.journals?.reduce((acc, j) => acc + (j._count?._all || 0), 0) || 0)}
+                                        {(Array.isArray(statsData?.journals) ? statsData.journals.reduce((acc, j) => acc + (j._count?._all || 0), 0) : 0)}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Laporan Mingguan</span>
                                     <span className="text-xs font-black">
-                                        {statsData?.weeklyReports?.reduce((acc, r) => acc + (r._count?._all || 0), 0) || 0}
+                                        {Array.isArray(statsData?.weeklyReports) ? statsData.weeklyReports.reduce((acc, r) => acc + (r._count?._all || 0), 0) : 0}
                                     </span>
                                 </div>
                             </div>

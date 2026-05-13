@@ -301,7 +301,7 @@ const DetailProyekDiawasiPengawasPage = () => {
                                         <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Status Pengerjaan</h4>
                                         <div className="space-y-1">
                                             <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Tahapan Berjalan</p>
-                                            <p className="text-sm font-black text-emerald-600">{project.stages?.find(s => s.status === 'Berjalan')?.name || 'Belum Dimulai'}</p>
+                                            <p className="text-sm font-black text-emerald-600">{(project.stages || []).find(s => s.status === 'Berjalan')?.name || 'Belum Dimulai'}</p>
                                         </div>
                                         <div className="space-y-1">
                                             <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Deadline Estimasi</p>
@@ -427,7 +427,7 @@ const DetailProyekDiawasiPengawasPage = () => {
 
                                 {project.stages?.length > 0 ? (
                                     <div className="space-y-3">
-                                        {project.stages.sort((a,b) => a.order - b.order).map(stage => (
+                                        {(project.stages || []).sort((a,b) => a.order - b.order).map(stage => (
                                             <div key={stage.id} className="p-4 bg-white border border-[var(--dashboard-border)] rounded-2xl flex items-center justify-between shadow-sm hover:shadow-md transition-all group">
                                                 <div className="flex items-center gap-4">
                                                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs border ${

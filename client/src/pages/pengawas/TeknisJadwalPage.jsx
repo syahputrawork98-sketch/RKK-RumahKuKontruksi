@@ -53,8 +53,8 @@ const TeknisJadwalPage = () => {
     };
 
     const filteredProjects = projects.filter(p => 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.projectCode.toLowerCase().includes(searchQuery.toLowerCase())
+        (p.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.projectCode || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     if (!selectedSupervisorId) {
@@ -98,7 +98,7 @@ const TeknisJadwalPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProjects.length > 0 ? (
                     filteredProjects.map((p) => {
-                        const activeStage = p.stages?.find(s => s.status === 'Berjalan') || p.stages?.[0];
+                        const activeStage = (p.stages || []).find(s => s.status === 'Berjalan') || (p.stages || [])[0];
                         return (
                             <div key={p.id} className="dashboard-card group hover:border-blue-200 transition-all cursor-pointer overflow-hidden" onClick={() => navigate(`/pengawas/proyek/${p.id}`)}>
                                 <div className="p-1 bg-blue-50 border-b border-blue-100 flex justify-between items-center px-4">

@@ -67,12 +67,12 @@ const DashboardMandor = () => {
                 
                 const [projRes, statsRes, journalRes, tasksRes, reportsRes, issuesRes] = results;
                 
-                if (projRes.status === 'fulfilled' && projRes.value.success) setProjects(projRes.value.data);
+                if (projRes.status === 'fulfilled' && projRes.value.success) setProjects(projRes.value.data || []);
                 if (statsRes.status === 'fulfilled' && statsRes.value.success) setStatsData(statsRes.value.data);
-                if (journalRes.status === 'fulfilled' && journalRes.value.success) setRecentJournals(journalRes.value.data.slice(0, 3));
-                if (tasksRes.status === 'fulfilled' && tasksRes.value.success) setPendingTasks(tasksRes.value.data.slice(0, 5));
+                if (journalRes.status === 'fulfilled' && journalRes.value.success) setRecentJournals((journalRes.value.data || []).slice(0, 3));
+                if (tasksRes.status === 'fulfilled' && tasksRes.value.success) setPendingTasks((tasksRes.value.data || []).slice(0, 5));
                 if (reportsRes.status === 'fulfilled' && reportsRes.value.success) {
-                    setRecentReports(reportsRes.value.data.slice(0, 3));
+                    setRecentReports((reportsRes.value.data || []).slice(0, 3));
                 }
                 if (issuesRes.status === 'fulfilled' && issuesRes.value.data) {
                     const count = issuesRes.value.data.filter(iss => 
@@ -98,11 +98,11 @@ const DashboardMandor = () => {
 
     // Calculate dynamic stats
     const activeProjectsCount = statsData?.activeProjects || 0;
-    const pendingJournalsCount = statsData?.journals?.filter(j => 
+    const pendingJournalsCount = (Array.isArray(statsData?.journals) ? statsData.journals : []).filter(j => 
         ['draft', 'submitted'].includes(j.status?.toLowerCase())
     ).reduce((sum, j) => sum + (j._count?._all || 0), 0) || 0;
     
-    const pendingMaterialsCount = statsData?.materialRequests?.filter(m => 
+    const pendingMaterialsCount = (Array.isArray(statsData?.materialRequests) ? statsData.materialRequests : []).filter(m => 
         ['submitted', 'approved', 'approved_by_supervisor', 'approved_by_admin', 'processing'].includes(m.status?.toLowerCase())
     ).reduce((sum, m) => sum + (m._count?._all || 0), 0) || 0;
 

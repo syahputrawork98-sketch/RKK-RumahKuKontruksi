@@ -90,9 +90,9 @@ export default function AdminTable({ data }) {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
       {/* ACTION BAR: SEARCH & ADD */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="flex-1">
           <AdminFilters
             search={search}
@@ -104,7 +104,7 @@ export default function AdminTable({ data }) {
         
         <button
           onClick={handleAdd}
-          className="dashboard-primary-button flex items-center justify-center gap-2 !py-3"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-colors shadow-lg shadow-slate-800/20"
         >
           <span className="text-xl leading-none">+</span>
           <span>Tambah Persona Lokal</span>

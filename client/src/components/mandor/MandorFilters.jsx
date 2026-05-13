@@ -1,6 +1,6 @@
 // client/src/components/mandor/MandorFilters.jsx
 import React from "react";
-import { Search } from "lucide-react";
+import { FiSearch } from "react-icons/fi";
 
 export default function MandorFilters({
   search,
@@ -11,11 +11,11 @@ export default function MandorFilters({
   setSort,
 }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
+    <div className="flex flex-col md:flex-row md:items-center gap-3">
       {/* SEARCH BAR */}
-      <div className="relative w-full md:w-1/3">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+      <div className="relative flex-1 max-w-md">
+        <FiSearch
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--dashboard-text-soft)]"
           size={18}
         />
         <input
@@ -23,17 +23,17 @@ export default function MandorFilters({
           placeholder="Cari mandor berdasarkan nama, NIK, atau email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border rounded-lg text-neutral-90 text-s-regular bg-white shadow-sm focus:border-emerald-600 focus:ring-emerald-600"
+          className="w-full pl-11 pr-4 py-2.5 bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
         />
       </div>
 
       {/* FILTER & SORT */}
-      <div className="flex flex-col md:flex-row items-center gap-3">
+      <div className="flex items-center gap-3">
         {/* STATUS FILTER */}
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="border rounded-lg px-3 py-2 bg-white shadow-sm text-neutral-90 text-s-regular focus:border-emerald-600 focus:ring-emerald-600"
+          className="px-4 py-2.5 bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-xl text-xs font-bold text-[var(--dashboard-text-soft)] focus:outline-none"
         >
           <option value="all">Semua Status</option>
           <option value="aktif">Aktif</option>
@@ -44,7 +44,7 @@ export default function MandorFilters({
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="border rounded-lg px-3 py-2 bg-white shadow-sm text-neutral-90 text-s-regular focus:border-emerald-600 focus:ring-emerald-600"
+          className="px-4 py-2.5 bg-[var(--dashboard-surface)] border border-[var(--dashboard-border)] rounded-xl text-xs font-bold text-[var(--dashboard-text-soft)] focus:outline-none"
         >
           <option value="name-asc">Nama A-Z</option>
           <option value="name-desc">Nama Z-A</option>

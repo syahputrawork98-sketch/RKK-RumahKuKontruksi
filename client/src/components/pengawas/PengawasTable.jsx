@@ -98,9 +98,9 @@ export default function PengawasTable({ data }) {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
       {/* FILTERS & ACTION */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="flex-1">
           <PengawasFilters
             search={search}
@@ -114,7 +114,7 @@ export default function PengawasTable({ data }) {
         
         <button
           onClick={handleAdd}
-          className="dashboard-primary-button flex items-center justify-center gap-2 !py-3 bg-amber-600 shadow-amber-600/20"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-amber-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-amber-700 transition-colors shadow-lg shadow-amber-600/20"
         >
           <span className="text-xl leading-none">+</span>
           <span>Tambah Persona Lokal</span>

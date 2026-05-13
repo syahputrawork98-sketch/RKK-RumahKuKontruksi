@@ -96,9 +96,9 @@ export default function MandorTable({ data }) {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
       {/* FILTERS & ACTION */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="flex-1">
           <MandorFilters
             search={search}
@@ -112,7 +112,7 @@ export default function MandorTable({ data }) {
         
         <button
           onClick={handleAdd}
-          className="dashboard-primary-button flex items-center justify-center gap-2 !py-3 bg-blue-600 shadow-blue-600/20"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
         >
           <span className="text-xl leading-none">+</span>
           <span>Tambah Persona Lokal</span>

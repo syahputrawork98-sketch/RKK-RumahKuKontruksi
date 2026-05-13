@@ -122,7 +122,7 @@ const DashboardSuperadmin = () => {
         <div className="dashboard-card p-6 flex flex-col items-center justify-center text-center border-dashed border-2 bg-gray-50/50">
             <p className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest mb-2">Upcoming Deadlines</p>
             <p className="text-xs text-[var(--dashboard-text-soft)] italic">Data deadline akan muncul otomatis berdasarkan jadwal proyek.</p>
-            <span className="mt-4 px-2 py-1 bg-amber-50 text-amber-600 text-[8px] font-black uppercase rounded border border-amber-100">Fase Local CRUD - Hold</span>
+            <span className="mt-4 px-2 py-1 bg-neutral-50 text-neutral-500 text-[8px] font-black uppercase rounded border border-neutral-100">Belum Ada Jadwal Terdekat</span>
         </div>
 
         <div className="relative group">

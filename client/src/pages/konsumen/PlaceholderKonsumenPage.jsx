@@ -24,7 +24,7 @@ const PlaceholderKonsumenPage = ({
               <FaHourglassHalf className="text-2xl" />
             </div>
             <span className="bg-teal-700/50 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase border border-white/20">
-              {status} / Customer Portal
+              SIMULASI LOKAL / Customer Portal
             </span>
           </div>
           <h1 className="text-3xl font-bold mb-3">{title}</h1>
@@ -36,12 +36,12 @@ const PlaceholderKonsumenPage = ({
         {/* Content Section */}
         <div className="p-8 space-y-8">
           {/* Status Alert */}
-          <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg flex gap-4">
-            <FaExclamationTriangle className="text-amber-500 text-xl flex-shrink-0 mt-1" />
+          <div className="bg-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg flex gap-4">
+            <FaInfoCircle className="text-teal-500 text-xl flex-shrink-0 mt-1" />
             <div>
-              <h4 className="text-amber-800 font-semibold mb-1">Status Pengembangan: UI Placeholder</h4>
-              <p className="text-amber-700 text-sm leading-relaxed">
-                Halaman ini sedang dalam tahap perancangan antarmuka. Saat ini data yang ditampilkan masih bersifat simulasi untuk menunjukkan alur informasi kepada Konsumen.
+              <h4 className="text-teal-800 font-semibold mb-1">Status: Fitur Scope Lokal</h4>
+              <p className="text-teal-700 text-sm leading-relaxed">
+                Halaman ini menampilkan simulasi data lokal untuk alur informasi Konsumen. Fitur interaktif lanjutan akan diaktifkan seiring dengan pengembangan modul terkait.
               </p>
             </div>
           </div>

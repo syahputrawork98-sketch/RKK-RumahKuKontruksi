@@ -27,16 +27,16 @@ const AdminPlaceholderPage = ({ title, description, badge = "Postponed" }) => {
                 
                 <div className="max-w-md space-y-2">
                     <div className="flex items-center justify-center gap-2">
-                        <span className="px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase rounded-full border border-amber-500/20">
-                            {badge}
+                        <span className="px-3 py-1 bg-neutral-500/10 text-neutral-500 text-[10px] font-black uppercase rounded-full border border-neutral-500/20">
+                            Non-Scope
                         </span>
                         <span className="px-3 py-1 bg-[var(--dashboard-primary-soft)] text-[var(--dashboard-primary)] text-[10px] font-black uppercase rounded-full border border-[var(--dashboard-primary)]/10">
-                            Local CRUD Integration Phase
+                            Local Development Scope
                         </span>
                     </div>
-                    <h3 className="text-xl font-bold">Fitur Belum Tersedia</h3>
+                    <h3 className="text-xl font-bold">Akses Terbatas pada Simulasi</h3>
                     <p className="text-sm text-[var(--dashboard-text-soft)] leading-relaxed">
-                        {description || "Halaman ini sedang dalam antrian pengerjaan. Integrasi data dan workflow operasional untuk modul ini ditunda sementara demi menjaga stabilitas model data inti."}
+                        {description || "Halaman ini berkaitan dengan fitur lanjutan yang memerlukan integrasi layanan eksternal. Di fase pengembangan lokal ini, fokus dialokasikan pada pemantauan operasional inti."}
                     </p>
                 </div>
 

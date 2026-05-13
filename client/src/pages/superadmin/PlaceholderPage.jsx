@@ -9,14 +9,14 @@ const PlaceholderPage = ({ title, description }) => {
             </div>
             <h1 className="dashboard-title text-3xl mb-3">{title}</h1>
             <p className="dashboard-subtitle text-base max-w-md mb-10">
-                {description || "Halaman ini sedang dalam tahap pengembangan. Integrasi detail akan dikerjakan setelah standar UI Superadmin disepakati."}
+                {description || "Modul ini tidak tersedia dalam simulasi pengembangan lokal saat ini. Detail integrasi akan ditambahkan pada fase pengembangan selanjutnya."}
             </p>
             <div className="dashboard-primary-button mb-4">
-                Modul Dalam Pengembangan
+                Fitur Non-Scope Lokal
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 rounded-lg border border-amber-100">
-                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
-                <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest">Status: Hold (Fase Local CRUD)</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-neutral-50 rounded-lg border border-neutral-100">
+                <span className="w-1.5 h-1.5 bg-neutral-400 rounded-full"></span>
+                <span className="text-[10px] font-black text-neutral-500 uppercase tracking-widest uppercase">Scope: Pengembangan Lanjutan</span>
             </div>
         </div>
     );

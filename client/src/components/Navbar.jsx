@@ -252,7 +252,7 @@ const Navbar = () => {
 
               <button
                 type="button"
-                onClick={() => alert("Login hanya tampilan frontend.")}
+                onClick={() => alert("Login dinonaktifkan dalam mode simulasi lokal. Silakan gunakan shortcut akses demo role di bawah untuk mengecek tampilan dashboard.")}
                 className="btn-public-primary w-full"
               >
                 Masuk Sekarang

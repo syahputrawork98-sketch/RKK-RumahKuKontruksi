@@ -332,7 +332,7 @@ const TimelineProyek = () => {
                 Pantau proses perancangan, revisi gambar kerja, hingga persetujuan draft RAB dalam satu alur kolaborasi terpadu.
               </p>
               <p className="text-[10px] text-indigo-400 italic font-bold uppercase tracking-tighter pt-1">
-                Laporan mingguan desain ke Konsumen: Hold (Local Development)
+                Akses detail laporan per desain: Simulasi Lokal
               </p>
             </div>
             <div className="pt-6">
@@ -374,7 +374,7 @@ const TimelineProyek = () => {
                   </p>
                   <div className="pt-2">
                     <span className="px-4 py-1 bg-white text-blue-600 text-[10px] font-black uppercase rounded-full tracking-widest shadow-lg">
-                      Local History Mode
+                      Data Arsip Proyek
                     </span>
                   </div>
                 </div>
@@ -432,7 +432,7 @@ const TimelineProyek = () => {
             <div>
               <p className="text-[10px] font-black text-neutral-40 uppercase tracking-widest mb-0.5">Sisa (Simulasi)</p>
               <p className="text-heading-s-bold text-neutral-100">{formatCurrency(project.budget.remaining)}</p>
-              <p className="text-[8px] font-bold text-error-main uppercase tracking-tighter mt-1 italic">Mode: Local Hold State</p>
+              <p className="text-[8px] font-bold text-neutral-40 uppercase tracking-tighter mt-1 italic">Sesuai Kalkulasi Lokal</p>
             </div>
           </motion.div>
         </div>
@@ -441,7 +441,7 @@ const TimelineProyek = () => {
         <div className="p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl flex items-center gap-3">
             <FiInfo className="text-blue-400" size={16} />
             <p className="text-[10px] font-black text-blue-700 uppercase leading-relaxed tracking-tighter">
-                Seluruh data keuangan di atas adalah <span className="text-[var(--dashboard-primary)]">Simulasi Local Workflow</span>. Fitur pembayaran real (Gateway/Legal) tidak dibuka pada tahap local development ini.
+                Seluruh data keuangan di atas adalah <span className="text-[var(--dashboard-primary)]">Simulasi Kalkulasi Lokal</span>. Fitur integrasi payment gateway tidak tersedia dalam scope local development ini.
             </p>
         </div>
 

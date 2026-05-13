@@ -8,34 +8,34 @@ const AdminHoldStatePage = ({ title, description }) => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-                        {title.toUpperCase()} <span className="text-amber-600 uppercase">[HOLD]</span>
+                        {title.toUpperCase()} <span className="text-neutral-400 uppercase text-sm font-bold">[SIMULASI]</span>
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
                         {description}
                     </p>
                 </div>
-                <div className="flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-xl border border-amber-200">
-                    <FiLock className="text-amber-500" size={14} />
-                    <span className="text-[10px] font-black text-amber-700 uppercase tracking-[0.2em]">Fase Local CRUD</span>
+                <div className="flex items-center gap-2 bg-neutral-50 px-4 py-2 rounded-xl border border-neutral-200">
+                    <FiLock className="text-neutral-400" size={14} />
+                    <span className="text-[10px] font-black text-neutral-500 uppercase tracking-[0.2em]">Local Dev Scope</span>
                 </div>
             </div>
 
             {/* HOLD CONTENT */}
             <div className="dashboard-card py-24 flex flex-col items-center justify-center text-center">
-                <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 mb-6 border border-dashed border-amber-200 animate-pulse">
+                <div className="w-20 h-20 bg-neutral-50 rounded-full flex items-center justify-center text-neutral-400 mb-6 border border-dashed border-neutral-200">
                     <FiAlertTriangle size={40} />
                 </div>
-                <h2 className="text-xl font-black text-[var(--dashboard-text)] mb-3">Modul Konstruksi Ditangguhkan</h2>
+                <h2 className="text-xl font-black text-[var(--dashboard-text)] mb-3">Akses Terbatas pada Simulasi Lokal</h2>
                 <p className="text-sm text-[var(--dashboard-text-soft)] max-w-md leading-relaxed italic mb-8">
-                    Halaman ini berkaitan dengan alur operasional tingkat lanjut (pembayaran, validasi dokumen legal, atau integrasi marketplace). Di fase <strong>Local Development CRUD Integration</strong>, akses ke fitur ini dibatasi untuk memastikan stabilitas data inti.
+                    Halaman ini berkaitan dengan alur operasional tingkat lanjut (validasi legal, marketplace, atau payment gateway). Di fase <strong>Local Development</strong>, akses ke fitur ini dibatasi untuk memastikan stabilitas data inti proyek.
                 </p>
                 
                 <div className="flex flex-col items-center gap-4">
-                    <div className="px-6 py-3 bg-[var(--dashboard-primary)] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-[var(--dashboard-primary)]/20">
-                        Menunggu Integrasi Backend v2
+                    <div className="px-6 py-3 bg-neutral-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/10">
+                        Menunggu Integrasi v2
                     </div>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
-                        Status: Development Queue
+                        Status: Queue for Future Implementation
                     </p>
                 </div>
             </div>

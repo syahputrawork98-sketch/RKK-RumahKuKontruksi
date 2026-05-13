@@ -243,7 +243,7 @@ const DashboardKonsumen = () => {
                                 {designRequests.slice(0, 4).map(dr => (
                                     <div 
                                         key={dr.id} 
-                                        onClick={() => alert("Fitur detail & diskusi arsitek sedang disiapkan (Phase Local CRUD). Silakan hubungi Admin RKK.")}
+                                        onClick={() => alert("Simulasi: Fitur diskusi detail arsitek memerlukan integrasi real-time. Untuk simulasi saat ini, silakan tinjau status revisi pada menu Permintaan Desain.")}
                                         className="bg-white p-7 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all duration-500 cursor-pointer group"
                                     >
                                         <div className="flex items-start justify-between mb-4">
@@ -299,7 +299,7 @@ const DashboardKonsumen = () => {
                         </div>
                         <div className="pt-6 border-t border-slate-50 relative z-10">
                             <p className="text-[10px] text-slate-300 leading-relaxed italic font-medium">
-                                * Fitur pembayaran sedang dalam pengembangan (Hold Phase).
+                                * Fitur pembayaran tidak tersedia dalam simulasi lokal ini.
                             </p>
                         </div>
                         <div className="absolute top-0 right-0 w-32 h-32 bg-teal-50/30 rounded-full -mt-16 -mr-16 blur-3xl" />
@@ -323,7 +323,7 @@ const DashboardKonsumen = () => {
                             </div>
                             <div className="flex justify-between items-center py-2">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-Payment</span>
-                                <span className="px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-amber-500/20">Holding</span>
+                                <span className="px-3 py-1 bg-neutral-500/10 text-neutral-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-neutral-500/20">Non-Scope</span>
                             </div>
                         </div>
                         <button 

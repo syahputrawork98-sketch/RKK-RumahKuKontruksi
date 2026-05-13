@@ -227,8 +227,6 @@ ${formData.materialPreferences || '-'}
     );
 
     if (loading && selectedCustomerId && requests.length === 0) return <RoleDataState type="loading" message="Memuat data pengajuan desain..." />;
-
-    if (loading && selectedCustomerId && requests.length === 0) return <RoleDataState type="loading" message="Memuat data pengajuan desain..." />;
     if (!selectedCustomerId) return <RoleDataState type="empty" message="Pilih persona konsumen terlebih dahulu." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchRequests} />;
 

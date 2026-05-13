@@ -7,7 +7,8 @@ export const create = async (data) => {
 };
 
 export const findAll = async (params = {}) => {
-  const { search, actorRole, entityType, limit = 50 } = params;
+  const { search, actorRole, entityType } = params;
+  const limit = params.limit ? parseInt(params.limit) : 50;
 
   const where = {};
 

@@ -9,7 +9,9 @@ import {
     FiActivity,
     FiFilter,
     FiEye,
-    FiInfo
+    FiInfo,
+    FiClock,
+    FiCheckCircle
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";

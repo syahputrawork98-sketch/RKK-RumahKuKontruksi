@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiMapPin, FiClock, FiCheckCircle, FiArrowRight } from "react-icons/fi";
-import StatusBadge from '../common/StatusBadge';
+import StatusBadge from '../../common/StatusBadge';
 
 const DesignRequestCard = ({ request, onOpenDetail }) => {
     return (

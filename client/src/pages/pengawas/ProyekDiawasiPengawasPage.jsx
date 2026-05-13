@@ -153,6 +153,7 @@ const ProyekDiawasiPengawasPage = () => {
                             <thead>
                                 <tr className="border-b border-[var(--dashboard-border)]">
                                     <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Proyek</th>
+                                    <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Mandor</th>
                                     <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Lokasi</th>
                                     <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Status</th>
                                     <th className="pb-4 text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Progress</th>
@@ -167,6 +168,12 @@ const ProyekDiawasiPengawasPage = () => {
                                                 <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase">{prj.projectCode}</span>
                                                 <span className="text-sm font-bold">{prj.name}</span>
                                                 <span className="text-[10px] text-[var(--dashboard-text-soft)] font-medium">{prj.customer?.name || 'No Customer'}</span>
+                                            </div>
+                                        </td>
+                                        <td className="py-4 px-2">
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-bold">{prj.foreman?.name || 'Belum Ada'}</span>
+                                                <span className="text-[9px] font-black uppercase text-[var(--dashboard-text-soft)]">Field Executor</span>
                                             </div>
                                         </td>
                                         <td className="py-4 px-2">

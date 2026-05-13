@@ -8,7 +8,8 @@ import {
     FiBriefcase,
     FiAlertTriangle,
     FiActivity,
-    FiStar
+    FiStar,
+    FiCheckCircle
 } from "react-icons/fi";
 import fieldIssueService from "../../services/fieldIssues.service";
 import {

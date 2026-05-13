@@ -12,7 +12,8 @@ import {
     FiUser, 
     FiClock,
     FiFileText,
-    FiTag
+    FiTag,
+    FiX
 } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";
@@ -308,19 +309,28 @@ const DetailProyekDiawasiPengawasPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="space-y-4">
-                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Progres Resmi (Source of Truth)</h4>
+                                <div className="space-y-4 p-6 bg-blue-50/50 border border-blue-100 rounded-[2rem]">
+                                    <div className="flex items-center justify-between">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Progress Resmi (Source of Truth)</h4>
+                                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-blue-600 text-white rounded-md">
+                                            <FiCheckCircle size={10} />
+                                            <span className="text-[8px] font-black uppercase tracking-widest">Validated SOT</span>
+                                        </div>
+                                    </div>
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-xs font-black uppercase">
-                                            <span>Terverifikasi</span>
-                                            <span>{project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%</span>
+                                            <span className="text-blue-900">Verified Progress</span>
+                                            <span className="text-blue-600 text-xl leading-none">{project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%</span>
                                         </div>
-                                        <div className="w-full h-3 bg-[var(--dashboard-surface-soft)] rounded-full overflow-hidden p-0.5 border border-[var(--dashboard-border)]">
-                                            <div className="h-full bg-linear-to-r from-[var(--dashboard-primary)] to-emerald-400 rounded-full" style={{ width: `${project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%` }} />
+                                        <div className="w-full h-4 bg-white rounded-full overflow-hidden p-1 border border-blue-100 shadow-inner">
+                                            <div className="h-full bg-linear-to-r from-blue-600 to-blue-400 rounded-full shadow-lg shadow-blue-500/20" style={{ width: `${project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%` }} />
                                         </div>
-                                        <p className="text-[9px] text-[var(--dashboard-text-soft)] font-bold italic mt-1 uppercase">
-                                            Update Terakhir: {project.verifiedProgressUpdatedAt ? new Date(project.verifiedProgressUpdatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Belum ada verifikasi'}
-                                        </p>
+                                        <div className="flex justify-between items-center mt-2">
+                                            <p className="text-[9px] text-blue-400 font-bold italic uppercase tracking-tighter">
+                                                Update Terakhir: {project.verifiedProgressUpdatedAt ? new Date(project.verifiedProgressUpdatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Belum ada verifikasi'}
+                                            </p>
+                                            <p className="text-[8px] font-black text-blue-700 uppercase tracking-widest">Hanya diubah via Verifikasi Progres</p>
+                                        </div>
                                     </div>
                                 </div>
 

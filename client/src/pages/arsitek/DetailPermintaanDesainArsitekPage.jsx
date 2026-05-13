@@ -94,13 +94,12 @@ const DetailPermintaanDesainArsitekPage = () => {
                 } : {}
             });
 
-            // If ready for review, update main status
+            // Update status if it was 'revision_requested' or 'in_review'
             if (action === 'architect_ready_for_review') {
                 await designRequestService.updateDesignRequest(requestId, { status: 'in_review' });
+            } else if (request.status === 'revision_requested') {
+                await designRequestService.updateDesignRequest(requestId, { status: 'revised' });
             }
-
-            // Note: in_progress status removed as per Batch 8A-1 requirements.
-            // Status remains 'assigned' while architect is working.
 
             alert("Update berhasil disimpan!");
             setProgressForm({
@@ -338,11 +337,17 @@ const DetailPermintaanDesainArsitekPage = () => {
                                 <span className="text-[10px] font-bold text-[var(--dashboard-text-soft)] uppercase tracking-widest">Status Saat Ini</span>
                                 <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
                                     request.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                    request.status === 'revision_requested' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                                    request.status === 'revised' ? 'bg-purple-50 text-purple-600 border-purple-100' :
                                     request.status === 'in_review' ? 'bg-amber-50 text-amber-600 border-amber-100' :
                                     request.status === 'assigned' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                                    request.status === 'project_created' ? 'bg-indigo-600 text-white border-indigo-700' :
                                     'bg-blue-50 text-blue-600 border-blue-100'
                                 }`}>
-                                    {request.status === 'assigned' && request.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' : request.status.replace('_', ' ')}
+                                    {request.status === 'assigned' && request.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' : 
+                                     request.status === 'revision_requested' ? 'Revisi Diminta' :
+                                     request.status === 'revised' ? 'Telah Direvisi' :
+                                     request.status.replace('_', ' ')}
                                 </span>
                             </div>
 

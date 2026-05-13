@@ -71,6 +71,11 @@ const DesignRevisionForm = ({
             <span className="text-[8px] font-bold">Max 3 ({majorCount}/3)</span>
           </button>
         </div>
+        <p className="text-[8px] text-slate-400 font-bold px-1 italic">
+          {revisionType === 'major' 
+            ? "* Major: Perubahan konsep, layout ruang utama, atau fasad bangunan." 
+            : "* Minor: Penyesuaian detail material, warna, atau posisi elemen kecil."}
+        </p>
       </div>
 
       <div className="space-y-2">
@@ -84,6 +89,16 @@ const DesignRevisionForm = ({
         />
       </div>
 
+      {((revisionType === 'major' && isMajorLimitReached) || (revisionType === 'minor' && isMinorLimitReached)) && (
+        <div className="bg-rose-50 border border-rose-100 rounded-xl p-4 flex gap-3 items-start text-[10px] font-bold text-rose-700 animate-pulse">
+          <FiAlertCircle className="flex-shrink-0 mt-0.5" size={14} />
+          <p className="uppercase leading-tight">
+            Batas revisi {revisionType} (Max {revisionType === 'major' ? '3' : '5'}) telah tercapai. 
+            Permintaan revisi tambahan hanya dapat dilakukan melalui koordinasi langsung dengan Admin RKK.
+          </p>
+        </div>
+      )}
+
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-xl p-3 flex gap-2 items-center text-[10px] font-bold text-red-700 animate-shake">
           <FiAlertCircle className="flex-shrink-0" />
@@ -94,10 +109,14 @@ const DesignRevisionForm = ({
       <button
         type="submit"
         disabled={loading || (revisionType === 'major' ? isMajorLimitReached : isMinorLimitReached)}
-        className="w-full py-4 bg-slate-800 hover:bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-slate-800/30 disabled:opacity-50 flex items-center justify-center gap-2"
+        className={`w-full py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2 ${
+          (revisionType === 'major' ? isMajorLimitReached : isMinorLimitReached)
+            ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+            : 'bg-slate-800 hover:bg-slate-900 text-white shadow-slate-800/30'
+        }`}
       >
-        {loading ? <FiRefreshCw className="animate-spin" /> : <FiSend />}
-        Ajukan Revisi (Lokal)
+        {loading ? <FiRefreshCw className="animate-spin" /> : (revisionType === 'major' ? isMajorLimitReached : isMinorLimitReached) ? <FiAlertCircle /> : <FiSend />}
+        {(revisionType === 'major' ? isMajorLimitReached : isMinorLimitReached) ? 'Limit Revisi Tercapai' : 'Ajukan Revisi (Lokal)'}
       </button>
 
       <div className="bg-amber-50 p-4 rounded-2xl border border-amber-100 space-y-2">

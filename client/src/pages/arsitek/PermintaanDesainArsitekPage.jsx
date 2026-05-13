@@ -277,14 +277,21 @@ const PermintaanDesainArsitekPage = () => {
                                         </div>
                                         <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
                                             r.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
+                                            r.status === 'revision_requested' ? "bg-rose-50 text-rose-600 border-rose-100" :
+                                            r.status === 'revised' ? "bg-purple-50 text-purple-600 border-purple-100" :
                                             r.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
                                             r.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
+                                            r.status === 'project_created' ? "bg-indigo-600 text-white border-indigo-700" :
                                             "bg-gray-50 text-gray-600 border-gray-100"
-                                        }`}>
-                                            {r.status === 'assigned' && r.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' :
-                                             r.status === 'assigned' ? 'Terpilih' :
-                                             r.status === 'in_review' ? 'Proses Review' :
-                                             r.status === 'approved' ? 'Selesai' : r.status.replace('_', ' ')}
+                                         }`}>
+                                             {r.status === 'assigned' && r.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' :
+                                              r.status === 'assigned' ? 'Terpilih' :
+                                              r.status === 'revision_requested' ? 'Revisi Diminta' :
+                                              r.status === 'revised' ? 'Telah Direvisi' :
+                                              r.status === 'in_review' ? 'Proses Review' :
+                                              r.status === 'approved' ? 'Selesai' : 
+                                              r.status === 'project_created' ? 'Proyek Dimulai' :
+                                              r.status.replace('_', ' ')}
                                         </span>
                                     </div>
 

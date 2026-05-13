@@ -230,8 +230,11 @@ ${formData.materialPreferences || '-'}
             submitted: "Diajukan",
             open: "Tender Terbuka",
             assigned: "Arsitek Terpilih",
+            revision_requested: "Revisi Diminta",
+            revised: "Telah Direvisi",
             in_review: "Proses Review",
             approved: "Desain Disetujui",
+            project_created: "Proyek Dimulai",
             rejected: "Ditolak",
             draft: "Draft"
         };

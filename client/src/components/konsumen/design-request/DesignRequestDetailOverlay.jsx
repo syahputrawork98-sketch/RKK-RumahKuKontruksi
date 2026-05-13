@@ -41,11 +41,46 @@ const DesignRequestDetailOverlay = ({
                 </div>
             </div>
 
-            <div className="bg-indigo-50/50 px-8 py-3 border-b border-indigo-100 flex items-center gap-3">
-                <FiInfo className="text-indigo-600 shrink-0" size={14} />
-                <p className="text-[10px] font-bold text-indigo-700 uppercase tracking-tighter italic">
-                    Info: Riwayat ini adalah bagian dari alur simulasi pengembangan lokal RKK, bukan merupakan dokumen legal/kontrak.
-                </p>
+            <div className="bg-indigo-50/50 px-8 py-3 border-b border-indigo-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                    <FiInfo className="text-indigo-600 shrink-0" size={14} />
+                    <p className="text-[10px] font-bold text-indigo-700 uppercase tracking-tighter italic">
+                        Info: Riwayat ini adalah bagian dari alur simulasi pengembangan lokal RKK.
+                    </p>
+                </div>
+                
+                {/* STEP INDICATOR */}
+                <div className="flex items-center gap-2">
+                    {[
+                        { id: 'submitted', label: 'Brief' },
+                        { id: 'assigned', label: 'Arsitek' },
+                        { id: 'revision_requested', label: 'Revisi', alt: ['revised'] },
+                        { id: 'in_review', label: 'Review' },
+                        { id: 'approved', label: 'Selesai', alt: ['project_created'] }
+                    ].map((step, idx, arr) => {
+                        const isActive = selectedRequest.status === step.id || step.alt?.includes(selectedRequest.status);
+                        const isPast = arr.findIndex(s => selectedRequest.status === s.id || s.alt?.includes(selectedRequest.status)) > idx;
+                        
+                        return (
+                            <React.Fragment key={step.id}>
+                                <div className="flex flex-col items-center">
+                                    <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black ${
+                                        isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 
+                                        isPast ? 'bg-emerald-500 text-white' : 'bg-gray-200 text-gray-400'
+                                    }`}>
+                                        {isPast ? <FiCheckCircle size={10} /> : idx + 1}
+                                    </div>
+                                    <span className={`text-[7px] font-black uppercase tracking-tighter mt-1 ${
+                                        isActive ? 'text-indigo-600' : 'text-gray-400'
+                                    }`}>{step.label}</span>
+                                </div>
+                                {idx < arr.length - 1 && (
+                                    <div className={`w-4 h-0.5 rounded-full ${isPast ? 'bg-emerald-500' : 'bg-gray-200'}`} />
+                                )}
+                            </React.Fragment>
+                        );
+                    })}
+                </div>
             </div>
 
             <div className="max-w-6xl mx-auto w-full p-6 md:p-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -56,8 +91,11 @@ const DesignRequestDetailOverlay = ({
                             selectedRequest.status === 'submitted' ? "bg-blue-50 text-blue-600 border-blue-100" :
                             selectedRequest.status === 'open' ? "bg-teal-50 text-teal-600 border-teal-100" :
                             selectedRequest.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
+                            selectedRequest.status === 'revision_requested' ? "bg-rose-50 text-rose-600 border-rose-100" :
+                            selectedRequest.status === 'revised' ? "bg-purple-50 text-purple-600 border-purple-100" :
                             selectedRequest.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
                             selectedRequest.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
+                            selectedRequest.status === 'project_created' ? "bg-indigo-600 text-white border-indigo-700" :
                             "bg-gray-50 text-gray-600 border-gray-100"
                         } inline-block`}>
                             Status: {getStatusLabel(selectedRequest.status)}

@@ -214,8 +214,9 @@ export const requestRevision = async (req, res, next) => {
       });
     }
 
-    // 1. Update Revision Count
+    // 1. Update Revision Count and Status
     await DesignRequestRepository.updateRevisionCount(id, revisionType);
+    await DesignRequestRepository.update(id, { status: 'revision_requested' });
 
     // 2. Add History
     const history = await DesignRequestRepository.createHistory({

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { FiAlertTriangle, FiCheckCircle, FiChevronRight, FiClock, FiUser, FiLayers, FiActivity, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
@@ -191,7 +192,7 @@ const KendalaLapanganAdminPage = () => {
                                     )}
 
                                     <button 
-                                        onClick={() => issue.projectId ? navigate(`/admin/projects/${issue.projectId}`) : alert("ID Proyek tidak tersedia.")}
+                                        onClick={() => issue.projectId ? navigate(`/admin/proyek/${issue.projectId}`) : alert("ID Proyek tidak tersedia.")}
                                         disabled={!issue.projectId}
                                         className={`w-full py-2.5 border rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
                                             issue.projectId 

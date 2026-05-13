@@ -98,6 +98,17 @@ const rabService = {
    */
   async deleteRabItem(itemId, params = {}) {
     return apiClient.delete(`/rab/items/${itemId}`, { params });
+  },
+
+  /**
+   * Import RAB items from array
+   * @param {string} rabPlanId 
+   * @param {Array} items 
+   * @param {Object} params - { adminId }
+   * @returns {Promise<Object>}
+   */
+  async importItems(rabPlanId, items, params = {}) {
+    return apiClient.post(`/rab/plans/${rabPlanId}/import-items`, { items, ...params });
   }
 };
 

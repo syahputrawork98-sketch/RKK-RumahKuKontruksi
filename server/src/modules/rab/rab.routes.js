@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/project/:projectId', RabController.getRabByProject);
 router.post('/project/:projectId/plans', RabController.createRabPlan);
 router.patch('/plans/:rabPlanId', RabController.updateRabPlan);
+router.post('/plans/:rabPlanId/import-items', RabController.importRabItems);
 
 // Categories
 router.post('/plans/:rabPlanId/categories', RabController.createRabCategory);

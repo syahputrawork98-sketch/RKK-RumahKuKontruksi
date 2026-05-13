@@ -88,6 +88,37 @@ export const updateRabPlan = async (req, res, next) => {
   }
 };
 
+export const importRabItems = async (req, res, next) => {
+  try {
+    const { rabPlanId } = req.params;
+    const { adminId, items } = req.body;
+
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({ success: false, message: 'items array is required' });
+    }
+
+    const plan = await RabRepository.findPlanById(rabPlanId);
+    if (!plan) return res.status(404).json({ success: false, message: 'RAB Plan not found' });
+
+    if (adminId && !(await checkOwnership(plan.projectId, adminId))) {
+      return forbiddenResponse(res);
+    }
+
+    const result = await RabRepository.importItems(rabPlanId, items);
+    
+    // Sync total plan after import
+    await RabRepository.syncPlanTotal(rabPlanId);
+
+    res.json({
+      success: true,
+      message: `${result.count} item berhasil diimport ke ${result.categoriesCount} kategori.`,
+      data: result
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Category
 export const createRabCategory = async (req, res, next) => {
   try {

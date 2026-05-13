@@ -4,7 +4,8 @@ import {
     FiArrowLeft,
     FiAlertCircle, 
     FiFileText,
-    FiInfo
+    FiInfo,
+    FiUpload
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import rabService from "../../services/rabService";
@@ -17,6 +18,7 @@ import RabCategorySection from "../../components/admin/rab/RabCategorySection";
 import RabPlanModal from "../../components/admin/rab/RabPlanModal";
 import RabCategoryModal from "../../components/admin/rab/RabCategoryModal";
 import RabItemModal from "../../components/admin/rab/RabItemModal";
+import RabImportCsvModal from "../../components/admin/rab/RabImportCsvModal";
 import ConfirmActionModal from "../../components/admin/rab/ConfirmActionModal";
 
 const DetailRabAdminPage = () => {
@@ -32,6 +34,7 @@ const DetailRabAdminPage = () => {
     const [showPlanModal, setShowPlanModal] = useState(false);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [showItemModal, setShowItemModal] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState({ show: false, title: "", message: "", onConfirm: null });
     
     // Data States
@@ -141,6 +144,20 @@ const DetailRabAdminPage = () => {
             fetchData();
         } catch (err) {
             setFormError(err.response?.data?.message || "Gagal menyimpan item.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+    
+    const handleImportCsv = async (items) => {
+        try {
+            setSubmitting(true);
+            setFormError(null);
+            await rabService.importItems(rabPlan.id, items, { adminId: selectedAdminId });
+            setShowImportModal(false);
+            fetchData();
+        } catch (err) {
+            setFormError(err.response?.data?.message || "Gagal mengimport data CSV.");
         } finally {
             setSubmitting(false);
         }
@@ -290,6 +307,10 @@ const DetailRabAdminPage = () => {
                             setCategoryForm({ code: "", name: "", description: "", order: (rabPlan.categories?.length || 0) + 1 });
                             setShowCategoryModal(true);
                         }}
+                        onImportCsv={() => {
+                            setFormError(null);
+                            setShowImportModal(true);
+                        }}
                         onRefresh={fetchData}
                     />
 
@@ -345,7 +366,7 @@ const DetailRabAdminPage = () => {
                 onSubmit={handleCreatePlan}
                 submitting={submitting}
                 formError={formError}
-                projectName={project?.name}
+                project={project}
             />
 
             <RabCategoryModal 
@@ -368,6 +389,13 @@ const DetailRabAdminPage = () => {
                 onSubmit={handleSaveItem}
                 submitting={submitting}
                 formError={formError}
+            />
+
+            <RabImportCsvModal 
+                isOpen={showImportModal}
+                onClose={() => setShowImportModal(false)}
+                onImport={handleImportCsv}
+                submitting={submitting}
             />
 
             <ConfirmActionModal 

@@ -1,11 +1,11 @@
-import React from 'react';
-import { FiFileText, FiPlus, FiInfo } from "react-icons/fi";
+import { FiFileText, FiPlus, FiInfo, FiUpload } from "react-icons/fi";
 import { formatCurrency } from "./rabUtils";
 
 const RabSummarySidebar = ({ 
     rabPlan, 
     project, 
     onAddCategory, 
+    onImportCsv,
     onRefresh 
 }) => {
     return (
@@ -40,6 +40,12 @@ const RabSummarySidebar = ({
                         className="w-full flex items-center justify-center gap-2 py-3 bg-[var(--dashboard-primary)] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-[1.02] active:scale-95 transition-all"
                     >
                         <FiPlus /> Tambah Kategori
+                    </button>
+                    <button 
+                        onClick={onImportCsv}
+                        className="w-full flex items-center justify-center gap-2 py-3 bg-white text-[var(--dashboard-primary)] border border-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white transition-all shadow-sm"
+                    >
+                        <FiUpload /> Import CSV
                     </button>
                     <button 
                         onClick={onRefresh}

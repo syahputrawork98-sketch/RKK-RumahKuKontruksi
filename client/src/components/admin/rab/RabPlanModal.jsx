@@ -10,9 +10,11 @@ const RabPlanModal = ({
     onSubmit, 
     submitting, 
     formError,
-    projectName
+    project
 }) => {
     if (!isOpen) return null;
+
+    const { customer, foreman, supervisor } = project || {};
 
     return (
         <Modal title="Buat RAB Plan Baru" onClose={() => !submitting && onClose()}>
@@ -26,6 +28,23 @@ const RabPlanModal = ({
                     <li>Data ini akan mensinkronkan budgetTotal proyek secara real-time.</li>
                 </ul>
             </div>
+
+            {/* Konteks Proyek */}
+            <div className="mb-6 grid grid-cols-3 gap-3">
+                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Konsumen</p>
+                    <p className="text-[10px] font-extrabold text-slate-700 truncate">{customer?.name || "-"}</p>
+                </div>
+                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Mandor / Petugas</p>
+                    <p className="text-[10px] font-extrabold text-slate-700 truncate">{foreman?.name || "-"}</p>
+                </div>
+                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Pengawas</p>
+                    <p className="text-[10px] font-extrabold text-slate-700 truncate">{supervisor?.name || "-"}</p>
+                </div>
+            </div>
+
             {formError && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-[10px] font-black text-red-600 uppercase flex items-center gap-2 animate-shake">
                     <FiAlertCircle /> {formError}
@@ -36,7 +55,7 @@ const RabPlanModal = ({
                     label="Judul RAB" 
                     value={planForm.title} 
                     onChange={e => setPlanForm({...planForm, title: e.target.value})} 
-                    placeholder={`Contoh: RAB Pembangunan - ${projectName}`} 
+                    placeholder={`Contoh: RAB Pembangunan - ${project?.name}`} 
                     required 
                     disabled={submitting}
                 />

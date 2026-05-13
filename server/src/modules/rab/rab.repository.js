@@ -133,6 +133,81 @@ export const removeItem = async (id) => {
   });
 };
 
+export const importItems = async (rabPlanId, itemsData) => {
+  const plan = await prisma.rabPlan.findUnique({
+    where: { id: rabPlanId },
+    select: { projectId: true }
+  });
+  
+  const projectId = plan.projectId;
+  
+  // Get existing categories to avoid duplicates
+  const existingCategories = await prisma.rabCategory.findMany({
+    where: { rabPlanId }
+  });
+  
+  const categoryMap = new Map();
+  existingCategories.forEach(cat => categoryMap.set(cat.code, cat.id));
+  
+  let createdCount = 0;
+  let categoriesCreated = 0;
+
+  return await prisma.$transaction(async (tx) => {
+    for (const item of itemsData) {
+      let categoryId = categoryMap.get(item.category_code);
+      
+      if (!categoryId) {
+        const newCategory = await tx.rabCategory.create({
+          data: {
+            rabPlanId,
+            projectId,
+            code: item.category_code,
+            name: item.category_name,
+            order: categoryMap.size + 1
+          }
+        });
+        categoryId = newCategory.id;
+        categoryMap.set(item.category_code, categoryId);
+        categoriesCreated++;
+      }
+      
+      const volume = new Prisma.Decimal(item.volume || 0);
+      const unitPrice = new Prisma.Decimal(item.unit_price || 0);
+      const total = volume.mul(unitPrice);
+      
+      await tx.rabItem.create({
+        data: {
+          rabPlanId,
+          categoryId,
+          projectId,
+          description: item.item_description,
+          location: item.location || null,
+          volume,
+          unit: item.unit,
+          unitPrice,
+          total,
+          notes: item.notes || null,
+          status: 'pending'
+        }
+      });
+      createdCount++;
+    }
+    
+    // Sync all categories subtotals in this plan
+    const allCategoryIds = Array.from(categoryMap.values());
+    for (const catId of allCategoryIds) {
+      const items = await tx.rabItem.findMany({ where: { categoryId: catId } });
+      const subtotal = items.reduce((sum, i) => sum.add(i.total), new Prisma.Decimal(0));
+      await tx.rabCategory.update({
+        where: { id: catId },
+        data: { subtotal }
+      });
+    }
+
+    return { count: createdCount, categoriesCount: categoriesCreated };
+  });
+};
+
 // Agregasi
 export const syncCategorySubtotal = async (categoryId) => {
   const items = await prisma.rabItem.findMany({

@@ -94,8 +94,7 @@ const CreateProyekAdminPage = () => {
                 remainingAmount: parseFloat(formData.budgetTotal) || 0,
                 paidAmount: 0,
                 startDate: formData.startDate ? new Date(formData.startDate).toISOString() : null,
-                estimatedEndDate: formData.endDate ? new Date(formData.endDate).toISOString() : null,
-                note: formData.note || ""
+                estimatedEndDate: formData.estimatedEndDate ? new Date(formData.estimatedEndDate).toISOString() : null
             };
 
             await projectService.createProject(payload);
@@ -216,7 +215,7 @@ const CreateProyekAdminPage = () => {
                                 <input 
                                     type="date" 
                                     className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--dashboard-primary)]/20"
-                                    onChange={(e) => setFormData({...formData, endDate: e.target.value})}
+                                    onChange={(e) => setFormData({...formData, estimatedEndDate: e.target.value})}
                                 />
                             </div>
 

@@ -21,9 +21,16 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 ## 📜 Already Stabilized / Historical
 - **Progress Verification Core**: Sudah stabil di Batch 33 & 43.
 - **RAB Builder**: Sudah stabil di Batch 34 & 42.
-- **Material Request Workflow**: Sudah stabil di Batch 41.
+- **Material Request Workflow**: Sudah stabil di Batch 41 & Mandor Batch 04.
 - **Foreman Daily Workflow (Task/Report)**: Sudah stabil di Batch 52.
-- **Field Issue Workflow**: Sudah stabil di Batch 54.
+- **Field Issue Workflow**: Sudah stabil di Batch 54 & Mandor Batch 04.
+- **Mandor Role Polish**: Feature Complete di Batch Mandor 05.
+
+## ⚠️ Remaining Risks & Follow-up
+- **Payment Verification**: Pembayaran Mandor masih berstatus Read-only Lokal (Mock-backed simulation). Belum ada integrasi payment gateway.
+- **Document Consistency**: Gambar Kerja dan Dokumentasi Lapangan bergantung pada konsistensi penamaan kategori dokumen oleh Admin.
+- **Persona Switcher**: Memerlukan audit keamanan jika akan diimplementasikan di lingkungan produksi (saat ini hanya untuk kemudahan Local Development).
+- **Mandor Hold Features**: Fitur Peluang Proyek dan Penawaran Saya tetap ditahan karena masuk dalam scope Marketplace v2.
 
 ---
 *Catatan: Dokumen ini menggantikan `remaining-hold-features.md`.*

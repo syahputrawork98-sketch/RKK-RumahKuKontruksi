@@ -4,9 +4,9 @@ Dokumen ini mencatat rencana pengembangan aktif setelah Batch 45.
 
 ## 🎯 Active Next (Priority)
 Roadmap aktif saat ini:
-1. **Docs Cleanup (Batch 45–50)**: **Closed**. Struktur dokumentasi telah dimodernisasi.
-2. **Next Milestone**: Kembali ke **Local Development Feature Completion**.
-3. **Feature Candidate**: Kandidat fitur baru (misal: Reporting PDF/Excel atau Seeding Optimization) menunggu instruksi/keputusan dari Room Chat 00.
+1. **Mandor Role Stabilization (Batch 00–05)**: **Closed**. Role Mandor dinyatakan Feature Complete.
+2. **Next Milestone**: **Supervisor Review & Verification Stabilization**.
+3. **Feature Candidate**: Stabilisasi alur verifikasi progress rill oleh Pengawas berdasarkan data yang dikirim oleh Mandor.
 
 ## 🛠️ Technical Follow-up
 - **UI/UX Micro-interactions**: Penambahan animasi transisi menggunakan Framer Motion.
@@ -17,13 +17,14 @@ Roadmap aktif saat ini:
 Peta jalan urutan implementasi modul operasional:
 1. **Progress SOT**: Inti verifikasi progres resmi lapangan. (Stabilized)
 2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor. (Stabilized)
-3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Stabilized / Accepted Batch 52)
+3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Stabilized)
 4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Stabilized)
-5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Stabilized / Accepted Batch 53-54)
+5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Stabilized)
 6. **Weekly Report**: Konsolidasi laporan manajerial & publikasi. (Stabilized)
 7. **Material Request**: Pengadaan material berbasis RAB. (Stabilized)
-8. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Accepted / Finalizing Batch 55)
-9. **Next Batch**: **Batch 56**, menunggu keputusan Room Chat 00 setelah Batch 55 final accepted.
+8. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Accepted)
+9. **Mandor Role Polish**: Finalisasi alur operasional Mandor (Batch 05). (Accepted)
+10. **Next Focus**: **Supervisor Role (Pengawas)**. Verifikasi data lapangan dan Progress SOT.
 
 ## 🌟 Future Optional
 - **Analytics Dashboard v2**: Visualisasi statistik global untuk Superadmin.

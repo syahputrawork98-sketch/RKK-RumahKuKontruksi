@@ -11,6 +11,7 @@
 ## 🚀 Status Modul Utama (Local API)
 | Module | Status | Deskripsi Singkat |
 | :--- | :--- | :--- |
+| **Mandor Role** | Feature Complete | Stabilized for Local CRUD Integration. |
 | **Projects** | Stabilized | Lifecycle proyek dari planning hingga completion. |
 | **Weekly Journals** | Stabilized | Pelaporan Mandor & Review Pengawas (Local Workflow). |
 | **Weekly Reports** | Stabilized | Laporan Mingguan Pengawas & Review Admin. |
@@ -31,6 +32,6 @@
 - [**Scope Guard**](./scope-guard.md)
 
 ---
-*Terakhir diperbarui: Batch 55.*
+*Terakhir diperbarui: Batch Mandor 05.*
 > [!NOTE]
-> Batch 52–54 telah menuntaskan stabilisasi alur operasional harian (Daily Task/Report) dan Kendala Lapangan (Field Issue) secara DB-backed. Batch 55 melakukan sinkronisasi dokumentasi untuk mencerminkan status tersebut.
+> Role Mandor telah dinyatakan **Feature Complete** untuk fase **Local CRUD Integration**. Seluruh alur kerja operasional (Harian, Mingguan, Material, Kendala) telah stabil dan terintegrasi dengan dataset Rumah Tipe 36.

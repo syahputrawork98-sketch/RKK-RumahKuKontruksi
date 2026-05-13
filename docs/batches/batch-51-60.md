@@ -83,3 +83,39 @@
   - Pembaruan `docs/project/workflow-sop.md` untuk mempertegas batasan laporan Gemini 3F.
   - Penambahan larangan menulis "Instruksi untuk USER" dan perintah git bagi Gemini 3F.
   - Standarisasi format laporan akhir Gemini 3F (File, Ringkasan, Check, Scope, Risiko).
+
+---
+
+# Mandor Role Stabilization Series
+
+Dokumentasi stabilisasi Role Mandor (Hasan Basri) secara E2E untuk fase Local CRUD Integration.
+
+### Mandor Batch 00 — Stabilize Active Main Pages
+- **Status**: Accepted
+- **Commit**: `5f585f0b70596bd1e0c8ef4224419c1927b0e5b6`
+- **Ringkasan**: Stabilisasi dashboard mandor, sinkronisasi hitungan tugas harian, kebutuhan material, dan kendala lapangan agar sesuai dengan data API.
+
+### Mandor Batch 01 — Project Hub Integration
+- **Status**: Accepted
+- **Commit**: `6d98066d36afdd056330440202573e1249ef579d`
+- **Ringkasan**: Transformasi Detail Proyek Aktif menjadi hub kerja utama Mandor. Integrasi data RAB Rumah Tipe 36 ke dalam tab Kategori Pekerjaan.
+
+### Mandor Batch 02 — Work Info Read-only Open
+- **Status**: Accepted
+- **Commit**: `10aeb7d5e758532a1538ee2aeb2792bcd900bdfc`
+- **Ringkasan**: Pembukaan akses read-only untuk Informasi RAB, Jadwal Kerja, Gambar Kerja, dan Dokumentasi Lapangan bagi Mandor.
+
+### Mandor Batch 03 — Journal & Logbook Contextualization
+- **Status**: Accepted
+- **Commit**: `25512f93b44e22243d44f3c2bbaab096e985d800`
+- **Ringkasan**: Penghubungan Jurnal Mingguan dan Laporan Harian dengan item RAB dan Project Stage. Penegasan claimedProgress sebagai data administratif.
+
+### Mandor Batch 04 — Operational Workflow Completion
+- **Status**: Accepted
+- **Commit**: `b407d25242d07bddd9befc54f82708c8f40990e5`
+- **Ringkasan**: Penyelesaian alur Request Material (dengan konfirmasi terima) dan Kendala Lapangan (dengan resolusi dan detail modal).
+
+### Mandor Batch 05 — Final Polish & Payment Read-only
+- **Status**: Accepted
+- **Commit**: `dd8a0de9c2ff306ba8cb069f2729d8cb0a3ed4f6`
+- **Ringkasan**: Pembukaan modul Pembayaran Mandor (Read-only Lokal), polishing Pengaturan Mandor, standarisasi sidebar, dan penegasan status Hold Marketplace.

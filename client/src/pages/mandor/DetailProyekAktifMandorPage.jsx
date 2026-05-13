@@ -68,7 +68,7 @@ const DetailProyekAktifMandorPage = () => {
 
     const tabs = [
         { id: "overview", label: "Overview", icon: FiInfo },
-        { id: "scope", label: "Scope / Tahapan", icon: FiLayers },
+        { id: "scope", label: "Kategori Pekerjaan", icon: FiLayers },
         { id: "material", label: "Logistik / Material", icon: FiPackage },
         { id: "journal", label: "Laporan Jurnal", icon: FiFileText },
     ];

@@ -1,10 +1,28 @@
 import prisma from '../../config/prisma.js';
 
 export const findAllByProjectId = async (projectId) => {
-  return await prisma.projectStage.findMany({
+  const stages = await prisma.projectStage.findMany({
     where: { projectId },
     orderBy: { order: 'asc' },
   });
+
+  // Bulk fetch all RabItems for this project to associate them with stages
+  const rabItems = await prisma.rabItem.findMany({
+    where: { projectId },
+    orderBy: { createdAt: 'asc' }
+  });
+
+  // Group items by categoryId for easy mapping
+  const itemsByCategory = rabItems.reduce((acc, item) => {
+    if (!acc[item.categoryId]) acc[item.categoryId] = [];
+    acc[item.categoryId].push(item);
+    return acc;
+  }, {});
+
+  return stages.map(stage => ({
+    ...stage,
+    rabItems: stage.categoryId ? (itemsByCategory[stage.categoryId] || []) : []
+  }));
 };
 
 export const findById = async (id, actorRole = null) => {

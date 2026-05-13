@@ -4,12 +4,14 @@ import {
     FiUsers, FiCloud, FiActivity, FiX, FiInfo, FiCamera,
     FiChevronRight, FiMapPin, FiUser
 } from 'react-icons/fi';
-import { useSupervisorPersona } from '../../context/SupervisorPersonaContext';
+import { useSupervisorPersona, SupervisorPersonaContext } from '../../context/SupervisorPersonaContext';
 import dailyTaskService from '../../services/dailyTaskService';
 import dailyReportService from '../../services/dailyReportService';
 
 const DailyMonitoringTab = ({ projectId }) => {
-    const { selectedSupervisorId } = useSupervisorPersona();
+    const supervisorContext = React.useContext(SupervisorPersonaContext);
+    const selectedSupervisorId = supervisorContext?.selectedSupervisorId;
+    const isSupervisorView = !!supervisorContext;
     const [tasks, setTasks] = useState([]);
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -88,7 +90,9 @@ const DailyMonitoringTab = ({ projectId }) => {
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
                         <h3 className="font-black text-sm uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Monitoring Operasional Harian</h3>
-                        <span className="px-2 py-0.5 bg-blue-100 text-blue-600 rounded text-[8px] font-black uppercase tracking-widest">Supervisor View</span>
+                        <span className="px-2 py-0.5 bg-blue-100 text-blue-600 rounded text-[8px] font-black uppercase tracking-widest">
+                            {isSupervisorView ? "Supervisor View" : "Admin Monitoring"}
+                        </span>
                     </div>
                     <p className="text-[10px] font-bold text-slate-400 uppercase italic">Logbook aktivitas & penugasan mandor di lapangan.</p>
                 </div>
@@ -333,7 +337,7 @@ const DailyMonitoringTab = ({ projectId }) => {
 
                             {/* Review Form / History */}
                             <div className="space-y-4 pt-4 border-t border-slate-100">
-                                {selectedReport.status === 'submitted' && selectedSupervisorId ? (
+                                {selectedReport.status === 'submitted' && isSupervisorView && selectedSupervisorId ? (
                                     <div className="space-y-3">
                                         <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 flex items-center gap-2">
                                             <FiActivity /> Review Supervisor

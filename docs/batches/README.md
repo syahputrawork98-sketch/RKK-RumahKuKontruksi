@@ -9,6 +9,8 @@ Dokumen ini mencatat riwayat pengembangan batch-by-batch pada fase **Local Devel
 - [Batch 31 - 40](./batch-31-40.md)
 - [Batch 41 - 50](./batch-41-50.md)
 - [Batch 51 - 60](./batch-51-60.md)
+- [Batch 61 - 70](./batch-61-70.md)
+- [Batch 71 - 80](./batch-71-80.md)
 
 ---
 *Catatan: Setiap batch mencatat tujuan, hasil, dan status implementasi untuk memudahkan audit perkembangan sistem.*

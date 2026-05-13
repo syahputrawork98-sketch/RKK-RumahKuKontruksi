@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import supervisorService from '../services/supervisorService';
 
-const SupervisorPersonaContext = createContext();
+export const SupervisorPersonaContext = createContext();
 
 export const SupervisorPersonaProvider = ({ children }) => {
   const [supervisors, setSupervisors] = useState([]);

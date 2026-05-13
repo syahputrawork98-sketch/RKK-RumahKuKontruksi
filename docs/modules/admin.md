@@ -9,21 +9,21 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 - **Weekly Report Review**: Meninjau laporan mingguan Pengawas secara administratif. **Tidak mengubah `verifiedProgress` (Progress SOT).**
 - **Field Issue Monitoring**: Memantau kendala lapangan dan memberikan resolusi administratif (Close/Archive). **Bukan sistem ticketing produksi.**
 - **Design Management**: Mengelola alur permintaan desain hingga konversi menjadi draf proyek.
+- **Administrative Helper Documents**: Mengelola rilis dokumen draf administratif untuk transparansi Konsumen (Batch 79).
 - **Dashboard Monitoring**: Memantau statistik operasional (proyek aktif, material pending, kendala aktif) via dashboard DB/API-backed.
 
 ## 🛡️ Batasan Role (Boundary)
 - **Bukan Verifikator Fisik**: Admin tidak melakukan verifikasi progres fisik di lapangan; wewenang ini eksklusif milik Pengawas.
 - **Progress SOT**: `Project.verifiedProgress` adalah satu-satunya progress resmi. Admin hanya memantau, tidak mengubah nilai ini.
-- **Weekly Report Snapshot**: Review Admin terhadap laporan Pengawas bersifat administratif. `verifiedProgressSnapshot` pada laporan adalah rekam jejak titik waktu, bukan progress resmi saat ini.
+- **Field Issue Guard**: Admin hanya dapat menutup (Close) isu setelah Pengawas menandainya sebagai Resolved (Batch 73).
 - **Hold Production**: Fitur pembayaran rill, pembuatan dokumen legal resmi (kontrak/BAST), production procurement, dan marketplace masih berstatus **Hold**.
 - **Operational Logs**: Monitoring Kendala Lapangan berfungsi sebagai logbook operasional untuk transparansi tim dan **tidak mengubah** Progres Resmi proyek.
-- **Publish to Customer**: Tombol publikasi laporan ke Customer-facing timeline tetap **Hold** sampai ada keputusan Room 00.
+- **Publish to Customer**: Tombol publikasi laporan mingguan ke Customer-facing timeline tetap **Hold**.
 
-## 📊 Technical Context (Batch 61–70 Hardening)
+## 📊 Technical Context (Batch 61–79 Hardening)
 - **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`, `fieldIssueService`, `supervisorWeeklyReportService`, `progressService`, `rabService`, `administrativeHelperDocumentService`.
 - **StatusBadge**: Komponen `StatusBadge.jsx` mendukung tipe `material`, `issue`, dan `priority`.
-- **Bridge Boundary**: Konversi Design Request menghasilkan draf proyek (`planning`) untuk dilanjutkan ke Detail Proyek.
-- **Assignment Helper**: Data riwayat seleksi dari Design Request terintegrasi sebagai helper di Penugasan Tim.
+- **Integrated Flow**: Dashboard Admin kini terintegrasi dengan workflow harian Pengawas & Mandor (Batch 71-72).
 - **Data Integrity**: Null-safety standar (Array guards & optional chaining) diterapkan di seluruh halaman Admin.
 
 ## 🔑 Prinsip SOT yang Tidak Boleh Dilanggar
@@ -34,5 +34,5 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 5. Penugasan tim oleh Admin tidak mengaktifkan proyek secara otomatis.
 
 ---
-*Status: Stabilized — Admin Batch 61–70 (Frontend/Client Hardening & Boundary Enforcement). Tidak ada perubahan backend/schema/seed.*
+*Status: Hardened — Admin Batch 61–79 (Role Integration & Operational Guardrails).*
 

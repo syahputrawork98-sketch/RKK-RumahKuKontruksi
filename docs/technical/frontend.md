@@ -16,18 +16,18 @@ Frontend RKK menggunakan **Vite + React** dengan fokus pada pengalaman pengguna 
 | Role | Base Path | Key Features | Status |
 | :--- | :--- | :--- | :--- |
 | **Admin** | `/admin` | `/dashboard`, `/proyek`, `/rab`, `/request-material`, `/laporan-mingguan-pengawas`. | Stabilized |
-| **Mandor** | `/mandor` | `/proyek-aktif`, `/jurnal-mingguan`, `/request-material`. | Stabilized |
-| **Pengawas**| `/pengawas`| `/proyek`, `/verifikasi-progres`, `/jurnal-mandor`, `/laporan-mingguan`. | Stabilized |
-| **Konsumen**| `/konsumen`| `/proyek`, `/timeline-proyek`, `/permintaan-desain`, `/dokumen`. | Stabilized |
-| **Arsitek** | `/arsitek` | `/peluang-desain`, `/desain-aktif`, `/riwayat`. | Stabilized |
-| **Superadmin**| `/superadmin`| `/dashboard`, `/data-*` (Persona), `/proyek`, `/log-aktivitas`. | Stabilized |
+| **Mandor** | `/mandor` | `/proyek-aktif`, `/tugas-harian`, `/laporan-harian`, `/kendala-lapangan`. | Hardened (Batch 72-73) |
+| **Pengawas**| `/pengawas`| `/proyek`, `/verifikasi-progres`, `/teknis/*` (Read-only panels). | Hardened (Batch 78) |
+| **Konsumen**| `/konsumen`| `/proyek`, `/timeline-proyek`, `/permintaan-desain`, `/dokumen`. | Hardened (Batch 74, 79) |
+| **Arsitek** | `/arsitek` | `/peluang-desain`, `/desain-aktif`, `/permintaan-desain`. | Hardened (Batch 75) |
+| **Superadmin**| `/superadmin`| `/dashboard`, `/persona-directory`, `/audit-center`. | Hardened (Batch 76-77) |
 
 ## 🚧 Known Shell/Hold Routes
 Beberapa route berikut sudah terdaftar namun masih bersifat shell atau menunggu implementasi backend lanjut:
-- **Mandor**: `/tugas-harian`, `/laporan-harian`, `/kendala-lapangan` (Shell).
-- **Arsitek**: `/tahapan/*` (Konsep, Denah, 3D) masih bersifat placeholder visual.
 - **Finance**: `/pembayaran` (Admin/Konsumen) saat ini hanya simulasi pencatatan lokal.
 - **Production-Related**: Seluruh route yang berkaitan dengan payment gateway, legal rill, dan deployment masih dalam status **Hold**.
+- **Supervisor-to-Customer**: Publikasi langsung laporan mingguan ke timeline konsumen tetap **Hold**.
 
 ---
 *Untuk kebijakan pengambilan data, silakan merujuk ke [Data Source Policy](./data-source-policy.md).*
+*Terakhir diperbarui: Batch 80.*

@@ -1,35 +1,41 @@
 # Active Roadmap - RKK RumahKu Konstruksi
 
-Dokumen ini mencatat rencana pengembangan aktif setelah Batch 65.
+Dokumen ini mencatat rencana pengembangan aktif setelah Batch 70.
 
-## 🎯 Active Next (Priority)
-Roadmap aktif saat ini:
+## 🎯 Active Status (Completed)
+Roadmap yang telah diselesaikan:
 1. **Admin Role Stabilization (Batch 61–70)**: **Completed**. Dashboard, Lifecycle, RAB, Logistics, Issues, Customer, Design, Team Assignment.
-2. **Supervisor Role Stabilization (Batch 00–04)**: **Stabilized**. Monitoring operasional & verifikasi progres resmi lapangan.
-3. **Next Milestone**: **Batch 71 — Supervisor / Admin Integrated Flow Hardening**.
-4. **Focus**: Sinkronisasi verifikasi progres lapangan (Supervisor) dengan lifecycle proyek administratif (Admin) secara lebih seamless.
+2. **Integrated Flow & Transparency Hardening (Batch 71–79)**: **Completed**.
+   - **Batch 71**: Supervisor / Admin Integrated Flow.
+   - **Batch 72**: Daily Monitoring Cross-Role Polish.
+   - **Batch 73**: Field Issue Resolve-vs-Close UX.
+   - **Batch 74**: Konsumen Timeline & Transparency Polish.
+   - **Batch 75**: Design Request Customer–Architect Polish.
+   - **Batch 76-77**: Superadmin Governance & Audit Polish.
+   - **Batch 78**: Pengawas Technical Read-only Panels.
+   - **Batch 79**: Konsumen Administrative Helper Documents.
+3. **Latest Checkpoint**: **Batch 80 — Docs Sync + Checkpoint**. (Accepted)
 
-## 🛠️ Technical Follow-up
-- **Fetch Resilience**: Implementasi `Promise.allSettled` pada dashboard summary.
-- **UI/UX Premium Polish**: Micro-interactions pada transisi status proyek.
-- **Governance Review**: Audit boundary pada aksi sensitif (e.g. self-assignment, document release).
-- **StatusBadge Visual Quality**: Verifikasi konsistensi icon dan warna di semua role pasca-update.
+## 🛠️ Next Focus (Batch 81–90 Candidate Cycle)
+Rekomendasi pengembangan selanjutnya (Post-Checkpoint):
+- **Runtime Audit**: Audit menyeluruh terhadap error runtime (ReferenceError, Context errors) pada state-heavy components.
+- **Null-Safety Guard**: Memastikan seluruh data relasional yang bersifat opsional memiliki default empty state yang premium.
+- **Konsumen/Arsitek Follow-up**: Memperdalam transparansi feedback pada draf desain sebelum konversi proyek.
+- **Superadmin Governance Follow-up**: Finalisasi antrian audit untuk aksi sensitif lintas role.
+- **Local Workflow Final Hardening**: Menutup celah kecil pada alur operasional sebelum masuk ke fase pembersihan kode (Refactoring).
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
 1. **Progress SOT**: Inti verifikasi progres resmi lapangan. (Stabilized)
 2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor. (Stabilized)
-3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Stabilized)
-4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Stabilized)
-5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Stabilized)
-6. **Weekly Report**: Konsolidasi laporan manajerial & publikasi. (Stabilized — Publish: Hold)
-7. **Material Request**: Pengadaan material berbasis RAB. (Stabilized — Admin Local Logistics)
-8. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Accepted)
-9. **Mandor Role Polish**: Finalisasi alur operasional Mandor (Batch 05). (Accepted)
-10. **Supervisor Role Polish**: Stabilisasi Monitoring & Verifikasi (Batch 00-04). (Stabilized)
-11. **Admin Role Stabilization**: Normalisasi Dashboard, Lifecycle, RAB, & Boundaries (Batch 61-70). (Completed)
-12. **Next Focus**: **Batch 71 — Supervisor / Admin Integrated Flow Hardening**.
+3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Hardened - Batch 72)
+4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Hardened - Batch 71)
+5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Hardened - Batch 73)
+6. **Design Workflow**: Customer–Architect coordination. (Hardened - Batch 75)
+7. **Consumer Transparency**: Timeline, Docs, & Progress. (Hardened - Batch 74, 79)
+8. **Superadmin Governance**: Audit & Persona management. (Hardened - Batch 76, 77)
+9. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 80 - Checkpoint)
 
 ---
-*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) belum masuk dalam prioritas aktif fase ini. Terakhir diperbarui: Batch 70.*
+*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) tetap berstatus **Hold**. Terakhir diperbarui: Batch 80.*
 

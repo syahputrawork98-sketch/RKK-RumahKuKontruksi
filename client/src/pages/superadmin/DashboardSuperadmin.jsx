@@ -103,8 +103,8 @@ const DashboardSuperadmin = () => {
   return (
     <div className="animate-fadeIn pb-10">
       <DashboardHeader 
-        title="Superadmin Dashboard" 
-        subtitle="Monitoring pusat data operasional, audit relasi, dan integrasi sistem RKK global."
+        title="Superadmin Local Governance" 
+        subtitle="Monitoring pusat data operasional, audit relasi persona, dan integrasi sistem RKK dalam lingkungan Local Development."
         buttonLabel="Audit Log"
         buttonIcon={ClipboardList}
       />

@@ -47,7 +47,7 @@ export default function DataSuperadminPage() {
         </div>
         <div className="flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-xl border border-amber-200">
           <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
-          <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest leading-none">Local Admin Security</span>
+          <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest leading-none">Local Governance Profile</span>
         </div>
       </div>
 

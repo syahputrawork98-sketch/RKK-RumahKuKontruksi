@@ -95,13 +95,13 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                         {mode === "active" ? (
                             <>LIST <span className="text-emerald-600 uppercase">Proyek Aktif (Lokal)</span></>
                         ) : (
-                            <>MONITORING <span className="text-blue-600 uppercase">Proyek Global (Simulasi)</span></>
+                            <>MONITORING <span className="text-blue-600 uppercase">Proyek Global (Audit)</span></>
                         )}
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
                         {mode === "active" 
-                            ? "Daftar seluruh proyek konstruksi yang sedang berjalan dalam masa pelaksanaan." 
-                            : "Visualisasi status konstruksi seluruh proyek dalam sistem (Local CRUD Monitoring)."}
+                            ? "Daftar seluruh proyek konstruksi yang sedang berjalan dalam masa pelaksanaan (Local Monitoring)." 
+                            : "Visualisasi status konstruksi seluruh proyek dalam sistem (Local Governance Monitoring)."}
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200 shadow-sm">

@@ -104,10 +104,10 @@ const DataPengajuanDesainPage = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black tracking-tighter text-[var(--dashboard-text)]">
-                        MONITORING <span className="text-blue-600 uppercase">Pengajuan Desain (Simulasi)</span>
+                        MONITORING <span className="text-blue-600 uppercase">Proyek Desain (Lokal)</span>
                     </h1>
                     <p className="text-sm text-[var(--dashboard-text-soft)] max-w-2xl leading-relaxed mt-1 italic">
-                        Pusat audit dan monitoring status pengajuan desain arsitektur secara global dalam fase **Local Development CRUD Integration**.
+                        Pusat audit dan monitoring status pengajuan desain arsitektur secara global dalam fase **Local Development Governance**.
                     </p>
                 </div>
                 <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">

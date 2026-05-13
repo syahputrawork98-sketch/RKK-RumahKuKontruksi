@@ -58,8 +58,8 @@ const LogAktivitasPage = () => {
         <div className="animate-fadeIn">
             <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="dashboard-title text-4xl font-black tracking-tighter uppercase text-neutral-800">Pusat Audit & Approval</h1>
-                    <p className="dashboard-subtitle text-lg italic font-medium text-amber-600 underline decoration-amber-200">Local Governance Foundation v1 — Local DB Tracking</p>
+                    <h1 className="dashboard-title text-4xl font-black tracking-tighter uppercase text-neutral-800">Governance & Audit Center</h1>
+                    <p className="dashboard-subtitle text-lg italic font-medium text-amber-600 underline decoration-amber-200">Local Governance Foundation v1 — Local Persona & Activity Audit</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="flex bg-neutral-100 p-1 rounded-2xl border border-neutral-200">

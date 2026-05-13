@@ -24,7 +24,7 @@ const ProyekAdminPage = () => {
             setLoading(true);
             setError(null);
             const response = await projectService.getProjects({ adminId: selectedAdminId });
-            setProjects(response.data || []);
+            setProjects(Array.isArray(response.data) ? response.data : []);
         } catch (err) {
             console.error("Error fetching projects:", err);
             setError("Gagal memuat daftar proyek. Pastikan server backend berjalan.");
@@ -50,20 +50,21 @@ const ProyekAdminPage = () => {
         { id: "all", label: "Semua", count: projects.length },
         { id: "active", label: "Aktif", count: projects.filter(p => p.status?.toLowerCase().includes('active') || p.status?.toLowerCase().includes('ongoing') || p.status?.toLowerCase().includes('berjalan')).length },
         { id: "persiapan", label: "Persiapan", count: projects.filter(p => p.status?.toLowerCase().includes('persiapan') || p.status?.toLowerCase().includes('plan') || p.status?.toLowerCase().includes('planning')).length },
-        { id: "selesai", label: "Selesai", count: projects.filter(p => p.status?.toLowerCase().includes('finish') || p.status?.toLowerCase().includes('selesai')).length },
+        { id: "selesai", label: "Selesai", count: projects.filter(p => p.status?.toLowerCase().includes('finish') || p.status?.toLowerCase().includes('selesai') || p.status?.toLowerCase().includes('complete')).length },
     ];
 
     const filteredProjects = projects.filter(prj => {
+        if (!prj) return false;
         const matchesSearch = prj.projectCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                              prj.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                              prj.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase());
         
         if (!matchesSearch) return false;
 
-        const s = prj.status?.toLowerCase();
+        const s = prj.status?.toLowerCase() || '';
         if (activeSubtab === "active") return s.includes('active') || s.includes('ongoing') || s.includes('berjalan');
         if (activeSubtab === "persiapan") return s.includes('persiapan') || s.includes('plan') || s.includes('planning');
-        if (activeSubtab === "selesai") return s.includes('finish') || s.includes('selesai');
+        if (activeSubtab === "selesai") return s.includes('finish') || s.includes('selesai') || s.includes('complete');
         return true;
     });
 
@@ -159,7 +160,7 @@ const ProyekAdminPage = () => {
                                     <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Proyek</th>
                                     <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Customer / Tipe</th>
                                     <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Status</th>
-                                    <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Progress</th>
+                                    <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2" title="Progress resmi — hanya diperbarui oleh Pengawas via verifikasi lapangan">Progress (SOT)</th>
                                     <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2">Nilai Proyek</th>
                                     <th className="pb-4 font-bold text-xs uppercase tracking-widest text-[var(--dashboard-text-soft)] px-2 text-right">Aksi</th>
                                 </tr>

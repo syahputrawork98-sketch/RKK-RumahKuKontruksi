@@ -184,15 +184,8 @@ const DetailProyekAdminPage = () => {
     if (loading) return <RoleDataState type="loading" message="Memuat detail proyek..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjectData} />;
     
-    if (project && project.adminId !== selectedAdminId) {
-        return (
-            <RoleDataState 
-                type="error" 
-                title="Akses Ditolak" 
-                description="Anda tidak memiliki izin untuk melihat detail proyek ini. Proyek ini bukan di bawah tanggung jawab persona Anda."
-            />
-        );
-    }
+    // Soft warning: proyek di luar tanggung jawab Admin aktif — tidak diblokir untuk local dev monitoring.
+    const isOtherAdminProject = project && project.adminId && project.adminId !== selectedAdminId;
 
     if (!project) return <RoleDataState type="empty" message="Data proyek tidak tersedia." />;
 
@@ -213,8 +206,8 @@ const DetailProyekAdminPage = () => {
 
     const completionChecks = [
         { label: "Verified Progress 100%", status: parseFloat(project?.verifiedProgress || 0) >= 100, desc: "Progres fisik resmi harus sudah mencapai 100% (diverifikasi Pengawas)." },
-        { label: "Seluruh Tahapan Selesai", status: stages.length > 0 && stages.every(s => s.status === 'Selesai' || (s.isVerified && parseFloat(s.progress) === 100)), desc: "Setiap item tahapan pekerjaan (Project Stages) harus berstatus Selesai." },
-        { label: "Logistik Final / Selesai", status: materialRequests.length === 0 || materialRequests.every(r => ['received', 'completed', 'rejected', 'cancelled'].includes(r.status)), desc: "Tidak boleh ada permintaan material yang masih dalam status Pending atau Processing." },
+        { label: "Seluruh Tahapan Selesai", status: Array.isArray(stages) && stages.length > 0 && stages.every(s => s.status === 'Selesai' || (s.isVerified && parseFloat(s.progress) === 100)), desc: "Setiap item tahapan pekerjaan (Project Stages) harus berstatus Selesai." },
+        { label: "Logistik Final / Selesai", status: !Array.isArray(materialRequests) || materialRequests.length === 0 || materialRequests.every(r => ['received', 'completed', 'rejected', 'cancelled'].includes(r.status)), desc: "Tidak boleh ada permintaan material yang masih dalam status Pending atau Processing." },
     ];
     const isCompletionReady = completionChecks.every(c => c.status);
 
@@ -240,6 +233,13 @@ const DetailProyekAdminPage = () => {
                 <div className="bg-purple-500 text-white p-4 rounded-2xl flex items-center gap-3 text-sm font-bold animate-fadeIn shadow-lg shadow-purple-500/20">
                     <FiCheckCircle size={20} />
                     Proyek telah berhasil diselesaikan secara lokal. Akses lapangan untuk Mandor & Pengawas kini bersifat Read-Only.
+                </div>
+            )}
+
+            {isOtherAdminProject && (
+                <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 flex items-center gap-3 text-sm">
+                    <FiInfo size={18} className="text-amber-500 shrink-0" />
+                    <p className="text-amber-700 font-medium text-xs">Proyek ini tercatat atas nama Admin lain. Anda dapat memantau secara administratif (Read-only aksi sensitif).</p>
                 </div>
             )}
 

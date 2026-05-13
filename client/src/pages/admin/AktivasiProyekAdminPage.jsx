@@ -122,9 +122,10 @@ const AktivasiProyekAdminPage = () => {
     }));
 
     const filteredProjects = processedProjects.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                             p.projectCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                             p.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+        if (!p) return false;
+        const matchesSearch = (p.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) || 
+                             (p.projectCode?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+                             (p.customer?.name?.toLowerCase() || '').includes(searchQuery.toLowerCase());
         
         if (!matchesSearch) return false;
         

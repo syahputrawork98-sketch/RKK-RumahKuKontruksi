@@ -110,6 +110,15 @@ const DetailPekerjaanProyek = ({ data, onBack, backPath }) => {
               {normalized.isVerified ? "Diverifikasi" : normalized.status === "in_progress" ? "In Progress" : "Belum Dimulai"}
             </span>
 
+            {/* Link to Document Helper */}
+            <Link
+              to="/konsumen/dokumen"
+              className="px-4 py-2 rounded-xl bg-teal-50 text-teal-600 border border-teal-200 hover:bg-teal-100 text-s-bold transition-all flex items-center gap-2 shadow-sm"
+              title="Lihat Draft Dokumen Administratif"
+            >
+              <FiFileText size={14} /> Portal Dokumen
+            </Link>
+
             {/* Dummy download buttons - LOCAL HOLD */}
             <button
               type="button"

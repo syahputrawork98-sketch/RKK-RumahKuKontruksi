@@ -48,7 +48,7 @@ const CustomerAdministrativeHelperDocumentsPage = () => {
                     Pusat <span className="text-teal-600">Dokumen Digital</span>
                 </h1>
                 <p className="text-sm text-neutral-500 max-w-2xl leading-relaxed mt-2 font-bold uppercase italic tracking-tighter">
-                    Akses draft invoice, BAST, dan dokumen pembantu administrasi proyek Anda yang telah dirilis oleh Admin RKK.
+                    Akses draft dokumen, referensi administratif, dan helper digital proyek Anda untuk fase Local Development.
                 </p>
             </div>
 
@@ -95,8 +95,16 @@ const CustomerAdministrativeHelperDocumentsPage = () => {
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <button className="flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-teal-600/20 hover:scale-105 transition-transform">
-                                        <FiDownload /> Download
+                                    <button 
+                                        disabled={!doc.fileUrl}
+                                        onClick={() => doc.fileUrl ? window.open(doc.fileUrl, '_blank') : alert("File belum diunggah dalam fase simulasi lokal ini.")}
+                                        className={`flex items-center gap-2 px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                                            doc.fileUrl 
+                                            ? "bg-teal-600 text-white shadow-lg shadow-teal-600/20 hover:scale-105" 
+                                            : "bg-neutral-100 text-neutral-400 cursor-not-allowed border border-neutral-200"
+                                        }`}
+                                    >
+                                        <FiDownload /> {doc.fileUrl ? "Download" : "Belum Tersedia"}
                                     </button>
                                 </div>
                             </div>
@@ -113,7 +121,7 @@ const CustomerAdministrativeHelperDocumentsPage = () => {
                 <div>
                     <h4 className="text-sm font-black text-neutral-900 uppercase tracking-widest mb-2">Informasi Transparansi Dokumen</h4>
                     <p className="text-xs text-neutral-500 leading-relaxed font-bold uppercase italic tracking-tighter">
-                        Dokumen di atas adalah <span className="text-teal-600">Digital Helper Draft</span> yang disediakan RKK untuk mempermudah Anda memantau administrasi proyek secara real-time. Dokumen ini bukan merupakan salinan legal final. Salinan fisik/digital yang sah tetap akan dikirimkan melalui kanal resmi atau serah terima langsung.
+                        Seluruh dokumen di halaman ini adalah <span className="text-teal-600">Administrative Helper Draft</span> untuk mempermudah monitoring lokal. Dokumen ini <strong>bukan merupakan dokumen legal final</strong>. Pengesahan hukum, tanda tangan basah/digital resmi, dan invoice pajak tetap mengikuti prosedur offline/manual di luar sistem simulasi ini.
                     </p>
                 </div>
             </div>

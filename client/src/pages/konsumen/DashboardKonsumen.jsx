@@ -287,15 +287,15 @@ const DashboardKonsumen = () => {
                                     <p className="text-xs text-slate-400 leading-relaxed font-medium mt-1">Seluruh angka progress berasal dari verifikasi fisik oleh Pengawas RKK di lapangan.</p>
                                 </div>
                             </div>
-                            <div className="flex gap-5">
-                                <div className="w-10 h-10 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0 shadow-inner">
+                            <Link to="/konsumen/dokumen" className="flex gap-5 group/link">
+                                <div className="w-10 h-10 rounded-2xl bg-teal-50 group-hover/link:bg-teal-500 group-hover/link:text-white transition-colors flex items-center justify-center text-teal-600 flex-shrink-0 shadow-inner">
                                     <FiFileText size={20} />
                                 </div>
                                 <div>
-                                    <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight">Dokumen Digital</h4>
-                                    <p className="text-xs text-slate-400 leading-relaxed font-medium mt-1">Akses arsip kontrak, gambar kerja, dan BAST secara digital kapan saja (Coming Soon).</p>
+                                    <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight group-hover/link:text-teal-600 transition-colors">Dokumen Digital</h4>
+                                    <p className="text-xs text-slate-400 leading-relaxed font-medium mt-1">Akses arsip draft kontrak, gambar kerja, dan dokumen administratif Anda secara real-time.</p>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                         <div className="pt-6 border-t border-slate-50 relative z-10">
                             <p className="text-[10px] text-slate-300 leading-relaxed italic font-medium">

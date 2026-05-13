@@ -82,7 +82,7 @@ const AdministrativeHelperDocumentsPage = () => {
                         Administrative <span className="text-teal-600">Document Helper</span>
                     </h1>
                     <p className="text-sm text-neutral-500 max-w-2xl leading-relaxed mt-2 font-bold uppercase italic tracking-tighter">
-                        Draft dan pembantu dokumen administratif (Invoice, BAST, Legal) untuk mempermudah workflow sebelum dokumen legal final diterbitkan.
+                        Manajemen metadata dan referensi administratif lokal (Draft Invoice, BAST, Legal Helper) untuk transparansi operasional sebelum dokumen legal final diterbitkan.
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -252,9 +252,9 @@ const AdministrativeHelperDocumentsPage = () => {
                     <FiAlertCircle size={32} />
                 </div>
                 <div className="space-y-2 flex-1">
-                    <h4 className="text-sm font-black uppercase tracking-widest">PENTING: Batasan Legalitas Dokumen Helper</h4>
+                    <h4 className="text-sm font-black uppercase tracking-widest">PENTING: Batasan Pengelolaan Dokumen Helper</h4>
                     <p className="text-[11px] font-medium text-neutral-400 leading-relaxed max-w-3xl italic">
-                        Seluruh draft yang dikelola di modul ini bersifat <span className="text-teal-400">Helper / Pembantu Administratif</span> untuk memudahkan penyusunan data. Dokumen yang tampil di sini bukanlah dokumen legal final yang mengikat secara hukum. Tanda tangan digital, e-meterai, dan pengesahan resmi tetap mengikuti workflow offline/manual sesuai kebijakan RKK.
+                        Seluruh draft yang dikelola di modul ini bersifat <span className="text-teal-400">Referensi Administratif Lokal</span> untuk transparansi development. Modul ini tidak menggantikan sistem akuntansi legal atau manajemen kontrak production. Pengesahan dokumen resmi tetap mengikuti kebijakan operasional RKK di luar portal ini.
                     </p>
                 </div>
             </div>

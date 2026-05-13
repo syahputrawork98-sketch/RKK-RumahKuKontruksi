@@ -47,7 +47,7 @@ const CustomerAdminPage = () => {
         try {
             setLoading(true);
             const res = await customerService.getAllCustomers();
-            setCustomers(res.data || []);
+            setCustomers(Array.isArray(res.data) ? res.data : []);
             setLoading(false);
         } catch (err) {
             console.error("Error fetching customers:", err);
@@ -122,11 +122,12 @@ const CustomerAdminPage = () => {
         }
     };
 
-    const filteredCustomers = customers.filter(c => 
-        c.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.companyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.email?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredCustomers = (Array.isArray(customers) ? customers : []).filter(c => {
+        if (!c) return false;
+        return (c.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (c.companyName?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (c.email?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+    });
 
     if (loading) return <RoleDataState type="loading" message="Memuat data konsumen..." />;
     if (error) return <RoleDataState type="error" message={error} onRetry={fetchCustomers} />;
@@ -136,7 +137,7 @@ const CustomerAdminPage = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-extrabold tracking-tight">Data Konsumen</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Kelola profil konsumen retail dan korporat RKK.</p>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Manajemen profil konsumen retail dan korporat untuk koordinasi proyek.</p>
                 </div>
                 <button 
                     onClick={() => handleOpenModal()}
@@ -145,6 +146,19 @@ const CustomerAdminPage = () => {
                     <FiPlus size={18} />
                     Tambah Konsumen
                 </button>
+            </div>
+
+            {/* AUTHORITY BOUNDARY DISCLAIMER */}
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-start gap-4">
+                <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 shrink-0 shadow-sm">
+                    <FiAlertCircle size={20} />
+                </div>
+                <div className="space-y-1">
+                    <h4 className="text-[10px] font-black text-slate-800 uppercase tracking-widest">Local Data Management Boundary</h4>
+                    <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
+                        Modul ini digunakan untuk **pengelolaan profil data konsumen** guna keperluan administrasi proyek RKK. Sistem ini **tidak mengelola kredensial akun**, password, atau autentikasi konsumen. Perubahan data di sini bersifat administratif lokal dan tidak mempengaruhi sistem akses global.
+                    </p>
+                </div>
             </div>
 
             <div className="dashboard-card">

@@ -116,10 +116,10 @@ const DesignRequestAdminPage = () => {
             setLoading(true);
             if (activeTab === "requests") {
                 const res = await designRequestService.getAllDesignRequests();
-                setRequests(res.data || []);
+                setRequests(Array.isArray(res.data) ? res.data : []);
             } else {
                 const res = await designTenderService.getDesignTenders();
-                setTenders(res.data || []);
+                setTenders(Array.isArray(res.data) ? res.data : []);
             }
             setLoading(false);
         } catch (err) {
@@ -135,8 +135,8 @@ const DesignRequestAdminPage = () => {
                 customerService.getAllCustomers(),
                 architectService.getAllArchitects()
             ]);
-            setCustomers(custRes.data || []);
-            setArchitects(archRes.data || []);
+            setCustomers(Array.isArray(custRes.data) ? custRes.data : []);
+            setArchitects(Array.isArray(archRes.data) ? archRes.data : []);
         } catch (err) {
             console.error("Error fetching references:", err);
         }
@@ -186,7 +186,7 @@ const DesignRequestAdminPage = () => {
     const handleOpenBids = async (tender) => {
         try {
             const res = await designTenderService.getDesignTenderBids(tender.id);
-            setCurrentTender({ ...tender, bids: res.data });
+            setCurrentTender({ ...tender, bids: Array.isArray(res.data) ? res.data : [] });
             setIsBidsOpen(true);
         } catch (err) {
             console.error("Error loading bids:", err);
@@ -588,16 +588,18 @@ const DesignRequestAdminPage = () => {
         }
     };
 
-    const filteredRequests = requests.filter(r =>
-        r.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.customer?.companyName?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredRequests = (Array.isArray(requests) ? requests : []).filter(r => {
+        if (!r) return false;
+        return (r.title?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (r.customer?.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (r.customer?.companyName?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+    });
 
-    const filteredTenders = tenders.filter(t =>
-        t.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.designRequest?.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredTenders = (Array.isArray(tenders) ? tenders : []).filter(t => {
+        if (!t) return false;
+        return (t.title?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+               (t.designRequest?.customer?.name?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+    });
 
     const getStatusBadge = (status) => {
         const styles = {
@@ -628,7 +630,7 @@ const DesignRequestAdminPage = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black text-neutral-900 tracking-tight">Manajemen Desain & Tender</h1>
-                    <p className="text-xs text-neutral-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Oversight Proyek Desain RKK</p>
+                    <p className="text-xs text-neutral-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Koordinasi Desain & Pra-Konstruksi</p>
                 </div>
                 {activeTab === "requests" && (
                     <button
@@ -639,6 +641,19 @@ const DesignRequestAdminPage = () => {
                         Buat Request Lokal
                     </button>
                 )}
+            </div>
+
+            {/* AUTHORITY & MARKETPLACE BOUNDARY DISCLAIMER */}
+            <div className="p-4 bg-indigo-50 border border-indigo-100 rounded-3xl flex items-start gap-4">
+                <div className="w-10 h-10 bg-white border border-indigo-200 rounded-2xl flex items-center justify-center text-indigo-500 shrink-0 shadow-sm">
+                    <FiShield size={20} />
+                </div>
+                <div className="space-y-1">
+                    <h4 className="text-[10px] font-black text-indigo-800 uppercase tracking-widest">Local Coordination & Simulation Boundary</h4>
+                    <p className="text-[10px] text-indigo-700/70 leading-relaxed font-bold">
+                        Seluruh aktivitas desain, tender, dan seleksi arsitek di halaman ini bersifat **simulasi koordinasi lokal**. Sistem ini **bukan marketplace tender publik** dan tidak melibatkan transaksi keuangan atau kontrak legal produksi secara otomatis. Bridge ke Proyek Konstruksi bersifat **Draft Planning** dan tidak mengubah status Progress SOT (Verified Progress) resmi.
+                    </p>
+                </div>
             </div>
 
             {/* TABS */}

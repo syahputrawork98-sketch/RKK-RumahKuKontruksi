@@ -47,3 +47,7 @@ export const patchStatus = async (id, status) => {
   return document;
 };
 
+export const updateDocument = async (id, data) => {
+  return await Repository.update(id, data);
+};
+

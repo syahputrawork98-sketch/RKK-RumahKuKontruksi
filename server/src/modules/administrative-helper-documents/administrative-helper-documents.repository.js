@@ -1,10 +1,11 @@
 import prisma from '../../config/prisma.js';
 
 export const findAll = async (filters = {}) => {
-  const { projectId, type, status } = filters;
+  const { projectId, customerId, type, status } = filters;
   return await prisma.administrativeHelperDocument.findMany({
     where: {
       ...(projectId && { projectId }),
+      ...(customerId && { customerId }),
       ...(type && { type }),
       ...(status && { status })
     },
@@ -43,5 +44,12 @@ export const updateStatus = async (id, status, releasedAt = null) => {
       status,
       ...(status === 'released' && { releasedAt: releasedAt || new Date() })
     }
+  });
+};
+
+export const update = async (id, data) => {
+  return await prisma.administrativeHelperDocument.update({
+    where: { id },
+    data
   });
 };

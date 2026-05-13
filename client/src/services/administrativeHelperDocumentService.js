@@ -15,6 +15,10 @@ const administrativeHelperDocumentService = {
 
   updateStatus: async (id, status) => {
     return await apiClient.patch(`/administrative-helper-documents/${id}/status`, { status });
+  },
+  
+  updateDocument: async (id, data) => {
+    return await apiClient.patch(`/administrative-helper-documents/${id}`, data);
   }
 };
 

@@ -16,6 +16,7 @@ import {
     FiAlertCircle
 } from "react-icons/fi";
 import administrativeHelperDocumentService from "../../services/administrativeHelperDocumentService";
+import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
 
 const AdministrativeHelperDocumentsPage = () => {
@@ -24,10 +25,93 @@ const AdministrativeHelperDocumentsPage = () => {
     const [filterType, setFilterType] = useState("ALL");
     const [filterStatus, setFilterStatus] = useState("ALL");
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [projects, setProjects] = useState([]);
+    const [selectedDocument, setSelectedDocument] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState({
+        projectId: "",
+        customerId: "",
+        type: "INVOICE",
+        title: "",
+        summaryData: "",
+        note: ""
+    });
 
     useEffect(() => {
         fetchDocuments();
+        fetchProjects();
     }, [filterType, filterStatus]);
+
+    const fetchProjects = async () => {
+        try {
+            const response = await projectService.getProjects();
+            setProjects(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            setIsSubmitting(true);
+            if (selectedDocument) {
+                await administrativeHelperDocumentService.updateDocument(selectedDocument.id, formData);
+            } else {
+                await administrativeHelperDocumentService.createDraft(formData);
+            }
+            setIsCreateModalOpen(false);
+            setSelectedDocument(null);
+            setFormData({
+                projectId: "",
+                type: "INVOICE",
+                title: "",
+                summaryData: "",
+                note: ""
+            });
+            fetchDocuments();
+        } catch (error) {
+            console.error("Error submitting document:", error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleEditClick = (doc) => {
+        setSelectedDocument(doc);
+        setFormData({
+            projectId: doc.projectId,
+            customerId: doc.customerId || "",
+            type: doc.type,
+            title: doc.title,
+            summaryData: doc.summaryData || "",
+            note: doc.note || ""
+        });
+        setIsCreateModalOpen(true);
+    };
+
+    const handleCreateClick = () => {
+        setSelectedDocument(null);
+        setFormData({
+            projectId: "",
+            customerId: "",
+            type: "INVOICE",
+            title: "",
+            summaryData: "",
+            note: ""
+        });
+        setIsCreateModalOpen(true);
+    };
+
+    const handleProjectChange = (e) => {
+        const projId = e.target.value;
+        const selectedProj = projects.find(p => p.id === projId);
+        setFormData({
+            ...formData,
+            projectId: projId,
+            customerId: selectedProj?.customerId || ""
+        });
+    };
 
     const fetchDocuments = async () => {
         try {
@@ -149,7 +233,7 @@ const AdministrativeHelperDocumentsPage = () => {
                     </div>
                 </div>
                 <button 
-                    onClick={() => setIsCreateModalOpen(true)}
+                    onClick={handleCreateClick}
                     className="w-full md:w-auto px-8 py-3 bg-teal-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-teal-600/20 hover:scale-105 transition-transform flex items-center justify-center gap-3"
                 >
                     <FiPlus /> Buat Draft Helper
@@ -214,9 +298,14 @@ const AdministrativeHelperDocumentsPage = () => {
                                 </div>
 
                                 <div className="px-8 py-5 bg-neutral-50/50 flex items-center justify-between border-t border-neutral-100">
-                                    <button className="text-[10px] font-black text-neutral-500 hover:text-teal-600 flex items-center gap-2 transition-colors uppercase tracking-widest">
-                                        <FiEye /> Detail
-                                    </button>
+                                    <div className="flex items-center gap-4">
+                                        <button 
+                                            onClick={() => handleEditClick(doc)}
+                                            className="text-[10px] font-black text-neutral-500 hover:text-teal-600 flex items-center gap-2 transition-colors uppercase tracking-widest"
+                                        >
+                                            <FiEdit3 /> Edit
+                                        </button>
+                                    </div>
                                     <div className="flex items-center gap-4">
                                         {doc.status === 'draft' && (
                                             <button 
@@ -262,26 +351,103 @@ const AdministrativeHelperDocumentsPage = () => {
             {/* Create Modal Placeholder */}
             {isCreateModalOpen && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-neutral-900/80 backdrop-blur-sm animate-fadeIn">
-                    <div className="bg-white rounded-[40px] p-10 max-w-lg w-full shadow-2xl space-y-6">
+                    <div className="bg-white rounded-[40px] p-10 max-w-2xl w-full shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-2xl font-black text-neutral-900">Buat Draft Helper</h3>
+                            <h3 className="text-2xl font-black text-neutral-900">
+                                {selectedDocument ? "Edit Metadata Helper" : "Buat Draft Helper"}
+                            </h3>
                             <button onClick={() => setIsCreateModalOpen(false)} className="text-neutral-400 hover:text-neutral-900 transition-colors">
                                 <FiPlus className="rotate-45" size={24} />
                             </button>
                         </div>
-                        <p className="text-sm text-neutral-500 font-bold uppercase tracking-tight italic">
-                            Modul pembuatan draft sedang dalam tahap integrasi schema dinamis. Silakan gunakan data seed untuk demo workflow saat ini.
-                        </p>
-                        <div className="p-6 bg-neutral-50 rounded-3xl border-2 border-dashed border-neutral-200 text-center">
-                            <FiEdit3 className="mx-auto text-neutral-300 mb-4" size={40} />
-                            <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Feature Bridge: Batch 27B Planned</p>
-                        </div>
-                        <button 
-                            onClick={() => setIsCreateModalOpen(false)}
-                            className="w-full py-4 bg-neutral-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest"
-                        >
-                            Tutup
-                        </button>
+                        
+                        <form onSubmit={handleFormSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Proyek Terkait</label>
+                                    <select 
+                                        required
+                                        value={formData.projectId}
+                                        onChange={handleProjectChange}
+                                        className="w-full px-5 py-4 bg-neutral-50 border-2 border-neutral-100 rounded-2xl text-xs font-bold focus:border-teal-500 outline-none transition-all"
+                                    >
+                                        <option value="">Pilih Proyek</option>
+                                        {projects.map(p => (
+                                            <option key={p.id} value={p.id}>[{p.projectCode}] {p.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Jenis Dokumen</label>
+                                    <select 
+                                        required
+                                        value={formData.type}
+                                        onChange={(e) => setFormData({...formData, type: e.target.value})}
+                                        className="w-full px-5 py-4 bg-neutral-50 border-2 border-neutral-100 rounded-2xl text-xs font-bold focus:border-teal-500 outline-none transition-all"
+                                    >
+                                        <option value="INVOICE">Invoice Helper</option>
+                                        <option value="BAST">BAST Helper</option>
+                                        <option value="LEGAL_HELPER">Legal Helper</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Judul Dokumen</label>
+                                <input 
+                                    required
+                                    type="text"
+                                    placeholder="Contoh: Invoice DP 30% - Bapak Budi"
+                                    value={formData.title}
+                                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                                    className="w-full px-5 py-4 bg-neutral-50 border-2 border-neutral-100 rounded-2xl text-xs font-bold focus:border-teal-500 outline-none transition-all"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Ringkasan Data (Summary)</label>
+                                <textarea 
+                                    placeholder="Contoh: Pembayaran termin pertama untuk tahap pondasi..."
+                                    value={formData.summaryData}
+                                    onChange={(e) => setFormData({...formData, summaryData: e.target.value})}
+                                    className="w-full px-5 py-4 bg-neutral-50 border-2 border-neutral-100 rounded-2xl text-xs font-bold focus:border-teal-500 outline-none transition-all min-h-[80px]"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Catatan Internal Admin (Optional)</label>
+                                <textarea 
+                                    placeholder="Catatan khusus untuk tim operasional..."
+                                    value={formData.note}
+                                    onChange={(e) => setFormData({...formData, note: e.target.value})}
+                                    className="w-full px-5 py-4 bg-neutral-50 border-2 border-neutral-100 rounded-2xl text-xs font-bold focus:border-teal-500 outline-none transition-all min-h-[80px]"
+                                />
+                            </div>
+
+                            <div className="p-4 bg-teal-50 rounded-2xl border border-teal-100 flex gap-3">
+                                <FiInfo className="text-teal-600 shrink-0 mt-0.5" />
+                                <p className="text-[10px] font-medium text-teal-800 leading-relaxed italic">
+                                    Setelah draft dibuat, Anda dapat meninjau metadata sebelum merilisnya ke portal konsumen.
+                                </p>
+                            </div>
+
+                            <div className="flex gap-4 pt-4">
+                                <button 
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="flex-1 py-4 bg-teal-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-teal-600/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                                >
+                                    {isSubmitting ? "Memproses..." : selectedDocument ? "Simpan Perubahan" : "Buat Draft Sekarang"}
+                                </button>
+                                <button 
+                                    type="button"
+                                    onClick={() => setIsCreateModalOpen(false)}
+                                    className="px-8 py-4 bg-neutral-100 text-neutral-500 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-neutral-200 transition-all"
+                                >
+                                    Batal
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

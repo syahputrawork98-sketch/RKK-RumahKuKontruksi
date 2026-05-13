@@ -13,6 +13,8 @@ const KendalaLapanganMandorPage = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedIssue, setSelectedIssue] = useState(null);
+    const [actionLoading, setActionLoading] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [newIssue, setNewIssue] = useState({
@@ -171,9 +173,15 @@ const KendalaLapanganMandorPage = () => {
                                     className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-[var(--dashboard-border)] rounded-xl text-sm font-bold focus:ring-2 focus:ring-red-500/20"
                                 >
                                     {projects.length === 0 && <option value="">Tidak ada proyek aktif</option>}
-                                    {projects.map(p => (
-                                        <option key={p.id} value={p.id}>{p.projectCode} - {p.name}</option>
-                                    ))}
+                                    {projects.map(p => {
+                                        const isActive = ['active', 'ongoing', 'Berjalan'].includes(p.status);
+                                        const isFinished = p.status === 'Selesai';
+                                        return (
+                                            <option key={p.id} value={p.id} disabled={isFinished || !isActive}>
+                                                {p.projectCode} - {p.name} {isFinished ? '(SELESAI)' : (!isActive ? `(${p.status?.toUpperCase()})` : '')}
+                                            </option>
+                                        );
+                                    })}
                                 </select>
                             </div>
                             <div>
@@ -306,7 +314,10 @@ const KendalaLapanganMandorPage = () => {
                                             Selesai / Diarsipkan
                                         </div>
                                     )}
-                                    <button className="w-full py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white transition-all flex items-center justify-center gap-2">
+                                    <button 
+                                        onClick={() => setSelectedIssue(issue)}
+                                        className="w-full py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white transition-all flex items-center justify-center gap-2"
+                                    >
                                         Detail Kendala <FiChevronRight />
                                     </button>
                                 </div>
@@ -321,6 +332,85 @@ const KendalaLapanganMandorPage = () => {
                     />
                 )}
             </div>
+
+            {/* DETAIL MODAL */}
+            {selectedIssue && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-zoomIn flex flex-col">
+                        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <h3 className="text-lg font-black uppercase tracking-tight">Detail Kendala Lapangan</h3>
+                            <button onClick={() => setSelectedIssue(null)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+                                <FiX size={20} />
+                            </button>
+                        </div>
+                        <div className="p-6 space-y-6 overflow-y-auto max-h-[70vh]">
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest bg-[var(--dashboard-primary)]/10 px-2 py-1 rounded">
+                                        {selectedIssue.project?.projectCode || 'PRJ-??'}
+                                    </span>
+                                    <div className={`px-2 py-1 rounded text-[8px] font-black uppercase ${
+                                        selectedIssue.priority === "high" ? "bg-red-500/10 text-red-500" : selectedIssue.priority === "medium" ? "bg-amber-500/10 text-amber-500" : "bg-blue-500/10 text-blue-500"
+                                    }`}>
+                                        {selectedIssue.priority} Priority
+                                    </div>
+                                </div>
+                                <h4 className="text-xl font-black text-slate-800 dark:text-white leading-tight">{selectedIssue.title}</h4>
+                                <div className="flex flex-wrap gap-3">
+                                    <div className="px-3 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg">
+                                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Kategori</p>
+                                        <p className="text-[10px] font-bold text-slate-700 dark:text-slate-300">{selectedIssue.category}</p>
+                                    </div>
+                                    <div className="px-3 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg">
+                                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Status</p>
+                                        <p className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase">{selectedIssue.status.replace('_', ' ')}</p>
+                                    </div>
+                                    <div className="px-3 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg">
+                                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Dilaporkan</p>
+                                        <p className="text-[10px] font-bold text-slate-700 dark:text-slate-300">{new Date(selectedIssue.createdAt).toLocaleDateString('id-ID')}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Deskripsi Kendala</p>
+                                <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 italic text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                                    "{selectedIssue.description}"
+                                </div>
+                            </div>
+
+                            {selectedIssue.resolutionNote && (
+                                <div className="space-y-2">
+                                    <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Tindak Lanjut / Resolusi</p>
+                                    <div className="p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/20 text-xs font-bold text-emerald-800 dark:text-emerald-300 leading-relaxed">
+                                        "{selectedIssue.resolutionNote}"
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <div className="p-6 border-t border-slate-100 dark:border-slate-800">
+                            {(selectedIssue.status === "open" || selectedIssue.status === "in_review") ? (
+                                <button 
+                                    onClick={() => {
+                                        handleMarkResolved(selectedIssue.id);
+                                        setSelectedIssue(null);
+                                    }}
+                                    className="w-full py-4 bg-emerald-600 text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition-all"
+                                >
+                                    Tandai Kendala Selesai
+                                </button>
+                            ) : (
+                                <button 
+                                    onClick={() => setSelectedIssue(null)}
+                                    className="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em]"
+                                >
+                                    Tutup Detail
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -229,25 +229,29 @@ const RequestMaterialMandorPage = () => {
                                         <tr key={req.id} className="group transition-all">
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 rounded-l-2xl border-y border-l border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
                                                 <div className="flex flex-col">
-                                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-tighter">{req.requestCode}</span>
-                                                    <span className="text-xs font-bold text-[var(--dashboard-text)] truncate max-w-[150px]">{req.project?.name || 'Proyek'}</span>
+                                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-tighter bg-[var(--dashboard-primary)]/10 px-2 py-0.5 rounded-md self-start mb-1">{req.requestCode || 'REQ-??'}</span>
+                                                    <span className="text-xs font-black text-[var(--dashboard-text)] truncate max-w-[150px]">{req.project?.name || 'Proyek Lapangan'}</span>
+                                                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{req.project?.projectCode || 'PRJ-??'}</span>
                                                 </div>
                                             </td>
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 border-y border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-bold text-[var(--dashboard-text)]">
+                                                    <span className="text-sm font-bold text-[var(--dashboard-text)] flex items-center gap-2">
                                                         {mainMaterial} 
-                                                        {otherItemsCount > 0 && <span className="ml-1 text-[10px] text-[var(--dashboard-primary)]">+{otherItemsCount} lainnya</span>}
+                                                        {otherItemsCount > 0 && <span className="px-1.5 py-0.5 bg-blue-50 text-[9px] font-black text-blue-600 rounded-md border border-blue-100">+{otherItemsCount}</span>}
                                                     </span>
-                                                    <span className="text-[10px] font-black text-[var(--dashboard-text-soft)] uppercase italic truncate max-w-[200px]">
-                                                        "{req.reason || 'Tanpa alasan'}"
-                                                    </span>
+                                                    <p className="text-[10px] font-medium text-[var(--dashboard-text-soft)] italic truncate max-w-[200px] mt-1">
+                                                        "{req.reason || 'Tanpa catatan tambahan'}"
+                                                    </p>
                                                 </div>
                                             </td>
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 border-y border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
-                                                <span className="text-xs font-bold">
-                                                    {req.neededDate ? new Date(req.neededDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-'}
-                                                </span>
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-black text-slate-700">
+                                                        {req.neededDate ? new Date(req.neededDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-'}
+                                                    </span>
+                                                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Deadline</span>
+                                                </div>
                                             </td>
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 border-y border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all">
                                                 <StatusBadge type="material" status={req.status} />
@@ -255,9 +259,9 @@ const RequestMaterialMandorPage = () => {
                                             <td className="py-4 px-4 bg-[var(--dashboard-surface-soft)]/50 rounded-r-2xl border-y border-r border-[var(--dashboard-border)] group-hover:border-[var(--dashboard-primary)]/30 group-hover:bg-[var(--dashboard-surface-soft)] transition-all text-right">
                                                 <button 
                                                     onClick={() => handleOpenDetail(req.id)}
-                                                    className="p-2 hover:bg-[var(--dashboard-primary)]/10 rounded-full text-[var(--dashboard-primary)] transition-all"
+                                                    className="px-4 py-2 bg-white border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white hover:border-[var(--dashboard-primary)] transition-all flex items-center gap-2 ml-auto"
                                                 >
-                                                    <FiChevronRight size={20} />
+                                                    Detail <FiChevronRight />
                                                 </button>
                                             </td>
                                         </tr>

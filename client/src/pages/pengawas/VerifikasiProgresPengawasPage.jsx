@@ -254,10 +254,13 @@ const VerifikasiProgresPengawasPage = () => {
                             <form onSubmit={handleVerify} className="space-y-6">
                                 <div className="space-y-4">
                                     <div className="flex justify-between items-end">
-                                        <label className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">
-                                            Presentase Progres (0-100%)
-                                        </label>
-                                        <span className="text-2xl font-black text-[var(--dashboard-primary)]">{verifiedProgress}%</span>
+                                        <div className="flex flex-col">
+                                            <label className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">
+                                                Presentase Progres Fisik Terbaru
+                                            </label>
+                                            <span className="text-[8px] font-black text-blue-600 uppercase tracking-[0.2em] mt-1">Source of Truth (Project.verifiedProgress)</span>
+                                        </div>
+                                        <span className="text-3xl font-black text-blue-600">{verifiedProgress}%</span>
                                     </div>
                                     <input 
                                         type="range" 
@@ -425,16 +428,20 @@ const VerifikasiProgresPengawasPage = () => {
 
                                             {/* JOURNALS CONTEXT */}
                                             <div className="col-span-full space-y-3 pt-2 border-t border-[var(--dashboard-border)]">
-                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">
-                                                    <FiFileText size={12} /> Jurnal Mandor Terakhir
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest">
+                                                        <FiFileText size={12} /> Jurnal Mandor Terakhir
+                                                    </div>
+                                                    <span className="text-[8px] font-black text-amber-600 uppercase tracking-widest bg-amber-50 px-2 py-0.5 rounded border border-amber-100">Referensi Non-Resmi</span>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                                     {journals.slice(0, 3).map(journal => (
                                                         <div key={journal.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] group hover:border-[var(--dashboard-primary)]/50 transition-all">
                                                             <div className="flex justify-between items-start mb-2">
-                                                                <span className="text-[9px] font-black px-2 py-0.5 bg-white rounded-md text-[var(--dashboard-primary)] border border-[var(--dashboard-border)]">
-                                                                    {journal.claimedProgress || 0}% Klaim
-                                                                </span>
+                                                                <div className="flex flex-col">
+                                                                    <span className="text-[9px] font-black text-amber-600 uppercase tracking-tighter">Klaim Mandor</span>
+                                                                    <span className="text-sm font-black text-amber-600">{journal.claimedProgress || 0}%</span>
+                                                                </div>
                                                                 <StatusBadge type="journal" status={journal.status} />
                                                             </div>
                                                             <p className="text-[10px] font-black truncate">{new Date(journal.weekStartDate).toLocaleDateString()} - {new Date(journal.weekEndDate).toLocaleDateString()}</p>

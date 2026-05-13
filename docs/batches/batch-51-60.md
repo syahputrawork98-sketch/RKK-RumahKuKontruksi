@@ -1,5 +1,15 @@
 # Batch History 51 - 60
 
+## Batch 60 — Final Anti-Duplication Workflow Locking
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Penambahan section "Aturan Final Anti-Duplikasi" pada `docs/project/workflow-sop.md`.
+  - Mengunci rujukan tunggal SOP aktif di folder `docs/project/`.
+  - Penegasan batasan instruksi *Commit & Push* hanya untuk Room Chat 00.
+  - Penegasan larangan Gemini 3F memberikan instruksi manual/git kepada USER.
+  - Penyeragaman alur *Acceptance* untuk efisiensi antar batch.
+
 ## Batch 51 — Docs History Finalization
 - **Status**: Accepted
 - **Commit**: `Not recorded`

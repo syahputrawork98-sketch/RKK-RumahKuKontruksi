@@ -54,5 +54,21 @@ Dokumen ini adalah **Source of Truth** tunggal untuk prosedur kerja AI Agent (Ro
 ## 3. Aturan Git & Validasi
 
 *   **Git Operations**: Seluruh operasi git (*add, commit, push*) dilakukan secara **MANUAL** oleh USER di terminal lokal. AI Agent tidak memiliki akses/wewenang untuk menyentuh history git.
+
 *   **Validation**: Room Chat 00 mengevaluasi laporan Gemini. Jika hasil pengecekan (*lint/check*) sukses dan file yang diubah sesuai, batch dianggap selesai. Tidak perlu meminta USER melakukan validasi manual berulang-ulang sebagai standar prosedur kecuali jika terdapat ambiguitas tinggi.
 
+## 4. Aturan Final Anti-Duplikasi (Workflow Guard)
+
+Bagian ini mengunci aturan main agar tidak terjadi kebingungan rujukan atau duplikasi instruksi di masa mendatang:
+
+*   **Satu Sumber Kebenaran (Single SoT)**: Seluruh detail Standard Operating Procedure (SOP) aktif hanya berada di `docs/project/workflow-sop.md`. Folder `docs/project-instructions/` telah dihapus dan **DILARANG KERAS** untuk dibuat ulang.
+*   **Add Instructions ChatGPT**: Hanya boleh berisi *pointer* pendek dan aturan inti absolut. Jangan pernah menjadikan *Add Instructions* sebagai pusat SOP kedua yang mendetail.
+*   **Wewenang Commit & Push**:
+    *   Blok instruksi "Commit & Push" **hanya boleh** ditulis oleh **Room Chat 00** saat memberikan instruksi eksekusi final untuk Gemini 3 Flash.
+    *   **Dilarang Keras** menyertakan instruksi *Commit & Push* pada tahap: diskusi, evaluasi laporan, *acceptance*, perencanaan umum, analisa, atau tanya jawab SOP.
+*   **Batasan Laporan Gemini 3 Flash**:
+    *   Hanya melaporkan hasil eksekusi teknis sesuai format wajib.
+    *   **Dilarang Keras**: Menulis bagian "Instruksi untuk USER", memberi *command* git, atau menyarankan tindakan *commit/push* dalam bentuk apapun.
+*   **Prosedur Acceptance**:
+    *   Jika laporan Gemini sehat, sesuai *scope*, dan pengecekan (*check/lint*) berhasil, **Room Chat 00** memberikan status **Accepted** dan langsung melanjutkan ke rencana/batch berikutnya.
+    *   Jangan meminta validasi manual berulang-ulang sebagai standar prosedur (*default*) jika data teknis sudah valid.

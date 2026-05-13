@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FiAlertTriangle, FiCheckCircle, FiChevronRight, FiClock, FiUser, FiLayers, FiActivity } from "react-icons/fi";
+import { FiAlertTriangle, FiCheckCircle, FiChevronRight, FiClock, FiUser, FiLayers, FiActivity, FiSearch } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import fieldIssueService from "../../services/fieldIssues.service";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
@@ -12,6 +12,8 @@ const KendalaLapanganAdminPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("all");
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         if (!selectedAdminId) {
@@ -35,12 +37,17 @@ const KendalaLapanganAdminPage = () => {
     }, [selectedAdminId]);
 
     const handleUpdateStatus = async (id, status) => {
-        const resolutionNote = prompt("Tambahkan catatan resolusi/keputusan Admin:");
+        const actionLabel = status === 'closed' ? 'Arsipkan' : 'Selesaikan';
+        const resolutionNote = prompt(`Tambahkan catatan resolusi/keputusan Admin untuk ${actionLabel} kendala ini:`);
         if (resolutionNote === null) return;
 
         try {
-            await fieldIssueService.updateFieldIssueStatus(id, { status, resolutionNote, adminId: selectedAdminId });
-            setIssues(issues.map(issue => issue.id === id ? { ...issue, status, resolutionNote } : issue));
+            await fieldIssueService.updateFieldIssueStatus(id, { 
+                status, 
+                resolutionNote: resolutionNote.trim() || `Selesai secara administratif oleh Admin.`, 
+                adminId: selectedAdminId 
+            });
+            setIssues(issues.map(issue => issue.id === id ? { ...issue, status, resolutionNote: resolutionNote.trim() || `Selesai secara administratif.` } : issue));
         } catch (err) {
             alert("Gagal memperbarui status: " + err.message);
         }
@@ -68,17 +75,43 @@ const KendalaLapanganAdminPage = () => {
     }
 
     const filteredIssues = issues.filter(issue => {
-        if (activeTab === "open") return issue.status === "open" || issue.status === "in_review";
-        if (activeTab === "resolved") return issue.status === "resolved" || issue.status === "closed";
-        return true;
+        if (!issue) return false;
+        
+        // Tab Filter
+        const matchesTab = 
+            activeTab === "all" ||
+            (activeTab === "open" && (issue.status === "open" || issue.status === "in_review")) ||
+            (activeTab === "resolved" && (issue.status === "resolved" || issue.status === "closed"));
+            
+        if (!matchesTab) return false;
+
+        // Search Filter
+        const q = searchQuery.toLowerCase();
+        const matchesSearch = 
+            (issue.title?.toLowerCase() || "").includes(q) ||
+            (issue.project?.name?.toLowerCase() || "").includes(q) ||
+            (issue.description?.toLowerCase() || "").includes(q) ||
+            (issue.foreman?.name?.toLowerCase() || "").includes(q);
+            
+        return matchesSearch;
     });
 
     return (
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Monitoring Kendala Lapangan</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Pantau seluruh hambatan proyek dan pastikan resolusi berjalan tepat waktu.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight uppercase">Monitoring <span className="text-[var(--dashboard-primary)]">Kendala Lapangan</span></h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Pantau hambatan operasional dan pastikan resolusi berjalan tepat waktu.</p>
+                </div>
+                <div className="relative w-full md:w-80">
+                    <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input 
+                        type="text" 
+                        placeholder="Cari kendala, proyek, pelapor..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-800/20"
+                    />
                 </div>
             </div>
 
@@ -110,9 +143,9 @@ const KendalaLapanganAdminPage = () => {
                                 <div className="flex-1 space-y-3">
                                     <div className="flex items-center gap-3">
                                         <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{issue.project?.projectCode || 'PROYEK'}</span>
-                                        <StatusBadge type="priority" status={issue.priority} />
+                                        <StatusBadge type="priority" status={issue.priority || 'NORMAL'} />
                                         <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[8px] font-black uppercase rounded border border-slate-200">
-                                            {issue.category}
+                                            {issue.category || 'LAINNYA'}
                                         </span>
                                     </div>
                                     <h4 className="text-base font-bold">{issue.title}</h4>
@@ -144,12 +177,8 @@ const KendalaLapanganAdminPage = () => {
                                 </div>
 
                                 <div className="md:w-56 flex flex-col justify-center gap-2">
-                                    <div className={`text-center py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
-                                        issue.status === 'open' ? 'bg-red-50 text-red-600 border-red-200' : 
-                                        issue.status === 'resolved' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
-                                        'bg-slate-50 text-slate-600 border-slate-200'
-                                    }`}>
-                                        Status: {issue.status.replace('_', ' ')}
+                                    <div className="text-center py-1">
+                                        <StatusBadge type="issue" status={issue.status} />
                                     </div>
                                     
                                     {issue.status !== 'closed' && (
@@ -157,11 +186,19 @@ const KendalaLapanganAdminPage = () => {
                                             onClick={() => handleUpdateStatus(issue.id, 'closed')}
                                             className="w-full py-2.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-black/10"
                                         >
-                                            <FiActivity /> Tutup / Arsipkan
+                                            <FiActivity /> Selesaikan & Arsipkan
                                         </button>
                                     )}
 
-                                    <button className="w-full py-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white transition-all flex items-center justify-center gap-2">
+                                    <button 
+                                        onClick={() => issue.projectId ? navigate(`/admin/projects/${issue.projectId}`) : alert("ID Proyek tidak tersedia.")}
+                                        disabled={!issue.projectId}
+                                        className={`w-full py-2.5 border rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
+                                            issue.projectId 
+                                            ? "bg-[var(--dashboard-surface-soft)] border-[var(--dashboard-border)] hover:bg-[var(--dashboard-primary)] hover:text-white" 
+                                            : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
+                                        }`}
+                                    >
                                         Monitoring Proyek <FiChevronRight />
                                     </button>
                                 </div>

@@ -93,6 +93,38 @@ const StatusBadge = ({ type, status }) => {
         }
     };
 
+    const getPriorityStatus = (s) => {
+        switch (s?.toLowerCase()) {
+            case 'high':
+            case 'urgent':
+            case 'critical':
+                return { label: s, className: 'bg-red-100 text-red-700 border-red-200' };
+            case 'medium':
+                return { label: s, className: 'bg-amber-100 text-amber-700 border-amber-200' };
+            case 'low':
+                return { label: s, className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            default:
+                return { label: s || 'Normal', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+        }
+    };
+
+    const getIssueStatus = (s) => {
+        switch (s?.toLowerCase()) {
+            case 'open':
+                return { label: 'Terbuka', className: 'bg-red-100 text-red-700 border-red-200' };
+            case 'in_review':
+                return { label: 'Ditinjau', className: 'bg-amber-100 text-amber-700 border-amber-200' };
+            case 'resolved':
+                return { label: 'Terselesaikan', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            case 'closed':
+                return { label: 'Diarsipkan', className: 'bg-slate-100 text-slate-600 border-slate-200' };
+            case 'rejected':
+                return { label: 'Ditolak', className: 'bg-gray-100 text-gray-500 border-gray-200' };
+            default:
+                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+        }
+    };
+
     let config;
     switch (type) {
         case 'project':
@@ -106,6 +138,12 @@ const StatusBadge = ({ type, status }) => {
             break;
         case 'material':
             config = getMaterialStatus(status);
+            break;
+        case 'priority':
+            config = getPriorityStatus(status);
+            break;
+        case 'issue':
+            config = getIssueStatus(status);
             break;
         default:
             config = { label: status, className: 'bg-gray-100 text-gray-700 border-gray-200' };

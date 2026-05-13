@@ -151,7 +151,7 @@ const TimelineProyek = () => {
   if (loading) {
     return (
       <div className="container mx-auto px-6 py-20">
-        <RoleDataState type="loading" message="Menyusun timeline konstruksi rill Anda..." />
+        <RoleDataState type="loading" message="Menyusun timeline konstruksi resmi Anda..." />
       </div>
     );
   }
@@ -463,7 +463,7 @@ const TimelineProyek = () => {
               <h2 className="text-heading-m-bold text-neutral-100">Timeline & Diskusi Proyek</h2>
               <div className="flex flex-wrap items-center gap-3 mt-1">
                 <p className="text-m-regular text-neutral-60 flex items-center gap-2">
-                  Pantau perkembangan rill dan buka diskusi detail per tahapan pekerjaan.
+                  Pantau perkembangan resmi dan buka diskusi detail per tahapan pekerjaan.
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-tighter">
@@ -616,7 +616,7 @@ const TimelineProyek = () => {
                 <div className="p-4 bg-neutral-10 border-t border-neutral-20">
                   <div className="flex items-center gap-2 text-[9px] text-neutral-40 font-medium italic">
                     <FiInfo className="shrink-0" />
-                    <span>Hanya item pekerjaan yang relevan dengan pengerjaan rill yang ditampilkan di struktur ini.</span>
+                    <span>Hanya item pekerjaan yang relevan dengan pengerjaan resmi yang ditampilkan di struktur ini.</span>
                   </div>
                 </div>
               </div>
@@ -655,7 +655,7 @@ const TimelineProyek = () => {
                   <div className="max-w-md mx-auto space-y-3">
                     <h3 className="text-2xl font-black text-neutral-100 uppercase tracking-tight">Timeline Sedang Disiapkan</h3>
                     <p className="text-sm text-neutral-60 leading-relaxed font-medium">
-                      Proyek Anda saat ini masih dalam <span className="text-amber-600 font-bold uppercase">Fase Perencanaan</span>. Timeline pelaksanaan lapangan (SOT) akan muncul di sini setelah tim Admin & Pengawas mengaktifkan jadwal konstruksi rill.
+                      Proyek Anda saat ini masih dalam <span className="text-amber-600 font-bold uppercase">Fase Perencanaan</span>. Timeline pelaksanaan lapangan (SOT) akan muncul di sini setelah tim Admin & Pengawas mengaktifkan jadwal konstruksi resmi.
                     </p>
                     <div className="pt-4 flex flex-col items-center gap-2">
                         <span className="px-4 py-1.5 bg-amber-50 text-amber-600 text-[10px] font-black rounded-full border border-amber-100 uppercase tracking-widest">

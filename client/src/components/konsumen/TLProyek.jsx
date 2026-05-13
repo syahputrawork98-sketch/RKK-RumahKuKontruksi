@@ -144,7 +144,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                         <div className="space-y-1.5">
                           <div className="flex items-center gap-2">
                             <span className="text-[9px] font-black bg-neutral-100 text-neutral-50 px-2 py-0.5 rounded border border-neutral-20 uppercase tracking-widest flex items-center gap-1">
-                              <FiCheckCircle size={10} className="text-success-main" /> Progres Rill (SOT)
+                              <FiCheckCircle size={10} className="text-success-main" /> Progres Resmi (SOT)
                             </span>
                           </div>
                           <p className="text-[10px] font-black text-neutral-90 italic">
@@ -165,7 +165,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                       </div>
                       <div className="pt-2">
                         <p className="text-[9px] text-neutral-40 font-medium italic leading-relaxed">
-                          * Update harian/mingguan adalah informasi pendukung. Progres rill hanya diperbarui melalui verifikasi kualitas resmi oleh Pengawas.
+                          * Update harian/mingguan adalah informasi pendukung. Progres resmi hanya diperbarui melalui verifikasi kualitas resmi oleh Pengawas.
                         </p>
                       </div>
                     </div>

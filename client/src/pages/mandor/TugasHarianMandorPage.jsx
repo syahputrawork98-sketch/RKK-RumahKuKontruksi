@@ -129,27 +129,64 @@ const TugasHarianMandorPage = () => {
                                      </div>
                                  </div>
                              </div>
-                             <div className="md:w-48 flex items-center gap-2">
-                                 {task.status !== "completed" ? (
-                                     <button onClick={() => handleMarkDone(task.id)} className="flex-1 py-2.5 bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
-                                         <FiCheckCircle /> Selesai
-                                     </button>
-                                 ) : (
-                                     <div className="flex-1 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest border border-slate-200 flex items-center justify-center gap-2 cursor-not-allowed">
-                                         <FiCheckCircle /> Sudah Selesai
+                                 <div className="md:w-56 flex items-center gap-2">
+                                     {task.status !== "completed" ? (
+                                         <button 
+                                             onClick={() => handleMarkDone(task.id)} 
+                                             className="flex-1 py-2.5 bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                                         >
+                                             <FiCheckCircle /> Selesai
+                                         </button>
+                                     ) : (
+                                         <div className="flex-1 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest border border-slate-200 flex items-center justify-center gap-2 cursor-not-allowed">
+                                             <FiCheckCircle /> Sudah Selesai
+                                         </div>
+                                     )}
+                                     <div 
+                                         className="p-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-slate-400"
+                                         title="Detail teknis tersedia di monitoring pengawas"
+                                     >
+                                         <FiChevronRight />
                                      </div>
-                                 )}
-                                 <button 
-                                     title="Detail tugas (Akan datang)"
-                                     className="p-2.5 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-slate-300 cursor-default"
-                                 >
-                                     <FiChevronRight />
-                                 </button>
+                                 </div>
                              </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                             
+                             {/* Expanded info if available */}
+                             {(task.stage || task.rabItem || task.description) && (
+                                 <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                     {task.description && (
+                                         <div className="col-span-2">
+                                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Instruksi / Catatan</p>
+                                             <p className="text-xs text-slate-600 leading-relaxed font-medium bg-slate-50 p-3 rounded-xl border border-slate-100 italic">
+                                                 "{task.description}"
+                                             </p>
+                                         </div>
+                                     )}
+                                     {task.stage && (
+                                         <div className="bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">
+                                             <p className="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-0.5">Tahapan Proyek</p>
+                                             <p className="text-[11px] font-bold text-blue-700">{task.stage.title}</p>
+                                         </div>
+                                     )}
+                                     {task.rabItem && (
+                                         <div className="bg-emerald-50/50 p-3 rounded-xl border border-emerald-100/50">
+                                             <p className="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-0.5">Item RAB Terkait</p>
+                                             <p className="text-[11px] font-bold text-emerald-700">{task.rabItem.description}</p>
+                                         </div>
+                                     )}
+                                 </div>
+                             )}
+                         </div>
+                 ))}
+             </div>
+
+             {/* Footer Guard */}
+             <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3">
+                <FiInfo className="text-blue-500 shrink-0 mt-0.5" />
+                <p className="text-[10px] font-medium leading-relaxed italic text-blue-800">
+                    <strong>Catatan Operasional:</strong> Tugas harian adalah panduan pelaksanaan teknis di lapangan. Penyelesaian tugas membantu koordinasi tim, namun <strong>tidak otomatis memperbarui progres resmi proyek</strong> yang memerlukan verifikasi Pengawas.
+                </p>
+             </div>
         </div>
     );
 };

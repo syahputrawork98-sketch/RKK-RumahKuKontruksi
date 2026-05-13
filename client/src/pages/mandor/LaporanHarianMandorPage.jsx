@@ -197,7 +197,7 @@ const LaporanHarianMandorPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="md:w-48 flex flex-col justify-center gap-2">
+                            <div className="md:w-56 flex flex-col justify-center gap-2">
                                 {report.status === "draft" ? (
                                     <>
                                         <button 
@@ -206,9 +206,12 @@ const LaporanHarianMandorPage = () => {
                                         >
                                             <FiCheck /> Kirim Sekarang
                                         </button>
-                                        <button className="w-full py-2 bg-[var(--dashboard-surface-soft)] border border-[var(--dashboard-border)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white transition-all flex items-center justify-center gap-2">
-                                            <FiFileText /> Edit Draft <FiChevronRight />
-                                        </button>
+                                        <div 
+                                            className="w-full py-2 bg-slate-50 border border-slate-200 text-slate-400 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 cursor-not-allowed opacity-70"
+                                            title="Fitur edit draft sedang dalam tahap stabilisasi lokal."
+                                        >
+                                            <FiFileText /> Edit [Hold]
+                                        </div>
                                     </>
                                 ) : (
                                     <div className="w-full py-3 bg-slate-50 text-slate-400 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-center italic">
@@ -219,6 +222,15 @@ const LaporanHarianMandorPage = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            {/* SOT Disclaimer */}
+            <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3">
+               <FiInfo className="text-blue-500 shrink-0 mt-0.5" />
+               <div className="text-[10px] font-medium leading-relaxed italic text-blue-800">
+                   <p className="font-bold uppercase tracking-widest text-[9px] mb-1 italic">Penting: Status Progres</p>
+                   <p>Laporan harian adalah catatan aktivitas dan <strong>klaim progres mandor</strong>. Angka ini bersifat operasional dan belum menjadi <strong>Progres Resmi (Source of Truth)</strong> sebelum diverifikasi oleh Pengawas melalui alur Opname/Verifikasi Progres.</p>
+               </div>
             </div>
 
             {/* QUICK CREATE MODAL */}

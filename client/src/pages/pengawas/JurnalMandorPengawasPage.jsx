@@ -49,9 +49,13 @@ const JurnalMandorPengawasPage = () => {
             </div>
 
             <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4">
-                <div className="text-left md:text-right">
-                    <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Klaim Mandor (Non-Resmi)</p>
-                    <p className="text-xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
+                <div className="text-left md:text-right bg-blue-50/50 p-3 rounded-2xl border border-blue-100">
+                    <div className="flex items-center md:justify-end gap-1 mb-1">
+                        <FiActivity size={10} className="text-blue-500" />
+                        <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest">Klaim Progres Mandor</p>
+                    </div>
+                    <p className="text-2xl font-black text-blue-700 leading-none">{journal.claimedProgress || 0}%</p>
+                    <p className="text-[8px] font-bold text-blue-400 uppercase tracking-tighter mt-1 italic">Non-Verifikasi / Observasi</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="hidden md:block text-right">
@@ -124,8 +128,12 @@ const JurnalMandorPengawasPage = () => {
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Jurnal Mandor</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Review aktivitas mingguan dan klaim progres dari tim Mandor.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Review Jurnal Mandor</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Pantau aktivitas mingguan dan klaim progres dari tim Mandor.</p>
+                </div>
+                <div className="px-4 py-2 bg-amber-50 text-amber-700 rounded-xl border border-amber-100 flex items-center gap-2">
+                    <FiInfo />
+                    <span className="text-[10px] font-black uppercase tracking-tighter italic">Klaim Mandor ≠ Progres SOT</span>
                 </div>
             </div>
 
@@ -181,6 +189,14 @@ const JurnalMandorPengawasPage = () => {
                         />
                     </div>
                 )}
+            </div>
+
+            {/* Footer Disclaimer */}
+            <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3">
+                <FiInfo className="text-blue-500 shrink-0 mt-0.5" />
+                <div className="text-[10px] font-medium leading-relaxed italic text-blue-800">
+                    <strong>Catatan Review:</strong> Review jurnal mingguan berfungsi untuk monitoring aktivitas dan memberikan arahan teknis. Klaim progres dari Mandor di jurnal ini <strong>tidak otomatis memperbarui Progres SOT</strong>. Gunakan menu <strong>Verifikasi Progres</strong> untuk pembaruan resmi.
+                </div>
             </div>
         </div>
     );

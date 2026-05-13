@@ -92,11 +92,14 @@ const DailyMonitoringTab = ({ projectId }) => {
                     </div>
                     <p className="text-[10px] font-bold text-slate-400 uppercase italic">Logbook aktivitas & penugasan mandor di lapangan.</p>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-xl border border-amber-100">
-                    <FiInfo className="shrink-0" />
-                    <p className="text-[9px] font-black uppercase tracking-tighter leading-none">
-                        Monitoring Non-SOT: Tidak mengubah Progres Resmi
-                    </p>
+                 <div className="flex flex-col items-end gap-1">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-xl border border-amber-100">
+                        <FiInfo className="shrink-0" />
+                        <p className="text-[9px] font-black uppercase tracking-tighter leading-none">
+                            Monitoring Operasional: Tidak mengubah Progres SOT
+                        </p>
+                    </div>
+                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tighter italic">* Progres resmi hanya diubah melalui menu Verifikasi Progres</span>
                 </div>
             </div>
             
@@ -242,9 +245,12 @@ const DailyMonitoringTab = ({ projectId }) => {
                                             {selectedReport.status}
                                         </span>
                                     </div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                                         <FiClock /> {new Date(selectedReport.date).toLocaleDateString("id-ID", { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                                     </p>
+                                    <div className="mt-2 flex items-center gap-2 px-2 py-1 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 w-fit">
+                                        <span className="text-[9px] font-black uppercase tracking-widest italic">Tipe: Klaim Progres Mandor (Opsional)</span>
+                                    </div>
                                 </div>
                             </div>
                             <button 
@@ -344,14 +350,14 @@ const DailyMonitoringTab = ({ projectId }) => {
                                                 disabled={isActionLoading}
                                                 className="flex-1 py-3.5 bg-emerald-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                                             >
-                                                Approve Report
+                                                Review & Tandai Selesai
                                             </button>
                                             <button 
                                                 onClick={() => handleReview('rejected')}
                                                 disabled={isActionLoading}
                                                 className="flex-1 py-3.5 bg-red-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-red-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                                             >
-                                                Request Revision
+                                                Minta Revisi Laporan
                                             </button>
                                         </div>
                                     </div>

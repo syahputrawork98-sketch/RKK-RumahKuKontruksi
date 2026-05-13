@@ -38,15 +38,15 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
               </div>
 
               {/* Card */}
-              <div className={`w-full ${isLeft ? "ml-12" : "md:w-[45%] ml-12 md:ml-0"} ${!isLeft && idx % 2 !== 0 ? "md:translate-x-[110%]" : ""}`}>
-                <div className="public-card group hover:shadow-xl transition-all duration-500 !p-0 overflow-hidden">
+              <div className={`w-full min-w-0 ${isLeft ? "ml-12" : "md:w-[45%] ml-12 md:ml-0"} ${!isLeft && idx % 2 !== 0 ? "md:translate-x-[110%]" : ""}`}>
+                <div className="public-card group hover:shadow-xl transition-all duration-500 !p-0 overflow-hidden min-w-0">
                   {/* Status Strip */}
                   <div className={`h-1.5 w-full ${
                     stage.status === "verified" ? "bg-success-main" :
                     stage.status === "in_progress" ? "bg-primary-main" : "bg-neutral-40"
                   }`} />
 
-                  <div className="p-6 md:p-8 space-y-5">
+                  <div className="p-5 md:p-8 space-y-5">
                     {/* Header */}
                     <div className="flex justify-between items-start gap-4">
                       <div>
@@ -108,7 +108,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                     )}
 
                     {/* Task preview */}
-                    <div className="space-y-3 bg-neutral-10/50 p-5 rounded-2xl border border-neutral-30/50 shadow-inner">
+                    <div className="space-y-3 bg-neutral-10/50 p-4 md:p-5 rounded-2xl border border-neutral-30/50 shadow-inner">
                       <div className="flex justify-between items-center">
                         <p className="text-[10px] font-black text-neutral-50 uppercase tracking-[0.2em]">Item Pekerjaan Terdaftar</p>
                         {stage.tasks?.length > 0 && (
@@ -120,9 +120,9 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                       <ul className="space-y-2.5">
                         {Array.isArray(stage.tasks) && stage.tasks.length > 0 ? (
                           stage.tasks.slice(0, 4).map((task, i) => (
-                            <li key={i} className="flex items-start gap-3 text-xs text-neutral-80 leading-relaxed font-bold">
+                            <li key={i} className="flex items-start gap-3 text-xs text-neutral-80 leading-relaxed font-bold min-w-0">
                               <div className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${stage.status === "verified" ? "bg-success-main shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-primary-main/30"}`} />
-                              <span>{task}</span>
+                              <span className="truncate md:whitespace-normal">{task}</span>
                             </li>
                           ))
                         ) : (

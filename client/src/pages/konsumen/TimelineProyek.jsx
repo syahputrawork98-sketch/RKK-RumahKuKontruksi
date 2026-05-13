@@ -508,9 +508,9 @@ const TimelineProyek = () => {
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
-            {/* LEFT PANEL: RAB TREE */}
-            <div className="w-full lg:w-1/3 sticky top-24">
+          <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-8 items-start">
+            {/* LEFT PANEL: RAB NAVIGATION RAIL */}
+            <div className="w-full lg:sticky lg:top-24">
               <div className="bg-white rounded-[32px] border border-neutral-30 shadow-xl overflow-hidden">
                 <div className="p-6 border-b border-neutral-20 bg-neutral-10/50">
                   <h3 className="text-[10px] font-black text-neutral-100 uppercase tracking-[0.2em] flex items-center gap-2">
@@ -521,7 +521,7 @@ const TimelineProyek = () => {
                   </p>
                 </div>
 
-                <div className="p-4 max-h-[600px] overflow-y-auto custom-scrollbar">
+                <div className="p-4 max-h-[500px] lg:max-h-[600px] overflow-y-auto custom-scrollbar">
                   {rabData?.categories?.length > 0 ? (
                     <div className="space-y-3">
                       {rabData.categories.map((cat) => (
@@ -622,17 +622,17 @@ const TimelineProyek = () => {
               </div>
             </div>
 
-            {/* RIGHT PANEL: EXECUTION TIMELINE */}
-            <div className="w-full lg:w-2/3">
+            {/* RIGHT PANEL: EXECUTION TIMELINE & DISCUSSION */}
+            <div className="w-full min-w-0">
               {(selectedCategoryId || selectedRabId) && (
-                <div className="mb-6 flex items-center justify-between p-4 bg-white border border-primary-main/20 rounded-3xl shadow-sm">
-                   <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary-surface rounded-xl flex items-center justify-center text-primary-main">
-                        <FiActivity size={16} />
+                <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-white border border-primary-main/10 rounded-[32px] shadow-sm gap-4">
+                   <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <div className="w-10 h-10 bg-primary-surface rounded-2xl flex items-center justify-center text-primary-main shrink-0">
+                        <FiActivity size={20} />
                       </div>
-                      <div>
-                        <p className="text-[10px] font-black text-neutral-100 uppercase tracking-widest">Memfilter Timeline:</p>
-                        <p className="text-xs font-bold text-primary-main">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-black text-neutral-40 uppercase tracking-widest">Filter Aktif:</p>
+                        <p className="text-sm font-black text-primary-main truncate">
                           {selectedCategoryId ? rabData.categories.find(c => c.id === selectedCategoryId)?.name :
                            rabData.categories.flatMap(c => c.items).find(i => i.id === selectedRabId)?.description}
                         </p>
@@ -640,7 +640,7 @@ const TimelineProyek = () => {
                    </div>
                    <button
                     onClick={() => { setSelectedCategoryId(null); setSelectedRabId(null); }}
-                    className="text-[10px] font-black text-neutral-40 uppercase hover:text-error-main transition-colors"
+                    className="w-full sm:w-auto px-4 py-2 bg-neutral-10 text-[10px] font-black text-neutral-50 uppercase rounded-xl hover:bg-error-surface hover:text-error-main transition-all border border-neutral-20"
                    >
                      Hapus Filter
                    </button>

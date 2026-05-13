@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 import materialRequestService from "../../services/materialRequestService";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 const MonitoringMaterialGlobalPage = () => {
@@ -49,13 +50,6 @@ const MonitoringMaterialGlobalPage = () => {
         (r.foreman?.name || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const getStatusColor = (status) => {
-        const s = (status || "").toLowerCase();
-        if (s === "completed" || s === "received") return "text-emerald-500 bg-emerald-50 border-emerald-100";
-        if (s === "rejected" || s === "cancelled") return "text-rose-500 bg-rose-50 border-rose-100";
-        if (s === "pending" || s === "submitted") return "text-blue-500 bg-blue-50 border-blue-100";
-        return "text-amber-500 bg-amber-50 border-amber-100";
-    };
 
     if (!selectedSuperadminId) {
         return <RoleDataState type="empty" message="Pilih persona Superadmin untuk memonitor material." />;
@@ -142,9 +136,7 @@ const MonitoringMaterialGlobalPage = () => {
                                             </div>
                                         </td>
                                         <td className="py-6 px-6">
-                                            <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase border tracking-widest ${getStatusColor(r.status)}`}>
-                                                {(r.status || "pending").replace('_', ' ')}
-                                            </span>
+                                            <StatusBadge type="material" status={r.status} />
                                         </td>
                                     </tr>
                                 ))}

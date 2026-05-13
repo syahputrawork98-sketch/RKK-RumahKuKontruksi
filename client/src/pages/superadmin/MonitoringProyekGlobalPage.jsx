@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
@@ -53,20 +54,6 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
             fetchProjects();
         }
     }, [selectedSuperadminId, mode]);
-
-    const getStatusBadge = (status) => {
-        const s = (status || "").toLowerCase();
-        if (isActiveProject(s)) {
-            return "bg-emerald-50 text-emerald-600 border-emerald-100";
-        }
-        if (s === "finished" || s === "selesai") {
-            return "bg-blue-50 text-blue-600 border-blue-100";
-        }
-        if (s === "on_hold" || s === "hold") {
-            return "bg-amber-50 text-amber-600 border-amber-100";
-        }
-        return "bg-gray-50 text-gray-600 border-gray-100";
-    };
 
     const filteredProjects = (projects || []).filter(p => {
         const matchesSearch = 
@@ -238,9 +225,7 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                                         </td>
                                         <td className="py-6 px-6">
                                             <div className="flex flex-col items-center gap-3">
-                                                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border tracking-widest ${getStatusBadge(p.status)}`}>
-                                                    {(p.status || "draft").replace('_', ' ')}
-                                                </span>
+                                                <StatusBadge type="project" status={p.status} />
                                                 <div className="w-32">
                                                     <div className="flex items-center justify-between mb-1.5">
                                                         <span className="text-[9px] font-black uppercase text-slate-400">Progres</span>

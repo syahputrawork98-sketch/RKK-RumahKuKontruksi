@@ -1,5 +1,5 @@
 import React from "react";
-import { FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+import StatusBadgeGlobal from "../../common/StatusBadge";
 
 export const InfoItem = ({ label, value, icon, isBadge, color, isBold, className }) => (
     <div className={`space-y-1.5 ${className}`}>
@@ -39,21 +39,8 @@ export const TeamCard = ({ role, name, email, icon, color }) => {
     );
 };
 
-export const StatusBadge = ({ type, status }) => {
-    const getStatusColor = (status) => {
-        const s = status?.toLowerCase();
-        if (s?.includes("active") || s?.includes("ongoing") || s?.includes("pengerjaan") || s?.includes("berjalan")) return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
-        if (s?.includes("persiapan") || s?.includes("plan") || s?.includes("planning")) return "bg-blue-500/10 text-blue-500 border-blue-500/20";
-        if (s?.includes("finish") || s?.includes("selesai")) return "bg-purple-500/10 text-purple-500 border-purple-500/20";
-        if (s?.includes("stop") || s?.includes("terhenti")) return "bg-red-500/10 text-red-500 border-red-500/20";
-        return "bg-slate-500/10 text-slate-500 border-slate-500/20";
-    };
-
-    return (
-        <span className={`px-3 py-0.5 text-[10px] font-black uppercase rounded-full border ${getStatusColor(status)}`}>
-            {status}
-        </span>
-    );
+export const StatusBadge = ({ status }) => {
+    return <StatusBadgeGlobal type="project" status={status} />;
 };
 
 export const formatCurrency = (val) => {

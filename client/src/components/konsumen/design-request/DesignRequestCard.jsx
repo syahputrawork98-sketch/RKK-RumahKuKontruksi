@@ -1,20 +1,8 @@
 import React from 'react';
 import { FiMapPin, FiClock, FiCheckCircle, FiArrowRight } from "react-icons/fi";
+import StatusBadge from '../common/StatusBadge';
 
 const DesignRequestCard = ({ request, onOpenDetail }) => {
-    const getStatusLabel = (status) => {
-        const labels = {
-            submitted: "Diajukan",
-            open: "Tender Terbuka",
-            assigned: "Arsitek Terpilih",
-            in_review: "Proses Review",
-            approved: "Desain Disetujui",
-            rejected: "Ditolak",
-            draft: "Draft"
-        };
-        return labels[status] || status;
-    };
-
     return (
         <div className="p-6 border border-gray-100 rounded-3xl hover:border-teal-500/30 transition-all bg-white shadow-sm group">
             <div className="flex justify-between items-start mb-4">
@@ -22,16 +10,7 @@ const DesignRequestCard = ({ request, onOpenDetail }) => {
                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">ID: {request.id.slice(-8)}</p>
                     <h3 className="text-lg font-black text-gray-800 transition-colors">{request.title}</h3>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
-                    request.status === 'submitted' ? "bg-blue-50 text-blue-600 border-blue-100" :
-                    request.status === 'open' ? "bg-teal-50 text-teal-600 border-teal-100" :
-                    request.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
-                    request.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
-                    request.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                    "bg-gray-50 text-gray-600 border-gray-100"
-                }`}>
-                    {getStatusLabel(request.status)}
-                </span>
+                <StatusBadge type="design" status={request.status} />
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-6">

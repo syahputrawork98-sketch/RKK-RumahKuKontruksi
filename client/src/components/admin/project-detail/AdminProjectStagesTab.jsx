@@ -1,5 +1,6 @@
 import React from "react";
 import { FiLayers, FiPlus, FiMessageSquare, FiEdit2, FiTrash2 } from "react-icons/fi";
+import StatusBadge from "../../common/StatusBadge";
 import { formatDateShort } from "./ProjectDetailUIHelpers";
 
 const AdminProjectStagesTab = ({ 
@@ -10,15 +11,6 @@ const AdminProjectStagesTab = ({
     onDeleteStage, 
     onCommentClick 
 }) => {
-    const getStatusColor = (status) => {
-        const s = status?.toLowerCase();
-        if (s?.includes("active") || s?.includes("ongoing") || s?.includes("pengerjaan") || s?.includes("berjalan")) return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
-        if (s?.includes("persiapan") || s?.includes("plan") || s?.includes("planning")) return "bg-blue-500/10 text-blue-500 border-blue-500/20";
-        if (s?.includes("finish") || s?.includes("selesai")) return "bg-purple-500/10 text-purple-500 border-purple-500/20";
-        if (s?.includes("stop") || s?.includes("terhenti")) return "bg-red-500/10 text-red-500 border-red-500/20";
-        return "bg-slate-500/10 text-slate-500 border-slate-500/20";
-    };
-
     return (
         <div className="space-y-6 animate-fadeIn">
             <div className="flex justify-between items-center">
@@ -73,9 +65,7 @@ const AdminProjectStagesTab = ({
                                     </td>
                                     <td className="py-4 px-2 text-xs font-bold text-center">W-{stg.week || 1}</td>
                                     <td className="py-4 px-2">
-                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase border ${getStatusColor(stg.status)}`}>
-                                            {stg.status}
-                                        </span>
+                                        <StatusBadge type="stage" status={stg.status} />
                                     </td>
                                     <td className="py-4 px-2 text-right">
                                         <div className="flex justify-end gap-1">

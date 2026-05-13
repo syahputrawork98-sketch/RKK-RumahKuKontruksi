@@ -11,6 +11,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 import DesignRequestList from "../../components/konsumen/design-request/DesignRequestList";
 import DesignRequestDetailOverlay from "../../components/konsumen/design-request/DesignRequestDetailOverlay";
 import CreateDesignRequestModal from "../../components/konsumen/design-request/CreateDesignRequestModal";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const DesignRequestCustomerPage = () => {
     const { selectedCustomerId } = useCustomerPersona();
@@ -225,21 +226,7 @@ ${formData.materialPreferences || '-'}
         r.title?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const getStatusLabel = (status) => {
-        const labels = {
-            submitted: "Diajukan",
-            open: "Tender Terbuka",
-            assigned: "Arsitek Terpilih",
-            revision_requested: "Revisi Diminta",
-            revised: "Telah Direvisi",
-            in_review: "Proses Review",
-            approved: "Desain Disetujui",
-            project_created: "Proyek Dimulai",
-            rejected: "Ditolak",
-            draft: "Draft"
-        };
-        return labels[status] || status;
-    };
+    if (loading && selectedCustomerId && requests.length === 0) return <RoleDataState type="loading" message="Memuat data pengajuan desain..." />;
 
     if (loading && selectedCustomerId && requests.length === 0) return <RoleDataState type="loading" message="Memuat data pengajuan desain..." />;
     if (!selectedCustomerId) return <RoleDataState type="empty" message="Pilih persona konsumen terlebih dahulu." />;
@@ -306,7 +293,6 @@ ${formData.materialPreferences || '-'}
             <DesignRequestDetailOverlay 
                 selectedRequest={selectedRequest}
                 onClose={() => setSelectedRequest(null)}
-                getStatusLabel={getStatusLabel}
                 submitting={submitting}
                 onAddRevision={handleAddRevision}
                 onApproveDesign={handleApproveDesign}

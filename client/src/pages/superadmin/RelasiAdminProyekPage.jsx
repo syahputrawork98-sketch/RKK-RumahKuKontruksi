@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 const RelasiAdminProyekPage = () => {
@@ -139,9 +140,7 @@ const RelasiAdminProyekPage = () => {
                                             </div>
                                         </td>
                                         <td className="py-6 px-6">
-                                            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase border tracking-widest bg-emerald-50 text-emerald-600 border-emerald-100">
-                                                {(p.status || "active").replace('_', ' ')}
-                                            </span>
+                                            <StatusBadge type="project" status={p.status} />
                                         </td>
                                     </tr>
                                 ))}

@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 const LaporanProgresGlobalPage = () => {
@@ -148,10 +149,7 @@ const LaporanProgresGlobalPage = () => {
                             </div>
 
                             <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
-                                <div className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-emerald-600">
-                                    <FiActivity size={10} />
-                                    <span>{p.status || "Ongoing"}</span>
-                                </div>
+                                <StatusBadge type="project" status={p.status} />
                                 <button className="p-1.5 bg-gray-50 text-gray-400 rounded-lg hover:bg-blue-50 hover:text-blue-500 transition-all">
                                     <FiChevronRight size={16} />
                                 </button>

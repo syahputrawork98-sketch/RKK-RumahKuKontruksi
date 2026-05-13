@@ -18,6 +18,7 @@ import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const PermintaanDesainArsitekPage = () => {
     const location = useLocation();
@@ -275,24 +276,7 @@ const PermintaanDesainArsitekPage = () => {
                                             <span className="text-[10px] font-black uppercase tracking-tighter text-[var(--dashboard-text-soft)] mb-1 block">ID: {r.id.slice(-8)}</span>
                                             <h3 className="font-bold text-[var(--dashboard-text)] group-hover:text-[var(--dashboard-primary)] transition-colors">{r.title}</h3>
                                         </div>
-                                        <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
-                                            r.status === 'assigned' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
-                                            r.status === 'revision_requested' ? "bg-rose-50 text-rose-600 border-rose-100" :
-                                            r.status === 'revised' ? "bg-purple-50 text-purple-600 border-purple-100" :
-                                            r.status === 'in_review' ? "bg-amber-50 text-amber-600 border-amber-100" :
-                                            r.status === 'approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                                            r.status === 'project_created' ? "bg-indigo-600 text-white border-indigo-700" :
-                                            "bg-gray-50 text-gray-600 border-gray-100"
-                                         }`}>
-                                             {r.status === 'assigned' && r.history?.some(h => h.action === 'architect_started_work') ? 'Dikerjakan' :
-                                              r.status === 'assigned' ? 'Terpilih' :
-                                              r.status === 'revision_requested' ? 'Revisi Diminta' :
-                                              r.status === 'revised' ? 'Telah Direvisi' :
-                                              r.status === 'in_review' ? 'Proses Review' :
-                                              r.status === 'approved' ? 'Selesai' : 
-                                              r.status === 'project_created' ? 'Proyek Dimulai' :
-                                              r.status.replace('_', ' ')}
-                                        </span>
+                                        <StatusBadge type="design" status={r.status} />
                                     </div>
 
                                     {/* WORKSPACE INDICATORS */}

@@ -3,6 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FiExternalLink } from "react-icons/fi";
+import StatusBadge from "../../common/StatusBadge";
 
 export const DashboardProjectsTable = ({ projects = [] }) => {
     const formatCurrency = (val) => {
@@ -65,14 +66,7 @@ export const DashboardProjectsTable = ({ projects = [] }) => {
                                     </td>
 
                                     <td className="px-6 py-4">
-                                        <span className={`
-                                            px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border
-                                            ${(['active', 'ongoing', 'Berjalan'].includes(p.status)) ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
-                                              (['finished', 'Selesai'].includes(p.status)) ? "bg-blue-50 text-blue-600 border-blue-100" : 
-                                              "bg-amber-50 text-amber-600 border-amber-100"}
-                                        `}>
-                                            {p.status}
-                                        </span>
+                                        <StatusBadge type="project" status={p.status} />
                                     </td>
 
                                     <td className="px-6 py-4 font-black text-[var(--dashboard-text)] text-xs font-mono">{formatCurrency(p.budgetTotal)}</td>

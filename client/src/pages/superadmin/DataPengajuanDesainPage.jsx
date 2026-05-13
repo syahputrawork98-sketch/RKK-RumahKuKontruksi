@@ -17,6 +17,7 @@ import {
 import designRequestService from "../../services/designRequestService";
 import designTenderService from "../../services/designTenderService";
 import RoleDataState from "../../components/common/RoleDataState";
+import StatusBadge from "../../components/common/StatusBadge";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 
 const DataPengajuanDesainPage = () => {
@@ -71,25 +72,6 @@ const DataPengajuanDesainPage = () => {
         (t.designRequest?.customer?.name || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const getStatusBadge = (status) => {
-        const styles = {
-            submitted: "bg-blue-50 text-blue-600 border-blue-100",
-            open: "bg-teal-50 text-teal-600 border-teal-100",
-            assigned: "bg-indigo-50 text-indigo-600 border-indigo-100",
-            awarded: "bg-indigo-50 text-indigo-600 border-indigo-100",
-            in_review: "bg-amber-50 text-amber-600 border-amber-100",
-            approved: "bg-emerald-50 text-emerald-600 border-emerald-100",
-            rejected: "bg-rose-50 text-rose-600 border-rose-100",
-            draft: "bg-gray-50 text-gray-600 border-gray-100",
-            cancelled: "bg-gray-100 text-gray-500 border-gray-200"
-        };
-        const labels = {
-            assigned: "Arsitek Terpilih",
-            open: "Tender Aktif",
-            approved: "Siap Convert"
-        };
-        return { style: styles[status] || styles.draft, label: labels[status] || status.replace('_', ' ') };
-    };
 
     if (!selectedSuperadminId) {
         return <RoleDataState type="empty" message="Pilih persona Superadmin untuk memonitor data pengajuan desain." />;
@@ -184,9 +166,7 @@ const DataPengajuanDesainPage = () => {
                                                 </div>
                                             </td>
                                             <td className="py-4 px-2">
-                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(r.status).style}`}>
-                                                    {getStatusBadge(r.status).label}
-                                                </span>
+                                                <StatusBadge type="design" status={r.status} />
                                             </td>
                                             <td className="py-4 px-2">
                                                 {r.architect ? (
@@ -252,9 +232,7 @@ const DataPengajuanDesainPage = () => {
                                                 Rp {Number(t.drafterBudgetAmount || 0).toLocaleString('id-ID')}
                                             </td>
                                             <td className="py-4 px-2">
-                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(t.status).style}`}>
-                                                    {getStatusBadge(t.status).label}
-                                                </span>
+                                                <StatusBadge type="design" status={t.status} />
                                             </td>
                                             <td className="py-4 px-2">
                                                 <span className="px-2 py-1 bg-gray-100 rounded-lg text-[10px] font-black">{t.bids?.length || 0} Bid</span>
@@ -299,9 +277,7 @@ const DataPengajuanDesainPage = () => {
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Status Sistem</label>
                                     <div className="pt-1">
-                                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusBadge(selectedItem.status).style}`}>
-                                            {getStatusBadge(selectedItem.status).label}
-                                        </span>
+                                        <StatusBadge type="design" status={selectedItem.status} />
                                     </div>
                                 </div>
                                 <div className="space-y-1">

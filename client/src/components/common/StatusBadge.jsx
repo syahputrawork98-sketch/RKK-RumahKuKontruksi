@@ -125,10 +125,56 @@ const StatusBadge = ({ type, status }) => {
         }
     };
 
+    const getDesignStatus = (s) => {
+        switch (s?.toLowerCase()) {
+            case 'draft':
+                return { label: 'Draft', className: 'bg-slate-100 text-slate-600 border-slate-200' };
+            case 'submitted':
+                return { label: 'Diajukan', className: 'bg-blue-100 text-blue-700 border-blue-200' };
+            case 'open':
+                return { label: 'Tender Terbuka', className: 'bg-teal-100 text-teal-700 border-teal-200' };
+            case 'assigned':
+                return { label: 'Arsitek Terpilih', className: 'bg-indigo-100 text-indigo-700 border-indigo-200' };
+            case 'revision_requested':
+                return { label: 'Revisi Diminta', className: 'bg-rose-100 text-rose-700 border-rose-200' };
+            case 'revised':
+                return { label: 'Telah Direvisi', className: 'bg-purple-100 text-purple-700 border-purple-200' };
+            case 'in_review':
+                return { label: 'Proses Review', className: 'bg-amber-100 text-amber-700 border-amber-200' };
+            case 'approved':
+                return { label: 'Desain Disetujui', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            case 'project_created':
+                return { label: 'Proyek Dimulai', className: 'bg-indigo-600 text-white border-indigo-700' };
+            case 'rejected':
+                return { label: 'Ditolak', className: 'bg-red-100 text-red-700 border-red-200' };
+            default:
+                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+        }
+    };
+
+    const getStageStatus = (s) => {
+        const val = s?.toLowerCase();
+        if (val?.includes('planning') || val?.includes('persiapan')) 
+            return { label: 'Perencanaan', className: 'bg-blue-100 text-blue-700 border-blue-200' };
+        if (val?.includes('ongoing') || val?.includes('active') || val?.includes('berjalan') || val?.includes('pengerjaan'))
+            return { label: 'Pengerjaan', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+        if (val?.includes('finish') || val?.includes('selesai') || val?.includes('completed'))
+            return { label: 'Selesai', className: 'bg-purple-100 text-purple-700 border-purple-200' };
+        if (val?.includes('verified'))
+            return { label: 'Terverifikasi', className: 'bg-indigo-600 text-white border-indigo-700' };
+        return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+    };
+
     let config;
     switch (type) {
         case 'project':
             config = getProjectStatus(status);
+            break;
+        case 'design':
+            config = getDesignStatus(status);
+            break;
+        case 'stage':
+            config = getStageStatus(status);
             break;
         case 'journal':
             config = getJournalStatus(status);

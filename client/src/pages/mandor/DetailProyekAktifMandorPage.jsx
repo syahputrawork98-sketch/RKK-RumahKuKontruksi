@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import projectService from "../../services/projectService";
 import projectStageService from "../../services/projectStageService";
+import materialRequestService from "../../services/materialRequestService";
+import weeklyJournalService from "../../services/weeklyJournalService";
+import dailyReportService from "../../services/dailyReportService";
+import fieldIssueService from "../../services/fieldIssues.service";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
 import { FiInfo, FiLayers, FiPackage, FiFileText } from "react-icons/fi";
@@ -24,6 +28,10 @@ const DetailProyekAktifMandorPage = () => {
     const [error, setError] = useState(null);
     const [project, setProject] = useState(null);
     const [stages, setStages] = useState([]);
+    const [materialRequests, setMaterialRequests] = useState([]);
+    const [journals, setJournals] = useState([]);
+    const [reports, setReports] = useState([]);
+    const [fieldIssues, setFieldIssues] = useState([]);
 
     useEffect(() => {
         if (projectId) {
@@ -34,17 +42,25 @@ const DetailProyekAktifMandorPage = () => {
     const fetchProjectData = async () => {
         try {
             setLoading(true);
-            const [projRes, stagesRes] = await Promise.all([
+            const [projRes, stagesRes, materialRes, journalRes, reportsRes, issuesRes] = await Promise.all([
                 projectService.getProjectById(projectId),
-                projectStageService.getStagesByProject(projectId)
+                projectStageService.getStagesByProject(projectId),
+                materialRequestService.getAllRequests({ projectId, foremanId: selectedForemanId }),
+                weeklyJournalService.getWeeklyJournals({ projectId, actorId: selectedForemanId, actorRole: "mandor" }),
+                dailyReportService.getAllReports({ projectId, foremanId: selectedForemanId }),
+                fieldIssueService.getFieldIssues({ projectId, foremanId: selectedForemanId })
             ]);
             
             setProject(projRes.data);
             setStages(stagesRes.data || []);
+            setMaterialRequests(materialRes.data || []);
+            setJournals(journalRes.data || []);
+            setReports(reportsRes.data || []);
+            setFieldIssues(issuesRes.data || []);
             setLoading(false);
         } catch (err) {
             console.error("Error fetching project data:", err);
-            setError("Gagal memuat data proyek. Pastikan server backend berjalan.");
+            setError("Gagal memuat data proyek lengkap. Pastikan server backend berjalan.");
             setLoading(false);
         }
     };
@@ -82,14 +98,34 @@ const DetailProyekAktifMandorPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 space-y-6">
                     <div className="dashboard-card min-h-[400px]">
-                        {activeTab === "overview" && <MandorProjectOverviewTab project={project} />}
+                        {activeTab === "overview" && (
+                            <MandorProjectOverviewTab 
+                                project={project} 
+                                stages={stages}
+                                materialRequests={materialRequests}
+                                journals={journals}
+                                reports={reports}
+                                fieldIssues={fieldIssues}
+                            />
+                        )}
                         {activeTab === "scope" && <MandorProjectScopeTab stages={stages} />}
-                        {activeTab === "material" && <MandorProjectMaterialTab project={project} />}
-                        {activeTab === "journal" && <MandorProjectJournalTab project={project} />}
+                        {activeTab === "material" && (
+                            <MandorProjectMaterialTab 
+                                project={project} 
+                                requests={materialRequests}
+                            />
+                        )}
+                        {activeTab === "journal" && (
+                            <MandorProjectJournalTab 
+                                project={project} 
+                                journals={journals}
+                                reports={reports}
+                            />
+                        )}
                     </div>
                 </div>
 
-                <MandorProjectSidebar project={project} stages={stages} />
+                <MandorProjectSidebar project={project} stages={stages} journals={journals} />
             </div>
         </div>
     );

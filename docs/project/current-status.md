@@ -26,6 +26,7 @@
 ## 🔗 Referensi Cepat
 - [**Technical Index**](../technical/backend.md)
 - [**Module Index**](../modules/progress-sot.md)
+- [**Project Instructions (SOP)**](../project-instructions/)
 - [**Scope Guard**](./scope-guard.md)
 
 ---

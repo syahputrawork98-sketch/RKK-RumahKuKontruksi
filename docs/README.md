@@ -27,7 +27,12 @@ Detail dokumentasi per peran (Admin, Mandor, Pengawas, Konsumen, Arsitek, Supera
 Detail teknis backend, frontend, database, API map, kebijakan data source, dan panduan persona switcher.
 
 ### 4. [Batch History](./batches/README.md)
+
 Riwayat pengembangan proyek yang dibagi per 10 batch untuk memudahkan pelacakan progres.
+
+### 5. [Project Instructions](./project-instructions/)
+Berisi Standard Operating Procedure (SOP) untuk alur kerja pengembangan menggunakan AI agent (Room 00, Room 01, Gemini 3 Flash).
+
 
 ---
 

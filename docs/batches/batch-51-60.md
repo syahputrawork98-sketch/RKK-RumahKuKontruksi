@@ -31,9 +31,10 @@
   - Penyesuaian `DashboardStats` agar mendukung navigasi CTA.
 
 ## Batch 55 — Operational Workflow Documentation Sync
-- **Status**: Active (Current)
-- **Commit**: `In Progress`
+- **Status**: Accepted
+- **Commit**: `Not recorded`
 - **Ringkasan**:
   - Sinkronisasi seluruh dokumentasi aktif (current-status, modules, api-map) sesuai implementasi Batch 52-54.
+  - **Penambahan SOP Workflow Room RKK**: Menyimpan aturan main Room 00, Room 01, dan Gemini 3 Flash langsung ke dalam repo (`docs/project-instructions/`).
   - Penegasan batasan operasional: Daily Task, Daily Report, dan Field Issue **tidak mengubah** Progres Resmi (Progress SOT).
   - Pembersihan follow-up lama yang sudah terselesaikan.

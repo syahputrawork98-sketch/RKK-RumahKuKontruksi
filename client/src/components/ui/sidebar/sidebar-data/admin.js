@@ -76,7 +76,7 @@ export default [
     {
         type: "item",
         icon: FiExternalLink,
-        label: "Publikasi Konsumen",
+        label: "Publikasi Konsumen [Hold]",
         href: "/admin/publikasi",
     },
     {

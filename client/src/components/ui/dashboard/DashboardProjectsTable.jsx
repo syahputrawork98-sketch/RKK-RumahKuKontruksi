@@ -29,7 +29,7 @@ export const DashboardProjectsTable = ({ projects = [] }) => {
                         <tr className="bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-text-muted)] border-b border-[var(--dashboard-border-soft)]">
                             <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">ID/Kode</th>
                             <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Nama Proyek / Client</th>
-                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Verified Progress</th>
+                            <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Verified Progress (SOT)</th>
                             <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Status</th>
                             <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px]">Nilai Kontrak</th>
                             <th className="px-6 py-4 font-black uppercase tracking-widest text-[9px] text-right">Aksi</th>

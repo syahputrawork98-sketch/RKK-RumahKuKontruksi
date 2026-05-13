@@ -110,15 +110,17 @@ const PublikasiKonsumenAdminPage = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Publikasi Konsumen</h2>
+                    <h2 className="text-2xl font-extrabold tracking-tight">
+                        Publikasi Konsumen <span className="text-amber-600 uppercase text-sm ml-2">[HOLD]</span>
+                    </h2>
                     <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">
-                        Kelola informasi yang ditampilkan pada Timeline Konsumen.
+                        Fitur publikasi ke Timeline Konsumen sedang ditangguhkan untuk stabilisasi arsitektur lokal.
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="hidden md:flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200 shadow-sm">
-                        <FiInfo className="text-blue-500" size={14} />
-                        <span className="text-[10px] font-black text-blue-700 uppercase tracking-[0.2em]">Local DB Snapshot</span>
+                    <div className="hidden md:flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-xl border border-amber-200 shadow-sm">
+                        <FiLock className="text-amber-500" size={14} />
+                        <span className="text-[10px] font-black text-amber-700 uppercase tracking-[0.2em]">Hold Phase</span>
                     </div>
                     <div className="relative">
                         <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -149,13 +151,13 @@ const PublikasiKonsumenAdminPage = () => {
                 </div>
             )}
             <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 flex gap-3 items-start text-amber-800">
-                <FiInfo className="mt-0.5 flex-shrink-0" />
+                <FiAlertCircle className="mt-0.5 flex-shrink-0" />
                 <div className="text-[11px] font-medium leading-relaxed">
-                    <p className="font-bold uppercase tracking-widest text-[10px] mb-1 italic">Aturan Publikasi:</p>
-                    <ul className="list-disc ml-4 space-y-1">
-                        <li>Hanya laporan dengan status <strong>Reviewed</strong> yang dapat dipublikasikan.</li>
-                        <li>Pastikan <strong>Customer Summary Draft</strong> sudah diperiksa dan layak baca oleh konsumen.</li>
-                        <li>Internal notes, quality notes teknis, dan catatan mandor tidak akan tampil di sisi konsumen.</li>
+                    <p className="font-bold uppercase tracking-widest text-[10px] mb-1 italic">Status Fitur: HOLD</p>
+                    <p className="mb-2">Tombol <strong>Publish</strong> untuk sementara dinonaktifkan secara administratif. Sistem sedang menahan alur publikasi eksternal ke sisi konsumen untuk menjaga integritas data lokal.</p>
+                    <ul className="list-disc ml-4 space-y-1 opacity-70">
+                        <li>Hanya laporan dengan status <strong>Reviewed</strong> yang dapat dipublikasikan (Mendatang).</li>
+                        <li>Internal notes, quality notes teknis, dan catatan mandor tetap terjaga kerahasiaannya.</li>
                     </ul>
                 </div>
             </div>
@@ -225,13 +227,17 @@ const PublikasiKonsumenAdminPage = () => {
                                     </button>
                                     
                                     {report.status === 'reviewed' && (
-                                        <button 
-                                            onClick={() => handlePublishRequest(report.id, report.customerSummaryDraft)}
-                                            disabled={actionLoading || !report.customerSummaryDraft}
-                                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 shadow-lg shadow-emerald-500/20"
-                                        >
-                                            <FiSend /> Publish
-                                        </button>
+                                        <div className="group relative flex-1 md:flex-none">
+                                            <button 
+                                                disabled={true}
+                                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-200 text-slate-400 rounded-xl text-xs font-black uppercase tracking-widest cursor-not-allowed border border-slate-100"
+                                            >
+                                                <FiSend /> Publish
+                                            </button>
+                                            <div className="absolute bottom-full right-0 mb-2 w-48 bg-slate-800 text-white text-[9px] p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 font-bold uppercase tracking-tighter shadow-xl">
+                                                Fitur publikasi sedang ditangguhkan (HOLD) dalam fase Local Development ini.
+                                            </div>
+                                        </div>
                                     )}
 
                                     {report.status === 'published' && (
@@ -291,13 +297,10 @@ const PublikasiKonsumenAdminPage = () => {
                             </button>
                             {showPreviewModal.report.status === 'reviewed' && (
                                 <button 
-                                    onClick={() => {
-                                        setShowPreviewModal({ show: false, report: null });
-                                        handlePublishRequest(showPreviewModal.report.id, showPreviewModal.report.customerSummaryDraft);
-                                    }}
-                                    className="px-6 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20"
+                                    disabled={true}
+                                    className="px-6 py-2.5 bg-slate-200 text-slate-400 rounded-xl text-xs font-black uppercase tracking-widest cursor-not-allowed border border-slate-100"
                                 >
-                                    Publish Sekarang
+                                    Publish (Hold)
                                 </button>
                             )}
                         </div>

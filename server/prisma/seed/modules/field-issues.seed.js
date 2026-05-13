@@ -83,26 +83,25 @@ export const seedFieldIssues = async (prisma, ctx) => {
     }
   });
 
-  const issueTipe36_3 = await prisma.fieldIssue.create({
+  const issueTipe36_Closed = await prisma.fieldIssue.create({
     data: {
-      id: 'issue-tipe36-003',
-      issueCode: 'ISSUE-24-0203',
+      id: 'issue-tipe36-004',
+      issueCode: 'ISSUE-24-0204',
       projectId: activeProject2.id,
       foremanId: foreman2.id,
       supervisorId: supervisor2.id,
       adminId: admin2.id,
-      title: 'Cuaca Hujan Menghambat Pasangan Dinding',
-      description: 'Hujan ringan beberapa hari terakhir memperlambat pasangan dinding bagian depan, tetapi pekerjaan plumbing awal tetap bisa berjalan di area terlindung.',
-      category: 'Cuaca',
+      title: 'Keterlambatan Pipa PVC (Selesai)',
+      description: 'Pipa PVC untuk jalur air kotor sempat tertahan pengirimannya karena stok di gudang utama kosong.',
+      category: 'Logistik',
       priority: 'medium',
-      status: 'resolved',
-      stageId: stageActive2_4.id,
-      rabItemId: 'item-002-04-01',
-      resolutionNote: 'Pekerjaan dinding dipindah ke slot pagi dan area terlindung; target mingguan tetap terkendali.',
-      resolvedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+      status: 'closed',
+      stageId: stageActive2_9.id,
+      resolutionNote: 'Sudah diselesaikan dengan pengadaan dari vendor lokal alternatif. Administrasi ditutup.',
+      resolvedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
     }
   });
 
-  ctx.fieldIssues = { issue1, issue2, issueTipe36_1, issueTipe36_2, issueTipe36_3 };
+  ctx.fieldIssues = { issue1, issue2, issueTipe36_1, issueTipe36_2, issueTipe36_3, issueTipe36_Closed };
   console.log('Field Issues seeded successfully.');
 };

@@ -14,6 +14,9 @@ import { seedPayments } from './seed/modules/payments.seed.js';
 import { seedHelperDocuments } from './seed/modules/helper-documents.seed.js';
 import { seedNotifications } from './seed/modules/notifications.seed.js';
 import { seedDesignFlow } from './seed/modules/design-flow.seed.js';
+import { seedWeeklyJournals } from './seed/modules/weekly-journals.seed.js';
+import { seedSupervisorWeeklyReports } from './seed/modules/supervisor-weekly-reports.seed.js';
+import { seedAuditLogs } from './seed/modules/audit-logs.seed.js';
 
 
 const prisma = new PrismaClient();
@@ -48,6 +51,13 @@ async function main() {
   await seedProjectDocuments(prisma, context);
   await seedPayments(prisma, context);
   await seedHelperDocuments(prisma, context);
+  
+  // 30D-4: JOURNALS & REPORTS (New Batch 87)
+  await seedWeeklyJournals(prisma, context);
+  await seedSupervisorWeeklyReports(prisma, context);
+  
+  // 30D-5: GOVERNANCE & LOGS (New Batch 87)
+  await seedAuditLogs(prisma, context);
   await seedNotifications(prisma, context);
 
   // Destructure variables needed for downstream feature seeds

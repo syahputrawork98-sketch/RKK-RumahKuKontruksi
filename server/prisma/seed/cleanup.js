@@ -10,6 +10,7 @@ export const cleanupDatabase = async (prisma) => {
 
   await prisma.paymentRecord.deleteMany({});
   await prisma.administrativeHelperDocument.deleteMany({});
+  await prisma.auditLog.deleteMany({});
   await prisma.appNotification.deleteMany({});
   await prisma.projectDocument.deleteMany({});
   await prisma.dailyReport.deleteMany({});

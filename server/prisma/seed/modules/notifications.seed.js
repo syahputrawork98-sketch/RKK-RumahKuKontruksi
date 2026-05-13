@@ -42,7 +42,43 @@ export const seedNotifications = async (prisma, ctx) => {
         title: 'Dokumen Baru Dirilis',
         message: 'Admin telah merilis draft BAST untuk Anda tinjau.',
         linkPath: '/konsumen/dokumen',
-        createdAt: new Date(Date.now() - 30 * 60 * 1000)
+        createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'architect',
+        recipientId: 'arch-001',
+        actorRole: 'customer',
+        actorId: 'customer-001',
+        eventType: 'DESIGN_REVISION_REQUESTED',
+        entityType: 'DesignRequest',
+        title: 'Revisi Desain Diminta',
+        message: 'Konsumen Budi meminta revisi pada desain Rumah Tebet.',
+        linkPath: '/arsitek/permintaan-desain/dr-revision-requested-001',
+        createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'foreman',
+        recipientId: 'foreman-002',
+        actorRole: 'admin',
+        actorId: 'admin-002',
+        eventType: 'MATERIAL_REQUEST_REJECTED',
+        entityType: 'MaterialRequest',
+        title: 'Request Material Ditolak',
+        message: 'Permintaan keramik premium Anda ditolak oleh Admin Operasional.',
+        linkPath: '/mandor/request-material',
+        createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'admin',
+        recipientId: 'admin-001',
+        actorRole: 'supervisor',
+        actorId: 'supervisor-001',
+        eventType: 'WEEKLY_REPORT_SUBMITTED',
+        entityType: 'SupervisorWeeklyReport',
+        title: 'Laporan Mingguan Baru',
+        message: 'Pengawas Andi telah mengirimkan laporan mingguan untuk proyek BSD.',
+        linkPath: '/admin/laporan-mingguan-pengawas',
+        createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000)
       }
     ]
   });

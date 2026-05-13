@@ -159,8 +159,56 @@ export const seedDesignFlow = async (prisma, ctx) => {
       status: 'withdrawn'
     }
   });
+  
+  // DR 5: Revision Requested
+  const drRevisionRequested = await prisma.designRequest.create({
+    data: {
+      id: 'dr-revision-requested-001',
+      customerId: customer1.id,
+      architectId: arch1.id,
+      title: 'Renovasi Rumah Tinggal Tebet',
+      description: 'Penambahan lantai 2 untuk area hobi dan laundry.',
+      buildingType: 'Residential',
+      location: 'Tebet, Jakarta',
+      estimatedBudget: 400000000,
+      status: 'revision_requested',
+      majorRevisionCount: 1,
+      minorRevisionCount: 0,
+      history: {
+        create: [
+          { action: 'SUBMITTED', actorRole: 'customer', actorId: customer1.id, note: 'Mohon bantuannya untuk desain lantai 2.' },
+          { action: 'ASSIGNED', actorRole: 'admin', actorId: 'admin-001', note: 'Ditugaskan ke arsitek arch1.' },
+          { action: 'REVISION_REQUESTED', actorRole: 'customer', actorId: customer1.id, note: 'Area hobi kurang luas, mohon geser posisi tangga.' }
+        ]
+      }
+    }
+  });
 
-  ctx.designRequests = { dr1, drTenderOpen, drApproved, drCancelled };
+  // DR 6: Revised
+  const drRevised = await prisma.designRequest.create({
+    data: {
+      id: 'dr-revised-001',
+      customerId: customer2.id,
+      architectId: arch2.id,
+      title: 'Desain Villa Bogor',
+      description: 'Villa 3 kamar dengan kolam renang infinity.',
+      buildingType: 'Villa',
+      location: 'Bogor',
+      estimatedBudget: 800000000,
+      status: 'revised',
+      majorRevisionCount: 1,
+      minorRevisionCount: 1,
+      history: {
+        create: [
+          { action: 'SUBMITTED', actorRole: 'customer', actorId: customer2.id },
+          { action: 'REVISION_REQUESTED', actorRole: 'customer', actorId: customer2.id, note: 'Tolong tambahkan area rooftop.' },
+          { action: 'REVISED', actorRole: 'architect', actorId: arch2.id, note: 'Rooftop sudah ditambahkan di atas area kamar utama.' }
+        ]
+      }
+    }
+  });
+
+  ctx.designRequests = { dr1, drTenderOpen, drApproved, drCancelled, drRevisionRequested, drRevised };
   ctx.designTenders = { tenderOpen, tenderAwarded, tenderCancelled };
   ctx.designTenderBids = { bid1, bid2, bidAwarded, bidWithdrawn };
 

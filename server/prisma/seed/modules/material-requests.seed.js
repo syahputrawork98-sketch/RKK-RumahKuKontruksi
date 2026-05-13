@@ -230,6 +230,28 @@ export const seedMaterialRequests = async (prisma, ctx) => {
     }
   });
 
+  const mrTipe36Rejected = await prisma.materialRequest.create({
+    data: {
+      id: 'mr-tipe36-007',
+      requestCode: 'MR-24-0207',
+      projectId: activeProject2.id,
+      stageId: stageActive2_4.id,
+      foremanId: foreman2.id,
+      supervisorId: supervisor2.id,
+      adminId: admin2.id,
+      status: 'rejected',
+      priority: 'low',
+      neededDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+      reason: 'Permintaan keramik premium di luar spesifikasi standar.',
+      rejectionReason: 'Spesifikasi material tidak sesuai dengan anggaran proyek yang disepakati.',
+      items: {
+        create: [
+          { materialName: 'Keramik Granit 80x80', requestedQty: 20, unit: 'm2', rabItemId: 'item-002-04-02', estimatedUnitPrice: 250000 }
+        ]
+      }
+    }
+  });
+
   ctx.materialRequests = {
     mrPending1,
     mrApproved1,
@@ -238,7 +260,8 @@ export const seedMaterialRequests = async (prisma, ctx) => {
     mrTipe36Struktur,
     mrTipe36Dinding,
     mrTipe36Plumbing,
-    mrTipe36Atap
+    mrTipe36Atap,
+    mrTipe36Rejected
   };
   console.log('Material Requests seeded successfully.');
 };

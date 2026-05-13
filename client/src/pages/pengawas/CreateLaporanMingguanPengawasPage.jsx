@@ -234,20 +234,30 @@ const CreateLaporanMingguanPengawasPage = () => {
                 {contextData && (
                     <>
                         {/* Section 2: Progress SOT */}
-                        <div className="dashboard-card p-6 bg-blue-50/30 border-blue-100">
-                            <h3 className="text-sm font-black uppercase tracking-widest text-blue-800 border-b border-blue-100 pb-3 mb-4">
-                                2. Snapshot Progres Terverifikasi (SOT)
-                            </h3>
+                        <div className="dashboard-card p-6 bg-linear-to-br from-blue-600 to-blue-800 text-white border-none shadow-xl shadow-blue-500/20">
+                            <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
+                                <h3 className="text-sm font-black uppercase tracking-widest flex items-center gap-2">
+                                    <FiActivity /> 2. Snapshot Progres Terverifikasi (SOT)
+                                </h3>
+                                <span className="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-md backdrop-blur-sm uppercase">Auto-Snapshot</span>
+                            </div>
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black uppercase text-blue-600">Verified Progress Terakhir</p>
-                                    <p className="text-3xl font-black text-blue-900">{contextData.verifiedProgressSnapshot}%</p>
+                                    <p className="text-[10px] font-black uppercase opacity-80">Verified Progress Saat Ini</p>
+                                    <div className="flex items-baseline gap-2">
+                                        <p className="text-5xl font-black">{contextData.verifiedProgressSnapshot}%</p>
+                                        <span className="text-[10px] font-black uppercase bg-emerald-400 text-emerald-950 px-2 py-0.5 rounded-full">Source of Truth</span>
+                                    </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-[10px] font-bold text-blue-600 uppercase italic">Sumber: Project Progress SOT</p>
-                                    <p className="text-[10px] text-blue-500 mt-1">
-                                        Update terakhir: {contextData.project?.verifiedProgressUpdatedAt ? new Date(contextData.project.verifiedProgressUpdatedAt).toLocaleString('id-ID') : 'Belum ada data'}
-                                    </p>
+                                    <div className="flex flex-col items-end gap-1">
+                                        <div className="flex items-center gap-2 text-[10px] font-bold opacity-80 uppercase italic">
+                                            <FiInfo size={12} /> Diambil dari Database
+                                        </div>
+                                        <p className="text-[10px] font-medium opacity-70 mt-1 max-w-[200px]">
+                                            Terakhir diverifikasi: {contextData.project?.verifiedProgressUpdatedAt ? new Date(contextData.project.verifiedProgressUpdatedAt).toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Belum pernah'}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

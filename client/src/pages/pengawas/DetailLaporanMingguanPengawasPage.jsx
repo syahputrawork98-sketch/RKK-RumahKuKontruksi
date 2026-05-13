@@ -343,18 +343,20 @@ const DetailLaporanMingguanPengawasPage = () => {
                 {/* Sidebar Info */}
                 <div className="space-y-6">
                     {/* Progress Snapshot */}
-                    <div className="dashboard-card p-6 bg-blue-600 text-white">
-                        <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-4 border-b border-white/20 pb-2">
-                            Snapshot Progres SOT
+                    <div className="dashboard-card p-6 bg-linear-to-br from-blue-600 to-blue-800 text-white border-none shadow-xl shadow-blue-500/20 overflow-hidden relative">
+                        <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+                        <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-4 border-b border-white/20 pb-2 flex items-center gap-2">
+                            <FiActivity /> Snapshot Progres SOT
                         </h3>
-                        <div className="text-center py-4">
-                            <span className="text-5xl font-black">{report.verifiedProgressSnapshot}%</span>
+                        <div className="text-center py-4 relative z-10">
+                            <span className="text-6xl font-black">{report.verifiedProgressSnapshot}%</span>
+                            <p className="text-[10px] font-black uppercase tracking-widest mt-2 opacity-80">Verified Physical Progress</p>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-white/20 flex flex-col gap-2">
+                        <div className="mt-4 pt-4 border-t border-white/20 flex flex-col gap-2 relative z-10">
                             <div className="flex items-start gap-2">
                                 <FiInfo className="mt-0.5 flex-shrink-0" />
-                                <p className="text-[10px] font-medium leading-tight opacity-90 italic">
-                                    PENTING: Snapshot progres resmi saat laporan dibuat. Persetujuan laporan mingguan bersifat administratif dan TIDAK mengubah Progres Fisik Resmi (SOT).
+                                <p className="text-[10px] font-bold leading-tight opacity-90 italic">
+                                    PENTING: Nilai ini adalah snapshot saat laporan disusun. Persetujuan laporan ini bersifat administratif dan TIDAK mengubah Progres Fisik Utama (SOT).
                                 </p>
                             </div>
                         </div>

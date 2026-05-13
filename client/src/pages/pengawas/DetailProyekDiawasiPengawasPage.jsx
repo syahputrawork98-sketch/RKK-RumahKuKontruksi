@@ -13,7 +13,8 @@ import {
     FiClock,
     FiFileText,
     FiTag,
-    FiX
+    FiX,
+    FiActivity
 } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";

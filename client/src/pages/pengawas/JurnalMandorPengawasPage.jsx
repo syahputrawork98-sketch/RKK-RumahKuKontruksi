@@ -22,6 +22,48 @@ const JurnalMandorPengawasPage = () => {
         { id: "revision_requested", label: "Revisi" },
     ];
 
+    const JournalCard = ({ journal }) => (
+        <Link 
+            to={`/pengawas/jurnal-mandor/${journal.id}`}
+            className="dashboard-card group hover:border-[var(--dashboard-primary)]/50 transition-all p-5 flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+            <div className="flex items-start gap-4">
+                <div className="p-3 bg-[var(--dashboard-surface-soft)] rounded-2xl text-[var(--dashboard-primary)] group-hover:bg-[var(--dashboard-primary)] group-hover:text-white transition-all">
+                    <FiCalendar size={20} />
+                </div>
+                <div>
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{journal.project?.projectCode}</span>
+                        <StatusBadge type="journal" status={journal.status} />
+                    </div>
+                    <h3 className="text-lg font-black leading-tight group-hover:text-[var(--dashboard-primary)] transition-colors">{journal.project?.name}</h3>
+                    <div className="flex items-center gap-4 mt-1">
+                        <p className="text-xs font-bold text-[var(--dashboard-text-soft)] flex items-center gap-1">
+                            <FiUser size={12} /> {journal.foreman?.name || "Mandor"}
+                        </p>
+                        <p className="text-[10px] font-bold text-slate-400">
+                            {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4">
+                <div className="text-left md:text-right">
+                    <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Klaim Mandor (Non-Resmi)</p>
+                    <p className="text-xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="hidden md:block text-right">
+                        <p className="text-[8px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Dikirim pada</p>
+                        <p className="text-[10px] font-bold">{journal.submittedAt ? new Date(journal.submittedAt).toLocaleDateString('id-ID') : "-"}</p>
+                    </div>
+                    <FiChevronRight className="text-[var(--dashboard-text-soft)] group-hover:text-[var(--dashboard-primary)] group-hover:translate-x-1 transition-all" size={20} />
+                </div>
+            </div>
+        </Link>
+    );
+
     useEffect(() => {
         const fetchJournals = async () => {
             if (!selectedSupervisorId) {
@@ -105,48 +147,32 @@ const JurnalMandorPengawasPage = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-4">
-                {journals.length > 0 ? journals.map((journal) => (
-                    <Link 
-                        key={journal.id} 
-                        to={`/pengawas/jurnal-mandor/${journal.id}`}
-                        className="dashboard-card group hover:border-[var(--dashboard-primary)]/50 transition-all p-5 flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                        <div className="flex items-start gap-4">
-                            <div className="p-3 bg-[var(--dashboard-surface-soft)] rounded-2xl text-[var(--dashboard-primary)] group-hover:bg-[var(--dashboard-primary)] group-hover:text-white transition-all">
-                                <FiCalendar size={20} />
+                {journals.length > 0 ? (
+                    <div className="space-y-4">
+                        {/* Urgent / Pending Review First if in "All" or "Submitted" */}
+                        {journals.filter(j => j.status === 'submitted').length > 0 && (filterStatus === 'all' || filterStatus === 'submitted') && (
+                            <div className="space-y-3">
+                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 px-1 flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                                    Menunggu Review Anda
+                                </h3>
+                                {journals.filter(j => j.status === 'submitted').map((journal) => (
+                                    <JournalCard key={journal.id} journal={journal} />
+                                ))}
                             </div>
-                            <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest">{journal.project?.projectCode}</span>
-                                    <StatusBadge type="journal" status={journal.status} />
-                                </div>
-                                <h3 className="text-lg font-black leading-tight group-hover:text-[var(--dashboard-primary)] transition-colors">{journal.project?.name}</h3>
-                                <div className="flex items-center gap-4 mt-1">
-                                    <p className="text-xs font-bold text-[var(--dashboard-text-soft)] flex items-center gap-1">
-                                        <FiUser size={12} /> {journal.foreman?.name || "Mandor"}
-                                    </p>
-                                    <p className="text-[10px] font-bold text-slate-400">
-                                        {new Date(journal.weekStartDate).toLocaleDateString('id-ID')} - {new Date(journal.weekEndDate).toLocaleDateString('id-ID')}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        )}
 
-                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4">
-                            <div className="text-left md:text-right">
-                                <p className="text-[9px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-widest">Klaim Mandor (Non-Resmi)</p>
-                                <p className="text-xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="hidden md:block text-right">
-                                    <p className="text-[8px] font-black text-[var(--dashboard-text-soft)] uppercase tracking-tighter">Dikirim pada</p>
-                                    <p className="text-[10px] font-bold">{journal.submittedAt ? new Date(journal.submittedAt).toLocaleDateString('id-ID') : "-"}</p>
-                                </div>
-                                <FiChevronRight className="text-[var(--dashboard-text-soft)] group-hover:text-[var(--dashboard-primary)] group-hover:translate-x-1 transition-all" size={20} />
-                            </div>
+                        {/* Others / History */}
+                        <div className="space-y-3">
+                            {(filterStatus === 'all' && journals.filter(j => j.status !== 'submitted').length > 0) && (
+                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Riwayat & Status Lainnya</h3>
+                            )}
+                            {journals.filter(j => filterStatus === 'all' ? j.status !== 'submitted' : true).map((journal) => (
+                                <JournalCard key={journal.id} journal={journal} />
+                            ))}
                         </div>
-                    </Link>
-                )) : (
+                    </div>
+                ) : (
                     <div className="py-10">
                         <RoleDataState 
                             type="empty"

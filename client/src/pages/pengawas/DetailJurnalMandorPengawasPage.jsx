@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiCheck, FiX, FiRefreshCw, FiPlay, FiInfo, FiAlertCircle, FiMessageSquare } from "react-icons/fi";
+import { FiArrowLeft, FiCheck, FiX, FiRefreshCw, FiPlay, FiInfo, FiAlertCircle, FiMessageSquare, FiActivity } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";
 import WeeklyJournalStatusBadge from "../../components/weekly-journals/WeeklyJournalStatusBadge";
@@ -167,13 +167,19 @@ const DetailJurnalMandorPengawasPage = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
-                                <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Klaim Progres Mandor (Non-Resmi)</p>
-                                <p className="text-3xl font-black text-[var(--dashboard-primary)]">{journal.claimedProgress || 0}%</p>
+                            <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                                <div className="flex items-center justify-between mb-1">
+                                    <p className="text-[10px] font-black uppercase text-amber-600 tracking-widest">Klaim Progres Mandor</p>
+                                    <span className="text-[8px] font-black px-1.5 py-0.5 bg-amber-500 text-white rounded uppercase tracking-tighter">Non-Resmi</span>
+                                </div>
+                                <p className="text-3xl font-black text-amber-600">{journal.claimedProgress || 0}%</p>
+                                <p className="text-[8px] font-bold text-amber-500 uppercase mt-1 italic leading-tight">
+                                    * Klaim administratif untuk keperluan laporan & opname mingguan.
+                                </p>
                             </div>
                             <div className="p-4 bg-[var(--dashboard-surface-soft)] rounded-2xl border border-[var(--dashboard-border)]">
                                 <p className="text-[10px] font-black uppercase text-[var(--dashboard-text-soft)] tracking-widest mb-1">Kendala yang Dilaporkan</p>
-                                <p className="text-sm font-bold text-slate-600">{journal.blockerNote || "Tidak ada kendala."}</p>
+                                <p className="text-sm font-bold text-slate-600">{journal.blockerNote || "Tidak ada kendala lapangan yang dilaporkan."}</p>
                             </div>
                         </div>
                     </div>

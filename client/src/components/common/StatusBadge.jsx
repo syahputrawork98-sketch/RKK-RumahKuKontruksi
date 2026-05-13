@@ -71,19 +71,19 @@ const StatusBadge = ({ type, status }) => {
             case 'draft':
                 return { label: 'Draft', className: 'bg-slate-100 text-slate-600 border-slate-200' };
             case 'submitted':
-                return { label: 'Diajukan', className: 'bg-blue-100 text-blue-700 border-blue-200' };
+                return { label: 'Antrean Pengawas', className: 'bg-blue-100 text-blue-700 border-blue-200' };
             case 'approved_by_supervisor':
-                return { label: 'Diverifikasi Pengawas', className: 'bg-amber-100 text-amber-700 border-amber-200' };
+                return { label: 'Perlu Approval Admin', className: 'bg-amber-100 text-amber-700 border-amber-200' };
             case 'approved_by_admin':
                 return { label: 'Disetujui Admin', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
             case 'processing':
-                return { label: 'Diproses Logistik', className: 'bg-indigo-100 text-indigo-700 border-indigo-200' };
+                return { label: 'Persiapan Distribusi', className: 'bg-indigo-100 text-indigo-700 border-indigo-200' };
             case 'delivered':
                 return { label: 'Dalam Pengiriman', className: 'bg-teal-600 text-white border-teal-700' };
             case 'received':
-                return { label: 'Diterima di Site', className: 'bg-emerald-600 text-white border-emerald-700' };
+                return { label: 'Diterima Mandor', className: 'bg-emerald-600 text-white border-emerald-700' };
             case 'completed':
-                return { label: 'Selesai', className: 'bg-slate-800 text-white border-slate-900' };
+                return { label: 'Selesai (Arsip)', className: 'bg-slate-800 text-white border-slate-900' };
             case 'rejected':
                 return { label: 'Ditolak', className: 'bg-red-100 text-red-700 border-red-200' };
             case 'cancelled':

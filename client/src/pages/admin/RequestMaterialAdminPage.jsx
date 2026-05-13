@@ -17,6 +17,19 @@ const RequestMaterialAdminPage = () => {
     const [note, setNote] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
+    const STATUS_CONFIG = {
+        all: { label: "Semua", color: "slate" },
+        submitted: { label: "Antrean Pengawas", color: "blue", icon: FiClock },
+        approved_by_supervisor: { label: "Perlu Approval Admin", color: "emerald", icon: FiCheckCircle },
+        approved_by_admin: { label: "Disetujui Admin", color: "emerald", icon: FiCheckCircle },
+        processing: { label: "Persiapan Distribusi", color: "amber", icon: FiPackage },
+        delivered: { label: "Dalam Pengiriman", color: "indigo", icon: FiTruck },
+        received: { label: "Diterima Mandor", color: "emerald", icon: FiCheckCircle },
+        completed: { label: "Selesai (Arsip)", color: "slate", icon: FiCheckCircle },
+        rejected: { label: "Ditolak", color: "red", icon: FiX },
+        cancelled: { label: "Dibatalkan", color: "red", icon: FiX }
+    };
+
     const fetchRequests = async () => {
         if (!selectedAdminId) {
             setLoading(false);
@@ -41,10 +54,12 @@ const RequestMaterialAdminPage = () => {
 
     const filteredRequests = (requests || []).filter(req => {
         if (!req) return false;
+        const q = searchQuery.toLowerCase();
         const matchesSearch = 
-            (req.requestCode?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
-            req.items?.some(item => (item.materialName?.toLowerCase() || "").includes(searchQuery.toLowerCase())) ||
-            (req.project?.name?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+            (req.requestCode?.toLowerCase() || "").includes(q) ||
+            req.items?.some(item => (item.materialName?.toLowerCase() || "").includes(q)) ||
+            (req.project?.name?.toLowerCase() || "").includes(q) ||
+            (req.foreman?.name?.toLowerCase() || "").includes(q);
         return matchesSearch;
     });
 
@@ -97,16 +112,13 @@ const RequestMaterialAdminPage = () => {
     }
 
     const getStatusStyle = (status) => {
-        switch (status) {
-            case "submitted": return "bg-blue-500/10 text-blue-500";
-            case "approved_by_supervisor": return "bg-emerald-500/10 text-emerald-500";
-            case "approved_by_admin": return "bg-emerald-600/10 text-emerald-600";
-            case "processing": return "bg-amber-500/10 text-amber-500";
-            case "delivered": return "bg-indigo-500/10 text-indigo-500";
-            case "received": 
-            case "completed": return "bg-emerald-500 text-white";
-            case "rejected":
-            case "cancelled": return "bg-red-500/10 text-red-500";
+        const config = STATUS_CONFIG[status] || STATUS_CONFIG.all;
+        switch (config.color) {
+            case "blue": return "bg-blue-500/10 text-blue-500";
+            case "emerald": return "bg-emerald-500/10 text-emerald-500";
+            case "amber": return "bg-amber-500/10 text-amber-500";
+            case "indigo": return "bg-indigo-500/10 text-indigo-500";
+            case "red": return "bg-red-500/10 text-red-500";
             default: return "bg-slate-500/10 text-slate-500";
         }
     };
@@ -115,18 +127,18 @@ const RequestMaterialAdminPage = () => {
         <div className="animate-fadeIn space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Status Distribusi Lokal</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Monitoring approval operasional dan status distribusi material proyek.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight uppercase">Distribusi Material <span className="text-[var(--dashboard-primary)]">Lokal</span></h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic font-medium">Monitoring approval administratif dan koordinasi logistik internal site.</p>
                 </div>
                 
                 {/* Disclaimer Box */}
-                <div className="bg-blue-50/50 border border-blue-100 rounded-3xl p-5 flex items-start gap-4 max-w-xl">
-                    <FiInfo className="text-blue-500 mt-1 flex-shrink-0" size={20} />
+                <div className="bg-amber-50/50 border border-amber-100 rounded-3xl p-5 flex items-start gap-4 max-w-xl">
+                    <FiInfo className="text-amber-500 mt-1 flex-shrink-0" size={20} />
                     <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-700 mb-1">Local Distribution Management</h4>
-                        <p className="text-[11px] text-blue-600 font-medium leading-relaxed italic">
-                            Ini adalah sistem koordinasi logistik lokal. <span className="font-black">Bukan Purchase Order produksi</span> dan tidak terhubung ke real-inventory/warehouse. 
-                            Gunakan status ini untuk memantau pergerakan material di site tanpa efek finansial.
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-700 mb-1">Local Logistics Notice</h4>
+                        <p className="text-[11px] text-amber-600 font-medium leading-relaxed italic">
+                            Sistem ini digunakan untuk pencatatan pergerakan material di site. <span className="font-black">Bukan workflow procurement komersial</span>. 
+                            Gunakan status untuk memvalidasi distribusi material secara transparan tanpa memengaruhi modul akuntansi/pembayaran resmi.
                         </p>
                     </div>
                 </div>
@@ -147,10 +159,10 @@ const RequestMaterialAdminPage = () => {
                     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                         {[
                             { id: 'all', label: 'Semua' },
-                            { id: 'submitted', label: 'Baru (Mandor)' },
-                            { id: 'approved_by_supervisor', label: 'Perlu Approval' },
+                            { id: 'submitted', label: 'Antrean Pengawas' },
+                            { id: 'approved_by_supervisor', label: 'Perlu Approval Admin' },
                             { id: 'approved_by_admin', label: 'Disetujui' },
-                            { id: 'processing', label: 'Diproses' },
+                            { id: 'processing', label: 'Persiapan' },
                             { id: 'delivered', label: 'Dikirim' },
                             { id: 'rejected', label: 'Ditolak' }
                         ].map(t => (
@@ -201,15 +213,15 @@ const RequestMaterialAdminPage = () => {
                                     <tr key={req.id} className="hover:bg-slate-50 transition-colors group">
                                         <td className="py-4 px-4">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">{req.requestCode}</span>
-                                                <span className="text-xs font-bold text-slate-500 truncate max-w-[150px]">{req.project?.name}</span>
+                                                <span className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">{req.requestCode || "NO-CODE"}</span>
+                                                <span className="text-xs font-bold text-slate-500 truncate max-w-[150px]">{req.project?.name || "Project Unknown"}</span>
                                             </div>
                                         </td>
                                         <td className="py-4 px-4">
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-black text-slate-800">{req.items?.[0]?.materialName}</span>
+                                                <span className="text-sm font-black text-slate-800">{req.items?.[0]?.materialName || "No Item"}</span>
                                                 <span className="text-[10px] text-slate-400 font-bold uppercase">
-                                                    {req.items?.[0]?.requestedQty} {req.items?.[0]?.unit} {req.items?.length > 1 ? `(+${req.items.length - 1} item lain)` : ''}
+                                                    {req.items?.[0]?.requestedQty || 0} {req.items?.[0]?.unit || ""} {req.items?.length > 1 ? `(+${req.items.length - 1} item lain)` : ''}
                                                 </span>
                                             </div>
                                         </td>
@@ -218,8 +230,8 @@ const RequestMaterialAdminPage = () => {
                                         </td>
                                         <td className="py-4 px-4">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] font-black text-slate-800 uppercase">{req.foreman?.name}</span>
-                                                <span className="text-[9px] text-slate-400 font-bold uppercase italic">VIA {req.supervisor?.name}</span>
+                                                <span className="text-[10px] font-black text-slate-800 uppercase">{req.foreman?.name || "Requester"}</span>
+                                                <span className="text-[9px] text-slate-400 font-bold uppercase italic">VIA {req.supervisor?.name || "SUPERVISOR"}</span>
                                             </div>
                                         </td>
                                         <td className="py-4 px-4 text-right">
@@ -258,11 +270,11 @@ const RequestMaterialAdminPage = () => {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Proyek</p>
-                                        <p className="text-xs font-bold text-slate-800">{selectedRequest.project?.name}</p>
+                                        <p className="text-xs font-bold text-slate-800">{selectedRequest.project?.name || "-"}</p>
                                     </div>
                                     <div>
-                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Pengaju</p>
-                                        <p className="text-xs font-bold text-slate-800">{selectedRequest.foreman?.name} (Mandor)</p>
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Pemohon</p>
+                                        <p className="text-xs font-bold text-slate-800">{selectedRequest.foreman?.name || "-"} (Mandor)</p>
                                     </div>
                                 </div>
                             </div>
@@ -341,12 +353,12 @@ const RequestMaterialAdminPage = () => {
                                             <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-white border-2 border-slate-300"></div>
                                             <div className="flex items-center gap-2">
                                                 <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${getStatusStyle(h.newStatus)}`}>
-                                                    {h.newStatus?.replace(/_/g, ' ')}
+                                                    {STATUS_CONFIG[h.newStatus]?.label || h.newStatus?.replace(/_/g, ' ')}
                                                 </span>
-                                                <span className="text-[9px] font-black text-slate-400 uppercase">{new Date(h.createdAt).toLocaleString()}</span>
+                                                <span className="text-[9px] font-black text-slate-400 uppercase">{h.createdAt ? new Date(h.createdAt).toLocaleString() : "-"}</span>
                                             </div>
                                             <p className="text-[10px] font-bold text-slate-600 mt-1 italic">"{h.note || 'Tidak ada catatan'}"</p>
-                                            <p className="text-[9px] font-black text-slate-400 uppercase mt-0.5">Oleh: {h.actorRole}</p>
+                                            <p className="text-[9px] font-black text-slate-400 uppercase mt-0.5">Oleh: {h.actorRole || "System"}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -362,6 +374,12 @@ const RequestMaterialAdminPage = () => {
                                 className="w-full p-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold outline-none focus:ring-2 focus:ring-slate-800/20 h-20"
                             />
                             <div className="grid grid-cols-2 gap-3">
+                                {selectedRequest.status === 'submitted' && (
+                                    <div className="col-span-2 p-4 bg-blue-50 border border-blue-100 rounded-2xl text-center">
+                                        <p className="text-[10px] font-black text-blue-700 uppercase tracking-widest">Awaiting Supervisor</p>
+                                        <p className="text-[9px] text-blue-500 font-medium mt-1">Request ini harus diverifikasi oleh Pengawas sebelum dapat disetujui oleh Admin.</p>
+                                    </div>
+                                )}
                                 {selectedRequest.status === 'approved_by_supervisor' && (
                                     <>
                                         <button 
@@ -369,7 +387,7 @@ const RequestMaterialAdminPage = () => {
                                             disabled={actionLoading}
                                             className="col-span-2 py-3 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
                                         >
-                                            APPROVE REQUEST
+                                            APPROVE REQUEST (ADMIN)
                                         </button>
                                         <button 
                                             onClick={() => handleAction('rejected')}
@@ -386,7 +404,7 @@ const RequestMaterialAdminPage = () => {
                                         disabled={actionLoading}
                                         className="col-span-2 py-3 bg-amber-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-600 transition-all shadow-lg shadow-amber-500/20"
                                     >
-                                        SET KE PROSES PERSIAPAN DISTRIBUSI
+                                        MULAI PERSIAPAN DISTRIBUSI
                                     </button>
                                 )}
                                 {selectedRequest.status === 'processing' && (
@@ -395,23 +413,29 @@ const RequestMaterialAdminPage = () => {
                                         disabled={actionLoading}
                                         className="col-span-2 py-3 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20"
                                     >
-                                        KONFIRMASI PENGIRIMAN (DELIVERED)
+                                        KONFIRMASI PENGIRIMAN SELESAI
                                     </button>
                                 )}
                                 {selectedRequest.status === 'delivered' && (
-                                    <div className="col-span-2 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl text-center">
-                                        <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Material Sedang Dikirim</p>
-                                        <p className="text-[9px] text-indigo-500 font-medium mt-1">Status saat ini adalah dalam pengiriman lokal. Tunggu konfirmasi penerimaan dari Mandor di lokasi proyek.</p>
+                                    <div className="col-span-2 p-4 bg-teal-50 border border-teal-100 rounded-2xl text-center">
+                                        <p className="text-[10px] font-black text-teal-700 uppercase tracking-widest">Material Sedang Dikirim</p>
+                                        <p className="text-[9px] text-teal-600 font-medium mt-1">Status saat ini adalah dalam pengiriman lokal. Tunggu konfirmasi penerimaan (Received) dari Mandor di lokasi proyek.</p>
                                     </div>
                                 )}
                                 {selectedRequest.status === 'received' && (
                                     <button 
                                         onClick={() => handleAction('completed')}
                                         disabled={actionLoading}
-                                        className="col-span-2 py-4 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
+                                        className="col-span-2 py-4 bg-slate-800 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-slate-800/20"
                                     >
-                                        ARSIPKAN & SELESAIKAN (COMPLETED)
+                                        ARSIPKAN REQUEST (COMPLETED)
                                     </button>
+                                )}
+                                {['completed', 'rejected', 'cancelled'].includes(selectedRequest.status) && (
+                                    <div className="col-span-2 p-4 bg-slate-100 border border-slate-200 rounded-2xl text-center">
+                                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Request Selesai</p>
+                                        <p className="text-[9px] text-slate-400 font-medium mt-1 italic">Data pengajuan ini sudah diarsipkan dan tidak memerlukan aksi lebih lanjut.</p>
+                                    </div>
                                 )}
                             </div>
                         </div>

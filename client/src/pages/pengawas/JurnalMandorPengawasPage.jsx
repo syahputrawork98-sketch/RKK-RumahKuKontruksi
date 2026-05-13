@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiSearch, FiFilter, FiChevronRight, FiCalendar, FiUser } from "react-icons/fi";
+import { FiSearch, FiFilter, FiChevronRight, FiCalendar, FiUser, FiActivity, FiInfo } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import weeklyJournalService from "../../services/weeklyJournalService";

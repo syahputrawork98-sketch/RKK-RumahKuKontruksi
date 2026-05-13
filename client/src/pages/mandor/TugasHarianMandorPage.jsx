@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiCheckCircle, FiClock, FiAlertCircle, FiChevronRight } from "react-icons/fi";
+import { FiCheckCircle, FiClock, FiAlertCircle, FiChevronRight, FiInfo } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import dailyTaskService from "../../services/dailyTaskService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";

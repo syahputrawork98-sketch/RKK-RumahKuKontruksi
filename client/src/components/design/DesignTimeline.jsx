@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiUser, FiPenTool, FiShield, FiClock, FiMessageSquare, FiAlertCircle } from 'react-icons/fi';
+import { FiUser, FiPenTool, FiShield, FiClock, FiMessageSquare, FiAlertCircle, FiInfo } from 'react-icons/fi';
 
 const DesignTimeline = ({ history = [], majorCount = 0, minorCount = 0 }) => {
   const getRoleConfig = (role) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { 
     FiSend, FiCheckCircle, FiClock, FiSearch, 
     FiUser, FiCalendar, FiActivity, FiInfo, FiEye,
-    FiAlertCircle, FiX
+    FiAlertCircle, FiX, FiLock
 } from "react-icons/fi";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";

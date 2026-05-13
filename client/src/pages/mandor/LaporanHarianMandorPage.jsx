@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiPlus, FiFileText, FiCloud, FiUsers, FiChevronRight, FiX, FiCheck, FiAlertCircle } from "react-icons/fi";
+import { FiPlus, FiFileText, FiCloud, FiUsers, FiChevronRight, FiX, FiCheck, FiAlertCircle, FiInfo } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import dailyReportService from "../../services/dailyReportService";
 import projectService from "../../services/projectService";

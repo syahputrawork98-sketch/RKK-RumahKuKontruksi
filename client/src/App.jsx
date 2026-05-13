@@ -151,7 +151,9 @@ function App() {
             {/* Proyek & Timeline */}
             <Route path="proyek" element={<Proyek />} />
             <Route path="timeline-proyek" element={<TimelineProyek />} />
+            <Route path="timeline-project" element={<TimelineProyek />} />
             <Route path="timeline-proyek/:stageId" element={<DetailTimelineProyek />} />
+            <Route path="timeline-project/:stageId" element={<DetailTimelineProyek />} />
             <Route path="permintaan-desain" element={<DesignRequestCustomerPage />} />
             
             {/* Alias Route Lama (Compatibility) */}

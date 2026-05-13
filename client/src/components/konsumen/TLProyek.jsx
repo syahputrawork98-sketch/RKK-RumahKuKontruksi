@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiClock, FiChevronRight, FiMessageSquare, FiCalendar, FiActivity } from "react-icons/fi";
 
@@ -63,8 +64,8 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                            stage.status === "in_progress" ? "In Progress" : "Pending"}
                         </span>
                         {stage.hasEvidence && (
-                          <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 border border-amber-200 rounded-md text-[9px] font-black text-amber-600 uppercase tracking-widest animate-pulse">
-                            <FiActivity size={10} /> {stage.evidenceCount} Bukti Kerja
+                          <div className="flex items-center gap-1 px-2 py-0.5 bg-emerald-50 border border-emerald-200 rounded-md text-[9px] font-black text-emerald-600 uppercase tracking-widest">
+                            <FiActivity size={10} /> {stage.evidenceCount} Update Lapangan
                           </div>
                         )}
                       </div>
@@ -143,7 +144,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                         <div className="space-y-1.5">
                           <div className="flex items-center gap-2">
                             <span className="text-[9px] font-black bg-neutral-100 text-neutral-50 px-2 py-0.5 rounded border border-neutral-20 uppercase tracking-widest flex items-center gap-1">
-                              <FiCheckCircle size={10} className="text-success-main" /> Progress Resmi (SOT)
+                              <FiCheckCircle size={10} className="text-success-main" /> Progres Rill (SOT)
                             </span>
                           </div>
                           <p className="text-[10px] font-black text-neutral-90 italic">
@@ -164,7 +165,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                       </div>
                       <div className="pt-2">
                         <p className="text-[9px] text-neutral-40 font-medium italic leading-relaxed">
-                          * Evidence item tidak mengubah Progress Resmi. Progress tetap diperbarui secara manual oleh Pengawas via Verifikasi Resmi.
+                          * Update harian/mingguan adalah informasi pendukung. Progres rill hanya diperbarui melalui verifikasi kualitas resmi oleh Pengawas.
                         </p>
                       </div>
                     </div>
@@ -177,7 +178,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                             <div className="w-6 h-6 rounded-full bg-success-main/10 flex items-center justify-center">
                               <FiCheckCircle size={14} />
                             </div>
-                            Verified by {stage.verification.verifiedBy}
+                            Diverifikasi oleh {stage.verification.verifiedBy}
                           </div>
                         )}
                         {!isVerified && stage.note && (
@@ -187,17 +188,10 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/konsumen/timeline-proyek/${detailId}`}
-                          className="px-4 py-2 bg-primary-main text-white text-xs font-bold rounded-xl hover:bg-primary-hover transition-colors flex items-center gap-2 shadow-lg shadow-primary-main/20"
+                          className="px-5 py-2.5 bg-teal-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-teal-700 transition-all flex items-center gap-2 shadow-lg shadow-teal-600/20"
                         >
-                          Lihat Detail <FiChevronRight size={14} />
+                          Buka Diskusi & Detail <FiChevronRight size={14} />
                         </Link>
-                        <button
-                          type="button"
-                          className="w-9 h-9 border border-neutral-30 text-neutral-60 rounded-xl flex items-center justify-center hover:bg-neutral-20 hover:text-primary-main transition-all"
-                          title="Komentar"
-                        >
-                          <FiMessageSquare size={14} />
-                        </button>
                       </div>
                     </div>
                   </div>

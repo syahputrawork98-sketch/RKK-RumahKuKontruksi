@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
@@ -168,7 +169,6 @@ const TimelineProyek = () => {
     );
   }
 
-  const hasTimeline = Array.isArray(project.timeline) && project.timeline.length > 0;
   const filteredTimeline = (selectedCategoryId || selectedRabId)
     ? project.timeline.filter(item => {
         if (selectedCategoryId && item.categoryId === selectedCategoryId) return true;
@@ -270,7 +270,7 @@ const TimelineProyek = () => {
                 </motion.div>
               </div>
               <p className="text-[10px] text-white/60 italic font-medium mt-3 flex items-center gap-2">
-                <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan.
+                <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan, bukan sekadar durasi waktu.
               </p>
             </motion.div>
           </div>
@@ -302,7 +302,7 @@ const TimelineProyek = () => {
               activePhase === "payment" ? "bg-teal-600 text-white shadow-lg shadow-teal-600/20" : "text-neutral-50 hover:bg-neutral-10"
             }`}
           >
-            <FiCreditCard size={16} /> Rencana Pembayaran
+            <FiCreditCard size={16} /> Keuangan & Termin
           </button>
         </div>
       </div>
@@ -436,9 +436,9 @@ const TimelineProyek = () => {
         <section className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-2">
             <h2 className="text-heading-m-bold text-neutral-100 flex items-center gap-3">
-              <FiUser className="text-primary-main" /> Tim Proyek Anda
+              <FiUser className="text-primary-main" /> Tim & Pelaksana Proyek
             </h2>
-            <p className="text-[10px] font-black text-neutral-40 uppercase tracking-tighter italic">Informasi representatif fase local development</p>
+            <p className="text-[10px] font-black text-neutral-40 uppercase tracking-tighter italic">Personal yang bertanggung jawab atas kualitas hunian Anda</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Object.entries(project.team).map(([key, member]) => (
@@ -460,23 +460,48 @@ const TimelineProyek = () => {
         <section className="space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h2 className="text-heading-m-bold text-neutral-100">Timeline Pelaksanaan</h2>
-              <div className="flex flex-wrap items-center gap-2 mt-1">
+              <h2 className="text-heading-m-bold text-neutral-100">Timeline & Diskusi Proyek</h2>
+              <div className="flex flex-wrap items-center gap-3 mt-1">
                 <p className="text-m-regular text-neutral-60 flex items-center gap-2">
-                  Pantau perkembangan pekerjaan berdasarkan struktur RAB.
+                  Pantau perkembangan rill dan buka diskusi detail per tahapan pekerjaan.
                 </p>
-                <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-tighter">
-                  Customer-visible summary
-                </span>
-                <span className="text-[9px] font-black text-neutral-40 uppercase bg-neutral-20 px-2 py-0.5 rounded border border-neutral-30 tracking-tighter">
-                  Local Sync Thread
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-tighter">
+                    Update Publik
+                  </span>
+                  <span className="text-[9px] font-black text-neutral-40 uppercase bg-neutral-20 px-2 py-0.5 rounded border border-neutral-30 tracking-tighter">
+                    Ruang Diskusi Aktif
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-4 items-center">
+              {/* Role Legend */}
+              <div className="hidden md:flex items-center gap-4 p-2 px-4 bg-neutral-10 border border-neutral-20 rounded-2xl mr-4">
+                <span className="text-[8px] font-black text-neutral-40 uppercase tracking-widest">Identitas Diskusi:</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-teal-600" />
+                    <span className="text-[9px] font-black text-neutral-100 uppercase">Konsumen</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-blue-600" />
+                    <span className="text-[9px] font-black text-neutral-100 uppercase">Mandor</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="text-[9px] font-black text-neutral-100 uppercase">Pengawas</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-neutral-800" />
+                    <span className="text-[9px] font-black text-neutral-100 uppercase">Admin</span>
+                  </div>
+                </div>
+              </div>
+              
               <button
                 onClick={() => { setSelectedCategoryId(null); setSelectedRabId(null); }}
-                className={`px-3 py-1 border rounded-lg text-xs font-bold transition-all ${!selectedCategoryId && !selectedRabId ? 'bg-primary-main text-white border-primary-main' : 'bg-white text-neutral-60 border-neutral-30 hover:bg-neutral-10'}`}
+                className={`px-4 py-2 border rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-sm ${!selectedCategoryId && !selectedRabId ? 'bg-teal-600 text-white border-teal-600' : 'bg-white text-neutral-60 border-neutral-30 hover:bg-neutral-10'}`}
               >
                 Semua Update
               </button>
@@ -512,17 +537,24 @@ const TimelineProyek = () => {
                                 : "hover:bg-neutral-10 text-neutral-80 border border-transparent"
                             }`}
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 flex-1 overflow-hidden">
                               <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
                                 selectedCategoryId === cat.id ? "bg-primary-main text-white" : "bg-neutral-20 text-neutral-50 group-hover:bg-neutral-30"
                               }`}>
                                 <FiBox size={14} />
                               </div>
-                              <div className="overflow-hidden">
+                              <div className="flex-1 overflow-hidden">
                                 <p className="text-xs font-black uppercase tracking-tight truncate">{cat.name}</p>
-                                <p className="text-[9px] text-neutral-50 font-bold uppercase tracking-tighter">
-                                  {cat.items?.length || 0} Item Pekerjaan
-                                </p>
+                                <div className="flex items-center gap-2">
+                                  <p className="text-[8px] font-black text-neutral-40 uppercase tracking-tighter">
+                                    {cat.items?.length || 0} Items
+                                  </p>
+                                  {project.stages?.some(s => s.categoryId === cat.id) && (
+                                    <span className="flex items-center gap-0.5 text-[8px] font-black text-emerald-600 uppercase tracking-tighter">
+                                      <FiActivity size={8} /> Update
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                             </div>
                             <FiChevronDown className={`transition-transform ${selectedCategoryId === cat.id ? "rotate-180" : ""}`} />

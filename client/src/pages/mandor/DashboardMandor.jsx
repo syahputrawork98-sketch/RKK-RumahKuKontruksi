@@ -38,6 +38,7 @@ const DashboardMandor = () => {
     const [pendingTasks, setPendingTasks] = useState([]);
     const [statsData, setStatsData] = useState(null);
     const [activeIssues, setActiveIssues] = useState(0);
+    const [recentReports, setRecentReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -59,9 +60,9 @@ const DashboardMandor = () => {
                         actorId: selectedForemanId,
                         foremanId: selectedForemanId 
                     }),
-                    dailyTaskService.getAllTasks({ foremanId: selectedForemanId, status: "todo" }),
+                    dailyTaskService.getAllTasks({ foremanId: selectedForemanId }),
                     dailyReportService.getAllReports({ foremanId: selectedForemanId }),
-                    fieldIssueService.getFieldIssues({ foremanId: selectedForemanId, status: "open" })
+                    fieldIssueService.getFieldIssues({ foremanId: selectedForemanId })
                 ]);
                 
                 const [projRes, statsRes, journalRes, tasksRes, reportsRes, issuesRes] = results;
@@ -71,9 +72,14 @@ const DashboardMandor = () => {
                 if (journalRes.status === 'fulfilled' && journalRes.value.success) setRecentJournals(journalRes.value.data.slice(0, 3));
                 if (tasksRes.status === 'fulfilled' && tasksRes.value.success) setPendingTasks(tasksRes.value.data.slice(0, 5));
                 if (reportsRes.status === 'fulfilled' && reportsRes.value.success) {
-                    // Daily reports are fetched but not displayed as a list on main dashboard currently
+                    setRecentReports(reportsRes.value.data.slice(0, 3));
                 }
-                if (issuesRes.status === 'fulfilled' && issuesRes.value.data) setActiveIssues(issuesRes.value.data.length);
+                if (issuesRes.status === 'fulfilled' && issuesRes.value.data) {
+                    const count = issuesRes.value.data.filter(iss => 
+                        ['open', 'in_review'].includes(iss.status?.toLowerCase())
+                    ).length;
+                    setActiveIssues(count);
+                }
 
                 // If critical projects fetch failed
                 if (projRes.status === 'rejected') {
@@ -97,7 +103,7 @@ const DashboardMandor = () => {
     ).reduce((sum, j) => sum + (j._count?._all || 0), 0) || 0;
     
     const pendingMaterialsCount = statsData?.materialRequests?.filter(m => 
-        ['submitted', 'approved_by_supervisor'].includes(m.status?.toLowerCase())
+        ['submitted', 'approved', 'approved_by_supervisor', 'approved_by_admin', 'processing'].includes(m.status?.toLowerCase())
     ).reduce((sum, m) => sum + (m._count?._all || 0), 0) || 0;
 
     const avgProgress = projects.length > 0 
@@ -197,15 +203,30 @@ const DashboardMandor = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div 
-                            onClick={() => navigate("/mandor/laporan-harian")}
-                            className="dashboard-card bg-emerald-500/5 text-emerald-600 p-6 relative overflow-hidden border-emerald-500/20 cursor-pointer hover:border-emerald-500/40 transition-all group"
-                        >
-                            <h3 className="font-bold text-xs uppercase tracking-widest opacity-80 mb-2">Laporan Harian / Logbook</h3>
-                            <p className="text-2xl font-black mb-1">Operasional</p>
-                            <p className="text-[10px] opacity-70">Catat aktivitas, cuaca, dan jumlah pekerja harian.</p>
-                            <button className="mt-4 px-4 py-2 bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest group-hover:scale-105 transition-all">Lihat Logbook</button>
-                            <FiFileText className="absolute -right-4 -bottom-4 text-emerald-500/10 w-24 h-24" />
+                        <div className="dashboard-card space-y-4">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-xs font-black uppercase tracking-widest text-[var(--dashboard-text-soft)]">Laporan Harian Terbaru</h3>
+                                <button onClick={() => navigate("/mandor/laporan-harian")} className="text-[10px] font-bold text-emerald-600 hover:underline">Logbook</button>
+                            </div>
+                            <div className="space-y-2">
+                                {recentReports.length > 0 ? (
+                                    recentReports.map(report => (
+                                        <div key={report.id} className="p-3 bg-emerald-50/30 rounded-xl border border-emerald-100 flex items-center justify-between">
+                                            <div>
+                                                <p className="text-[10px] font-bold text-slate-800">{new Date(report.reportDate).toLocaleDateString('id-ID')}</p>
+                                                <p className="text-[8px] font-medium text-slate-500 uppercase">{report.weather || 'Cerah'} • {report.totalWorkers || 0} Pekerja</p>
+                                            </div>
+                                            <span className={`text-[8px] font-black uppercase px-1.5 py-0.5 rounded ${
+                                                report.status === 'reviewed' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'
+                                            }`}>
+                                                {report.status}
+                                            </span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="py-4 text-center text-[10px] font-medium text-slate-400 italic">Belum ada laporan harian.</div>
+                                )}
+                            </div>
                         </div>
                         <div className="dashboard-card p-6 flex flex-col justify-between border-dashed bg-[var(--dashboard-primary)]/5">
                             <div className="flex items-center justify-between mb-4">
@@ -242,16 +263,22 @@ const DashboardMandor = () => {
                             <button onClick={() => navigate("/mandor/tugas-harian")} className="text-[10px] font-bold text-[var(--dashboard-primary)] hover:underline">Lihat Semua</button>
                         </div>
                         <div className="space-y-3">
-                            {pendingTasks.length > 0 ? (
-                                pendingTasks.map(task => (
-                                    <div key={task.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] flex items-center justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <div className={`w-1.5 h-1.5 rounded-full ${task.priority === 'high' ? 'bg-red-500' : 'bg-blue-500'}`} />
-                                            <span className="text-[10px] font-bold line-clamp-1">{task.title}</span>
+                            {pendingTasks.filter(t => ['todo', 'in_progress'].includes(t.status?.toLowerCase())).length > 0 ? (
+                                pendingTasks
+                                    .filter(t => ['todo', 'in_progress'].includes(t.status?.toLowerCase()))
+                                    .slice(0, 5)
+                                    .map(task => (
+                                        <div key={task.id} className="p-3 bg-[var(--dashboard-surface-soft)] rounded-xl border border-[var(--dashboard-border)] flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-1.5 h-1.5 rounded-full ${task.priority === 'high' ? 'bg-red-500' : 'bg-blue-500'}`} />
+                                                <div className="flex flex-col">
+                                                    <span className="text-[10px] font-bold line-clamp-1">{task.title}</span>
+                                                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">{task.project?.projectCode || task.projectId}</span>
+                                                </div>
+                                            </div>
+                                            <FiChevronRight className="text-slate-300" size={12} />
                                         </div>
-                                        <FiChevronRight className="text-slate-300" size={12} />
-                                    </div>
-                                ))
+                                    ))
                             ) : (
                                 <div className="py-4 text-center text-[10px] font-medium text-slate-400 italic">Tidak ada tugas tertunda.</div>
                             )}

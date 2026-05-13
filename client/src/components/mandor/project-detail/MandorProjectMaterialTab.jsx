@@ -8,7 +8,7 @@ const MandorProjectMaterialTab = ({ project }) => {
             <div className="flex justify-between items-center">
                 <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Logistik & Material Site</h3>
                 <Link 
-                    to="/mandor/material/request"
+                    to="/mandor/request-material"
                     className="flex items-center gap-2 px-4 py-2 bg-[var(--dashboard-primary)] text-white rounded-xl text-xs font-bold shadow-lg shadow-[var(--dashboard-primary)]/20 hover:scale-105 transition-all"
                 >
                     <FiPackage size={14} /> Buat Permintaan
@@ -33,7 +33,7 @@ const MandorProjectMaterialTab = ({ project }) => {
                         <span className="text-[11px] font-bold text-blue-800">Akses monitoring status permintaan material</span>
                     </div>
                     <Link 
-                        to="/mandor/material"
+                        to="/mandor/request-material"
                         className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline bg-white px-3 py-1.5 rounded-lg border border-blue-200 shadow-sm"
                     >
                         KE DASHBOARD MATERIAL <FiExternalLink size={10} />

@@ -20,10 +20,11 @@ const RequestMaterialMandorPage = () => {
 
     const subtabs = [
         { id: "all", label: "Semua" },
+        { id: "draft", label: "Draft" },
         { id: "submitted", label: "Diajukan" },
-        { id: "processing", label: "Diproses" },
+        { id: "approved", label: "Disetujui" },
         { id: "delivered", label: "Dikirim" },
-        { id: "received", label: "Diterima" },
+        { id: "received", label: "Diterima / Selesai" },
     ];
 
     const fetchRequests = async () => {
@@ -32,12 +33,26 @@ const RequestMaterialMandorPage = () => {
             setLoading(true);
             setError(null);
             const params = {
-                foremanId: selectedForemanId,
-                ...(activeSubtab !== 'all' && { status: activeSubtab })
+                foremanId: selectedForemanId
             };
-            const response = await materialRequestService.getAllRequests(params);
+            const response = await materialRequestService.getAllRequests({ foremanId: selectedForemanId });
             if (response.success) {
-                setRequests(response.data || []);
+                let data = response.data || [];
+                
+                // Manual filtering for subtabs with grouped statuses
+                if (activeSubtab !== 'all') {
+                    data = data.filter(req => {
+                        const status = req.status?.toLowerCase();
+                        if (activeSubtab === 'draft') return status === 'draft';
+                        if (activeSubtab === 'submitted') return status === 'submitted';
+                        if (activeSubtab === 'approved') return ['approved', 'approved_by_supervisor', 'approved_by_admin', 'processing'].includes(status);
+                        if (activeSubtab === 'delivered') return status === 'delivered';
+                        if (activeSubtab === 'received') return ['received', 'completed'].includes(status);
+                        return status === activeSubtab;
+                    });
+                }
+                
+                setRequests(data);
             } else {
                 setError(response.message);
             }
@@ -403,7 +418,7 @@ const RequestMaterialMandorPage = () => {
                                 <div className="p-5 bg-slate-50 rounded-[2rem] text-center border border-slate-100 border-dashed">
                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Status: {selectedRequest.status.replace(/_/g, ' ')}</p>
                                     <p className="text-[9px] text-slate-400 font-medium mt-1">
-                                        {['submitted', 'approved_by_supervisor', 'approved_by_admin', 'processing'].includes(selectedRequest.status) 
+                                        {['draft', 'submitted', 'approved', 'approved_by_supervisor', 'approved_by_admin', 'processing'].includes(selectedRequest.status) 
                                             ? 'Menunggu proses distribusi lokal oleh Admin Operasional.' 
                                             : 'Proses pengajuan ini telah selesai.'}
                                     </p>

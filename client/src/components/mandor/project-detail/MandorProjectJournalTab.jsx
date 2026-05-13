@@ -8,10 +8,10 @@ const MandorProjectJournalTab = ({ project }) => {
             <div className="flex justify-between items-center">
                 <h3 className="font-black text-xs uppercase tracking-[0.2em] text-[var(--dashboard-primary)]">Sistem Pelaporan Jurnal</h3>
                 <Link 
-                    to="/mandor/laporan-mingguan/create"
+                    to="/mandor/jurnal-mingguan/create"
                     className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-800/20 hover:scale-105 transition-all"
                 >
-                    <FiPlus size={14} /> Buat Laporan Baru
+                    <FiPlus size={14} /> Buat Jurnal Baru
                 </Link>
             </div>
 
@@ -24,7 +24,7 @@ const MandorProjectJournalTab = ({ project }) => {
                     <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
                         Laporkan aktivitas mingguan, penggunaan tenaga kerja, dan kendala lapangan untuk diverifikasi Pengawas.
                     </p>
-                    <Link to="/mandor/laporan-mingguan" className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline">Lihat Riwayat Laporan →</Link>
+                    <Link to="/mandor/jurnal-mingguan" className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline">Lihat Riwayat Jurnal →</Link>
                 </div>
 
                 <div className="p-6 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm hover:shadow-md transition-shadow group">
@@ -35,7 +35,7 @@ const MandorProjectJournalTab = ({ project }) => {
                     <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
                         Pantau status verifikasi laporan Anda oleh Pengawas. Progres fisik hanya akan bertambah jika laporan disetujui.
                     </p>
-                    <Link to="/mandor/laporan-mingguan" className="text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:underline">Cek Status Verifikasi →</Link>
+                    <Link to="/mandor/jurnal-mingguan" className="text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:underline">Cek Status Verifikasi →</Link>
                 </div>
             </div>
 

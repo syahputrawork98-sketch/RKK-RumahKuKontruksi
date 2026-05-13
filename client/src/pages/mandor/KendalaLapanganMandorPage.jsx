@@ -110,10 +110,11 @@ const KendalaLapanganMandorPage = () => {
     }
 
     const filteredIssues = issues.filter(issue => {
-        if (activeSubtab === "active") return issue.status === "open";
-        if (activeSubtab === "follow_up") return issue.status === "in_review";
-        if (activeSubtab === "resolved") return issue.status === "resolved";
-        if (activeSubtab === "archive") return issue.status === "closed" || issue.status === "rejected";
+        const status = issue.status?.toLowerCase();
+        if (activeSubtab === "active") return status === "open";
+        if (activeSubtab === "follow_up") return status === "in_review";
+        if (activeSubtab === "resolved") return status === "resolved";
+        if (activeSubtab === "archive") return status === "closed" || status === "rejected";
         return true;
     });
 

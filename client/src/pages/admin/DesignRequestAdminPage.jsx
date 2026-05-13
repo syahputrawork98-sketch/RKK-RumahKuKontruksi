@@ -629,8 +629,8 @@ const DesignRequestAdminPage = () => {
         <div className="animate-fadeIn space-y-6 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-neutral-900 tracking-tight">Manajemen Desain & Tender</h1>
-                    <p className="text-xs text-neutral-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Koordinasi Desain & Pra-Konstruksi</p>
+                    <h1 className="text-3xl font-black text-neutral-900 tracking-tight">Monitoring Desain & Tender</h1>
+                    <p className="text-xs text-neutral-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Koordinasi Arsitek & Pra-Konstruksi</p>
                 </div>
                 {activeTab === "requests" && (
                     <button

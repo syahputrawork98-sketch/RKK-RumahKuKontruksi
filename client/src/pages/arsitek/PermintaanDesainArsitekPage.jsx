@@ -160,8 +160,8 @@ const PermintaanDesainArsitekPage = () => {
         <div className="animate-fadeIn space-y-6 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight">Kemitraan Arsitek (Local Simulation)</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic uppercase tracking-widest">Simulasi penugasan dan pengajuan bid dalam fase Local Development.</p>
+                    <h2 className="text-2xl font-extrabold tracking-tight">Papan Kerja Arsitek</h2>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic uppercase tracking-widest italic">Simulasi Local Workflow — Antrean Brief & Peluang Desain</p>
                 </div>
             </div>
 

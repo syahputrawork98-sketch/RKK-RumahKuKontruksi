@@ -80,9 +80,26 @@ const DesignRequestDetailOverlay = ({
                     <DesignFilesGallery designRequestId={selectedRequest.id} />
 
                     <div className="pt-8 border-t border-gray-100">
+                        <div className="mb-4 p-4 bg-teal-50 border border-teal-100 rounded-2xl flex items-center justify-between">
+                            <div>
+                                <p className="text-[9px] font-black text-teal-800 uppercase tracking-widest">Sisa Kuota Revisi Lokal</p>
+                                <p className="text-[10px] font-bold text-teal-600 mt-0.5">3 Major / 5 Minor (Standar Kontrak RKK)</p>
+                            </div>
+                            <div className="flex gap-3">
+                                <div className="text-center">
+                                    <p className="text-[8px] font-black text-gray-400 uppercase">Major</p>
+                                    <p className={`text-xs font-black ${selectedRequest.majorRevisionCount >= 3 ? 'text-red-600' : 'text-teal-700'}`}>{selectedRequest.majorRevisionCount || 0}/3</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-[8px] font-black text-gray-400 uppercase">Minor</p>
+                                    <p className={`text-xs font-black ${selectedRequest.minorRevisionCount >= 5 ? 'text-red-600' : 'text-teal-700'}`}>{selectedRequest.minorRevisionCount || 0}/5</p>
+                                </div>
+                            </div>
+                        </div>
+
                         <h4 className="text-sm font-black text-gray-800 mb-6 flex items-center gap-2">
                             <FiRefreshCw className="text-teal-600" />
-                            Ajukan Revisi Lokal
+                            Ajukan Revisi Desain
                         </h4>
                         <DesignRevisionForm 
                             majorCount={selectedRequest.majorRevisionCount || 0}

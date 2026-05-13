@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiType, FiFileText, FiClock, FiPenTool, FiZap, FiCheckCircle } from "react-icons/fi";
+import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiType, FiFileText, FiClock, FiPenTool, FiZap, FiCheckCircle, FiUpload, FiExternalLink } from "react-icons/fi";
 import { useArchitectPersona } from "../../context/ArchitectPersonaContext";
 import designRequestService from "../../services/designRequestService";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
@@ -160,7 +160,7 @@ const DetailPermintaanDesainArsitekPage = () => {
                 </button>
                 <div>
                     <h2 className="text-2xl font-black tracking-tight">{request.title}</h2>
-                    <p className="text-[10px] text-neutral-50 font-bold mt-0.5 uppercase tracking-widest italic">Simulasi Local Workflow — Detail Brief Proyek</p>
+                    <p className="text-[10px] text-neutral-50 font-bold mt-0.5 uppercase tracking-widest italic">Simulasi Local Workflow — Workspace Kolaborasi Arsitek</p>
                 </div>
             </div>
 
@@ -348,28 +348,31 @@ const DetailPermintaanDesainArsitekPage = () => {
 
                             {/* REVISION COUNTER SUMMARY */}
                             <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Ringkasan Revisi Lokal</h4>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Ringkasan Revisi (Batas Kontrak Lokal)</h4>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-1">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Major</p>
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Major Revision</p>
                                         <p className={`text-sm font-black ${request.majorRevisionCount >= 3 ? 'text-red-500' : 'text-slate-700'}`}>
                                             {request.majorRevisionCount || 0} / 3
                                         </p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Minor</p>
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase">Minor Revision</p>
                                         <p className={`text-sm font-black ${request.minorRevisionCount >= 5 ? 'text-red-500' : 'text-slate-700'}`}>
                                             {request.minorRevisionCount || 0} / 5
                                         </p>
                                     </div>
                                 </div>
-                                {(request.majorRevisionCount >= 3 || request.minorRevisionCount >= 5) && (
-                                    <div className="p-3 bg-red-50 border border-red-100 rounded-xl">
-                                        <p className="text-[9px] font-black text-red-600 uppercase leading-tight italic">
-                                            Warning: Limit revisi tercapai. Hubungi Admin untuk instruksi lanjut.
+                                <div className="p-3 bg-amber-50 border border-amber-100 rounded-xl space-y-1">
+                                    <p className="text-[8px] font-black text-amber-700 uppercase leading-tight">
+                                        Info: Batas revisi 3 Major / 5 Minor adalah standar kontrak desain RKK.
+                                    </p>
+                                    {(request.majorRevisionCount >= 3 || request.minorRevisionCount >= 5) && (
+                                        <p className="text-[8px] font-black text-red-600 uppercase leading-tight italic">
+                                            Limit tercapai. Harap koordinasi dengan Admin sebelum melanjutkan revisi tambahan.
                                         </p>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                             
                             <div className={`p-5 rounded-2xl space-y-3 ${request.status === 'converted' ? 'bg-purple-50 border border-purple-100' : 'bg-indigo-50 border border-indigo-100'}`}>

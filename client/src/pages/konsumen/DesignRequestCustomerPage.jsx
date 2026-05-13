@@ -248,8 +248,8 @@ ${formData.materialPreferences || '-'}
         <div className="animate-fadeIn space-y-8 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-800 tracking-tight">Permintaan Desain Saya</h1>
-                    <p className="text-xs text-gray-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Kolaborasi Desain & Arsitek</p>
+                    <h1 className="text-3xl font-black text-gray-800 tracking-tight">Permintaan Desain</h1>
+                    <p className="text-xs text-gray-500 font-bold mt-1 uppercase tracking-widest italic">Simulasi Local Workflow — Kolaborasi Desain & Arsitek RKK</p>
                 </div>
                 <button 
                     onClick={handleOpenForm}

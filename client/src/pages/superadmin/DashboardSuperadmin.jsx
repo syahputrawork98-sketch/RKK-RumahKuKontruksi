@@ -49,11 +49,13 @@ const DashboardSuperadmin = () => {
       
       if (projectsRes.success) {
           setLatestProjects((projectsRes.data || []).map(p => ({
-              kode: p.projectCode,
+              id: p.id,
+              projectCode: p.projectCode,
               name: p.name,
-              progress: p.verifiedProgress || p.progress || 0,
+              customer: p.customer,
+              verifiedProgress: p.verifiedProgress || p.progress || 0,
               status: p.status,
-              nilai: new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.budgetTotal)
+              budgetTotal: p.budgetTotal
           })));
       }
 

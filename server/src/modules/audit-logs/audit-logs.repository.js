@@ -8,7 +8,7 @@ export const create = async (data) => {
 
 export const findAll = async (params = {}) => {
   const { search, actorRole, entityType } = params;
-  const limit = params.limit ? parseInt(params.limit) : 50;
+  const limit = params.limit ? parseInt(params.limit, 10) : 50;
 
   const where = {};
 
@@ -26,6 +26,6 @@ export const findAll = async (params = {}) => {
   return await prisma.auditLog.findMany({
     where,
     orderBy: { createdAt: 'desc' },
-    take: limit
+    take: isNaN(limit) ? 50 : limit
   });
 };

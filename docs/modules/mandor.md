@@ -48,4 +48,4 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 - **Ecosystem**: Belum terhubung ke fitur bidding/marketplace.
 
 ---
-*Terakhir diperbarui: Batch Mandor 05 (DD/MM/YYYY)*
+*Terakhir diperbarui: Pengawas Docs Sync 01.*

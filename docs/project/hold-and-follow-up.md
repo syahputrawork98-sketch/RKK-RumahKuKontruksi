@@ -19,12 +19,13 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 - **Mobile App**: Transisi UI ke arah native/mobile-ready design.
 
 ## 📜 Already Stabilized / Historical
-- **Progress Verification Core**: Sudah stabil di Batch 33 & 43.
+- **Progress Verification Core**: Sudah stabil di Batch 33, 43, & Pengawas Batch 02.
 - **RAB Builder**: Sudah stabil di Batch 34 & 42.
 - **Material Request Workflow**: Sudah stabil di Batch 41 & Mandor Batch 04.
-- **Foreman Daily Workflow (Task/Report)**: Sudah stabil di Batch 52.
+- **Foreman Daily Workflow (Task/Report)**: Sudah stabil di Batch 52 & Mandor Batch 03.
 - **Field Issue Workflow**: Sudah stabil di Batch 54 & Mandor Batch 04.
 - **Mandor Role Polish**: Feature Complete di Batch Mandor 05.
+- **Supervisor Role Monitoring**: Sudah stabil di Pengawas Batch 00-04.
 
 ## ⚠️ Remaining Risks & Follow-up
 - **Payment Verification**: Pembayaran Mandor masih berstatus Read-only Lokal (Mock-backed simulation). Belum ada integrasi payment gateway.

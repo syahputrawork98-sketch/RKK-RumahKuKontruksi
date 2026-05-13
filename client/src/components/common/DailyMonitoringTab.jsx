@@ -18,6 +18,12 @@ const DailyMonitoringTab = ({ projectId }) => {
     const [isActionLoading, setIsActionLoading] = useState(false);
     const [reviewNote, setReviewNote] = useState("");
 
+    const openReportDetail = (report) => {
+        setSelectedReport(report);
+        setReviewNote(report.supervisorNote || "");
+        setIsModalOpen(true);
+    };
+
     useEffect(() => {
         const fetchDailyData = async () => {
             if (!projectId) return;

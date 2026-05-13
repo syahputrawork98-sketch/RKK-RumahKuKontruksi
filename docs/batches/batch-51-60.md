@@ -87,35 +87,38 @@
 ---
 
 # Mandor Role Stabilization Series
+(Stabilisasi E2E Mandor Hasan Basri - Feature Complete)
 
-Dokumentasi stabilisasi Role Mandor (Hasan Basri) secara E2E untuk fase Local CRUD Integration.
+### Mandor Batch 00-05 (Historical)
+- **Status**: Accepted / Feature Complete.
+- **Ringkasan**: Stabilisasi dashboard, detail proyek, info kerja read-only, jurnal & logbook RAB-backed, material request, kendala lapangan, dan payment read-only.
 
-### Mandor Batch 00 — Stabilize Active Main Pages
+---
+
+# Pengawas Role Stabilization Series
+(Stabilisasi E2E Pengawas - In Progress)
+
+### Pengawas Batch 00 — Dashboard & Project Hub
 - **Status**: Accepted
-- **Commit**: `5f585f0b70596bd1e0c8ef4224419c1927b0e5b6`
-- **Ringkasan**: Stabilisasi dashboard mandor, sinkronisasi hitungan tugas harian, kebutuhan material, dan kendala lapangan agar sesuai dengan data API.
+- **Commit**: `3ce575ce8c40173564464b85f33403da5d528d90`
+- **Ringkasan**: Stabilisasi Dashboard Pengawas, Proyek Diawasi, dan Detail Proyek Diawasi. Penegasan label SOT pada UI.
 
-### Mandor Batch 01 — Project Hub Integration
+### Pengawas Batch 01 — Review Jurnal Mandor
 - **Status**: Accepted
-- **Commit**: `6d98066d36afdd056330440202573e1249ef579d`
-- **Ringkasan**: Transformasi Detail Proyek Aktif menjadi hub kerja utama Mandor. Integrasi data RAB Rumah Tipe 36 ke dalam tab Kategori Pekerjaan.
+- **Commit**: `58c5a29a15dd27dd1142f9532b29cd519a79652f`
+- **Ringkasan**: Implementasi alur review administratif jurnal Mandor. Penegasan claimedProgress sebagai data non-resmi.
 
-### Mandor Batch 02 — Work Info Read-only Open
+### Pengawas Batch 02 — Verifikasi Progres Resmi
 - **Status**: Accepted
-- **Commit**: `10aeb7d5e758532a1538ee2aeb2792bcd900bdfc`
-- **Ringkasan**: Pembukaan akses read-only untuk Informasi RAB, Jadwal Kerja, Gambar Kerja, dan Dokumentasi Lapangan bagi Mandor.
+- **Commit**: `0caa9f5ceddecbdeea8e5a51d01491682516c9ff`
+- **Ringkasan**: Implementasi workflow utama Verifikasi Progres. `Project.verifiedProgress` ditegaskan sebagai satu-satunya Source of Truth.
 
-### Mandor Batch 03 — Journal & Logbook Contextualization
+### Pengawas Batch 03 — Laporan Mingguan Pengawas
 - **Status**: Accepted
-- **Commit**: `25512f93b44e22243d44f3c2bbaab096e985d800`
-- **Ringkasan**: Penghubungan Jurnal Mingguan dan Laporan Harian dengan item RAB dan Project Stage. Penegasan claimedProgress sebagai data administratif.
+- **Commit**: `9962c9f01b762e87d911613904dff4b8fa4b43d5`
+- **Ringkasan**: Implementasi Laporan Mingguan Pengawas dengan snapshot progres resmi. Laporan bersifat administratif.
 
-### Mandor Batch 04 — Operational Workflow Completion
-- **Status**: Accepted
-- **Commit**: `b407d25242d07bddd9befc54f82708c8f40990e5`
-- **Ringkasan**: Penyelesaian alur Request Material (dengan konfirmasi terima) dan Kendala Lapangan (dengan resolusi dan detail modal).
-
-### Mandor Batch 05 — Final Polish & Payment Read-only
-- **Status**: Accepted
-- **Commit**: `dd8a0de9c2ff306ba8cb069f2729d8cb0a3ed4f6`
-- **Ringkasan**: Pembukaan modul Pembayaran Mandor (Read-only Lokal), polishing Pengaturan Mandor, standarisasi sidebar, dan penegasan status Hold Marketplace.
+### Pengawas Batch 04 — Daily Report Monitoring
+- **Status**: Scope Completed (Pending Final Smoke/Build)
+- **Commit**: `aeb1e95ccd56b908cbca909736e299fe98e27116`
+- **Ringkasan**: Integrasi `DailyMonitoringTab` untuk monitoring logbook harian Mandor. Penambahan fitur review/note supervisor pada laporan harian.

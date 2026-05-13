@@ -14,7 +14,7 @@ import {
     FiFileText,
     FiTag,
     FiX,
-    FiActivity
+    FiActivity,
 } from "react-icons/fi";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import projectService from "../../services/projectService";

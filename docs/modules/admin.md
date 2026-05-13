@@ -19,17 +19,20 @@ Role Admin berfungsi sebagai pengelola operasional pusat dan jembatan antara keb
 - **Operational Logs**: Monitoring Kendala Lapangan berfungsi sebagai logbook operasional untuk transparansi tim dan **tidak mengubah** Progres Resmi proyek.
 - **Publish to Customer**: Tombol publikasi laporan ke Customer-facing timeline tetap **Hold** sampai ada keputusan Room 00.
 
-## 📊 Technical Context (Batch 61–64 Hardening)
-- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`, `fieldIssueService`, `supervisorWeeklyReportService`, `progressService`.
-- **StatusBadge**: Komponen `StatusBadge.jsx` diperluas pada Batch 63–64 untuk mendukung tipe `material`, `issue`, dan `priority`. Perlu dipantau untuk regresi visual.
-- **Bridge Boundary**: Konversi Design Request hanya menghasilkan draf proyek (`planning`) tanpa aktivasi otomatis.
-- **Closeout Validation**: Penyelesaian proyek mensyaratkan progres 100%, seluruh stage selesai, dan tidak ada Material Request aktif.
+## 📊 Technical Context (Batch 61–70 Hardening)
+- **Services**: `projectService`, `customerService`, `supervisorService`, `foremanService`, `architectService`, `designRequestService`, `designTenderService`, `projectStageCommentService`, `materialRequestService`, `fieldIssueService`, `supervisorWeeklyReportService`, `progressService`, `rabService`, `administrativeHelperDocumentService`.
+- **StatusBadge**: Komponen `StatusBadge.jsx` mendukung tipe `material`, `issue`, dan `priority`.
+- **Bridge Boundary**: Konversi Design Request menghasilkan draf proyek (`planning`) untuk dilanjutkan ke Detail Proyek.
+- **Assignment Helper**: Data riwayat seleksi dari Design Request terintegrasi sebagai helper di Penugasan Tim.
+- **Data Integrity**: Null-safety standar (Array guards & optional chaining) diterapkan di seluruh halaman Admin.
 
 ## 🔑 Prinsip SOT yang Tidak Boleh Dilanggar
 1. `Project.verifiedProgress` diubah **hanya** oleh Pengawas via endpoint `/projects/:id/verify-progress`.
 2. Admin review Weekly Report tidak menyentuh `verifiedProgress`.
 3. Material Request Admin adalah koordinasi logistik, bukan pembelian resmi.
 4. Field Issue close oleh Admin tidak mengubah progress proyek.
+5. Penugasan tim oleh Admin tidak mengaktifkan proyek secara otomatis.
 
 ---
-*Status: Stabilized — Admin Batch 61–64 (Frontend/Client Hardening). Tidak ada perubahan backend/schema/seed.*
+*Status: Stabilized — Admin Batch 61–70 (Frontend/Client Hardening & Boundary Enforcement). Tidak ada perubahan backend/schema/seed.*
+

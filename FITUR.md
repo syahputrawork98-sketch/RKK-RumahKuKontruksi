@@ -31,17 +31,16 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Database Activity Logs**: Pencatatan riwayat perubahan data penting secara lokal.
 
 ### 👔 Admin
-- ✅ **Project Activation**: Gatekeeper untuk mengaktifkan proyek dari draft ke berjalan.
-- ✅ **RAB Builder**: Membuat struktur biaya, kategori, dan item pekerjaan.
-- ✅ **Material Request Distribution**: Validasi dan distribusi material ke lapangan.
-- ✅ **Operational Control Summary**: Dashboard ringkasan status operasional proyek (DB-Backed / Stabilized).
-- ✅ **Stage Communication Source Flow**: Sumber update resmi untuk timeline/thread konsumen (Stabilized).
-- ✅ **Project Lifecycle Completion**: Penutupan proyek secara administratif/lokal (Action Guarded).
-- ✅ **Customer Billing Plan**: Pengaturan termin pembayaran lokal (Local Billing Plan / Simulasi).
-- ✅ **Foreman Payment Eligibility**: Penentuan kelayakan pembayaran mandor mingguan (Local Eligibility).
-- ✅ **Project Document Archive**: Pusat arsip dokumen digital (Local Upload Stabilized).
-- ✅ **Administrative Helper Documents**: Fondasi pembuatan invoice, BAST, dan dokumen legal (Stabilized).
-- ✅ **App Notifications**: Notifikasi in-app untuk event operasional (Polling-based).
+- ✅ **Project Lifecycle Management**: Mengelola proyek dari Planning, Activation, hingga Completion (Stabilized).
+- ✅ **RAB & Baseline Builder**: Penyusunan struktur biaya, kategori, dan item pekerjaan secara lokal (Stabilized).
+- ✅ **Material Request Distribution**: Monitoring dan koordinasi logistik material berbasis RAB (Stabilized).
+- ✅ **Operational Control Summary**: Dashboard statistik operasional DB-Backed (Stabilized).
+- ✅ **Stage Communication Source Flow**: Pengendalian update resmi timeline konsumen (Stabilized).
+- ✅ **Administrative Document Helper**: Draft invoice, BAST, dan legal helper untuk koordinasi lokal (Stabilized).
+- ✅ **Customer & Design Coordination**: Manajemen profil konsumen dan alur design-to-project bridge (Stabilized).
+- ✅ **Team Assignment**: Penugasan Admin, Pengawas, dan Mandor ke proyek (Stabilized).
+- ✅ **Field Issue Monitoring**: Resolusi administratif kendala lapangan (Stabilized).
+
 
 ### 🔍 Pengawas (Supervisor)
 - ✅ **Verifikasi Progres SOT**: Update manual progres resmi proyek (`verifiedProgress`).

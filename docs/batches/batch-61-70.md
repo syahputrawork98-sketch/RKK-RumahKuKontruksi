@@ -1,7 +1,7 @@
 # Batch History 61 - 70
 
 ## Admin Role Stabilization Series
-(Stabilisasi E2E Admin — In Progress)
+(Stabilisasi E2E Admin — Completed)
 
 ---
 
@@ -57,14 +57,60 @@
   - Fix: Import `React, useState, useEffect` yang terhapus (Batch 64 Fix).
   - **Scope**: Frontend only. Tidak ada perubahan backend/schema/seed.
 
-### Admin Batch 65 — Admin Stabilization Docs Sync
+### Admin Batch 65 — Admin Stabilization Docs Sync (Checkpoint)
 - **Status**: Accepted
 - **Commit**: `Not recorded`
 - **Ringkasan**:
   - Sinkronisasi dokumentasi setelah Batch 61–64.
-  - `docs/project/current-status.md`: Status Admin Role diperbarui ke "Stabilized (Batch 61–64)". Weekly Report Publish dicatat sebagai Hold.
-  - `docs/project/hold-and-follow-up.md`: Ditambahkan Hold item spesifik Admin (Weekly Report Publish, Production Procurement). Ditambahkan Follow-up (Field Issue Direct Close, StatusBadge regression, Dashboard CTA). Ditambahkan historical stabilized items untuk Batch 61–64.
-  - `docs/project/roadmap-active.md`: Batch 61–64 ditandai Stabilized. Batch 66 ditetapkan sebagai Next Milestone.
-  - `docs/modules/admin.md`: Penambahan prinsip SOT, batasan role, dan technical context pasca-hardening.
-  - `docs/batches/batch-61-70.md`: Dibuat baru sebagai file histori batch Admin Series.
+  - Pemutakhiran status milestone dan roadmap untuk fase hardening Admin.
+
+### Admin Batch 66 — Admin Project Lifecycle Stabilization
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Normalisasi `ProyekAdminPage`: `Array.isArray` guards, operational summary bar, dan filter tab yang lebih akurat.
+  - `DetailProyekAdminPage`: Hardening data fetching via `Promise.all` dengan null guards. Implementasi Project Readiness checklist dan Completion logic (SOT-aware).
+  - `verifiedProgress` SOT: Penegasan di UI bahwa progress resmi hanya diperbarui oleh Pengawas.
+  - Lifecycle: Planning → Readiness → Activation → Ongoing → Completion (Admin-controlled administrative transitions).
+  - **Scope**: Frontend only. Tidak ada perubahan client/server/schema/seed.
+
+### Admin Batch 67 — Admin Team Assignment & Authority Boundary
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Stabilisasi `PenugasanTimAdminPage`: `Array.isArray` guards untuk opsi Admin/Supervisor/Foreman.
+  - Boundary Disclaimer: Penegasan bahwa modul ini untuk assignment proyek, bukan manajemen user global (Superadmin task).
+  - Shortlist Integration: Referensi kandidat mandor/pengawas dari riwayat Design Request ditampilkan sebagai helper.
+  - Governance notice: Penugasan tim tidak mengaktifkan proyek secara otomatis.
+  - **Scope**: Frontend only. Tidak ada perubahan client/server/schema/seed.
+
+### Admin Batch 68 — Admin RAB & Administrative Documents Stabilization
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - `RabAdminPage` & `DetailRabAdminPage`: Hardening null guards, `Array.isArray` checks for categories/items, and currency formatting.
+  - Disclaimer "Local Builder Mode": RAB sebagai acuan scope lokal, bukan kontrak final.
+  - `AdministrativeHelperDocumentsPage`: Implementasi helper administratif (Invoice/BAST draft) dengan disclaimer tegas "Draft System Only".
+  - Feature Bridge: Mencatat rencana integrasi schema dinamis untuk helper dokumen.
+  - **Scope**: Frontend only. Tidak ada perubahan client/server/schema/seed.
+
+### Admin Batch 69 — Admin Customer & Design Request Stabilization
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - `CustomerAdminPage`: Normalisasi CRUD konsumen lokal dengan disclaimer "Local Data Management Boundary".
+  - `DesignRequestAdminPage`: Hardening alur E2E koordinasi desain. Penambahan "Local Coordination & Simulation Boundary" disclaimer.
+  - History-based monitoring: Integrasi riwayat instruksi terkurasi, seleksi mandor, dan kesiapan konstruksi sebagai helper navigasi.
+  - Bridge-to-Project: Konversi design request menjadi draf proyek (`planning`).
+  - **Scope**: Frontend only. Tidak ada perubahan client/server/schema/seed.
+
+### Admin Batch 70 — Final Admin Stabilization Docs Sync & Closing
+- **Status**: Accepted
+- **Commit**: `Not recorded`
+- **Ringkasan**:
+  - Sinkronisasi dokumentasi final Batch 61–69.
+  - Penutupan siklus Admin Stabilization dengan Final Audit.
+  - Update `current-status.md`, `hold-and-follow-up.md`, `roadmap-active.md`, dan `modules/admin.md`.
+  - Milestone Admin Stabilization dinyatakan **Completed**.
   - **Scope**: Docs only. Tidak ada perubahan client/server/schema/seed.
+

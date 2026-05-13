@@ -4,16 +4,16 @@ Dokumen ini mencatat rencana pengembangan aktif setelah Batch 65.
 
 ## 🎯 Active Next (Priority)
 Roadmap aktif saat ini:
-1. **Supervisor Role Stabilization (Batch 00–04)**: **Stabilized**. Monitoring operasional & verifikasi progres resmi lapangan.
-2. **Admin Role Stabilization (Batch 61–64)**: **Stabilized**. Dashboard, Progress SOT, Weekly Report, Material Request, Field Issue.
-3. **Next Milestone**: **Batch 66 — Admin Project Lifecycle Normalization**.
-4. **Focus**: Memastikan alur proyek end-to-end (Planning → Activation → Progress → Completion) dari perspektif Admin berfungsi stabil dan konsisten dengan database lokal.
+1. **Admin Role Stabilization (Batch 61–70)**: **Completed**. Dashboard, Lifecycle, RAB, Logistics, Issues, Customer, Design, Team Assignment.
+2. **Supervisor Role Stabilization (Batch 00–04)**: **Stabilized**. Monitoring operasional & verifikasi progres resmi lapangan.
+3. **Next Milestone**: **Batch 71 — Supervisor / Admin Integrated Flow Hardening**.
+4. **Focus**: Sinkronisasi verifikasi progres lapangan (Supervisor) dengan lifecycle proyek administratif (Admin) secara lebih seamless.
 
 ## 🛠️ Technical Follow-up
-- **Controlled Database Reset**: Pembersihan dataset untuk memulai simulasi Admin-first yang bersih (jika diperlukan).
-- **UI/UX Micro-interactions**: Penambahan animasi transisi pada dashboard Admin.
-- **Governance Audit**: Penguatan log aktivitas untuk aksi administratif sensitif (Admin role).
-- **StatusBadge Regression Monitor**: Pantau tipe `material`, `issue`, `priority` yang ditambahkan di Batch 63–64.
+- **Fetch Resilience**: Implementasi `Promise.allSettled` pada dashboard summary.
+- **UI/UX Premium Polish**: Micro-interactions pada transisi status proyek.
+- **Governance Review**: Audit boundary pada aksi sensitif (e.g. self-assignment, document release).
+- **StatusBadge Visual Quality**: Verifikasi konsistensi icon dan warna di semua role pasca-update.
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
@@ -27,15 +27,9 @@ Peta jalan urutan implementasi modul operasional:
 8. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Accepted)
 9. **Mandor Role Polish**: Finalisasi alur operasional Mandor (Batch 05). (Accepted)
 10. **Supervisor Role Polish**: Stabilisasi Monitoring & Verifikasi (Batch 00-04). (Stabilized)
-11. **Admin Dashboard & Sidebar**: Normalisasi statistik & navigasi. (Stabilized — Batch 61)
-12. **Admin Progress SOT & Weekly Report**: Hardening SOT wording & admin review. (Stabilized — Batch 62)
-13. **Admin Material Request**: Normalisasi logistik lokal. (Stabilized — Batch 63)
-14. **Admin Field Issue**: Normalisasi monitoring & resolusi. (Stabilized — Batch 64)
-15. **Next Focus**: **Batch 66 — Admin Project Lifecycle Normalization**.
-
-## 🌟 Future Optional
-- **Analytics Dashboard v2**: Visualisasi statistik global untuk Superadmin.
-- **Support Ticketing System**: Placeholder sistem bantuan internal.
+11. **Admin Role Stabilization**: Normalisasi Dashboard, Lifecycle, RAB, & Boundaries (Batch 61-70). (Completed)
+12. **Next Focus**: **Batch 71 — Supervisor / Admin Integrated Flow Hardening**.
 
 ---
-*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) belum masuk dalam prioritas aktif fase ini. Terakhir diperbarui: Batch 65.*
+*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) belum masuk dalam prioritas aktif fase ini. Terakhir diperbarui: Batch 70.*
+

@@ -105,7 +105,7 @@ const TimelineProyek = () => {
         setRabData(rabRaw);
         setError(null);
       } catch (err) {
-        setError("Gagal memuat detail proyek.");
+        setError("Gagal memuat timeline proyek. Coba muat ulang atau cek koneksi backend lokal.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -151,7 +151,7 @@ const TimelineProyek = () => {
   if (loading) {
     return (
       <div className="container mx-auto px-6 py-20">
-        <RoleDataState type="loading" message="Menyusun timeline konstruksi resmi Anda..." />
+        <RoleDataState type="loading" message="Memuat transparansi proyek..." />
       </div>
     );
   }
@@ -162,7 +162,8 @@ const TimelineProyek = () => {
         <div className="text-center max-w-md">
           <FiMapPin className="text-gray-300 mx-auto mb-4" size={48} />
           <h2 className="text-xl font-bold text-gray-700">{error || "Proyek tidak ditemukan"}</h2>
-          <p className="text-gray-500 mt-2">Data proyek yang Anda cari tidak tersedia atau ID tidak valid.</p>
+          <p className="text-gray-500 mt-2">Data proyek yang Anda cari tidak tersedia, ID tidak valid, atau koneksi backend sedang tidak aktif.</p>
+          <p className="text-xs text-gray-400 mt-1 italic">Pastikan server backend RKK sudah berjalan di localhost.</p>
           <Link to="/konsumen/proyek" className="btn bg-teal-600 hover:bg-teal-700 text-white mt-6 rounded-2xl px-8">Kembali ke Daftar Proyek</Link>
         </div>
       </div>
@@ -270,7 +271,7 @@ const TimelineProyek = () => {
                 </motion.div>
               </div>
               <p className="text-[10px] text-white/60 italic font-medium mt-3 flex items-center gap-2">
-                <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan, bukan sekadar durasi waktu.
+                <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan, bukan sekadar durasi waktu. Anda hanya dapat melihat progress — tidak dapat mengubahnya.
               </p>
             </motion.div>
           </div>
@@ -322,13 +323,17 @@ const TimelineProyek = () => {
               <p className="text-sm text-neutral-60 leading-relaxed">
                 Pantau proses perancangan, revisi gambar kerja, hingga persetujuan draft RAB dalam satu alur kolaborasi terpadu.
               </p>
+              <p className="text-[10px] text-indigo-400 italic font-bold uppercase tracking-tighter pt-1">
+                Laporan mingguan desain ke Konsumen: Hold (Local Development)
+              </p>
             </div>
             <div className="pt-6">
-              <Link 
-                to="/konsumen/design-request"
+              {/* ROUTE FIXED: /konsumen/design-request → /konsumen/permintaan-desain */}
+              <Link
+                to="/konsumen/permintaan-desain"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20 hover:scale-[1.02] transition-all"
               >
-                Buka Detail & Timeline Desain <FiArrowRight />
+                Lihat Permintaan Desain Saya <FiArrowRight />
               </Link>
             </div>
           </motion.div>
@@ -695,7 +700,7 @@ const TimelineProyek = () => {
                 </div>
               )}
               <p className="text-[10px] text-neutral-40 italic text-center pt-8">
-                * Catatan internal teknis Mandor/Pengawas tidak ditampilkan pada timeline publik Konsumen demi menjaga fokus transparansi hasil kerja.
+                * Update operasional internal (catatan teknis Mandor/Pengawas) tidak ditampilkan pada timeline transparansi Konsumen. Progress yang ditampilkan adalah <strong>Progress Terverifikasi</strong> hasil verifikasi resmi Pengawas.
               </p>
             </div>
           </div>

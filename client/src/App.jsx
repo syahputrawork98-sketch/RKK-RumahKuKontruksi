@@ -160,6 +160,8 @@ function App() {
             <Route path="timeline-proyek/:stageId" element={<DetailTimelineProyek />} />
             <Route path="timeline-project/:stageId" element={<DetailTimelineProyek />} />
             <Route path="permintaan-desain" element={<DesignRequestCustomerPage />} />
+            {/* Alias route: legacy /konsumen/design-request links now map to the active permintaan-desain page */}
+            <Route path="design-request" element={<DesignRequestCustomerPage />} />
             
             {/* Alias Route Lama (Compatibility) */}
             <Route path="TimelineProyek" element={<TimelineProyek />} />

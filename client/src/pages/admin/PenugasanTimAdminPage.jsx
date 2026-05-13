@@ -62,11 +62,11 @@ const PenugasanTimAdminPage = () => {
                 foremanService.getAllForemen()
             ]);
 
-            setProjects(projRes.data || []);
+            setProjects(Array.isArray(projRes.data) ? projRes.data : []);
             setOptions({
-                admins: admRes.data || [],
-                supervisors: supRes.data || [],
-                foremen: forRes.data || []
+                admins: Array.isArray(admRes.data) ? admRes.data : [],
+                supervisors: Array.isArray(supRes.data) ? supRes.data : [],
+                foremen: Array.isArray(forRes.data) ? forRes.data : []
             });
             setLoading(false);
         } catch (err) {
@@ -83,8 +83,8 @@ const PenugasanTimAdminPage = () => {
     const handleProjectSelect = async (id) => {
         try {
             setSelectedProjectId(id);
-            const res = await projectService.getProjectById(id);
             const project = res.data;
+            if (!project) throw new Error("Data proyek tidak ditemukan.");
             
             setAssignment({
                 adminId: project.adminId || "",
@@ -126,11 +126,12 @@ const PenugasanTimAdminPage = () => {
     };
 
     const filteredProjects = useMemo(() => {
-        return projects.filter(p => {
+        return (Array.isArray(projects) ? projects : []).filter(p => {
+            if (!p) return false;
             const matchesSearch = 
-                p.projectCode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                p.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase());
+                (p.projectCode?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+                (p.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+                (p.customer?.name?.toLowerCase() || "").includes(searchQuery.toLowerCase());
             
             const isPlanning = p.status === 'planning' || p.status === 'Persiapan';
             const isOngoing = p.status === 'Berjalan' || p.status === 'active' || p.status === 'ongoing';
@@ -156,9 +157,9 @@ const PenugasanTimAdminPage = () => {
         const readinessPrep = getLatestConstructionReadiness(history);
         
         return {
-            mandorIds: mandorPrep?.metadata?.selectedCandidateIds || [],
+            mandorIds: Array.isArray(mandorPrep?.metadata?.selectedCandidateIds) ? mandorPrep.metadata.selectedCandidateIds : [],
             mandorNote: mandorPrep?.note || "",
-            supervisorIds: readinessPrep?.metadata?.selectedSupervisorCandidateIds || [],
+            supervisorIds: Array.isArray(readinessPrep?.metadata?.selectedSupervisorCandidateIds) ? readinessPrep.metadata.selectedSupervisorCandidateIds : [],
             readinessNote: readinessPrep?.note || ""
         };
     }, [selectedProject]);
@@ -175,7 +176,20 @@ const PenugasanTimAdminPage = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-extrabold tracking-tight">Penugasan Tim Proyek</h2>
-                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Tugaskan personil Admin, Pengawas, dan Mandor secara final.</p>
+                    <p className="text-xs text-[var(--dashboard-text-soft)] mt-1 italic">Koordinasi alokasi personil lapangan untuk setiap proyek aktif.</p>
+                </div>
+            </div>
+
+            {/* AUTHORITY BOUNDARY DISCLAIMER */}
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-start gap-4">
+                <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 shrink-0 shadow-sm">
+                    <FiAlertCircle size={20} />
+                </div>
+                <div className="space-y-1">
+                    <h4 className="text-[10px] font-black text-slate-800 uppercase tracking-widest">Admin Project Assignment Boundary</h4>
+                    <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
+                        Halaman ini digunakan eksklusif untuk **penugasan personil ke proyek spesifik** (assignment). Modul ini **tidak memiliki wewenang** untuk membuat akun baru, mengubah role global user, atau mengelola permission sistem. Manajemen user secara global adalah kewenangan Superadmin.
+                    </p>
                 </div>
             </div>
 
@@ -257,9 +271,9 @@ const PenugasanTimAdminPage = () => {
                                                 </td>
                                                 <td className="py-4 px-2">
                                                     <div className="flex flex-col gap-1">
-                                                        <AssignmentBadge role="ADM" name={options.admins.find(a => a.id === p.adminId)?.name} color="blue" />
-                                                        <AssignmentBadge role="SUP" name={options.supervisors.find(s => s.id === p.supervisorId)?.name} color="purple" />
-                                                        <AssignmentBadge role="FOR" name={options.foremen.find(f => f.id === p.foremanId)?.name} color="orange" />
+                                                        <AssignmentBadge role="ADM" name={Array.isArray(options.admins) ? options.admins.find(a => a.id === p.adminId)?.name : null} color="blue" />
+                                                        <AssignmentBadge role="SUP" name={Array.isArray(options.supervisors) ? options.supervisors.find(s => s.id === p.supervisorId)?.name : null} color="purple" />
+                                                        <AssignmentBadge role="FOR" name={Array.isArray(options.foremen) ? options.foremen.find(f => f.id === p.foremanId)?.name : null} color="orange" />
                                                     </div>
                                                 </td>
                                                 <td className="py-4 px-2 text-right">
@@ -321,7 +335,7 @@ const PenugasanTimAdminPage = () => {
                                             <div className="text-[9px] text-amber-800 font-medium leading-relaxed">
                                                 <b className="block uppercase text-[8px] opacity-70">Shortlist Pengawas:</b>
                                                 {shortlistRef.supervisorIds.length > 0 
-                                                    ? shortlistRef.supervisorIds.map(id => options.supervisors.find(s => s.id === id)?.name).filter(Boolean).join(", ")
+                                                    ? shortlistRef.supervisorIds.map(id => Array.isArray(options.supervisors) ? options.supervisors.find(s => s.id === id)?.name : null).filter(Boolean).join(", ")
                                                     : "Belum ada shortlist."}
                                             </div>
                                             <p className="text-[8px] italic text-amber-600">* Persiapan desain hanya referensi, pilih personil final di bawah.</p>
@@ -340,10 +354,11 @@ const PenugasanTimAdminPage = () => {
                                             onChange={(e) => setAssignment({...assignment, adminId: e.target.value})}
                                         >
                                             <option value="">-- Pilih Admin --</option>
-                                            {options.admins.map(a => (
+                                            {Array.isArray(options.admins) && options.admins.map(a => (
                                                 <option key={a.id} value={a.id}>{a.name}</option>
                                             ))}
                                         </select>
+                                        <p className="text-[8px] text-slate-400 mt-1 italic">* Mengubah Admin hanya memindahkan tanggung jawab proyek lokal.</p>
                                     </div>
 
                                     <div className="space-y-2">
@@ -356,7 +371,7 @@ const PenugasanTimAdminPage = () => {
                                             onChange={(e) => setAssignment({...assignment, supervisorId: e.target.value})}
                                         >
                                             <option value="">-- Pilih Pengawas --</option>
-                                            {options.supervisors.map(s => (
+                                            {Array.isArray(options.supervisors) && options.supervisors.map(s => (
                                                 <option key={s.id} value={s.id}>{s.name} ({s.city || 'Nasional'})</option>
                                             ))}
                                         </select>
@@ -372,7 +387,7 @@ const PenugasanTimAdminPage = () => {
                                             onChange={(e) => setAssignment({...assignment, foremanId: e.target.value})}
                                         >
                                             <option value="">-- Pilih Mandor --</option>
-                                            {options.foremen.map(f => (
+                                            {Array.isArray(options.foremen) && options.foremen.map(f => (
                                                 <option key={f.id} value={f.id}>{f.name} ({f.specialization || 'Umum'})</option>
                                             ))}
                                         </select>

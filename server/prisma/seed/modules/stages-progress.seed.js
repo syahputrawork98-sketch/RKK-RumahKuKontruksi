@@ -55,51 +55,51 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
 
   // --- Stages for Active Project 2 (Hasan Basri - Rumah Tipe 36) ---
   const stageActive2_1 = await prisma.projectStage.create({
-    data: { id: 'stg-002-01', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catPersiapan2.id, code: 'STG-01', title: 'Pekerjaan Persiapan', status: 'Selesai', progress: 100, week: 1, order: 1, isVerified: true, verifiedBy: supervisor2.id, verifiedAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000) }
+    data: { id: 'stg-002-01', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catPersiapan2.id, code: 'STG-002-01', title: 'PEKERJAAN PERSIAPAN', status: 'Selesai', progress: 100, week: 1, order: 1, isVerified: true, verifiedBy: supervisor2.id, verifiedAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000) }
   });
 
   const stageActive2_2 = await prisma.projectStage.create({
-    data: { id: 'stg-002-02', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catTanah2.id, code: 'STG-02', title: 'Pekerjaan Tanah dan Pondasi', status: 'Selesai', progress: 100, week: 2, order: 2, isVerified: true, verifiedBy: supervisor2.id, verifiedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
+    data: { id: 'stg-002-02', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catTanah2.id, code: 'STG-002-02', title: 'PEKERJAAN TANAH DAN PONDASI', status: 'Selesai', progress: 100, week: 2, order: 2, isVerified: true, verifiedBy: supervisor2.id, verifiedAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
   });
 
   const stageActive2_3 = await prisma.projectStage.create({
-    data: { id: 'stg-002-03', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catStruktur2.id, code: 'STG-03', title: 'Pekerjaan Struktur Beton', status: 'Berjalan', progress: 20, week: 4, order: 3, isVerified: true, verifiedBy: supervisor2.id, verifiedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) }
+    data: { id: 'stg-002-03', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catStruktur2.id, code: 'STG-002-03', title: 'PEKERJAAN STRUKTUR BETON', status: 'Berjalan', progress: 60, week: 4, order: 3, isVerified: true, verifiedBy: supervisor2.id, verifiedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) }
   });
 
   const stageActive2_4 = await prisma.projectStage.create({
-    data: { id: 'stg-002-04', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catDinding2.id, code: 'STG-04', title: 'Pekerjaan Dinding', status: 'Belum Mulai', progress: 0, week: 6, order: 4 }
+    data: { id: 'stg-002-04', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catDinding2.id, code: 'STG-002-04', title: 'PEKERJAAN DINDING', status: 'Berjalan', progress: 35, week: 6, order: 4 }
   });
 
   const stageActive2_5 = await prisma.projectStage.create({
-    data: { id: 'stg-002-05', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catAtap2.id, code: 'STG-05', title: 'Pekerjaan Atap', status: 'Belum Mulai', progress: 0, week: 8, order: 5 }
+    data: { id: 'stg-002-05', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catAtap2.id, code: 'STG-002-05', title: 'PEKERJAAN ATAP', status: 'Berjalan', progress: 10, week: 8, order: 5 }
   });
 
   const stageActive2_6 = await prisma.projectStage.create({
-    data: { id: 'stg-002-06', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catPlafon2.id, code: 'STG-06', title: 'Pekerjaan Plafon', status: 'Belum Mulai', progress: 0, week: 9, order: 6 }
+    data: { id: 'stg-002-06', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catPlafon2.id, code: 'STG-002-06', title: 'PEKERJAAN PLAFON', status: 'Belum Mulai', progress: 0, week: 9, order: 6 }
   });
 
   const stageActive2_7 = await prisma.projectStage.create({
-    data: { id: 'stg-002-07', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catLantai2.id, code: 'STG-07', title: 'Pekerjaan Lantai', status: 'Belum Mulai', progress: 0, week: 10, order: 7 }
+    data: { id: 'stg-002-07', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catLantai2.id, code: 'STG-002-07', title: 'PEKERJAAN LANTAI', status: 'Belum Mulai', progress: 0, week: 10, order: 7 }
   });
 
   const stageActive2_8 = await prisma.projectStage.create({
-    data: { id: 'stg-002-08', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catKusen2.id, code: 'STG-08', title: 'Pekerjaan Kusen, Pintu, dan Jendela', status: 'Belum Mulai', progress: 0, week: 11, order: 8 }
+    data: { id: 'stg-002-08', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catKusen2.id, code: 'STG-002-08', title: 'PEKERJAAN KUSEN, PINTU, DAN JENDELA', status: 'Belum Mulai', progress: 0, week: 11, order: 8 }
   });
 
   const stageActive2_9 = await prisma.projectStage.create({
-    data: { id: 'stg-002-09', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catPlumbing2.id, code: 'STG-09', title: 'Pekerjaan Plumbing dan Sanitasi', status: 'Belum Mulai', progress: 0, week: 12, order: 9 }
+    data: { id: 'stg-002-09', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catPlumbing2.id, code: 'STG-002-09', title: 'PEKERJAAN PLUMBING DAN SANITASI', status: 'Berjalan', progress: 15, week: 12, order: 9 }
   });
 
   const stageActive2_10 = await prisma.projectStage.create({
-    data: { id: 'stg-002-10', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catListrik2.id, code: 'STG-10', title: 'Pekerjaan Listrik', status: 'Belum Mulai', progress: 0, week: 13, order: 10 }
+    data: { id: 'stg-002-10', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catListrik2.id, code: 'STG-002-10', title: 'PEKERJAAN LISTRIK', status: 'Berjalan', progress: 10, week: 13, order: 10 }
   });
 
   const stageActive2_11 = await prisma.projectStage.create({
-    data: { id: 'stg-002-11', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catFinishing2.id, code: 'STG-11', title: 'Pekerjaan Finishing', status: 'Belum Mulai', progress: 0, week: 14, order: 11 }
+    data: { id: 'stg-002-11', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catFinishing2.id, code: 'STG-002-11', title: 'PEKERJAAN FINISHING', status: 'Belum Mulai', progress: 0, week: 14, order: 11 }
   });
 
   const stageActive2_12 = await prisma.projectStage.create({
-    data: { id: 'stg-002-12', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catLainLain2.id, code: 'STG-12', title: 'Biaya Lain-lain', status: 'Belum Mulai', progress: 0, week: 15, order: 12 }
+    data: { id: 'stg-002-12', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catLainLain2.id, code: 'STG-002-12', title: 'BIAYA LAIN-LAIN', status: 'Berjalan', progress: 20, week: 15, order: 12 }
   });
 
   // --- Stages for Finished Project ---
@@ -155,7 +155,7 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
         previousProgress: 0,
         newProgress: 10,
         stageId: stageActive2_1.id,
-        notes: 'Pekerjaan persiapan lahan selesai.',
+        notes: 'Pekerjaan persiapan lahan Rumah Tipe 36 selesai.',
         createdAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000)
       },
       {
@@ -165,8 +165,18 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
         previousProgress: 10,
         newProgress: 25,
         stageId: stageActive2_2.id,
-        notes: 'Pekerjaan tanah dan pondasi selesai.',
+        notes: 'Pekerjaan tanah dan pondasi Rumah Tipe 36 selesai.',
         createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+      },
+      {
+        id: 'progress-log-active-002-003',
+        projectId: activeProject2.id,
+        supervisorId: supervisor2.id,
+        previousProgress: 25,
+        newProgress: 58,
+        stageId: stageActive2_3.id,
+        notes: 'Struktur beton berjalan, pekerjaan dinding awal dan instalasi MEP awal mulai masuk area kerja.',
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
       },
       {
         id: 'progress-log-finished-001',
@@ -245,7 +255,7 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
       authorRole: 'admin',
       authorId: admin2.id,
       authorName: admin2.name,
-      message: 'Pekerjaan struktur beton sedang berjalan. Penulangan kolom praktis sedang dilakukan.',
+      message: 'Pembangunan Rumah Tipe 36 berada pada tahap struktur beton. Penulangan kolom praktis dan persiapan bekisting sedang dilakukan.',
       isOfficial: true,
       createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
     }
@@ -259,7 +269,7 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
       authorRole: 'customer',
       authorId: customer4.id,
       authorName: customer4.name,
-      message: 'Baik, mohon pastikan kualitas beton sesuai spesifikasi.',
+      message: 'Baik, mohon pastikan kualitas beton dan pembesian sesuai spesifikasi RAB.',
       parentId: commentActive2Official.id,
       createdAt: new Date()
     }

@@ -50,7 +50,7 @@ export default [
         type: "dropdown",
         icon: FiFileText,
         label: "Dokumen & RAB",
-        activeStartsWith: "/admin/dokumen",
+        activeStartsWith: ["/admin/dokumen", "/admin/rab"],
         items: [
             { label: "RAB Proyek", href: "/admin/rab" },
             { label: "Gambar Kerja", href: "/admin/dokumen/gambar-kerja" },

@@ -33,6 +33,13 @@ const DashboardAdmin = () => {
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
 
+    // Safe helper: read count from a grouped-count array ({ status, _count: { _all } }[])
+    const getGroupedCount = (arr, statusValue) => {
+        if (!Array.isArray(arr)) return 0;
+        const found = arr.find(item => item.status?.toLowerCase() === statusValue?.toLowerCase());
+        return found?._count?._all || 0;
+    };
+
     const fetchStats = React.useCallback(async () => {
         if (!selectedAdminId) {
             setLoading(false);
@@ -42,20 +49,30 @@ const DashboardAdmin = () => {
         try {
             setLoading(true);
             setError(null);
+            // Fetch dashboard stats, open issues, and in_review issues in parallel
             const results = await Promise.allSettled([
                 adminService.getDashboardStats({ adminId: selectedAdminId }),
-                fieldIssueService.getFieldIssues({ status: 'open' })
+                fieldIssueService.getFieldIssues({ status: 'open' }),
+                fieldIssueService.getFieldIssues({ status: 'in_review' })
             ]);
 
-            const [statsRes, issuesRes] = results;
+            const [statsRes, openIssuesRes, inReviewIssuesRes] = results;
 
             if (statsRes.status === 'fulfilled' && statsRes.value.success) {
                 setStats(statsRes.value.data);
             }
-            if (issuesRes.status === 'fulfilled' && issuesRes.value.data) {
-                setOpenIssues(issuesRes.value.data.slice(0, 5));
-                setOpenIssuesCount(issuesRes.value.data.length);
-            }
+
+            // Combine open + in_review as "active" field issues
+            const openData = (openIssuesRes.status === 'fulfilled' && Array.isArray(openIssuesRes.value?.data))
+                ? openIssuesRes.value.data
+                : [];
+            const inReviewData = (inReviewIssuesRes.status === 'fulfilled' && Array.isArray(inReviewIssuesRes.value?.data))
+                ? inReviewIssuesRes.value.data
+                : [];
+            const allActiveIssues = [...openData, ...inReviewData]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setOpenIssues(allActiveIssues.slice(0, 5));
+            setOpenIssuesCount(allActiveIssues.length);
 
             if (statsRes.status === 'rejected') {
                 setError("Gagal memuat data statistik utama.");
@@ -115,17 +132,25 @@ const DashboardAdmin = () => {
     }).reduce((sum, r) => sum + (r._count?._all || 0), 0) || 0;
 
     
-    // Material stats
-    const pendingMaterials = materialRequests?.find(m => {
+    // Material stats — materialRequests is a grouped-count array: [{ status, _count: { _all } }]
+    // Pending = requests awaiting Admin action: submitted by supervisor or approved_by_supervisor
+    const pendingMaterials = (Array.isArray(materialRequests) ? materialRequests : []).reduce((sum, m) => {
         const s = m.status?.toLowerCase();
-        return s === "approved_by_supervisor" || s === "submitted";
-    })?._count?._all || 0;
+        if (s === "approved_by_supervisor" || s === "submitted") {
+            return sum + (m._count?._all || 0);
+        }
+        return sum;
+    }, 0);
+
+    // Material Request stat card: pending requests awaiting Admin processing
+    const pendingMaterialsCount = getGroupedCount(materialRequests, 'approved_by_supervisor')
+        + getGroupedCount(materialRequests, 'submitted');
 
     const dashboardStats = [
         { label: "Proyek Aktif", value: activeProjects, icon: FiLayers, color: "#1A4D2E", href: "/admin/proyek" },
         { label: "Proyek Perencanaan", value: planningProjects, icon: FiActivity, color: "#0EA5E9", href: "/admin/proyek" },
-        { label: "Material Request", value: stats?.materialRequests?.filter(m => m.status === 'submitted').length || 0, icon: FiPackage, color: "#F59E0B", href: "/admin/request-material" },
-        { label: "Kendala Terbuka", value: openIssuesCount, icon: FiAlertCircle, color: "#E11428", href: "/admin/monitoring/kendala" },
+        { label: "Material Request", value: pendingMaterialsCount, icon: FiPackage, color: "#F59E0B", href: "/admin/request-material" },
+        { label: "Kendala Aktif", value: openIssuesCount, icon: FiAlertCircle, color: "#E11428", href: "/admin/monitoring/kendala" },
     ];
 
     const recentActivities = [

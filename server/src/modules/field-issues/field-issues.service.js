@@ -109,14 +109,36 @@ export const createIssue = async (data) => {
 };
 
 export const updateStatus = async (id, status, actorId, resolutionNote) => {
+  // Get current status to validate transition
+  const currentIssue = await prisma.fieldIssue.findUnique({
+    where: { id },
+    select: { status: true }
+  });
+
+  if (!currentIssue) {
+    throw new Error('Field issue not found');
+  }
+
+  // Guard: closed only allowed from resolved
+  if (status === 'closed' && currentIssue.status !== 'resolved') {
+    throw new Error('Cannot close issue: Issue must be resolved first');
+  }
+
+  // Prevent illegal jump if needed (optional but good for consistency)
+  // E.g. if we want to be strict about other statuses, we can add them here.
+  // For now, focusing on the specific "closed from resolved" requirement.
+
   const data = { status };
   if (resolutionNote) {
     data.resolutionNote = resolutionNote;
   }
-  if (status === 'resolved' || status === 'closed') {
+
+  // Refine timestamp: resolvedAt only when entering resolved status
+  if (status === 'resolved') {
     data.resolvedAt = new Date();
   }
-  // Optional: add actor log or set actor if needed
+
+  // closedAt is not in the schema, so we do not attempt to update it.
   
   return prisma.fieldIssue.update({
     where: { id },
@@ -126,3 +148,4 @@ export const updateStatus = async (id, status, actorId, resolutionNote) => {
     }
   });
 };
+

@@ -19,6 +19,48 @@ export const createDraft = async (data) => {
 };
 
 export const patchStatus = async (id, status) => {
+  // 1. Get current document to validate transition
+  const currentDoc = await Repository.findById(id);
+  if (!currentDoc) {
+    throw new Error('Document not found');
+  }
+
+  const currentStatus = currentDoc.status;
+
+  // 2. Validate Transitions
+  // draft -> reviewed
+  if (currentStatus === 'draft' && status !== 'reviewed') {
+    throw new Error('Draft document can only transition to reviewed');
+  }
+  
+  // reviewed -> released
+  if (currentStatus === 'reviewed' && status !== 'released') {
+    // If status is still reviewed, no error, just return (or let it pass)
+    if (status !== 'reviewed') {
+      throw new Error('Reviewed document can only transition to released');
+    }
+  }
+
+  // released is final
+  if (currentStatus === 'released' && status !== 'released') {
+    throw new Error('Released document status cannot be changed');
+  }
+
+  // Prevent skipping: draft cannot go directly to released
+  if (currentStatus === 'draft' && status === 'released') {
+    throw new Error('Draft document must be reviewed before release');
+  }
+
+  // Prevent backward transition (explicitly mentioned in rules)
+  const statusPriority = { 'draft': 1, 'reviewed': 2, 'released': 3, 'archived': 4 };
+  if (statusPriority[status] < statusPriority[currentStatus]) {
+    throw new Error(`Cannot move status back from ${currentStatus} to ${status}`);
+  }
+
+  if (status === currentStatus) {
+    return currentDoc;
+  }
+
   const document = await Repository.updateStatus(id, status);
 
   if (status === 'released') {
@@ -46,6 +88,7 @@ export const patchStatus = async (id, status) => {
 
   return document;
 };
+
 
 export const updateDocument = async (id, data) => {
   return await Repository.update(id, data);

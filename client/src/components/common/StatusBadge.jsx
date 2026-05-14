@@ -5,6 +5,48 @@ import React from 'react';
  * Standardizes labels (Indonesia) and colors across all modules.
  */
 const StatusBadge = ({ type, status }) => {
+    const normalizeStatus = (s) => {
+        if (!s) return '';
+        // Replace underscore with space and capitalize words
+        return s.toLowerCase()
+            .split('_')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
+    const getUserStatus = (s) => {
+        switch (s?.toLowerCase()) {
+            case 'active':
+            case 'aktif':
+                return { label: 'Aktif', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            case 'inactive':
+            case 'nonaktif':
+                return { label: 'Nonaktif', className: 'bg-slate-100 text-slate-500 border-slate-200' };
+            case 'pending':
+                return { label: 'Tertunda', className: 'bg-amber-100 text-amber-700 border-amber-200' };
+            case 'suspended':
+                return { label: 'Ditangguhkan', className: 'bg-rose-100 text-rose-700 border-rose-200' };
+            case 'deleted':
+            case 'terhapus':
+                return { label: 'Terhapus', className: 'bg-red-50 text-red-400 border-red-100 italic' };
+            default:
+                return { label: normalizeStatus(s) || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+        }
+    };
+
+    const getHelperDocStatus = (s) => {
+        switch (s?.toLowerCase()) {
+            case 'draft':
+                return { label: 'Draft', className: 'bg-slate-100 text-slate-600 border-slate-200' };
+            case 'reviewed':
+                return { label: 'Sudah Direview', className: 'bg-amber-100 text-amber-700 border-amber-200' };
+            case 'released':
+                return { label: 'Dirilis', className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+            default:
+                return { label: normalizeStatus(s) || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+        }
+    };
+
     const getProjectStatus = (s) => {
         switch (s?.toLowerCase()) {
             case 'active':
@@ -23,7 +65,7 @@ const StatusBadge = ({ type, status }) => {
             case 'suspended':
                 return { label: 'Ditangguhkan', className: 'bg-gray-100 text-gray-700 border-gray-200' };
             default:
-                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+                return { label: normalizeStatus(s) || s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }
     };
 
@@ -42,7 +84,7 @@ const StatusBadge = ({ type, status }) => {
             case 'rejected':
                 return { label: 'Ditolak', className: 'bg-red-100 text-red-700 border-red-200' };
             default:
-                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+                return { label: normalizeStatus(s) || s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }
     };
 
@@ -89,7 +131,7 @@ const StatusBadge = ({ type, status }) => {
             case 'cancelled':
                 return { label: 'Dibatalkan', className: 'bg-gray-100 text-gray-500 border-gray-200' };
             default:
-                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+                return { label: normalizeStatus(s) || s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }
     };
 
@@ -98,13 +140,13 @@ const StatusBadge = ({ type, status }) => {
             case 'high':
             case 'urgent':
             case 'critical':
-                return { label: s, className: 'bg-red-100 text-red-700 border-red-200' };
+                return { label: normalizeStatus(s), className: 'bg-red-100 text-red-700 border-red-200' };
             case 'medium':
-                return { label: s, className: 'bg-amber-100 text-amber-700 border-amber-200' };
+                return { label: normalizeStatus(s), className: 'bg-amber-100 text-amber-700 border-amber-200' };
             case 'low':
-                return { label: s, className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+                return { label: normalizeStatus(s), className: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
             default:
-                return { label: s || 'Normal', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+                return { label: normalizeStatus(s) || 'Normal', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }
     };
 
@@ -121,7 +163,7 @@ const StatusBadge = ({ type, status }) => {
             case 'rejected':
                 return { label: 'Ditolak', className: 'bg-gray-100 text-gray-500 border-gray-200' };
             default:
-                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+                return { label: normalizeStatus(s) || s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }
     };
 
@@ -148,7 +190,7 @@ const StatusBadge = ({ type, status }) => {
             case 'rejected':
                 return { label: 'Ditolak', className: 'bg-red-100 text-red-700 border-red-200' };
             default:
-                return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+                return { label: normalizeStatus(s) || s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
         }
     };
 
@@ -162,7 +204,7 @@ const StatusBadge = ({ type, status }) => {
             return { label: 'Selesai', className: 'bg-purple-100 text-purple-700 border-purple-200' };
         if (val?.includes('verified'))
             return { label: 'Terverifikasi', className: 'bg-indigo-600 text-white border-indigo-700' };
-        return { label: s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
+        return { label: normalizeStatus(s) || s || 'Unknown', className: 'bg-gray-100 text-gray-700 border-gray-200' };
     };
 
     let config;
@@ -191,12 +233,18 @@ const StatusBadge = ({ type, status }) => {
         case 'issue':
             config = getIssueStatus(status);
             break;
+        case 'user':
+            config = getUserStatus(status);
+            break;
+        case 'helper_document':
+            config = getHelperDocStatus(status);
+            break;
         default:
-            config = { label: status, className: 'bg-gray-100 text-gray-700 border-gray-200' };
+            config = { label: normalizeStatus(status) || status, className: 'bg-gray-100 text-gray-700 border-gray-200' };
     }
 
     return (
-        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${config.className}`}>
+        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all ${config.className}`}>
             {config.label}
         </span>
     );

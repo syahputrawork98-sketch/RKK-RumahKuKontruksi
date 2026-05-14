@@ -1,5 +1,6 @@
 // client/src/components/admin/AdminRow.jsx
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import StatusBadge from "../common/StatusBadge";
 
 export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
   const initials = (admin.name || "A").charAt(0).toUpperCase();
@@ -19,7 +20,7 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
               {initials}
             </div>
           )}
-          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${admin.status === 'active' ? 'bg-emerald-400' : 'bg-slate-300'}`}></div>
+          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${admin.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'bg-slate-300'}`}></div>
         </div>
       </td>
 
@@ -32,14 +33,10 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
             {admin.name || "-"}
           </span>
           <div className="flex items-center gap-1 mt-2">
-            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-emerald-100 text-emerald-700">
+            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-emerald-100 text-emerald-700 border border-emerald-200">
               Staff Admin
             </span>
-            {admin.status !== 'active' && (
-              <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-slate-100 text-slate-500">
-                Nonaktif
-              </span>
-            )}
+            <StatusBadge type="user" status={admin.status || 'active'} />
           </div>
         </div>
       </td>
@@ -68,14 +65,14 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
               ? new Date(admin.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
               : "-"}
           </span>
-          <span className="text-[10px] text-[var(--dashboard-text-soft)]">Join Date</span>
+          <span className="text-[10px] text-[var(--dashboard-text-soft)] uppercase font-black tracking-tighter">Join Date</span>
         </div>
       </td>
 
       <td className="px-6 py-4 text-right">
         <div className="flex items-center justify-center gap-2">
           <button
-            title="Detail"
+            title="Detail Persona"
             onClick={() => onDetail(admin)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-[var(--dashboard-primary)]"
           >
@@ -83,7 +80,7 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Edit"
+            title="Edit Persona"
             onClick={() => onEdit(admin)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-indigo-600 hover:bg-indigo-50 transition-colors"
           >
@@ -91,9 +88,9 @@ export default function AdminRow({ admin, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Nonaktifkan"
+            title={admin.status === 'active' ? "Nonaktifkan Persona" : "Aktifkan Persona"}
             onClick={() => onDelete(admin)}
-            className="dashboard-icon-button !p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+            className={`dashboard-icon-button !p-2 transition-colors ${admin.status === 'active' ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
           >
             <Trash2 size={16} />
           </button>

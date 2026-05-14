@@ -1,5 +1,6 @@
 import React from "react";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import StatusBadge from "../common/StatusBadge";
 
 export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) {
   const initials = (architect.name || "A").charAt(0).toUpperCase();
@@ -19,7 +20,7 @@ export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) 
               {initials}
             </div>
           )}
-          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${architect.status === 'active' ? 'bg-emerald-400' : 'bg-slate-300'}`}></div>
+          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${architect.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'bg-slate-300'}`}></div>
         </div>
       </td>
 
@@ -32,9 +33,10 @@ export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) 
             {architect.name || "-"}
           </span>
           <div className="flex items-center gap-1 mt-2">
-            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-purple-100 text-purple-700">
+            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-purple-100 text-purple-700 border border-purple-200">
               Mitra Arsitek
             </span>
+            <StatusBadge type="user" status={architect.status || 'active'} />
           </div>
         </div>
       </td>
@@ -53,7 +55,7 @@ export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) 
       <td className="px-6 py-4">
         <div className="flex flex-wrap gap-1">
           {architect.specialization ? (
-             <span className="text-[10px] bg-[var(--dashboard-surface-soft)] px-2 py-0.5 rounded border border-[var(--dashboard-border-soft)] text-[var(--dashboard-text)]">
+             <span className="text-[10px] bg-[var(--dashboard-surface-soft)] px-2 py-0.5 rounded border border-[var(--dashboard-border-soft)] text-[var(--dashboard-text)] font-bold">
                {architect.specialization}
              </span>
           ) : (
@@ -69,24 +71,14 @@ export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) 
               ? new Date(architect.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
               : "-"}
           </span>
-          <span className="text-[10px] text-[var(--dashboard-text-soft)]">Join Date</span>
+          <span className="text-[10px] text-[var(--dashboard-text-soft)] uppercase font-black tracking-tighter">Join Date</span>
         </div>
-      </td>
-
-      <td className="px-6 py-4 text-center">
-        <span className={`px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest ${
-          architect.status === 'active' 
-            ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
-            : "bg-slate-50 text-slate-400 border border-slate-100"
-        }`}>
-          {architect.status === 'active' ? "Aktif" : "Nonaktif"}
-        </span>
       </td>
 
       <td className="px-6 py-4">
         <div className="flex items-center justify-center gap-2">
           <button
-            title="Detail"
+            title="Detail Persona"
             onClick={() => onDetail(architect)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-purple-600"
           >
@@ -94,7 +86,7 @@ export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) 
           </button>
 
           <button
-            title="Edit"
+            title="Edit Persona"
             onClick={() => onEdit(architect)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-indigo-600 hover:bg-indigo-50 transition-colors"
           >
@@ -102,9 +94,9 @@ export default function ArchitectRow({ architect, onEdit, onDelete, onDetail }) 
           </button>
 
           <button
-            title="Nonaktifkan"
+            title={architect.status === 'active' ? "Nonaktifkan Persona" : "Aktifkan Persona"}
             onClick={() => onDelete(architect)}
-            className="dashboard-icon-button !p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+            className={`dashboard-icon-button !p-2 transition-colors ${architect.status === 'active' ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
           >
             <Trash2 size={16} />
           </button>

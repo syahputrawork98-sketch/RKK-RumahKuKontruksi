@@ -1,5 +1,6 @@
 import React from "react";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import StatusBadge from "../common/StatusBadge";
 
 export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
   const initials = (pengawas.name || "P").charAt(0).toUpperCase();
@@ -19,7 +20,7 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
               {initials}
             </div>
           )}
-          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${pengawas.status === 'active' ? 'bg-emerald-400' : 'bg-slate-300'}`}></div>
+          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${pengawas.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'bg-slate-300'}`}></div>
         </div>
       </td>
 
@@ -32,9 +33,10 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
             {pengawas.name || "-"}
           </span>
           <div className="flex items-center gap-1 mt-2">
-            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-amber-100 text-amber-700">
+            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-amber-100 text-amber-700 border border-amber-200">
               Pengawas Lapangan
             </span>
+            <StatusBadge type="user" status={pengawas.status || 'active'} />
           </div>
         </div>
       </td>
@@ -51,7 +53,7 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
       </td>
 
       <td className="px-6 py-4 max-w-xs">
-        <p className="text-xs text-[var(--dashboard-text-muted)] truncate" title={pengawas.city}>
+        <p className="text-xs text-[var(--dashboard-text-muted)] truncate font-medium" title={pengawas.city}>
           {pengawas.city || "-"}
         </p>
       </td>
@@ -63,14 +65,14 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
               ? new Date(pengawas.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })
               : "-"}
           </span>
-          <span className="text-[10px] text-[var(--dashboard-text-soft)]">Join Date</span>
+          <span className="text-[10px] text-[var(--dashboard-text-soft)] uppercase font-black tracking-tighter">Join Date</span>
         </div>
       </td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 text-right">
         <div className="flex items-center justify-center gap-2">
           <button
-            title="Detail"
+            title="Detail Persona"
             onClick={() => onDetail(pengawas)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-amber-600"
           >
@@ -78,7 +80,7 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Edit"
+            title="Edit Persona"
             onClick={() => onEdit(pengawas)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-indigo-600 hover:bg-indigo-50 transition-colors"
           >
@@ -86,9 +88,9 @@ export default function PengawasRow({ pengawas, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Nonaktifkan"
+            title={pengawas.status === 'active' ? "Nonaktifkan Persona" : "Aktifkan Persona"}
             onClick={() => onDelete(pengawas)}
-            className="dashboard-icon-button !p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+            className={`dashboard-icon-button !p-2 transition-colors ${pengawas.status === 'active' ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
           >
             <Trash2 size={16} />
           </button>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Eye, Edit2, Trash2 } from "lucide-react";
+import StatusBadge from "../common/StatusBadge";
 
 export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
   const initials = (mandor.name || "M").charAt(0).toUpperCase();
@@ -19,7 +20,7 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
               {initials}
             </div>
           )}
-          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${mandor.status === 'active' ? 'bg-emerald-400' : 'bg-slate-300'}`}></div>
+          <div className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-[var(--dashboard-surface)] ${mandor.status === 'active' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'bg-slate-300'}`}></div>
         </div>
       </td>
 
@@ -32,9 +33,10 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
             {mandor.name || "-"}
           </span>
           <div className="flex items-center gap-1 mt-2">
-            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-blue-100 text-blue-700">
+            <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-widest bg-blue-100 text-blue-700 border border-blue-200">
               Mitra Mandor
             </span>
+            <StatusBadge type="user" status={mandor.status || 'active'} />
           </div>
         </div>
       </td>
@@ -51,7 +53,7 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
       </td>
 
       <td className="px-6 py-4 max-w-xs">
-        <p className="text-xs text-[var(--dashboard-text-muted)] truncate" title={mandor.address}>
+        <p className="text-xs text-[var(--dashboard-text-muted)] truncate font-medium" title={mandor.address}>
           {mandor.address || "-"}
         </p>
       </td>
@@ -59,7 +61,7 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
       <td className="px-6 py-4">
         <div className="flex flex-wrap gap-1">
           {mandor.specialization ? (
-             <span className="text-[10px] bg-[var(--dashboard-surface-soft)] px-2 py-0.5 rounded border border-[var(--dashboard-border-soft)] text-[var(--dashboard-text)]">
+             <span className="text-[10px] bg-[var(--dashboard-surface-soft)] px-2 py-0.5 rounded border border-[var(--dashboard-border-soft)] text-[var(--dashboard-text)] font-bold">
                {mandor.specialization}
              </span>
           ) : (
@@ -68,20 +70,10 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
         </div>
       </td>
 
-      <td className="px-6 py-4 text-center">
-        <span className={`px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest ${
-          mandor.status === 'active' 
-            ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
-            : "bg-slate-50 text-slate-400 border border-slate-100"
-        }`}>
-          {mandor.status === 'active' ? "Aktif" : "Nonaktif"}
-        </span>
-      </td>
-
       <td className="px-6 py-4">
         <div className="flex items-center justify-center gap-2">
           <button
-            title="Detail"
+            title="Detail Persona"
             onClick={() => onDetail(mandor)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-blue-600"
           >
@@ -89,7 +81,7 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Edit"
+            title="Edit Persona"
             onClick={() => onEdit(mandor)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-indigo-600 hover:bg-indigo-50 transition-colors"
           >
@@ -97,9 +89,9 @@ export default function MandorRow({ mandor, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Nonaktifkan"
+            title={mandor.status === 'active' ? "Nonaktifkan Persona" : "Aktifkan Persona"}
             onClick={() => onDelete(mandor)}
-            className="dashboard-icon-button !p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+            className={`dashboard-icon-button !p-2 transition-colors ${mandor.status === 'active' ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
           >
             <Trash2 size={16} />
           </button>

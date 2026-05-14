@@ -1,6 +1,7 @@
 import React from "react";
 import { Eye, Edit2, Trash2 } from "lucide-react";
 import { FiUser, FiBriefcase } from "react-icons/fi";
+import StatusBadge from "../common/StatusBadge";
 
 export default function CustomerRow({ customer, onEdit, onDelete, onDetail }) {
   const isCorporate = customer.customerType === "Corporate";
@@ -22,10 +23,13 @@ export default function CustomerRow({ customer, onEdit, onDelete, onDetail }) {
             {isCorporate ? customer.companyName : customer.name}
           </span>
           {isCorporate && (
-            <span className="text-[10px] text-[var(--dashboard-text-soft)] mt-1">
+            <span className="text-[10px] text-[var(--dashboard-text-soft)] mt-1 font-bold">
               PIC: {customer.picName || "-"}
             </span>
           )}
+          <div className="mt-2">
+            <StatusBadge type="user" status={customer.status || 'active'} />
+          </div>
         </div>
       </td>
 
@@ -49,25 +53,15 @@ export default function CustomerRow({ customer, onEdit, onDelete, onDetail }) {
       </td>
 
       <td className="px-6 py-4 max-w-xs">
-        <p className="text-xs text-[var(--dashboard-text-muted)] truncate" title={customer.address}>
+        <p className="text-xs text-[var(--dashboard-text-muted)] truncate font-medium" title={customer.address}>
           {customer.address || "-"}
         </p>
       </td>
 
-      <td className="px-6 py-4 text-center">
-        <span className={`px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest ${
-          customer.status === 'active' 
-            ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
-            : "bg-slate-50 text-slate-400 border border-slate-100"
-        }`}>
-          {customer.status === 'active' ? "Aktif" : "Nonaktif"}
-        </span>
-      </td>
-
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 text-right">
         <div className="flex items-center justify-center gap-2">
           <button
-            title="Detail"
+            title="Detail Persona"
             onClick={() => onDetail(customer)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-teal-600"
           >
@@ -75,7 +69,7 @@ export default function CustomerRow({ customer, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Edit"
+            title="Edit Persona"
             onClick={() => onEdit(customer)}
             className="dashboard-icon-button !p-2 bg-[var(--dashboard-surface-soft)] text-indigo-600 hover:bg-indigo-50 transition-colors"
           >
@@ -83,9 +77,9 @@ export default function CustomerRow({ customer, onEdit, onDelete, onDetail }) {
           </button>
 
           <button
-            title="Nonaktifkan"
+            title={customer.status === 'active' ? "Nonaktifkan Persona" : "Aktifkan Persona"}
             onClick={() => onDelete(customer)}
-            className="dashboard-icon-button !p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+            className={`dashboard-icon-button !p-2 transition-colors ${customer.status === 'active' ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
           >
             <Trash2 size={16} />
           </button>

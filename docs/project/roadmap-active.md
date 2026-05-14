@@ -36,12 +36,12 @@ Roadmap yang telah diselesaikan:
    - **Batch 99**: Technical Debt & Build Warning Sweep (Build Pass).
 5. **Latest Checkpoint**: **Batch 100 — Docs Sync + Checkpoint**. (Accepted)
 
-## 🛠️ Next Focus (Batch 101+ Candidate Cycle)
+## 🛠️ Next Focus (Batch 101–110: Local Stabilization & Feature Completion Cycle)
 Rekomendasi pengembangan selanjutnya (Post-Batch 100):
-- **Production Infrastructure Integration (Phase I)**: Persiapan integrasi Auth (JWT/Session) dan RBAC rill untuk menggantikan Persona Switcher secara bertahap.
-- **Enhanced Collaboration Layer**: Implementasi Stage Communication / Threading rill untuk koordinasi teknis antar role di level item RAB.
-- **Reporting & Export Suite**: Penyediaan fitur ekspor (PDF/Excel) untuk RAB, Laporan Mingguan, dan Berita Acara Proyek berbasis data stabil yang sudah ada.
-- **Advanced Payment Workflow**: Simulasi termin pembayaran (Down Payment, Progress-based) dengan integrasi dokumen penagihan administratif.
+- **Local CRUD Hardening**: Audit dan penguatan sisa modul operasional yang memerlukan validasi data lebih ketat.
+- **Enhanced Collaboration Layer**: Implementasi Stage Communication / Threading lokal untuk koordinasi teknis antar role di level item RAB.
+- **Reporting & Export Suite (Local)**: Penyediaan fitur ekspor (PDF/Excel) untuk RAB, Laporan Mingguan, dan Berita Acara Proyek berbasis data lokal.
+- **Local Dashboard & Analytics Polish**: Penajaman visualisasi monitoring proyek dan log aktivitas untuk Admin/Superadmin.
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
@@ -57,4 +57,4 @@ Peta jalan urutan implementasi modul operasional:
 10. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 100 - Checkpoint)
 
 ---
-*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal menuju kesiapan produksi. Terakhir diperbarui: Batch 100.*
+*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal dan stabilitas alur kerja operasional. Terakhir diperbarui: Batch 100.*

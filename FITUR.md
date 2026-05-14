@@ -17,7 +17,7 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 ## 🏷️ Legend Status
 - ✅ **Stabilized / Local Done**: Fitur sudah terintegrasi dengan database, memiliki backend guard, dan stabil secara fungsional dalam simulasi lokal.
 - 🏗️ **Local Workflow v1/v2**: Fitur dalam tahap pengembangan/polish alur lokal.
-- 🕒 **Planned / Next Roadmap**: Masuk dalam rencana pengembangan fase berikutnya (e.g. Production Transition).
+- 🕒 **Planned / Next Roadmap**: Masuk dalam rencana pengembangan fase berikutnya (e.g. Local Reporting & Export).
 - 🛑 **Hold / Out of Scope**: Ditahan atau di luar lingkup pengembangan lokal saat ini.
 
 ---

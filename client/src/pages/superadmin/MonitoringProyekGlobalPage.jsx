@@ -252,15 +252,18 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                                                 <StatusBadge type="project" status={p.status} />
                                                 <div className="w-32">
                                                     <div className="flex items-center justify-between mb-1.5">
-                                                        <span className="text-[9px] font-black uppercase text-slate-400">Progres</span>
-                                                        <span className="text-[10px] font-black text-blue-600">{p.verifiedProgress || p.progress || 0}%</span>
+                                                        <span className="text-[9px] font-black uppercase text-slate-400">Progress Resmi (SOT)</span>
+                                                        <span className="text-[10px] font-black text-blue-600">{(p.verifiedProgress ?? 0)}%</span>
                                                     </div>
                                                     <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
                                                         <div 
                                                             className="h-full bg-blue-500 rounded-full transition-all duration-1000"
-                                                            style={{ width: `${p.verifiedProgress || p.progress || 0}%` }}
+                                                            style={{ width: `${(p.verifiedProgress ?? 0)}%` }}
                                                         />
                                                     </div>
+                                                    {p.verifiedProgress === null && (
+                                                        <p className="text-[7px] text-amber-600 font-bold uppercase mt-1 italic leading-none">Menunggu Verifikasi Pengawas</p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </td>

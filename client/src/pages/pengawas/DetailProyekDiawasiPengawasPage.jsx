@@ -321,10 +321,10 @@ const DetailProyekDiawasiPengawasPage = () => {
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-xs font-black uppercase">
                                             <span className="text-blue-900">Verified Progress</span>
-                                            <span className="text-blue-600 text-xl leading-none">{project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%</span>
+                                            <span className="text-blue-600 text-xl leading-none">{(project.verifiedProgress ?? 0)}%</span>
                                         </div>
                                         <div className="w-full h-4 bg-white rounded-full overflow-hidden p-1 border border-blue-100 shadow-inner">
-                                            <div className="h-full bg-linear-to-r from-blue-600 to-blue-400 rounded-full shadow-lg shadow-blue-500/20" style={{ width: `${project.verifiedProgress !== undefined && project.verifiedProgress !== null ? project.verifiedProgress : project.progress || 0}%` }} />
+                                            <div className="h-full bg-linear-to-r from-blue-600 to-blue-400 rounded-full shadow-lg shadow-blue-500/20" style={{ width: `${(project.verifiedProgress ?? 0)}%` }} />
                                         </div>
                                         <div className="flex justify-between items-center mt-2">
                                             <p className="text-[9px] text-blue-400 font-bold italic uppercase tracking-tighter">

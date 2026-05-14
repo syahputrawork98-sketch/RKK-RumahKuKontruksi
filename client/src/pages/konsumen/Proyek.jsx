@@ -95,7 +95,7 @@ const Proyek = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {proyekList.map((proyek) => {
-            const verifiedProgress = proyek.verifiedProgress || 0;
+            const verifiedProgress = proyek.verifiedProgress ?? 0;
             
             return (
               <motion.div

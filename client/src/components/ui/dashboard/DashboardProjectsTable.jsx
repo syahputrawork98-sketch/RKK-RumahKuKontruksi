@@ -54,14 +54,17 @@ export const DashboardProjectsTable = ({ projects = [] }) => {
                                     </td>
 
                                     <td className="px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-20 bg-[var(--dashboard-surface-soft)] h-1.5 rounded-full overflow-hidden border border-[var(--dashboard-border-soft)]">
+                                        <div className="flex flex-col gap-1.5">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[9px] font-black uppercase text-slate-400">Progress Resmi</span>
+                                                <span className="text-[10px] font-black text-blue-600">{(p.verifiedProgress ?? 0)}%</span>
+                                            </div>
+                                            <div className="w-24 bg-[var(--dashboard-surface-soft)] h-1.5 rounded-full overflow-hidden border border-[var(--dashboard-border-soft)]">
                                                 <div
                                                     className="bg-gradient-to-r from-blue-600 to-emerald-400 h-1.5 transition-all duration-1000"
-                                                    style={{ width: `${p.verifiedProgress || 0}%` }}
+                                                    style={{ width: `${(p.verifiedProgress ?? 0)}%` }}
                                                 />
                                             </div>
-                                            <span className="text-[10px] font-black text-blue-600">{p.verifiedProgress || 0}%</span>
                                         </div>
                                     </td>
 

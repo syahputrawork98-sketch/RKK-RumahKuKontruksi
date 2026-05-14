@@ -78,7 +78,7 @@ const TimelineProyek = () => {
             categoryId: s.categoryId,
             rabPlanId: s.rabPlanId
           })),
-          verifiedProgress: raw.verifiedProgress || 0,
+          verifiedProgress: raw.verifiedProgress ?? 0,
           team: {
             admin: {
               name: raw.admin?.name || "Admin Belum Ditugaskan",
@@ -266,7 +266,14 @@ const TimelineProyek = () => {
                     Progress Resmi <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] border border-white/30">Source of Truth</span>
                   </p>
                 </div>
-                <span className="text-4xl font-black text-teal-400">{project.verifiedProgress}%</span>
+                <span className="text-4xl font-black text-teal-400">
+                  {project.verifiedProgress}%
+                  {project.verifiedProgress === 0 && (
+                    <span className="text-[10px] ml-2 opacity-50 font-medium italic block md:inline tracking-tighter">
+                      (Menunggu Verifikasi Pertama)
+                    </span>
+                  )}
+                </span>
               </div>
               <div className="w-full h-5 bg-white/10 rounded-full overflow-hidden p-1 border border-white/20 backdrop-blur-sm shadow-inner">
                 <motion.div 

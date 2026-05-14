@@ -9,15 +9,15 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - **Goal**: Menstabilkan alur kerja (workflow) operasional antar role menggunakan database rill dalam simulasi lokal.
 - **Auth**: Menggunakan **Dev Persona Switcher** (Bukan JWT/Session/Password production).
 - **Security**: Tidak ada RBAC production; keamanan didasarkan pada pemilihan persona lokal.
-- **Local Scope**: Seluruh modul operasional inti (Superadmin, Admin, Pengawas, Mandor, Konsumen, Arsitek) telah melewati siklus hardening lokal (Batch 81–89).
+- **Local Scope**: Seluruh modul operasional inti (Superadmin, Admin, Pengawas, Mandor, Konsumen, Arsitek) telah melewati siklus hardening lokal dan integrasi status guard (Batch 91–99).
 - **Production Guard**: Production auth, JWT, session, password, register, deployment, dan full RBAC tetap berstatus **Hold / Out of Scope**.
 
 ---
 
 ## 🏷️ Legend Status
-- ✅ **Stabilized / Local Done**: Fitur sudah terintegrasi dengan database dan stabil secara fungsional dalam simulasi lokal.
+- ✅ **Stabilized / Local Done**: Fitur sudah terintegrasi dengan database, memiliki backend guard, dan stabil secara fungsional dalam simulasi lokal.
 - 🏗️ **Local Workflow v1/v2**: Fitur dalam tahap pengembangan/polish alur lokal.
-- 🕒 **Planned / Next Roadmap**: Masuk dalam rencana pengembangan fase berikutnya.
+- 🕒 **Planned / Next Roadmap**: Masuk dalam rencana pengembangan fase berikutnya (e.g. Production Transition).
 - 🛑 **Hold / Out of Scope**: Ditahan atau di luar lingkup pengembangan lokal saat ini.
 
 ---
@@ -26,80 +26,71 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 
 ### 🦸 Superadmin
 - ✅ **Direktori Persona Lokal**: Manajemen entitas simulasi (CRUD user lokal).
-- ✅ **Global Monitoring Summary**: Oversight progres proyek secara global (Read-only).
-- ✅ **Pusat Audit & Approval Lokal**: Audit Log & Profile Approval monitoring (Batch 85).
-- ✅ **Sensitive Action Highlighting**: Visualisasi aksi kritis di dashboard governance.
-- ✅ **Empty/Error State Polish**: UX premium pada direktori data kosong.
+- ✅ **Global Monitoring Summary**: Dashboard statistik operasional global (Batch 93).
+- ✅ **Pusat Audit & Approval Lokal**: Audit Log & Profile Approval dengan highlighting aksi sensitif.
+- ✅ **Governance Simulation**: Visualisasi status persona (active/inactive/deleted) yang konsisten (Batch 98).
 
 ### 👔 Admin
 - ✅ **Project Lifecycle Management**: Mengelola proyek dari Planning hingga Completion.
-- ✅ **RAB & Baseline Builder**: Penyusunan struktur biaya, kategori, dan item pekerjaan.
-- ✅ **Material Request Coordination**: Monitoring logistik material berbasis RAB (Batch 86).
-- ✅ **Administrative Document Helper**: CRUD draf metadata helper document (Batch 82).
-- ✅ **Field Issue Control**: Resolusi administratif kendala lapangan (Resolved-vs-Closed).
-- ✅ **Team Assignment**: Penugasan role operasional ke proyek aktif.
+- ✅ **Operational Analytics Dashboard**: Ringkasan harian (Daily Report & Field Issue) (Batch 93).
+- ✅ **Design-to-Project Bridge**: Transparansi eligibility konversi desain ke proyek (Batch 96).
+- ✅ **Field Issue Control**: Resolusi administratif dengan backend status guard (Batch 91).
+- ✅ **Administrative Document Helper**: CRUD draf metadata dengan backend status guard (Batch 91).
 
 ### 🔍 Pengawas (Supervisor)
-- ✅ **Verifikasi Progres SOT**: Update manual progres resmi proyek (`verifiedProgress`).
-- ✅ **Review Jurnal Mandor**: Validasi aktivitas lapangan secara administratif.
-- ✅ **Weekly Report**: Pembuatan laporan evaluasi mingguan (Batch 86).
-- ✅ **Technical Read-only Panels**: Akses data teknis baseline (RAB, Jadwal, Gambar Kerja).
-- ✅ **Field Issue Resolution**: Penandaan status "Resolved" pada kendala teknis lapangan.
+- ✅ **Verifikasi Progres SOT**: Update manual progres resmi proyek (`verifiedProgress`) (SSOT).
+- ✅ **Review Jurnal Mandor**: Validasi aktivitas lapangan dengan konteks progres terverifikasi.
+- ✅ **Weekly Report**: Pembuatan laporan evaluasi mingguan.
+- ✅ **Field Issue Resolution**: Penandaan status "Resolved" sebagai prasyarat penutupan administratif.
 
 ### 👷 Mandor (Foreman)
-- ✅ **Daily Report & Daily Task**: Checklist dan pelaporan aktivitas harian (Batch 86).
+- ✅ **Daily Report & Daily Task**: Pelaporan harian dengan konteks Proyek/Stage yang informatif (Batch 92).
 - ✅ **Jurnal Mingguan**: Pelaporan mingguan terhubung dengan kategori RAB & Stage.
 - ✅ **Material Request from RAB**: Pengajuan kebutuhan bahan berbasis sisa kuota RAB.
 - ✅ **Field Issue Reporting**: Pelaporan kendala teknis dari lapangan.
-- ✅ **Weekly Payment Status**: Pantauan kelayakan pembayaran mingguan (Simulasi Lokal).
 
 ### 🏠 Konsumen (Customer)
-- ✅ **Timeline Visibility**: Pantauan progres resmi (SOT) dan history proyek (Batch 83).
-- ✅ **Design Request Flow**: Pengajuan brief dan monitoring revisi desain (Batch 84).
-- ✅ **Helper Documents Viewer**: Akses dokumen administratif yang dirilis Admin.
-- ✅ **Project Transparency**: Akses bukti foto/catatan kerja per item (Evidence Thread).
-- ✅ **In-App Notifications**: Notifikasi perkembangan proyek (Polling simulation).
+- ✅ **Timeline Transparency**: Diferensiasi Design vs Construction timeline (Batch 97).
+- ✅ **Helper Documents Viewer**: Akses dokumen administratif berbasis status rilis rill (Batch 97).
+- ✅ **Design Request Flow**: Pengajuan brief dan monitoring revisi desain.
+- ✅ **Evidence Thread Polish**: Empty state jujur untuk bukti kerja yang belum tersedia (Batch 97).
 
 ### 🎨 Arsitek
 - ✅ **Design Request Management**: Dashboard koordinasi brief konsumen.
-- ✅ **Revision Flow Control**: Pembatasan revisi Major (3) dan Minor (5) (Batch 84).
-- ✅ **Design Progress Update**: Pencatatan aktivitas desain ke timeline kolaborasi.
-- ✅ **Tender/Bid Simulation**: Alur simulasi penugasan desain proyek.
+- ✅ **Revision Flow Control**: Pembatasan revisi Major (3) dan Minor (5).
+- ✅ **Design Progress Update**: Pencatatan progres aktivitas desain secara periodik.
 
 ---
 
 ## ⚙️ Workflow Utama (Core Workflows)
-1. **Design to Project**: Brief -> Revisi -> Approval -> Bridge ke Draft Proyek.
+1. **Design to Project**: Brief -> Revisi -> Approval -> Bridge Eligibility Check -> Draft Proyek.
 2. **Project Setup**: Draft Proyek -> RAB Builder -> Stage Planning -> Penugasan Tim.
 3. **Construction**: Jurnal Mandor -> Verifikasi Pengawas (SOT) -> Material Request -> Weekly Report.
-4. **Transparency**: Evidence Upload -> Supervisor Review -> Consumer Timeline Visibility.
-5. **Closure**: Verified Progress 100% -> Project Completion -> History Mode.
+4. **Governance**: Audit Log Monitoring -> Sensitive Action Alert -> Status Consistency Pass.
 
 ---
 
 ## 📈 Aturan Progress SOT (Source of Truth)
 - **`Project.verifiedProgress`** adalah satu-satunya indikator progres resmi sistem.
+- **Frontend Consistency**: Seluruh dashboard merujuk langsung ke `verifiedProgress` (Batch 94).
 - **Update Manual**: Hanya dapat diubah oleh **Pengawas assigned** melalui fitur Verifikasi Progres.
-- **No Automation**: Jurnal Mandor, Stage Completion, dan Material Request **TIDAK** mengubah progres resmi secara otomatis untuk menjaga integritas data fisik lapangan.
+- **No Automation**: Aktivitas harian **TIDAK** mengubah progres resmi secara otomatis.
 
 ---
 
 ## 💳 Payment Roadmap (Next Phases)
 - 🕒 **Payment Record / Termin Monitoring**: Simulasi lokal pencatatan pembayaran (Existing visibility).
-- 🕒 **Payment Gateway Integration**: Integrasi gateway pembayaran produksi (Planned).
-- 🕒 **Payment Proof Upload**: Fitur unggah bukti bayar oleh konsumen (Planned).
-- 🕒 **Invoice Internal Production Flow**: Alur penagihan internal rill (Planned).
-- 🛑 **Tax Compliance**: e-Faktur/pajak legal (Out of current scope).
+- 🕒 **In-App Billing Flow**: Alur penagihan termin berbasis progres (Planned).
+- 🛑 **Payment Gateway Integration**: Integrasi gateway pembayaran rill (Hold).
 
 ---
 
 ## 🛑 Hold / Out of Scope (Sengaja Ditunda)
-- **Production Auth**: Login/Register rill, JWT, Reset Password, Session Management.
-- **Full Production Security**: Full production RBAC, deployment hardening.
-- **Payment Settlement**: Proses settlement keuangan rill (Production context).
-- **Tax/Legal Compliance Final**: Kepatuhan pajak/hukum final untuk invoice resmi.
-- **Cloud Upload Production**: Integrasi S3/Cloud Storage untuk file besar.
+- **Production Auth**: Login/Register rill, JWT, Reset Password.
+- **Production Infrastructure**: Deployment hardening, Full RBAC production.
+- **Cloud Storage Production**: Integrasi S3 / Storage rill.
+- **Weekly Report Publish ke Konsumen**: Menunggu approval Room 00.
 - **Realtime WebSocket**: Komunikasi dua arah instan skala besar.
 
 ---
-*Terakhir diperbarui: Batch 90 — Docs Sync + Checkpoint.*
+*Terakhir diperbarui: Batch 100 — Docs Sync + Checkpoint.*

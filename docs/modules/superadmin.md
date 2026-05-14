@@ -3,9 +3,9 @@
 Role Superadmin berfungsi sebagai pengawas sistem global dan pengelola direktori persona lokal.
 
 ## 🏗️ Fitur Utama (Hardened)
-- **Persona Directory**: CRUD entitas persona lintas role (Admin, Mandor, Pengawas, Arsitek, Konsumen) (Batch 76).
-- **Global Monitoring**: Memantau statistik proyek secara global dan log aktivitas database.
-- **Audit Center**: Melihat antrian persetujuan profil dan aktivitas sensitif lainnya (Batch 77).
+- **Persona Directory**: Manajemen entitas persona dengan visualisasi status (active/inactive/deleted) yang konsisten (Batch 98).
+- **Global Operational Monitoring**: Oversight progres proyek global dan agregasi log operasional harian (Batch 93).
+- **Audit Center**: Monitoring aktivitas sensitif lokal dengan visual highlighting pada aksi kritis (Batch 98).
 
 ## 🛡️ Batasan
 - **Bukan Operator**: Superadmin tidak menjalankan workflow harian (seperti assign arsitek atau update progress).

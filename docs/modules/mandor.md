@@ -12,8 +12,8 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 - **Jadwal Kerja (Read-only)**: Monitoring timeline dan target milestone.
 - **Gambar Kerja (Read-only)**: Akses file DED dan teknis untuk pelaksanaan.
 - **Dokumentasi Lapangan (Read-only)**: Galeri foto progres yang diunggah tim.
-- **Tugas Harian**: Daftar pekerjaan harian yang ditugaskan oleh Pengawas/Admin (DB-backed).
-- **Laporan Harian**: Pelaporan hasil pekerjaan harian (Progress Log) (DB-backed).
+- **Tugas Harian**: Daftar pekerjaan harian dengan konteks Proyek/Stage yang informatif (Batch 92).
+- **Laporan Harian**: Pelaporan harian dengan context-aware data (Batch 92).
 - **Jurnal Mingguan**: Pelaporan mingguan yang terhubung dengan kategori RAB & Stage.
 - **Kebutuhan Material**: Pengajuan logistik proyek berbasis sisa kuota RAB.
 - **Kendala Lapangan**: Pelaporan hambatan teknis/alam dan monitoring resolusi terintegrasi.

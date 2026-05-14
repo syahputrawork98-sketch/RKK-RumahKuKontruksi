@@ -3,11 +3,11 @@
 Role Konsumen fokus pada transparansi informasi proyek dan komunikasi dengan pihak manajemen.
 
 ## 🏗️ Fitur Utama
-- **Project Monitoring**: Dashboard untuk melihat status proyek dan Progres Resmi (`verifiedProgress`).
-- **Timeline**: Visualisasi terpisah antara Timeline Desain dan Timeline Konstruksi (Hardened in Batch 74).
-- **Stage Communication**: Jalur diskusi dengan Admin per tahap proyek (HTTP CRUD).
-- **Design Request**: Mengajukan permintaan desain baru dan memantau proses tender/revisi (Hardened in Batch 75).
-- **Document Access**: Mengunduh Administrative Helper Documents yang telah dirilis oleh Admin (Batch 79).
+- **Project Monitoring**: Dashboard untuk melihat status proyek dan Progres Resmi (`verifiedProgress`) tanpa fallback ambigu (Batch 94).
+- **Timeline Transparency**: Diferensiasi jelas antara Timeline Desain (Arsitek) dan Timeline Konstruksi (Mandor/Pengawas) (Batch 97).
+- **Stage Communication**: Jalur diskusi dengan Admin per tahap proyek. Evidence thread menampilkan empty state jika belum ada bukti kerja (Batch 97).
+- **Design Request**: Mengajukan permintaan desain dan memantau status revisi hingga konversi ke proyek.
+- **Document Access**: Akses dokumen administratif (Helper Docs) berbasis status `released` (Batch 97).
 
 ## 🛡️ Batasan
 - **Read-only Progress**: Konsumen hanya memantau progres resmi; tidak memiliki wewenang mengubah progres atau status proyek.

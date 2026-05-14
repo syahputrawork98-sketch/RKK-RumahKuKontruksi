@@ -12,29 +12,17 @@ Backend RKK dibangun menggunakan **Node.js (Express)** dengan **Prisma ORM** unt
 ## 🛡️ Batasan Backend
 - **No Auth Implementation**: Tidak ada validasi JWT atau session di level server pada fase ini.
 - **Local File Storage**: Menggunakan middleware `multer` untuk menyimpan binary ke folder `server/uploads/`.
-- **Non-Realtime**: Tidak ada dukungan WebSocket; seluruh update berbasis request-response standar.
-- **No RBAC Guard**: Pengecekan role/permission di sisi server belum diimplementasikan secara ketat.
-- **No Financial Production**: Tidak ada integrasi payment gateway atau sistem akuntansi legal rill.
-- **Administrative Helpers**: Modul dokumen (BAST/Invoice) hanya bersifat metadata helper, bukan dokumen legal resmi atau sistem invoice production.
+- **Business Logic Layer**: Penanganan transisi status kritis (e.g., Project lifecycle, Design flow). Hard guards ditambahkan pada Batch 91 untuk Field Issue dan Helper Documents.
+- **Reporting & Stats Engine**: Agregasi data operasional lokal untuk dashboard manajerial (Batch 93).
 
-## 📡 API Standard Response
-Seluruh response menggunakan format JSON standar:
-```json
-{
-  "success": true,
-  "message": "OK",
-  "data": {},
-  "meta": {}
-}
-```
-Error Response:
-```json
-{
-  "success": false,
-  "message": "Error description",
-  "errors": [],
-  "code": "ERROR_CODE"
-}
-```
+## 🛡️ Aturan Integritas Data (Guards)
+1. **Field Issue Guard**: Status `closed` hanya valid jika status sebelumnya adalah `resolved`.
+2. **Helper Documents Guard**: Transisi status wajib mengikuti alur `draft` -> `reviewed` -> `released`.
+3. **Progress SOT Guard**: Perubahan `Project.verifiedProgress` hanya diizinkan melalui modul verifikasi pengawas.
+
+## 📡 API Services & Data Fetching
+Semua request menggunakan `apiClient.js` (frontend) yang menghubungi Express API secara lokal. Response handling diperkuat pada Batch 99 untuk menangani data kosong secara aman.
+
 ---
-*Untuk daftar endpoint rill, silakan merujuk ke [API Map](./api-map.md).*
+*Untuk daftar endpoint lengkap, silakan merujuk ke [API Map](./api-map.md).*
+*Terakhir diperbarui: Batch 100.*

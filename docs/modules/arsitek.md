@@ -6,7 +6,7 @@ Role Arsitek bertanggung jawab atas pembuatan desain dan kolaborasi draf teknis 
 - **Design Tender**: Melihat peluang desain lokal dan melakukan bid simulasi.
 - **Design Workspace**: Mengelola progres desain dan koordinasi revisi dengan Konsumen (Batch 75).
 - **Revision Tracker**: Memantau batas revisi (Limit: 3 Major / 5 Minor).
-- **Design-to-Project Bridge**: Alur draf desain yang siap dikonversi menjadi draf proyek oleh Admin.
+- **Design-to-Project Bridge**: Alur draf desain dengan visibilitas eligibility konversi menuju draf proyek konstruksi (Batch 96).
 
 ## 🛡️ Batasan
 - **Local Simulation**: Belum terintegrasi dengan marketplace arsitek rill atau sistem pembayaran termin desain otomatis.

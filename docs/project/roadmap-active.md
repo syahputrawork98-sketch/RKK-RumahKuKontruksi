@@ -24,26 +24,37 @@ Roadmap yang telah diselesaikan:
    - **Batch 87**: Seed/Data Scenario Completion.
    - **Batch 88**: Placeholder/Hold wording cleanup.
    - **Batch 89**: Final Feature Closure Pass & StatusBadge harmonization.
-4. **Latest Checkpoint**: **Batch 90 — Docs Sync + Checkpoint**. (Accepted)
+4. **Operational Hardening & Analytics (Batch 91–99)**: **Completed**.
+   - **Batch 91**: Backend Hard Guards (Field Issue & Helper Docs).
+   - **Batch 92**: Daily Operations context & UI polish.
+   - **Batch 93**: Operational Analytics v1 (Admin/Superadmin).
+   - **Batch 94**: Progress SOT Integrity (VerifiedProgress only).
+   - **Batch 95**: Advanced Seed Scenario (Project active-003).
+   - **Batch 96**: Design-to-Project bridge eligibility transparency.
+   - **Batch 97**: Consumer Transparency (Timeline & Docs status).
+   - **Batch 98**: Governance & Status visual regression pass.
+   - **Batch 99**: Technical Debt & Build Warning Sweep (Build Pass).
+5. **Latest Checkpoint**: **Batch 100 — Docs Sync + Checkpoint**. (Accepted)
 
-## 🛠️ Next Focus (Batch 91+ Candidate Cycle)
-Rekomendasi pengembangan selanjutnya (Post-Checkpoint):
-- **Backend Hard Guard**: Implementasi hard-guard pada level controller/repository untuk transisi status sensitif (e.g. Field Issue closed, Helper Doc release).
-- **Extended Operational Analytics**: Penambahan panel monitoring performa vendor/mandor berbasis history tugas (Local Simulation).
-- **Technical Debt Audit**: Review sisa warning pada build client (chunk sizes, CSS unknown rules) dan audit dependensi backend.
-- **Advanced Simulation Scenarios**: Pembuatan skenario proyek kompleks (multi-stage overlap, critical issues) untuk menguji ketahanan UI.
+## 🛠️ Next Focus (Batch 101+ Candidate Cycle)
+Rekomendasi pengembangan selanjutnya (Post-Batch 100):
+- **Production Infrastructure Integration (Phase I)**: Persiapan integrasi Auth (JWT/Session) dan RBAC rill untuk menggantikan Persona Switcher secara bertahap.
+- **Enhanced Collaboration Layer**: Implementasi Stage Communication / Threading rill untuk koordinasi teknis antar role di level item RAB.
+- **Reporting & Export Suite**: Penyediaan fitur ekspor (PDF/Excel) untuk RAB, Laporan Mingguan, dan Berita Acara Proyek berbasis data stabil yang sudah ada.
+- **Advanced Payment Workflow**: Simulasi termin pembayaran (Down Payment, Progress-based) dengan integrasi dokumen penagihan administratif.
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
 1. **Progress SOT**: Inti verifikasi progres resmi lapangan. (Stabilized)
 2. **Weekly Journal**: Pelaporan aktivitas harian/mingguan Mandor. (Stabilized)
-3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Hardened)
+3. **Daily Workflow**: Penugasan & Pelaporan harian Mandor. (Stabilized)
 4. **Supervisor Review**: Validasi jurnal dan inspeksi lapangan. (Hardened)
 5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Hardened)
 6. **Design Workflow**: Customer–Architect coordination. (Hardened)
 7. **Consumer Transparency**: Timeline, Docs, & Progress. (Hardened)
 8. **Superadmin Governance**: Audit & Persona management. (Hardened)
-9. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 90 - Checkpoint)
+9. **Analytics & Monitoring**: Managerial operational overview. (Batch 91–100)
+10. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 100 - Checkpoint)
 
 ---
-*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal. Production transition (Auth/RBAC) tetap berstatus **Hold**. Terakhir diperbarui: Batch 90.*
+*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal menuju kesiapan produksi. Terakhir diperbarui: Batch 100.*

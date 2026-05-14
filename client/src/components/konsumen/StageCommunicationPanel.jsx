@@ -132,8 +132,8 @@ const StageCommunicationPanel = ({ stageId, projectId }) => {
               <FiInfo size={32} />
             </div>
             <div>
-              <p className="text-s-bold text-neutral-60 uppercase tracking-widest">Belum Ada Update</p>
-              <p className="text-xs-regular text-neutral-50 mt-1 italic">Admin/Pengawas belum mengirimkan update resmi untuk tahap ini.</p>
+              <p className="text-s-bold text-neutral-60 uppercase tracking-widest">Belum Ada Catatan Lapangan</p>
+              <p className="text-xs-regular text-neutral-50 mt-1 italic font-bold uppercase tracking-tighter">Admin/Pengawas belum mengirimkan catatan atau evidence resmi yang dirilis untuk Anda pada tahap ini.</p>
             </div>
           </div>
         ) : (

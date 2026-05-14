@@ -263,7 +263,7 @@ const TimelineProyek = () => {
                 <div className="space-y-1">
                   <span className="text-[10px] font-black text-white uppercase tracking-[0.2em] opacity-80">Transparansi Progres</span>
                   <p className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-2">
-                    Progress Resmi <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] border border-white/30">Source of Truth</span>
+                    Progress Resmi <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] border border-white/30">Verified SOT</span>
                   </p>
                 </div>
                 <span className="text-4xl font-black text-teal-400">
@@ -285,9 +285,14 @@ const TimelineProyek = () => {
                   <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
                 </motion.div>
               </div>
-              <p className="text-[10px] text-white/60 italic font-medium mt-3 flex items-center gap-2">
-                <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan, bukan sekadar durasi waktu. Anda hanya dapat melihat progress — tidak dapat mengubahnya.
-              </p>
+              <div className="flex flex-col gap-1 mt-3">
+                <p className="text-[10px] text-white/60 italic font-medium flex items-center gap-2">
+                  <FiInfo className="shrink-0" /> Progress resmi didasarkan pada verifikasi kualitas oleh Pengawas Lapangan.
+                </p>
+                <p className="text-[9px] text-white/40 font-bold uppercase tracking-tighter pl-6">
+                  Catatan: Laporan Mandor adalah log operasional lapangan dan tidak otomatis mengubah progress resmi di atas.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -751,11 +756,11 @@ const TimelineProyek = () => {
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-heading-s-bold text-neutral-100">
-                      {selectedCategoryId || selectedRabId ? "Tidak Ada Update Terkurasi" : "Timeline Belum Tersedia"}
+                      {selectedCategoryId || selectedRabId ? "Belum Ada Catatan Lapangan Terverifikasi" : "Timeline Belum Tersedia"}
                     </h3>
-                    <p className="text-m-regular text-neutral-60 max-w-sm mx-auto leading-relaxed font-bold">
+                    <p className="text-m-regular text-neutral-60 max-w-sm mx-auto leading-relaxed font-bold italic uppercase tracking-tighter">
                       {selectedCategoryId || selectedRabId
-                        ? "Belum ada laporan lapangan atau review pengawas yang dipublikasikan untuk kategori/item ini."
+                        ? "Belum ada laporan lapangan atau evidence terkurasi yang dirilis oleh Pengawas untuk kategori ini."
                         : "Jadwal pelaksanaan proyek ini sedang dalam tahap penyusunan oleh tim admin dan pengawas lapangan."}
                     </p>
                     {(selectedCategoryId || selectedRabId) && (

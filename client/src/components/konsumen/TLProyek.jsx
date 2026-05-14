@@ -144,11 +144,11 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                         <div className="space-y-1.5">
                           <div className="flex items-center gap-2">
                             <span className="text-[9px] font-black bg-neutral-100 text-neutral-50 px-2 py-0.5 rounded border border-neutral-20 uppercase tracking-widest flex items-center gap-1">
-                              <FiCheckCircle size={10} className="text-success-main" /> Progres Resmi (SOT)
+                              <FiCheckCircle size={10} className="text-success-main" /> Progress Resmi (Verified SOT)
                             </span>
                           </div>
                           <p className="text-[10px] font-black text-neutral-90 italic">
-                            {stage.status === 'verified' ? 'Tervalidasi 100% (Final)' : 'Verified by Pengawas'}
+                            {stage.status === 'verified' ? 'Tervalidasi 100% oleh Pengawas' : 'Pending Verifikasi Pengawas'}
                           </p>
                         </div>
                         <span className={`text-2xl font-black ${stage.status === 'verified' ? 'text-success-main' : 'text-primary-main'}`}>{stage.progress}%</span>
@@ -165,7 +165,7 @@ const TLProyek = ({ timeline = [], layout = "left" }) => {
                       </div>
                       <div className="pt-2">
                         <p className="text-[9px] text-neutral-40 font-medium italic leading-relaxed">
-                          * Update harian/mingguan adalah informasi pendukung. Progres resmi hanya diperbarui melalui verifikasi kualitas resmi oleh Pengawas.
+                          * Update harian/mingguan adalah catatan operasional lapangan. Progres resmi hanya diperbarui melalui verifikasi kualitas resmi oleh Pengawas Lapangan.
                         </p>
                       </div>
                     </div>

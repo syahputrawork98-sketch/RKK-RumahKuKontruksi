@@ -230,6 +230,94 @@ const DashboardAdmin = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* NEW: Operational Analytics Panel */}
+                <div className="lg:col-span-3">
+                    <div className="dashboard-card bg-linear-to-br from-white to-slate-50/50 border-slate-100 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+                            <FiTrendingUp size={120} />
+                        </div>
+                        
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                            <div>
+                                <h3 className="text-xl font-black tracking-tight text-slate-800 flex items-center gap-2">
+                                    <FiActivity className="text-[var(--dashboard-primary)]" />
+                                    Analisis Operasional Lapangan <span className="text-xs font-black px-2 py-0.5 bg-blue-100 text-blue-600 rounded-md uppercase">Simulasi v1</span>
+                                </h3>
+                                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Data Logbook & Kendala Real-time (Local)</p>
+                            </div>
+                            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-slate-100 shadow-sm">
+                                <FiInfo className="text-blue-500" size={14} />
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Bukan Skor Produksi</span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Daily Report Summary */}
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
+                                        <FiFileText className="text-emerald-500" /> Ringkasan Laporan Harian
+                                    </h4>
+                                    <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Source: Mandor</span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Menunggu Review</p>
+                                        <p className="text-2xl font-black text-blue-600">{getGroupedCount(stats.dailyReportStats, 'submitted')}</p>
+                                    </div>
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Sudah Direview</p>
+                                        <p className="text-2xl font-black text-emerald-600">{getGroupedCount(stats.dailyReportStats, 'reviewed')}</p>
+                                    </div>
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Draf / Belum Kirim</p>
+                                        <p className="text-2xl font-black text-slate-400">{getGroupedCount(stats.dailyReportStats, 'draft')}</p>
+                                    </div>
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Butuh Revisi</p>
+                                        <p className="text-2xl font-black text-red-500">{getGroupedCount(stats.dailyReportStats, 'rejected')}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Field Issue Summary */}
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
+                                        <FiAlertCircle className="text-red-500" /> Ringkasan Kendala Lapangan
+                                    </h4>
+                                    <span className="text-[9px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded-full">Source: Tim Proyek</span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Isu Terbuka (Open)</p>
+                                        <p className="text-2xl font-black text-red-600">{getGroupedCount(stats.fieldIssueStats, 'open')}</p>
+                                    </div>
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Sedang Review</p>
+                                        <p className="text-2xl font-black text-amber-600">{getGroupedCount(stats.fieldIssueStats, 'in_review')}</p>
+                                    </div>
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Selesai (Resolved)</p>
+                                        <p className="text-2xl font-black text-emerald-600">{getGroupedCount(stats.fieldIssueStats, 'resolved')}</p>
+                                    </div>
+                                    <div className="p-4 bg-white border border-slate-100 rounded-2xl shadow-xs">
+                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Arsip (Closed)</p>
+                                        <p className="text-2xl font-black text-slate-400">{getGroupedCount(stats.fieldIssueStats, 'closed')}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-8 p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
+                            <FiInfo className="text-amber-500 shrink-0 mt-0.5" />
+                            <p className="text-[10px] font-medium leading-relaxed italic text-amber-800">
+                                <strong>Local Simulation Analytics:</strong> Data di atas digunakan untuk monitoring intensitas pekerjaan harian dan kendala teknis. Angka ini **TIDAK** mempengaruhi progres resmi (Source of Truth) proyek dan bukan merupakan instrumen penilaian performa produksi tim.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Recent Projects Table */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Operational Alerts */}

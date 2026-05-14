@@ -81,7 +81,9 @@ export const getStats = async (adminId = null) => {
     reportStats,
     materialRequestStats,
     latestReports,
-    latestMaterialRequests
+    latestMaterialRequests,
+    dailyReportStats,
+    fieldIssueStats
   ] = await Promise.all([
     prisma.project.groupBy({
       by: ['status'],
@@ -138,6 +140,16 @@ export const getStats = async (adminId = null) => {
           select: { name: true, projectCode: true }
         }
       }
+    }),
+    prisma.dailyReport.groupBy({
+      by: ['status'],
+      where: adminId ? { project: { adminId } } : {},
+      _count: { _all: true }
+    }),
+    prisma.fieldIssue.groupBy({
+      by: ['status'],
+      where: adminId ? { project: { adminId } } : {},
+      _count: { _all: true }
     })
   ]);
 
@@ -149,6 +161,8 @@ export const getStats = async (adminId = null) => {
     reports: reportStats,
     materialRequests: materialRequestStats,
     recentReports: latestReports,
-    recentMaterialRequests: latestMaterialRequests
+    recentMaterialRequests: latestMaterialRequests,
+    dailyReportStats: dailyReportStats,
+    fieldIssueStats: fieldIssueStats
   };
 };

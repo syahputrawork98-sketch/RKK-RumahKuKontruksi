@@ -21,6 +21,7 @@ import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
     const { selectedSuperadminId } = useSuperadminPersona();
     const [projects, setProjects] = useState([]);
+    const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -31,20 +32,29 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
         return s === "active" || s === "ongoing" || s === "berjalan";
     };
 
-    const fetchProjects = async () => {
+    const fetchPageData = async () => {
         try {
             setLoading(true);
             setError(null);
-            const response = await projectService.getProjects();
-            if (response.success) {
-                let data = response.data || [];
+            
+            const [projectsRes, statsRes] = await Promise.all([
+                projectService.getProjects(),
+                import("../../services/superadminService").then(m => m.default.getGlobalStats())
+            ]);
+
+            if (projectsRes.success) {
+                let data = projectsRes.data || [];
                 if (mode === "active") {
                     data = data.filter(p => isActiveProject(p.status));
                 }
                 setProjects(data);
             }
+
+            if (statsRes.success) {
+                setStats(statsRes.data);
+            }
         } catch (err) {
-            console.error("MonitoringProyekGlobalPage: Error fetching projects:", err);
+            console.error("MonitoringProyekGlobalPage: Error fetching data:", err);
             setError("Gagal memuat data monitoring proyek.");
         } finally {
             setLoading(false);
@@ -53,7 +63,7 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
 
     useEffect(() => {
         if (selectedSuperadminId) {
-            fetchProjects();
+            fetchPageData();
         }
     }, [selectedSuperadminId, mode]);
 
@@ -111,23 +121,35 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
                 <div className="p-5 bg-emerald-50 border border-emerald-100 rounded-3xl shadow-sm">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="w-8 h-8 rounded-xl bg-emerald-100/50 flex items-center justify-center text-emerald-600"><FiActivity size={14} /></div>
-                        <p className="text-[10px] font-black uppercase text-emerald-600 tracking-widest">Aktif / Berjalan</p>
+                        <p className="text-[10px] font-black uppercase text-emerald-600 tracking-widest">Laporan Harian (Total)</p>
                     </div>
-                    <h4 className="text-2xl font-black text-emerald-700">{projects.filter(p => isActiveProject(p.status)).length}</h4>
+                    <h4 className="text-2xl font-black text-emerald-700">{stats?.totalDailyReports || 0}</h4>
+                </div>
+                <div className="p-5 bg-red-50 border border-red-100 rounded-3xl shadow-sm">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-xl bg-red-100/50 flex items-center justify-center text-red-600"><FiAlertCircle size={14} /></div>
+                        <p className="text-[10px] font-black uppercase text-red-600 tracking-widest">Isu Lapangan Aktif</p>
+                    </div>
+                    <h4 className="text-2xl font-black text-red-700">
+                        {(stats?.fieldIssueStats || []).filter(s => s.status === 'open' || s.status === 'in_review').reduce((sum, s) => sum + s._count._all, 0)}
+                    </h4>
                 </div>
                 <div className="p-5 bg-blue-50 border border-blue-100 rounded-3xl shadow-sm">
                     <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-xl bg-blue-100/50 flex items-center justify-center text-blue-600"><FiClock size={14} /></div>
-                        <p className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Draft / Persiapan</p>
+                        <div className="w-8 h-8 rounded-xl bg-blue-100/50 flex items-center justify-center text-blue-600"><FiCheckCircle size={14} /></div>
+                        <p className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Isu Resolved</p>
                     </div>
-                    <h4 className="text-2xl font-black text-blue-700">{projects.filter(p => (p.status || "").toLowerCase().includes("plan") || (p.status || "").toLowerCase().includes("draft") || (p.status || "").toLowerCase().includes("persiapan")).length}</h4>
+                    <h4 className="text-2xl font-black text-blue-700">
+                        {(stats?.fieldIssueStats || []).filter(s => s.status === 'resolved' || s.status === 'closed').reduce((sum, s) => sum + s._count._all, 0)}
+                    </h4>
                 </div>
-                <div className="p-5 bg-purple-50 border border-purple-100 rounded-3xl shadow-sm">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-xl bg-purple-100/50 flex items-center justify-center text-purple-600"><FiCheckCircle size={14} /></div>
-                        <p className="text-[10px] font-black uppercase text-purple-600 tracking-widest">Selesai / Histori</p>
-                    </div>
-                    <h4 className="text-2xl font-black text-purple-700">{projects.filter(p => (p.status || "").toLowerCase().includes("selesai") || (p.status || "").toLowerCase().includes("finish")).length}</h4>
+            </div>
+
+            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
+                <FiInfo className="text-amber-500 shrink-0 mt-0.5" />
+                <div className="text-[10px] font-medium leading-relaxed italic text-amber-800">
+                    <p className="font-bold uppercase tracking-widest text-[9px] mb-1 italic">Penting: Ringkasan Monitoring Lokal</p>
+                    <p>Statistik di atas adalah agregasi operasional dari seluruh proyek di database lokal. Ini adalah **simulasi monitoring** untuk keperluan audit internal dan bukan merupakan penilaian performa tim produksi (Scoring).</p>
                 </div>
             </div>
 

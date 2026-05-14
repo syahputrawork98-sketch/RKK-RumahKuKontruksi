@@ -49,6 +49,16 @@ export const seedAuditLogs = async (prisma, ctx) => {
         entityId: 'admin-002',
         summary: 'Pembaruan kapasitas proyek untuk Admin Operasional.',
         createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+      },
+      {
+        actorRole: 'supervisor',
+        actorId: 'supervisor-003',
+        actorName: 'Pengawas Putu',
+        action: 'PROGRESS_VERIFICATION',
+        entityType: 'Project',
+        entityId: 'project-active-003',
+        summary: 'Verifikasi progres cor lantai 1 Jimbaran mencapai 45% total proyek.',
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
       }
     ]
   });

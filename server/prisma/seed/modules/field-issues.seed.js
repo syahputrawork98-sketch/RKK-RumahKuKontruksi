@@ -102,6 +102,43 @@ export const seedFieldIssues = async (prisma, ctx) => {
     }
   });
 
-  ctx.fieldIssues = { issue1, issue2, issueTipe36_1, issueTipe36_2, issueTipe36_3, issueTipe36_Closed };
+  // --- Field Issues for Active Project 3 (Villa Modern Jimbaran) ---
+  const issueVilla_Resolved = await prisma.fieldIssue.create({
+    data: {
+      id: 'issue-villa-001',
+      issueCode: 'ISSUE-24-0301',
+      projectId: activeProject3.id,
+      foremanId: foreman3.id,
+      supervisorId: supervisor3.id,
+      title: 'Kekurangan Stok Besi D16',
+      description: 'Stok besi ulir D16 menipis karena volume galian bertambah dari rencana awal.',
+      category: 'Logistik',
+      priority: 'high',
+      status: 'resolved',
+      stageId: stageActive3_2.id,
+      resolutionNote: 'Sudah disupply tambahan 100 batang dari gudang terdekat di Denpasar.',
+      resolvedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const issueVilla_Closed = await prisma.fieldIssue.create({
+    data: {
+      id: 'issue-villa-002',
+      issueCode: 'ISSUE-24-0302',
+      projectId: activeProject3.id,
+      foremanId: foreman3.id,
+      supervisorId: supervisor3.id,
+      adminId: admin2.id,
+      title: 'Koordinasi Keamanan Lingkungan',
+      description: 'Perlu koordinasi dengan Banjar setempat terkait jam operasional truck mixer.',
+      category: 'Sosial',
+      priority: 'medium',
+      status: 'closed',
+      resolutionNote: 'Sudah diselesaikan melalui mediasi dengan pihak desa adat Jimbaran.',
+      resolvedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  ctx.fieldIssues = { issue1, issue2, issueTipe36_1, issueTipe36_2, issueTipe36_3, issueTipe36_Closed, issueVilla_Resolved, issueVilla_Closed };
   console.log('Field Issues seeded successfully.');
 };

@@ -403,13 +403,84 @@ export const seedRab = async (prisma, ctx) => {
     }
   });
 
+  // --- RAB for Active Project 3 (Villa Modern Jimbaran) ---
+  const rabActive3 = await prisma.rabPlan.create({
+    data: {
+      id: 'rab-active-003',
+      projectId: activeProject3.id,
+      title: 'RAB Konstruksi Tahap Utama',
+      type: 'Plan',
+      status: 'approved',
+      totalAmount: 3500000000,
+      version: '1.0',
+      approvedAt: new Date(Date.now() - 58 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const catPersiapan3 = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-persiapan-003',
+      rabPlanId: rabActive3.id,
+      projectId: activeProject3.id,
+      code: '01',
+      name: 'PEKERJAAN PERSIAPAN & MOBILISASI',
+      subtotal: 150000000,
+      order: 1
+    }
+  });
+
+  const catStruktur3 = await prisma.rabCategory.create({
+    data: {
+      id: 'cat-struktur-003',
+      rabPlanId: rabActive3.id,
+      projectId: activeProject3.id,
+      code: '02',
+      name: 'PEKERJAAN STRUKTUR & PONDASI',
+      subtotal: 1850000000,
+      order: 2
+    }
+  });
+
+  const itemBesi3 = await prisma.rabItem.create({
+    data: {
+      id: 'item-besi-003',
+      rabPlanId: rabActive3.id,
+      categoryId: catStruktur3.id,
+      projectId: activeProject3.id,
+      description: 'Besi Beton Ulir D16 (Pondasi & Kolom)',
+      volume: 850,
+      unit: 'Batang',
+      unitPrice: 185000,
+      total: 157250000,
+      status: 'in_progress',
+      progress: 60
+    }
+  });
+
+  const itemSemen3 = await prisma.rabItem.create({
+    data: {
+      id: 'item-semen-003',
+      rabPlanId: rabActive3.id,
+      categoryId: catStruktur3.id,
+      projectId: activeProject3.id,
+      description: 'Ready Mix Concrete K-350',
+      volume: 120,
+      unit: 'm3',
+      unitPrice: 1250000,
+      total: 150000000,
+      status: 'in_progress',
+      progress: 40
+    }
+  });
+
   // Store in context
-  ctx.rabPlans = { rabActive1, rabActive2, rabFinished1 };
+  ctx.rabPlans = { rabActive1, rabActive2, rabActive3, rabFinished1 };
   ctx.rabCategories = { 
     catPersiapan1, catStruktur1, catFinished1,
-    catPersiapan2, catTanah2, catStruktur2, catDinding2, catAtap2, catPlafon2, catLantai2, catKusen2, catPlumbing2, catListrik2, catFinishing2, catLainLain2
+    catPersiapan2, catTanah2, catStruktur2, catDinding2, catAtap2, catPlafon2, catLantai2, catKusen2, catPlumbing2, catListrik2, catFinishing2, catLainLain2,
+    catPersiapan3, catStruktur3
   };
-  ctx.rabItems = { itemSemen1, itemBesi1, itemFinished1 };
+  ctx.rabItems = { itemSemen1, itemBesi1, itemFinished1, itemBesi3, itemSemen3 };
 
   console.log('RAB seeded successfully.');
 };

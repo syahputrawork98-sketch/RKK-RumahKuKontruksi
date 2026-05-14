@@ -59,6 +59,37 @@ export const seedHelperDocuments = async (prisma, ctx) => {
         createdByRole: 'admin',
         createdById: 'admin-001',
         releasedAt: new Date()
+      },
+      {
+        documentCode: 'INV-JIMBARAN-001',
+        projectId: 'project-active-003',
+        customerId: 'customer-001',
+        type: 'INVOICE',
+        title: 'Invoice Termin 1 (Jimbaran)',
+        status: 'released',
+        summaryData: 'Penagihan termin pertama untuk mobilisasi dan persiapan Jimbaran.',
+        contentJson: {
+          items: [{ desc: 'Mobilisasi Bali', amount: 150000000 }],
+          total: 150000000
+        },
+        createdByRole: 'admin',
+        createdById: 'admin-001',
+        releasedAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000)
+      },
+      {
+        documentCode: 'BAST-JIMBARAN-001',
+        projectId: 'project-active-003',
+        customerId: 'customer-001',
+        type: 'BAST',
+        title: 'Draft BAST Persiapan Lahan',
+        status: 'draft',
+        summaryData: 'Draft serah terima pekerjaan persiapan lahan dan pagar proyek Jimbaran.',
+        contentJson: {
+          area: 'Jimbaran Plot A',
+          status: 'Clear'
+        },
+        createdByRole: 'admin',
+        createdById: 'admin-001'
       }
     ]
   });

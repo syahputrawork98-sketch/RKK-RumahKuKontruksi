@@ -119,11 +119,37 @@ export const seedProjects = async (prisma, ctx) => {
     }
   });
 
+  // Scenario 7: Complex Active Project (Villa Modern Jimbaran)
+  const activeProject3 = await prisma.project.create({
+    data: {
+      id: 'project-active-003',
+      projectCode: 'PRJ-2024-003',
+      name: 'Pembangunan Villa Modern Jimbaran',
+      type: 'Pembangunan Baru',
+      status: 'Berjalan',
+      progress: 40,
+      customerId: customer1.id,
+      adminId: admin1.id,
+      supervisorId: supervisor3.id,
+      foremanId: foreman3.id,
+      location: 'Jimbaran, Bali',
+      budgetTotal: 3500000000,
+      paidAmount: 1200000000,
+      remainingAmount: 2300000000,
+      startDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
+      estimatedEndDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000),
+      verifiedProgress: 45,
+      verifiedProgressById: supervisor3.id,
+      verifiedProgressUpdatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+    }
+  });
+
   // Store in context for downstream use
   ctx.projects = {
     projectPlanning1,
     activeProject1,
     activeProject2,
+    activeProject3,
     finishedProject1,
     projectNotReady1
   };

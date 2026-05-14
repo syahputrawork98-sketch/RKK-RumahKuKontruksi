@@ -278,6 +278,85 @@ export const seedDailyOperations = async (prisma, ctx) => {
     }
   });
 
+  // --- Daily Tasks for Active Project 3 (Villa Modern Jimbaran) ---
+  const taskVilla_1 = await prisma.dailyTask.create({
+    data: {
+      id: 'task-villa-001',
+      projectId: activeProject3.id,
+      foremanId: foreman3.id,
+      stageId: stageActive3_2.id,
+      rabItemId: itemBesi3.id,
+      title: 'Perakitan Pembesian Kolom Lt.1',
+      description: 'Perakitan besi ulir D16 untuk kolom utama area living room.',
+      targetDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      status: 'completed',
+      priority: 'high'
+    }
+  });
+
+  const taskVilla_2 = await prisma.dailyTask.create({
+    data: {
+      id: 'task-villa-002',
+      projectId: activeProject3.id,
+      foremanId: foreman3.id,
+      stageId: stageActive3_2.id,
+      rabItemId: itemSemen3.id,
+      title: 'Pengecoran Balok Struktur',
+      description: 'Pengecoran balok struktur lantai 1 menggunakan Ready Mix K-350.',
+      targetDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      status: 'completed',
+      priority: 'high'
+    }
+  });
+
+  const taskVilla_3 = await prisma.dailyTask.create({
+    data: {
+      id: 'task-villa-003',
+      projectId: activeProject3.id,
+      foremanId: foreman3.id,
+      stageId: stageActive3_2.id,
+      title: 'Pelepasan Bekisting',
+      description: 'Pelepasan bekisting kolom yang sudah mencapai umur beton.',
+      targetDate: new Date(),
+      status: 'in_progress',
+      priority: 'medium'
+    }
+  });
+
+  // --- Daily Reports for Active Project 3 (Villa Modern Jimbaran) ---
+  await prisma.dailyReport.createMany({
+    data: [
+      {
+        id: 'report-villa-001',
+        reportCode: 'DR-VILLA-001',
+        projectId: activeProject3.id,
+        foremanId: foreman3.id,
+        supervisorId: supervisor3.id,
+        stageId: stageActive3_2.id,
+        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+        status: 'reviewed',
+        weatherSummary: 'Cerah, Jimbaran panas terik',
+        workerCount: 12,
+        activitySummary: 'Perakitan besi kolom Lt.1 selesai. Hasil rakitan sesuai gambar kerja Bali Villa.',
+        taskId: taskVilla_1.id
+      },
+      {
+        id: 'report-villa-002',
+        reportCode: 'DR-VILLA-002',
+        projectId: activeProject3.id,
+        foremanId: foreman3.id,
+        supervisorId: supervisor3.id,
+        stageId: stageActive3_2.id,
+        date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+        status: 'submitted',
+        weatherSummary: 'Berawan, hujan gerimis di sore hari',
+        workerCount: 15,
+        activitySummary: 'Pengecoran balok struktur Lt.1 selesai dilaksanakan. Menggunakan 3 truck mixer.',
+        taskId: taskVilla_2.id
+      }
+    ]
+  });
+
   ctx.dailyTasks = {
     dailyTask1,
     dailyTask2,
@@ -287,7 +366,10 @@ export const seedDailyOperations = async (prisma, ctx) => {
     taskTipe36_4,
     taskTipe36_5,
     taskTipe36_6,
-    taskTipe36_7
+    taskTipe36_7,
+    taskVilla_1,
+    taskVilla_2,
+    taskVilla_3
   };
   ctx.dailyReports = {
     dailyReport1,

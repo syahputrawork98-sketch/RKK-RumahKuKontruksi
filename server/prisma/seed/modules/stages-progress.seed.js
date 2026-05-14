@@ -102,6 +102,43 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
     data: { id: 'stg-002-12', projectId: activeProject2.id, rabPlanId: rabActive2.id, categoryId: catLainLain2.id, code: 'STG-002-12', title: 'BIAYA LAIN-LAIN', status: 'Berjalan', progress: 20, week: 15, order: 12 }
   });
 
+  // --- Stages for Active Project 3 (Villa Modern Jimbaran) ---
+  const stageActive3_1 = await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-003-1',
+      projectId: activeProject3.id,
+      rabPlanId: rabActive3.id,
+      categoryId: catPersiapan3.id,
+      code: 'STG-03-01',
+      title: 'Persiapan Lahan & Mobilisasi Bali',
+      status: 'Selesai',
+      progress: 100,
+      week: 1,
+      order: 1,
+      isVerified: true,
+      verifiedBy: supervisor3.id,
+      verifiedAt: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  const stageActive3_2 = await prisma.projectStage.create({
+    data: {
+      id: 'stage-active-003-2',
+      projectId: activeProject3.id,
+      rabPlanId: rabActive3.id,
+      categoryId: catStruktur3.id,
+      code: 'STG-03-02',
+      title: 'Pekerjaan Struktur Utama (Lantai 1)',
+      status: 'Berjalan',
+      progress: 45,
+      week: 8,
+      order: 2,
+      isVerified: true,
+      verifiedBy: supervisor3.id,
+      verifiedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+    }
+  });
+
   // --- Stages for Finished Project ---
   const stageFinished1 = await prisma.projectStage.create({
     data: {
@@ -177,6 +214,26 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
         stageId: stageActive2_3.id,
         notes: 'Struktur beton berjalan, pekerjaan dinding awal dan instalasi MEP awal mulai masuk area kerja.',
         createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+      },
+      {
+        id: 'progress-log-active-003-001',
+        projectId: activeProject3.id,
+        supervisorId: supervisor3.id,
+        previousProgress: 0,
+        newProgress: 15,
+        stageId: stageActive3_1.id,
+        notes: 'Mobilisasi tim dan alat berat di Jimbaran selesai.',
+        createdAt: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000)
+      },
+      {
+        id: 'progress-log-active-003-002',
+        projectId: activeProject3.id,
+        supervisorId: supervisor3.id,
+        previousProgress: 15,
+        newProgress: 45,
+        stageId: stageActive3_2.id,
+        notes: 'Cor lantai 1 selesai diverifikasi.',
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
       },
       {
         id: 'progress-log-finished-001',
@@ -293,6 +350,7 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
   ctx.stages = { 
     stageActive1_1, stageActive1_2, 
     stageActive2_1, stageActive2_2, stageActive2_3, stageActive2_4, stageActive2_5, stageActive2_6, stageActive2_7, stageActive2_8, stageActive2_9, stageActive2_10, stageActive2_11, stageActive2_12,
+    stageActive3_1, stageActive3_2,
     stageFinished1 
   };
 

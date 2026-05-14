@@ -252,6 +252,61 @@ export const seedMaterialRequests = async (prisma, ctx) => {
     }
   });
 
+  // --- Material Requests for Active Project 3 (Villa Modern Jimbaran) ---
+  const mrVillaStruktur = await prisma.materialRequest.create({
+    data: {
+      id: 'mr-villa-001',
+      requestCode: 'MR-24-0301',
+      projectId: activeProject3.id,
+      stageId: stageActive3_2.id,
+      foremanId: foreman3.id,
+      supervisorId: supervisor3.id,
+      adminId: admin1.id,
+      status: 'received',
+      priority: 'high',
+      neededDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      reason: 'Pengecoran struktur lantai 1 villa.',
+      submittedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+      supervisorReviewedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
+      adminReviewedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000),
+      processedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+      deliveredAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      receivedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+      items: {
+        create: [
+          { materialName: 'Ready Mix K-350', requestedQty: 120, approvedQty: 120, receivedQty: 120, unit: 'm3', rabItemId: itemSemen3.id },
+          { materialName: 'Besi Ulir D16', requestedQty: 850, approvedQty: 850, receivedQty: 850, unit: 'Batang', rabItemId: itemBesi3.id }
+        ]
+      }
+    }
+  });
+
+  const mrVillaProcessed = await prisma.materialRequest.create({
+    data: {
+      id: 'mr-villa-002',
+      requestCode: 'MR-24-0302',
+      projectId: activeProject3.id,
+      stageId: stageActive3_2.id,
+      foremanId: foreman3.id,
+      supervisorId: supervisor3.id,
+      adminId: admin1.id,
+      status: 'processed',
+      priority: 'medium',
+      neededDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      reason: 'Material tambahan bekisting dan scaffolding.',
+      submittedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      supervisorReviewedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      adminReviewedAt: new Date(),
+      processedAt: new Date(),
+      items: {
+        create: [
+          { materialName: 'Kayu Usuk 4/6', requestedQty: 50, approvedQty: 50, unit: 'Batang' },
+          { materialName: 'Triplek 9mm', requestedQty: 30, approvedQty: 30, unit: 'Lembar' }
+        ]
+      }
+    }
+  });
+
   ctx.materialRequests = {
     mrPending1,
     mrApproved1,
@@ -261,7 +316,9 @@ export const seedMaterialRequests = async (prisma, ctx) => {
     mrTipe36Dinding,
     mrTipe36Plumbing,
     mrTipe36Atap,
-    mrTipe36Rejected
+    mrTipe36Rejected,
+    mrVillaStruktur,
+    mrVillaProcessed
   };
   console.log('Material Requests seeded successfully.');
 };

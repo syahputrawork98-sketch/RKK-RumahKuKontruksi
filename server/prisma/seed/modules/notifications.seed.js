@@ -79,6 +79,30 @@ export const seedNotifications = async (prisma, ctx) => {
         message: 'Pengawas Andi telah mengirimkan laporan mingguan untuk proyek BSD.',
         linkPath: '/admin/laporan-mingguan-pengawas',
         createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'admin',
+        recipientId: 'admin-001',
+        actorRole: 'foreman',
+        actorId: 'foreman-003',
+        eventType: 'FIELD_ISSUE_RESOLVED',
+        entityType: 'FieldIssue',
+        title: 'Kendala Diselesaikan',
+        message: 'Mandor Putu telah menyelesaikan kendala stok besi di Jimbaran.',
+        linkPath: '/admin/monitoring/kendala',
+        createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+      },
+      {
+        recipientRole: 'customer',
+        recipientId: 'customer-001',
+        actorRole: 'admin',
+        actorId: 'admin-001',
+        eventType: 'DOCUMENT_RELEASED',
+        entityType: 'AdministrativeHelperDocument',
+        title: 'Invoice Termin 1 Dirilis',
+        message: 'Admin telah merilis invoice termin 1 untuk Proyek Jimbaran.',
+        linkPath: '/konsumen/dokumen',
+        createdAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000)
       }
     ]
   });

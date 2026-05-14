@@ -8,6 +8,7 @@ import RoleDataState from "../../components/common/RoleDataState";
 import DesignTimeline from "../../components/design/DesignTimeline";
 import projectDocumentService from "../../services/projectDocumentService";
 import UploadDocumentModal from "../../components/common/UploadDocumentModal";
+import ProjectBridgeEligibilityPanel from "../../components/design/ProjectBridgeEligibilityPanel";
 
 
 const DetailPermintaanDesainArsitekPage = () => {
@@ -317,6 +318,12 @@ const DetailPermintaanDesainArsitekPage = () => {
                             </div>
                         )}
                     </div>
+
+                    <ProjectBridgeEligibilityPanel 
+                        request={request} 
+                        role="architect" 
+                    />
+
                     {/* CUSTOMER INFO */}
                     <div className="dashboard-card border-t-4 border-t-[var(--dashboard-primary)]">
                         <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--dashboard-text-soft)] mb-6">Informasi Konsumen</h3>

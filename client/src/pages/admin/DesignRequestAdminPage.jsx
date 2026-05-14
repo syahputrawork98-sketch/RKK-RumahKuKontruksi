@@ -56,6 +56,7 @@ import ReleaseToCustomerPanel from "../../components/design/admin/ReleaseToCusto
 import AdminControlsPanel from "../../components/design/admin/AdminControlsPanel";
 import RevisionMonitoringPanel from "../../components/design/admin/RevisionMonitoringPanel";
 import DesignDocumentReviewPanel from "../../components/design/admin/DesignDocumentReviewPanel";
+import ProjectBridgeEligibilityPanel from "../../components/design/ProjectBridgeEligibilityPanel";
 
 
 const DesignRequestAdminPage = () => {
@@ -906,6 +907,11 @@ const DesignRequestAdminPage = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <ProjectBridgeEligibilityPanel 
+                                request={selectedRequest} 
+                                role="admin" 
+                            />
 
                             <RevisionMonitoringPanel 
                                 majorCount={selectedRequest.majorRevisionCount} 

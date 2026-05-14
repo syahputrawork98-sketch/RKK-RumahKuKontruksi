@@ -11,6 +11,7 @@ import DesignRevisionForm from "../../design/DesignRevisionForm";
 import PostDesignDecisionPanel from "./PostDesignDecisionPanel";
 import DesignFilesGallery from "./DesignFilesGallery";
 import StatusBadge from "../../common/StatusBadge";
+import ProjectBridgeEligibilityPanel from "../../design/ProjectBridgeEligibilityPanel";
 
 
 const DesignRequestDetailOverlay = ({ 
@@ -102,6 +103,11 @@ const DesignRequestDetailOverlay = ({
                             <p className="text-xs font-bold text-gray-700">Rp {Number(selectedRequest.estimatedBudget || 0).toLocaleString('id-ID')}</p>
                         </div>
                     </div>
+                    
+                    <ProjectBridgeEligibilityPanel 
+                        request={selectedRequest} 
+                        role="customer" 
+                    />
 
                     <DesignFilesGallery designRequestId={selectedRequest.id} />
 

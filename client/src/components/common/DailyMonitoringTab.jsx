@@ -191,8 +191,22 @@ const DailyMonitoringTab = ({ projectId }) => {
                                                 <span className="text-sm font-black text-slate-800 leading-none mt-0.5">{new Date(report.date).getDate()}</span>
                                             </div>
                                             <div>
-                                                <h5 className="font-black text-xs text-slate-800 uppercase tracking-tight">Laporan Harian</h5>
-                                                <p className="text-[9px] font-bold text-slate-400 uppercase">{new Date(report.date).toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric' })}</p>
+                                                <div className="flex items-center gap-2 mb-0.5">
+                                                    <h5 className="font-black text-xs text-slate-800 uppercase tracking-tight">Laporan Harian</h5>
+                                                    {report.project && (
+                                                        <span className="text-[8px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded uppercase tracking-tighter">
+                                                            {report.project.projectCode}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <p className="text-[9px] font-bold text-slate-400 uppercase">{new Date(report.date).toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric' })}</p>
+                                                    {report.stage && (
+                                                        <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">
+                                                            • Stage: {report.stage.title}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                         <span className={`text-[8px] px-2 py-0.5 rounded font-black uppercase tracking-widest border ${

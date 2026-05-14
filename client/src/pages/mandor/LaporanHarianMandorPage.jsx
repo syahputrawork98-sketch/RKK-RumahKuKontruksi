@@ -163,10 +163,10 @@ const LaporanHarianMandorPage = () => {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-[10px] font-black text-[var(--dashboard-primary)] uppercase tracking-widest bg-[var(--dashboard-primary)]/10 px-2 py-0.5 rounded">
-                                            {projects.find(p => p.id === report.projectId)?.projectCode || "PRJ-??"}
+                                            {report.project?.projectCode || "PRJ-??"}
                                         </span>
                                         <span className="text-xs font-black text-slate-800">
-                                            {projects.find(p => p.id === report.projectId)?.name || "Proyek Lapangan"}
+                                            {report.project?.name || "Proyek Lapangan"}
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-lg">

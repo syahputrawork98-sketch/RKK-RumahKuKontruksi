@@ -13,6 +13,8 @@ export const getAllReports = async (filters) => {
   return prisma.dailyReport.findMany({
     where,
     include: {
+      project: { select: { id: true, name: true, projectCode: true } },
+      stage: { select: { id: true, title: true } },
       task: { select: { id: true, title: true } },
       foreman: { select: { id: true, name: true } },
       supervisor: { select: { id: true, name: true } }
@@ -25,6 +27,7 @@ export const getReportById = async (id) => {
   return prisma.dailyReport.findUnique({
     where: { id },
     include: {
+      project: { select: { id: true, name: true, projectCode: true } },
       task: { select: { id: true, title: true } },
       foreman: { select: { id: true, name: true } },
       supervisor: { select: { id: true, name: true } },

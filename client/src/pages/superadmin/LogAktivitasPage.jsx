@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiSearch, FiFilter, FiDownload, FiInfo, FiUser, FiClock, FiActivity, FiLock, FiCheckCircle, FiXCircle, FiAlertCircle } from "react-icons/fi";
+import { FiSearch, FiInfo, FiUser, FiClock, FiActivity, FiLock, FiCheckCircle, FiXCircle, FiAlertCircle } from "react-icons/fi";
 import { useSuperadminPersona } from "../../context/SuperadminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
 import * as governanceService from "../../services/governanceService";
@@ -30,10 +30,10 @@ const LogAktivitasPage = () => {
         try {
             if (activeTab === "audit") {
                 const res = await governanceService.getAuditLogs({ search });
-                setLogs(res.data);
+                setLogs(res.data || []);
             } else {
                 const res = await governanceService.getProfileChangeRequests();
-                setRequests(res.data);
+                setRequests(res.data || []);
             }
         } catch (error) {
             console.error("Error fetching governance data:", error);

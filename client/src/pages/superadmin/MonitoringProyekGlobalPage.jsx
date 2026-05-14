@@ -10,8 +10,8 @@ import {
     FiFilter,
     FiEye,
     FiInfo,
-    FiClock,
-    FiCheckCircle
+    FiCheckCircle,
+    FiAlertCircle
 } from "react-icons/fi";
 import projectService from "../../services/projectService";
 import RoleDataState from "../../components/common/RoleDataState";
@@ -83,7 +83,7 @@ const MonitoringProyekGlobalPage = ({ mode = "all" }) => {
     }
 
     if (loading) return <RoleDataState type="loading" message={mode === "active" ? "Menganalisis proyek aktif..." : "Menganalisis status proyek global..."} />;
-    if (error) return <RoleDataState type="error" message={error} onRetry={fetchProjects} />;
+    if (error) return <RoleDataState type="error" message={error} onRetry={fetchPageData} />;
 
     return (
         <div className="animate-fadeIn space-y-6 pb-20">

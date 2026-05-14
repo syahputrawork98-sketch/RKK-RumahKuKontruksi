@@ -34,7 +34,7 @@ const LaporanMingguanPengawasPage = () => {
 
             const response = await supervisorWeeklyReportService.getSupervisorWeeklyReports(params);
             if (response.success) {
-                setReports(response.data);
+                setReports(response.data || []);
             }
         } catch (err) {
             console.error("Failed to fetch reports:", err);

@@ -14,16 +14,7 @@ import {
     FiInfo,
     FiZap,
     FiList,
-    FiAward,
-    FiDollarSign,
-    FiArrowLeft,
-    FiArrowRight,
-    FiMessageSquare,
-    FiSend,
-    FiShield,
-    FiActivity,
-    FiAlertCircle,
-    FiCalendar
+    FiShield
 } from "react-icons/fi";
 import { 
     getLatestCustomerPostDesignDecision, 

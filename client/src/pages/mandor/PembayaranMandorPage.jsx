@@ -6,42 +6,53 @@ import {
 } from "react-icons/fi";
 import { useForemanPersona } from "../../context/ForemanPersonaContext";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";
+import RoleDataState from "../../components/common/RoleDataState";
 import ForemanBankAccountPanel from "../../components/mandor/payment/ForemanBankAccountPanel";
 import ForemanPaymentRequestTab from "../../components/mandor/payment/ForemanPaymentRequestTab";
 import ForemanPaymentHistoryTab from "../../components/mandor/payment/ForemanPaymentHistoryTab";
 import ForemanPaymentRequestModal from "../../components/mandor/payment/ForemanPaymentRequestModal";
+import foremanPaymentEligibilityService from "../../services/foremanPaymentEligibilityService";
+import paymentService from "../../services/paymentService";
+import projectService from "../../services/projectService";
 
 const PembayaranMandorPage = () => {
     const { selectedForemanId } = useForemanPersona();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("REQUEST"); // REQUEST, PAYMENT
     const [requests, setRequests] = useState([]);
     const [history, setHistory] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [bankAccount, setBankAccount] = useState(null);
     const [showRequestModal, setShowRequestModal] = useState(false);
     
-    // Simulated project list
-    const projects = [
-        { id: "PRJ-001", name: "Villa Canggu Refurbishment" },
-        { id: "PRJ-002", name: "Modern Minimalist House - Jakarta" }
-    ];
+    const fetchData = async () => {
+        if (!selectedForemanId) return;
+        setLoading(true);
+        try {
+            // 1. Fetch Projects for dropdown
+            const projectRes = await projectService.getProjects({ foremanId: selectedForemanId });
+            setProjects(projectRes.data || []);
 
-    // Load data from localStorage to simulate cross-persona data flow
-    useEffect(() => {
-        if (!selectedForemanId) {
+            // 2. Fetch Eligibility (Requests)
+            const eligibilityRes = await foremanPaymentEligibilityService.getAll({ foremanId: selectedForemanId });
+            setRequests(eligibilityRes.data || []);
+
+            // 3. Fetch History (PaymentRecords)
+            const historyRes = await paymentService.getPayments({ foremanId: selectedForemanId, type: 'FOREMAN_PAYMENT' });
+            setHistory(historyRes.data || []);
+
+            // 4. Fetch Bank Account (Still from localStorage as per scope)
+            const storedBank = localStorage.getItem(`rkk_foreman_bank_${selectedForemanId}`);
+            if (storedBank) setBankAccount(JSON.parse(storedBank));
+        } catch (err) {
+            console.error("Failed to fetch foreman payment data:", err);
+        } finally {
             setLoading(false);
-            return;
         }
+    };
 
-        const storedRequests = localStorage.getItem('rkk_foreman_requests');
-        const storedHistory = localStorage.getItem('rkk_foreman_history');
-        const storedBank = localStorage.getItem(`rkk_foreman_bank_${selectedForemanId}`);
-        
-        if (storedRequests) setRequests(JSON.parse(storedRequests));
-        if (storedHistory) setHistory(JSON.parse(storedHistory));
-        if (storedBank) setBankAccount(JSON.parse(storedBank));
-        
-        setLoading(false);
+    useEffect(() => {
+        fetchData();
     }, [selectedForemanId]);
 
     const handleSaveBank = (data) => {
@@ -50,21 +61,13 @@ const PembayaranMandorPage = () => {
         alert("Rekening pembayaran berhasil disimpan.");
     };
 
-    const handleRequestSubmit = (data) => {
-        const newRequest = {
-            id: Date.now(),
-            code: `REQ-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-            foremanName: "Ahmad Mandor", // Mock
-            supervisorRecommendation: 'PENDING',
-            ...data
-        };
-        const updatedRequests = [newRequest, ...requests];
-        setRequests(updatedRequests);
-        localStorage.setItem('rkk_foreman_requests', JSON.stringify(updatedRequests));
-        alert("Pengajuan pembayaran berhasil dikirim.");
+    const handleRequestSubmit = () => {
+        // According to Batch 109 Scope 2: Hold State / Disable creation if no API endpoint
+        alert("Pengajuan pembayaran saat ini digenerate otomatis dari Jurnal Mingguan yang telah direview Pengawas.");
+        setShowRequestModal(false);
     };
 
-    if (!selectedForemanId && !loading) {
+    if (!selectedForemanId) {
         return (
             <RolePersonaEmptyState 
                 title="Pilih Persona Mandor"
@@ -82,9 +85,9 @@ const PembayaranMandorPage = () => {
                     <p className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Manajemen Opname & Pembayaran Lapangan</p>
                 </div>
                 <div className="flex gap-3">
-                    <div className="bg-amber-50 border border-amber-200 px-5 py-3 rounded-2xl flex items-center gap-3 shadow-sm">
-                        <FiInfo className="text-amber-500" size={18} />
-                        <p className="text-[10px] font-black text-amber-700 uppercase tracking-widest leading-none">Simulasi Lokal Transaksi</p>
+                    <div className="bg-emerald-50 border border-emerald-200 px-5 py-3 rounded-2xl flex items-center gap-3 shadow-sm">
+                        <FiInfo className="text-emerald-500" size={18} />
+                        <p className="text-[10px] font-black text-emerald-700 uppercase tracking-widest leading-none">Data Real dari Database</p>
                     </div>
                 </div>
             </div>
@@ -117,7 +120,9 @@ const PembayaranMandorPage = () => {
                 </button>
             </div>
 
-            {activeTab === "REQUEST" ? (
+            {loading ? (
+                <RoleDataState status="loading" message="Memuat data keuangan..." />
+            ) : activeTab === "REQUEST" ? (
                 <ForemanPaymentRequestTab 
                     requests={requests}
                     onCreateClick={() => setShowRequestModal(true)}
@@ -136,6 +141,7 @@ const PembayaranMandorPage = () => {
                 projects={projects}
                 bankAccount={bankAccount}
                 onSubmit={handleRequestSubmit}
+                isPersistenceHold={true}
             />
         </div>
     );

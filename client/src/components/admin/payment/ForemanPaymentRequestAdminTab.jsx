@@ -80,11 +80,11 @@ const ForemanPaymentRequestAdminTab = ({ requests = [], onDecision }) => {
                                             {formatCurrency(req.amount)}
                                         </td>
                                         <td className="px-8 py-6">
-                                            {req.supervisorRecommendation === 'ELIGIBLE' ? (
+                                            {req.supervisorRecommendation?.toLowerCase() === 'eligible' ? (
                                                 <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">
                                                     <FiCheckCircle /> Layak Dibayar
                                                 </span>
-                                            ) : req.supervisorRecommendation === 'PARTIAL' ? (
+                                            ) : req.supervisorRecommendation?.toLowerCase() === 'partial' ? (
                                                 <span className="text-[9px] font-black text-amber-600 uppercase tracking-widest flex items-center gap-1.5">
                                                     <FiAlertCircle /> Partial / Tinjau
                                                 </span>
@@ -94,8 +94,8 @@ const ForemanPaymentRequestAdminTab = ({ requests = [], onDecision }) => {
                                         </td>
                                         <td className="px-8 py-6">
                                             <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${getStatusStyle(req.status)}`}>
-                                                {req.status === 'approved' ? <FiCheckCircle /> : req.status === 'rejected' ? <FiXCircle /> : req.status === 'correction_required' ? <FiEdit3 /> : <FiClock />}
-                                                {req.status.replace(/_/g, ' ')}
+                                                {req.status?.toLowerCase() === 'eligible' || req.status?.toLowerCase() === 'paid_simulated' ? <FiCheckCircle /> : req.status?.toLowerCase() === 'hold' ? <FiXCircle /> : req.status?.toLowerCase() === 'correction_required' ? <FiEdit3 /> : <FiClock />}
+                                                {getStatusLabel(req.status)}
                                             </span>
                                         </td>
                                         <td className="px-8 py-6 text-right">

@@ -11,24 +11,24 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
     };
 
     const getStatusStyle = (status) => {
-        switch (status) {
-            case 'submitted': return 'bg-blue-100 text-blue-700 border-blue-200';
-            case 'supervisor_recommended': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-            case 'approved': return 'bg-emerald-500 text-white border-transparent';
-            case 'partial_approved': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
-            case 'rejected': return 'bg-rose-100 text-rose-700 border-rose-200';
+        switch (status?.toLowerCase()) {
+            case 'pending': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'eligible': return 'bg-emerald-500 text-white border-transparent';
+            case 'partial': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
+            case 'hold': return 'bg-rose-100 text-rose-700 border-rose-200';
             case 'correction_required': return 'bg-amber-100 text-amber-700 border-amber-200';
-            case 'paid': return 'bg-slate-900 text-white border-transparent';
+            case 'paid_simulated': return 'bg-slate-900 text-white border-transparent';
+            case 'archived': return 'bg-slate-200 text-slate-500 border-slate-300';
             default: return 'bg-slate-100 text-slate-500 border-slate-200';
         }
     };
 
     const getRecommendationBadge = (rec) => {
         if (!rec) return { label: 'Menunggu Review', style: 'text-slate-400 italic' };
-        switch (rec) {
-            case 'ELIGIBLE': return { label: 'Layak Dibayar', style: 'text-emerald-600 font-black' };
-            case 'PARTIAL': return { label: 'Partial / Sebagian', style: 'text-amber-600 font-black' };
-            case 'NOT_ELIGIBLE': return { label: 'Belum Layak', style: 'text-rose-600 font-black' };
+        switch (rec.toLowerCase()) {
+            case 'eligible': return { label: 'Layak Dibayar', style: 'text-emerald-600 font-black' };
+            case 'partial': return { label: 'Partial / Sebagian', style: 'text-amber-600 font-black' };
+            case 'not_eligible': return { label: 'Belum Layak', style: 'text-rose-600 font-black' };
             default: return { label: 'Menunggu Review', style: 'text-slate-400' };
         }
     };
@@ -38,8 +38,8 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
             {/* Action Bar */}
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div>
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 mb-1">Daftar Pengajuan Anda</h4>
-                    <p className="text-xs font-bold text-slate-500 ml-2">Total {requests.length} pengajuan ditemukan</p>
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 mb-1">Daftar Pengajuan Operasional</h4>
+                    <p className="text-xs font-bold text-slate-500 ml-2">Total {requests.length} data ditemukan</p>
                 </div>
                 <button 
                     disabled={!canRequest}
@@ -58,7 +58,7 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
                             <FiFileText size={64} />
                         </div>
                         <h3 className="text-xl font-black text-slate-800 uppercase tracking-tight">Belum Ada Pengajuan</h3>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Silakan buat pengajuan pertama Anda melalui tombol di atas.</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Data pengajuan akan muncul setelah Jurnal Mingguan direview.</p>
                     </div>
                 ) : (
                     requests.map(req => {
@@ -73,19 +73,21 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
                                                     <FiFileText />
                                                 </div>
                                                 <div>
-                                                    <h3 className="text-lg font-black text-slate-800 tracking-tight">{req.basis === 'WEEKLY' ? req.period : req.targetItem}</h3>
-                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{req.projectName} • <span className="text-blue-600">{req.code}</span></p>
+                                                    <h3 className="text-lg font-black text-slate-800 tracking-tight">
+                                                        {req.period ? `Minggu ke-${req.weekNumber || '?'} (${req.period})` : (req.title || 'Pengajuan Operasional')}
+                                                    </h3>
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{req.project?.name || req.projectName || 'Project RKK'} • <span className="text-blue-600">{req.documentCode || req.id.substring(0,8).toUpperCase()}</span></p>
                                                 </div>
                                             </div>
                                             <span className={`px-3 py-1 border rounded-full text-[8px] font-black uppercase tracking-widest ${getStatusStyle(req.status)}`}>
-                                                {req.status.replace(/_/g, ' ')}
+                                                {(req.status || 'pending').replace(/_/g, ' ')}
                                             </span>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
                                                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Diajukan</p>
-                                                <p className="text-lg font-black text-slate-900 tracking-tight">{formatCurrency(req.amount)}</p>
+                                                <p className="text-lg font-black text-slate-900 tracking-tight">{formatCurrency(req.totalAmount || req.amount)}</p>
                                             </div>
                                             <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
                                                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Rekomendasi Pengawas</p>
@@ -94,16 +96,16 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
                                                 </p>
                                             </div>
                                             <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100 overflow-hidden">
-                                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Catatan Mandor</p>
-                                                <p className="text-[10px] font-bold text-slate-500 mt-1 truncate">{req.notes || "-"}</p>
+                                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Catatan Admin</p>
+                                                <p className="text-[10px] font-bold text-slate-500 mt-1 truncate">{req.adminNote || "-"}</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="md:w-48 flex flex-col justify-center gap-2">
-                                        {(req.status === 'rejected' || req.status === 'correction_required') && (
+                                        {(req.status === 'correction_required') && (
                                             <button className="w-full py-3 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">
-                                                Perbaiki Pengajuan
+                                                Perbaiki Data
                                             </button>
                                         )}
                                         <button className="w-full py-3 bg-slate-50 text-slate-400 hover:text-slate-600 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">
@@ -121,9 +123,9 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
             <div className="p-6 bg-blue-50 border border-blue-100 rounded-[2rem] flex gap-4 items-start shadow-sm">
                 <FiInfo className="text-blue-500 shrink-0 mt-1" size={24} />
                 <div className="space-y-1">
-                    <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest">Alur Pengajuan Mandor</h4>
+                    <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest">Alur Pembayaran Mandor</h4>
                     <p className="text-[10px] text-blue-600 leading-relaxed font-bold uppercase italic tracking-tighter">
-                        Submit Pengajuan {">"} Review Pengawas (Rekomendasi Kelayakan) {">"} Verifikasi Admin {">"} Transfer Manual {">"} Upload Bukti Selesai.
+                        Review Jurnal {">"} Eligibility Terbentuk {">"} Verifikasi Admin {">"} Transfer Manual {">"} Update Status Lunas.
                     </p>
                 </div>
             </div>

@@ -37,35 +37,38 @@ const ForemanPaymentHistoryTab = ({ payments = [] }) => {
                                     </td>
                                 </tr>
                             ) : (
-                                payments.map((pay) => (
-                                    <tr key={pay.id} className="hover:bg-slate-50/50 transition-all group">
-                                        <td className="px-8 py-6">
-                                            <p className="text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">{pay.paymentCode || pay.code}</p>
-                                            <p className="text-sm font-black text-slate-800">{pay.paymentDate || pay.uploadDate}</p>
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <p className="text-sm font-black text-slate-800">{pay.itemName}</p>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5 tracking-tighter">{pay.projectName}</p>
-                                        </td>
-                                        <td className="px-8 py-6 text-base font-black text-slate-900 tracking-tight text-right">
-                                            {formatCurrency(pay.amount)}
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${pay.status === 'paid' ? 'bg-slate-900 text-white border-transparent' : 'bg-emerald-100 text-emerald-700 border-emerald-200'}`}>
-                                                <FiCheckCircle size={12} /> {pay.status === 'paid' ? 'Sudah Dibayar' : 'Approved'}
-                                            </span>
-                                        </td>
-                                        <td className="px-8 py-6 text-right">
-                                            {pay.status === 'paid' ? (
-                                                <button className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2 ml-auto">
-                                                    <FiEye /> Lihat Bukti
-                                                </button>
-                                            ) : (
-                                                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Menunggu Transfer</span>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))
+                                payments.map((pay) => {
+                                    const isPaid = pay.status === 'verified' || pay.status === 'released' || pay.status === 'paid' || pay.status === 'paid_simulated';
+                                    return (
+                                        <tr key={pay.id} className="hover:bg-slate-50/50 transition-all group">
+                                            <td className="px-8 py-6">
+                                                <p className="text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">{pay.paymentCode || pay.documentCode || pay.id.substring(0,8).toUpperCase()}</p>
+                                                <p className="text-sm font-black text-slate-800">{pay.paymentDate ? new Date(pay.paymentDate).toLocaleDateString('id-ID') : new Date(pay.createdAt).toLocaleDateString('id-ID')}</p>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <p className="text-sm font-black text-slate-800">{pay.title || 'Pembayaran Operasional'}</p>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5 tracking-tighter">{pay.project?.name || pay.projectName || 'Project RKK'}</p>
+                                            </td>
+                                            <td className="px-8 py-6 text-base font-black text-slate-900 tracking-tight text-right">
+                                                {formatCurrency(pay.amount)}
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${isPaid ? 'bg-slate-900 text-white border-transparent' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
+                                                    <FiCheckCircle size={12} /> {isPaid ? 'Sudah Dibayar' : 'Proses'}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-6 text-right">
+                                                {isPaid ? (
+                                                    <button className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2 ml-auto">
+                                                        <FiEye /> Lihat Bukti
+                                                    </button>
+                                                ) : (
+                                                    <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Sedang Diproses</span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                })
                             )}
                         </tbody>
                     </table>

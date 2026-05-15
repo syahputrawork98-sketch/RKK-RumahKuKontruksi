@@ -18,6 +18,7 @@ import {
     FiPlus,
     FiMoreVertical
 } from "react-icons/fi";
+import foremanPaymentEligibilityService from "../../services/foremanPaymentEligibilityService";
 import paymentService from "../../services/paymentService";
 import projectService from "../../services/projectService";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
@@ -70,14 +71,22 @@ const PembayaranAdminPage = () => {
             }));
             setCustomerPayments(mappedCustomerPayments);
 
-            // 3. Load Foreman stuff (Local simulation for now as per instructions)
-            const storedRequests = localStorage.getItem('rkk_foreman_requests');
-            const storedHistory = localStorage.getItem('rkk_foreman_history');
-            if (storedRequests) setForemanRequests(JSON.parse(storedRequests));
-            if (storedHistory) setForemanHistory(JSON.parse(storedHistory));
+            // 3. New data fetching for foremen (Batch 109)
+            const foremanEligibilityRes = await foremanPaymentEligibilityService.getAll();
+            const mappedRequests = (foremanEligibilityRes.data || []).map(r => ({
+                ...r,
+                foremanName: r.foreman?.name || 'Mandor',
+                projectName: r.project?.name || 'Project',
+                code: r.documentCode || r.id.substring(0,8).toUpperCase(),
+                amount: r.totalAmount || r.amount
+            }));
+            setForemanRequests(mappedRequests);
+
+            const foremanHistoryRes = await paymentService.getPayments({ type: 'FOREMAN_PAYMENT' });
+            setForemanHistory(foremanHistoryRes.data || []);
 
         } catch (err) {
-            console.error("Failed to fetch admin payment data:", err);
+            console.error("Failed to fetch admin payment dashboard data:", err);
         } finally {
             setLoading(false);
         }
@@ -145,37 +154,47 @@ const PembayaranAdminPage = () => {
         }
     };
 
-    const handleForemanDecision = (id, decision) => {
-        const updated = foremanRequests.map(r => 
-            r.id === id ? { ...r, ...decision } : r
-        );
-        setForemanRequests(updated);
-        localStorage.setItem('rkk_foreman_requests', JSON.stringify(updated));
-        alert("Keputusan pengajuan mandor berhasil disimpan.");
+    // Foreman Decision Logic (Batch 109)
+    const handleForemanDecision = async (id, data) => {
+        try {
+            // Map UI status to API status
+            let apiStatus = data.status; // approved -> eligible, partial_approved -> partial
+            if (apiStatus === 'approved') apiStatus = 'eligible';
+            if (apiStatus === 'partial_approved') apiStatus = 'partial';
+            if (apiStatus === 'rejected') apiStatus = 'hold';
+
+            await foremanPaymentEligibilityService.updateStatus(id, {
+                status: apiStatus,
+                adminNote: data.adminNote,
+                approvedAmount: data.approvedAmount,
+                actorRole: 'admin',
+                actorId: selectedAdminId
+            });
+            await fetchData();
+            alert("Status pengajuan mandor berhasil diperbarui.");
+        } catch (err) {
+            console.error("Foreman decision failed:", err);
+            alert("Gagal memperbarui status pengajuan.");
+        }
     };
 
-    const handleForemanPayment = (id, paymentData) => {
-        const updatedRequests = foremanRequests.map(r => 
-            r.id === id ? { ...r, status: 'paid' } : r
-        );
-        setForemanRequests(updatedRequests);
-        localStorage.setItem('rkk_foreman_requests', JSON.stringify(updatedRequests));
-
-        const request = foremanRequests.find(r => r.id === id);
-        const newHistory = [
-            { 
-                ...paymentData, 
-                id: Date.now(), 
-                code: `PAY-${request.code.split('-')[2]}`, 
-                projectName: request.projectName,
-                itemName: request.targetItem,
-                amount: paymentData.amount
-            },
-            ...foremanHistory
-        ];
-        setForemanHistory(newHistory);
-        localStorage.setItem('rkk_foreman_history', JSON.stringify(newHistory));
-        alert("Bukti transfer berhasil di-upload.");
+    // Foreman Disbursement Logic (Batch 109)
+    const handleForemanDisbursement = async (id, data) => {
+        try {
+            // As per Scope 5: update status to paid_simulated
+            await foremanPaymentEligibilityService.updateStatus(id, {
+                status: 'paid_simulated',
+                adminNote: `Ref: ${data.refNumber}. ${data.bankOrigin}. ${data.adminNote || ''}`,
+                approvedAmount: data.amount,
+                actorRole: 'admin',
+                actorId: selectedAdminId
+            });
+            await fetchData();
+            alert("Pembayaran mandor berhasil dikonfirmasi. Payment Record telah dibuat otomatis.");
+        } catch (err) {
+            console.error("Foreman disbursement failed:", err);
+            alert("Gagal konfirmasi pembayaran mandor.");
+        }
     };
 
     const formatCurrency = (val) => {
@@ -269,15 +288,15 @@ const PembayaranAdminPage = () => {
 
                 {activeTab === "PENGAJUAN_MANDOR" && (
                     <ForemanPaymentRequestAdminTab 
-                        requests={foremanRequests.filter(r => r.status !== 'paid')}
+                        requests={foremanRequests.filter(r => r.status !== 'paid_simulated' && r.status !== 'archived')}
                         onDecision={handleForemanDecision}
                     />
                 )}
 
                 {activeTab === "PEMBAYARAN_MANDOR" && (
                     <ForemanDisbursementTab 
-                        approvedRequests={foremanRequests.filter(r => r.status === 'approved' || r.status === 'partial_approved' || r.status === 'paid')}
-                        onMarkAsPaid={handleForemanPayment}
+                        approvedRequests={foremanRequests.filter(r => r.status === 'eligible' || r.status === 'partial' || r.status === 'paid_simulated')}
+                        onMarkAsPaid={handleForemanDisbursement}
                     />
                 )}
 

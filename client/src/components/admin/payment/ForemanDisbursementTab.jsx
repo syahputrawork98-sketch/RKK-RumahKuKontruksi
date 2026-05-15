@@ -22,7 +22,7 @@ const ForemanDisbursementTab = ({ approvedRequests = [], onMarkAsPaid }) => {
                     <div className="relative z-10">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Siap Dibayar</p>
                         <h4 className="text-3xl font-black text-slate-900 tracking-tighter">
-                            {approvedRequests.filter(r => r.status !== 'paid').length} <span className="text-sm font-bold text-slate-400 ml-1">Pengajuan</span>
+                            {approvedRequests.filter(r => r.status !== 'paid_simulated').length} <span className="text-sm font-bold text-slate-400 ml-1">Pengajuan</span>
                         </h4>
                     </div>
                     <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl -mr-8 -mt-8"></div>
@@ -31,7 +31,7 @@ const ForemanDisbursementTab = ({ approvedRequests = [], onMarkAsPaid }) => {
                     <div className="relative z-10">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Total Outstanding</p>
                         <h4 className="text-2xl font-black text-blue-600 tracking-tighter">
-                            {formatCurrency(approvedRequests.filter(r => r.status !== 'paid').reduce((sum, r) => sum + (r.approvedAmount || r.amount), 0))}
+                            {formatCurrency(approvedRequests.filter(r => r.status !== 'paid_simulated').reduce((sum, r) => sum + (r.approvedAmount || r.totalAmount || r.amount), 0))}
                         </h4>
                     </div>
                     <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl -mr-8 -mt-8"></div>
@@ -93,10 +93,10 @@ const ForemanDisbursementTab = ({ approvedRequests = [], onMarkAsPaid }) => {
                                             </div>
                                         </td>
                                         <td className="px-8 py-6 text-right font-black text-slate-900 text-sm">
-                                            {formatCurrency(req.approvedAmount || req.amount)}
+                                            {formatCurrency(req.approvedAmount || req.totalAmount || req.amount)}
                                         </td>
                                         <td className="px-8 py-6">
-                                            {req.status === 'paid' ? (
+                                            {req.status === 'paid_simulated' ? (
                                                 <span className="px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-slate-900 text-white border-transparent flex items-center gap-2 w-fit">
                                                     <FiCheckCircle /> Sudah Dibayar
                                                 </span>
@@ -107,7 +107,7 @@ const ForemanDisbursementTab = ({ approvedRequests = [], onMarkAsPaid }) => {
                                             )}
                                         </td>
                                         <td className="px-8 py-6 text-right">
-                                            {req.status !== 'paid' ? (
+                                            {req.status !== 'paid_simulated' ? (
                                                 <button 
                                                     onClick={() => { setSelectedRequest(req); setShowUpload(true); }}
                                                     className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2 ml-auto"

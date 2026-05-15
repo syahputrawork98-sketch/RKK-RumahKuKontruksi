@@ -15,14 +15,30 @@ const ForemanPaymentRequestAdminTab = ({ requests = [], onDecision }) => {
     };
 
     const getStatusStyle = (status) => {
-        switch (status) {
-            case 'submitted': return 'bg-blue-100 text-blue-700 border-blue-200';
-            case 'approved': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-            case 'partial_approved': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
-            case 'rejected': return 'bg-rose-100 text-rose-700 border-rose-200';
+        const s = status?.toLowerCase() || 'pending_review';
+        switch (s) {
+            case 'pending_review': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'eligible': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+            case 'partial': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
+            case 'hold': return 'bg-rose-100 text-rose-700 border-rose-200';
             case 'correction_required': return 'bg-amber-100 text-amber-700 border-amber-200';
-            case 'paid': return 'bg-slate-900 text-white border-transparent';
+            case 'paid_simulated': return 'bg-slate-900 text-white border-transparent';
+            case 'archived': return 'bg-slate-200 text-slate-500 border-slate-300';
             default: return 'bg-slate-100 text-slate-500 border-slate-200';
+        }
+    };
+
+    const getStatusLabel = (status) => {
+        const s = status?.toLowerCase() || 'pending_review';
+        switch (s) {
+            case 'pending_review': return 'Menunggu Review';
+            case 'eligible': return 'Layak Dibayar';
+            case 'partial': return 'Partial';
+            case 'hold': return 'Ditahan';
+            case 'correction_required': return 'Perlu Koreksi';
+            case 'paid_simulated': return 'Sudah Dibayar';
+            case 'archived': return 'Arsip';
+            default: return status || 'Unknown';
         }
     };
 

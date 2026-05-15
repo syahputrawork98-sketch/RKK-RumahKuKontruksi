@@ -77,8 +77,13 @@ const PembayaranAdminPage = () => {
                 ...r,
                 foremanName: r.foreman?.name || 'Mandor',
                 projectName: r.project?.name || 'Project',
-                code: r.documentCode || r.id.substring(0,8).toUpperCase(),
-                amount: r.totalAmount || r.amount
+                code: r.documentCode || (r.id ? `ELIG-${r.id.substring(0,8).toUpperCase()}` : 'ELIG-NEW'),
+                amount: r.approvedAmount || r.estimatedAmount || 0,
+                estimatedAmount: r.estimatedAmount || 0,
+                approvedAmount: r.approvedAmount || 0,
+                basis: 'WEEKLY',
+                targetItem: r.weekNumber ? `Minggu ${r.weekNumber}` : (r.periodStart ? `${new Date(r.periodStart).toLocaleDateString()} - ${new Date(r.periodEnd).toLocaleDateString()}` : 'Pekerjaan Lapangan'),
+                supervisorRecommendation: r.status // Map status as recommendation source
             }));
             setForemanRequests(mappedRequests);
 
@@ -288,14 +293,18 @@ const PembayaranAdminPage = () => {
 
                 {activeTab === "PENGAJUAN_MANDOR" && (
                     <ForemanPaymentRequestAdminTab 
-                        requests={foremanRequests.filter(r => r.status !== 'paid_simulated' && r.status !== 'archived')}
+                        requests={foremanRequests.filter(r => 
+                            ['pending_review', 'eligible', 'partial', 'hold', 'correction_required'].includes(r.status?.toLowerCase())
+                        )}
                         onDecision={handleForemanDecision}
                     />
                 )}
 
                 {activeTab === "PEMBAYARAN_MANDOR" && (
                     <ForemanDisbursementTab 
-                        approvedRequests={foremanRequests.filter(r => r.status === 'eligible' || r.status === 'partial' || r.status === 'paid_simulated')}
+                        approvedRequests={foremanRequests.filter(r => 
+                            ['eligible', 'partial', 'paid_simulated'].includes(r.status?.toLowerCase())
+                        )}
                         onMarkAsPaid={handleForemanDisbursement}
                     />
                 )}

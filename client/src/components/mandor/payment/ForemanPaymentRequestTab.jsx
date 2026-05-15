@@ -11,8 +11,9 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
     };
 
     const getStatusStyle = (status) => {
-        switch (status?.toLowerCase()) {
-            case 'pending': return 'bg-blue-100 text-blue-700 border-blue-200';
+        const s = status?.toLowerCase() || 'pending_review';
+        switch (s) {
+            case 'pending_review': return 'bg-blue-100 text-blue-700 border-blue-200';
             case 'eligible': return 'bg-emerald-500 text-white border-transparent';
             case 'partial': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
             case 'hold': return 'bg-rose-100 text-rose-700 border-rose-200';
@@ -80,14 +81,14 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
                                                 </div>
                                             </div>
                                             <span className={`px-3 py-1 border rounded-full text-[8px] font-black uppercase tracking-widest ${getStatusStyle(req.status)}`}>
-                                                {(req.status || 'pending').replace(/_/g, ' ')}
+                                                {(req.status || 'pending_review').replace(/_/g, ' ')}
                                             </span>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
                                                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Diajukan</p>
-                                                <p className="text-lg font-black text-slate-900 tracking-tight">{formatCurrency(req.totalAmount || req.amount)}</p>
+                                                <p className="text-lg font-black text-slate-900 tracking-tight">{formatCurrency(req.approvedAmount || req.estimatedAmount || req.totalAmount || req.amount)}</p>
                                             </div>
                                             <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
                                                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Rekomendasi Pengawas</p>

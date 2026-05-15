@@ -42,11 +42,11 @@ const ForemanPaymentHistoryTab = ({ payments = [] }) => {
                                     return (
                                         <tr key={pay.id} className="hover:bg-slate-50/50 transition-all group">
                                             <td className="px-8 py-6">
-                                                <p className="text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">{pay.paymentCode || pay.documentCode || pay.id.substring(0,8).toUpperCase()}</p>
-                                                <p className="text-sm font-black text-slate-800">{pay.paymentDate ? new Date(pay.paymentDate).toLocaleDateString('id-ID') : new Date(pay.createdAt).toLocaleDateString('id-ID')}</p>
+                                                <p className="text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">{pay.paymentCode || pay.documentCode || (pay.id ? pay.id.substring(0,8).toUpperCase() : 'PAY-REF')}</p>
+                                                <p className="text-sm font-black text-slate-800">{pay.paymentDate ? new Date(pay.paymentDate).toLocaleDateString('id-ID') : (pay.createdAt ? new Date(pay.createdAt).toLocaleDateString('id-ID') : '-')}</p>
                                             </td>
                                             <td className="px-8 py-6">
-                                                <p className="text-sm font-black text-slate-800">{pay.title || 'Pembayaran Operasional'}</p>
+                                                <p className="text-sm font-black text-slate-800">{pay.title || pay.itemName || 'Pembayaran Operasional'}</p>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5 tracking-tighter">{pay.project?.name || pay.projectName || 'Project RKK'}</p>
                                             </td>
                                             <td className="px-8 py-6 text-base font-black text-slate-900 tracking-tight text-right">

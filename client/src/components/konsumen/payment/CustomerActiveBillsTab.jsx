@@ -11,18 +11,20 @@ const CustomerActiveBillsTab = ({ bills = [], onUploadClick }) => {
     };
 
     const getStatusConfig = (status) => {
-        switch (status) {
+        const s = status?.toLowerCase();
+        switch (s) {
             case 'sent':
-            case 'waiting_payment':
+            case 'due':
                 return { label: 'Menunggu Pembayaran', color: 'bg-amber-100 text-amber-700 border-amber-200', icon: <FiClock /> };
-            case 'paid_uploaded':
+            case 'paid':
                 return { label: 'Menunggu Verifikasi', color: 'bg-blue-100 text-blue-700 border-blue-200', icon: <FiInfo /> };
             case 'verified':
+            case 'paid_simulated':
                 return { label: 'Terverifikasi / Lunas', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', icon: <FiCheckCircle /> };
             case 'rejected':
                 return { label: 'Ditolak / Perlu Perbaikan', color: 'bg-rose-100 text-rose-700 border-rose-200', icon: <FiXCircle /> };
             default:
-                return { label: status, color: 'bg-slate-100 text-slate-700 border-slate-200', icon: <FiInfo /> };
+                return { label: status || 'Unknown', color: 'bg-slate-100 text-slate-700 border-slate-200', icon: <FiInfo /> };
         }
     };
 
@@ -92,13 +94,13 @@ const CustomerActiveBillsTab = ({ bills = [], onUploadClick }) => {
                                             </div>
                                             <div>
                                                 <div className="flex items-center gap-3">
-                                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">{bill.itemName}</h3>
+                                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">{bill.itemName || 'Item Tagihan'}</h3>
                                                     <span className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border flex items-center gap-1.5 ${config.color}`}>
                                                         {config.icon} {config.label}
                                                     </span>
                                                 </div>
                                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
-                                                    {bill.projectName} • Invoice: <span className="text-blue-600">{bill.code}</span>
+                                                    {bill.projectName || 'Proyek RKK'} • Invoice: <span className="text-blue-600">{bill.code || 'INV-REF'}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -127,8 +129,8 @@ const CustomerActiveBillsTab = ({ bills = [], onUploadClick }) => {
                                             <FiDownload /> Lihat Invoice
                                         </button>
                                         {!canUpload && (
-                                            <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-tighter">
-                                                {bill.status === 'verified' ? 'Tagihan sudah lunas' : 'Menunggu verifikasi admin'}
+                                            <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-tighter mt-2">
+                                                {bill.status === 'verified' || bill.status === 'paid_simulated' ? 'Tagihan sudah lunas' : 'Menunggu verifikasi admin'}
                                             </p>
                                         )}
                                     </div>

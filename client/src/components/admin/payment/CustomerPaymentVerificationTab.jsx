@@ -15,9 +15,10 @@ const CustomerPaymentVerificationTab = ({ payments = [], onVerify, onReject }) =
     };
 
     const getStatusStyle = (status) => {
-        switch (status) {
+        const s = status?.toLowerCase() || 'pending';
+        switch (s) {
             case 'verified': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-            case 'paid_uploaded': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'paid': return 'bg-blue-100 text-blue-700 border-blue-200';
             case 'rejected': return 'bg-rose-100 text-rose-700 border-rose-200';
             default: return 'bg-slate-100 text-slate-500 border-slate-200';
         }
@@ -91,7 +92,7 @@ const CustomerPaymentVerificationTab = ({ payments = [], onVerify, onReject }) =
                                             <td className="px-8 py-6">
                                                 <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${getStatusStyle(pay.status)}`}>
                                                     {pay.status === 'verified' ? <FiCheckCircle /> : pay.status === 'rejected' ? <FiXCircle /> : <FiClock />}
-                                                    {pay.status === 'verified' ? 'Verified' : pay.status === 'rejected' ? 'Rejected' : 'Incoming Proof'}
+                                                    {pay.status === 'verified' ? 'Terverifikasi' : pay.status === 'rejected' ? 'Ditolak' : 'Review Bukti'}
                                                 </span>
                                             </td>
                                             <td className="px-8 py-6 text-right">

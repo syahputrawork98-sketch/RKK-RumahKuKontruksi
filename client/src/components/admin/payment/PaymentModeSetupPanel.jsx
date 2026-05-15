@@ -10,6 +10,14 @@ const PaymentModeSetupPanel = ({ projects = [] }) => {
 
     const selectedProject = projects.find(p => p.id === selectedProjectId);
 
+    const formatCurrency = (val) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(val || 0);
+    };
+
     return (
         <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm space-y-8 animate-fadeIn">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -67,11 +75,11 @@ const PaymentModeSetupPanel = ({ projects = [] }) => {
                         </div>
                         <div className="bg-slate-50/80 p-6 rounded-3xl border border-slate-100 space-y-2">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total Nilai Proyek</p>
-                            <p className="text-sm font-black text-slate-800">Rp 1.250.000.000</p>
+                            <p className="text-sm font-black text-slate-800">{formatCurrency(selectedProject.budgetTotal || selectedProject.totalBudget || 0)}</p>
                         </div>
                         <div className="bg-slate-50/80 p-6 rounded-3xl border border-slate-100 space-y-2">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total Rencana Bayar</p>
-                            <p className="text-sm font-black text-blue-600">Rp 1.250.000.000</p>
+                            <p className="text-sm font-black text-blue-600">{formatCurrency(selectedProject.budgetTotal || selectedProject.totalBudget || 0)}</p>
                         </div>
                         <div className="bg-slate-50/80 p-6 rounded-3xl border border-slate-100 space-y-2">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Status Konfigurasi</p>
@@ -85,9 +93,9 @@ const PaymentModeSetupPanel = ({ projects = [] }) => {
                     {/* Setup Content */}
                     <div className="pt-4">
                         {paymentMode === "TERMIN_4X" ? (
-                            <TerminPaymentSetup totalValue={1250000000} />
+                            <TerminPaymentSetup totalValue={selectedProject.budgetTotal || selectedProject.totalBudget || 0} />
                         ) : (
-                            <CategoryPaymentSetup totalValue={1250000000} />
+                            <CategoryPaymentSetup totalValue={selectedProject.budgetTotal || selectedProject.totalBudget || 0} />
                         )}
                     </div>
                 </div>

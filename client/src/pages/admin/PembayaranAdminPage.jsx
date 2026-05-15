@@ -39,8 +39,6 @@ const PembayaranAdminPage = () => {
     const [customerPayments, setCustomerPayments] = useState([]);
     const [foremanRequests, setForemanRequests] = useState([]);
     const [foremanHistory, setForemanHistory] = useState([]);
-    const [showDetail, setShowDetail] = useState(false);
-    const [selectedPayment, setSelectedPayment] = useState(null);
     const [updating, setUpdating] = useState(false);
 
     const fetchData = async () => {
@@ -54,19 +52,19 @@ const PembayaranAdminPage = () => {
             const customerPaymentRes = await paymentService.getPayments({ type: 'CUSTOMER_PAYMENT' });
             const mappedCustomerPayments = (customerPaymentRes.data || []).map(h => ({
                 id: h.id,
-                code: h.paymentCode,
-                itemName: h.milestone?.name || 'Pembayaran Proyek',
-                uploadDate: new Date(h.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+                code: h.paymentCode || (h.id ? `PAY-${h.id.substring(0,8).toUpperCase()}` : 'PAY-REF'),
+                itemName: h.milestone?.name || h.title || 'Pembayaran Proyek',
+                uploadDate: h.createdAt ? new Date(h.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-',
                 transferDate: h.transferDate ? new Date(h.transferDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-',
-                customerName: h.customer?.name || 'Unknown',
-                projectName: h.project?.name || 'Unknown',
-                billAmount: h.milestone?.amount || h.amount,
-                amount: h.amount,
-                status: h.status,
-                senderName: h.senderName,
-                originBank: h.originBank,
+                customerName: h.customer?.name || h.project?.customer?.name || 'Unknown',
+                projectName: h.project?.name || 'Unknown Project',
+                billAmount: h.milestone?.amount || h.amount || 0,
+                amount: h.amount || 0,
+                status: h.status || 'pending',
+                senderName: h.senderName || '-',
+                originBank: h.originBank || '-',
                 fileName: h.proofDocument?.originalName || 'Bukti Bayar',
-                notes: h.notes,
+                notes: h.notes || '',
                 proofDocumentId: h.proofDocumentId
             }));
             setCustomerPayments(mappedCustomerPayments);
@@ -100,26 +98,6 @@ const PembayaranAdminPage = () => {
     useEffect(() => {
         fetchData();
     }, [selectedAdminId]);
-
-    const handleUpdateStatus = async (id, status) => {
-        if (!window.confirm(`Update status pembayaran ini menjadi ${status}?`)) return;
-        try {
-            setUpdating(true);
-            await paymentService.updateStatus(id, {
-                status,
-                verifiedByRole: 'ADMIN',
-                verifiedById: selectedAdminId,
-                note: `Verified by Admin via Detail Modal.`
-            });
-            await fetchData();
-            setShowDetail(false);
-            setUpdating(false);
-            alert(`Pembayaran berhasil di-update menjadi ${status}.`);
-        } catch (error) {
-            alert("Gagal update status: " + error.message);
-            setUpdating(false);
-        }
-    };
 
     const handleCustomerVerify = async (id, note) => {
         try {
@@ -211,17 +189,18 @@ const PembayaranAdminPage = () => {
     };
 
     const getStatusConfig = (status) => {
-        switch (status) {
+        const s = status?.toLowerCase() || 'pending';
+        switch (s) {
             case 'verified':
-                return { label: 'Verified', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', icon: <FiCheckCircle /> };
+                return { label: 'Terverifikasi', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', icon: <FiCheckCircle /> };
             case 'paid':
-                return { label: 'Paid (Waiting)', color: 'bg-blue-100 text-blue-700 border-blue-200', icon: <FiClock /> };
+                return { label: 'Review Bukti', color: 'bg-blue-100 text-blue-700 border-blue-200', icon: <FiClock /> };
             case 'pending':
-                return { label: 'Pending', color: 'bg-amber-100 text-amber-700 border-amber-200', icon: <FiAlertCircle /> };
+                return { label: 'Menunggu Upload', color: 'bg-amber-100 text-amber-700 border-amber-200', icon: <FiAlertCircle /> };
             case 'rejected':
-                return { label: 'Rejected', color: 'bg-rose-100 text-rose-700 border-rose-200', icon: <FiX /> };
+                return { label: 'Ditolak', color: 'bg-rose-100 text-rose-700 border-rose-200', icon: <FiX /> };
             default:
-                return { label: status, color: 'bg-slate-100 text-slate-700 border-slate-200', icon: <FiInfo /> };
+                return { label: status || 'Unknown', color: 'bg-slate-100 text-slate-700 border-slate-200', icon: <FiInfo /> };
         }
     };
 
@@ -319,62 +298,6 @@ const PembayaranAdminPage = () => {
                     </div>
                 )}
             </div>
-
-            {/* DETAIL MODAL (Shared for Payments) */}
-            {showDetail && selectedPayment && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-                    <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
-                        <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
-                            <div>
-                                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Detail Transaksi</h3>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">ID: {selectedPayment.paymentCode}</p>
-                            </div>
-                            <button onClick={() => setShowDetail(false)} className="p-2 hover:bg-white rounded-xl transition-all text-slate-300">
-                                <FiX size={24} />
-                            </button>
-                        </div>
-
-                        <div className="p-8 space-y-8">
-                            <div className="grid grid-cols-2 gap-8">
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Pihak Terkait</p>
-                                    <p className="text-sm font-black text-slate-800">{selectedPayment.customer?.name || selectedPayment.foreman?.name}</p>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Proyek</p>
-                                    <p className="text-sm font-black text-slate-800">{selectedPayment.project?.name}</p>
-                                </div>
-                            </div>
-
-                            <div className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Nominal</p>
-                                <h2 className="text-4xl font-black text-slate-900 tracking-tighter">{formatCurrency(selectedPayment.amount)}</h2>
-                            </div>
-                        </div>
-
-                        <div className="p-8 bg-slate-50 border-t border-slate-100 flex gap-3">
-                            {selectedPayment.status === 'paid' && (
-                                <>
-                                    <button 
-                                        onClick={() => handleUpdateStatus(selectedPayment.id, 'verified')}
-                                        disabled={updating}
-                                        className="flex-1 py-4 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-emerald-600/20 hover:scale-[1.02] transition-all disabled:opacity-50"
-                                    >
-                                        {updating ? "Memproses..." : "Verifikasi Pembayaran"}
-                                    </button>
-                                    <button 
-                                        onClick={() => handleUpdateStatus(selectedPayment.id, 'rejected')}
-                                        disabled={updating}
-                                        className="flex-1 py-4 bg-rose-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-rose-600/20 hover:scale-[1.02] transition-all disabled:opacity-50"
-                                    >
-                                        Tolak / Batalkan
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

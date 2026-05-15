@@ -11,9 +11,10 @@ const CustomerPaymentHistoryTab = ({ payments = [] }) => {
     };
 
     const getStatusStyle = (status) => {
-        switch (status) {
+        const s = status?.toLowerCase() || 'pending';
+        switch (s) {
             case 'verified': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-            case 'paid_uploaded': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'paid': return 'bg-blue-100 text-blue-700 border-blue-200';
             case 'rejected': return 'bg-rose-100 text-rose-700 border-rose-200';
             default: return 'bg-slate-100 text-slate-500 border-slate-200';
         }
@@ -47,9 +48,9 @@ const CustomerPaymentHistoryTab = ({ payments = [] }) => {
                                 payments.map((pay) => (
                                     <tr key={pay.id} className="hover:bg-slate-50/50 transition-all group">
                                         <td className="px-8 py-6">
-                                            <p className="text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">{pay.code}</p>
-                                            <p className="text-sm font-black text-slate-800">{pay.itemName}</p>
-                                            <p className="text-[9px] font-bold text-slate-400 uppercase mt-1 tracking-widest">{pay.uploadDate}</p>
+                                            <p className="text-[10px] font-black text-blue-600 mb-1 uppercase tracking-widest">{pay.code || 'PAY-REF'}</p>
+                                            <p className="text-sm font-black text-slate-800">{pay.itemName || 'Pembayaran Proyek'}</p>
+                                            <p className="text-[9px] font-bold text-slate-400 uppercase mt-1 tracking-widest">{pay.projectName || 'Project RKK'} • {pay.uploadDate || '-'}</p>
                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-3">
@@ -70,7 +71,7 @@ const CustomerPaymentHistoryTab = ({ payments = [] }) => {
                                         <td className="px-8 py-6">
                                             <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${getStatusStyle(pay.status)}`}>
                                                 {pay.status === 'verified' ? <FiCheckCircle /> : pay.status === 'rejected' ? <FiXCircle /> : <FiClock />}
-                                                {pay.status === 'verified' ? 'Verified / Lunas' : pay.status === 'rejected' ? 'Rejected' : 'Menunggu Verifikasi'}
+                                                {pay.status === 'verified' ? 'Terverifikasi / Lunas' : pay.status === 'rejected' ? 'Ditolak / Perlu Perbaikan' : 'Menunggu Verifikasi'}
                                             </span>
                                         </td>
                                         <td className="px-8 py-6 text-right">

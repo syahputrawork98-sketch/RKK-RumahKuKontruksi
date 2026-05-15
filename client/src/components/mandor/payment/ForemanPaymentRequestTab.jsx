@@ -77,7 +77,7 @@ const ForemanPaymentRequestTab = ({ requests = [], onCreateClick, canRequest }) 
                                                     <h3 className="text-lg font-black text-slate-800 tracking-tight">
                                                         {req.period ? `Minggu ke-${req.weekNumber || '?'} (${req.period})` : (req.title || 'Pengajuan Operasional')}
                                                     </h3>
-                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{req.project?.name || req.projectName || 'Project RKK'} • <span className="text-blue-600">{req.documentCode || req.id.substring(0,8).toUpperCase()}</span></p>
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{req.project?.name || req.projectName || 'Project RKK'} • <span className="text-blue-600">{req.documentCode || (req.id ? req.id.substring(0,8).toUpperCase() : 'ELIG-REF')}</span></p>
                                                 </div>
                                             </div>
                                             <span className={`px-3 py-1 border rounded-full text-[8px] font-black uppercase tracking-widest ${getStatusStyle(req.status)}`}>

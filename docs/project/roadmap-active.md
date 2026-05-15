@@ -43,12 +43,14 @@ Roadmap yang telah diselesaikan:
    - **Batch 110**: Final consistency sweep & null-safety hardening.
 6. **Latest Checkpoint**: **Batch 111 — Docs Sync + Checkpoint**. (Accepted)
 
-## 🛠️ Next Focus (Post-Batch 111: Reporting & Local Stabilization)
+## 🛠️ Next Focus (Post-Batch 111: Local QA, Stability, and Scope Review)
 Rekomendasi pengembangan selanjutnya:
-- **Reporting & Export Suite (Local)**: Penyediaan fitur ekspor (PDF/Excel) untuk RAB, Laporan Mingguan, dan Berita Acara Proyek berbasis data lokal (Future Roadmap).
-- **Local Dashboard & Analytics Polish**: Penajaman visualisasi monitoring proyek dan log aktivitas untuk Admin/Superadmin.
-- **Manual Test Scenario Review**: Dokumentasi skenario pengujian manual untuk alur pembayaran DB-backed.
-- **Technical Debt & Build Maintenance**: Memastikan `npm run build` tetap pass setelah penambahan fitur pelaporan.
+- **Payment Local Manual Test Scenario Review**: Dokumentasi dan review skenario pengujian manual untuk seluruh alur pembayaran DB-backed (Customer, Admin, Mandor).
+- **Payment Data/Seed Consistency Review**: Audit konsistensi data antara seed dengan alur persistence rill untuk meminimalkan data mismatch.
+- **Remaining Local Configuration Persistence Review**: Identifikasi sisa konfigurasi lokal (e.g., Bank Mandor) yang memerlukan transisi ke DB di masa depan.
+- **Local Dashboard & Analytics Polish**: Penajaman visualisasi monitoring proyek dan log aktivitas untuk Admin/Superadmin secara bertahap.
+- **Technical Debt & Build Maintenance**: Memastikan `npm run build` tetap pass dan codebase tetap bersih dari regresi runtime.
+- **Next Feature Priority**: Prioritas fitur baru berikutnya menunggu keputusan dan review dari Room Chat 00.
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:

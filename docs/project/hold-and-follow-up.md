@@ -13,7 +13,7 @@ Dokumen ini merangkum fitur yang ditahan, rencana perbaikan teknis, dan fitur ma
 - **Production Procurement/Vendor/Warehouse**: Material Request Admin hanya mencakup logistik lokal. Tidak ada integrasi dengan sistem pengadaan atau pembayaran produksi.
 - **Construction Request & Change Order rill**: Pengajuan konstruksi resmi dan mekanisme change order rill tetap **Hold**.
 - **Global Billing & Payment Superadmin**: Fitur pembayaran tagihan sistem secara global tetap **Hold**.
-- **Legal Documents Export**: Ekspor PDF/Excel resmi untuk Invoice, Kontrak, & BAST tetap **Hold**.
+- **Legal Documents Export**: Ekspor PDF/Excel resmi untuk Invoice, Kontrak, BAST, dan Berita Acara tetap **Hold** (Bukan next focus aktif setelah Batch 111).
 
 ## 🛠️ Technical Follow-up (Pending)
 - **Reporting**: Ekspor PDF/Excel untuk RAB dan Laporan (Status: **Hold/Future**).

@@ -11,19 +11,30 @@ const CustomerInvoiceTable = ({ invoices = [] }) => {
     };
 
     const getStatusStyle = (status) => {
-        switch (status?.toUpperCase()) {
-            case 'DRAFT': return 'bg-slate-100 text-slate-500 border-slate-200';
-            case 'REVIEWED': return 'bg-amber-100 text-amber-600 border-amber-200';
-            case 'RELEASED': return 'bg-blue-100 text-blue-600 border-blue-200';
-            default: return 'bg-slate-100 text-slate-400 border-slate-200';
+        switch (status?.toLowerCase()) {
+            case 'draft': return 'bg-slate-100 text-slate-500 border-slate-200';
+            case 'reviewed': return 'bg-amber-100 text-amber-600 border-amber-200';
+            case 'released': return 'bg-blue-100 text-blue-600 border-blue-200';
+            case 'archived': return 'bg-slate-200 text-slate-400 border-slate-300';
+            default: return 'bg-slate-50 text-slate-400 border-slate-100';
+        }
+    };
+
+    const getStatusLabel = (status) => {
+        switch (status?.toLowerCase()) {
+            case 'draft': return 'Draft';
+            case 'reviewed': return 'Siap Dirilis';
+            case 'released': return 'Dirilis';
+            case 'archived': return 'Arsip';
+            default: return status;
         }
     };
 
     const getStatusIcon = (status) => {
-        switch (status?.toUpperCase()) {
-            case 'DRAFT': return <FiClock />;
-            case 'REVIEWED': return <FiAlertCircle />;
-            case 'RELEASED': return <FiSend />;
+        switch (status?.toLowerCase()) {
+            case 'draft': return <FiClock />;
+            case 'reviewed': return <FiAlertCircle />;
+            case 'released': return <FiSend />;
             default: return <FiClock />;
         }
     };
@@ -59,17 +70,22 @@ const CustomerInvoiceTable = ({ invoices = [] }) => {
                             </tr>
                         ) : (
                             invoices.map((inv) => {
+                                // Contract fix: Use contentJson, can be object or string
                                 let contentData = {};
-                                try {
-                                    contentData = JSON.parse(inv.content || '{}');
-                                } catch (e) {
-                                    console.error("Failed to parse invoice content", e);
+                                if (typeof inv.contentJson === 'object' && inv.contentJson !== null) {
+                                    contentData = inv.contentJson;
+                                } else if (typeof inv.contentJson === 'string') {
+                                    try {
+                                        contentData = JSON.parse(inv.contentJson || '{}');
+                                    } catch (e) {
+                                        console.error("Failed to parse invoice contentJson string", e);
+                                    }
                                 }
 
                                 return (
                                     <tr key={inv.id} className="hover:bg-slate-50/50 transition-all cursor-pointer group">
                                         <td className="px-8 py-6">
-                                            <p className="text-xs font-black text-blue-600">{inv.id.substring(0, 8).toUpperCase()}</p>
+                                            <p className="text-xs font-black text-blue-600">{inv.documentCode || inv.id.substring(0, 8).toUpperCase()}</p>
                                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Dibuat: {new Date(inv.createdAt).toLocaleDateString('id-ID')}</p>
                                         </td>
                                         <td className="px-8 py-6">
@@ -81,7 +97,7 @@ const CustomerInvoiceTable = ({ invoices = [] }) => {
                                         </td>
                                         <td className="px-8 py-6">
                                             <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${getStatusStyle(inv.status)}`}>
-                                                {getStatusIcon(inv.status)} {inv.status}
+                                                {getStatusIcon(inv.status)} {getStatusLabel(inv.status)}
                                             </span>
                                         </td>
                                         <td className="px-8 py-6 text-right">

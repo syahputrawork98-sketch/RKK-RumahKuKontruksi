@@ -19,8 +19,10 @@ const TerminBillingDraft = ({ projectId, milestones = [], projectProgress = 0, p
                     </div>
                 ) : (
                     milestones.map((milestone, index) => {
-                        const isEligible = projectProgress >= milestone.targetProgress;
-                        const isPaid = milestone.status === 'paid' || milestone.status === 'verified';
+                        // Contract fix: Use label instead of name, percentage as target if targetProgress missing
+                        const targetProg = milestone.targetProgress ?? milestone.percentage;
+                        const isEligible = projectProgress >= targetProg;
+                        const isPaid = milestone.status === 'paid' || milestone.status === 'verified' || milestone.status === 'paid_simulated';
                         
                         return (
                             <div key={milestone.id} className="bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm hover:shadow-xl hover:shadow-slate-200/40 transition-all group">
@@ -32,16 +34,16 @@ const TerminBillingDraft = ({ projectId, milestones = [], projectProgress = 0, p
                                     <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
                                         <div className="space-y-1">
                                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Nama Termin</p>
-                                            <p className="text-sm font-black text-slate-800">{milestone.name}</p>
+                                            <p className="text-sm font-black text-slate-800">{milestone.label || milestone.name}</p>
                                         </div>
 
                                         <div className="space-y-1">
                                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Target Progres</p>
                                             <div className="flex items-center gap-2">
                                                 <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden max-w-[60px]">
-                                                    <div className="h-full bg-blue-600" style={{ width: `${milestone.targetProgress}%` }}></div>
+                                                    <div className="h-full bg-blue-600" style={{ width: `${targetProg}%` }}></div>
                                                 </div>
-                                                <p className="text-xs font-bold text-slate-600">{milestone.targetProgress}%</p>
+                                                <p className="text-xs font-bold text-slate-600">{targetProg}%</p>
                                             </div>
                                         </div>
 
@@ -76,7 +78,7 @@ const TerminBillingDraft = ({ projectId, milestones = [], projectProgress = 0, p
                                                 disabled={!isEligible}
                                                 onClick={() => onCreateDraft({
                                                     type: 'TERMIN',
-                                                    itemName: milestone.name,
+                                                    itemName: milestone.label || milestone.name,
                                                     amount: milestone.amount,
                                                     milestoneId: milestone.id
                                                 })}

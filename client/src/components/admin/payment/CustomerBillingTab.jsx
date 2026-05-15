@@ -19,7 +19,7 @@ import customerPaymentPlanService from "../../../services/customerPaymentPlanSer
 import administrativeHelperDocumentService from "../../../services/administrativeHelperDocumentService";
 import RoleDataState from "../../common/RoleDataState";
 
-const CustomerBillingTab = ({ projects = [] }) => {
+const CustomerBillingTab = ({ projects = [], adminId }) => {
     const [selectedProjectId, setSelectedProjectId] = useState("");
     const [activeBillingMode, setActiveBillingMode] = useState("TERMIN"); // TERMIN or CATEGORY
     const [showDraftModal, setShowDraftModal] = useState(false);
@@ -40,9 +40,10 @@ const CustomerBillingTab = ({ projects = [] }) => {
             setPaymentPlan(planRes.data);
 
             // 2. Fetch Helper Documents (Invoice Drafts)
+            // Contract fix: Use type: 'INVOICE' instead of category
             const docRes = await administrativeHelperDocumentService.getDocuments({ 
                 projectId: selectedProjectId,
-                category: 'INVOICE_DRAFT'
+                type: 'INVOICE'
             });
             setHelperDocuments(docRes.data || []);
         } catch (err) {
@@ -63,7 +64,7 @@ const CustomerBillingTab = ({ projects = [] }) => {
             projectName: selectedProject ? selectedProject.name : "N/A Project",
             customerName: selectedProject?.customer?.name || "Konsumen RKK",
             mode: activeBillingMode === 'TERMIN' ? 'Termin' : 'Per Kategori',
-            status: 'DRAFT'
+            status: 'draft' // lowercase as per contract
         };
         setCurrentDraft(newDraft);
         setShowDraftModal(true);
@@ -71,44 +72,55 @@ const CustomerBillingTab = ({ projects = [] }) => {
 
     const handleSaveDraft = async (draftData) => {
         try {
+            // Contract fix: Use contentJson, type: 'INVOICE', status lowercase
             await administrativeHelperDocumentService.createDraft({
                 projectId: selectedProjectId,
+                customerId: selectedProject?.customerId || selectedProject?.customer?.id,
                 title: `Invoice Draft - ${draftData.itemName}`,
-                category: 'INVOICE_DRAFT',
-                content: JSON.stringify(draftData),
-                status: 'DRAFT'
+                type: 'INVOICE',
+                contentJson: draftData, // Send as object, not string
+                status: 'draft',
+                createdById: adminId,
+                createdByRole: 'ADMIN'
             });
             await fetchData();
             setShowDraftModal(false);
             alert("Draft invoice berhasil disimpan.");
         } catch (err) {
+            console.error("Save draft failed:", err);
             alert("Gagal menyimpan draft.");
         }
     };
 
     const handleSendInvoice = async (draftData) => {
         try {
+            // Contract fix: Use reviewed for release transition simulation if released is guarded
             await administrativeHelperDocumentService.createDraft({
                 projectId: selectedProjectId,
+                customerId: selectedProject?.customerId || selectedProject?.customer?.id,
                 title: `Invoice Draft - ${draftData.itemName}`,
-                category: 'INVOICE_DRAFT',
-                content: JSON.stringify(draftData),
-                status: 'RELEASED' // Posisikan sebagai terkirim
+                type: 'INVOICE',
+                contentJson: draftData,
+                status: 'reviewed', // Siap dirilis
+                createdById: adminId,
+                createdByRole: 'ADMIN',
+                note: draftData.adminNote
             });
             await fetchData();
             setShowDraftModal(false);
-            alert("Invoice telah dikirim ke konsumen (Simulation via Released status).");
+            alert("Invoice telah ditandai sebagai 'Siap Dirilis' (Reviewed).");
         } catch (err) {
-            alert("Gagal mengirim invoice.");
+            console.error("Send invoice failed:", err);
+            alert("Gagal mengirim/merilis invoice.");
         }
     };
 
-    // Summary logic from helper documents
+    // Summary logic from helper documents (lowercase status)
     const stats = {
-        draft: helperDocuments.filter(d => d.status === 'DRAFT').length,
-        sent: helperDocuments.filter(d => d.status === 'RELEASED').length,
-        waiting: 0, // In real world would map to PaymentRecord pending
-        verified: 0, // In real world would map to PaymentRecord verified
+        draft: helperDocuments.filter(d => d.status === 'draft').length,
+        sent: helperDocuments.filter(d => d.status === 'released' || d.status === 'reviewed').length,
+        waiting: 0, 
+        verified: 0, 
     };
 
     return (
@@ -124,7 +136,7 @@ const CustomerBillingTab = ({ projects = [] }) => {
                 </div>
                 <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-2">
                     <div className="flex justify-between items-center">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tagihan Dikirim</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Siap Rilis/Kirim</p>
                         <FiCheckCircle className="text-blue-500" />
                     </div>
                     <p className="text-2xl font-black text-slate-800">{stats.sent}</p>
@@ -189,7 +201,7 @@ const CustomerBillingTab = ({ projects = [] }) => {
                         <div className="space-y-1">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Nilai Proyek</p>
                             <p className="text-xs font-bold text-slate-800">
-                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(selectedProject.totalBudget || 0)}
+                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(selectedProject.budgetTotal || selectedProject.totalBudget || 0)}
                             </p>
                         </div>
                         <div className="space-y-1">
@@ -224,20 +236,16 @@ const CustomerBillingTab = ({ projects = [] }) => {
                                 projectId={selectedProjectId}
                                 milestones={paymentPlan?.milestones || []}
                                 projectProgress={selectedProject?.verifiedProgress || 0}
-                                projectValue={selectedProject?.totalBudget || 0}
+                                projectValue={selectedProject?.budgetTotal || selectedProject?.totalBudget || 0}
                                 onCreateDraft={handleCreateDraft}
                             />
                         ) : (
-                            <CategoryBillingDraft 
-                                projectId={selectedProjectId}
-                                categories={[
-                                    { id: 1, name: "Pekerjaan Persiapan", total: 15000000, progress: 100 },
-                                    { id: 2, name: "Pekerjaan Tanah & Pasir", total: 25000000, progress: 100 },
-                                    { id: 3, name: "Pekerjaan Struktur Lantai 1", total: 120000000, progress: 85 },
-                                    { id: 4, name: "Pekerjaan Pasangan Dinding", total: 85000000, progress: 15 }
-                                ]}
-                                onCreateDraft={handleCreateDraft}
-                            />
+                            <div className="p-12 text-center bg-white rounded-[2.5rem] border border-slate-100">
+                                <FiLayers size={48} className="text-slate-100 mx-auto mb-4" />
+                                <p className="text-xs font-black text-slate-400 uppercase tracking-widest italic">
+                                    Mode kategori RAB belum dipersist pada Batch 108 FIX.
+                                </p>
+                            </div>
                         )}
                     </div>
                 )

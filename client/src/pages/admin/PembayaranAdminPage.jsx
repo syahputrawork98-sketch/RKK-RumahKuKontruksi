@@ -252,7 +252,7 @@ const PembayaranAdminPage = () => {
             {/* Tab Content */}
             <div className="space-y-8">
                 {activeTab === "TAGIHAN_KONSUMEN" && (
-                    <CustomerBillingTab projects={projects} />
+                    <CustomerBillingTab projects={projects} adminId={selectedAdminId} />
                 )}
 
                 {activeTab === "PEMBAYARAN_KONSUMEN" && (

@@ -25,6 +25,7 @@ import Profil from "./pages/konsumen/Profil";
 import DashboardKonsumen from "./pages/konsumen/DashboardKonsumen";
 import PlaceholderKonsumenPage from "./pages/konsumen/PlaceholderKonsumenPage";
 import CustomerAdministrativeHelperDocumentsPage from "./pages/konsumen/CustomerAdministrativeHelperDocumentsPage";
+import PaymentKonsumenPage from "./pages/konsumen/PaymentKonsumenPage";
 
 // ===== HALAMAN SUPER ADMIN =====
 import SuperadminLayout from "./layouts/SuperAdminLayout";
@@ -172,7 +173,7 @@ function App() {
             <Route path="timeline" element={<TimelineProyek />} /> {/* Fix for mobile mismatch */}
             
             {/* Keuangan & Dokumen */}
-            <Route path="pembayaran" element={<PlaceholderKonsumenPage title="Pembayaran & Termin" description="Halaman ini menampilkan jadwal termin dan status pembayaran resmi proyek Anda." status="Planned" dos={["Melihat jadwal termin", "Melihat riwayat pembayaran", "Download invoice/kwitansi resmi"]} donts={["Melakukan pembayaran ke rekening pribadi mitra", "Mengubah nilai kontrak tanpa addendum"]} notes="Pembayaran resmi hanya dilakukan ke rekening perusahaan RKK. Pembayaran tidak secara otomatis menciptakan progress proyek." />} />
+            <Route path="pembayaran" element={<PaymentKonsumenPage />} />
             <Route path="dokumen" element={<CustomerAdministrativeHelperDocumentsPage />} />
             
             <Route path="profil" element={<Profil />} />

@@ -80,16 +80,10 @@ export default [
         href: "/admin/publikasi",
     },
     {
-        type: "dropdown",
+        type: "item",
         icon: FiCreditCard,
-        label: "Pembayaran",
-        activeStartsWith: "/admin/pembayaran",
-        items: [
-            { label: "Pembayaran Konsumen", href: "/admin/pembayaran/konsumen" },
-            { label: "Pembayaran Mandor", href: "/admin/pembayaran/mandor" },
-            { label: "Validasi Disbursement", href: "/admin/pembayaran/validasi" },
-            { label: "Riwayat Pembayaran", href: "/admin/pembayaran/riwayat" },
-        ],
+        label: "Payment Center",
+        href: "/admin/pembayaran",
     },
     {
         type: "item",

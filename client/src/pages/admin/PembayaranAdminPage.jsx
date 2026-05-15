@@ -34,6 +34,7 @@ const PembayaranAdminPage = () => {
     const [loading, setLoading] = useState(true);
     const [projects, setProjects] = useState([]);
     const [activeTab, setActiveTab] = useState("TAGIHAN_KONSUMEN"); // TAGIHAN_KONSUMEN, PEMBAYARAN_KONSUMEN, PENGAJUAN_MANDOR, PEMBAYARAN_MANDOR, SETTING_PAYMENT
+    const [searchTerm, setSearchTerm] = useState("");
     const [customerPayments, setCustomerPayments] = useState([]);
     const [foremanRequests, setForemanRequests] = useState([]);
     const [foremanHistory, setForemanHistory] = useState([]);
@@ -85,6 +86,26 @@ const PembayaranAdminPage = () => {
     useEffect(() => {
         fetchData();
     }, [selectedAdminId]);
+
+    const handleUpdateStatus = async (id, status) => {
+        if (!window.confirm(`Update status pembayaran ini menjadi ${status}?`)) return;
+        try {
+            setUpdating(true);
+            await paymentService.updateStatus(id, {
+                status,
+                verifiedByRole: 'ADMIN',
+                verifiedById: selectedAdminId,
+                note: `Verified by Admin via Detail Modal.`
+            });
+            await fetchData();
+            setShowDetail(false);
+            setUpdating(false);
+            alert(`Pembayaran berhasil di-update menjadi ${status}.`);
+        } catch (error) {
+            alert("Gagal update status: " + error.message);
+            setUpdating(false);
+        }
+    };
 
     const handleCustomerVerify = async (id, note) => {
         try {
@@ -236,7 +257,11 @@ const PembayaranAdminPage = () => {
 
                 {activeTab === "PEMBAYARAN_KONSUMEN" && (
                     <CustomerPaymentVerificationTab 
-                        payments={customerPayments}
+                        payments={customerPayments.filter(p => 
+                            p.customerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            p.projectName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            p.code?.toLowerCase().includes(searchTerm.toLowerCase())
+                        )}
                         onVerify={handleCustomerVerify}
                         onReject={handleCustomerReject}
                     />

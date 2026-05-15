@@ -28,6 +28,8 @@ import CompanyBankAccountPanel from "../../components/admin/payment/CompanyBankA
 import PaymentModeSetupPanel from "../../components/admin/payment/PaymentModeSetupPanel";
 import CustomerBillingTab from "../../components/admin/payment/CustomerBillingTab";
 import CustomerPaymentVerificationTab from "../../components/admin/payment/CustomerPaymentVerificationTab";
+import ForemanPaymentRequestAdminTab from "../../components/admin/payment/ForemanPaymentRequestAdminTab";
+import ForemanDisbursementTab from "../../components/admin/payment/ForemanDisbursementTab";
 
 const PembayaranAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
@@ -81,6 +83,78 @@ const PembayaranAdminPage = () => {
             status: "paid_uploaded" 
         }
     ]);
+
+    const [foremanRequests, setForemanRequests] = useState([]);
+    const [foremanHistory, setForemanHistory] = useState([]);
+
+    // Load and Sync with localStorage for cross-persona simulation
+    useEffect(() => {
+        const storedRequests = localStorage.getItem('rkk_foreman_requests');
+        const storedHistory = localStorage.getItem('rkk_foreman_history');
+        
+        if (storedRequests) {
+            setForemanRequests(JSON.parse(storedRequests));
+        } else {
+            // Initial mock if empty
+            const initialMock = [
+                { 
+                    id: 301, 
+                    code: "REQ-2026-001", 
+                    foremanName: "Ahmad Mandor",
+                    projectName: "Villa Canggu Refurbishment",
+                    basis: "WEEKLY",
+                    targetItem: "Minggu 14",
+                    amount: 15000000,
+                    status: "submitted",
+                    supervisorRecommendation: 'ELIGIBLE',
+                    supervisorNote: "Pekerjaan dinding sesuai target.",
+                    bankAccount: { bankName: "BCA", accountNumber: "0987654321", accountHolder: "Ahmad Mandor" }
+                }
+            ];
+            setForemanRequests(initialMock);
+            localStorage.setItem('rkk_foreman_requests', JSON.stringify(initialMock));
+        }
+
+        if (storedHistory) setForemanHistory(JSON.parse(storedHistory));
+
+        setLoading(false);
+    }, []);
+
+    const handleForemanDecision = (id, decision) => {
+        const updated = foremanRequests.map(r => 
+            r.id === id ? { ...r, ...decision } : r
+        );
+        setForemanRequests(updated);
+        localStorage.setItem('rkk_foreman_requests', JSON.stringify(updated));
+        alert("Keputusan pengajuan mandor berhasil disimpan.");
+    };
+
+    const handleForemanPayment = (id, paymentData) => {
+        // Update request status to paid
+        const updatedRequests = foremanRequests.map(r => 
+            r.id === id ? { ...r, status: 'paid' } : r
+        );
+        setForemanRequests(updatedRequests);
+        localStorage.setItem('rkk_foreman_requests', JSON.stringify(updatedRequests));
+
+        // Add to foreman history
+        const request = foremanRequests.find(r => r.id === id);
+        const newHistory = [
+            { 
+                ...paymentData, 
+                id: Date.now(), 
+                code: `PAY-${request.code.split('-')[2]}`, 
+                projectName: request.projectName,
+                itemName: request.targetItem,
+                amount: paymentData.amount
+            },
+            ...foremanHistory
+        ];
+        setForemanHistory(newHistory);
+        localStorage.setItem('rkk_foreman_history', JSON.stringify(newHistory));
+        
+        alert("Bukti transfer berhasil di-upload. Mandor akan melihat status lunas.");
+    };
 
     useEffect(() => {
         fetchPayments();
@@ -213,83 +287,17 @@ const PembayaranAdminPage = () => {
                 )}
 
                 {activeTab === "PENGAJUAN_MANDOR" && (
-                    <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
-                        <h2 className="text-xl font-black text-slate-900 mb-2 flex items-center gap-3">
-                            <FiBriefcase className="text-purple-600" /> Review Pengajuan Mandor
-                        </h2>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6 ml-9">Validasi Kelayakan Pembayaran Berdasarkan Jurnal Mingguan</p>
-                        
-                        <div className="mb-8 p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Pilih Proyek:</label>
-                            <select 
-                                className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-bold focus:outline-none"
-                                value={selectedProjectId}
-                                onChange={(e) => setSelectedProjectId(e.target.value)}
-                            >
-                                <option value="">-- Pilih Proyek --</option>
-                                {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-                            </select>
-                        </div>
-
-                        {selectedProjectId ? (
-                            <ForemanPaymentEligibilityTab projectId={selectedProjectId} />
-                        ) : (
-                            <div className="py-20 text-center bg-slate-50/50 rounded-3xl border-2 border-dashed border-slate-200">
-                                <FiBriefcase size={48} className="mx-auto text-slate-200 mb-4" />
-                                <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Pilih proyek untuk review pengajuan mandor.</p>
-                            </div>
-                        )}
-                    </div>
+                    <ForemanPaymentRequestAdminTab 
+                        requests={foremanRequests.filter(r => r.status !== 'paid')}
+                        onDecision={handleForemanDecision}
+                    />
                 )}
 
-                {activeTab === "PAYMENT_MANDOR" && (
-                    <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden">
-                        <div className="p-8 border-b border-slate-50 flex justify-between items-center">
-                            <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight">Upload Bukti Transfer ke Mandor</h3>
-                            <button className="px-5 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-500/20">Buat Bulk Transfer</button>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="bg-slate-50/50 border-b border-slate-50">
-                                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Transaksi</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Proyek & Mandor</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Nominal</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                                        <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Upload Bukti</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-50">
-                                    {payments.filter(p => p.type === 'FOREMAN_PAYMENT').length === 0 ? (
-                                        <tr>
-                                            <td colSpan="5" className="px-8 py-20 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">Belum ada pembayaran mandor</td>
-                                        </tr>
-                                    ) : (
-                                        payments.filter(p => p.type === 'FOREMAN_PAYMENT').map(p => (
-                                            <tr key={p.id} className="hover:bg-slate-50/50 transition-all">
-                                                <td className="px-8 py-6 text-xs font-black">{p.paymentCode}</td>
-                                                <td className="px-8 py-6">
-                                                    <p className="text-sm font-black text-slate-800">{p.project?.name}</p>
-                                                    <p className="text-[10px] font-bold text-slate-400 uppercase">{p.foreman?.name}</p>
-                                                </td>
-                                                <td className="px-8 py-6 font-black text-slate-900">{formatCurrency(p.amount)}</td>
-                                                <td className="px-8 py-6">
-                                                    <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${getStatusConfig(p.status).color}`}>
-                                                        {getStatusConfig(p.status).icon} {getStatusConfig(p.status).label}
-                                                    </span>
-                                                </td>
-                                                <td className="px-8 py-6 text-right">
-                                                    <button className="p-2 hover:bg-slate-100 rounded-xl transition-all text-slate-400">
-                                                        <FiDownload size={20} />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                {activeTab === "PEMBAYARAN_MANDOR" && (
+                    <ForemanDisbursementTab 
+                        approvedRequests={foremanRequests.filter(r => r.status === 'approved' || r.status === 'partial_approved' || r.status === 'paid')}
+                        onMarkAsPaid={handleForemanPayment}
+                    />
                 )}
 
                 {activeTab === "SETTING_PAYMENT" && (

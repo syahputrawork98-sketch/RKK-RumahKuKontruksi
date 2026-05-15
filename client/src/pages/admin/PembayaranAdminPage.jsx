@@ -24,6 +24,8 @@ import RoleDataState from "../../components/common/RoleDataState";
 import ProjectPaymentPlanTab from "../../components/admin/payment/ProjectPaymentPlanTab";
 import ForemanPaymentEligibilityTab from "../../components/admin/payment/ForemanPaymentEligibilityTab";
 import RabCategoryPaymentPreview from "../../components/admin/payment/RabCategoryPaymentPreview";
+import CompanyBankAccountPanel from "../../components/admin/payment/CompanyBankAccountPanel";
+import PaymentModeSetupPanel from "../../components/admin/payment/PaymentModeSetupPanel";
 
 const PembayaranAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
@@ -321,58 +323,12 @@ const PembayaranAdminPage = () => {
                 )}
 
                 {activeTab === "SETTING_PAYMENT" && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm space-y-6">
-                            <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight">Rekening Perusahaan</h3>
-                            <div className="space-y-4">
-                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex justify-between items-center">
-                                    <div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Bank Mandiri</p>
-                                        <p className="text-sm font-black text-slate-800">123-00-9876543-21</p>
-                                        <p className="text-[10px] font-bold text-slate-500 uppercase">PT. Rumah Ku Konstruksi</p>
-                                    </div>
-                                    <button className="text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-all"><FiMoreVertical /></button>
-                                </div>
-                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex justify-between items-center">
-                                    <div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Bank BCA</p>
-                                        <p className="text-sm font-black text-slate-800">888-7766-5544</p>
-                                        <p className="text-[10px] font-bold text-slate-500 uppercase">PT. Rumah Ku Konstruksi</p>
-                                    </div>
-                                    <button className="text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-all"><FiMoreVertical /></button>
-                                </div>
-                                <button className="w-full py-4 border-2 border-dashed border-slate-200 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-blue-300 hover:text-blue-500 transition-all flex items-center justify-center gap-2">
-                                    <FiPlus /> Tambah Rekening Baru
-                                </button>
-                            </div>
-                        </div>
+                    <div className="space-y-8 animate-fadeIn">
+                        {/* Company Bank Account Management */}
+                        <CompanyBankAccountPanel />
 
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm space-y-6">
-                            <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight">Mode Pembayaran Proyek</h3>
-                            <div className="space-y-4">
-                                <div className="p-6 bg-blue-50 border border-blue-100 rounded-3xl">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <FiActivity className="text-blue-600" />
-                                        <h4 className="text-sm font-black text-slate-800">Termin 4 Kali (Default)</h4>
-                                    </div>
-                                    <p className="text-[10px] text-slate-500 font-medium leading-relaxed italic">
-                                        Otomatis membagi tagihan menjadi 4 fase (DP, Struktur, Finishing, Serah Terima).
-                                    </p>
-                                </div>
-                                <div className="p-6 bg-slate-50 border border-slate-100 rounded-3xl">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <FiPackage className="text-slate-400" />
-                                        <h4 className="text-sm font-black text-slate-800">Per Kategori RAB</h4>
-                                    </div>
-                                    <p className="text-[10px] text-slate-500 font-medium leading-relaxed italic">
-                                        Tagihan muncul setiap kali satu kategori pekerjaan (Subtotal) selesai 100%.
-                                    </p>
-                                </div>
-                                <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest p-4 bg-amber-50 rounded-2xl border border-amber-100">
-                                    Note: Perubahan mode pembayaran hanya berlaku untuk proyek baru yang belum memiliki milestone.
-                                </p>
-                            </div>
-                        </div>
+                        {/* Project Payment Mode Setup */}
+                        <PaymentModeSetupPanel projects={projects} />
                     </div>
                 )}
             </div>

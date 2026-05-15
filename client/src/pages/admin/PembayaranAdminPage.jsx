@@ -26,6 +26,7 @@ import ForemanPaymentEligibilityTab from "../../components/admin/payment/Foreman
 import RabCategoryPaymentPreview from "../../components/admin/payment/RabCategoryPaymentPreview";
 import CompanyBankAccountPanel from "../../components/admin/payment/CompanyBankAccountPanel";
 import PaymentModeSetupPanel from "../../components/admin/payment/PaymentModeSetupPanel";
+import CustomerBillingTab from "../../components/admin/payment/CustomerBillingTab";
 
 const PembayaranAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
@@ -154,42 +155,7 @@ const PembayaranAdminPage = () => {
             {/* Tab Content */}
             <div className="space-y-8">
                 {activeTab === "TAGIHAN_KONSUMEN" && (
-                    <div className="space-y-8">
-                        <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900 mb-2 flex items-center gap-3">
-                                <FiFileText className="text-blue-600" /> Manajemen Invoice & Tagihan
-                            </h2>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6 ml-9">Atur Milestone Penagihan ke Konsumen</p>
-                            
-                            <div className="mb-8 p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Pilih Proyek:</label>
-                                <select 
-                                    className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-bold focus:outline-none"
-                                    value={selectedProjectId}
-                                    onChange={(e) => setSelectedProjectId(e.target.value)}
-                                >
-                                    <option value="">-- Pilih Proyek --</option>
-                                    {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-                                </select>
-                            </div>
-
-                            {selectedProjectId ? (
-                                <ProjectPaymentPlanTab actorRole="admin" projectId={selectedProjectId} />
-                            ) : (
-                                <div className="py-20 text-center bg-slate-50/50 rounded-3xl border-2 border-dashed border-slate-200">
-                                    <FiPackage size={48} className="mx-auto text-slate-200 mb-4" />
-                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Pilih proyek untuk melihat skema penagihan.</p>
-                                </div>
-                            )}
-                        </div>
-                        
-                        <div className="bg-slate-50 rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-3">
-                                <FiActivity className="text-emerald-600" /> RAB Category Payment Preview
-                            </h2>
-                            <RabCategoryPaymentPreview projects={projects} />
-                        </div>
-                    </div>
+                    <CustomerBillingTab projects={projects} />
                 )}
 
                 {activeTab === "PEMBAYARAN_KONSUMEN" && (

@@ -34,14 +34,21 @@ Roadmap yang telah diselesaikan:
    - **Batch 97**: Consumer Transparency (Timeline & Docs status).
    - **Batch 98**: Governance & Status visual regression pass.
    - **Batch 99**: Technical Debt & Build Warning Sweep (Build Pass).
-5. **Latest Checkpoint**: **Batch 100 — Docs Sync + Checkpoint**. (Accepted)
+5. **Payment Flow Persistence & Hardening (Batch 101–110)**: **Completed**.
+   - **Batch 101-105**: UI workflow & simulation for Customer/Admin/Mandor.
+   - **Batch 106**: Backend audit & persistence bridging plan.
+   - **Batch 107**: Customer payment persistence (ProjectDocument + PaymentRecord).
+   - **Batch 108**: Admin billing persistence (AdministrativeHelperDocument INVOICE).
+   - **Batch 109**: Mandor payment persistence (Eligibility + PaymentRecord).
+   - **Batch 110**: Final consistency sweep & null-safety hardening.
+6. **Latest Checkpoint**: **Batch 111 — Docs Sync + Checkpoint**. (Accepted)
 
-## 🛠️ Next Focus (Batch 101–110: Local Stabilization & Feature Completion Cycle)
-Rekomendasi pengembangan selanjutnya (Post-Batch 100):
-- **Local CRUD Hardening**: Audit dan penguatan sisa modul operasional yang memerlukan validasi data lebih ketat.
-- **Enhanced Collaboration Layer**: Implementasi Stage Communication / Threading lokal untuk koordinasi teknis antar role di level item RAB.
-- **Reporting & Export Suite (Local)**: Penyediaan fitur ekspor (PDF/Excel) untuk RAB, Laporan Mingguan, dan Berita Acara Proyek berbasis data lokal.
+## 🛠️ Next Focus (Post-Batch 111: Reporting & Local Stabilization)
+Rekomendasi pengembangan selanjutnya:
+- **Reporting & Export Suite (Local)**: Penyediaan fitur ekspor (PDF/Excel) untuk RAB, Laporan Mingguan, dan Berita Acara Proyek berbasis data lokal (Future Roadmap).
 - **Local Dashboard & Analytics Polish**: Penajaman visualisasi monitoring proyek dan log aktivitas untuk Admin/Superadmin.
+- **Manual Test Scenario Review**: Dokumentasi skenario pengujian manual untuk alur pembayaran DB-backed.
+- **Technical Debt & Build Maintenance**: Memastikan `npm run build` tetap pass setelah penambahan fitur pelaporan.
 
 ## 🏗️ Workflow Priority Order
 Peta jalan urutan implementasi modul operasional:
@@ -52,9 +59,10 @@ Peta jalan urutan implementasi modul operasional:
 5. **Field Issue**: Monitoring & Resolusi kendala lapangan. (Hardened)
 6. **Design Workflow**: Customer–Architect coordination. (Hardened)
 7. **Consumer Transparency**: Timeline, Docs, & Progress. (Hardened)
-8. **Superadmin Governance**: Audit & Persona management. (Hardened)
-9. **Analytics & Monitoring**: Managerial operational overview. (Batch 91–100)
-10. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 100 - Checkpoint)
+8. **Payment Flow**: Local billing & payment proof (DB-backed). (Batch 101–110)
+9. **Superadmin Governance**: Audit & Persona management. (Hardened)
+10. **Analytics & Monitoring**: Managerial operational overview. (Batch 91–100)
+11. **Documentation Sync**: Penyelarasan SOP & Workflow Room. (Batch 111 - Checkpoint)
 
 ---
-*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal dan stabilitas alur kerja operasional. Terakhir diperbarui: Batch 100.*
+*Catatan: Roadmap ini fokus pada penyempurnaan fitur lokal dan stabilitas alur kerja operasional. Terakhir diperbarui: Batch 111.*

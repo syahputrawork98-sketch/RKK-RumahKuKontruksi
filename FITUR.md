@@ -36,6 +36,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Design-to-Project Bridge**: Transparansi eligibility konversi desain ke proyek (Batch 96).
 - ✅ **Field Issue Control**: Resolusi administratif dengan backend status guard (Batch 91).
 - ✅ **Administrative Document Helper**: CRUD draf metadata dengan backend status guard (Batch 91).
+- ✅ **Payment Center**: Manajemen tagihan konsumen & verifikasi bukti bayar (DB-backed) (Batch 101–110).
+- ✅ **Invoice Draft Helper**: Pembuatan draf invoice menggunakan AdministrativeHelperDocument (Batch 108).
 
 ### 🔍 Pengawas (Supervisor)
 - ✅ **Verifikasi Progres SOT**: Update manual progres resmi proyek (`verifiedProgress`) (SSOT).
@@ -48,12 +50,16 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - ✅ **Jurnal Mingguan**: Pelaporan mingguan terhubung dengan kategori RAB & Stage.
 - ✅ **Material Request from RAB**: Pengajuan kebutuhan bahan berbasis sisa kuota RAB.
 - ✅ **Field Issue Reporting**: Pelaporan kendala teknis dari lapangan.
+- ✅ **Payment Eligibility**: Monitoring kelayakan bayar berbasis review jurnal (ForemanWeeklyPaymentEligibility) (Batch 109).
+- ✅ **Payment History**: Monitoring riwayat pembayaran operasional (PaymentRecord FOREMAN_PAYMENT) (Batch 109).
 
 ### 🏠 Konsumen (Customer)
 - ✅ **Timeline Transparency**: Diferensiasi Design vs Construction timeline (Batch 97).
 - ✅ **Helper Documents Viewer**: Akses dokumen administratif berbasis status rilis rill (Batch 97).
 - ✅ **Design Request Flow**: Pengajuan brief dan monitoring revisi desain.
 - ✅ **Evidence Thread Polish**: Empty state jujur untuk bukti kerja yang belum tersedia (Batch 97).
+- ✅ **Payment Monitoring**: Melihat tagihan aktif (PaymentPlan) & riwayat pembayaran (PaymentRecord) (Batch 107).
+- ✅ **Payment Proof Upload**: Unggah bukti transfer lokal untuk verifikasi admin (Batch 107).
 
 ### 🎨 Arsitek
 - ✅ **Design Request Management**: Dashboard koordinasi brief konsumen.
@@ -66,7 +72,8 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 1. **Design to Project**: Brief -> Revisi -> Approval -> Bridge Eligibility Check -> Draft Proyek.
 2. **Project Setup**: Draft Proyek -> RAB Builder -> Stage Planning -> Penugasan Tim.
 3. **Construction**: Jurnal Mandor -> Verifikasi Pengawas (SOT) -> Material Request -> Weekly Report.
-4. **Governance**: Audit Log Monitoring -> Sensitive Action Alert -> Status Consistency Pass.
+4. **Payment Flow**: Tagihan (Plan) -> Upload Bukti (Customer) -> Verifikasi (Admin) -> Record (DB).
+5. **Governance**: Audit Log Monitoring -> Sensitive Action Alert -> Status Consistency Pass.
 
 ---
 
@@ -74,14 +81,15 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - **`Project.verifiedProgress`** adalah satu-satunya indikator progres resmi sistem.
 - **Frontend Consistency**: Seluruh dashboard merujuk langsung ke `verifiedProgress` (Batch 94).
 - **Update Manual**: Hanya dapat diubah oleh **Pengawas assigned** melalui fitur Verifikasi Progres.
-- **No Automation**: Aktivitas harian **TIDAK** mengubah progres resmi secara otomatis.
+- **No Automation**: Aktivitas harian atau pembayaran **TIDAK** mengubah progres resmi secara otomatis.
 
 ---
 
 ## 💳 Payment Roadmap (Next Phases)
-- 🕒 **Payment Record / Termin Monitoring**: Simulasi lokal pencatatan pembayaran (Existing visibility).
-- 🕒 **In-App Billing Flow**: Alur penagihan termin berbasis progres (Planned).
+- ✅ **Local Billing Workflow**: Alur penagihan & bukti bayar lokal DB-backed (Completed Batch 110).
+- ✅ **Foreman Disbursement Simulation**: Simulasi pencairan dana mandor (Completed Batch 110).
 - 🛑 **Payment Gateway Integration**: Integrasi gateway pembayaran rill (Hold).
+- 🛑 **Bank Webhook & Automated Verification**: Verifikasi otomatis via API bank (Hold).
 
 ---
 
@@ -89,8 +97,9 @@ Dokumen ini berisi daftar fitur yang telah diimplementasikan, fitur yang sedang 
 - **Production Auth**: Login/Register rill, JWT, Reset Password.
 - **Production Infrastructure**: Deployment hardening, Full RBAC production.
 - **Cloud Storage Production**: Integrasi S3 / Storage rill.
+- **Legal Documents Export**: PDF/Export resmi untuk Invoice, Kontrak, & BAST.
 - **Weekly Report Publish ke Konsumen**: Menunggu approval Room 00.
 - **Realtime WebSocket**: Komunikasi dua arah instan skala besar.
 
 ---
-*Terakhir diperbarui: Batch 100 — Docs Sync + Checkpoint.*
+*Terakhir diperbarui: Batch 111 — Docs Sync + Checkpoint.*

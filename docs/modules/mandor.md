@@ -17,7 +17,9 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 - **Jurnal Mingguan**: Pelaporan mingguan yang terhubung dengan kategori RAB & Stage.
 - **Kebutuhan Material**: Pengajuan logistik proyek berbasis sisa kuota RAB.
 - **Kendala Lapangan**: Pelaporan hambatan teknis/alam dan monitoring resolusi terintegrasi.
-- **Pembayaran (Read-only)**: Monitoring catatan pembayaran opname operasional mandor (Lokal).
+- **Payment Eligibility (Batch 109)**: Monitoring kelayakan bayar berbasis review jurnal pengawas (`ForemanWeeklyPaymentEligibility`).
+- **Payment History (Batch 109)**: Monitoring riwayat pembayaran diterima (`PaymentRecord` FOREMAN_PAYMENT).
+- **Manual Request creation**: **Hold** (Pengajuan manual mandor menunggu endpoint API khusus).
 
 ## Fitur Hold (Marketplace v2)
 - **Project Posting**: Pencarian proyek baru di luar penugasan Admin.
@@ -26,13 +28,14 @@ Role Mandor adalah pelaksana teknis di lapangan yang bertanggung jawab atas pela
 ## Progress SOT (Source of Truth)
 > [!IMPORTANT]
 > Mandor hanya mengirimkan **Klaim Progres** (`claimedProgress`).
-> Angka ini bersifat administratif untuk pelaporan internal. Progres Resmi proyek (`verifiedProgress`) hanya dapat berubah melalui verifikasi manual oleh **Pengawas (Supervisor)**.
+> Angka ini bersifat administratif untuk pelaporan internal. Progres Resmi proyek (`verifiedProgress`) hanya dapat berubah melalui verifikasi manual oleh **Pengawas (Supervisor)**. Pembayaran mandor tidak mengubah progres resmi.
 
 ## Batasan & Kendala
 - **Auth**: Menggunakan Persona Switcher (Tidak ada JWT/Session/Password).
-- **Payment**: Hanya bersifat pencatatan administratif lokal (Tidak ada Payment Gateway).
+- **Payment Gateway**: Tidak ada integrasi transfer bank otomatis (Manual simulation via `paid_simulated`).
+- **Mandor Bank Accounts**: Rekening mandor disimpan secara lokal di `localStorage`.
 - **Storage**: Foto dokumentasi disimpan di server lokal (public folder).
 - **Ecosystem**: Belum terhubung ke fitur bidding/marketplace.
 
 ---
-*Terakhir diperbarui: Batch 90 — Docs Sync + Checkpoint.*
+*Terakhir diperbarui: Batch 111 — Docs Sync + Checkpoint.*

@@ -4,14 +4,15 @@
 - **Phase**: Local Development Feature Completion with production-minded quality.
 - **Environment**: Localhost (Local Development).
 - **Production Ready**: **No**.
-- **Last Completed Cycle**: Batch 91–99 (Hardening & Operational Analytics).
-- **Latest Checkpoint**: Batch 100 — Docs Sync + Checkpoint Batch 91–100.
+- **Last Completed Cycle**: Batch 101–110 (Payment Flow Persistence & Hardening).
+- **Latest Checkpoint**: Batch 111 — Docs Sync + Checkpoint Batch 101–110.
 - **Current Project State**: Local Development Feature Completion / Local CRUD Integration.
 - **Progress SOT**: `Project.verifiedProgress` adalah satu-satunya sumber progress resmi. Hanya Pengawas yang berwenang mengubah nilai ini melalui verifikasi lapangan.
 
 ## 🚀 Status Modul Utama (Local API)
 | Module | Status | Deskripsi Singkat |
 | :--- | :--- | :--- |
+| **Payment Flow** | **Stabilized (DB-backed)** | Customer billing, proof upload, and foreman eligibility integrated with API. |
 | **Mandor Role** | **Stabilized (Hardened)** | Daily Task/Report polished. Role workflow hardened. |
 | **Pengawas Role** | **Stabilized (Hardened)** | SOT Integrity confirmed. Field Issue resolve-vs-close guarded. |
 | **Admin Role** | **Stabilized (Completed)** | Operational Analytics v1 & Design-to-Project bridge polished. |
@@ -40,11 +41,12 @@
 ---
 
 ## 📜 Histori Batch Terkini
+- [**Batch 101-110**](../batches/batch-101-110.md): Payment Flow Persistence & Hardening.
 - [**Batch 91-100**](../batches/batch-91-100.md): Operational Hardening & Analytics.
 
 ---
 
-*Terakhir diperbarui: Batch 100 — Docs Sync + Checkpoint.*
+*Terakhir diperbarui: Batch 111 — Docs Sync + Checkpoint.*
 > [!NOTE]
-> Proyek telah mencapai Batch 100 (Major Docs Checkpoint). Seluruh alur operasional lintas-role telah melewati tahap hardening backend guards, visual regression pass, dan pembersihan technical debt. Sistem berada dalam kondisi stabil untuk simulasi lokal penuh (Feature-Complete Local Simulation). Fokus selanjutnya adalah Batch 101–110: Local Stabilization & Feature Completion Cycle.
+> Proyek telah menyelesaikan alur pembayaran lokal (Payment Flow) yang terintegrasi penuh dengan database (Batch 110). Seluruh alur penagihan konsumen, upload bukti bayar, verifikasi admin, hingga simulasi pencairan dana mandor telah stabil secara fungsional. Fokus selanjutnya adalah pemeliharaan stabilitas dan persiapan modul pelaporan/ekspor lokal.
 

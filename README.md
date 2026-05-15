@@ -2,7 +2,11 @@
 
 Repository utama untuk proyek **RumahKu Konstruksi**. Platform ini dirancang untuk menghubungkan Konsumen, Arsitek, Admin, Pengawas, dan Mandor dalam satu ekosistem pembangunan rumah yang transparan.
 
-Proyek ini berada pada fase **Local Development Feature Completion with production-minded quality**. Seluruh fungsionalitas dijalankan di lingkungan lokal dengan integrasi database untuk mendukung simulasi operasional rill. Sistem belum menggunakan production auth/JWT/session/password/RBAC.
+## 📊 Status Proyek
+- **Current Checkpoint**: Batch 111 — Docs Sync + Payment Flow Checkpoint (Post-Batch 101–110).
+- **Status**: Local Development Feature Completion.
+- **Payment Flow**: Sekarang **Local DB/API-backed** (PaymentRecord, CustomerPaymentPlan, ForemanWeeklyPaymentEligibility).
+- **Boundaries**: Tidak ada payment gateway nyata, webhook bank, legal invoice PDF, atau production auth/JWT. Progress SOT tetap `Project.verifiedProgress`.
 
 ---
 
@@ -79,7 +83,7 @@ npm run dev
 - **API Base URL**: Frontend dikonfigurasi untuk mengakses API di `http://localhost:4000/api`. Pastikan backend dalam keadaan hidup (`running`) untuk menghindari error `net::ERR_CONNECTION_REFUSED`.
 - **Persona Selector**: Sistem menggunakan **Dev Persona Switcher** untuk mensimulasikan role secara lokal. Belum menggunakan production auth/JWT/session/password.
 - **Progress SOT**: `Project.verifiedProgress` tetap menjadi Source of Truth progres resmi proyek. Perubahan pada jurnal atau item pekerjaan tidak mengubah progress utama secara otomatis.
-- **Roadmap Payment**: Payment Gateway, Invoice Internal Production Flow, dan Payment Proof Upload masuk roadmap fase berikutnya dan belum dianggap selesai penuh.
+- **Roadmap Payment**: Alur pembayaran lokal (Proof upload, Admin verify, Foreman eligibility) sudah **DB-backed**. Integrasi Payment Gateway rill, Bank Webhook, dan Legal PDF export tetap berstatus **Hold**.
 
 ---
 

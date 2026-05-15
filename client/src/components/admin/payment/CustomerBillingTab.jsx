@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
     FiFileText, 
     FiPackage, 
@@ -15,73 +15,100 @@ import TerminBillingDraft from "./TerminBillingDraft";
 import CategoryBillingDraft from "./CategoryBillingDraft";
 import CustomerInvoiceTable from "./CustomerInvoiceTable";
 import InvoiceDraftModal from "./InvoiceDraftModal";
+import customerPaymentPlanService from "../../../services/customerPaymentPlanService";
+import administrativeHelperDocumentService from "../../../services/administrativeHelperDocumentService";
+import RoleDataState from "../../common/RoleDataState";
 
 const CustomerBillingTab = ({ projects = [] }) => {
     const [selectedProjectId, setSelectedProjectId] = useState("");
     const [activeBillingMode, setActiveBillingMode] = useState("TERMIN"); // TERMIN or CATEGORY
     const [showDraftModal, setShowDraftModal] = useState(false);
     const [currentDraft, setCurrentDraft] = useState(null);
-    const [invoices, setInvoices] = useState([
-        // Mock existing invoices
-        { 
-            id: 1, 
-            code: "INV-2023-001", 
-            projectName: "Villa Canggu Refurbishment", 
-            customerName: "Budi Santoso", 
-            type: "TERMIN", 
-            itemName: "Down Payment (DP)", 
-            amount: 375000000, 
-            dueDate: "2023-12-01", 
-            status: "VERIFIED" 
-        },
-        { 
-            id: 2, 
-            code: "INV-2023-002", 
-            projectName: "Villa Canggu Refurbishment", 
-            customerName: "Budi Santoso", 
-            type: "TERMIN", 
-            itemName: "Pekerjaan Struktur Selesai", 
-            amount: 375000000, 
-            dueDate: "2024-01-15", 
-            status: "WAITING_PAYMENT" 
-        }
-    ]);
+    const [loading, setLoading] = useState(false);
+    
+    const [paymentPlan, setPaymentPlan] = useState(null);
+    const [helperDocuments, setHelperDocuments] = useState([]);
 
     const selectedProject = projects.find(p => p.id === selectedProjectId);
+
+    const fetchData = async () => {
+        if (!selectedProjectId) return;
+        setLoading(true);
+        try {
+            // 1. Fetch Payment Plan & Milestones
+            const planRes = await customerPaymentPlanService.getPaymentPlan(selectedProjectId);
+            setPaymentPlan(planRes.data);
+
+            // 2. Fetch Helper Documents (Invoice Drafts)
+            const docRes = await administrativeHelperDocumentService.getDocuments({ 
+                projectId: selectedProjectId,
+                category: 'INVOICE_DRAFT'
+            });
+            setHelperDocuments(docRes.data || []);
+        } catch (err) {
+            console.error("Failed to fetch billing data:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [selectedProjectId]);
 
     const handleCreateDraft = (data) => {
         const newDraft = {
             ...data,
-            code: `INV-DRAFT-${Math.floor(1000 + Math.random() * 9000)}`,
+            projectId: selectedProjectId,
             projectName: selectedProject ? selectedProject.name : "N/A Project",
-            customerName: "Budi Santoso", // Mock
+            customerName: selectedProject?.customer?.name || "Konsumen RKK",
             mode: activeBillingMode === 'TERMIN' ? 'Termin' : 'Per Kategori',
-            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
             status: 'DRAFT'
         };
         setCurrentDraft(newDraft);
         setShowDraftModal(true);
     };
 
-    const saveDraft = (draft) => {
-        setInvoices([draft, ...invoices]);
-        setShowDraftModal(false);
-        alert(`Draft invoice ${draft.code} berhasil disimpan.`);
+    const handleSaveDraft = async (draftData) => {
+        try {
+            await administrativeHelperDocumentService.createDraft({
+                projectId: selectedProjectId,
+                title: `Invoice Draft - ${draftData.itemName}`,
+                category: 'INVOICE_DRAFT',
+                content: JSON.stringify(draftData),
+                status: 'DRAFT'
+            });
+            await fetchData();
+            setShowDraftModal(false);
+            alert("Draft invoice berhasil disimpan.");
+        } catch (err) {
+            alert("Gagal menyimpan draft.");
+        }
     };
 
-    const sendInvoice = (draft) => {
-        const sentInvoice = { ...draft, status: 'SENT' };
-        setInvoices([sentInvoice, ...invoices]);
-        setShowDraftModal(false);
-        alert(`Invoice ${draft.code} telah dikirim ke konsumen.`);
+    const handleSendInvoice = async (draftData) => {
+        try {
+            await administrativeHelperDocumentService.createDraft({
+                projectId: selectedProjectId,
+                title: `Invoice Draft - ${draftData.itemName}`,
+                category: 'INVOICE_DRAFT',
+                content: JSON.stringify(draftData),
+                status: 'RELEASED' // Posisikan sebagai terkirim
+            });
+            await fetchData();
+            setShowDraftModal(false);
+            alert("Invoice telah dikirim ke konsumen (Simulation via Released status).");
+        } catch (err) {
+            alert("Gagal mengirim invoice.");
+        }
     };
 
-    // Summary logic
+    // Summary logic from helper documents
     const stats = {
-        draft: invoices.filter(i => i.status === 'DRAFT').length,
-        sent: invoices.filter(i => i.status === 'SENT').length,
-        waiting: invoices.filter(i => i.status === 'WAITING_PAYMENT').length,
-        verified: invoices.filter(i => i.status === 'VERIFIED').length,
+        draft: helperDocuments.filter(d => d.status === 'DRAFT').length,
+        sent: helperDocuments.filter(d => d.status === 'RELEASED').length,
+        waiting: 0, // In real world would map to PaymentRecord pending
+        verified: 0, // In real world would map to PaymentRecord verified
     };
 
     return (
@@ -157,20 +184,22 @@ const CustomerBillingTab = ({ projects = [] }) => {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6 bg-slate-50 rounded-3xl border border-slate-100 animate-slideDown">
                         <div className="space-y-1">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Konsumen</p>
-                            <p className="text-xs font-bold text-slate-800">Budi Santoso</p>
+                            <p className="text-xs font-bold text-slate-800">{selectedProject.customer?.name || 'N/A'}</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Nilai Proyek</p>
-                            <p className="text-xs font-bold text-slate-800">Rp 1.250.000.000</p>
+                            <p className="text-xs font-bold text-slate-800">
+                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(selectedProject.totalBudget || 0)}
+                            </p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Progres Saat Ini</p>
-                            <p className="text-xs font-black text-blue-600">45% (Verified)</p>
+                            <p className="text-xs font-black text-blue-600">{(selectedProject.verifiedProgress || 0).toFixed(1)}% (Verified)</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Mode Pembayaran</p>
                             <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-[8px] font-black uppercase tracking-widest border border-blue-200">
-                                {activeBillingMode === 'TERMIN' ? 'Termin 4 Kali' : 'Per Kategori RAB'}
+                                {paymentPlan?.billingMode === 'TERMIN' ? 'Termin' : 'Kategori RAB'}
                             </span>
                         </div>
                     </div>
@@ -179,32 +208,39 @@ const CustomerBillingTab = ({ projects = [] }) => {
 
             {/* Billing Draft Section */}
             {selectedProjectId ? (
-                <div className="space-y-6">
-                    <div className="flex items-center gap-3 ml-4">
-                        <div className={`w-2 h-8 rounded-full ${activeBillingMode === 'TERMIN' ? 'bg-blue-600' : 'bg-emerald-600'}`}></div>
-                        <h3 className="text-xl font-black text-slate-800 tracking-tight">
-                            {activeBillingMode === 'TERMIN' ? 'Draf Penagihan Berbasis Termin' : 'Kategori RAB Siap Tagih'}
-                        </h3>
-                    </div>
+                loading ? (
+                    <RoleDataState status="loading" message="Memuat rencana pembayaran..." />
+                ) : (
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3 ml-4">
+                            <div className={`w-2 h-8 rounded-full ${activeBillingMode === 'TERMIN' ? 'bg-blue-600' : 'bg-emerald-600'}`}></div>
+                            <h3 className="text-xl font-black text-slate-800 tracking-tight">
+                                {activeBillingMode === 'TERMIN' ? 'Draf Penagihan Berbasis Termin' : 'Kategori RAB Siap Tagih'}
+                            </h3>
+                        </div>
 
-                    {activeBillingMode === 'TERMIN' ? (
-                        <TerminBillingDraft 
-                            projectId={selectedProjectId} 
-                            onCreateDraft={handleCreateDraft}
-                        />
-                    ) : (
-                        <CategoryBillingDraft 
-                            projectId={selectedProjectId}
-                            categories={[
-                                { id: 1, name: "Pekerjaan Persiapan", total: 15000000, progress: 100 },
-                                { id: 2, name: "Pekerjaan Tanah & Pasir", total: 25000000, progress: 100 },
-                                { id: 3, name: "Pekerjaan Struktur Lantai 1", total: 120000000, progress: 85 },
-                                { id: 4, name: "Pekerjaan Pasangan Dinding", total: 85000000, progress: 15 }
-                            ]}
-                            onCreateDraft={handleCreateDraft}
-                        />
-                    )}
-                </div>
+                        {activeBillingMode === 'TERMIN' ? (
+                            <TerminBillingDraft 
+                                projectId={selectedProjectId}
+                                milestones={paymentPlan?.milestones || []}
+                                projectProgress={selectedProject?.verifiedProgress || 0}
+                                projectValue={selectedProject?.totalBudget || 0}
+                                onCreateDraft={handleCreateDraft}
+                            />
+                        ) : (
+                            <CategoryBillingDraft 
+                                projectId={selectedProjectId}
+                                categories={[
+                                    { id: 1, name: "Pekerjaan Persiapan", total: 15000000, progress: 100 },
+                                    { id: 2, name: "Pekerjaan Tanah & Pasir", total: 25000000, progress: 100 },
+                                    { id: 3, name: "Pekerjaan Struktur Lantai 1", total: 120000000, progress: 85 },
+                                    { id: 4, name: "Pekerjaan Pasangan Dinding", total: 85000000, progress: 15 }
+                                ]}
+                                onCreateDraft={handleCreateDraft}
+                            />
+                        )}
+                    </div>
+                )
             ) : (
                 <div className="py-20 text-center bg-white rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col items-center">
                     <FiLayers size={48} className="text-slate-100 mb-4" />
@@ -213,15 +249,15 @@ const CustomerBillingTab = ({ projects = [] }) => {
             )}
 
             {/* Global Invoice Table */}
-            <CustomerInvoiceTable invoices={invoices} />
+            <CustomerInvoiceTable invoices={helperDocuments} />
 
             {/* Draft Modal */}
             <InvoiceDraftModal 
                 isOpen={showDraftModal}
                 onClose={() => setShowDraftModal(false)}
                 draftData={currentDraft}
-                onSave={saveDraft}
-                onSend={sendInvoice}
+                onSave={handleSaveDraft}
+                onSend={handleSendInvoice}
             />
         </div>
     );

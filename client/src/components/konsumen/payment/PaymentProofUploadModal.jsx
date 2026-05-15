@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { FiX, FiUpload, FiCheckCircle, FiInfo, FiCamera, FiUser, FiCreditCard, FiCalendar } from "react-icons/fi";
+import { FiX, FiUpload, FiCheckCircle, FiCamera, FiUser, FiCreditCard, FiCalendar } from "react-icons/fi";
+import projectDocumentService from "../../../services/projectDocumentService";
+import paymentService from "../../../services/paymentService";
 
-const PaymentProofUploadModal = ({ isOpen, onClose, billData, onSubmit }) => {
+const PaymentProofUploadModal = ({ isOpen, onClose, billData, projectId, customerId, onSubmit }) => {
     if (!isOpen || !billData) return null;
 
     const [senderName, setSenderName] = useState("");
@@ -18,7 +20,7 @@ const PaymentProofUploadModal = ({ isOpen, onClose, billData, onSubmit }) => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!senderName || !originBank || !selectedFile || !amount) {
             alert("Harap lengkapi Nama Pengirim, Bank Asal, Nominal, dan Bukti Transfer.");
@@ -26,23 +28,47 @@ const PaymentProofUploadModal = ({ isOpen, onClose, billData, onSubmit }) => {
         }
 
         setUploading(true);
-        // Simulate upload delay
-        setTimeout(() => {
-            const submission = {
-                ...billData,
-                senderName,
-                originBank,
-                transferDate,
+        try {
+            // 1. Upload Document
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('projectId', projectId);
+            formData.append('category', 'PAYMENT_PROOF');
+            formData.append('uploadedByRole', 'CUSTOMER');
+            formData.append('uploadedById', customerId);
+            formData.append('visibility', 'INTERNAL'); // RKK & Customer
+
+            const docRes = await projectDocumentService.uploadDocument(formData);
+            const proofDocumentId = docRes.data?.id;
+
+            if (!proofDocumentId) throw new Error("Gagal mengupload dokumen bukti bayar.");
+
+            // 2. Create Payment Record
+            const paymentData = {
+                projectId,
+                customerId,
+                milestoneId: billData.id,
                 amount: parseFloat(amount),
-                notes,
-                fileName: selectedFile.name,
-                uploadDate: new Date().toISOString().split('T')[0],
-                status: 'paid_uploaded'
+                paymentCode: `PAY-${billData.code.split('-')[1]}-${Math.floor(1000 + Math.random() * 9000)}`,
+                type: 'CUSTOMER_PAYMENT',
+                status: 'paid', // "Menunggu Verifikasi" in UI
+                originBank,
+                senderName,
+                transferDate,
+                proofDocumentId,
+                notes
             };
-            onSubmit(submission);
-            setUploading(false);
+
+            await paymentService.createPayment(paymentData);
+            
+            onSubmit(); // Trigger refresh in parent
             onClose();
-        }, 1500);
+        } catch (err) {
+            console.error("Payment submission failed:", err);
+            alert("Gagal mengirim bukti pembayaran. Harap coba lagi atau hubungi admin.");
+        } finally {
+            setUploading(false);
+        }
     };
 
     const formatCurrency = (val) => {

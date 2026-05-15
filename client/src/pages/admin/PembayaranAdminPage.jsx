@@ -19,11 +19,9 @@ import {
     FiMoreVertical
 } from "react-icons/fi";
 import paymentService from "../../services/paymentService";
+import projectService from "../../services/projectService";
 import { useAdminPersona } from "../../context/AdminPersonaContext";
 import RoleDataState from "../../components/common/RoleDataState";
-import ProjectPaymentPlanTab from "../../components/admin/payment/ProjectPaymentPlanTab";
-import ForemanPaymentEligibilityTab from "../../components/admin/payment/ForemanPaymentEligibilityTab";
-import RabCategoryPaymentPreview from "../../components/admin/payment/RabCategoryPaymentPreview";
 import CompanyBankAccountPanel from "../../components/admin/payment/CompanyBankAccountPanel";
 import PaymentModeSetupPanel from "../../components/admin/payment/PaymentModeSetupPanel";
 import CustomerBillingTab from "../../components/admin/payment/CustomerBillingTab";
@@ -34,91 +32,97 @@ import ForemanDisbursementTab from "../../components/admin/payment/ForemanDisbur
 const PembayaranAdminPage = () => {
     const { selectedAdminId } = useAdminPersona();
     const [loading, setLoading] = useState(true);
-    const [payments, setPayments] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [activeTab, setActiveTab] = useState("TAGIHAN_KONSUMEN"); // TAGIHAN_KONSUMEN, PEMBAYARAN_KONSUMEN, PENGAJUAN_MANDOR, PEMBAYARAN_MANDOR, SETTING_PAYMENT
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedPayment, setSelectedPayment] = useState(null);
-    const [showDetail, setShowDetail] = useState(false);
-    const [updating, setUpdating] = useState(false);
-    const [selectedProjectId, setSelectedProjectId] = useState("");
-    
-    // In a real scenario, we would fetch projects from projectService.
-    // For now, we'll use a placeholder project list for the selectors.
-    const [projects, setProjects] = useState([
-        { id: "PRJ-001", name: "Villa Canggu Refurbishment" },
-        { id: "PRJ-002", name: "Modern Minimalist House - Jakarta" }
-    ]);
-
-    const [customerPayments, setCustomerPayments] = useState([
-        { 
-            id: 201, 
-            code: "PAY-INV-002-882", 
-            billAmount: 125000000,
-            amount: 125000000, 
-            customerName: "Budi Santoso", 
-            projectName: "Villa Canggu Refurbishment",
-            itemName: "Termin II: Pekerjaan Struktur",
-            uploadDate: "2026-05-15",
-            transferDate: "2026-05-14",
-            originBank: "BCA",
-            senderName: "Budi Santoso",
-            fileName: "bukti_transfer_budi.png",
-            notes: "Pelunasan Termin 2.",
-            status: "paid_uploaded" 
-        },
-        { 
-            id: 202, 
-            code: "PAY-INV-003-129", 
-            billAmount: 45000000,
-            amount: 44500000, 
-            customerName: "Budi Santoso", 
-            projectName: "Villa Canggu Refurbishment",
-            itemName: "Kategori: Pekerjaan Atap",
-            uploadDate: "2026-05-15",
-            transferDate: "2026-05-15",
-            originBank: "Mandiri",
-            senderName: "Budi Santoso",
-            fileName: "transfer_atap.pdf",
-            notes: "Ada selisih admin bank.",
-            status: "paid_uploaded" 
-        }
-    ]);
-
+    const [customerPayments, setCustomerPayments] = useState([]);
     const [foremanRequests, setForemanRequests] = useState([]);
     const [foremanHistory, setForemanHistory] = useState([]);
+    const [showDetail, setShowDetail] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState(null);
+    const [updating, setUpdating] = useState(false);
 
-    // Load and Sync with localStorage for cross-persona simulation
-    useEffect(() => {
-        const storedRequests = localStorage.getItem('rkk_foreman_requests');
-        const storedHistory = localStorage.getItem('rkk_foreman_history');
-        
-        if (storedRequests) {
-            setForemanRequests(JSON.parse(storedRequests));
-        } else {
-            // Initial mock if empty
-            const initialMock = [
-                { 
-                    id: 301, 
-                    code: "REQ-2026-001", 
-                    foremanName: "Ahmad Mandor",
-                    projectName: "Villa Canggu Refurbishment",
-                    basis: "WEEKLY",
-                    targetItem: "Minggu 14",
-                    amount: 15000000,
-                    status: "submitted",
-                    supervisorRecommendation: 'ELIGIBLE',
-                    supervisorNote: "Pekerjaan dinding sesuai target.",
-                    bankAccount: { bankName: "BCA", accountNumber: "0987654321", accountHolder: "Ahmad Mandor" }
-                }
-            ];
-            setForemanRequests(initialMock);
-            localStorage.setItem('rkk_foreman_requests', JSON.stringify(initialMock));
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            // 1. Fetch Projects for selectors
+            const projectRes = await projectService.getProjects();
+            setProjects(projectRes.data || []);
+
+            // 2. Fetch Customer Payments
+            const customerPaymentRes = await paymentService.getPayments({ type: 'CUSTOMER_PAYMENT' });
+            const mappedCustomerPayments = (customerPaymentRes.data || []).map(h => ({
+                id: h.id,
+                code: h.paymentCode,
+                itemName: h.milestone?.name || 'Pembayaran Proyek',
+                uploadDate: new Date(h.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+                transferDate: h.transferDate ? new Date(h.transferDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-',
+                customerName: h.customer?.name || 'Unknown',
+                projectName: h.project?.name || 'Unknown',
+                billAmount: h.milestone?.amount || h.amount,
+                amount: h.amount,
+                status: h.status,
+                senderName: h.senderName,
+                originBank: h.originBank,
+                fileName: h.proofDocument?.originalName || 'Bukti Bayar',
+                notes: h.notes,
+                proofDocumentId: h.proofDocumentId
+            }));
+            setCustomerPayments(mappedCustomerPayments);
+
+            // 3. Load Foreman stuff (Local simulation for now as per instructions)
+            const storedRequests = localStorage.getItem('rkk_foreman_requests');
+            const storedHistory = localStorage.getItem('rkk_foreman_history');
+            if (storedRequests) setForemanRequests(JSON.parse(storedRequests));
+            if (storedHistory) setForemanHistory(JSON.parse(storedHistory));
+
+        } catch (err) {
+            console.error("Failed to fetch admin payment data:", err);
+        } finally {
+            setLoading(false);
         }
+    };
 
-        if (storedHistory) setForemanHistory(JSON.parse(storedHistory));
+    useEffect(() => {
+        fetchData();
+    }, [selectedAdminId]);
 
-        setLoading(false);
-    }, []);
+    const handleCustomerVerify = async (id, note) => {
+        try {
+            setUpdating(true);
+            await paymentService.updateStatus(id, {
+                status: 'verified',
+                note,
+                verifiedByRole: 'ADMIN',
+                verifiedById: selectedAdminId
+            });
+            await fetchData();
+            alert("Pembayaran konsumen berhasil diverifikasi.");
+        } catch (err) {
+            console.error("Verification failed:", err);
+            alert("Gagal verifikasi pembayaran.");
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleCustomerReject = async (id, note) => {
+        try {
+            setUpdating(true);
+            await paymentService.updateStatus(id, {
+                status: 'rejected',
+                note,
+                verifiedByRole: 'ADMIN',
+                verifiedById: selectedAdminId
+            });
+            await fetchData();
+            alert("Pembayaran konsumen ditolak.");
+        } catch (err) {
+            console.error("Rejection failed:", err);
+            alert("Gagal menolak pembayaran.");
+        } finally {
+            setUpdating(false);
+        }
+    };
 
     const handleForemanDecision = (id, decision) => {
         const updated = foremanRequests.map(r => 
@@ -130,14 +134,12 @@ const PembayaranAdminPage = () => {
     };
 
     const handleForemanPayment = (id, paymentData) => {
-        // Update request status to paid
         const updatedRequests = foremanRequests.map(r => 
             r.id === id ? { ...r, status: 'paid' } : r
         );
         setForemanRequests(updatedRequests);
         localStorage.setItem('rkk_foreman_requests', JSON.stringify(updatedRequests));
 
-        // Add to foreman history
         const request = foremanRequests.find(r => r.id === id);
         const newHistory = [
             { 
@@ -152,43 +154,7 @@ const PembayaranAdminPage = () => {
         ];
         setForemanHistory(newHistory);
         localStorage.setItem('rkk_foreman_history', JSON.stringify(newHistory));
-        
-        alert("Bukti transfer berhasil di-upload. Mandor akan melihat status lunas.");
-    };
-
-    useEffect(() => {
-        fetchPayments();
-    }, [selectedAdminId]);
-
-    const fetchPayments = async () => {
-        try {
-            setLoading(true);
-            const response = await paymentService.getPayments();
-            setPayments(response.data || []);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching payments:", error);
-            setLoading(false);
-        }
-    };
-
-    const handleUpdateStatus = async (id, status) => {
-        if (!window.confirm(`Update status pembayaran ini menjadi ${status}?`)) return;
-        try {
-            setUpdating(true);
-            await paymentService.updateStatus(id, {
-                status,
-                verifiedByRole: 'admin',
-                verifiedById: selectedAdminId,
-                note: `Verified by Admin locally.`
-            });
-            await fetchPayments();
-            setShowDetail(false);
-            setUpdating(false);
-        } catch (error) {
-            alert("Gagal update status: " + error.message);
-            setUpdating(false);
-        }
+        alert("Bukti transfer berhasil di-upload.");
     };
 
     const formatCurrency = (val) => {
@@ -271,18 +237,8 @@ const PembayaranAdminPage = () => {
                 {activeTab === "PEMBAYARAN_KONSUMEN" && (
                     <CustomerPaymentVerificationTab 
                         payments={customerPayments}
-                        onVerify={(id, note) => {
-                            setCustomerPayments(customerPayments.map(p => 
-                                p.id === id ? { ...p, status: 'verified', adminNote: note } : p
-                            ));
-                            alert("Pembayaran berhasil diverifikasi!");
-                        }}
-                        onReject={(id, note) => {
-                            setCustomerPayments(customerPayments.map(p => 
-                                p.id === id ? { ...p, status: 'rejected', adminNote: note } : p
-                            ));
-                            alert("Pembayaran telah ditolak.");
-                        }}
+                        onVerify={handleCustomerVerify}
+                        onReject={handleCustomerReject}
                     />
                 )}
 

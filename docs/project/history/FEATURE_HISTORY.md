@@ -23,6 +23,8 @@ Halaman ini mengindeks semua riwayat perencanaan dan pengerjaan fitur secara det
   *(Batch ini menjalankan eksekusi penghapusan (cleanup) pada folder legacy berisiko terendah).*
 - [F01E.2 — Consolidated Project Root Legacy Cleanup](features/F01E2_CONSOLIDATED_PROJECT_ROOT_LEGACY_CLEANUP.md)
   *(Batch ini menjalankan eksekusi penghapusan pada folder legacy project-root yang telah dikonsolidasi).*
+- [F01E.3 — Summarized Batches Legacy Cleanup](features/F01E3_SUMMARIZED_BATCHES_LEGACY_CLEANUP.md)
+  *(Batch ini menjalankan eksekusi penghapusan folder legacy batches setelah dihistoriskan).*
 - [F02 — Public Website System](features/F02_PUBLIC_WEBSITE_SYSTEM.md)
 - [F03 — Role and Layout System](features/F03_ROLE_AND_LAYOUT_SYSTEM.md)
 - [F04 — Konsumen Project Tracking System](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md)

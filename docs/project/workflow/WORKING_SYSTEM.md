@@ -68,3 +68,11 @@ Sebelum User melakukan commit/push, wajib dilakukan review terhadap:
 ## Cleanup Policy
 - Cleanup dokumen hanya boleh dilakukan pada batch cleanup khusus.
 - Tidak ada file legacy yang boleh dihapus sebelum statusnya diverifikasi sebagai `Migrated`, `Duplicate`, `Deprecated`, atau `Safe to Delete Later`.
+
+## Aturan Lanjutan & Scope Guard (Ekstraksi SOP Lama)
+1. **Aturan Acceptance**: Jika scope sesuai dan check pass, Room 00 melakukan mark Accepted. Jika ada masalah, Room 00 memutuskan fix batch / hold / lanjut. Tidak perlu validasi manual berulang sebagai default.
+2. **Anti-Duplikasi**: Dilarang membuat SOP paralel kedua atau menduplikasi instruksi berulang-ulang di Add Instructions.
+3. **Aturan Eksekusi**: Eksekutor AI (Gemini 3F) difokuskan sebagai eksekutor murni. Tidak boleh memberikan command git, commit, atau push secara mandiri.
+4. **Scope Guard Teknis**: 
+   - Hindari pengerjaan *production auth* (JWT/session), implementasi *realtime chat* WebSocket besar, atau *payment gateway* / transaksi legal nyata kecuali diinstruksikan eksplisit.
+   - Segala bentuk data operasional mandor/pengawas wajib berbasis *database* (DB-backed). *Mock data* dilarang menjadi *fallback* untuk lingkungan operasional.

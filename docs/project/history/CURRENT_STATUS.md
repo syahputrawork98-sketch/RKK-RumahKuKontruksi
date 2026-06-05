@@ -9,6 +9,8 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | F01B | Legacy Docs Quarantine and Roomchat Workflow Alignment | `docs/_legacy` | Completed |
 | F01C | Legacy Docs Review and Active Docs Mapping | `docs/project/migration` | Completed |
 | F01D.1 | Technical Legacy Active Migration | `docs` | Completed |
+| F01D.2 | Functional Legacy Active Migration | `docs` | Completed |
+| F01D.3 | Project Docs Root Consolidation | `docs` | Completed |
 | F02 | Public Website System | `frontend` | Not Started / Existing |
 | F03 | Role and Layout System | `frontend` | Existing / Partial |
 | F04 | Konsumen Project Tracking System | `frontend/backend` | Existing / Partial |

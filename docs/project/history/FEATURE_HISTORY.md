@@ -13,6 +13,8 @@ Halaman ini mengindeks semua riwayat perencanaan dan pengerjaan fitur secara det
   *(Batch ini mengekstrak pedoman teknis lama ke dalam dokumentasi aktif).*
 - [F01D.2 — Functional Legacy Active Migration](features/F01D2_FUNCTIONAL_LEGACY_ACTIVE_MIGRATION.md)
   *(Batch ini memetakan alur bisnis dan peran dari dokumen lama).*
+- [F01D.3 — Project Docs Root Consolidation and Compact Index](features/F01D3_PROJECT_DOCS_ROOT_CONSOLIDATION.md)
+  *(Batch ini mengonsolidasi file longgar di docs/project ke dalam folder legacy/quarantine dan memusatkan indeks).*
 - [F02 — Public Website System](features/F02_PUBLIC_WEBSITE_SYSTEM.md)
 - [F03 — Role and Layout System](features/F03_ROLE_AND_LAYOUT_SYSTEM.md)
 - [F04 — Konsumen Project Tracking System](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md)

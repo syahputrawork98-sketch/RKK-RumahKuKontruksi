@@ -1,19 +1,17 @@
 # Manajemen Proyek RKK
 
-Direktori `docs/project/` adalah pusat kendali untuk proyek RKK (RumahKu Konstruksi). Semua hal terkait alur kerja, onboarding AI, pelacakan fitur, dan baseline dokumentasi diatur di sini.
+Direktori `docs/project/` adalah pusat kendali operasional RKK (RumahKu Konstruksi). Fokusnya adalah menata alur kerja, standar pelaksanaan AI, serta pelacakan historis, agar dokumentasi tidak terpencar ke berbagai file *loose* di root repositori.
 
 ## Struktur Direktori
-- `onboarding/` - Instruksi kerja untuk asisten AI (seperti ChatGPT/Gemini).
-- `workflow/` - Definisi sistem kerja, ukuran batch, dan panduan penggunaan model.
-- `history/` - Pelacakan fitur (Feature Tracker), status terkini, dan riwayat pengerjaan batch.
-- `baseline/` - Catatan kondisi dasar (existing) proyek sebelum adanya perapihan lebih lanjut.
-- `migration/` - Tracker proses migrasi dokumen lama.
+- `onboarding/` - Instruksi kerja untuk asisten AI (seperti ChatGPT/Gemini) dan penetapan profil *Roomchat*.
+- `workflow/` - Definisi sistem kerja, *Working System*, batasan *scope guard*, ukuran batch, dan pedoman model.
+- `history/` - Pelacakan fitur utama (*Feature Tracker* / `CURRENT_STATUS.md`) dan riwayat pengerjaan batch.
+- `baseline/` - Catatan kondisi awal struktur repositori.
+- `migration/` - Pelacakan proses migrasi bertahap dari dokumen lama yang usang.
 
-*Catatan: Terdapat juga folder `_legacy/` yang berada di level `docs/` (bukan di dalam `project/`) sebagai tempat arsip sementara dokumen lama. Setiap migrasi dokumen lama dari `_legacy/` harus melalui tahapan inventory, migration tracker, dan cleanup plan.*
+*Catatan: Seluruh file .md parsial dan terfragmentasi peninggalan repository lama yang sebelumnya berada di direktori ini telah divakum dan dipindahkan seluruhnya ke karantina di `docs/_legacy/original-docs/project-root/` selama Batch F01D.3.*
 
-## Prinsip Kerja Proyek
-- **GitHub adalah Source of Truth**: Semua code yang valid dan disetujui berada di repository GitHub.
-- **Anti-Gravity IDE sebagai Ruang Kerja**: Tempat eksekusi kode, pengujian, dan validasi nyata.
-- **User Pengambil Keputusan**: Setiap perubahan yang diajukan harus disetujui dan di-commit/push oleh User.
-- **Perubahan Bertahap**: Eksekusi selalu dilakukan dalam lingkup batch yang kecil dan terkontrol.
-- **Baseline Dokumentasi**: Sebelum dilakukan perombakan besar, kondisi existing harus dicatat dalam `baseline/` sebagai referensi.
+## Navigasi Inti
+Untuk memahami aturan dasar: **Buka `workflow/WORKING_SYSTEM.md`**.
+Untuk melihat progres saat ini: **Buka `history/CURRENT_STATUS.md`**.
+Untuk berinteraksi dengan AI: **Buka `onboarding/CHATGPT_PROJECT_INSTRUCTIONS.md`**.

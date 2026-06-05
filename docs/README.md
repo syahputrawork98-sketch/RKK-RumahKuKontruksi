@@ -1,40 +1,21 @@
-# Documentation - RKK RumahKu Konstruksi
+# RKK Documentation Center
 
-Selamat datang di pusat dokumentasi profesional **RumahKu Konstruksi (RKK)**.
+Selamat datang di Pusat Dokumentasi RKK (RumahKu Konstruksi). Folder `docs/` ini adalah tempat utama untuk melacak arsitektur, workflow, dan progres dari proyek RKK. 
 
-## Project Context
-**Phase**: Local Development Feature Completion with production-minded quality.
-**Environment**: Localhost only.
-**Production Ready**: No.
+## Struktur Dokumentasi
+- `docs/project/` - Manajemen proyek, workflow sistem, instruksi onboarding, status terkini, history fitur, dan baseline kondisi proyek.
+- `docs/frontend/` - Catatan teknis dan arsitektur untuk frontend.
+- `docs/backend/` - Catatan teknis dan arsitektur untuk backend API.
+- `docs/database/` - Catatan teknis untuk struktur database dan layanan Supabase.
 
-Project ini fokus pada pematangan fitur bisnis secara fungsional di lingkungan lokal sebelum melangkah ke fase sistem produksi rill.
-
----
-
-## 📂 Struktur Dokumentasi
-
-### 1. [Project Overview](./project/current-status.md)
-Berisi status aktif proyek, roadmap terdekat, batasan scope (Scope Guard), dan tindak lanjut fitur (Hold & Follow-up).
-- [Current Status](./project/current-status.md)
-- [Active Roadmap](./project/roadmap-active.md)
-- [Scope Guard](./project/scope-guard.md)
-- [Workflow SOP (AI Agents)](./project/workflow-sop.md)
-- [Hold & Follow-up](./project/hold-and-follow-up.md)
-
-### 2. [Modules & Roles](./modules/)
-Detail dokumentasi per peran (Admin, Mandor, Pengawas, Konsumen, Arsitek, Superadmin) dan fitur utama (Progress SOT, Design Request, Material Request).
-
-### 3. [Technical Reference](./technical/)
-Detail teknis backend, frontend, database, API map, kebijakan data source, dan panduan persona switcher.
-
-### 4. [Batch History](./batches/README.md)
-
-Riwayat pengembangan proyek yang dibagi per 10 batch untuk memudahkan pelacakan progres.
-
----
-
-## 🏛️ Archive
-- [Archive](./archive/README.md): Berisi dokumen historis atau referensi lama yang sudah tidak menjadi source of truth aktif.
-
----
-*Catatan: Dokumen ini adalah pintu masuk utama. Selalu merujuk ke folder [project/](./project/) untuk status terbaru.*
+## Urutan Membaca (Onboarding)
+Untuk memahami proyek ini dari awal, silakan ikuti urutan membaca berikut:
+1. `README.md` (root repository)
+2. `docs/README.md` (dokumen ini)
+3. `docs/project/README.md`
+4. `docs/project/onboarding/CHATGPT_PROJECT_INSTRUCTIONS.md`
+5. `docs/project/workflow/WORKING_SYSTEM.md`
+6. `docs/project/history/CURRENT_STATUS.md`
+7. `docs/project/history/FEATURE_HISTORY.md`
+8. `docs/project/baseline/`
+9. `docs/frontend/README.md` / `docs/backend/README.md` / `docs/database/README.md` sesuai dengan scope pengerjaan.

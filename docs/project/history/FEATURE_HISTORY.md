@@ -7,5 +7,7 @@ Halaman ini mengindeks semua riwayat perencanaan dan pengerjaan fitur secara det
 - [F01 — Existing RKK Baseline](features/F01_EXISTING_RKK_BASELINE.md)
 - [F01B — Legacy Docs Quarantine and Roomchat Workflow Alignment](features/F01B_LEGACY_DOCS_QUARANTINE.md)
   *(Batch ini mengarantina dokumen lama dan menyelaraskan workflow Roomchat 00/01).*
+- [F01C — Legacy Docs Review and Active Docs Mapping](features/F01C_LEGACY_DOCS_REVIEW_MAPPING.md)
+  *(Batch ini meninjau dokumen legacy dan memetakan target dokumentasi aktif).*
 
 *(Fitur F02 hingga F13 sedang dalam status pelacakan/perencanaan awal (planned tracker) dan akan dibuat file detailnya saat tiba waktu pengerjaan khusus)*

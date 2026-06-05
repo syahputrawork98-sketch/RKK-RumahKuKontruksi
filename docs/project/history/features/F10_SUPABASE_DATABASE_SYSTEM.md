@@ -32,5 +32,9 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 ## API Verification (Design Request Models)
 - **Model DesignRequest**: **Verified**. Telah terdefinisi di `server/prisma/schema.prisma` mencakup `model DesignRequest` dan `model DesignRequestHistory`. Modul ini siap menampung data riil yang disuntikkan dari formulir publik `client`.
 
+## API Verification (Konsumen Project Tracking Models)
+- **Model Proyek Konsumen**: **Verified**. Kesatuan model `Project`, `ProjectStage`, `ProjectDocument`, dan `AdministrativeHelperDocument` telah ditemukan.
+- **SOT Parameter**: **Verified**. Status *Single Source of Truth* ditopang kuat oleh properti `verifiedProgress` pada tabel `Project` serta indikator `isVerified` pada `ProjectStage`.
+
 ## Next Step
 - Melakukan verifikasi *schema.prisma* saat ini.

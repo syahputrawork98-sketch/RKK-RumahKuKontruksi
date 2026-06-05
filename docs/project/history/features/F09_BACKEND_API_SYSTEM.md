@@ -32,5 +32,9 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 ## API Verification (Design Request System)
 - **Design Request Endpoint**: **Verified**. Telah tersedia di `server/src/modules/design-requests/` secara lengkap melingkupi fungsi CRUD dasar, pencatatan sejarah pengajuan, hingga eskalasi menuju kerangka konstruksi. Modul dilengkapi secara utuh oleh rute (`routes.js`), penengah aksi (`controller.js`), dan lapisan manipulasi basis data (`repository.js`).
 
+## API Verification (Konsumen Project Tracking)
+- **Project & Timeline Endpoint**: **Verified**. Endpoint pengambilan daftar proyek konsumen (`/projects?customerId=...`) serta pendalaman struktur proyek (`/projects/:id/stages`, `/projects/:id/rab`) tersedia dan berjalan aktif melintasi *controller* dan *repository* modul `projects`.
+- **Document Hub Endpoint**: **Verified**. Layanan untuk menyajikan dokumen administratif yang telah dirilis terdapat utuh di folder `administrative-helper-documents`.
+
 ## Next Step
 - Penataan struktur API documentation internal.

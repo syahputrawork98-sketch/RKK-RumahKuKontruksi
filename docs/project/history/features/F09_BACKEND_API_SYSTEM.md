@@ -47,5 +47,8 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 ## API Verification (Auth & Access Control)
 - **Backend Auth Middleware**: **Not Verified**. Belum ditemukan implementasi *middleware* JWT, *controller* login asli, maupun gerbang otorisasi API tingkat *server*. Kontrol akses sejauh ini sepenuhnya disimulasikan secara absolut di lapisan *frontend*.
 
+## API Verification (Report & Export)
+- **Export Endpoints**: **Not Started**. Absennya penyedia API konversi data menjadi PDF di sisi *backend*. Belum terdapat layanan *generator* khusus untuk memproduksi dokumen fisik (*Report*).
+
 ## Next Step
 - Penataan struktur API documentation internal.

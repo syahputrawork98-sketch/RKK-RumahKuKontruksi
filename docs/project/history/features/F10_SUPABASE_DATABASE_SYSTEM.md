@@ -47,5 +47,8 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 ## API Verification (Auth Models)
 - **Kredensial Keamanan**: **Not Verified**. Belum terdapat kolom pengamanan produksi (contoh: `passwordHash`, `salt`, `token`) di dalam `schema.prisma`. Autentikasi masih murni dikelola melalui seleksi entitas persona.
 
+## API Verification (Report Models)
+- **Model Ekspor**: **Not Started**. Tidak ada model spesifik untuk menampung tautan PDF generik hasil konversi. Fungsionalitas pelaporan mengandalkan tarikan data mentah ke model eksisting seperti `DailyReport`, `WeeklyJournal`, maupun `ProjectDocument`.
+
 ## Next Step
 - Melakukan verifikasi *schema.prisma* saat ini.

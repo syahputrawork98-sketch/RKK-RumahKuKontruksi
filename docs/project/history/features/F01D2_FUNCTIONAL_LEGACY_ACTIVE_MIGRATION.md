@@ -64,6 +64,8 @@ Telah berhasil dibentuk rincian fitur F02-F13 dengan struktur singkat:
 
 ## Catatan Risiko
 - Fitur-fitur ini statusnya mengemban frasa *Needs Verification* dan *Partial*, yang berarti integrasinya dengan *backend* atau komponen yang dimigrasikan dari repositori awal RKK (`RumahKuKontruksi-Dev`) masih butuh pembuktian per-modul. Agen eksekutor kelak harus fokus membedah direktori *client/server* tanpa ragu mengoreksi dokumen jika ditemui inkompatibilitas.
+- Status migrasi F01D.2 berarti ringkasan aktif awal sudah dibuat, bukan berarti seluruh isi legacy sudah diverifikasi penuh atau aman dihapus.
 
 ## Next Step
 - Merampungkan fase *Cleanup* (F01E) atau langsung memulai validasi fitur fungsional secara spesifik (mulai dari F02).
+- Khusus untuk file legacy `alur/` dan `modules/`, proses cleanup hanya boleh dilakukan setelah: a. ada verifikasi per-feature, b. status cleanup disetujui User, c. batch cleanup khusus dibuka.

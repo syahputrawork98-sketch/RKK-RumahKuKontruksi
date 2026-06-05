@@ -35,6 +35,12 @@ Kondisi terbaru pada sistem dokumentasi:
 | F01E.4 | Technical Cleanup | Not Started / Pending Decision | Audit dan eksekusi cleanup area technical | do not execute in this batch |
 | F01F | Per-Feature Verification | Not Started | Verifikasi sinkronisasi alur dokumen dengan fitur aktif | validate F02–F13, required before alur/modules cleanup |
 
+## Project Control Compaction
+- `baseline/` summarized into F01
+- `migration/` summarized into F01
+- active docs now rely on `history/F01` + `FEATURE_HISTORY` + `CURRENT_STATUS`
+- old control folders moved to `legacy/project-control`
+
 ## Cleanup Status
 | Legacy Folder | Status | Decision |
 |---|---|---|

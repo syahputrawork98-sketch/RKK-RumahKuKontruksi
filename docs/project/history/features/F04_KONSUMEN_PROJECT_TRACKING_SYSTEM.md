@@ -10,24 +10,24 @@ Existing / Verified Frontend + API
 Sistem pelacakan proyek khusus untuk role Konsumen, meliputi pengajuan desain, pembayaran, hingga pemantauan progres pembangunan fisik.
 
 ## Current State
-- Frontend dan Backend API telah terverifikasi terhubung dengan Prisma schema.
+- Halaman Konsumen, integrasi service, serta endpoint API Backend telah sepenuhnya diverifikasi terhubung dengan Prisma schema.
 
 ## Sub-Batch Roadmap
 | Sub-Batch | Name | Status | Purpose | Dependency |
 |---|---|---|---|---|
-| F04A | Existing Codebase Verification | Pending Re-Verification | Memverifikasi komponen dan API existing | - |
+| F04A | Konsumen Project Tracking Re-Verification | Completed | Memverifikasi komponen dan API existing | - |
 
 ## HOLD / Blocked Notes
 - *Partial*: Interaksi dokumen (unggah/unduh) memerlukan perbaikan struktur dan pengikatan ke cloud storage.
 
 ## Next Step
-- Verifikasi *codebase* untuk dashboard Konsumen.
+- Menyempurnakan alur lampiran dokumen agar mendukung standar cloud upload di fase selanjutnya.
 
 ## Validation Checklist
-- [ ] Frontend route/component
-- [ ] Frontend service/API client
-- [ ] Backend endpoint/module
-- [ ] Prisma/database model
+- [x] Frontend route/component
+- [x] Frontend service/API client
+- [x] Backend endpoint/module
+- [x] Prisma/database model
 
 ## Notes
-- [F04A] Menunggu penjadwalan verifikasi terstruktur.
+- [F04A] Rute UI `/konsumen/proyek` dan `/konsumen/timeline-proyek` stabil di bawah `KonsumenLayout`. `projectService.js` map dengan presisi ke `/projects`, `/projects/:id/stages`, dan `/projects/:id/rab`. Backend `projects.routes.js` serta skema Prisma `Project`, `ProjectStage`, `AdministrativeHelperDocument` sudah tervalidasi selaras tanpa masalah (*Completed*).

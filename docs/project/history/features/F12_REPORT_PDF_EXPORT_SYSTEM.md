@@ -39,6 +39,8 @@ Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progr
 - **Backend Generator**: Not Started.
 - **Scope**: Admin RAB export MVP.
 - **Decision Status**: Existing / Verified Frontend.
+- **UX Hardening**: Export button disabled when RAB has no items.
+- **Data Safety**: PDF export guards against empty or invalid numeric values.
 
 ## Next Step
 - Mengimplementasikan logika fungsional `jspdf` untuk ekspor dokumen di fitur lain jika dibutuhkan.

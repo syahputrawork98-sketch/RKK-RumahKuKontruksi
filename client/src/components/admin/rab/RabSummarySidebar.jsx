@@ -9,6 +9,10 @@ const RabSummarySidebar = ({
     onImportCsv,
     onRefresh 
 }) => {
+    const hasRabItems = rabPlan?.categories?.some(
+        (category) => category?.items?.length > 0
+    );
+
     return (
         <div className="space-y-6 lg:col-span-1">
             <div className="dashboard-card bg-emerald-600 text-white relative overflow-hidden">
@@ -50,7 +54,13 @@ const RabSummarySidebar = ({
                     </button>
                     <button 
                         onClick={() => exportRabToPdf(project, rabPlan)}
-                        className="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-red-600 border border-red-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white hover:border-red-600 transition-all shadow-sm"
+                        disabled={!hasRabItems}
+                        title={!hasRabItems ? "Tambahkan item RAB terlebih dahulu untuk export PDF" : "Export RAB ke PDF"}
+                        className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${
+                            hasRabItems 
+                            ? "bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white hover:border-red-600" 
+                            : "bg-gray-50 text-gray-400 border border-gray-200 cursor-not-allowed"
+                        }`}
                     >
                         <FiDownload /> Export PDF
                     </button>

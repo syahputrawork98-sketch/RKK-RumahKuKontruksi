@@ -5,17 +5,7 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | ID | Nama Fitur | Area | Status | Notes / Next Step | Detail File |
 |----|------------|------|--------|-------------------|-------------|
 | F00 | Project Workflow Reset | `docs` | Completed | Reset alur kerja dan onboarding AI | [File](features/F00_PROJECT_WORKFLOW_RESET.md) |
-| F01 | Existing RKK Baseline | `docs` | Completed | Merekam kondisi awal repositori | [File](features/F01_EXISTING_RKK_BASELINE.md) |
-| F01B | Legacy Docs Quarantine | `docs` | Completed | Karantina dokumen legacy ke folder khusus | [File](features/F01B_LEGACY_DOCS_QUARANTINE.md) |
-| F01C | Legacy Docs Mapping | `docs` | Completed | Memetakan dokumentasi legacy yang relevan | [File](features/F01C_LEGACY_DOCS_REVIEW_MAPPING.md) |
-| F01D.1 | Technical Legacy Migration | `docs` | Completed | Ekstraksi arsitektur teknis lama | [File](features/F01D1_TECHNICAL_LEGACY_ACTIVE_MIGRATION.md) |
-| F01D.2 | Functional Legacy Migration | `docs` | Completed | Ekstraksi bisnis dan alur kerja peran | [File](features/F01D2_FUNCTIONAL_LEGACY_ACTIVE_MIGRATION.md) |
-| F01D.3 | Project Docs Consolidation | `docs` | Completed | Pembersihan root docs project dan workflow | [File](features/F01D3_PROJECT_DOCS_ROOT_CONSOLIDATION.md) |
-| F01D.4 | Compact Feature Summary | `docs` | Completed | Pembuatan ringkasan root (FITUR.md) | [File](features/F01D4_RKK_COMPACT_FEATURE_SUMMARY.md) |
-| F01D.5 | Legacy Batches Consolidation | `docs` | Completed | Peringkasan log sejarah legacy batch lama | [File](features/F01D5_LEGACY_BATCHES_HISTORY_SUMMARY.md) |
-| F01E.1 | Low-Risk Legacy Archive Cleanup | `docs` | Completed | Eksekusi penghapusan folder archive/ | [File](features/F01E1_LOW_RISK_LEGACY_ARCHIVE_CLEANUP.md) |
-| F01E.2 | Consolidated Project Root Cleanup | `docs` | Completed | Eksekusi penghapusan folder project-root/ | [File](features/F01E2_CONSOLIDATED_PROJECT_ROOT_LEGACY_CLEANUP.md) |
-| F01E.3 | Summarized Batches Legacy Cleanup | `docs` | Completed | Eksekusi penghapusan folder batches/ | [File](features/F01E3_SUMMARIZED_BATCHES_LEGACY_CLEANUP.md) |
+| F01 | Legacy Docs Migration and Cleanup | `docs` | In Progress / Partial | Legacy docs mostly compacted; alur/modules pending verif; technical pending | [File](features/F01_LEGACY_DOCS_MIGRATION_AND_CLEANUP.md) |
 | F02 | Public Website System | `frontend` | Not Started / Existing | Membutuhkan verifikasi komponen publik | [File](features/F02_PUBLIC_WEBSITE_SYSTEM.md) |
 | F03 | Role and Layout System | `frontend` | Existing / Partial | Sidebar dan layout spesifik role | [File](features/F03_ROLE_AND_LAYOUT_SYSTEM.md) |
 | F04 | Konsumen Project Tracking | `front/back` | Existing / Partial | Timeline SOT untuk konsumen | [File](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md) |

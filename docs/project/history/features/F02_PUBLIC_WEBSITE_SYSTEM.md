@@ -1,56 +1,38 @@
-# F02 — Public Website System
+# Batch F02 — Public Website System
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Public Website System.
+
+## Status
+Existing / Verified Frontend + API
 
 ## Story
 Sistem antarmuka publik untuk pengunjung non-login yang ingin melihat profil RKK, portofolio, atau mengajukan *Design Request*.
 
-## Status
-- **Current Status**: Existing / Verified Frontend + API
-## Sub-Batch Story
-- **F02A/F02B**: Legacy verification stage, detail not expanded in current compact tracker.
-- **F02C**: Public Design Request Backend Integration Re-Verification. Frontend `->` service `->` backend `->` Prisma verified; structured brief dipadatkan ke `description`.
-- **F02D**: Public Guest Routes and CTA Navigation Verification. Guest routes, MainLayout, CTA, dan `/proyek` showcase verified.
+## Current State
+- Frontend dan Backend API telah terverifikasi terhubung dengan Prisma schema.
 
-## Scope
-- Halaman *Landing Page* publik.
-- Pengajuan *Design Request* awal.
-- Routing pengunjung non-otentikasi.
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F02A | Public Website Initial Review | Historical | Review awal struktur landing page | - |
+| F02B | Public Website API Checkpoint | Historical | Cek awal status endpoint | F02A |
+| F02C | Public Design Request Backend Re-Verif | Completed | Verifikasi end-to-end payload form | F02B |
+| F02D | Public Guest Routes & CTA Verif | Completed | Verifikasi navigasi & layout publik | F02B |
+| F02E | Public Website Story Docs Cleanup | Completed | Merapikan narasi tracker | F02D |
 
-## Role / Modul Terkait
-- Publik / Guest
+## HOLD / Blocked Notes
+- Tidak ada blocker utama saat ini.
 
-## Alur Utama
-1. Publik mengakses website utama.
-2. Publik dapat membaca portofolio.
-3. Publik dapat mengisi form pengajuan proyek baru (Design Request).
-
-## Data / API / Dependency Terkait
-- Frontend public routes.
-
-## Status Implementasi Saat Ini
-- *Verified Frontend + API* (Frontend sudah terhubung secara penuh ke backend/database).
-
-## Codebase Verification
-- **Route / Component Ditemukan**: Komponen publik seperti `Home`, `Layanan`, `CaraKerja`, `ProyekGuest`, `About`, `Contact`, dan `SignInPage` tersedia pada rute utama dan terbungkus oleh `MainLayout`.
-- **Status Public Landing Page**: Tersedia dan dirender pada rute `/`.
-- **Status Navigasi dan CTA**: Call-To-Action (CTA) di halaman publik telah diverifikasi mengarah pada path yang aktif (seperti `/contact`, `/layanan`, `/cara-kerja`, `/proyek`).
-- **Status Portofolio / Proyek Guest**: Halaman `/proyek` diverifikasi masih menampilkan data statis (mock/showcase) sebagai *public showcase* (sesuai spesifikasi frontend-only tanpa paparan data operasional sensitif).
-- **Status Design Request Entry Point**: Rute pengajuan desain untuk konsumen ditemukan pada path `/konsumen/permintaan-desain` (dan alias lama `/konsumen/design-request` turut dikelola) dengan menggunakan komponen `DesignRequestCustomerPage`.
-- **Status Koneksi API / Database**: **Verified**. Form pengajuan konsumen telah terhubung penuh ke backend melalui `designRequestService.js` memanggil endpoint `/design-requests`.
-- **Backend Endpoint**: Tersedia di `server/src/modules/design-requests`. Controller, route, dan repository sudah terbentuk utuh.
-- **Database Model**: Tersedia `DesignRequest` dan `DesignRequestHistory` pada Prisma schema.
-- **Build Result**: *Pass*. Pembangunan bundle `vite build` berhasil memverifikasi integritas file.
-
-## API Verification
-- **Frontend Submit Mechanism**: Menggunakan `apiClient.post('/design-requests')`. Payload yang dikirim mencakup field `title`, `description` (yang berisi gabungan *structured brief*), `buildingType`, `location`, `estimatedBudget`, dan `customerId`.
-- **Backend Implementation**: Node.js/Express controller untuk Design Request (`createDesignRequest`) telah terimplementasi di `server/src/modules/design-requests/` dan mengekstrak *payload* yang sesuai.
-- **Database Model**: Model Prisma `DesignRequest` sepenuhnya mendukung entri field inti. *Structured brief* sengaja dikonversi ke format narasi Markdown pada atribut `description` di area *client* sebelum *submit*, yang merupakan standar praktek efisien untuk data simulasi/MVP.
-- **Keputusan Status Akhir**: Integrasi ujung-ke-ujung (End-to-End) dari komponen antarmuka hingga penulisan Prisma dinyatakan *Verified Frontend + API*.
-
-## Verification Coverage
-- **Frontend**: Verified
-- **Backend/API**: Verified
-- **Database/Prisma**: Verified
-- **Auth/Access**: Not Applicable
-- **Build/Validation**: Pass
 ## Next Step
 - Mengimplementasikan sistem otentikasi nyata (jika sistem saat ini masih sebatas *mock/persona-based*).
+
+## Validation Checklist
+- [x] Guest route mapping diverifikasi
+- [x] Payload Design Request mencakup structured brief
+- [x] Prisma `DesignRequest` tersimpan via `/design-requests`
+
+## Notes
+- [F02C] Structured brief terpadatkan ke field `description`.
+- [F02D] Guest routes, MainLayout, CTA diverifikasi aktif.
+- [F02E] Sub-batch story ter-update.

@@ -1,49 +1,33 @@
-# F07 — Pengawas Monitoring System
+# Batch F07 — Pengawas Monitoring System
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Pengawas Monitoring System.
+
+## Status
+Existing / Verified Frontend + API
 
 ## Story
 Sistem operasional bagi Pengawas lapangan yang bertugas mengecek pekerjaan Mandor, menyetujui *Material Request*, menangani laporan *Field Issue*, dan mengunci *Verified Progress* (SOT) setiap minggunya.
 
-## Status
-- **Current Status**: Existing / Verified Frontend + API
-## Sub-Batch Story
-- **F07**: Legacy verification stage, detail not expanded in current compact tracker.
-## Scope
-- Modul Persetujuan *Material Request*.
-- Modul *Progress SOT Update*.
-- Modul penanganan *Field Issue*.
+## Current State
+- Frontend dan Backend API telah terverifikasi terhubung dengan Prisma schema.
 
-## Role / Modul Terkait
-- Pengawas
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F07A | Existing Codebase Verification | Pending Re-Verification | Memverifikasi komponen dan API existing | - |
 
-## Alur Utama
-1. Pengawas menerima laporan progres harian dan kendala dari Mandor.
-2. Pengawas mengevaluasi *Material Request* dari Mandor, lalu menyetujui atau meneruskannya ke Admin.
-3. Pengawas melakukan update `Project.verifiedProgress` yang menjadi *Source of Truth* resmi proyek.
+## HOLD / Blocked Notes
+- *Needs Verification*: Bagaimana sistem menangani *overriding* nilai progres oleh Pengawas jika Mandor mengisi *daily log* secara tidak logis.
 
-## Data / API / Dependency Terkait
-- Integrasi ke SOT `Project.verifiedProgress`.
-- Integrasi *Field Issue Guard*.
-
-## Status Implementasi Saat Ini
-- *Existing / Partial*
-
-## Codebase Verification
-- **Frontend Routes/Components**: Ditemukan komponen aktif untuk Pengawas: Dashboard (`DashboardPengawas`), Verifikasi Progres (`VerifikasiProgresPengawasPage`), Laporan Mingguan (`LaporanMingguanPengawasPage`), Request Material (`RequestMaterialPengawasPage`), Jurnal Mandor (`JurnalMandorPengawasPage`), Kendala Lapangan (`KendalaLapanganPengawasPage`).
-- **API Service**: Menggunakan layanan `supervisorService.js`, `progressService.js`, `supervisorWeeklyReportService.js`, `materialRequestService.js`, `fieldIssues.service.js`.
-- **Backend Endpoints**: Modul utuh ditemukan di `server/src/modules/` yang melingkupi `supervisors`, `supervisor-weekly-reports`, `material-requests`, dan `field-issues`.
-- **Database Model**: Ditemukan model terkait `SupervisorWeeklyReport`, `SupervisorWeeklyReportJournal`, `SupervisorWeeklyReportNote`, `FieldIssue`, dan `MaterialRequest` di skema Prisma.
-- **Progress SOT Verification Status**: **Verified**. Mekanisme Single Source of Truth tervalidasi tersedia, di mana hanya Pengawas yang menyuntikkan angka mutlak pada properti `verifiedProgress` di model Proyek.
-- **Weekly/Daily/Field Issue Status**: **Verified**. Seluruh fungsionalitas pendukung (validasi jurnal, pembuatan laporan mingguan pengawas, tinjauan request material, dan manajemen isu/kendala) telah diwadahi oleh komponen *frontend* dan modul *backend* yang sepadan.
-- **Keputusan Status**: Tervalidasi utuh lintas *stack* (*Existing / Verified Frontend + API*).
-
-## Verification Coverage
-- **Frontend**: Verified
-- **Backend/API**: Verified
-- **Database/Prisma**: Verified
-- **Auth/Access**: Not Applicable
-- **Build/Validation**: Pass
 ## Next Step
 - Validasi modul pelaporan pengawas pada *codebase* backend.
 
-## Risiko / Needs Verification
-- *Needs Verification*: Bagaimana sistem menangani *overriding* nilai progres oleh Pengawas jika Mandor mengisi *daily log* secara tidak logis.
+## Validation Checklist
+- [ ] Frontend route/component
+- [ ] Frontend service/API client
+- [ ] Backend endpoint/module
+- [ ] Prisma/database model
+
+## Notes
+- [F07A] Menunggu penjadwalan verifikasi terstruktur.

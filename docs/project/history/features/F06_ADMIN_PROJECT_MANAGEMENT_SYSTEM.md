@@ -1,53 +1,33 @@
-# F06 — Admin Project Management System
+# Batch F06 — Admin Project Management System
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Admin Project Management System.
+
+## Status
+Existing / Verified Frontend + API
 
 ## Story
 Sistem bagi Admin (dan/atau Arsitek internal) untuk merespons *Design Request*, menyiapkan parameter proyek (RAB, spesifikasi), mengeksekusi *Construction Readiness*, hingga memonitor proyek harian secara *high-level*.
 
-## Status
-- **Current Status**: Existing / Verified Frontend + API
-## Sub-Batch Story
-- **F06**: Legacy verification stage, detail not expanded in current compact tracker.
-## Scope
-- Manajemen siklus awal proyek (*Approval* desain dan RAB).
-- *Construction Readiness Check*.
-- Pengelolaan master data material jika ada.
+## Current State
+- Frontend dan Backend API telah terverifikasi terhubung dengan Prisma schema.
 
-## Role / Modul Terkait
-- Admin / Arsitek
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F06A | Existing Codebase Verification | Pending Re-Verification | Memverifikasi komponen dan API existing | - |
 
-## Alur Utama
-1. Admin menerima *Design Request* dari Konsumen.
-2. Admin membuat RAB dan parameter kontrak.
-3. Setelah disetujui, Admin melakukan *Construction Readiness* sebelum proyek berjalan.
-4. Admin memonitor pengeluaran finansial *Material Request*.
+## HOLD / Blocked Notes
+- *Needs Verification*: Sejauh mana notifikasi berjalan dan apakah pembuatan RAB tersambung akurat ke modul *Finance*.
 
-## Data / API / Dependency Terkait
-- API `/api/admin`
-- Tabel Manajemen Proyek.
-
-## Status Implementasi Saat Ini
-- *Not Started / Partial* (Struktur routing mungkin ada, namun logika *readiness* belum tuntas).
-
-## Codebase Verification
-- **Frontend Routes/Components**: Seluruh laman kendali Admin (`DashboardAdmin`, `ProyekAdminPage`, `CreateProyekAdminPage`, `RabAdminPage`, `DesignRequestAdminPage`, dsb) diakomodasi kuat dalam `AdminLayout`.
-- **API Service**: Memanfaatkan gerbang koneksi terpusat lewat `adminService.js`, `rabService.js`, `designRequestService.js`, dan `projectService.js`.
-- **Backend Endpoints**: Modul operasional inti seperti `admins`, `projects`, `design-requests`, dan `rab` menduduki peranan solid di dalam `server/src/modules/`.
-- **Database Model**: Terkuaknya presensi model Prisma pengikat manajemen proyek dan anggaran: `Admin`, `Project`, `RabPlan`, `RabCategory`, `RabItem`.
-- **Design Request to Project Bridge**: **Verified**. Fungsionalitas konversi (*convertToProject*) memfasilitasi transmutasi dokumen pengajuan publik (*Design Request*) menjadi embrio pengerjaan aktif (*Project*).
-- **RAB & Project Readiness**: **Verified**. Logika pengerjaan detail biaya diwakili oleh kerangka `RabPlan`, dan hierarki pekerjaan (`RabCategory`, `RabItem`).
-- **Keputusan Status**: Tervalidasi (*Existing / Verified Frontend + API*). Fungsionalitas manajemen admin berdiri tegak tak sekadar antarmuka, melainkan terhubung fungsional menembus lapisan data.
-
-## Verification Coverage
-- **Frontend**: Verified
-- **Backend/API**: Verified
-- **Database/Prisma**: Verified
-- **Auth/Access**: Not Applicable
-- **Build/Validation**: Pass
 ## Next Step
 - Merancang dan memvalidasi dashboard Admin serta integrasi database-nya.
 
-## Risiko / Needs Verification
-- *Needs Verification*: Sejauh mana notifikasi berjalan dan apakah pembuatan RAB tersambung akurat ke modul *Finance*.
+## Validation Checklist
+- [ ] Frontend route/component
+- [ ] Frontend service/API client
+- [ ] Backend endpoint/module
+- [ ] Prisma/database model
 
-## API Verification (Design Request Bridge)
-- **Status Bridge**: **Verified**. Terdapat fungsi `convertToProject` pada modul `design-requests` backend yang berfungsi sebagai gerbang transisi. Fungsi ini memvalidasi kelayakan status persetujuan, persetujuan konsumen, serta tinjauan akhir Admin sebelum melahirkan entitas *Project* berstatus `planning`.
+## Notes
+- [F06A] Menunggu penjadwalan verifikasi terstruktur.

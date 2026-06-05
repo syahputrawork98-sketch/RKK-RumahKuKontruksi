@@ -1,40 +1,33 @@
-# F13 — Deployment System
+# Batch F13 — Deployment System
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Deployment System.
+
+## Status
+Not Started
 
 ## Story
 Sistem infrastruktur akhir untuk *hosting* aplikasi secara daring (Production environment).
 
-## Status
-- **Current Status**: Not Started
-## Sub-Batch Story
-- **F13**: Legacy verification stage, detail not expanded in current compact tracker.
-## Scope
-- *Frontend Hosting* (Vercel / Cloudflare).
-- *Backend Hosting* (VPS / Heroku / Render).
-- *Database Hosting* (Supabase Cloud).
+## Current State
+- Integrasi codebase saat ini telah dipetakan.
 
-## Role / Modul Terkait
-- Infrastruktur
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F13A | Existing Codebase Verification | Pending Re-Verification | Memverifikasi komponen dan API existing | - |
 
-## Alur Utama
-1. Kode dari repositori di-*push* ke cabang rilis utama.
-2. *Pipeline* CI/CD memicu proses pembangunan ulang aplikasi.
-3. Aplikasi tayang secara aman di domain produksi.
+## HOLD / Blocked Notes
+- *Needs Verification*: Persiapan variabel lingkungan dan pemisahan database dev vs prod.
 
-## Data / API / Dependency Terkait
-- `.env.production`
-- SSL, Domain Mapping.
-
-## Status Implementasi Saat Ini
-- *Not Started*
-
-## Verification Coverage
-- **Frontend**: Not Applicable
-- **Backend/API**: Not Applicable
-- **Database/Prisma**: Not Applicable
-- **Auth/Access**: Not Applicable
-- **Build/Validation**: Not Applicable
 ## Next Step
 - Menyiapkan infrastruktur dasar *hosting*.
 
-## Risiko / Needs Verification
-- *Needs Verification*: Persiapan variabel lingkungan dan pemisahan database dev vs prod.
+## Validation Checklist
+- [ ] Frontend route/component
+- [ ] Frontend service/API client
+- [ ] Backend endpoint/module
+- [ ] Prisma/database model
+
+## Notes
+- [F13A] Menunggu penjadwalan verifikasi terstruktur.

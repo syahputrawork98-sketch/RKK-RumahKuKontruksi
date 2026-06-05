@@ -1,59 +1,36 @@
-# F12 — Report / PDF Export System
+# Batch F12 — Report PDF Export System
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Report PDF Export System.
+
+## Status
+Existing / Verified Frontend
 
 ## Story
 Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progress* maupun RAB proyek.
 
-## Status
-- **Current Status**: Existing / Verified Frontend
-## Sub-Batch Story
-- **F12A**: Report export initial audit.
-- **F12B**: RAB PDF export MVP.
-- **F12C**: RAB PDF export hardening.
-- **F12D**: Supervisor Weekly Report PDF export MVP.
-## Scope
-- Ekspor Laporan Kemajuan Proyek (Progress).
-- Ekspor Dokumen Finansial (RAB, Material).
+## Current State
+- Frontend terverifikasi, namun API backend mungkin belum sepenuhnya terintegrasi.
 
-## Role / Modul Terkait
-- Admin, Konsumen, Superadmin
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F12A | Report export initial audit | Completed | Verifikasi ketersediaan library PDF | - |
+| F12B | RAB PDF export MVP | Completed | Ekspor RAB dari Admin | F12A |
+| F12C | RAB PDF export hardening | Completed | Pencegahan error pada payload RAB | F12B |
+| F12D | Supervisor Weekly Report PDF MVP | Completed | Ekspor laporan pengawas | F12C |
 
-## Alur Utama
-1. User meminta cetak dokumen melalui dashboard.
-2. Sistem mengekstrak SOT progress.
-3. Server me-render HTML/Data menjadi format PDF yang dapat diunduh.
+## HOLD / Blocked Notes
+- *Needs Verification*: Pemilihan pustaka ekspor. Library konversi PDF rentan terhadap limit memori di lingkungan server lokal atau *serverless*.
 
-## Data / API / Dependency Terkait
-- Library PDF generation (misalnya `puppeteer` atau library frontend).
-
-## Status Implementasi Saat Ini
-- *Existing / Needs Verification*
-
-## Codebase Verification
-- **Frontend Export**: **Not Started**. Modul konversi PDF belum terimplementasi di level antarmuka. Meskipun pustaka `jspdf` dan `jspdf-autotable` telah terdaftar dalam `package.json` klien, tidak ditemukan satupun pemanggilan instansiasi (*import*) pada `client/src`. Tombol *Export/Print PDF* pada laman pelaporan belum terhubung pada eksekutor konversi.
-- **Backend Generator**: **Not Started**. Tidak ada modul `puppeteer`, *endpoint* *report generator*, maupun layanan pembuatan dokumen di pangkalan data backend (`server/src/modules/`).
-- **Database Model**: Pelaporan masih mengandalkan struktur penyimpanan bawaan (seperti `DailyReport` dan `ProjectDocument`), tidak ada model khusus atau pemicu tabel yang dideksekusi murni untuk keluaran ekspor eksternal.
-- **Keputusan Status**: Tervalidasi belum dibangun (*Not Started*). Instalasi pustaka pada *package.json* sekadar persiapan infrastruktur pasif (*dormant dependencies*).
-
-## Verification Coverage
-- **Frontend**: Verified
-- **Backend/API**: Not Verified
-- **Database/Prisma**: Not Verified
-- **Auth/Access**: Not Applicable
-- **Build/Validation**: Pass
 ## Next Step
 - Mengimplementasikan logika fungsional `jspdf` untuk ekspor dokumen di fitur lain jika dibutuhkan.
 
-## Risiko / Needs Verification
-- *Needs Verification*: Pemilihan pustaka ekspor. Library konversi PDF rentan terhadap limit memori di lingkungan server lokal atau *serverless*.
+## Validation Checklist
+- [x] jspdf & jspdf-autotable terintegrasi di client
+- [x] Tombol ekspor RAB memproduksi PDF
+- [x] Tombol ekspor Supervisor Weekly memproduksi PDF
+- [ ] Backend PDF Generator (jika kelak dibutuhkan)
 
-## Implementation Verification
-- **Frontend RAB PDF Export**: Implemented.
-- **Library**: `jspdf` + `jspdf-autotable`.
-- **Backend Generator**: Not Started.
-- **Scope**: Admin RAB export MVP.
-- **Decision Status**: Existing / Verified Frontend.
-- **UX Hardening**: Export button disabled when RAB has no items.
-- **Data Safety**: PDF export guards against empty or invalid numeric values.
-- **Supervisor Weekly Report PDF Export**: Implemented as frontend-only MVP.
-- **Scope**: Pengawas weekly report export.
-- **Backend Generator**: Still not implemented.
+## Notes
+- [F12A-D] Pengerjaan difokuskan pada frontend-only PDF generation.

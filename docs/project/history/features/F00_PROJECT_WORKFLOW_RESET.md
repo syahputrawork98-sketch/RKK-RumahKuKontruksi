@@ -1,50 +1,33 @@
-# F00 — Project Workflow Reset
+# Batch F00 — Project Workflow Reset
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Project Workflow Reset.
+
+## Status
+Completed
 
 ## Story
 Proyek RKK memiliki basis kode frontend dan backend yang sudah berjalan secara parsial (dengan fungsionalitas multi-role), tetapi kurangnya dokumentasi manajemen operasional yang terstruktur dapat menyebabkan inkonsistensi saat dikerjakan berkolaborasi antara User dan AI di masa depan. Oleh karena itu, diperlukan pengaturan ulang sistem kerja (workflow reset).
 
-## Status
-- **Current Status**: Not Started
-## Sub-Batch Story
-- **F00**: Legacy verification stage, detail not expanded in current compact tracker.
-## Scope
-- Dokumentasi root (`README.md`)
-- Direktori `docs/`
-- Direktori manajemen di `docs/project/` (onboarding, workflow, history, baseline)
+## Current State
+- Seluruh operasi untuk batch ini telah rampung.
 
-## Verification Coverage
-- **Frontend**: Partial
-- **Backend/API**: Not Verified
-- **Database/Prisma**: Not Verified
-- **Auth/Access**: Not Applicable
-- **Build/Validation**: Not Run
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F00A | Workflow Baseline | Completed | Menginisiasi struktur dokumen tracker | - |
+| F00B | Status Standardization | Historical | Standardisasi format awal | F00A |
+| F00C | Tracker Model Alignment | Completed | Menyelaraskan tracker ke pola PW | F00B |
+
+## HOLD / Blocked Notes
+- Tidak ada blocker utama saat ini.
+
 ## Next Step
 - Menyelesaikan baseline existing RKK (F01).
 
-## Tujuan
-Membuat fondasi sistem kerja baru untuk repository RKK agar proyek lebih terarah, terdokumentasi, dan mudah dikendalikan. Sistem kerja ini mengatur alur pengerjaan batch, aturan AI, ukuran tugas, dan struktur direktori `docs/project/`.
+## Validation Checklist
+- [x] Struktur tracker terbentuk
+- [x] Alignment dengan PW tracker model selesai
 
-## File yang Dibuat / Diubah
-- `README.md`
-- `docs/README.md`
-- `docs/project/README.md`
-- `docs/project/onboarding/CHATGPT_PROJECT_INSTRUCTIONS.md`
-- `docs/project/workflow/WORKING_SYSTEM.md`
-- `docs/project/workflow/MODEL_USAGE_GUIDE.md`
-- `docs/project/history/CURRENT_STATUS.md`
-- `docs/project/history/FEATURE_HISTORY.md`
-- `docs/project/history/features/F00_PROJECT_WORKFLOW_RESET.md`
-- `docs/project/history/features/F01_EXISTING_RKK_BASELINE.md`
-- `docs/frontend/README.md`
-- `docs/backend/README.md`
-- `docs/database/README.md`
-
-## Batasan
-- Tidak boleh menyalin atau merujuk identitas/branding dari proyek lain.
-- RKK harus independen sebagai proyek tersendiri.
-- File konfigurasi, `client/`, dan `server/` tidak boleh diubah.
-
-## Definition of Done
-- Semua file dokumentasi berhasil dibuat sesuai dengan format dan aturan.
-- Struktur `docs/project` merepresentasikan sistem manajerial yang utuh.
-- Panduan peran dan AI onboarding sudah terdefinisi.
+## Notes
+- [F00C] Menghapus elemen Verification Coverage aplikasi yang tidak relevan dengan dokumentasi.

@@ -1,46 +1,33 @@
-# F11 — Auth Access Control System
+# Batch F11 — Auth Access Control System
+
+## Feature Summary
+Dokumentasi pelacakan dan status pengembangan untuk fitur Auth Access Control System.
+
+## Status
+Existing / Partial (Dev Mock)
 
 ## Story
 Sistem keamanan lapisan inti untuk memverifikasi kredensial dan mengatur batas privasi pengguna berdasarkan *role* (Authentication & Authorization).
 
-## Status
-- **Current Status**: Existing / Partial (Dev Mock)
-## Sub-Batch Story
-- **F11**: Legacy verification stage, detail not expanded in current compact tracker.
-## Scope
-- Integrasi JWT Auth / Supabase Auth.
-- Proteksi Route Frontend.
-- Proteksi Middleware Backend.
+## Current State
+- Sistem baru berjalan sebagian (partial) atau masih berupa mock lokal.
 
-## Role / Modul Terkait
-- Lintas Role
+## Sub-Batch Roadmap
+| Sub-Batch | Name | Status | Purpose | Dependency |
+|---|---|---|---|---|
+| F11A | Existing Codebase Verification | Pending Re-Verification | Memverifikasi komponen dan API existing | - |
 
-## Alur Utama
-1. User login dengan password/email.
-2. Server merespon dengan token/sesi.
-3. User menavigasi ke halaman khusus yang divalidasi lewat *auth guard*.
+## HOLD / Blocked Notes
+- *Needs Verification*: Peralihan strategi dari mock autentikasi `DevAuth` menuju JWT atau Supabase GoTrue untuk lingkungan produksi sesungguhnya.
 
-## Data / API / Dependency Terkait
-- Auth Strategy (belum ditentukan pastinya, berpotensi JWT atau Supabase GoTrue).
-
-## Status Implementasi Saat Ini
-- *Not Verified* (kemungkinan masih digantikan *Dev Persona Switcher*).
-
-## Codebase Verification
-- **Frontend Auth Handling**: Menggunakan sistem simulasi *Developer Persona Switcher*. Komponen utama meliputi `DevAuthContext.jsx` untuk *state management* persona, dan `SignInPage.jsx` tanpa *input password*.
-- **Route Protection**: Penjagaan rute *frontend* telah berfungsi menggunakan `DevRouteGuard.jsx` yang bersandar pada validasi *local storage* (`rkk.devAuth`) untuk mengecek otoritas *role prefix*.
-- **Backend Middleware**: **Tidak Ditemukan**. Absennya penyedia autentikasi *backend* (tidak ada *middleware* verifikasi JWT atau *role guard* pada rute API).
-- **Database Model**: **Tidak Ditemukan**. Skema Prisma bersih dari kolom penampung kredensial rahasia (seperti `passwordHash` atau `sessionToken`).
-- **Keputusan Status**: Tervalidasi sebagian secara eksklusif untuk kepentingan pengembangan (*Existing / Partial*). Alur autentikasi produksi belum diimplementasikan.
-
-## Verification Coverage
-- **Frontend**: Partial
-- **Backend/API**: Partial
-- **Database/Prisma**: Not Verified
-- **Auth/Access**: Dev Mock
-- **Build/Validation**: Not Run
 ## Next Step
 - Merancang alur otentikasi asli untuk produksi.
 
-## Risiko / Needs Verification
-- *Needs Verification*: Peralihan strategi dari mock autentikasi `DevAuth` menuju JWT atau Supabase GoTrue untuk lingkungan produksi sesungguhnya.
+## Validation Checklist
+- [ ] Frontend route/component
+- [ ] Frontend service/API client
+- [ ] Backend endpoint/module
+- [ ] Prisma/database model
+
+## Notes
+- [F11A] Menunggu penjadwalan verifikasi terstruktur.

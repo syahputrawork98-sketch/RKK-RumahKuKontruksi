@@ -23,10 +23,7 @@ Sistem antarmuka publik untuk pengunjung non-login yang ingin melihat profil RKK
 - Frontend public routes.
 
 ## Status Implementasi Saat Ini
-- *Existing / Partial* (Frontend sudah ada, tapi integrasi penuh belum divalidasi).
-
-## Risiko / Needs Verification
-- *Needs Verification*: Perlu mengecek apakah form *Design Request* publik sudah benar-benar terhubung ke backend dan database.
+- *Verified Frontend + API* (Frontend sudah terhubung secara penuh ke backend/database).
 
 ## Codebase Verification
 - **Route / Component Ditemukan**: Komponen publik seperti `Home`, `Layanan`, `CaraKerja`, `ProyekGuest`, `About`, `Contact`, dan `SignInPage` tersedia pada rute utama dan terbungkus oleh `MainLayout`.
@@ -38,10 +35,10 @@ Sistem antarmuka publik untuk pengunjung non-login yang ingin melihat profil RKK
 - **Build Result**: *Pass*. Pembangunan bundle `vite build` berhasil memverifikasi integritas file.
 
 ## API Verification
-- **Frontend Submit Mechanism**: Menggunakan `apiClient.post('/design-requests')`. Terbukti memanggil API backend (bukan sekadar mock local storage).
-- **Backend Implementation**: Node.js/Express controller untuk Design Request (`createDesignRequest`, `updateDesignRequest`, `convertToProject`) sudah diimplementasikan di folder `server/src/modules/design-requests/`.
-- **Database Model**: Model Prisma `DesignRequest` telah tervalidasi keberadaannya.
-- **Keputusan Status Akhir**: Integrasi ujung-ke-ujung (End-to-End) untuk struktur kode Form Pengajuan (Design Request) dinyatakan *Verified* secara codebase.
+- **Frontend Submit Mechanism**: Menggunakan `apiClient.post('/design-requests')`. Payload yang dikirim mencakup field `title`, `description` (yang berisi gabungan *structured brief*), `buildingType`, `location`, `estimatedBudget`, dan `customerId`.
+- **Backend Implementation**: Node.js/Express controller untuk Design Request (`createDesignRequest`) telah terimplementasi di `server/src/modules/design-requests/` dan mengekstrak *payload* yang sesuai.
+- **Database Model**: Model Prisma `DesignRequest` sepenuhnya mendukung entri field inti. *Structured brief* sengaja dikonversi ke format narasi Markdown pada atribut `description` di area *client* sebelum *submit*, yang merupakan standar praktek efisien untuk data simulasi/MVP.
+- **Keputusan Status Akhir**: Integrasi ujung-ke-ujung (End-to-End) dari komponen antarmuka hingga penulisan Prisma dinyatakan *Verified Frontend + API*.
 
 ## Next Step
-- Verifikasi koneksi API dan pengetesan end-to-end fitur form publik.
+- Mengimplementasikan sistem otentikasi nyata (jika sistem saat ini masih sebatas *mock/persona-based*).

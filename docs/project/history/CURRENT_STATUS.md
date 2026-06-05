@@ -5,7 +5,7 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | ID | Nama Fitur | Area | Status | Notes / Next Step | Detail File |
 |----|------------|------|--------|-------------------|-------------|
 | F00 | Project Workflow Reset | `docs` | Completed | Reset alur kerja dan onboarding AI | [File](features/F00_PROJECT_WORKFLOW_RESET.md) |
-| F01 | Legacy Docs Migration and Cleanup | `docs` | In Progress / Partial | Audit final selesai. Legacy siap dibersihkan utuh. | [File](features/F01_LEGACY_DOCS_MIGRATION_AND_CLEANUP.md) |
+| F01 | Legacy Docs Migration and Cleanup | `docs` | Completed | Legacy original-docs cleaned after final mapping audit. | [File](features/F01_LEGACY_DOCS_MIGRATION_AND_CLEANUP.md) |
 | F02 | Public Website System | `frontend` | Existing / Verified Frontend + API | Terintegrasi penuh ke backend Design Request | [File](features/F02_PUBLIC_WEBSITE_SYSTEM.md) |
 | F03 | Role and Layout System | `frontend` | Existing / Verified Frontend | Sidebar dan layout spesifik role | [File](features/F03_ROLE_AND_LAYOUT_SYSTEM.md) |
 | F04 | Konsumen Project Tracking | `front/back` | Existing / Verified Frontend + API | Timeline SOT untuk konsumen | [File](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md) |

@@ -35,6 +35,12 @@ Kondisi terbaru pada sistem dokumentasi:
 | F01E.4 | Technical Cleanup | Not Started / Pending Decision | Audit dan eksekusi cleanup area technical | do not execute in this batch |
 | F01F | Per-Feature Verification | Not Started | Verifikasi sinkronisasi alur dokumen dengan fitur aktif | validate F02–F13, required before alur/modules cleanup |
 
+## Earlier F01 Consolidation
+- `F01 Existing Baseline`: baseline repo lama sudah dicatat dan dipindahkan ke project-control.
+- `F01B Legacy Docs Quarantine`: dokumen lama dikarantina ke `docs/_legacy/original-docs`.
+- `F01C Legacy Docs Review Mapping`: technical, alur, modules, batches, archive dipetakan untuk migrasi/cleanup.
+- Semua detail lama kini tidak menjadi active feature file terpisah.
+
 ## Project Control Compaction
 - `baseline/` summarized into F01
 - `migration/` summarized into F01

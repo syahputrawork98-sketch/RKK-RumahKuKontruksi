@@ -28,7 +28,9 @@ Sistem antarmuka publik untuk pengunjung non-login yang ingin melihat profil RKK
 ## Codebase Verification
 - **Route / Component Ditemukan**: Komponen publik seperti `Home`, `Layanan`, `CaraKerja`, `ProyekGuest`, `About`, `Contact`, dan `SignInPage` tersedia pada rute utama dan terbungkus oleh `MainLayout`.
 - **Status Public Landing Page**: Tersedia dan dirender pada rute `/`.
-- **Status Design Request Entry Point**: Rute pengajuan desain untuk konsumen ditemukan pada path `/konsumen/permintaan-desain` dengan menggunakan komponen `DesignRequestCustomerPage`.
+- **Status Navigasi dan CTA**: Call-To-Action (CTA) di halaman publik telah diverifikasi mengarah pada path yang aktif (seperti `/contact`, `/layanan`, `/cara-kerja`, `/proyek`).
+- **Status Portofolio / Proyek Guest**: Halaman `/proyek` diverifikasi masih menampilkan data statis (mock/showcase) sebagai *public showcase* (sesuai spesifikasi frontend-only tanpa paparan data operasional sensitif).
+- **Status Design Request Entry Point**: Rute pengajuan desain untuk konsumen ditemukan pada path `/konsumen/permintaan-desain` (dan alias lama `/konsumen/design-request` turut dikelola) dengan menggunakan komponen `DesignRequestCustomerPage`.
 - **Status Koneksi API / Database**: **Verified**. Form pengajuan konsumen telah terhubung penuh ke backend melalui `designRequestService.js` memanggil endpoint `/design-requests`.
 - **Backend Endpoint**: Tersedia di `server/src/modules/design-requests`. Controller, route, dan repository sudah terbentuk utuh.
 - **Database Model**: Tersedia `DesignRequest` dan `DesignRequestHistory` pada Prisma schema.

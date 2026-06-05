@@ -6,6 +6,7 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 |----|------------|------|--------|
 | F00 | Project Workflow Reset | `docs/project` | Completed |
 | F01 | Existing RKK Baseline | `docs/project/baseline` | Completed |
+| F01B | Legacy Docs Quarantine and Roomchat Workflow Alignment | `docs/_legacy` | Completed |
 | F02 | Public Website System | `frontend` | Not Started / Existing |
 | F03 | Role and Layout System | `frontend` | Existing / Partial |
 | F04 | Konsumen Project Tracking System | `frontend/backend` | Existing / Partial |

@@ -56,3 +56,15 @@ Sebelum User melakukan commit/push, wajib dilakukan review terhadap:
 - Cek path direktori.
 - Cek risiko implementasi pada sistem eksisting.
 - Memastikan bahwa hasil pekerjaan sudah aman sebelum melanjutkan ke batch berikutnya.
+
+## Legacy Docs Migration Policy
+1. Dokumen lama tidak boleh langsung dihapus.
+2. Dokumen lama harus dipindahkan dulu ke `docs/_legacy/original-docs/`.
+3. Semua perpindahan harus dicatat di `LEGACY_DOCS_INVENTORY.md`.
+4. Informasi penting harus dimigrasikan ke docs aktif.
+5. Penghapusan hanya boleh dilakukan setelah status file jelas dan user menyetujui.
+6. Cleanup harus dilakukan batch kecil.
+
+## Cleanup Policy
+- Cleanup dokumen hanya boleh dilakukan pada batch cleanup khusus.
+- Tidak ada file legacy yang boleh dihapus sebelum statusnya diverifikasi sebagai `Migrated`, `Duplicate`, `Deprecated`, atau `Safe to Delete Later`.

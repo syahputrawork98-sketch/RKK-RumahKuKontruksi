@@ -7,6 +7,9 @@ Direktori `docs/project/` adalah pusat kendali untuk proyek RKK (RumahKu Konstru
 - `workflow/` - Definisi sistem kerja, ukuran batch, dan panduan penggunaan model.
 - `history/` - Pelacakan fitur (Feature Tracker), status terkini, dan riwayat pengerjaan batch.
 - `baseline/` - Catatan kondisi dasar (existing) proyek sebelum adanya perapihan lebih lanjut.
+- `migration/` - Tracker proses migrasi dokumen lama.
+
+*Catatan: Terdapat juga folder `_legacy/` yang berada di level `docs/` (bukan di dalam `project/`) sebagai tempat arsip sementara dokumen lama. Setiap migrasi dokumen lama dari `_legacy/` harus melalui tahapan inventory, migration tracker, dan cleanup plan.*
 
 ## Prinsip Kerja Proyek
 - **GitHub adalah Source of Truth**: Semua code yang valid dan disetujui berada di repository GitHub.

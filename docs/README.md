@@ -8,6 +8,8 @@ Selamat datang di Pusat Dokumentasi RKK (RumahKu Konstruksi). Folder `docs/` ini
 - `docs/backend/` - Catatan teknis dan arsitektur untuk backend API.
 - `docs/database/` - Catatan teknis untuk struktur database dan layanan Supabase.
 
+*Catatan: Source of truth aktif adalah README root dan folder di atas. Folder `docs/_legacy/` berisi dokumen lama yang dikarantina, dan `docs/project/migration/` berisi tracker migrasi dokumen lama tersebut.*
+
 ## Urutan Membaca (Onboarding)
 Untuk memahami proyek ini dari awal, silakan ikuti urutan membaca berikut:
 1. `README.md` (root repository)

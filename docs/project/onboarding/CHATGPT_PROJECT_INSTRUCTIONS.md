@@ -4,7 +4,7 @@ Dokumen ini berisi instruksi dan panduan yang wajib dipatuhi oleh setiap agen AI
 
 ## Informasi Proyek
 - **Nama Proyek**: RKK RumahKu Konstruksi
-- **Repository**: syahputrawork98-sketch/RumahKuKontruksi-Dev
+- **Repository**: syahputrawork98-sketch/RKK-RumahKuKontruksi
 - **Source of Truth**: GitHub
 - **Workspace**: Anti-Gravity IDE
 

@@ -14,7 +14,7 @@ Dokumen ini berisi analisis awal terhadap dua repositori sumber untuk migrasi ke
   - Integrasi OpenAPI untuk tipe API.
 - **Status**: Frontend murni yang sangat terstruktur.
 
-### B. RumahKuKontruksi-Dev
+### B. RKK-RumahKuKontruksi
 - **Teknologi Utama**:
   - **Client**: Vite, React 18, Tailwind CSS 4, DaisyUI, Supabase JS.
   - **Server**: Node.js, Express 5, Supabase.
@@ -27,12 +27,12 @@ Dokumen ini berisi analisis awal terhadap dua repositori sumber untuk migrasi ke
 
 ## 2. Rencana Migrasi (Draft)
 
-Tujuan migrasi adalah menyatukan keunggulan struktur frontend dari `rumahkukontruksi-frontend` dengan logika backend/database dari `RumahKuKontruksi-Dev`.
+Tujuan migrasi adalah menyatukan keunggulan struktur frontend dari `rumahkukontruksi-frontend` dengan logika backend/database dari `RKK-RumahKuKontruksi`.
 
 ### Strategi:
 1. **Basis Utama**: Menggunakan struktur `rumahkukontruksi-frontend` (Next.js 16) sebagai pondasi utama repositori ini.
-2. **Integrasi Data**: Memindahkan konfigurasi Supabase dan logika layanan dari `RumahKuKontruksi-Dev/server` ke dalam Next.js API Routes atau Server Actions di repositori baru.
-3. **Komponen UI**: Mengadopsi visual dan dashboard dari `RumahKuKontruksi-Dev/client` ke dalam komponen Next.js yang sudah ada.
+2. **Integrasi Data**: Memindahkan konfigurasi Supabase dan logika layanan dari `RKK-RumahKuKontruksi/server` ke dalam Next.js API Routes atau Server Actions di repositori baru.
+3. **Komponen UI**: Mengadopsi visual dan dashboard dari `RKK-RumahKuKontruksi/client` ke dalam komponen Next.js yang sudah ada.
 4. **Sinkronisasi Tipe**: Memastikan tipe data dari OpenAPI selaras dengan skema database Supabase.
 
 ---

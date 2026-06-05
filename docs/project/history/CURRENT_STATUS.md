@@ -12,6 +12,7 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | F01D.2 | Functional Legacy Migration | `docs` | Completed | Ekstraksi bisnis dan alur kerja peran | [File](features/F01D2_FUNCTIONAL_LEGACY_ACTIVE_MIGRATION.md) |
 | F01D.3 | Project Docs Consolidation | `docs` | Completed | Pembersihan root docs project dan workflow | [File](features/F01D3_PROJECT_DOCS_ROOT_CONSOLIDATION.md) |
 | F01D.4 | Compact Feature Summary | `docs` | Completed | Pembuatan ringkasan root (FITUR.md) | [File](features/F01D4_RKK_COMPACT_FEATURE_SUMMARY.md) |
+| F01D.5 | Legacy Batches Consolidation | `docs` | Completed | Peringkasan log sejarah legacy batch lama | [File](features/F01D5_LEGACY_BATCHES_HISTORY_SUMMARY.md) |
 | F02 | Public Website System | `frontend` | Not Started / Existing | Membutuhkan verifikasi komponen publik | [File](features/F02_PUBLIC_WEBSITE_SYSTEM.md) |
 | F03 | Role and Layout System | `frontend` | Existing / Partial | Sidebar dan layout spesifik role | [File](features/F03_ROLE_AND_LAYOUT_SYSTEM.md) |
 | F04 | Konsumen Project Tracking | `front/back` | Existing / Partial | Timeline SOT untuk konsumen | [File](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md) |

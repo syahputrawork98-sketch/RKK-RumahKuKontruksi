@@ -9,5 +9,7 @@ Halaman ini mengindeks semua riwayat perencanaan dan pengerjaan fitur secara det
   *(Batch ini mengarantina dokumen lama dan menyelaraskan workflow Roomchat 00/01).*
 - [F01C — Legacy Docs Review and Active Docs Mapping](features/F01C_LEGACY_DOCS_REVIEW_MAPPING.md)
   *(Batch ini meninjau dokumen legacy dan memetakan target dokumentasi aktif).*
+- [F01D.1 — Technical Legacy Active Migration](features/F01D1_TECHNICAL_LEGACY_ACTIVE_MIGRATION.md)
+  *(Batch ini mengekstrak pedoman teknis lama ke dalam dokumentasi aktif).*
 
 *(Fitur F02 hingga F13 sedang dalam status pelacakan/perencanaan awal (planned tracker) dan akan dibuat file detailnya saat tiba waktu pengerjaan khusus)*

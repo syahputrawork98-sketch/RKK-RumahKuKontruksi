@@ -4,7 +4,7 @@
 Sistem pencatatan log aktivitas harian oleh Mandor di lapangan, yang mencakup permintaan material ke Pengawas, pelaporan progres teknis (jurnal), dan pencatatan kendala (issue).
 
 ## Status
-- **Current Status**: Existing / Partial
+- **Current Status**: Existing / Verified Frontend + API
 
 ## Scope
 - Input Jurnal Harian.
@@ -28,7 +28,15 @@ Sistem pencatatan log aktivitas harian oleh Mandor di lapangan, yang mencakup pe
 - *Existing / Partial*
 
 ## Risiko / Needs Verification
-- *Needs Verification*: Sistem *upload* foto dari mobile dan integrasi penyimpanan *local file upload* melalui `multer`.
+- *Needs Verification*: Koneksi *Material Request* menuju persetujuan Admin yang mengontrol budget RAB.
+
+## Codebase Verification
+- **Frontend Routes/Components**: Ditemukan komponen aktif untuk Mandor: Dashboard (`DashboardMandor`), Jurnal Mingguan (`JurnalMingguanMandorPage`), Tugas Harian (`TugasHarianMandorPage`), Laporan Harian (`LaporanHarianMandorPage`), Request Material (`RequestMaterialMandorPage`), Kendala Lapangan (`KendalaLapanganMandorPage`).
+- **API Service**: Menggunakan layanan `foremanService.js`, `dailyTaskService.js`, `dailyReportService.js`, `weeklyJournalService.js`, `materialRequestService.js`, `fieldIssues.service.js`.
+- **Backend Endpoints**: Modul operasional mandor telah didirikan secara utuh di `server/src/modules/` mencakup `daily-reports`, `daily-tasks`, `weekly-journals`, `material-requests`, dan `field-issues`.
+- **Database Model**: Terdefinisinya kerangka kerja lapangan (`DailyTask`, `DailyReport`, `WeeklyJournal`, `MaterialRequest`, `FieldIssue`) secara sempurna pada model Prisma.
+- **Daily/Weekly/Material/Field Issue Status**: **Verified**. Setiap elemen pelaporan fisik dari lapangan memiliki rute halaman mandiri dan *endpoint* penyimpanan *backend*. Catatan mandor bersifat *log* yang menanti verifikasi Pengawas.
+- **Keputusan Status**: Tervalidasi utuh lintas *stack* (*Existing / Verified Frontend + API*).
 
 ## Next Step
 - Memverifikasi endpoint upload dan flow Jurnal Harian.

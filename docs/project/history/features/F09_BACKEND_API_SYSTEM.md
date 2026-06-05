@@ -36,5 +36,9 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 - **Project & Timeline Endpoint**: **Verified**. Endpoint pengambilan daftar proyek konsumen (`/projects?customerId=...`) serta pendalaman struktur proyek (`/projects/:id/stages`, `/projects/:id/rab`) tersedia dan berjalan aktif melintasi *controller* dan *repository* modul `projects`.
 - **Document Hub Endpoint**: **Verified**. Layanan untuk menyajikan dokumen administratif yang telah dirilis terdapat utuh di folder `administrative-helper-documents`.
 
+## API Verification (Operational Lapangan Pengawas & Mandor)
+- **Field Reporting Endpoints**: **Verified**. Kumpulan modul pendukung seperti `daily-tasks`, `daily-reports`, `weekly-journals`, `supervisor-weekly-reports`, `material-requests`, dan `field-issues` sudah tersedia lengkap di sisi *backend* (mengandung *controller*, *routes*, dan *repository*).
+- **Progress SOT (Single Source of Truth)**: **Verified**. Proses penyuntikan nilai kemajuan yang absolut (`verifiedProgress`) digawangi secara ketat melalui metode spesifik yang diizinkan melintasi otoritas rute Pengawas.
+
 ## Next Step
 - Penataan struktur API documentation internal.

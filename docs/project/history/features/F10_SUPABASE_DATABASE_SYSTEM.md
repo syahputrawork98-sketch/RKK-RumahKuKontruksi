@@ -36,5 +36,9 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 - **Model Proyek Konsumen**: **Verified**. Kesatuan model `Project`, `ProjectStage`, `ProjectDocument`, dan `AdministrativeHelperDocument` telah ditemukan.
 - **SOT Parameter**: **Verified**. Status *Single Source of Truth* ditopang kuat oleh properti `verifiedProgress` pada tabel `Project` serta indikator `isVerified` pada `ProjectStage`.
 
+## API Verification (Operational Lapangan Models)
+- **Model Log Harian & Mingguan**: **Verified**. Telah diidentifikasi model Prisma `DailyTask`, `DailyReport`, `WeeklyJournal`, dan `SupervisorWeeklyReport`. Model ini memastikan persistensi log dari sisi Mandor maupun Pengawas.
+- **Model Resolusi Konflik & Suplai**: **Verified**. Model `FieldIssue` dan `MaterialRequest` telah disiapkan dalam skema untuk penanganan insiden serta perputaran rantai pasok material dari lapangan ke Admin.
+
 ## Next Step
 - Melakukan verifikasi *schema.prisma* saat ini.

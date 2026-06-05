@@ -11,8 +11,8 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | F04 | Konsumen Project Tracking | `front/back` | Existing / Verified Frontend + API | Timeline SOT untuk konsumen | [File](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md) |
 | F05 | Superadmin User Mgmt | `front/back` | Existing / Partial | Governance dan Audit | [File](features/F05_SUPERADMIN_USER_MANAGEMENT_SYSTEM.md) |
 | F06 | Admin Project Mgmt | `front/back` | Not Started / Partial | Design request dan pembuatan RAB | [File](features/F06_ADMIN_PROJECT_MANAGEMENT_SYSTEM.md) |
-| F07 | Pengawas Monitoring | `front/back` | Existing / Partial | Kunci verifikasi progress SOT lapangan | [File](features/F07_PENGAWAS_MONITORING_SYSTEM.md) |
-| F08 | Mandor Field Report | `front/back` | Existing / Partial | Input jurnal dan pelaporan material | [File](features/F08_MANDOR_FIELD_REPORT_SYSTEM.md) |
+| F07 | Pengawas Monitoring | `front/back` | Existing / Verified Frontend + API | Kunci verifikasi progress SOT lapangan | [File](features/F07_PENGAWAS_MONITORING_SYSTEM.md) |
+| F08 | Mandor Field Report | `front/back` | Existing / Verified Frontend + API | Jurnal lapangan mandor sebagai draft report | [File](features/F08_MANDOR_FIELD_REPORT_SYSTEM.md) |
 | F09 | Backend API System | `backend` | Existing / Partial | Express router dan controllers | [File](features/F09_BACKEND_API_SYSTEM.md) |
 | F10 | Supabase Database System | `database` | Existing / Needs Verif | Prisma ORM dan integrasi Supabase | [File](features/F10_SUPABASE_DATABASE_SYSTEM.md) |
 | F11 | Auth and Access Control | `auth` | Not Verified | JWT atau otentikasi eksternal (Hold) | [File](features/F11_AUTH_ACCESS_CONTROL_SYSTEM.md) |

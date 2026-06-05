@@ -44,5 +44,8 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 - **Superadmin Governance Endpoints**: **Verified**. Modul `superadmins` dan `audit-logs` berpadu dalam menegakkan manajemen pengguna, hak akses persona, serta log aktivitas menyeluruh.
 - **Admin Project Management Endpoints**: **Verified**. Rangkaian sistem `admins`, `projects`, `rab`, dan relasi `design-requests` telah dikonfigurasi guna menjamin alur persiapan pembangunan (*Project Readiness*) dan perhitungan *budgeting*.
 
+## API Verification (Auth & Access Control)
+- **Backend Auth Middleware**: **Not Verified**. Belum ditemukan implementasi *middleware* JWT, *controller* login asli, maupun gerbang otorisasi API tingkat *server*. Kontrol akses sejauh ini sepenuhnya disimulasikan secara absolut di lapisan *frontend*.
+
 ## Next Step
 - Penataan struktur API documentation internal.

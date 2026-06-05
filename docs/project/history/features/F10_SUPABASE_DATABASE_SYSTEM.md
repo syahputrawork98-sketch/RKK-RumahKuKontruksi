@@ -44,5 +44,8 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 - **Model Manajemen Inti**: **Verified**. Model spesifik tata kelola seperti `Superadmin`, `AuditLog`, dan `Admin` dipastikan tegak berdiri sebagai jangkar operasional utama platform.
 - **Model Finansial & Persiapan**: **Verified**. Kerangka hitung rencana anggaran diwakili secara struktural oleh model `RabPlan`, `RabCategory`, dan `RabItem` yang terkait utuh pada `Project`.
 
+## API Verification (Auth Models)
+- **Kredensial Keamanan**: **Not Verified**. Belum terdapat kolom pengamanan produksi (contoh: `passwordHash`, `salt`, `token`) di dalam `schema.prisma`. Autentikasi masih murni dikelola melalui seleksi entitas persona.
+
 ## Next Step
 - Melakukan verifikasi *schema.prisma* saat ini.

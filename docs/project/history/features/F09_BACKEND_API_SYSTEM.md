@@ -27,7 +27,10 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 - *Existing / Partial*
 
 ## Risiko / Needs Verification
-- *Needs Verification*: Keamanan rute dan skema error.
+- *Needs Verification*: Stabilitas saat menangani beban file/gambar berjumlah besar dari mandor dan pengawas.
+
+## API Verification (Design Request System)
+- **Design Request Endpoint**: **Verified**. Telah tersedia di `server/src/modules/design-requests/` secara lengkap melingkupi fungsi CRUD dasar, pencatatan sejarah pengajuan, hingga eskalasi menuju kerangka konstruksi. Modul dilengkapi secara utuh oleh rute (`routes.js`), penengah aksi (`controller.js`), dan lapisan manipulasi basis data (`repository.js`).
 
 ## Next Step
 - Penataan struktur API documentation internal.

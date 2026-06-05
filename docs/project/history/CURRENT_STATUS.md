@@ -6,7 +6,7 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 |----|------------|------|--------|-------------------|-------------|
 | F00 | Project Workflow Reset | `docs` | Completed | Reset alur kerja dan onboarding AI | [File](features/F00_PROJECT_WORKFLOW_RESET.md) |
 | F01 | Legacy Docs Migration and Cleanup | `docs` | In Progress / Partial | F01/F01B/F01C consolidated into F01; alur/modules pending verification; technical pending decision. | [File](features/F01_LEGACY_DOCS_MIGRATION_AND_CLEANUP.md) |
-| F02 | Public Website System | `frontend` | Existing / Verified Frontend | Membutuhkan verifikasi komponen publik | [File](features/F02_PUBLIC_WEBSITE_SYSTEM.md) |
+| F02 | Public Website System | `frontend` | Existing / Verified Frontend + API | Terintegrasi penuh ke backend Design Request | [File](features/F02_PUBLIC_WEBSITE_SYSTEM.md) |
 | F03 | Role and Layout System | `frontend` | Existing / Verified Frontend | Sidebar dan layout spesifik role | [File](features/F03_ROLE_AND_LAYOUT_SYSTEM.md) |
 | F04 | Konsumen Project Tracking | `front/back` | Existing / Partial | Timeline SOT untuk konsumen | [File](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md) |
 | F05 | Superadmin User Mgmt | `front/back` | Existing / Partial | Governance dan Audit | [File](features/F05_SUPERADMIN_USER_MANAGEMENT_SYSTEM.md) |

@@ -28,7 +28,10 @@ Sistem bagi Admin (dan/atau Arsitek internal) untuk merespons *Design Request*, 
 - *Not Started / Partial* (Struktur routing mungkin ada, namun logika *readiness* belum tuntas).
 
 ## Risiko / Needs Verification
-- *Needs Verification*: Bagaimana Admin menolak *Material Request* jika anggaran RAB melampaui batas (overbudget).
+- *Needs Verification*: Sejauh mana notifikasi berjalan dan apakah pembuatan RAB tersambung akurat ke modul *Finance*.
+
+## API Verification (Design Request Bridge)
+- **Status Bridge**: **Verified**. Terdapat fungsi `convertToProject` pada modul `design-requests` backend yang berfungsi sebagai gerbang transisi. Fungsi ini memvalidasi kelayakan status persetujuan, persetujuan konsumen, serta tinjauan akhir Admin sebelum melahirkan entitas *Project* berstatus `planning`.
 
 ## Next Step
 - Merancang dan memvalidasi dashboard Admin serta integrasi database-nya.

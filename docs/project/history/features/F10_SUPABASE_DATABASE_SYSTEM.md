@@ -27,7 +27,10 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 - *Existing / Needs Verification*
 
 ## Risiko / Needs Verification
-- *Needs Verification*: Bagaimana strategi sinkronisasi jika schema Prisma berubah secara drastis saat proses migrasi dari repositori lama.
+- *Needs Verification*: Kinerja relasional antar *table* saat data sudah mulai membengkak dan penerapan *Row-Level Security* (RLS).
+
+## API Verification (Design Request Models)
+- **Model DesignRequest**: **Verified**. Telah terdefinisi di `server/prisma/schema.prisma` mencakup `model DesignRequest` dan `model DesignRequestHistory`. Modul ini siap menampung data riil yang disuntikkan dari formulir publik `client`.
 
 ## Next Step
 - Melakukan verifikasi *schema.prisma* saat ini.

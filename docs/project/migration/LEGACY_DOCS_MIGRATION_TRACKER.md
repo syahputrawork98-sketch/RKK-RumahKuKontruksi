@@ -9,4 +9,4 @@ Tracker untuk melacak status migrasi setiap dokumen lama ke sistem dokumentasi a
 | 3 | `batches/` | `docs/project/history/FEATURE_HISTORY.md` | Summarized — Pending Cleanup Approval | Low | Historical summary created in F01D.5; original files retained until cleanup batch |
 | 4 | `modules/` | `docs/project/history/features/` | Migrated — Pending Per-Feature Verification | High | Initial active summary created in F01D.2; not yet approved for cleanup |
 | 5 | `technical/` | `docs/frontend/`, `docs/backend/`, `docs/database/` | Migrated | High | Migrated in F01D.1 |
-| 6 | `project-root/` | `docs/project/README.md` | Consolidated | Low | Loose files consolidated in F01D.3 |
+| 6 | `project-root/` | `docs/project/README.md` | Deleted in F01E.2 | Low | Consolidated project root legacy removed after F01D.3 |

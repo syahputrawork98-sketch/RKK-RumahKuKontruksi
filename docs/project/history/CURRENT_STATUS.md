@@ -14,6 +14,7 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | F01D.4 | Compact Feature Summary | `docs` | Completed | Pembuatan ringkasan root (FITUR.md) | [File](features/F01D4_RKK_COMPACT_FEATURE_SUMMARY.md) |
 | F01D.5 | Legacy Batches Consolidation | `docs` | Completed | Peringkasan log sejarah legacy batch lama | [File](features/F01D5_LEGACY_BATCHES_HISTORY_SUMMARY.md) |
 | F01E.1 | Low-Risk Legacy Archive Cleanup | `docs` | Completed | Eksekusi penghapusan folder archive/ | [File](features/F01E1_LOW_RISK_LEGACY_ARCHIVE_CLEANUP.md) |
+| F01E.2 | Consolidated Project Root Cleanup | `docs` | Completed | Eksekusi penghapusan folder project-root/ | [File](features/F01E2_CONSOLIDATED_PROJECT_ROOT_LEGACY_CLEANUP.md) |
 | F02 | Public Website System | `frontend` | Not Started / Existing | Membutuhkan verifikasi komponen publik | [File](features/F02_PUBLIC_WEBSITE_SYSTEM.md) |
 | F03 | Role and Layout System | `frontend` | Existing / Partial | Sidebar dan layout spesifik role | [File](features/F03_ROLE_AND_LAYOUT_SYSTEM.md) |
 | F04 | Konsumen Project Tracking | `front/back` | Existing / Partial | Timeline SOT untuk konsumen | [File](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md) |

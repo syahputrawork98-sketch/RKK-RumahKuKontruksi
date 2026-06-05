@@ -16,5 +16,5 @@ Dashboard utama pelacakan progres fitur (Feature Tracker) pada Proyek RumahKu Ko
 | F09 | Backend API System | `backend` | Existing / Partial | Express router dan controllers | [File](features/F09_BACKEND_API_SYSTEM.md) |
 | F10 | Supabase Database System | `database` | Existing / Needs Verif | Prisma ORM dan integrasi Supabase | [File](features/F10_SUPABASE_DATABASE_SYSTEM.md) |
 | F11 | Auth and Access Control | `auth` | Existing / Partial (Dev Mock) | JWT atau otentikasi eksternal (Hold) | [File](features/F11_AUTH_ACCESS_CONTROL_SYSTEM.md) |
-| F12 | Report / PDF Export | `frontend` | Not Started | Konversi report progress menjadi PDF | [File](features/F12_REPORT_PDF_EXPORT_SYSTEM.md) |
+| F12 | Report / PDF Export | `frontend` | Existing / Verified Frontend | RAB PDF export MVP implemented on Admin side | [File](features/F12_REPORT_PDF_EXPORT_SYSTEM.md) |
 | F13 | Deployment System | `deployment` | Not Started | Infrastruktur produksi (Hold) | [File](features/F13_DEPLOYMENT_SYSTEM.md) |

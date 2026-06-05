@@ -4,7 +4,7 @@
 Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progress* maupun RAB proyek.
 
 ## Status
-- **Current Status**: Not Started
+- **Current Status**: Existing / Verified Frontend
 
 ## Scope
 - Ekspor Laporan Kemajuan Proyek (Progress).
@@ -33,5 +33,12 @@ Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progr
 - **Database Model**: Pelaporan masih mengandalkan struktur penyimpanan bawaan (seperti `DailyReport` dan `ProjectDocument`), tidak ada model khusus atau pemicu tabel yang dideksekusi murni untuk keluaran ekspor eksternal.
 - **Keputusan Status**: Tervalidasi belum dibangun (*Not Started*). Instalasi pustaka pada *package.json* sekadar persiapan infrastruktur pasif (*dormant dependencies*).
 
+## Implementation Verification
+- **Frontend RAB PDF Export**: Implemented.
+- **Library**: `jspdf` + `jspdf-autotable`.
+- **Backend Generator**: Not Started.
+- **Scope**: Admin RAB export MVP.
+- **Decision Status**: Existing / Verified Frontend.
+
 ## Next Step
-- Mengimplementasikan logika fungsional `jspdf` untuk ekspor dokumen di *frontend*.
+- Mengimplementasikan logika fungsional `jspdf` untuk ekspor dokumen di fitur lain jika dibutuhkan.

@@ -1,5 +1,6 @@
-import { FiFileText, FiPlus, FiInfo, FiUpload } from "react-icons/fi";
+import { FiFileText, FiPlus, FiInfo, FiUpload, FiDownload } from "react-icons/fi";
 import { formatCurrency } from "./rabUtils";
+import { exportRabToPdf } from "../../../utils/rabPdfExport";
 
 const RabSummarySidebar = ({ 
     rabPlan, 
@@ -46,6 +47,12 @@ const RabSummarySidebar = ({
                         className="w-full flex items-center justify-center gap-2 py-3 bg-white text-[var(--dashboard-primary)] border border-[var(--dashboard-primary)] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[var(--dashboard-primary)] hover:text-white transition-all shadow-sm"
                     >
                         <FiUpload /> Import CSV
+                    </button>
+                    <button 
+                        onClick={() => exportRabToPdf(project, rabPlan)}
+                        className="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-red-600 border border-red-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white hover:border-red-600 transition-all shadow-sm"
+                    >
+                        <FiDownload /> Export PDF
                     </button>
                     <button 
                         onClick={onRefresh}

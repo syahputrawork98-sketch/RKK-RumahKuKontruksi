@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
     FiArrowLeft, FiSave, FiSend, FiAlertCircle, FiInfo, FiCheckCircle, 
-    FiClock, FiUser, FiMessageSquare, FiActivity, FiTag
+    FiClock, FiUser, FiMessageSquare, FiActivity, FiTag, FiDownload
 } from "react-icons/fi";
+import { exportSupervisorWeeklyReportToPdf } from "../../utils/supervisorWeeklyReportPdfExport";
 import { useSupervisorPersona } from "../../context/SupervisorPersonaContext";
 import supervisorWeeklyReportService from "../../services/supervisorWeeklyReportService";
 import SupervisorReportStatusBadge from "../../components/ui/badges/SupervisorReportStatusBadge";
@@ -158,6 +159,14 @@ const DetailLaporanMingguanPengawasPage = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
+                    <button 
+                        onClick={() => exportSupervisorWeeklyReportToPdf(report)}
+                        disabled={!report}
+                        className="flex items-center gap-2 px-6 py-2 bg-red-50 text-red-600 border border-red-200 rounded-xl font-bold text-xs hover:bg-red-600 hover:text-white hover:border-red-600 disabled:opacity-50 transition-all"
+                        title={!report ? "Data laporan tidak tersedia" : "Export Laporan ke PDF"}
+                    >
+                        <FiDownload /> Export PDF
+                    </button>
                     {isEditable && (
                         <>
                             {!editMode ? (

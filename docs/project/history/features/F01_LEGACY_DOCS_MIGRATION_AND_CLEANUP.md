@@ -6,7 +6,7 @@ F01 adalah fase merapikan dokumentasi RKK lama menjadi struktur aktif yang compa
 ## Status
 In Progress / Partial
 
-*Catatan: Jangan mengubah ke Completed dulu karena `alur/`, `modules/`, dan `technical/` belum selesai keputusan akhirnya.*
+*Catatan: Audit Final Legacy Cleanup Readiness telah dilakukan. `alur/`, `modules/`, dan `technical/` terkonfirmasi `MIGRATED` seiring selesainya verifikasi `F02-F12`.*
 
 ## Story
 RKK awalnya memiliki banyak dokumen lama dan file longgar dari pengerjaan lampau yang berserakan di repositori. Batch F01 hadir untuk memigrasikan informasi penting ke dalam dokumentasi aktif RKK, memadatkan sejarah pengerjaan, dan membersihkan area *legacy* yang sudah aman, sembari mempertahankan struktur dasar untuk diverifikasi kelak saat *codebase* diperbaiki.
@@ -63,5 +63,34 @@ Kondisi terbaru pada sistem dokumentasi:
 - Jangan membuat history note anak baru lagi untuk pekerjaan kecil.
 
 ## Next Step
-- Jika mau lanjut docs cleanup: Mulai F01E.4 Technical Cleanup, tetapi hanya setelah keputusan Roomchat 00 yang tegas.
-- Jika mau lanjut produk: Mulai proses verifikasi *codebase* F02/F03 (Frontend publik / layout role).
+- Melaksanakan pembersihan (*cleanup*) sisa berkas `docs/_legacy/` setelah mendapat persetujuan final dari *Roomchat 00*.
+
+## Final Legacy Cleanup Readiness Audit
+
+### Scope
+- `docs/_legacy/original-docs/`
+
+### Summary
+- Total legacy files checked: 48
+- Migrated: 28 (`alur/`, `modules/`, `technical/`)
+- Partial migrated: 0
+- Migration needed: 0
+- Duplicate safe delete candidates: 20 (`history-notes/`, `project-control/`, `README.md`)
+- Keep temporary: 0
+
+### Mapping Result
+| Folder / Legacy File Category | Status | Target / Reason |
+|---|---|---|
+| `alur/*` (9 files) | `MIGRATED` | Terdistribusi ke abstraksi fungsional `F02-F13`. |
+| `modules/*` (12 files) | `MIGRATED` | Terangkum utuh dalam spesifikasi sistem di `F02-F13`. |
+| `technical/*` (7 files) | `MIGRATED` | Terintegrasi ke analisis teknikal `F09` (Backend) & `F10` (Database). |
+| `history-notes/*` (11 files) | `DUPLICATE_SAFE_DELETE` | Jejak historis telah diringkas mutlak ke dalam `F01_LEGACY_DOCS_MIGRATION_AND_CLEANUP.md`. |
+| `project-control/baseline/*` (5 files) | `DUPLICATE_SAFE_DELETE` | Status peninjauan termutakhir direkam sepenuhnya oleh `CURRENT_STATUS.md`. |
+| `project-control/migration/*` (4 files) | `DUPLICATE_SAFE_DELETE` | Proses migrasi telah tuntas direpresentasikan oleh riwayat log F01. |
+
+### Cleanup Recommendation
+- **Safe to delete now**: Yes
+- **Required migration before delete**:
+  - (Nihil, konsolidasi informasi fitur `F02-F12` telah diinisiasi dan divalidasi penuh).
+- **Recommended next batch**:
+  - Eksekusi pembersihan absolut untuk seluruh direktori `docs/_legacy/original-docs/`.

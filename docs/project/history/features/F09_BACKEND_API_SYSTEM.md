@@ -40,5 +40,9 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 - **Field Reporting Endpoints**: **Verified**. Kumpulan modul pendukung seperti `daily-tasks`, `daily-reports`, `weekly-journals`, `supervisor-weekly-reports`, `material-requests`, dan `field-issues` sudah tersedia lengkap di sisi *backend* (mengandung *controller*, *routes*, dan *repository*).
 - **Progress SOT (Single Source of Truth)**: **Verified**. Proses penyuntikan nilai kemajuan yang absolut (`verifiedProgress`) digawangi secara ketat melalui metode spesifik yang diizinkan melintasi otoritas rute Pengawas.
 
+## API Verification (Superadmin & Admin Management)
+- **Superadmin Governance Endpoints**: **Verified**. Modul `superadmins` dan `audit-logs` berpadu dalam menegakkan manajemen pengguna, hak akses persona, serta log aktivitas menyeluruh.
+- **Admin Project Management Endpoints**: **Verified**. Rangkaian sistem `admins`, `projects`, `rab`, dan relasi `design-requests` telah dikonfigurasi guna menjamin alur persiapan pembangunan (*Project Readiness*) dan perhitungan *budgeting*.
+
 ## Next Step
 - Penataan struktur API documentation internal.

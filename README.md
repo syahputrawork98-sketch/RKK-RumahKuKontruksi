@@ -10,6 +10,9 @@ Memudahkan pemantauan progres, kolaborasi antar peran, serta pelaporan setiap ta
 - `server/` - Berisi source code untuk backend API.
 - `docs/` - Pusat dokumentasi teknis dan sistem kerja proyek.
 
+> [!TIP]
+> Untuk melihat ringkasan arsitektur, peran, dan status fungsional fitur secara cepat, silakan merujuk pada file [**FITUR.md**](FITUR.md).
+
 ## Tech Stack
 - **Frontend**: React, Vite, Tailwind CSS, React Router
 - **Backend**: Node.js, Express
@@ -32,6 +35,7 @@ npm run dev
 ```
 
 ## Catatan Penting
+- Ringkasan fitur tersedia di [FITUR.md](FITUR.md).
 - Dokumentasi teknis proyek, status fitur, dan workflow tersedia di folder `docs/`.
 - GitHub adalah *source of truth* utama untuk seluruh code dan dokumentasi.
 - Perubahan pada project ini dilakukan secara bertahap menggunakan metode *batch kecil* untuk menjaga stabilitas.

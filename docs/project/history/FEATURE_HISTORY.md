@@ -15,6 +15,8 @@ Halaman ini mengindeks semua riwayat perencanaan dan pengerjaan fitur secara det
   *(Batch ini memetakan alur bisnis dan peran dari dokumen lama).*
 - [F01D.3 — Project Docs Root Consolidation and Compact Index](features/F01D3_PROJECT_DOCS_ROOT_CONSOLIDATION.md)
   *(Batch ini mengonsolidasi file longgar di docs/project ke dalam folder legacy/quarantine dan memusatkan indeks).*
+- [F01D.4 — RKK Compact Feature Summary and Status Dashboard](features/F01D4_RKK_COMPACT_FEATURE_SUMMARY.md)
+  *(Batch ini membuat dashboard ringkas root repositori dan merestrukturisasi tabel status).*
 - [F02 — Public Website System](features/F02_PUBLIC_WEBSITE_SYSTEM.md)
 - [F03 — Role and Layout System](features/F03_ROLE_AND_LAYOUT_SYSTEM.md)
 - [F04 — Konsumen Project Tracking System](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md)

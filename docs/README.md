@@ -13,8 +13,9 @@ Selamat datang di Pusat Dokumentasi RKK (RumahKu Konstruksi). Folder `docs/` ini
 ## Urutan Membaca (Onboarding)
 Untuk memahami proyek ini dari awal, silakan ikuti urutan membaca berikut:
 1. `README.md` (root repository)
-2. `docs/README.md` (dokumen ini)
-3. `docs/project/README.md`
+2. `FITUR.md` (ringkasan fungsional)
+3. `docs/README.md` (dokumen ini)
+4. `docs/project/README.md`
 4. `docs/project/onboarding/CHATGPT_PROJECT_INSTRUCTIONS.md`
 5. `docs/project/workflow/WORKING_SYSTEM.md`
 6. `docs/project/history/CURRENT_STATUS.md`

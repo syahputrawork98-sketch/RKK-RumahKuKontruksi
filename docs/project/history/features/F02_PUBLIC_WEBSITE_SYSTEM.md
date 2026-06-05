@@ -33,6 +33,7 @@ Sistem antarmuka publik untuk pengunjung non-login yang ingin melihat profil RKK
 - [x] Prisma `DesignRequest` tersimpan via `/design-requests`
 
 ## Notes
-- [F02C] Structured brief terpadatkan ke field `description`.
-- [F02D] Guest routes, MainLayout, CTA diverifikasi aktif.
-- [F02E] Sub-batch story ter-update.
+- [F02A/F02B] Initial verifications; status awal public website sebelum pembedahan.
+- [F02C] Frontend form terkoneksi ke backend via `designRequestService.js`. Endpoint `/design-requests` dan Prisma model `DesignRequest` telah tervalidasi. *Structured brief* konsumen berhasil dipadatkan ke field `description`.
+- [F02D] Guest routes (layanan, cara-kerja, proyek, about, contact) telah divalidasi dan berjalan dengan baik di bawah `MainLayout`. Navigasi CTA menuju route aktif telah diverifikasi.
+- [F02E] Sub-batch story dokumentasi di-update secara komprehensif.

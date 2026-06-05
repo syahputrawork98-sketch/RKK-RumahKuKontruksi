@@ -33,4 +33,7 @@ Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progr
 - [ ] Backend PDF Generator (jika kelak dibutuhkan)
 
 ## Notes
-- [F12A-D] Pengerjaan difokuskan pada frontend-only PDF generation.
+- [F12A] Audit awal: dependensi PDF (`jspdf` & `jspdf-autotable`) sudah tersedia di client.
+- [F12B] RAB PDF Export MVP dibuat untuk halaman RAB Admin (frontend-only).
+- [F12C] UX hardening ekspor PDF RAB; pencegahan error jika data RAB kosong/null.
+- [F12D] Export PDF MVP untuk laporan mingguan Pengawas (Supervisor Weekly Report) berhasil diterapkan di antarmuka. Pengerjaan F12 ini murni digerakkan lewat generator client.

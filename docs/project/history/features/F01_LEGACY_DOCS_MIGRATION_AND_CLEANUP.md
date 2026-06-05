@@ -25,7 +25,7 @@ RKK awalnya memiliki banyak dokumen lama dan file longgar dari pengerjaan lampau
 - Jangan membuat history note anak baru lagi untuk pekerjaan kecil.
 
 ## Next Step
-- Melaksanakan pembersihan (*cleanup*) sisa berkas `docs/_legacy/` setelah mendapat persetujuan final dari *Roomchat 00*.
+- Mengawal standar dokumentasi aktif RKK agar tidak ada lagi file berserakan.
 
 ## Validation Checklist
 - [x] Legacy docs termetakan
@@ -33,4 +33,7 @@ RKK awalnya memiliki banyak dokumen lama dan file longgar dari pengerjaan lampau
 - [x] Folder archive terhapus bersih
 
 ## Notes
-- [F01C] Cleanup aman dilakukan, tidak ada data loss.
+- [F01A] Mapping dokumen legacy selesai dipetakan.
+- [F01B] Dokumen krusial (alur, modul, dll) telah diselamatkan ke sistem dokumentasi aktif.
+- [F01C] Cleanup berhasil; folder `docs/_legacy/original-docs/` sudah dihapus secara permanen.
+- Keputusan akhir: F01 resmi ditutup (*Completed*). Total legacy files deleted berjumlah 48 files. Area legacy lain yang sengaja dipertahankan tidak akan dihapus.

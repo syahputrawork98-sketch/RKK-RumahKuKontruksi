@@ -4,8 +4,9 @@
 Sistem keamanan lapisan inti untuk memverifikasi kredensial dan mengatur batas privasi pengguna berdasarkan *role* (Authentication & Authorization).
 
 ## Status
-- **Current Status**: Existing / Partial (Dev Mock Auth Only)
-
+- **Current Status**: Existing / Partial (Dev Mock)
+## Sub-Batch Story
+- **F11**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Integrasi JWT Auth / Supabase Auth.
 - Proteksi Route Frontend.
@@ -25,9 +26,6 @@ Sistem keamanan lapisan inti untuk memverifikasi kredensial dan mengatur batas p
 ## Status Implementasi Saat Ini
 - *Not Verified* (kemungkinan masih digantikan *Dev Persona Switcher*).
 
-## Risiko / Needs Verification
-- *Needs Verification*: Peralihan strategi dari mock autentikasi `DevAuth` menuju JWT atau Supabase GoTrue untuk lingkungan produksi sesungguhnya.
-
 ## Codebase Verification
 - **Frontend Auth Handling**: Menggunakan sistem simulasi *Developer Persona Switcher*. Komponen utama meliputi `DevAuthContext.jsx` untuk *state management* persona, dan `SignInPage.jsx` tanpa *input password*.
 - **Route Protection**: Penjagaan rute *frontend* telah berfungsi menggunakan `DevRouteGuard.jsx` yang bersandar pada validasi *local storage* (`rkk.devAuth`) untuk mengecek otoritas *role prefix*.
@@ -35,5 +33,14 @@ Sistem keamanan lapisan inti untuk memverifikasi kredensial dan mengatur batas p
 - **Database Model**: **Tidak Ditemukan**. Skema Prisma bersih dari kolom penampung kredensial rahasia (seperti `passwordHash` atau `sessionToken`).
 - **Keputusan Status**: Tervalidasi sebagian secara eksklusif untuk kepentingan pengembangan (*Existing / Partial*). Alur autentikasi produksi belum diimplementasikan.
 
+## Verification Coverage
+- **Frontend**: Partial
+- **Backend/API**: Partial
+- **Database/Prisma**: Not Verified
+- **Auth/Access**: Dev Mock
+- **Build/Validation**: Not Run
 ## Next Step
 - Merancang alur otentikasi asli untuk produksi.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Peralihan strategi dari mock autentikasi `DevAuth` menuju JWT atau Supabase GoTrue untuk lingkungan produksi sesungguhnya.

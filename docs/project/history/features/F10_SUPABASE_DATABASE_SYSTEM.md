@@ -5,7 +5,8 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 
 ## Status
 - **Current Status**: Existing / Needs Verification
-
+## Sub-Batch Story
+- **F10**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Skema Tabel (Persona, Project, Operasional, Log).
 - Eksekusi Prisma Migration.
@@ -25,6 +26,15 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 
 ## Status Implementasi Saat Ini
 - *Existing / Needs Verification*
+
+## Verification Coverage
+- **Frontend**: Partial
+- **Backend/API**: Not Verified
+- **Database/Prisma**: Partial
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Not Run
+## Next Step
+- Melakukan verifikasi *schema.prisma* saat ini.
 
 ## Risiko / Needs Verification
 - *Needs Verification*: Kinerja relasional antar *table* saat data sudah mulai membengkak dan penerapan *Row-Level Security* (RLS).
@@ -49,6 +59,3 @@ Sistem penyimpanan data dan pengelolaan skema dengan menggunakan Prisma ORM dan 
 
 ## API Verification (Report Models)
 - **Model Ekspor**: **Not Started**. Tidak ada model spesifik untuk menampung tautan PDF generik hasil konversi. Fungsionalitas pelaporan mengandalkan tarikan data mentah ke model eksisting seperti `DailyReport`, `WeeklyJournal`, maupun `ProjectDocument`.
-
-## Next Step
-- Melakukan verifikasi *schema.prisma* saat ini.

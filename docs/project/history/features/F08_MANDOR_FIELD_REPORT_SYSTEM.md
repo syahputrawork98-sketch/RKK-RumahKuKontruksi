@@ -5,7 +5,8 @@ Sistem pencatatan log aktivitas harian oleh Mandor di lapangan, yang mencakup pe
 
 ## Status
 - **Current Status**: Existing / Verified Frontend + API
-
+## Sub-Batch Story
+- **F08**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Input Jurnal Harian.
 - Pengajuan *Material Request* lokal.
@@ -27,9 +28,6 @@ Sistem pencatatan log aktivitas harian oleh Mandor di lapangan, yang mencakup pe
 ## Status Implementasi Saat Ini
 - *Existing / Partial*
 
-## Risiko / Needs Verification
-- *Needs Verification*: Koneksi *Material Request* menuju persetujuan Admin yang mengontrol budget RAB.
-
 ## Codebase Verification
 - **Frontend Routes/Components**: Ditemukan komponen aktif untuk Mandor: Dashboard (`DashboardMandor`), Jurnal Mingguan (`JurnalMingguanMandorPage`), Tugas Harian (`TugasHarianMandorPage`), Laporan Harian (`LaporanHarianMandorPage`), Request Material (`RequestMaterialMandorPage`), Kendala Lapangan (`KendalaLapanganMandorPage`).
 - **API Service**: Menggunakan layanan `foremanService.js`, `dailyTaskService.js`, `dailyReportService.js`, `weeklyJournalService.js`, `materialRequestService.js`, `fieldIssues.service.js`.
@@ -38,5 +36,14 @@ Sistem pencatatan log aktivitas harian oleh Mandor di lapangan, yang mencakup pe
 - **Daily/Weekly/Material/Field Issue Status**: **Verified**. Setiap elemen pelaporan fisik dari lapangan memiliki rute halaman mandiri dan *endpoint* penyimpanan *backend*. Catatan mandor bersifat *log* yang menanti verifikasi Pengawas.
 - **Keputusan Status**: Tervalidasi utuh lintas *stack* (*Existing / Verified Frontend + API*).
 
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Verified
+- **Database/Prisma**: Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
 ## Next Step
 - Memverifikasi endpoint upload dan flow Jurnal Harian.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Koneksi *Material Request* menuju persetujuan Admin yang mengontrol budget RAB.

@@ -5,7 +5,8 @@ Sistem pelacakan proyek khusus untuk role Konsumen, meliputi pengajuan desain, p
 
 ## Status
 - **Current Status**: Existing / Verified Frontend + API
-
+## Sub-Batch Story
+- **F04**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Dashboard Konsumen.
 - Modul *Design Request* & *Payment*.
@@ -26,9 +27,6 @@ Sistem pelacakan proyek khusus untuk role Konsumen, meliputi pengajuan desain, p
 ## Status Implementasi Saat Ini
 - *Existing / Partial*
 
-## Risiko / Needs Verification
-- *Partial*: Interaksi dokumen (unggah/unduh) memerlukan perbaikan struktur dan pengikatan ke cloud storage.
-
 ## Codebase Verification
 - **Frontend Routes/Components**: Ditemukan komponen aktif untuk Konsumen: `Proyek` (Daftar Proyek), `TimelineProyek` (Detail/Timeline Proyek), dan navigasi ke dokumen administratif (`CustomerAdministrativeHelperDocumentsPage`).
 - **API Service**: Menggunakan `projectService.js` (dengan `apiClient.get('/projects')`, `/projects/:id/stages`, `/projects/:id/rab`) serta service khusus dokumen administratif.
@@ -39,5 +37,14 @@ Sistem pelacakan proyek khusus untuk role Konsumen, meliputi pengajuan desain, p
 - **Build/Check Result**: *Pass*. Pembangunan *bundle* frontend (Vite) berjalan tanpa rintangan fatal.
 - **Keputusan Status**: Tervalidasi (*Existing / Verified Frontend + API*). Fungsionalitas dasar telah menjangkau dari sisi UI konsumen hingga persimpangan database relasional.
 
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Verified
+- **Database/Prisma**: Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
 ## Next Step
 - Verifikasi *codebase* untuk dashboard Konsumen.
+
+## Risiko / Needs Verification
+- *Partial*: Interaksi dokumen (unggah/unduh) memerlukan perbaikan struktur dan pengikatan ke cloud storage.

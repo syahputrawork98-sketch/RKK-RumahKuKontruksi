@@ -5,7 +5,8 @@ Sistem operasional bagi Pengawas lapangan yang bertugas mengecek pekerjaan Mando
 
 ## Status
 - **Current Status**: Existing / Verified Frontend + API
-
+## Sub-Batch Story
+- **F07**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Modul Persetujuan *Material Request*.
 - Modul *Progress SOT Update*.
@@ -26,9 +27,6 @@ Sistem operasional bagi Pengawas lapangan yang bertugas mengecek pekerjaan Mando
 ## Status Implementasi Saat Ini
 - *Existing / Partial*
 
-## Risiko / Needs Verification
-- *Needs Verification*: Bagaimana sistem menangani *overriding* nilai progres oleh Pengawas jika Mandor mengisi *daily log* secara tidak logis.
-
 ## Codebase Verification
 - **Frontend Routes/Components**: Ditemukan komponen aktif untuk Pengawas: Dashboard (`DashboardPengawas`), Verifikasi Progres (`VerifikasiProgresPengawasPage`), Laporan Mingguan (`LaporanMingguanPengawasPage`), Request Material (`RequestMaterialPengawasPage`), Jurnal Mandor (`JurnalMandorPengawasPage`), Kendala Lapangan (`KendalaLapanganPengawasPage`).
 - **API Service**: Menggunakan layanan `supervisorService.js`, `progressService.js`, `supervisorWeeklyReportService.js`, `materialRequestService.js`, `fieldIssues.service.js`.
@@ -38,5 +36,14 @@ Sistem operasional bagi Pengawas lapangan yang bertugas mengecek pekerjaan Mando
 - **Weekly/Daily/Field Issue Status**: **Verified**. Seluruh fungsionalitas pendukung (validasi jurnal, pembuatan laporan mingguan pengawas, tinjauan request material, dan manajemen isu/kendala) telah diwadahi oleh komponen *frontend* dan modul *backend* yang sepadan.
 - **Keputusan Status**: Tervalidasi utuh lintas *stack* (*Existing / Verified Frontend + API*).
 
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Verified
+- **Database/Prisma**: Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
 ## Next Step
 - Validasi modul pelaporan pengawas pada *codebase* backend.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Bagaimana sistem menangani *overriding* nilai progres oleh Pengawas jika Mandor mengisi *daily log* secara tidak logis.

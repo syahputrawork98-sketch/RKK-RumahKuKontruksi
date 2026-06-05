@@ -5,7 +5,8 @@ Sistem bagi Admin (dan/atau Arsitek internal) untuk merespons *Design Request*, 
 
 ## Status
 - **Current Status**: Existing / Verified Frontend + API
-
+## Sub-Batch Story
+- **F06**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Manajemen siklus awal proyek (*Approval* desain dan RAB).
 - *Construction Readiness Check*.
@@ -27,12 +28,6 @@ Sistem bagi Admin (dan/atau Arsitek internal) untuk merespons *Design Request*, 
 ## Status Implementasi Saat Ini
 - *Not Started / Partial* (Struktur routing mungkin ada, namun logika *readiness* belum tuntas).
 
-## Risiko / Needs Verification
-- *Needs Verification*: Sejauh mana notifikasi berjalan dan apakah pembuatan RAB tersambung akurat ke modul *Finance*.
-
-## API Verification (Design Request Bridge)
-- **Status Bridge**: **Verified**. Terdapat fungsi `convertToProject` pada modul `design-requests` backend yang berfungsi sebagai gerbang transisi. Fungsi ini memvalidasi kelayakan status persetujuan, persetujuan konsumen, serta tinjauan akhir Admin sebelum melahirkan entitas *Project* berstatus `planning`.
-
 ## Codebase Verification
 - **Frontend Routes/Components**: Seluruh laman kendali Admin (`DashboardAdmin`, `ProyekAdminPage`, `CreateProyekAdminPage`, `RabAdminPage`, `DesignRequestAdminPage`, dsb) diakomodasi kuat dalam `AdminLayout`.
 - **API Service**: Memanfaatkan gerbang koneksi terpusat lewat `adminService.js`, `rabService.js`, `designRequestService.js`, dan `projectService.js`.
@@ -42,5 +37,17 @@ Sistem bagi Admin (dan/atau Arsitek internal) untuk merespons *Design Request*, 
 - **RAB & Project Readiness**: **Verified**. Logika pengerjaan detail biaya diwakili oleh kerangka `RabPlan`, dan hierarki pekerjaan (`RabCategory`, `RabItem`).
 - **Keputusan Status**: Tervalidasi (*Existing / Verified Frontend + API*). Fungsionalitas manajemen admin berdiri tegak tak sekadar antarmuka, melainkan terhubung fungsional menembus lapisan data.
 
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Verified
+- **Database/Prisma**: Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
 ## Next Step
 - Merancang dan memvalidasi dashboard Admin serta integrasi database-nya.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Sejauh mana notifikasi berjalan dan apakah pembuatan RAB tersambung akurat ke modul *Finance*.
+
+## API Verification (Design Request Bridge)
+- **Status Bridge**: **Verified**. Terdapat fungsi `convertToProject` pada modul `design-requests` backend yang berfungsi sebagai gerbang transisi. Fungsi ini memvalidasi kelayakan status persetujuan, persetujuan konsumen, serta tinjauan akhir Admin sebelum melahirkan entitas *Project* berstatus `planning`.

@@ -4,15 +4,25 @@
 Proyek RKK memiliki basis kode frontend dan backend yang sudah berjalan secara parsial (dengan fungsionalitas multi-role), tetapi kurangnya dokumentasi manajemen operasional yang terstruktur dapat menyebabkan inkonsistensi saat dikerjakan berkolaborasi antara User dan AI di masa depan. Oleh karena itu, diperlukan pengaturan ulang sistem kerja (workflow reset).
 
 ## Status
-- **Current Status**: Completed
-
-## Tujuan
-Membuat fondasi sistem kerja baru untuk repository RKK agar proyek lebih terarah, terdokumentasi, dan mudah dikendalikan. Sistem kerja ini mengatur alur pengerjaan batch, aturan AI, ukuran tugas, dan struktur direktori `docs/project/`.
-
+- **Current Status**: Not Started
+## Sub-Batch Story
+- **F00**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Dokumentasi root (`README.md`)
 - Direktori `docs/`
 - Direktori manajemen di `docs/project/` (onboarding, workflow, history, baseline)
+
+## Verification Coverage
+- **Frontend**: Partial
+- **Backend/API**: Not Verified
+- **Database/Prisma**: Not Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Not Run
+## Next Step
+- Menyelesaikan baseline existing RKK (F01).
+
+## Tujuan
+Membuat fondasi sistem kerja baru untuk repository RKK agar proyek lebih terarah, terdokumentasi, dan mudah dikendalikan. Sistem kerja ini mengatur alur pengerjaan batch, aturan AI, ukuran tugas, dan struktur direktori `docs/project/`.
 
 ## File yang Dibuat / Diubah
 - `README.md`
@@ -38,6 +48,3 @@ Membuat fondasi sistem kerja baru untuk repository RKK agar proyek lebih terarah
 - Semua file dokumentasi berhasil dibuat sesuai dengan format dan aturan.
 - Struktur `docs/project` merepresentasikan sistem manajerial yang utuh.
 - Panduan peran dan AI onboarding sudah terdefinisi.
-
-## Next Step
-- Menyelesaikan baseline existing RKK (F01).

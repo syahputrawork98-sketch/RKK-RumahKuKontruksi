@@ -5,7 +5,8 @@ Sistem dasar yang mengatur *layout* spesifik untuk setiap peran (*role*) dan pen
 
 ## Status
 - **Current Status**: Existing / Verified Frontend
-
+## Sub-Batch Story
+- **F03**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Komponen Layout per role.
 - Mekanisme navigasi Sidebar/Header dinamis.
@@ -26,14 +27,20 @@ Sistem dasar yang mengatur *layout* spesifik untuk setiap peran (*role*) dan pen
 ## Status Implementasi Saat Ini
 - *Existing / Partial* (Switcher aktif di lokal).
 
-## Risiko / Needs Verification
-- *Needs Verification*: Bagaimana transisi *Dev Persona Switcher* menuju sistem otentikasi JWT asli.
-
 ## Codebase Verification
 - **Layout / Role Component Ditemukan**: Ketujuh *layout* spesifik peran terdeteksi utuh di dalam `App.jsx`, meliputi `MainLayout`, `KonsumenLayout`, `SuperadminLayout`, `AdminLayout`, `PengawasLayout`, `MandorLayout`, dan `ArsitekLayout`.
 - **Sidebar / Header Status**: Komponen navigasi *sidebar* dan *header* melekat utuh dalam implementasi *layout* di tiap peran, dibuktikan dengan keberhasilan render rute.
 - **Developer Persona Switcher Status**: Teridentifikasi dalam wujud penggunaan kumpulan *Provider* pelacak status khusus (seperti `CustomerPersonaProvider`, `SuperadminPersonaProvider`, dsb) di setiap cakupan rute `DevRouteGuard`.
 - **Build Result**: *Pass*. Proses kompilasi kode Vite berjalan sukses.
 
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Not Verified
+- **Database/Prisma**: Not Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
 ## Next Step
 - Verifikasi kelancaran peralihan sesi (*persona switcher*) ke sistem otentikasi nyata yang dihubungkan dengan API/backend sesungguhnya.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Bagaimana transisi *Dev Persona Switcher* menuju sistem otentikasi JWT asli.

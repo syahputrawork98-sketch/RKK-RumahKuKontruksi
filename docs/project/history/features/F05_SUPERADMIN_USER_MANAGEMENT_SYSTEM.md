@@ -5,7 +5,8 @@ Sistem kontrol tertinggi yang mengelola semua pengguna, hak akses, *master data*
 
 ## Status
 - **Current Status**: Existing / Verified Frontend + API
-
+## Sub-Batch Story
+- **F05**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Manajemen *User* & *Role*.
 - Konfigurasi sistem global.
@@ -24,9 +25,6 @@ Sistem kontrol tertinggi yang mengelola semua pengguna, hak akses, *master data*
 ## Status Implementasi Saat Ini
 - *Existing / Verified Frontend + API*
 
-## Risiko / Needs Verification
-- *Needs Verification*: Kedalaman detail log di sistem Audit Log.
-
 ## Codebase Verification
 - **Frontend Routes/Components**: Ditemukan rute Superadmin utuh yang dikelola oleh `SuperadminPersonaProvider`. Meliputi `DashboardSuperadmin`, pengatur data persona/master (`DataAdminPage`, `DataSuperadminPage`, dll), dan rekam jejak sistem (`SuperadminHoldState` untuk Log Aktivitas).
 - **API Service**: Berkomunikasi melalui `superadminService.js` dan `governanceService.js`.
@@ -35,5 +33,14 @@ Sistem kontrol tertinggi yang mengelola semua pengguna, hak akses, *master data*
 - **User Governance/Audit Status**: **Verified**. Lapisan antarmuka untuk pengelolaan persona dan jejak audit berjalan secara end-to-end berpadu dengan skema *backend*.
 - **Keputusan Status**: Tervalidasi (*Existing / Verified Frontend + API*).
 
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Verified
+- **Database/Prisma**: Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
 ## Next Step
 - Verifikasi manajemen pengguna di API dan database.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Kedalaman detail log di sistem Audit Log.

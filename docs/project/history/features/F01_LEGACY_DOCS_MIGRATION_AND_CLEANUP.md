@@ -1,15 +1,23 @@
 # F01 — Legacy Docs Migration and Cleanup
 
-## Feature Summary
-F01 adalah fase merapikan dokumentasi RKK lama menjadi struktur aktif yang compact. Proses ini melibatkan pemindahan isi yang relevan ke direktori aktif, meringkas sejarah lama, dan membersihkan folder usang yang redundan tanpa menghapus logika fundamental yang belum diverifikasi.
-
-## Status
-Completed
-
-*Catatan: Audit Final Legacy Cleanup Readiness telah dilakukan. `alur/`, `modules/`, dan `technical/` terkonfirmasi `MIGRATED` seiring selesainya verifikasi `F02-F12`. Seluruh arsip _legacy original-docs_ telah dihapus mutlak.*
-
 ## Story
 RKK awalnya memiliki banyak dokumen lama dan file longgar dari pengerjaan lampau yang berserakan di repositori. Batch F01 hadir untuk memigrasikan informasi penting ke dalam dokumentasi aktif RKK, memadatkan sejarah pengerjaan, dan membersihkan area *legacy* yang sudah aman, sembari mempertahankan struktur dasar untuk diverifikasi kelak saat *codebase* diperbaiki.
+
+## Status
+- **Current Status**: Completed
+## Sub-Batch Story
+- **F01**: Legacy verification stage, detail not expanded in current compact tracker.
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Verified
+- **Database/Prisma**: Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
+## Next Step
+- Melaksanakan pembersihan (*cleanup*) sisa berkas `docs/_legacy/` setelah mendapat persetujuan final dari *Roomchat 00*.
+
+## Feature Summary
+F01 adalah fase merapikan dokumentasi RKK lama menjadi struktur aktif yang compact. Proses ini melibatkan pemindahan isi yang relevan ke direktori aktif, meringkas sejarah lama, dan membersihkan folder usang yang redundan tanpa menghapus logika fundamental yang belum diverifikasi.
 
 ## Current State
 Kondisi terbaru pada sistem dokumentasi:
@@ -61,9 +69,6 @@ Kondisi terbaru pada sistem dokumentasi:
 - `alur/` dan `modules/` tidak boleh dihapus sebelum F02–F13 diverifikasi keandalannya.
 - `technical/` boleh diaudit, tapi jangan lakukan operasi cleanup di batch F01H ini.
 - Jangan membuat history note anak baru lagi untuk pekerjaan kecil.
-
-## Next Step
-- Melaksanakan pembersihan (*cleanup*) sisa berkas `docs/_legacy/` setelah mendapat persetujuan final dari *Roomchat 00*.
 
 ## Final Legacy Cleanup Readiness Audit
 

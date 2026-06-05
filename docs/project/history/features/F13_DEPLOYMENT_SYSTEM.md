@@ -5,7 +5,8 @@ Sistem infrastruktur akhir untuk *hosting* aplikasi secara daring (Production en
 
 ## Status
 - **Current Status**: Not Started
-
+## Sub-Batch Story
+- **F13**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - *Frontend Hosting* (Vercel / Cloudflare).
 - *Backend Hosting* (VPS / Heroku / Render).
@@ -26,8 +27,14 @@ Sistem infrastruktur akhir untuk *hosting* aplikasi secara daring (Production en
 ## Status Implementasi Saat Ini
 - *Not Started*
 
-## Risiko / Needs Verification
-- *Needs Verification*: Persiapan variabel lingkungan dan pemisahan database dev vs prod.
-
+## Verification Coverage
+- **Frontend**: Not Applicable
+- **Backend/API**: Not Applicable
+- **Database/Prisma**: Not Applicable
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Not Applicable
 ## Next Step
 - Menyiapkan infrastruktur dasar *hosting*.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Persiapan variabel lingkungan dan pemisahan database dev vs prod.

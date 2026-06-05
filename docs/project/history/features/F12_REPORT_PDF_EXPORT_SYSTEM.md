@@ -5,7 +5,11 @@ Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progr
 
 ## Status
 - **Current Status**: Existing / Verified Frontend
-
+## Sub-Batch Story
+- **F12A**: Report export initial audit.
+- **F12B**: RAB PDF export MVP.
+- **F12C**: RAB PDF export hardening.
+- **F12D**: Supervisor Weekly Report PDF export MVP.
 ## Scope
 - Ekspor Laporan Kemajuan Proyek (Progress).
 - Ekspor Dokumen Finansial (RAB, Material).
@@ -24,14 +28,23 @@ Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progr
 ## Status Implementasi Saat Ini
 - *Existing / Needs Verification*
 
-## Risiko / Needs Verification
-- *Needs Verification*: Pemilihan pustaka ekspor. Library konversi PDF rentan terhadap limit memori di lingkungan server lokal atau *serverless*.
-
 ## Codebase Verification
 - **Frontend Export**: **Not Started**. Modul konversi PDF belum terimplementasi di level antarmuka. Meskipun pustaka `jspdf` dan `jspdf-autotable` telah terdaftar dalam `package.json` klien, tidak ditemukan satupun pemanggilan instansiasi (*import*) pada `client/src`. Tombol *Export/Print PDF* pada laman pelaporan belum terhubung pada eksekutor konversi.
 - **Backend Generator**: **Not Started**. Tidak ada modul `puppeteer`, *endpoint* *report generator*, maupun layanan pembuatan dokumen di pangkalan data backend (`server/src/modules/`).
 - **Database Model**: Pelaporan masih mengandalkan struktur penyimpanan bawaan (seperti `DailyReport` dan `ProjectDocument`), tidak ada model khusus atau pemicu tabel yang dideksekusi murni untuk keluaran ekspor eksternal.
 - **Keputusan Status**: Tervalidasi belum dibangun (*Not Started*). Instalasi pustaka pada *package.json* sekadar persiapan infrastruktur pasif (*dormant dependencies*).
+
+## Verification Coverage
+- **Frontend**: Verified
+- **Backend/API**: Not Verified
+- **Database/Prisma**: Not Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Pass
+## Next Step
+- Mengimplementasikan logika fungsional `jspdf` untuk ekspor dokumen di fitur lain jika dibutuhkan.
+
+## Risiko / Needs Verification
+- *Needs Verification*: Pemilihan pustaka ekspor. Library konversi PDF rentan terhadap limit memori di lingkungan server lokal atau *serverless*.
 
 ## Implementation Verification
 - **Frontend RAB PDF Export**: Implemented.
@@ -44,6 +57,3 @@ Sistem pembuatan dokumen pelaporan fisik/digital (PDF) dari data *verified progr
 - **Supervisor Weekly Report PDF Export**: Implemented as frontend-only MVP.
 - **Scope**: Pengawas weekly report export.
 - **Backend Generator**: Still not implemented.
-
-## Next Step
-- Mengimplementasikan logika fungsional `jspdf` untuk ekspor dokumen di fitur lain jika dibutuhkan.

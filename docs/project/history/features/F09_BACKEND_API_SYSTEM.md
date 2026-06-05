@@ -5,7 +5,8 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 
 ## Status
 - **Current Status**: Existing / Partial
-
+## Sub-Batch Story
+- **F09**: Legacy verification stage, detail not expanded in current compact tracker.
 ## Scope
 - Endpoint API Express.js.
 - *Middleware* (Upload, Error Handling).
@@ -25,6 +26,15 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 
 ## Status Implementasi Saat Ini
 - *Existing / Partial*
+
+## Verification Coverage
+- **Frontend**: Partial
+- **Backend/API**: Partial
+- **Database/Prisma**: Not Verified
+- **Auth/Access**: Not Applicable
+- **Build/Validation**: Not Run
+## Next Step
+- Penataan struktur API documentation internal.
 
 ## Risiko / Needs Verification
 - *Needs Verification*: Stabilitas saat menangani beban file/gambar berjumlah besar dari mandor dan pengawas.
@@ -49,6 +59,3 @@ Sistem pusat yang menangani logika bisnis, validasi, rute *controller*, manipula
 
 ## API Verification (Report & Export)
 - **Export Endpoints**: **Not Started**. Absennya penyedia API konversi data menjadi PDF di sisi *backend*. Belum terdapat layanan *generator* khusus untuk memproduksi dokumen fisik (*Report*).
-
-## Next Step
-- Penataan struktur API documentation internal.

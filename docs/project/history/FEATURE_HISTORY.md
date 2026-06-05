@@ -19,6 +19,8 @@ Halaman ini mengindeks semua riwayat perencanaan dan pengerjaan fitur secara det
   *(Batch ini membuat dashboard ringkas root repositori dan merestrukturisasi tabel status).*
 - [F01D.5 — Legacy Batches History Summary Consolidation](features/F01D5_LEGACY_BATCHES_HISTORY_SUMMARY.md)
   *(Batch ini meringkas log historis iterasi lama).*
+- [F01E.1 — Low-Risk Legacy Archive Cleanup](features/F01E1_LOW_RISK_LEGACY_ARCHIVE_CLEANUP.md)
+  *(Batch ini menjalankan eksekusi penghapusan (cleanup) pada folder legacy berisiko terendah).*
 - [F02 — Public Website System](features/F02_PUBLIC_WEBSITE_SYSTEM.md)
 - [F03 — Role and Layout System](features/F03_ROLE_AND_LAYOUT_SYSTEM.md)
 - [F04 — Konsumen Project Tracking System](features/F04_KONSUMEN_PROJECT_TRACKING_SYSTEM.md)

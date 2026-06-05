@@ -6,6 +6,11 @@ Sistem antarmuka publik untuk pengunjung non-login yang ingin melihat profil RKK
 ## Status
 - **Current Status**: Existing / Verified Frontend + API
 
+## Sub-Batch Story
+- **F02A/F02B**: Legacy verification stage, detail not expanded in current compact tracker.
+- **F02C**: Public Design Request Backend Integration Re-Verification. Frontend `->` service `->` backend `->` Prisma verified; structured brief dipadatkan ke `description`.
+- **F02D**: Public Guest Routes and CTA Navigation Verification. Guest routes, MainLayout, CTA, dan `/proyek` showcase verified.
+
 ## Scope
 - Halaman *Landing Page* publik.
 - Pengajuan *Design Request* awal.

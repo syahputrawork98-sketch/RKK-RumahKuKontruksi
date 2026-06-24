@@ -9,11 +9,12 @@ export const seedStagesAndProgress = async (prisma, ctx) => {
   const { admin1, admin2 } = ctx.admins;
   const { customer2, customer4 } = ctx.customers;
   const { supervisor1, supervisor2, supervisor3 } = ctx.supervisors;
-  const { activeProject1, activeProject2, finishedProject1 } = ctx.projects;
-  const { rabActive1, rabActive2, rabFinished1 } = ctx.rabPlans;
+  const { activeProject1, activeProject2, activeProject3, finishedProject1 } = ctx.projects;
+  const { rabActive1, rabActive2, rabActive3, rabFinished1 } = ctx.rabPlans;
   const { 
     catPersiapan1, catStruktur1, catFinished1,
-    catPersiapan2, catTanah2, catStruktur2, catDinding2, catAtap2, catPlafon2, catLantai2, catKusen2, catPlumbing2, catListrik2, catFinishing2, catLainLain2
+    catPersiapan2, catTanah2, catStruktur2, catDinding2, catAtap2, catPlafon2, catLantai2, catKusen2, catPlumbing2, catListrik2, catFinishing2, catLainLain2,
+    catPersiapan3, catStruktur3
   } = ctx.rabCategories;
 
   // --- Stages for Active Project 1 ---

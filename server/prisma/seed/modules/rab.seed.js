@@ -6,7 +6,7 @@
 export const seedRab = async (prisma, ctx) => {
   console.log('Seeding RAB (Plans, Categories, Items)...');
 
-  const { activeProject1, activeProject2, finishedProject1 } = ctx.projects;
+  const { activeProject1, activeProject2, activeProject3, finishedProject1 } = ctx.projects;
 
   // --- RAB for Active Project 1 (Rumah Mewah BSD) ---
   const rabActive1 = await prisma.rabPlan.create({

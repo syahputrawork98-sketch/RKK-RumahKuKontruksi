@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
 import TLProyek from "../../components/konsumen/TLProyek";
 import projectService from "../../services/projectService";
-import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight, FiLayers, FiBox, FiChevronDown, FiEye, FiLock, FiCreditCard } from "react-icons/fi";
+import { FiMapPin, FiCalendar, FiClock, FiDollarSign, FiCheckCircle, FiUser, FiInfo, FiPenTool, FiActivity, FiArrowRight, FiLayers, FiBox, FiChevronDown, FiEye, FiLock, FiCreditCard, FiFileText } from "react-icons/fi";
 import CustomerPaymentPlanView from "../../components/konsumen/CustomerPaymentPlanView";
 import { useCustomerPersona } from "../../context/CustomerPersonaContext";
 import RolePersonaEmptyState from "../../components/common/RolePersonaEmptyState";

@@ -6,9 +6,9 @@
 export const seedMaterialRequests = async (prisma, ctx) => {
   console.log('Seeding Material Requests...');
 
-  const { activeProject1, activeProject2 } = ctx.projects;
-  const { foreman1, foreman2 } = ctx.foremen;
-  const { supervisor1, supervisor2 } = ctx.supervisors;
+  const { activeProject1, activeProject2, activeProject3 } = ctx.projects;
+  const { foreman1, foreman2, foreman3 } = ctx.foremen;
+  const { supervisor1, supervisor2, supervisor3 } = ctx.supervisors;
   const { admin1, admin2 } = ctx.admins;
   const {
     stageActive1_2,
@@ -17,9 +17,10 @@ export const seedMaterialRequests = async (prisma, ctx) => {
     stageActive2_3,
     stageActive2_4,
     stageActive2_5,
-    stageActive2_9
+    stageActive2_9,
+    stageActive3_2
   } = ctx.stages;
-  const { itemSemen1, itemBesi1 } = ctx.rabItems;
+  const { itemSemen1, itemBesi1, itemSemen3, itemBesi3 } = ctx.rabItems;
 
   const mrPending1 = await prisma.materialRequest.create({
     data: {

@@ -6,15 +6,16 @@
 export const seedFieldIssues = async (prisma, ctx) => {
   console.log('Seeding Scenario 6: Field Issues...');
 
-  const { activeProject1, activeProject2 } = ctx.projects;
-  const { foreman1, foreman2 } = ctx.foremen;
-  const { supervisor1, supervisor2 } = ctx.supervisors;
+  const { activeProject1, activeProject2, activeProject3 } = ctx.projects;
+  const { foreman1, foreman2, foreman3 } = ctx.foremen;
+  const { supervisor1, supervisor2, supervisor3 } = ctx.supervisors;
   const { admin2 } = ctx.admins;
   const {
     stageActive1_2,
     stageActive2_3,
     stageActive2_4,
-    stageActive2_9
+    stageActive2_9,
+    stageActive3_2
   } = ctx.stages;
 
   const issue1 = await prisma.fieldIssue.create({
@@ -139,6 +140,6 @@ export const seedFieldIssues = async (prisma, ctx) => {
     }
   });
 
-  ctx.fieldIssues = { issue1, issue2, issueTipe36_1, issueTipe36_2, issueTipe36_3, issueTipe36_Closed, issueVilla_Resolved, issueVilla_Closed };
+  ctx.fieldIssues = { issue1, issue2, issueTipe36_1, issueTipe36_2, issueTipe36_Closed, issueVilla_Resolved, issueVilla_Closed };
   console.log('Field Issues seeded successfully.');
 };

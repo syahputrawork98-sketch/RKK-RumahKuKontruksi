@@ -6,18 +6,19 @@
 export const seedDailyOperations = async (prisma, ctx) => {
   console.log('Seeding Scenario 7: Daily Tasks & Reports...');
 
-  const { activeProject1, activeProject2 } = ctx.projects;
-  const { foreman1, foreman2 } = ctx.foremen;
-  const { supervisor2 } = ctx.supervisors;
+  const { activeProject1, activeProject2, activeProject3 } = ctx.projects;
+  const { foreman1, foreman2, foreman3 } = ctx.foremen;
+  const { supervisor2, supervisor3 } = ctx.supervisors;
   const {
     stageActive1_2,
     stageActive2_3,
     stageActive2_4,
     stageActive2_5,
     stageActive2_9,
-    stageActive2_10
+    stageActive2_10,
+    stageActive3_2
   } = ctx.stages;
-  const { itemBesi1 } = ctx.rabItems;
+  const { itemBesi1, itemBesi3, itemSemen3 } = ctx.rabItems;
 
   const dailyTask1 = await prisma.dailyTask.create({
     data: {

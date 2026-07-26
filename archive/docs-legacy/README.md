@@ -20,5 +20,4 @@ Bagi yang memerlukan pemahaman arsitektur lama, silakan membaca dokumen berikut:
 6. `project/workflow/WORKING_SYSTEM.md`
 7. `project/history/CURRENT_STATUS.md`
 8. `project/history/FEATURE_HISTORY.md`
-9. `project/baseline/`
-10. `frontend/README.md` / `backend/README.md` / `database/README.md` sesuai dengan scope arsip.
+9. `frontend/README.md` / `backend/README.md` / `database/README.md` sesuai dengan scope arsip.

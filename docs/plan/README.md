@@ -10,4 +10,10 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Base SHA:** `42e97c3313cdd2888025db4e2aa8e3cc01d18e8b`
 - **Hasil Eksekusi:** Menyiapkan repository bersih untuk implementasi PLAN-001.
 
+### [PLAN-002: Fondasi Backend RKK](./PLAN-002_FONDASI_BACKEND_RKK.md)
+- **Status:** DIEKSEKUSI — MENUNGGU AUDIT HASIL
+- **Ruang Lingkup:** Membangun fondasi NestJS, Prisma, API `/api/v1`, dan Swagger.
+- **Branch:** `refactor/plan-002-backend-foundation`
+- **Base SHA:** `6a011bb98150d3492b7d24999a4eb72ba3eec174`
+
 *(Plan lain akan ditambahkan di sini setelah disetujui)*

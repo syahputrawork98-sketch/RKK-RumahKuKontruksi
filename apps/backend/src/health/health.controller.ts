@@ -1,17 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('System')
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get('health')
+@Controller('health')
+export class HealthController {
+  @Get()
   @ApiOperation({ summary: 'Health check endpoint' })
   getHealth() {
     return {
       status: 'ok',
+      service: 'rkk-backend',
       timestamp: new Date().toISOString(),
     };
   }

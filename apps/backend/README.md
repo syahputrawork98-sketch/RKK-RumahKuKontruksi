@@ -1,6 +1,6 @@
 # RKK Backend
 
-Backend untuk RumahKu Konstruksi menggunakan NestJS.
+Backend untuk Rumahku Konstruksi menggunakan NestJS.
 
 ## Prasyarat
 

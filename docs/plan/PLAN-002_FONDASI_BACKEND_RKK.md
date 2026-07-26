@@ -1,13 +1,13 @@
 # PLAN-002 — Fondasi Backend RKK
 
-**Status:** SIAP DIEKSEKUSI — Prasyarat menunggu PLAN-001 telah dibatalkan berdasarkan keputusan pemilik  
+**Status:** DIEKSEKUSI — MENUNGGU AUDIT HASIL  
 **Tanggal disetujui:** 27 Juli 2026  
 **Pelaksana saat dieksekusi:** Gemini Antigravity  
 **Repository:** `syahputrawork98-sketch/RKK-RumahKuKontruksi`  
 **Model repository:** npm monorepo  
 **Branch sasaran:** `refactor/plan-002-backend-foundation` — disetujui; diverifikasi sebelum eksekusi  
 **Base SHA:** `6a011bb98150d3492b7d24999a4eb72ba3eec174`
-**Commit, push, dan pull request:** dikendalikan oleh pemilik setelah hasil diperiksa  
+**Commit, push, dan pull request:** Diizinkan ke branch `refactor/plan-002-backend-foundation` untuk direview (keputusan pemilik)
 
 ---
 
@@ -41,9 +41,9 @@ Folder lama `server/` tetap dipertahankan sebagai baseline. PLAN-002 tidak memin
 
 ## 2. Status Eksekusi dan Prasyarat
 
-PLAN-002 telah disetujui secara substansi ketika pekerjaan PLAN-001 pada website publik masih berlangsung. Karena itu, PLAN-002 **belum boleh dieksekusi** sampai parameter eksekusi final dilengkapi dan seluruh prasyarat terpenuhi.
+PLAN-002 telah disetujui dan diizinkan dieksekusi tanpa menunggu selesainya PLAN-001 berdasarkan keputusan pemilik. Kebutuhan Base SHA diisi secara manual menggunakan SHA aktual pada waktu keputusan diambil.
 
-PLAN-002 baru dapat difinalkan dan dijalankan setelah seluruh prasyarat berikut terpenuhi:
+PLAN-002 difinalkan dan dijalankan dengan prasyarat:
 
 1. PLAN-000 telah ditutup dan dinyatakan terverifikasi;
 2. hasil pekerjaan PLAN-001 telah selesai, diperiksa, dan mempunyai checkpoint Git yang jelas;
@@ -60,14 +60,17 @@ PLAN-002 baru dapat difinalkan dan dijalankan setelah seluruh prasyarat berikut 
 8. versi Node.js dan npm aktif telah diperiksa;
 9. pemilik telah membaca dan menyetujui versi final PLAN-002.
 
-SHA `6a011bb98150d3492b7d24999a4eb72ba3eec174` hanya merupakan kondisi `main` yang diperiksa ketika PLAN-002 disusun. SHA tersebut **bukan** base SHA eksekusi PLAN-002.
+9. pemilik telah membaca dan menyetujui versi final PLAN-002.
+
+*(Catatan: Prasyarat nomor 1, 2, dan 5 telah dianulir secara eksplisit oleh pemilik saat sesi eksekusi, sehingga Gemini Antigravity berhak menjalankan PLAN-002 secara langsung dari Base SHA 6a011bb98150d3492b7d24999a4eb72ba3eec174).*
+
+SHA `6a011bb98150d3492b7d24999a4eb72ba3eec174` digunakan sebagai base SHA eksekusi PLAN-002.
 
 ### Gerbang berhenti sebelum eksekusi
 
 Gemini Antigravity wajib berhenti tanpa membuat perubahan apabila:
 
-- PLAN-000 atau PLAN-001 belum ditutup dan diaudit;
-- repository, branch, atau base SHA berbeda dari parameter final;
+- repository atau branch berbeda dari parameter final;
 - working tree tidak bersih;
 - ada perubahan lokal yang tidak termasuk PLAN-002;
 - root workspace sedang diubah oleh pekerjaan lain;

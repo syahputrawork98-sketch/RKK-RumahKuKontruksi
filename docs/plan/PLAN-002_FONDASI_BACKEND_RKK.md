@@ -1080,26 +1080,13 @@ PLAN-002 bukan selesai hanya karena folder `apps/backend` berhasil dibuat.
 
 ## 26. Parameter yang Harus Dikunci Sebelum Eksekusi
 
-Sebelum PLAN-002 diberikan untuk dieksekusi, isi dan verifikasi:
+Sebelum PLAN-002 dieksekusi, parameter berikut telah dikunci sesuai identitas dokumen:
 
-1. branch sasaran final;
-2. base SHA final setelah PLAN-001;
-3. status PLAN-000;
-4. status PLAN-001;
-5. kondisi working tree;
-6. versi Node.js baseline;
-7. versi npm baseline;
-8. bentuk root workspace;
-9. scripts root yang tidak boleh ditimpa;
-10. versi stabil NestJS yang dipilih;
-11. versi stabil Prisma yang dipilih;
-12. pola konfigurasi Prisma yang sesuai;
-13. daftar file aktual yang boleh diubah;
-14. command validasi aktual;
-15. keputusan apakah root `README.md` perlu disentuh;
-16. konfirmasi feature branch digunakan untuk jalur pull request.
+1. branch sasaran final: `refactor/plan-002-backend-foundation`;
+2. base SHA final dikunci sebelum eksekusi;
+3. kondisi working tree harus bersih sebelum modifikasi.
 
-Jika repository berubah setelah parameter dikunci, PLAN-002 harus diselaraskan sebelum dieksekusi.
+Jika repository berubah setelah parameter dikunci, PLAN-002 harus diselaraskan kembali.
 
 ---
 
@@ -1120,14 +1107,8 @@ PLAN-002 telah disetujui secara substansi dan menetapkan:
 - acceptance criteria;
 - format laporan dan audit.
 
-Parameter eksekusi berikut belum ditetapkan:
-
-- base SHA final;
-- branch final;
-- versi dependensi final;
-- status akhir PLAN-000;
-- status akhir PLAN-001;
-- hasil pemeriksaan working tree setelah PLAN-001.
+Status eksekusi saat ini: **DIEKSEKUSI — PERLU REVISI**.
+Penerimaan final baru ditentukan setelah audit SHA berikutnya. PLAN-002 belum dinyatakan selesai atau diterima secara final.
 
 Bagian tersebut sengaja menunggu checkpoint aktual agar PLAN-002 tidak dijalankan di atas baseline yang salah.
 

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from './../src/app.module';
-const request = require('supertest');
+import request from 'supertest';
 import { AppModule } from './../src/app.module';
 
 describe('HealthController (e2e)', () => {
@@ -25,7 +24,8 @@ describe('HealthController (e2e)', () => {
       .expect((res) => {
         expect(res.body.status).toBe('ok');
         expect(res.body.service).toBe('rkk-backend');
-        expect(res.body.timestamp).toBeDefined();
+        const timestamp = new Date(res.body.timestamp as string);
+        expect(timestamp.toISOString()).toBe(res.body.timestamp);
       });
   });
 

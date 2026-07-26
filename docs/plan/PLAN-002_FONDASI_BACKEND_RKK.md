@@ -1,11 +1,12 @@
 # PLAN-002 — Fondasi Backend RKK
 
-**Status:** DIEKSEKUSI — MENUNGGU AUDIT HASIL  
-**Tanggal disetujui:** 27 Juli 2026  
-**Pelaksana saat dieksekusi:** Gemini Antigravity  
-**Repository:** `syahputrawork98-sketch/RKK-RumahKuKontruksi`  
-**Model repository:** npm monorepo  
-**Branch sasaran:** `refactor/plan-002-backend-foundation` — disetujui; diverifikasi sebelum eksekusi  
+**Status**: DIEKSEKUSI — PERLU REVISI
+**Author**: Syahputrawork98
+**Tanggal disetujui:** 27 Juli 2026
+**Pelaksana saat dieksekusi:** Gemini Antigravity
+**Repository:** `syahputrawork98-sketch/RKK-RumahKuKontruksi`
+**Model repository:** npm monorepo
+**Branch sasaran:** `refactor/plan-002-backend-foundation` — disetujui; diverifikasi sebelum eksekusi
 **Base SHA:** `6a011bb98150d3492b7d24999a4eb72ba3eec174`
 **Commit, push, dan pull request:** Diizinkan ke branch `refactor/plan-002-backend-foundation` untuk direview (keputusan pemilik)
 
@@ -58,8 +59,6 @@ PLAN-002 difinalkan dan dijalankan dengan prasyarat:
    - konfigurasi workspace;
    - `docs/plan/`;
 8. versi Node.js dan npm aktif telah diperiksa;
-9. pemilik telah membaca dan menyetujui versi final PLAN-002.
-
 9. pemilik telah membaca dan menyetujui versi final PLAN-002.
 
 *(Catatan: Prasyarat nomor 1, 2, dan 5 telah dianulir secara eksplisit oleh pemilik saat sesi eksekusi, sehingga Gemini Antigravity berhak menjalankan PLAN-002 secara langsung dari Base SHA 6a011bb98150d3492b7d24999a4eb72ba3eec174).*
@@ -127,8 +126,8 @@ Jika versi atau pola konfigurasi teknis perlu diverifikasi saat eksekusi, gunaka
 - Prisma untuk NestJS: <https://www.prisma.io/docs/guides/frameworks/nestjs>
 - Prisma PostgreSQL: <https://www.prisma.io/docs/prisma-orm/quickstart/postgresql>
 - Neon connection pooling: <https://neon.com/docs/connect/connection-pooling>
-- Railway NestJS: <https://docs.railway.com/guides/nest>
-- Railway healthchecks: <https://docs.railway.com/deployments/healthchecks>
+- Railway NestJS: <https://railway.com/docs/guides/nest>
+- Railway healthchecks: <https://railway.com/docs/deployments/healthchecks>
 
 Dokumentasi internet hanya digunakan untuk memastikan kompatibilitas teknis. Internet tidak menjadi sumber keputusan bisnis atau produk RKK.
 
@@ -891,7 +890,12 @@ PLAN-002 dinyatakan berhasil hanya apabila:
 - [ ] tidak ada deployment;
 - [ ] tidak ada perubahan Google Drive;
 - [ ] laporan hasil lengkap diberikan;
-- [ ] Gemini Antigravity berhenti tanpa commit atau push.
+- [ ] Skrip `npm run build`, `npm run lint`, dan `npm run test:e2e` dari root workspace selesai tanpa error;
+- [ ] Smoke test lokal berhasil (Health mengembalikan HTTP 200 dengan format `{ status: 'ok', service: 'rkk-backend', timestamp: '...' }`);
+- [ ] Dokumentasi `docs/architecture/backend-foundation.md` telah disetujui;
+- [ ] Validasi Prisma lulus: skema tidak mengandung model bisnis nyata, database URL membaca env tanpa hardcoding di skema;
+- [ ] Commit dilakukan manual oleh pemilik sesuai hasil validasi;
+- [ ] Commit dan PR **hanya dilakukan oleh pemilik repository** (agen tidak diizinkan commit/push).
 
 ---
 
@@ -1049,20 +1053,26 @@ ChatGPT kemudian membandingkan hasil dengan PLAN-002 dan menetapkan:
 PLAN-002 selesai ketika repository mempunyai fondasi backend aktif pada `apps/backend` yang:
 
 1. terintegrasi dengan npm monorepo;
-2. menggunakan NestJS + TypeScript;
-3. dapat dijalankan dan di-build;
-4. lulus lint dan test dasar;
-5. mempunyai REST prefix `/api/v1`;
-6. mempunyai endpoint health yang stabil;
-7. mempunyai Swagger;
-8. mempunyai konfigurasi environment yang aman;
-9. mempunyai fondasi Prisma PostgreSQL tanpa model bisnis;
-10. mempunyai dokumentasi development dan arsitektur;
-11. tidak membutuhkan database atau layanan eksternal untuk lulus fondasi;
-12. tidak mengubah frontend atau legacy secara substantif;
-13. tidak menambah error baru;
-14. telah diperiksa berdasarkan commit dan SHA aktual;
-15. telah dinyatakan diterima oleh pemilik.
+2. `apps/backend/package.json` package name menjadi `@rkk/backend`
+3. Konfigurasi `prisma.config.ts` untuk versi 7.
+4. Arsitektur modular dengan `HealthModule`.
+5. Endpoint `GET /api/v1/health`.
+6. Swagger di `/api/docs` yang dilindungi environment variable.
+7. Konfigurasi env menggunakan `ConfigModule` dan Joi.
+8. menggunakan NestJS + TypeScript;
+9. dapat dijalankan dan di-build;
+10. lulus lint dan test dasar;
+11. mempunyai REST prefix `/api/v1`;
+12. mempunyai endpoint health yang stabil;
+13. mempunyai Swagger;
+14. mempunyai konfigurasi environment yang aman;
+15. mempunyai fondasi Prisma PostgreSQL tanpa model bisnis;
+16. mempunyai dokumentasi development dan arsitektur;
+17. tidak membutuhkan database atau layanan eksternal untuk lulus fondasi;
+18. tidak mengubah frontend atau legacy secara substantif;
+19. tidak menambah error baru;
+20. telah diperiksa berdasarkan commit dan SHA aktual;
+21. telah dinyatakan diterima oleh pemilik.
 
 PLAN-002 bukan selesai hanya karena folder `apps/backend` berhasil dibuat.
 

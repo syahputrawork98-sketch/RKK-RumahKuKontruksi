@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { HealthModule } from './health/health.module';
+import { DatabaseModule } from './prisma/database.module';
 
 @Module({
   imports: [
@@ -14,9 +15,10 @@ import { HealthModule } from './health/health.module';
         PORT: Joi.number().default(3001),
         CORS_ORIGINS: Joi.string().required(),
         SWAGGER_ENABLED: Joi.boolean().default(false),
-        DATABASE_URL: Joi.string().uri().required(),
+        DATABASE_URL: Joi.string().required(),
       }),
     }),
+    DatabaseModule,
     HealthModule,
   ],
   controllers: [],

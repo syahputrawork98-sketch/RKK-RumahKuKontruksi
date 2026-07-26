@@ -15,7 +15,9 @@ import { DatabaseModule } from './prisma/database.module';
         PORT: Joi.number().default(3001),
         CORS_ORIGINS: Joi.string().required(),
         SWAGGER_ENABLED: Joi.boolean().default(false),
-        DATABASE_URL: Joi.string().required(),
+        DATABASE_URL: Joi.string()
+          .uri({ scheme: ['postgresql', 'postgres'] })
+          .required(),
       }),
     }),
     DatabaseModule,

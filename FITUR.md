@@ -1,45 +1,25 @@
-# FITUR — RKK RumahKu Konstruksi
+# FITUR – RKK RumahKu Konstruksi (Masa Transisi)
 
-Ringkasan fungsionalitas dan status pengembangan aplikasi **RKK RumahKu Konstruksi**, sebuah platform terpadu untuk menghubungkan konsumen, pengawas, mandor, admin, dan arsitek dalam satu ekosistem konstruksi digital.
+> **Status Saat Ini: Transisi Arsitektur dan Pengarsipan**
+> 
+> Seluruh dokumentasi mengenai fitur, role, modul bisnis, dan arsitektur legacy (sebelumnya berbasis Express dan Supabase) **tidak lagi dinyatakan sebagai keputusan aktif yang telah disahkan di GitHub**.
+> 
+> - **Sumber Keputusan Resmi (Source of Truth):** Dokumen perencanaan dan produk bisnis dikelola secara terpusat di **Google Drive**.
+> - **Implementasi Aktual:** GitHub ini murni menunjukkan implementasi kode *(working tree)* yang sedang dibangun ulang dari awal (refactor).
 
-## 📊 Status Umum Project
-- **Phase**: Local Development Feature Completion (Localhost)
-- **Production Ready**: **No**
-- **Last Completed Batch**: F01D.3 (Dokumentasi & Migrasi)
-- **Source of Truth (SOT)**: `Project.verifiedProgress` (Progress lapangan yang dikelola oleh Pengawas).
+## ⚠️ Peringatan Kondisi Sistem
+- **`apps/web/`**: Sedang dipersiapkan sebagai frontend baru berbasis React + Vite.
+- **`apps/backend/`**: Sedang dipersiapkan sebagai arsitektur target backend baru. (Tidak lagi menggunakan Express).
+- **`client/` & `server/`**: Adalah *baseline legacy code* yang hanya dipertahankan sementara sebagai referensi, namun bukan sistem target yang berjalan.
 
-## 🗂 Target Struktur Repository
-- **`client/`**: React, Vite, Tailwind CSS (Frontend)
-- **`server/`**: Node.js, Express, Prisma (Backend)
-- **`docs/plan/`**: Pusat dokumentasi plan aktif
-- **`archive/docs-legacy/`**: Arsip dokumentasi teknis & manajemen
-- **`database`**: Supabase PostgreSQL
+## 🗄️ Arsip Historis (Sistem Lama)
+Bagi tim developer yang membutuhkan informasi historis mengenai role, proses bisnis, atau skema API sistem lama yang belum direfactor, silakan merujuk pada direktori arsip:
 
-## 🧑‍🤝‍🧑 Ringkasan Role
-- **Publik**: Melihat informasi umum layanan dan portofolio RKK.
-- **Konsumen**: Melacak timeline progres desain & konstruksi, menyetujui RAB, serta melihat riwayat pembayaran.
-- **Admin**: Memproses *Design Request*, menerbitkan RAB, melakukan verifikasi kesiapan konstruksi, serta mengaudit *Material Request*.
-- **Superadmin**: Governance, audit log, manajemen user dan kontrol akses sistem secara keseluruhan.
-- **Pengawas**: Menyetujui pekerjaan lapangan (Mandor), menyetujui pengajuan *Material Request* lokal, dan mengunci SOT *Verified Progress*.
-- **Mandor**: Melakukan input jurnal lapangan, mengajukan kebutuhan material, dan melaporkan isu (Field Issue) dari site.
-- **Arsitek**: Menangani *Design Request* sebelum diteruskan ke Admin untuk dibuatkan RAB.
+- **Folder Utama Arsip:** `archive/docs-legacy/`
+- [Arsip Dashboard Status Proyek](archive/docs-legacy/project/history/CURRENT_STATUS.md)
+- [Arsip Riwayat Indeks Fitur](archive/docs-legacy/project/history/FEATURE_HISTORY.md)
+- [Arsip Arsitektur Frontend](archive/docs-legacy/frontend/README.md)
+- [Arsip Arsitektur Backend](archive/docs-legacy/backend/README.md)
+- [Arsip Arsitektur Database](archive/docs-legacy/database/README.md)
 
-## ⚙️ Status Teknis
-- **Frontend**: Vite + React sudah terkonfigurasi. (Status: *Existing*)
-- **Backend**: Express REST API dengan struktur modular. (Status: *Existing*)
-- **Database**: Skema menggunakan Prisma + Supabase. (Status: *Needs Verification*)
-- **Auth**: Mekanisme otentikasi riil belum diverifikasi / disimulasikan lokal. (Status: *Hold / Not Verified*)
-- **Deployment**: Belum dikonfigurasi untuk environment produksi. (Status: *Not Started*)
-
-## ⚠️ Needs Verification / Partial / Hold
-1. **Production Infrastructure (Hold)**: Auth riil (JWT/Password), Cloud Storage asli, dan Payment Gateway riil belum berjalan.
-2. **Global Billing (Hold)**: Fitur pembayaran tagihan sistem secara global.
-3. **Database & API (Needs Verification)**: Banyak rute API yang masih dalam tahap integrasi dengan SOT lapangan.
-
----
-## 🔗 Tautan Penting
-- [Dashboard Status Proyek (`CURRENT_STATUS.md`)](archive/docs-legacy/project/history/CURRENT_STATUS.md)
-- [Riwayat Indeks Fitur (`FEATURE_HISTORY.md`)](archive/docs-legacy/project/history/FEATURE_HISTORY.md)
-- [Arsitektur Frontend](archive/docs-legacy/frontend/README.md)
-- [Arsitektur Backend](archive/docs-legacy/backend/README.md)
-- [Arsitektur Database](archive/docs-legacy/database/README.md)
+Harap diingat bahwa sistem lama yang terdokumentasi dalam `archive/docs-legacy` berada dalam status *Hold* / *Deprecated*.

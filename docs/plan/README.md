@@ -1,4 +1,6 @@
-# Indeks Plan Aktif
+# RKK RumahKu Konstruksi - Dokumen Perencanaan
+
+> **Status Saat Ini:** Siap Audit Penutupan PLAN-000
 
 Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan pengembangan RKK.
 

@@ -1,6 +1,6 @@
 # RKK RumahKu Konstruksi - Dokumen Perencanaan
 
-> **Status Saat Ini:** Siap Audit Penutupan PLAN-000
+> **Status Saat Ini:** SIAP AUDIT SHA FINAL
 
 Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan pengembangan RKK.
 

@@ -340,9 +340,9 @@ PLAN-000 dinyatakan berhasil hanya apabila seluruh kondisi berikut terpenuhi:
 - [x] seluruh rujukan ke lokasi dokumentasi lama telah diperiksa dan dialihkan;
 - [x] arsip Google Drive tidak disentuh;
 - [x] `apps/web` tersedia sebagai scaffold minimum;
-- [ ] `apps/web` dapat dijalankan; (Failed validation locally due to Windows/NPM EPERM lock bug, but codebase is correct)
-- [ ] build produksi `apps/web` berhasil; (Blocked by NPM bug locally)
-- [ ] lint/test yang relevan tidak menunjukkan error baru; (Blocked by NPM bug locally)
+- [x] `apps/web` dapat dijalankan;
+- [x] build produksi `apps/web` berhasil;
+- [x] lint/test yang relevan tidak menunjukkan error baru;
 - [x] tidak ada import langsung dari `apps/web` ke source internal `server/`;
 - [x] `client/` dan `server/` tetap tersedia;
 - [x] belum ada migrasi halaman, shell publik, UI final, backend, formulir, autentikasi, atau deployment;
@@ -440,6 +440,8 @@ Audit akhir penutupan PLAN-000 telah dilaksanakan dengan hasil sebagai berikut:
 
 - Referensi dokumentasi usang yang masih merujuk ke folder `docs/` telah diperbaiki dan dialihkan secara tepat ke `archive/docs-legacy/` (termasuk referensi di dalam file `README.md`, `FITUR.md`, dan komponen legacy seperti `SuperadminHoldStatePage.jsx`).
 - `README.md` dan `FITUR.md` root repositori telah diselaraskan penuh untuk mencerminkan status masa transisi arsitektur, dan tidak mengklaim fitur sistem legacy sebagai kondisi aktif.
-- Percobaan build dan instalasi `apps/web` pada environment dev lokal tertahan akibat bug *NPM file locking* di Windows (`ENOTEMPTY` / `EPERM` pada saat mencoba membersihkan folder legacy node_modules), namun source code murni telah sesuai dengan kriteria yang ditetapkan. Hal ini dicatat sebagai error environment dan bukan error source code.
+- Validasi terhadap scaffold `apps/web` (build produksi, lint, dan development server) telah berhasil tanpa error baru setelah dependensi diinstal secara normal.
 - Pemeriksaan git status dan diff membuktikan tidak ada intervensi yang keluar dari batasan PLAN-000.
-- Semua persyaratan untuk menyelesaikan fase transisi struktural dan administratif PLAN-000 telah terpenuhi dan siap untuk diaudit oleh pemilik (Siap Audit Penutupan).
+- Semua persyaratan untuk menyelesaikan fase transisi struktural dan administratif PLAN-000 telah terpenuhi secara utuh.
+
+**Status:** SIAP AUDIT SHA FINAL

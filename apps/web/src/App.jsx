@@ -1,13 +1,12 @@
-import React from 'react'
-import './App.css'
+import AppErrorBoundary from './app/AppErrorBoundary';
+import AppRouter from './app/AppRouter';
 
 function App() {
   return (
-    <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'sans-serif' }}>
-      <h1>RKK - Web Apps (Placeholder)</h1>
-      <p>Aplikasi berjalan dengan sukses. Ini adalah placeholder minimum.</p>
-    </div>
-  )
+    <AppErrorBoundary>
+      <AppRouter />
+    </AppErrorBoundary>
+  );
 }
 
-export default App
+export default App;

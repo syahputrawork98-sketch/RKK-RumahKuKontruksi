@@ -11,7 +11,8 @@ Ringkasan fungsionalitas dan status pengembangan aplikasi **RKK RumahKu Konstruk
 ## 🗂 Target Struktur Repository
 - **`client/`**: React, Vite, Tailwind CSS (Frontend)
 - **`server/`**: Node.js, Express, Prisma (Backend)
-- **`docs/`**: Pusat dokumentasi teknis & manajemen (Dokumentasi Aktif)
+- **`docs/plan/`**: Pusat dokumentasi plan aktif
+- **`archive/docs-legacy/`**: Arsip dokumentasi teknis & manajemen
 - **`database`**: Supabase PostgreSQL
 
 ## 🧑‍🤝‍🧑 Ringkasan Role
@@ -37,8 +38,8 @@ Ringkasan fungsionalitas dan status pengembangan aplikasi **RKK RumahKu Konstruk
 
 ---
 ## 🔗 Tautan Penting
-- [Dashboard Status Proyek (`CURRENT_STATUS.md`)](docs/project/history/CURRENT_STATUS.md)
-- [Riwayat Indeks Fitur (`FEATURE_HISTORY.md`)](docs/project/history/FEATURE_HISTORY.md)
-- [Arsitektur Frontend](docs/frontend/README.md)
-- [Arsitektur Backend](docs/backend/README.md)
-- [Arsitektur Database](docs/database/README.md)
+- [Dashboard Status Proyek (`CURRENT_STATUS.md`)](archive/docs-legacy/project/history/CURRENT_STATUS.md)
+- [Riwayat Indeks Fitur (`FEATURE_HISTORY.md`)](archive/docs-legacy/project/history/FEATURE_HISTORY.md)
+- [Arsitektur Frontend](archive/docs-legacy/frontend/README.md)
+- [Arsitektur Backend](archive/docs-legacy/backend/README.md)
+- [Arsitektur Database](archive/docs-legacy/database/README.md)

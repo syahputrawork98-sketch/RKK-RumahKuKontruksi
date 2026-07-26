@@ -46,7 +46,7 @@ const SuperadminHoldStatePage = ({ title, description }) => {
                 <div>
                     <p className="text-xs font-bold text-blue-800 mb-1 uppercase tracking-tight">Catatan Developer</p>
                     <p className="text-xs text-blue-600 leading-relaxed font-medium">
-                        Jika Anda memerlukan data ini untuk pengujian, silakan hubungi tim Backend atau periksa <code>docs/project/current-status.md</code> untuk melihat jadwal rilis fitur terkait.
+                        Jika Anda memerlukan data ini untuk pengujian, silakan hubungi tim Backend atau periksa <code>archive/docs-legacy/project/current-status.md</code> untuk melihat jadwal rilis fitur terkait.
                     </p>
                 </div>
             </div>

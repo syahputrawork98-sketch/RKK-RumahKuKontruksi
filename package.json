@@ -1,0 +1,28 @@
+{
+  "name": "rkk-rumahkukontruksi",
+  "version": "1.0.0",
+  "description": "RumahKu Konstruksi (RKK) adalah platform inovatif yang dirancang untuk membantu pengelolaan proyek konstruksi, menghubungkan konsumen, arsitek, admin, pengawas, dan mandor dalam satu ekosistem yang terintegrasi. Platform ini memastikan transparansi dan efisiensi dalam pembangunan rumah.",
+  "workspaces": [
+    "client",
+    "server",
+    "apps/*"
+  ],
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syahputrawork98-sketch/RKK-RumahKuKontruksi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/syahputrawork98-sketch/RKK-RumahKuKontruksi/issues"
+  },
+  "homepage": "https://github.com/syahputrawork98-sketch/RKK-RumahKuKontruksi#readme"
+}

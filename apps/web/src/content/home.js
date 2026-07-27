@@ -16,28 +16,28 @@ export const homeContent = {
     ]
   },
   context: {
-    eyebrow: 'MENGAPA RKK',
+    eyebrow: 'MENGAPA PERLU TERSTRUKTUR',
     title: 'Pekerjaan konstruksi membutuhkan arah yang jelas sejak awal.',
     description: 'Kebutuhan, keputusan, dan bukti pekerjaan perlu dikelola secara terstruktur agar setiap tahap mempunyai konteks yang dapat dipahami.',
     points: [
       {
-        title: 'Kebutuhan dan ruang lingkup dapat berubah atau tidak tercatat dengan baik.',
-        description: 'Detail material dan teknis pelaksanaan sering kali tidak tertulis dengan jelas, memicu perbedaan ekspektasi di lapangan.'
+        title: 'Ruang lingkup perlu dipahami',
+        description: 'Kebutuhan, detail, dan batas pekerjaan perlu dicatat agar pembahasan tidak kehilangan arah.'
       },
       {
-        title: 'Keputusan, progres, dan kendala perlu disampaikan secara terstruktur.',
-        description: 'Keputusan yang diambil di lapangan tanpa catatan dapat mengubah biaya dan menggeser jadwal tanpa disadari.'
+        title: 'Keputusan perlu memiliki konteks',
+        description: 'Perubahan, progres, dan kendala perlu disampaikan bersama alasan serta dampaknya.'
       },
       {
-        title: 'Dokumen dan bukti pekerjaan perlu mudah ditelusuri sesuai kebutuhan.',
-        description: 'Dokumentasi kualitas sering terpencar di berbagai saluran komunikasi, sehingga sulit ditelusuri ketika dibutuhkan.'
+        title: 'Dokumen perlu mudah ditelusuri',
+        description: 'Catatan dan bukti pekerjaan perlu disusun agar dapat ditemukan ketika dibutuhkan.'
       }
     ]
   },
   approach: {
-    eyebrow: 'PENDEKATAN',
+    eyebrow: 'PENDEKATAN RKK',
     title: 'Pendekatan yang membantu pekerjaan tetap memiliki arah.',
-    description: 'Kami meletakkan keteraturan sebagai dasar pelaksanaan untuk menjaga batas ruang lingkup dan standar pekerjaan.',
+    description: 'RKK menggunakan empat prinsip untuk membantu kebutuhan, keputusan, informasi, dan bukti pekerjaan tetap berada dalam alur yang dapat dipahami.',
     items: [
       {
         title: 'Terencana',
@@ -58,8 +58,8 @@ export const homeContent = {
     ]
   },
   workflow: {
-    eyebrow: 'PROSES',
-    title: 'Gambaran cara kerja RKK',
+    eyebrow: 'GAMBARAN CARA KERJA',
+    title: 'Dari kebutuhan awal menuju tindak lanjut yang lebih tertata.',
     steps: [
       {
         title: 'Orientasi kebutuhan',
@@ -85,13 +85,15 @@ export const homeContent = {
     }
   },
   services: {
-    eyebrow: 'LAYANAN',
-    title: 'Informasi layanan ditampilkan setelah ruang lingkupnya disahkan.',
-    description: 'RKK tidak menampilkan daftar layanan, harga, wilayah, jadwal, atau ketentuan yang belum memiliki sumber resmi. Informasi tersebut akan tersedia setelah ruang lingkup dan batasnya ditetapkan.'
+    eyebrow: 'INFORMASI LAYANAN',
+    title: 'Informasi layanan disiapkan secara bertahap sebelum dipublikasikan.',
+    description: 'RKK tidak menampilkan daftar layanan, harga, wilayah, jadwal, atau ketentuan yang belum memiliki sumber resmi. Informasi akan tersedia setelah ruang lingkup dan batasnya ditetapkan.',
+    statusLabel: 'Konten sedang disiapkan'
   },
   principles: {
-    eyebrow: 'PRINSIP',
+    eyebrow: 'TRANSPARANSI DAN DOKUMENTASI',
     title: 'Transparansi dibangun melalui informasi yang relevan dan dapat ditelusuri.',
+    intro: 'Keterbukaan perlu berjalan bersama konteks, tanggung jawab, dan batas akses yang tepat.',
     items: [
       {
         title: 'Informasi relevan',

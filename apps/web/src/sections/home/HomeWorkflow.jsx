@@ -12,7 +12,7 @@ export default function HomeWorkflow({ content }) {
           title={content.title}
         />
         
-        <div className="process-grid">
+        <div className="timeline-grid">
           {content.steps.map((step, index) => (
             <div key={index} className="process-step">
               <span className="step-number">{index + 1}</span>

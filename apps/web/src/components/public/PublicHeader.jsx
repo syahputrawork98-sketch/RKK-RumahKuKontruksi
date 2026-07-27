@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import MobileDrawer from './MobileDrawer';
+import rkkMark from '../../assets/brand/rkk-mark.png';
 
 export default function PublicHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -18,8 +19,9 @@ export default function PublicHeader() {
     <header className="public-header" role="banner">
       <div className="public-container">
         <div className="header-content">
-          <Link to="/" className="brand-link">
-            Rumahku Konstruksi
+          <Link to="/" className="brand-link" aria-label="Rumahku Konstruksi">
+            <img src={rkkMark} alt="" aria-hidden="true" className="brand-logo" />
+            <span className="brand-text">Rumahku Konstruksi</span>
           </Link>
 
           <nav className="desktop-nav" aria-label="Navigasi Utama">

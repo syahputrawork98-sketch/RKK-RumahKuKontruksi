@@ -9,11 +9,10 @@ export default function HomeServices({ content }) {
         <SectionHeading 
           eyebrow={content.eyebrow}
           title={content.title}
-          description={content.description}
         />
-        {/* State: information/hold panel; tidak membuat kartu layanan dummy */}
-        <div className="gate-panel">
-          <p>Layanan akan dibuka secara bertahap.</p>
+        <div className="informative-panel">
+          <span className="panel-status">{content.statusLabel}</span>
+          <p className="panel-desc">{content.description}</p>
         </div>
       </PublicContainer>
     </PublicSection>

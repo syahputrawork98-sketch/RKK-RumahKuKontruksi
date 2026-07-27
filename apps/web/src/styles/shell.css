@@ -65,6 +65,18 @@
 }
 
 .brand-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 32px;
+  width: auto;
+}
+
+.brand-text {
   font-weight: 700;
   font-size: 1.125rem;
   color: var(--color-brand-900);
@@ -226,10 +238,13 @@
   }
 }
 
-.footer-brand h2 {
+.footer-brand .brand-link {
+  margin-bottom: var(--spacing-2);
+}
+
+.footer-brand .brand-text {
   color: var(--color-neutral-0);
   font-size: var(--font-size-h3-desktop);
-  margin-bottom: var(--spacing-2);
 }
 
 .footer-desc {

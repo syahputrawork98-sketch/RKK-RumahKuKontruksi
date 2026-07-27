@@ -13,7 +13,7 @@ export default function HomeContext({ content }) {
           description={content.description}
         />
         
-        <div className="approach-grid">
+        <div className="context-grid">
           {content.points.map((point, index) => (
             <InfoCard 
               key={index}

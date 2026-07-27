@@ -27,6 +27,24 @@ describe('PublicAppShell', () => {
     // Verify wrong spelling doesn't exist
     expect(screen.queryByText(/RumahKu\s?Kontruksi/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/RUMAHKU\s?KONTRUKSI/i)).not.toBeInTheDocument();
+
+    // Check brand logo is local
+    const logos = document.querySelectorAll('.brand-logo');
+    expect(logos.length).toBeGreaterThan(0);
+    logos.forEach(logo => {
+      expect(logo.getAttribute('src')).not.toMatch(/^https?:/);
+      expect(logo.getAttribute('src')).not.toMatch(/cloudinary/i);
+    });
+
+    // Check no remote image exists on page
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      const src = img.getAttribute('src');
+      if (src) {
+        expect(src).not.toMatch(/^https?:/);
+        expect(src).not.toMatch(/cloudinary/i);
+      }
+    });
   });
 
   it('validates CTA Pelajari Cara Kerja and Hold Action behavior', () => {

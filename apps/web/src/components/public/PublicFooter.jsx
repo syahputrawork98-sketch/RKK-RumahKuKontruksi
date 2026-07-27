@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import rkkMark from '../../assets/brand/rkk-mark.png';
 
 export default function PublicFooter() {
   return (
@@ -6,9 +7,12 @@ export default function PublicFooter() {
       <div className="public-container">
         <div className="footer-content">
           <div className="footer-brand">
-            <h2>Rumahku Konstruksi</h2>
+            <Link to="/" className="brand-link" aria-label="Rumahku Konstruksi">
+              <img src={rkkMark} alt="" aria-hidden="true" className="brand-logo" />
+              <span className="brand-text">Rumahku Konstruksi</span>
+            </Link>
             <p className="footer-desc">
-              Pendekatan terencana dan terkendali untuk kebutuhan konstruksi Anda.
+              Pendekatan terstruktur untuk membantu kebutuhan konstruksi memiliki arah, konteks, dan dokumentasi yang lebih jelas.
             </p>
           </div>
           
@@ -22,6 +26,9 @@ export default function PublicFooter() {
               </li>
               <li>
                 <Link to="/cara-kerja">Cara Kerja</Link>
+              </li>
+              <li>
+                <Link to="/sign-in">Masuk</Link>
               </li>
             </ul>
           </nav>

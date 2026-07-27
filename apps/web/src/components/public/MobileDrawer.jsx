@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import rkkMark from '../../assets/brand/rkk-mark.png';
 
 export default function MobileDrawer({ isOpen, onClose }) {
   const closeBtnRef = useRef(null);
@@ -113,7 +114,10 @@ export default function MobileDrawer({ isOpen, onClose }) {
         aria-hidden={isOpen ? "false" : "true"}
       >
         <div className="drawer-header">
-          <span className="brand-link">RKK</span>
+          <span className="brand-link">
+            <img src={rkkMark} alt="" aria-hidden="true" className="brand-logo" />
+            <span className="brand-text">Rumahku Konstruksi</span>
+          </span>
           <button
             ref={closeBtnRef}
             className="drawer-close"

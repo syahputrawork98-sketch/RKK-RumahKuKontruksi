@@ -1,4 +1,4 @@
-# RKK RumahKu Konstruksi - Dokumen Perencanaan
+# RKK Rumahku Konstruksi — Dokumen Perencanaan
 
 > **Status Saat Ini:** SELESAI DAN TERVERIFIKASI — PLAN-000
 
@@ -14,7 +14,8 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Hasil Eksekusi:** Menyiapkan repository bersih untuk implementasi PLAN-001.
 
 ### [PLAN-001: Fondasi UI Website Publik & Beranda RKK](./PLAN-001_FONDASI_UI_WEBSITE_PUBLIK_DAN_BERANDA_RKK.md)
-- **Status:** Siap Audit Implementasi
+- **Status:** Baseline Implementasi Terverifikasi — Siap PLAN-001A
 - **Ruang Lingkup:** Implementasi React Router, design tokens, App Shell, komponen publik, dan halaman Beranda tanpa Tailwind.
+- **Audit SHA:** `a0c5140ea02d04f21b20772c746aa7561ddae915`
 
 *(Plan lain akan ditambahkan di sini setelah disetujui)*

@@ -2,7 +2,7 @@
 kode: PLAN-001
 judul: Fondasi UI Website Publik dan Implementasi Struktur Beranda RKK
 versi: 1.0
-status: SIAP AUDIT IMPLEMENTASI
+status: BASELINE IMPLEMENTASI TERVERIFIKASI — SIAP PLAN-001A
 tanggal_penyusunan: 2026-07-27
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 base_branch: main
@@ -18,10 +18,12 @@ branch_dilindungi: refactor/plan-002-backend-foundation
 ## 1. Status Dokumen
 
 ```text
-PLAN-001 — SIAP AUDIT IMPLEMENTASI
-SIAP DIGUNAKAN SEBAGAI INSTRUKSI EKSEKUSI ANTIGRAVITY
-GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT PULL REQUEST
-COMMIT DAN PUSH HANYA DILAKUKAN SETELAH LAPORAN HASIL DIAUDIT ROOM 3
+PLAN-001 — BASELINE IMPLEMENTASI TERVERIFIKASI
+AUDIT IMPLEMENTASI LULUS
+PLAN-001A — SIAP DISUSUN
+
+Audit implementasi SHA:
+a0c5140ea02d04f21b20772c746aa7561ddae915
 ```
 
 Dokumen ini merupakan PLAN-001 final yang telah dibaca dan disetujui Pemilik pada 27 Juli 2026. Dokumen menjadi sumber instruksi teknis untuk eksekusi di Antigravity pada branch dan base SHA yang ditetapkan.
@@ -1545,9 +1547,11 @@ Gemini Antigravity wajib berhenti setelah implementasi, validasi, dan laporan. C
 - **Check Whitespace:** `git diff --check` bersih sempurna (0 error).
 
 ### E. Kondisi Akhir
-- **Status PLAN-001:** `SIAP AUDIT IMPLEMENTASI`
-- **Status PLAN-001A:** Belum dimulai.
-- Perubahan di working tree diamankan secara sempurna tanpa di-commit maupun push.
-- Tidak ada branch baru (checkout tetap di `refactor/plan-001-public-ui-home`).
-- `PLAN-002` sama sekali tidak disentuh.
-- Protected area (seperti `client/`, `server/`, `archive/`, dsb) dijamin aman.
+- **Status PLAN-001:** `BASELINE IMPLEMENTASI TERVERIFIKASI — SIAP PLAN-001A`
+- **Audit Room 3:** Telah lulus.
+- **Acceptance Criteria:** Seluruh kriteria PLAN-001 telah terpenuhi. Build, lint, test, dan pemeriksaan scope telah diterima.
+- **Commit dan Push:** Gemini tidak melakukan commit atau push. Pemilik telah melakukan commit dan push.
+- **Checkpoint Audit:** SHA `a0c5140ea02d04f21b20772c746aa7561ddae915` (Branch GitHub identik dengan checkpoint ini).
+- **Branch:** Branch tetap `refactor/plan-001-public-ui-home`. Tidak ada branch baru.
+- **Status PLAN-001A:** Belum diimplementasikan. Logo visual, refactor header legacy, pengisian ruang kosong, dan polish visual masuk ke PLAN-001A.
+- `PLAN-002` sama sekali tidak disentuh dan protected area dijamin aman.

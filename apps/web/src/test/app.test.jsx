@@ -84,6 +84,11 @@ describe('PublicAppShell', () => {
     expect(holdAction).toHaveAttribute('aria-disabled', 'true');
     expect(holdAction.closest('a')).toBeNull();
     expect(holdAction).not.toHaveAttribute('href');
+
+    // Link Lihat Status Layanan menuju /layanan
+    const statusLayananBtns = screen.getAllByText('Lihat Status Layanan');
+    expect(statusLayananBtns.length).toBeGreaterThan(0);
+    expect(statusLayananBtns[0].closest('a')).toHaveAttribute('href', '/layanan');
   });
 
   it('validates active navigation has aria-current="page"', () => {

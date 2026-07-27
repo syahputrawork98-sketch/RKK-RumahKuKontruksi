@@ -89,9 +89,13 @@ export const homeContent = {
   },
   services: {
     eyebrow: 'INFORMASI LAYANAN',
-    title: 'Informasi layanan disiapkan secara bertahap sebelum dipublikasikan.',
-    description: 'RKK tidak menampilkan daftar layanan, harga, wilayah, jadwal, atau ketentuan yang belum memiliki sumber resmi. Informasi akan tersedia setelah ruang lingkup dan batasnya ditetapkan.',
-    statusLabel: 'Konten sedang disiapkan'
+    title: 'Informasi layanan dipublikasikan setelah melewati pemeriksaan kesiapan.',
+    description: 'RKK belum menampilkan layanan sebagai penawaran aktif. Halaman Layanan menjelaskan status publikasi, gerbang kesiapan, dan batas informasi yang berlaku saat ini.',
+    statusLabel: 'Belum ada layanan siap publik',
+    action: {
+      label: 'Lihat Status Layanan',
+      href: '/layanan'
+    }
   },
   principles: {
     eyebrow: 'TRANSPARANSI DAN DOKUMENTASI',

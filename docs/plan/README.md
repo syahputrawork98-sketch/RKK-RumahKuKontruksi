@@ -42,4 +42,8 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Status:** SELESAI DIEKSEKUSI
 - **Hasil:** Halaman Cara Kerja telah diimplementasikan lengkap beserta komponen sembilan fase, content layer, styling, routing, dan integrasi Beranda.
 
+### [PLAN-005: Implementasi Halaman Daftar Layanan Rumahku Konstruksi](./PLAN-005_IMPLEMENTASI_HALAMAN_DAFTAR_LAYANAN_RUMAHKU_KONSTRUKSI.md)
+- **Status:** DIEKSEKUSI — MENUNGGU AUDIT
+- **Hasil:** Halaman Layanan diimplementasikan dengan mematuhi current-empty state dan boundaries yang dilarang.
+
 *(Plan lain akan ditambahkan di sini setelah disetujui)*

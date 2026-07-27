@@ -6,6 +6,7 @@ import './styles/shell.css'
 import './styles/home.css'
 import './styles/about.css'
 import './styles/work-process.css'
+import './styles/services.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

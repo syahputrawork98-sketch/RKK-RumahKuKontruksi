@@ -4,18 +4,21 @@ import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import { serviceListContent } from '../../content/services';
 
-export default function ServiceListHero() {
-  const content = serviceListContent.hero;
+export default function ServiceListEmptyState() {
+  const content = serviceListContent.emptyState;
 
   return (
-    <PublicSection className="service-hero">
+    <PublicSection className="service-empty-state">
       <PublicContainer>
-        <div className="service-hero-content">
-          <p className="service-hero-eyebrow">{content.eyebrow}</p>
-          <h1 className="service-hero-title">{content.title}</h1>
-          <p className="service-hero-description">{content.description}</p>
+        <div className="empty-state-content">
+          <div>
+            <span className="empty-state-label">{content.statusLabel}</span>
+            <h2 className="empty-state-title">{content.title}</h2>
+          </div>
+          <p className="empty-state-desc">{content.description}</p>
+          <p className="empty-state-available">{content.availableNow}</p>
           
-          <div className="service-hero-actions">
+          <div className="empty-state-actions">
             <Link to={content.primaryAction.href} className="btn-primary">
               {content.primaryAction.label}
             </Link>
@@ -23,6 +26,8 @@ export default function ServiceListHero() {
               {content.secondaryAction.label}
             </Link>
           </div>
+          
+          <p className="empty-state-notice">{content.notice}</p>
         </div>
       </PublicContainer>
     </PublicSection>

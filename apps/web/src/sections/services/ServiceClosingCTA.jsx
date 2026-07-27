@@ -4,18 +4,17 @@ import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import { serviceListContent } from '../../content/services';
 
-export default function ServiceListHero() {
-  const content = serviceListContent.hero;
+export default function ServiceClosingCTA() {
+  const content = serviceListContent.closing;
 
   return (
-    <PublicSection className="service-hero">
+    <PublicSection className="service-closing-section">
       <PublicContainer>
-        <div className="service-hero-content">
-          <p className="service-hero-eyebrow">{content.eyebrow}</p>
-          <h1 className="service-hero-title">{content.title}</h1>
-          <p className="service-hero-description">{content.description}</p>
+        <div className="closing-content">
+          <h2 className="closing-title">{content.title}</h2>
+          <p className="closing-desc">{content.description}</p>
           
-          <div className="service-hero-actions">
+          <div className="closing-actions">
             <Link to={content.primaryAction.href} className="btn-primary">
               {content.primaryAction.label}
             </Link>
@@ -23,6 +22,8 @@ export default function ServiceListHero() {
               {content.secondaryAction.label}
             </Link>
           </div>
+          
+          <p className="closing-notice">{content.notice}</p>
         </div>
       </PublicContainer>
     </PublicSection>

@@ -1,7 +1,7 @@
 ---
 kode: PLAN-005
 judul: Implementasi Halaman Daftar Layanan Rumahku Konstruksi
-versi: 1.1
+versi: 1.2
 status: SELESAI DAN TERVERIFIKASI
 final_audit_sha: 9baecc1dde5acacb621c0f6916a10d6512b8fbc6
 tanggal_penyusunan: 2026-07-28
@@ -9,7 +9,7 @@ tanggal_persetujuan: 2026-07-28
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: ad0cbc19cb62d1672217faaed82676ee9fc5735d
-base_sha_status: Remote terverifikasi dan disetujui; wajib cocok dengan HEAD lokal sebelum perubahan
+base_sha_status: Baseline awal implementasi; pekerjaan telah selesai dan diverifikasi pada final_audit_sha
 area_implementasi: apps/web
 route_utama: /layanan
 jenis_pekerjaan: implementasi halaman publik — daftar layanan dengan gerbang publikasi
@@ -28,7 +28,7 @@ CURRENT-EMPTY STATE TETAP BERLAKU
 DETAIL LAYANAN MENJADI PLAN TERPISAH
 ```
 
-Dokumen ini merupakan draf teknis mandiri untuk membangun route `/layanan` sebagai halaman Daftar Layanan Rumahku Konstruksi.
+Dokumen ini merupakan plan teknis final yang mendokumentasikan implementasi route `/layanan` sebagai halaman Daftar Layanan Rumahku Konstruksi.
 
 Halaman tidak langsung berfungsi sebagai katalog penawaran aktif. Kondisi bisnis yang berlaku saat penyusunan PLAN-005 adalah:
 
@@ -1867,7 +1867,8 @@ Status keputusan:
 
 ```text
 DISETUJUI PEMILIK PADA 28 JULI 2026
-SIAP DIEKSEKUSI SETELAH AUDIT LOKAL LULUS
+IMPLEMENTASI SELESAI DAN TERVERIFIKASI
+DETAIL LAYANAN DITAHAN UNTUK PLAN TERPISAH
 ```
 
 ---

@@ -45,6 +45,29 @@ describe('PublicAppShell', () => {
         expect(src).not.toMatch(/cloudinary/i);
       }
     });
+
+    // Check Hero stages and outcomes
+    const expectedStages = ['Kebutuhan', 'Pemeriksaan', 'Pengendalian', 'Dokumentasi'];
+    const expectedOutcomes = ['Terencana', 'Terkendali', 'Transparan', 'Terdokumentasi'];
+    expectedStages.forEach(stage => {
+      expect(document.querySelector('.system-diagram')).toHaveTextContent(stage);
+    });
+    expectedOutcomes.forEach(outcome => {
+      expect(document.querySelector('.system-diagram')).toHaveTextContent(outcome);
+    });
+
+    // Check Context has numeric markers (01, 02, 03)
+    const contextMarkers = document.querySelectorAll('#konteks .card-marker');
+    expect(contextMarkers.length).toBe(3);
+    expect(contextMarkers[0]).toHaveTextContent('01');
+    expect(contextMarkers[2]).toHaveTextContent('03');
+
+    // Check Approach has icons instead of numeric markers
+    const approachIcons = document.querySelectorAll('#pendekatan .card-icon');
+    expect(approachIcons.length).toBe(4);
+
+    // Check precise Workflow notice
+    expect(screen.getByText('Tahapan ini merupakan gambaran ringkas. Detail proses akan dijelaskan pada halaman Cara Kerja setelah struktur dan ketentuannya siap dipublikasikan.')).toBeInTheDocument();
   });
 
   it('validates CTA Pelajari Cara Kerja and Hold Action behavior', () => {

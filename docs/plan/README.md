@@ -1,6 +1,6 @@
 # RKK Rumahku Konstruksi — Dokumen Perencanaan
 
-> **Status Saat Ini:** SELESAI DAN TERVERIFIKASI — PLAN-000
+> **Status Saat Ini:** PLAN-001A — SIAP AUDIT IMPLEMENTASI
 
 Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan pengembangan RKK.
 
@@ -14,8 +14,14 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Hasil Eksekusi:** Menyiapkan repository bersih untuk implementasi PLAN-001.
 
 ### [PLAN-001: Fondasi UI Website Publik & Beranda RKK](./PLAN-001_FONDASI_UI_WEBSITE_PUBLIK_DAN_BERANDA_RKK.md)
-- **Status:** Baseline Implementasi Terverifikasi — Siap PLAN-001A
-- **Ruang Lingkup:** Implementasi React Router, design tokens, App Shell, komponen publik, dan halaman Beranda tanpa Tailwind.
+- **Status:** Baseline Implementasi Terverifikasi — Dilanjutkan oleh PLAN-001A
 - **Audit SHA:** `a0c5140ea02d04f21b20772c746aa7561ddae915`
+- **Checkpoint Administratif:** `8334f6dbc053a3a2cbc165f8d29f4b2f755cd258`
+
+### [PLAN-001A: Penguatan Konten dan Penyempurnaan Visual Beranda RKK](./PLAN-001A_PENGUATAN_KONTEN_DAN_PENYEMPURNAAN_VISUAL_BERANDA_RKK.md)
+- **Status:** Siap Audit Implementasi
+- **Ruang Lingkup:** Logo lokal, penguatan konten Beranda, penyempurnaan visual, public shell, responsive behavior, dan pemanfaatan selektif pola legacy.
+- **Base SHA:** `8334f6dbc053a3a2cbc165f8d29f4b2f755cd258`
+- **Implementation SHA Awal:** `975f9dd1c9f7d683b12554d452f746f2307f8f29`
 
 *(Plan lain akan ditambahkan di sini setelah disetujui)*

@@ -1625,3 +1625,23 @@ gunakan legacy hanya sebagai referensi pola
 jangan mengisi kekosongan dengan klaim
 jangan menukar kejujuran publikasi dengan kepadatan visual
 ```
+
+---
+
+## 33. Laporan Implementasi dan Koreksi Audit
+
+- **Base SHA PLAN-001A:** `8334f6dbc053a3a2cbc165f8d29f4b2f755cd258`
+- **Implementation SHA Awal:** `975f9dd1c9f7d683b12554d452f746f2307f8f29`
+- **Temuan Audit Room 3:** Perlu perbaikan index README, penyesuaian teks Workflow, koreksi hierarchy konten Hero visual menjadi stage dan outcome, penambahan numeric marker untuk Context, penambahan icon marker untuk Approach.
+- **Koreksi Hero:** Mengubah bentuk visualNodes menjadi objek stage (Kebutuhan, Pemeriksaan, Pengendalian, Dokumentasi) dan outcome (Terencana, Terkendali, Transparan, Terdokumentasi). Garis penghubung memakai CSS Flexbox vertikal untuk mobile dan horizontal (serta centering text) untuk desktop. Dead SVG dan `display: none` dihapus.
+- **Koreksi Workflow:** Memperbarui prop string `notice` pada konten menjadi `Tahapan ini merupakan gambaran ringkas. Detail proses akan dijelaskan pada halaman Cara Kerja setelah struktur dan ketentuannya siap dipublikasikan.`
+- **Marker Context:** Menambahkan prop `marker` dengan prefix `0` (`01`, `02`, `03`) dan styling khusus via `InfoCard`.
+- **Icon Approach:** Menambahkan prop `icon` berupa inline SVG (tanda panah chevron sederhana) di `HomeApproach.jsx` dan styling di `InfoCard`.
+- **Pembaruan Indeks Plan:** Telah memperbarui `README.md` pada direktori plan sesuai hasil saat ini.
+- **Hasil Test:** Lulus. 1 test suite, 9 pass. Tambahan assertion marker/icon, Hero stage/outcome, dan notis tercantum.
+- **Hasil Lint:** Lulus. 0 warnings, 0 errors.
+- **Hasil Build:** Lulus. Assets tersusun tanpa isu bundler.
+- **Hasil Browser Verification:** Telah dilakukan uji manual. Diagram sistem pada desktop menyelaraskan node ke form horizontal secara rapi, tetap vertikal pada 390x844. Marker 01-03 pada konteks terlihat tanpa mendistorsi spacing. Icon Approach tampak kontras dan konsisten. Sidebar berfungsi dan responsive aman (no horizontal scroll bar).
+- **File Yang Berubah:** `docs/plan/README.md`, `apps/web/src/content/home.js`, `apps/web/src/components/ui/InfoCard.jsx`, `apps/web/src/sections/home/HomeContext.jsx`, `apps/web/src/sections/home/HomeApproach.jsx`, `apps/web/src/sections/home/HomeHero.jsx`, `apps/web/src/styles/home.css`, `apps/web/src/test/app.test.jsx`.
+- **Blocker dan Deviasi:** Tidak ada blocker. Deviasi: Penghapusan total code dead SVG karena pure CSS layout diagram lebih stabil.
+- **Status Akhir:** `PLAN-001A — SIAP AUDIT IMPLEMENTASI`

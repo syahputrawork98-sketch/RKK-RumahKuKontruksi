@@ -19,6 +19,7 @@ export default function HomeContext({ content }) {
               key={index}
               title={point.title}
               description={point.description}
+              marker={`0${index + 1}`}
             />
           ))}
         </div>

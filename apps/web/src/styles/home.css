@@ -87,8 +87,20 @@
   z-index: 0;
 }
 
-.system-lines {
-  display: none;
+@media (min-width: 1024px) {
+  .system-diagram {
+    flex-direction: row;
+    align-items: center;
+  }
+  .system-diagram::before {
+    left: 2rem;
+    right: 2rem;
+    top: 50%;
+    bottom: auto;
+    height: 2px;
+    width: auto;
+    transform: translateY(-50%);
+  }
 }
 
 .system-node {
@@ -112,6 +124,36 @@
   background: var(--color-brand-600);
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+.node-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.node-stage {
+  font-size: 0.75rem;
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.node-outcome {
+  font-size: 1rem;
+  color: var(--color-brand-900);
+}
+
+@media (min-width: 1024px) {
+  .system-node {
+    flex-direction: column;
+    text-align: center;
+  }
+  .node-content {
+    align-items: center;
+    text-align: center;
+  }
 }
 
 /* Sections */
@@ -337,6 +379,28 @@
   border-radius: var(--radius-card);
   padding: var(--spacing-6);
   height: 100%;
+}
+
+.card-indicator {
+  margin-bottom: var(--spacing-4);
+}
+
+.card-marker {
+  font-size: var(--font-size-h3-desktop);
+  font-weight: 700;
+  color: var(--color-brand-200);
+  line-height: 1;
+}
+
+.card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-brand-50);
+  color: var(--color-brand-600);
+  border-radius: var(--radius-button);
 }
 
 .info-card h3 {

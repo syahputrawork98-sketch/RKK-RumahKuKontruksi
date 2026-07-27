@@ -12,7 +12,10 @@ export const homeContent = {
       href: '/cara-kerja'
     },
     visualNodes: [
-      'Terencana', 'Terkendali', 'Transparan', 'Terdokumentasi'
+      { stage: 'Kebutuhan', outcome: 'Terencana' },
+      { stage: 'Pemeriksaan', outcome: 'Terkendali' },
+      { stage: 'Pengendalian', outcome: 'Transparan' },
+      { stage: 'Dokumentasi', outcome: 'Terdokumentasi' }
     ]
   },
   context: {
@@ -78,7 +81,7 @@ export const homeContent = {
         description: 'Merapikan catatan serta kebutuhan tindak lanjut sesuai ruang lingkup.'
       }
     ],
-    notice: 'Tahapan di atas merupakan ringkasan orientasi. Detail proses akan dijelaskan pada halaman Cara Kerja setelah struktur dan ketentuannya disahkan.',
+    notice: 'Tahapan ini merupakan gambaran ringkas. Detail proses akan dijelaskan pada halaman Cara Kerja setelah struktur dan ketentuannya siap dipublikasikan.',
     action: {
       label: 'Pelajari Cara Kerja',
       href: '/cara-kerja'

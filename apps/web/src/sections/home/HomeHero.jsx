@@ -27,13 +27,13 @@ export default function HomeHero({ content }) {
           </div>
           <div className="hero-visual" aria-hidden="true">
             <div className="system-diagram">
-              <svg className="system-lines" width="100%" height="100%" preserveAspectRatio="none">
-                <path d="M 50,50 L 150,150 L 250,50 L 350,150" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" className="stroke-primary" />
-              </svg>
               {content.visualNodes.map((node, index) => (
                 <div key={index} className={`system-node node-${index + 1}`}>
                   <div className="node-icon"></div>
-                  <div className="node-label">{node}</div>
+                  <div className="node-content">
+                    <span className="node-stage">{node.stage}</span>
+                    <span className="node-outcome">{node.outcome}</span>
+                  </div>
                 </div>
               ))}
             </div>

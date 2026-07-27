@@ -30,11 +30,9 @@ PROJECT CATALOG PRODUKSI TETAP KOSONG
 DETAIL PROYEK MENJADI PLAN TERPISAH
 ```
 
-Dokumen ini menyusun rencana implementasi route `/proyek` sebagai halaman Daftar Proyek Publik Rumahku Konstruksi.
+Dokumen ini merupakan plan teknis final yang mendokumentasikan implementasi route `/proyek` sebagai halaman Daftar Proyek Publik Rumahku Konstruksi.
 
 Halaman dibangun pada kondisi **current-hold state**. Route dan struktur halaman boleh tersedia, tetapi tidak ada kartu proyek, foto proyek, angka portofolio, progres, filter, pencarian, atau detail proyek yang diaktifkan sebelum proyek operasional melewati gerbang publikasi.
-
-
 
 ---
 

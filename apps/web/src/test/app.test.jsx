@@ -409,7 +409,7 @@ describe('PublicAppShell', () => {
 
   it('renders 404 state for unknown routes including /layanan/:slug', () => {
     const unknownRoutes = ['/unknown-route-123', '/layanan/contoh'];
-    
+
     unknownRoutes.forEach(route => {
       const { unmount } = render(
         <MemoryRouter initialEntries={[route]}>
@@ -435,15 +435,13 @@ describe('PublicAppShell', () => {
 
     // Drawer navigation
     const drawerNav = document.querySelector('.drawer-nav');
-    if (drawerNav) {
-      expect(within(drawerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
-    }
+    expect(drawerNav).not.toBeNull();
+    expect(within(drawerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
 
     // Footer navigation
     const footerNav = document.querySelector('.footer-nav');
-    if (footerNav) {
-      expect(within(footerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
-    }
+    expect(footerNav).not.toBeNull();
+    expect(within(footerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
   });
 
   it('manages drawer accessibility, focus, and body scroll lock', async () => {

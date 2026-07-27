@@ -11,7 +11,7 @@ export default function WorkHero({ content }) {
           <h1 className="hero-title">{content.title}</h1>
           <p className="hero-subtitle">{content.description}</p>
           
-          <div className="hero-actions">
+          <div className="work-hero-actions">
             <Link to={content.primaryAction.href} className="btn-primary">
               {content.primaryAction.label}
             </Link>
@@ -20,7 +20,7 @@ export default function WorkHero({ content }) {
             </Link>
           </div>
           
-          <div className="hero-notice">
+          <div className="work-hero-notice">
             <p>{content.notice}</p>
           </div>
         </div>

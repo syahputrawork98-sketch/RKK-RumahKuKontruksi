@@ -49,7 +49,7 @@ Persetujuan mencakup:
 4. tidak ada candidate service teaser;
 5. tidak ada detail route;
 6. tidak ada CTA konsultasi atau transaksi;
-7. tidak ada menu Layanan pada header, mobile drawer, atau footer;
+7. menu Layanan ditampilkan pada header desktop, mobile drawer, dan footer;
 8. Beranda mempunyai CTA `Lihat Status Layanan`;
 9. publication flow enam tahap;
 10. publication gate empat kelompok;
@@ -296,22 +296,23 @@ Cara Kerja
 Masuk
 ```
 
-Tidak ada menu Layanan.
+Menu Layanan ditampilkan pada header desktop, mobile drawer, dan footer.
+Posisi menu setelah Cara Kerja dan sebelum Masuk.
 
 Keputusan current state PLAN-005:
 
 ```text
-JANGAN menambahkan Layanan ke PublicHeader.
-JANGAN menambahkan Layanan ke MobileDrawer.
-JANGAN menambahkan Layanan ke PublicFooter.
+Menu Layanan ditampilkan pada header desktop, mobile drawer, dan footer.
+Posisi menu setelah Cara Kerja dan sebelum Masuk.
+Route /layanan menjadi halaman top-level publik.
+Route detail /layanan/:slug tetap ditahan sampai layanan siap publik.
 ```
 
 Alasan:
 
-- SRV-01 menetapkan route dapat tersedia tanpa menu;
-- visibilitas menu Layanan belum disetujui sebagai navigasi utama;
-- belum ada layanan aktif;
-- menu tidak boleh menyiratkan katalog penawaran aktif.
+- visibilitas menu Layanan disetujui pada 28 Juli 2026;
+- route `/layanan` menjadi halaman top-level publik;
+- menu tetap tidak menyiratkan katalog penawaran aktif karena `/layanan` menjelaskan status publikasi.
 
 ### 6.3 Beranda
 
@@ -344,7 +345,7 @@ PLAN-005 bertujuan:
 6. membedakan layanan, komponen terintegrasi, proses bisnis, dan fitur sistem;
 7. menjelaskan batas informasi layanan;
 8. menyediakan CTA aman menuju Cara Kerja dan Beranda;
-9. membuat halaman dapat ditemukan melalui Beranda tanpa menambah menu utama;
+9. membuat halaman dapat ditemukan melalui navigasi utama dan Beranda;
 10. menyediakan metadata, responsive behavior, aksesibilitas, dan test;
 11. menjaga implementasi tetap statis dan lokal selama belum ada P06/API aktif;
 12. mencegah konten lama GitHub menjadi fakta bisnis.
@@ -1561,9 +1562,8 @@ PLAN-005 diterima apabila seluruh kondisi terpenuhi.
 
 ### 23.6 Navigation
 
-- tidak ada menu Layanan pada header;
-- tidak ada menu Layanan pada drawer;
-- tidak ada menu Layanan pada footer;
+- menu Layanan ditampilkan pada header desktop, mobile drawer, dan footer;
+- posisi menu Layanan setelah Cara Kerja dan sebelum Masuk;
 - Beranda mempunyai link `Lihat Status Layanan`;
 - direct route bekerja.
 
@@ -1847,9 +1847,7 @@ Pemilik telah menyetujui:
 4. tidak ada candidate service teaser;
 5. tidak ada detail route;
 6. tidak ada CTA konsultasi;
-7. tidak ada menu Layanan pada header;
-8. tidak ada menu Layanan pada mobile drawer;
-9. tidak ada menu Layanan pada footer;
+7. menu Layanan ditampilkan pada header desktop, mobile drawer, dan footer;
 10. Beranda mempunyai CTA `Lihat Status Layanan`;
 11. publication flow enam tahap;
 12. publication gate empat kelompok;
@@ -1899,4 +1897,5 @@ IMPLEMENTASI               : SIAP DIMULAI SETELAH AUDIT LOKAL LULUS
 | Versi | Tanggal | Perubahan | Status |
 |---|---|---|---|
 | 0.1-draft | 2026-07-28 | Draf awal PLAN-005 berdasarkan audit sumber bisnis, paket SRV-01 sampai SRV-05, dan repository setelah PLAN-004 | Direview Pemilik |
-| 1.0 | 2026-07-28 | Pemilik menyetujui current-empty state, copy, gerbang publikasi, resolver, navigasi, scope, acceptance criteria, dan base SHA | Disetujui Pemilik — Siap Eksekusi Bersyarat Audit Lokal |
+| 1.0 | 2026-07-28 | Pemilik menyetujui current-empty state, copy, gerbang publikasi, resolver, navigasi, scope, acceptance criteria, dan base SHA | Disetujui Pemilik - Siap Eksekusi Bersyarat Audit Lokal |
+| 1.1 | 2026-07-28 | Pemilik menyetujui penambahan visibilitas menu Layanan pada header, drawer, dan footer | Disetujui Pemilik |

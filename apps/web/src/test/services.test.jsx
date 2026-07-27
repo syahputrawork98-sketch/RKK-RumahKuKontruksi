@@ -146,9 +146,11 @@ describe('ServiceListPage', () => {
       }
     });
 
-    // Check navigation menus do NOT have "Layanan"
+    // Check navigation menus have "Layanan" with href="/layanan"
     const nav = screen.getByLabelText('Navigasi Utama');
-    expect(within(nav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+    const layananLink = within(nav).getByText('Layanan');
+    expect(layananLink).toBeInTheDocument();
+    expect(layananLink).toHaveAttribute('href', '/layanan');
   });
 
   it('validates resolvePublishedServices', () => {

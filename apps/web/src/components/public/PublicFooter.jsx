@@ -28,6 +28,9 @@ export default function PublicFooter() {
                 <Link to="/cara-kerja">Cara Kerja</Link>
               </li>
               <li>
+                <Link to="/layanan">Layanan</Link>
+              </li>
+              <li>
                 <Link to="/sign-in">Masuk</Link>
               </li>
             </ul>

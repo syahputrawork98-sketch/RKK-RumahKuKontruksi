@@ -140,6 +140,9 @@ export default function MobileDrawer({ isOpen, onClose }) {
               <NavLink to="/cara-kerja" onClick={onClose}>Cara Kerja</NavLink>
             </li>
             <li>
+              <NavLink to="/layanan" onClick={onClose}>Layanan</NavLink>
+            </li>
+            <li>
               <NavLink to="/sign-in" onClick={onClose}>Masuk</NavLink>
             </li>
           </ul>

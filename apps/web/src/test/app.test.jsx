@@ -422,26 +422,45 @@ describe('PublicAppShell', () => {
     });
   });
 
-  it('validates navigation menus do not include Layanan', () => {
+  it('validates navigation menus include Layanan and correct sequence', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <AppRoutes />
       </MemoryRouter>
     );
 
+    const expectedSequence = ['Beranda', 'Tentang', 'Cara Kerja', 'Layanan', 'Masuk'];
+
     // Desktop navigation
     const nav = screen.getByLabelText('Navigasi Utama');
-    expect(within(nav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+    const desktopLinks = Array.from(nav.querySelectorAll('a')).map(a => a.textContent.trim());
+    expect(desktopLinks).toEqual(expectedSequence);
 
     // Drawer navigation
     const drawerNav = document.querySelector('.drawer-nav');
     expect(drawerNav).not.toBeNull();
-    expect(within(drawerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+    const drawerLinks = Array.from(drawerNav.querySelectorAll('a')).map(a => a.textContent.trim());
+    expect(drawerLinks).toEqual(expectedSequence);
 
     // Footer navigation
     const footerNav = document.querySelector('.footer-nav');
     expect(footerNav).not.toBeNull();
-    expect(within(footerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+    const footerLinks = Array.from(footerNav.querySelectorAll('a')).map(a => a.textContent.trim());
+    // Note: Footer has 'Tentang RKK' instead of 'Tentang'
+    const expectedFooterSequence = ['Beranda', 'Tentang RKK', 'Cara Kerja', 'Layanan', 'Masuk'];
+    expect(footerLinks).toEqual(expectedFooterSequence);
+  });
+
+  it('validates Layanan active navigation has aria-current="page"', () => {
+    render(
+      <MemoryRouter initialEntries={['/layanan']}>
+        <AppRoutes />
+      </MemoryRouter>
+    );
+
+    const nav = screen.getByLabelText('Navigasi Utama');
+    const activeLink = within(nav).getByText('Layanan');
+    expect(activeLink).toHaveAttribute('aria-current', 'page');
   });
 
   it('manages drawer accessibility, focus, and body scroll lock', async () => {

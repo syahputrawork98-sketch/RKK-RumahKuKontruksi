@@ -36,6 +36,9 @@ export default function PublicHeader() {
                 <NavLink to="/cara-kerja">Cara Kerja</NavLink>
               </li>
               <li>
+                <NavLink to="/layanan">Layanan</NavLink>
+              </li>
+              <li>
                 <NavLink to="/sign-in">Masuk</NavLink>
               </li>
             </ul>

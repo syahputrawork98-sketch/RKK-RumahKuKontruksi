@@ -1,14 +1,15 @@
 ---
 kode: PLAN-006
 judul: Implementasi Halaman Daftar Proyek Publik Rumahku Konstruksi
-versi: 1.0
-status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
+versi: 1.1
+status: SELESAI DAN TERVERIFIKASI
+final_audit_sha: 872265f3a4e5b987b881b8b993b0bb00d5ef1bae
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: 016405d9327125e9b63e626dffc8b9d708d5996d
-base_sha_status: Remote terverifikasi sebagai penutup final PLAN-005
+base_sha_status: Baseline awal implementasi; pekerjaan telah selesai dan diverifikasi pada final_audit_sha
 area_implementasi: apps/web
 route_utama: /proyek
 route_detail: /proyek/:slug — DITAHAN
@@ -22,17 +23,18 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
-PLAN FINAL SIAP DIGUNAKAN SEBAGAI INSTRUKSI EKSEKUSI
-GEMINI BOLEH MENGUBAH WORKING TREE SETELAH AUDIT LOKAL LULUS
-GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH
+SELESAI DAN TERVERIFIKASI
+IMPLEMENTASI, NAVIGASI, RESOLVER, TEST, LINT, BUILD, DAN DIFF CHECK TELAH DITERIMA
+CURRENT-HOLD STATE TETAP BERLAKU
+PROJECT CATALOG PRODUKSI TETAP KOSONG
+DETAIL PROYEK MENJADI PLAN TERPISAH
 ```
 
 Dokumen ini menyusun rencana implementasi route `/proyek` sebagai halaman Daftar Proyek Publik Rumahku Konstruksi.
 
 Halaman dibangun pada kondisi **current-hold state**. Route dan struktur halaman boleh tersedia, tetapi tidak ada kartu proyek, foto proyek, angka portofolio, progres, filter, pencarian, atau detail proyek yang diaktifkan sebelum proyek operasional melewati gerbang publikasi.
 
-PLAN-006 telah disetujui Pemilik pada 28 Juli 2026 dan dapat digunakan sebagai instruksi eksekusi setelah audit lokal memastikan branch, HEAD, remote, dan working tree sesuai.
+
 
 ---
 
@@ -1634,14 +1636,10 @@ Pemilik telah menyetujui:
 Keputusan final:
 
 ```text
-CURRENT-HOLD STATE DISETUJUI
-MENU PROYEK DISETUJUI
-ROUTE /proyek DISETUJUI
-SEMUA KARTU DAN MEDIA DITAHAN
-ROUTE /proyek/:slug DITAHAN
-FILTER DAN SEARCH DITAHAN
-EMPAT GERBANG PUBLIKASI DISETUJUI
-IMPLEMENTASI BOLEH DIMULAI SETELAH AUDIT LOKAL LULUS
+DISETUJUI PEMILIK PADA 28 JULI 2026
+IMPLEMENTASI SELESAI DAN TERVERIFIKASI
+CURRENT-HOLD STATE TETAP BERLAKU
+DETAIL PROYEK DITAHAN UNTUK PLAN TERPISAH
 ```
 
 Alasan:
@@ -1661,17 +1659,22 @@ Alasan:
 ```text
 AUDIT SUMBER PRY          : SELESAI
 AUDIT KONDISI BISNIS      : SELESAI
-AUDIT GITHUB BASELINE     : SELESAI
-CURRENT-HOLD STATE        : DISETUJUI
-COPY HALAMAN              : DISETUJUI
-EMPAT GERBANG             : DISETUJUI
-NAVIGASI PROYEK           : DISETUJUI
-DATA CONTRACT             : DISETUJUI
-SCOPE FILE                : DISETUJUI
-ACCEPTANCE CRITERIA       : DISETUJUI
-BASE SHA                  : 016405d9327125e9b63e626dffc8b9d708d5996d
-PERSETUJUAN PEMILIK       : SELESAI — 28 JULI 2026
-IMPLEMENTASI              : SIAP DIMULAI SETELAH AUDIT LOKAL LULUS
+AUDIT GITHUB              : SELESAI
+CURRENT-HOLD STATE        : TERVERIFIKASI
+COPY HALAMAN              : TERVERIFIKASI
+EMPAT GERBANG             : TERVERIFIKASI
+NAVIGASI PROYEK           : TERVERIFIKASI
+DATA CONTRACT             : TERVERIFIKASI
+RESOLVER PUBLIKASI        : TERVERIFIKASI
+PERLINDUNGAN DATA         : TERVERIFIKASI
+CSS SCOPE                 : TERVERIFIKASI
+ROUTE /proyek             : TERVERIFIKASI
+ROUTE DETAIL              : DITAHAN — TETAP 404
+PROJECT CATALOG           : KOSONG
+ACCEPTANCE CRITERIA       : TERVERIFIKASI
+FINAL AUDIT SHA           : 872265f3a4e5b987b881b8b993b0bb00d5ef1bae
+PERSETUJUAN PEMILIK       : SELESAI
+IMPLEMENTASI              : SELESAI DAN TERVERIFIKASI
 ```
 
 ---
@@ -1682,3 +1685,4 @@ IMPLEMENTASI              : SIAP DIMULAI SETELAH AUDIT LOKAL LULUS
 |---|---|---|---|
 | 0.1-draft | 2026-07-28 | Draf awal PLAN-006 berdasarkan paket PRY-01 sampai PRY-05, kondisi bisnis B05, dan repository setelah PLAN-005 | Direview Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui current-hold state, route, navigasi Proyek, empat gerbang publikasi, copy, data contract, scope, dan acceptance criteria | Disetujui Pemilik — Siap Eksekusi Bersyarat Audit Lokal |
+| 1.1 | 2026-07-28 | Penutupan administratif setelah audit final implementasi, navigasi, resolver publikasi, isolasi CSS, dan perlindungan data | Selesai dan Terverifikasi |

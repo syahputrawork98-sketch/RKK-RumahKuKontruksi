@@ -39,6 +39,9 @@ export default function PublicHeader() {
                 <NavLink to="/layanan">Layanan</NavLink>
               </li>
               <li>
+                <NavLink to="/proyek">Proyek</NavLink>
+              </li>
+              <li>
                 <NavLink to="/sign-in">Masuk</NavLink>
               </li>
             </ul>

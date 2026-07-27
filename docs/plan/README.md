@@ -48,3 +48,7 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Hasil: Halaman Layanan, gerbang publikasi, current-empty state, integrasi Beranda, dan navigasi publik telah diimplementasikan dan diterima.
 
 *(Plan lain akan ditambahkan di sini setelah disetujui)*
+
+### [PLAN-006: Implementasi Halaman Daftar Proyek Publik Rumahku Konstruksi](./PLAN-006_IMPLEMENTASI_HALAMAN_DAFTAR_PROYEK_PUBLIK_RUMAHKU_KONSTRUKSI.md)
+- Status: DIEKSEKUSI — MENUNGGU AUDIT
+- Hasil: Halaman Daftar Proyek Publik diimplementasikan pada current-hold state dengan empat gerbang publikasi, katalog kosong, navigasi publik, dan tanpa kartu atau media proyek.

@@ -31,6 +31,9 @@ export default function PublicFooter() {
                 <Link to="/layanan">Layanan</Link>
               </li>
               <li>
+                <Link to="/proyek">Proyek</Link>
+              </li>
+              <li>
                 <Link to="/sign-in">Masuk</Link>
               </li>
             </ul>

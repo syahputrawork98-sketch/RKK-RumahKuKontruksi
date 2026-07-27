@@ -221,7 +221,6 @@ describe('PublicAppShell', () => {
     links.forEach(link => {
       const href = link.getAttribute('href');
       expect(href).not.toBe('/kontak');
-      expect(href).not.toBe('/proyek');
     });
 
     // Check no remote image
@@ -356,7 +355,6 @@ describe('PublicAppShell', () => {
       const href = link.getAttribute('href');
       expect(href).not.toMatch(/\/konsultasi$/);
       expect(href).not.toMatch(/\/kontak$/);
-      expect(href).not.toMatch(/\/proyek$/);
     });
 
     // No form or input
@@ -429,7 +427,7 @@ describe('PublicAppShell', () => {
       </MemoryRouter>
     );
 
-    const expectedSequence = ['Beranda', 'Tentang', 'Cara Kerja', 'Layanan', 'Masuk'];
+    const expectedSequence = ['Beranda', 'Tentang', 'Cara Kerja', 'Layanan', 'Proyek', 'Masuk'];
 
     // Desktop navigation
     const nav = screen.getByLabelText('Navigasi Utama');
@@ -447,7 +445,7 @@ describe('PublicAppShell', () => {
     expect(footerNav).not.toBeNull();
     const footerLinks = Array.from(footerNav.querySelectorAll('a')).map(a => a.textContent.trim());
     // Note: Footer has 'Tentang RKK' instead of 'Tentang'
-    const expectedFooterSequence = ['Beranda', 'Tentang RKK', 'Cara Kerja', 'Layanan', 'Masuk'];
+    const expectedFooterSequence = ['Beranda', 'Tentang RKK', 'Cara Kerja', 'Layanan', 'Proyek', 'Masuk'];
     expect(footerLinks).toEqual(expectedFooterSequence);
   });
 

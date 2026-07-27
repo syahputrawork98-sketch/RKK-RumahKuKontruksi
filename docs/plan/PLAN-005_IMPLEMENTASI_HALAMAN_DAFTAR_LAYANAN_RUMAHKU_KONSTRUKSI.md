@@ -1,8 +1,9 @@
 ---
 kode: PLAN-005
 judul: Implementasi Halaman Daftar Layanan Rumahku Konstruksi
-versi: 1.0
-status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
+versi: 1.1
+status: SELESAI DAN TERVERIFIKASI
+final_audit_sha: 9baecc1dde5acacb621c0f6916a10d6512b8fbc6
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
@@ -21,10 +22,10 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
-PLAN FINAL SIAP DIGUNAKAN SEBAGAI INSTRUKSI EKSEKUSI
-GEMINI BOLEH MENGUBAH WORKING TREE SETELAH AUDIT LOKAL LULUS
-GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH
+SELESAI DAN TERVERIFIKASI
+IMPLEMENTASI, NAVIGASI, TEST, LINT, BUILD, DAN DIFF CHECK TELAH DITERIMA
+CURRENT-EMPTY STATE TETAP BERLAKU
+DETAIL LAYANAN MENJADI PLAN TERPISAH
 ```
 
 Dokumen ini merupakan draf teknis mandiri untuk membangun route `/layanan` sebagai halaman Daftar Layanan Rumahku Konstruksi.
@@ -1848,19 +1849,19 @@ Pemilik telah menyetujui:
 5. tidak ada detail route;
 6. tidak ada CTA konsultasi;
 7. menu Layanan ditampilkan pada header desktop, mobile drawer, dan footer;
-10. Beranda mempunyai CTA `Lihat Status Layanan`;
-11. publication flow enam tahap;
-12. publication gate empat kelompok;
-13. resolver lokal future-safe;
-14. service catalog production kosong;
-15. copy hero;
-16. copy status;
-17. copy empty state;
-18. copy concept difference;
-19. copy boundaries;
-20. file scope;
-21. acceptance criteria;
-22. base SHA final.
+8. Beranda mempunyai CTA `Lihat Status Layanan`;
+9. publication flow enam tahap;
+10. publication gate empat kelompok;
+11. resolver lokal future-safe;
+12. service catalog production kosong;
+13. copy hero;
+14. copy status;
+15. copy empty state;
+16. copy concept difference;
+17. copy boundaries;
+18. file scope;
+19. acceptance criteria;
+20. base SHA final.
 
 Status keputusan:
 
@@ -1877,17 +1878,16 @@ SIAP DIEKSEKUSI SETELAH AUDIT LOKAL LULUS
 AUDIT SUMBER R01           : SELESAI
 AUDIT PAKET SRV-01–SRV-05 : SELESAI
 AUDIT GITHUB REMOTE        : SELESAI
-CURRENT STATE              : DISETUJUI
-COPY HALAMAN               : DISETUJUI
-GERBANG PUBLIKASI          : DISETUJUI
-DATA CONTRACT              : DISETUJUI
-SCOPE FILE                 : DISETUJUI
-ACCEPTANCE CRITERIA        : DISETUJUI
-BASE SHA REMOTE            : ad0cbc19cb62d1672217faaed82676ee9fc5735d
-BASE SHA LOKAL             : WAJIB DIVERIFIKASI SEBELUM PERUBAHAN
-PERSETUJUAN PEMILIK        : SELESAI — 28 JULI 2026
-INSTRUKSI GEMINI           : BOLEH DIBERIKAN
-IMPLEMENTASI               : SIAP DIMULAI SETELAH AUDIT LOKAL LULUS
+CURRENT STATE              : TERVERIFIKASI
+COPY HALAMAN               : TERVERIFIKASI
+GERBANG PUBLIKASI          : TERVERIFIKASI
+DATA CONTRACT              : TERVERIFIKASI
+NAVIGASI PUBLIK            : TERVERIFIKASI
+SCOPE FILE                 : TERVERIFIKASI
+ACCEPTANCE CRITERIA        : TERVERIFIKASI
+FINAL AUDIT SHA            : 9baecc1dde5acacb621c0f6916a10d6512b8fbc6
+PERSETUJUAN PEMILIK        : SELESAI
+IMPLEMENTASI               : SELESAI DAN TERVERIFIKASI
 ```
 
 ---
@@ -1899,3 +1899,4 @@ IMPLEMENTASI               : SIAP DIMULAI SETELAH AUDIT LOKAL LULUS
 | 0.1-draft | 2026-07-28 | Draf awal PLAN-005 berdasarkan audit sumber bisnis, paket SRV-01 sampai SRV-05, dan repository setelah PLAN-004 | Direview Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui current-empty state, copy, gerbang publikasi, resolver, navigasi, scope, acceptance criteria, dan base SHA | Disetujui Pemilik - Siap Eksekusi Bersyarat Audit Lokal |
 | 1.1 | 2026-07-28 | Pemilik menyetujui penambahan visibilitas menu Layanan pada header, drawer, dan footer | Disetujui Pemilik |
+| 1.2 | 2026-07-28 | Penutupan administratif setelah audit final implementasi dan navigasi publik. | Selesai dan Terverifikasi |

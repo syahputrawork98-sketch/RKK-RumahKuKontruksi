@@ -407,14 +407,43 @@ describe('PublicAppShell', () => {
     expect(screen.queryByRole('button', { name: /login\s?simulasi/i })).not.toBeInTheDocument();
   });
 
-  it('renders 404 state for unknown routes', () => {
+  it('renders 404 state for unknown routes including /layanan/:slug', () => {
+    const unknownRoutes = ['/unknown-route-123', '/layanan/contoh'];
+    
+    unknownRoutes.forEach(route => {
+      const { unmount } = render(
+        <MemoryRouter initialEntries={[route]}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      expect(screen.getByText('404')).toBeInTheDocument();
+      expect(screen.getByText('Halaman tidak ditemukan')).toBeInTheDocument();
+      unmount();
+    });
+  });
+
+  it('validates navigation menus do not include Layanan', () => {
     render(
-      <MemoryRouter initialEntries={['/unknown-route-123']}>
+      <MemoryRouter initialEntries={['/']}>
         <AppRoutes />
       </MemoryRouter>
     );
-    expect(screen.getByText('404')).toBeInTheDocument();
-    expect(screen.getByText('Halaman tidak ditemukan')).toBeInTheDocument();
+
+    // Desktop navigation
+    const nav = screen.getByLabelText('Navigasi Utama');
+    expect(within(nav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+
+    // Drawer navigation
+    const drawerNav = document.querySelector('.drawer-nav');
+    if (drawerNav) {
+      expect(within(drawerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+    }
+
+    // Footer navigation
+    const footerNav = document.querySelector('.footer-nav');
+    if (footerNav) {
+      expect(within(footerNav).queryByText(/Layanan/i)).not.toBeInTheDocument();
+    }
   });
 
   it('manages drawer accessibility, focus, and body scroll lock', async () => {

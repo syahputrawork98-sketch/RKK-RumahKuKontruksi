@@ -1,4 +1,3 @@
-import React from 'react';
 import PublishedServiceCard from './PublishedServiceCard';
 
 export default function PublishedServiceGrid({ services }) {

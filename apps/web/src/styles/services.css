@@ -91,8 +91,8 @@
 .page-services .status-label {
   display: inline-block;
   padding: var(--spacing-1) var(--spacing-3);
-  background-color: var(--color-warning-bg);
-  color: var(--color-warning-text);
+  background-color: var(--color-info-bg);
+  color: var(--color-info-text);
   border-radius: var(--radius-button);
   font-size: var(--font-size-supporting);
   font-weight: 600;
@@ -118,7 +118,7 @@
 .page-services .status-notice {
   padding: var(--spacing-3);
   background-color: var(--color-neutral-0);
-  border-left: 3px solid var(--color-warning-text);
+  border-left: 3px solid var(--color-info-text);
   border-radius: 0 var(--radius-button) var(--radius-button) 0;
   color: var(--color-neutral-600);
   font-size: var(--font-size-supporting);

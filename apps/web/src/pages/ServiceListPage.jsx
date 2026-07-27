@@ -1,5 +1,4 @@
-import React from 'react';
-import PageMeta from '../components/ui/PageMeta';
+import { PageMeta } from '../components/ui/PageMeta';
 import { serviceListContent, serviceCatalog, resolvePublishedServices } from '../content/services';
 import ServiceListHero from '../sections/services/ServiceListHero';
 import PublicationGateVisual from '../sections/services/PublicationGateVisual';

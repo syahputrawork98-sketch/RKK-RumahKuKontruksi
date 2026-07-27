@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import AppRouter, { AppRoutes } from '../app/AppRouter';
-import { resolvePublishedServices, serviceCatalog } from '../content/services';
+import { AppRoutes } from '../app/AppRouter';
+import { resolvePublishedServices } from '../content/services';
 
 describe('ServiceListPage', () => {
   beforeEach(() => {
@@ -120,7 +120,6 @@ describe('ServiceListPage', () => {
       'harga mulai',
       'paket populer',
       'bestseller',
-      'rating',
       'SLA',
       'Pesan Sekarang',
       'Pilih Layanan',
@@ -129,6 +128,13 @@ describe('ServiceListPage', () => {
     forbiddenClaims.forEach(claim => {
       expect(screen.queryByText(new RegExp(claim, 'i'))).not.toBeInTheDocument();
     });
+
+    // Test structural for rating
+    expect(
+      document.querySelectorAll(
+        '.rating, .rating-badge, [data-rating], [aria-label*="rating" i]'
+      )
+    ).toHaveLength(0);
 
     // Tidak ada gambar remote
     const images = document.querySelectorAll('img');

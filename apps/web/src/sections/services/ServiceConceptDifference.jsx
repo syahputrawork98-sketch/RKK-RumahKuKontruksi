@@ -1,4 +1,3 @@
-import React from 'react';
 import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import SectionHeading from '../../components/ui/SectionHeading';

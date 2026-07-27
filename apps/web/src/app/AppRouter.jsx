@@ -1,6 +1,7 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import PublicAppShell from '../layouts/PublicAppShell';
 import HomePage from '../pages/HomePage';
+import AboutPage from '../pages/AboutPage';
 import UnavailablePage from '../pages/UnavailablePage';
 import NotFoundPage from '../pages/NotFoundPage';
 
@@ -9,10 +10,8 @@ export function AppRoutes() {
     <Routes>
       <Route element={<PublicAppShell />}>
         <Route path="/" element={<HomePage />} />
-        <Route
-          path="/tentang"
-          element={<UnavailablePage title="Halaman Tentang sedang disiapkan." description="Informasi mengenai kedudukan, arah, dan identitas RKK akan ditampilkan setelah paket kontennya siap untuk implementasi." />}
-        />
+        <Route path="/tentang" element={<AboutPage />} />
+        <Route path="/about" element={<Navigate to="/tentang" replace />} />
         <Route
           path="/cara-kerja"
           element={<UnavailablePage title="Halaman Cara Kerja sedang disiapkan." description="Gambaran ringkas tersedia di Beranda. Detail tahapan akan ditampilkan setelah struktur dan istilah proses disahkan." />}

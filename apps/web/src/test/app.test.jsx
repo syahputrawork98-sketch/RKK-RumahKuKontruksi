@@ -98,14 +98,96 @@ describe('PublicAppShell', () => {
     expect(activeLink).toHaveAttribute('aria-current', 'page');
   });
 
-  it('renders unavailable state for /tentang', () => {
+  it('renders AboutPage for /tentang and tests its contents', () => {
     render(
       <MemoryRouter initialEntries={['/tentang']}>
         <AppRoutes />
       </MemoryRouter>
     );
-    expect(screen.getByText('Sedang disiapkan')).toBeInTheDocument();
-    expect(screen.getByText('Halaman Tentang sedang disiapkan.')).toBeInTheDocument();
+    
+    // Check H1
+    const h1Elements = screen.getAllByRole('heading', { level: 1 });
+    expect(h1Elements).toHaveLength(1);
+    expect(h1Elements[0]).toHaveTextContent('Usaha konstruksi yang dibangun melalui sistem, proses, dan tanggung jawab yang dapat ditelusuri.');
+
+    // Check CTAs
+    const caraKerjaLinks = screen.getAllByRole('link', { name: /Pelajari Cara Kerja/i });
+    expect(caraKerjaLinks.length).toBeGreaterThan(0);
+    caraKerjaLinks.forEach(link => {
+      expect(link).toHaveAttribute('href', '/cara-kerja');
+    });
+
+    const berandaLinks = screen.getAllByRole('link', { name: /Kembali ke Beranda/i });
+    expect(berandaLinks.length).toBeGreaterThan(0);
+    berandaLinks.forEach(link => {
+      expect(link).toHaveAttribute('href', '/');
+    });
+
+    // Check Hero stages
+    const expectedStages = ['Kebutuhan', 'Perencanaan', 'Pemeriksaan', 'Pelaksanaan', 'Dokumentasi', 'Evaluasi'];
+    expectedStages.forEach(stage => {
+      expect(document.querySelector('.about-hero-visual')).toHaveTextContent(stage);
+    });
+
+    // Check positioning quote
+    expect(screen.getByText(/"Rumahku Konstruksi adalah usaha konstruksi berbasis sistem yang membantu pekerjaan pembangunan dan renovasi dijalankan secara lebih terencana, terkendali, transparan, dan terdokumentasi."/)).toBeInTheDocument();
+
+    // Check vision verbatim
+    expect(screen.getByText(/"Menjadi usaha konstruksi berbasis sistem yang terpercaya, terstandarisasi, dan bertumbuh secara terukur melalui tata kelola, pengendalian mutu, serta pengelolaan risiko yang disiplin."/)).toBeInTheDocument();
+
+    // Check exactly 5 core values
+    const coreValuesGrid = document.querySelector('.core-values-grid');
+    const valueCards = coreValuesGrid.querySelectorAll('.value-card');
+    expect(valueCards.length).toBe(5);
+    expect(screen.queryByText(/Profesionalisme/i)).not.toBeInTheDocument();
+
+    // Check exactly 7 DNA
+    const dnaList = document.querySelectorAll('.dna-item');
+    expect(dnaList.length).toBe(7);
+
+    // Check relationship diagram has 3 layers
+    const relationshipLayers = document.querySelectorAll('.relationship-layer');
+    expect(relationshipLayers.length).toBe(3);
+
+    // Check Current State headings
+    expect(screen.getByText('Sudah Menjadi Arah atau Prinsip')).toBeInTheDocument();
+    expect(screen.getByText('Belum Ditampilkan sebagai Fakta Publik')).toBeInTheDocument();
+
+    // Check negative requirements
+    expect(screen.queryByText(/Tim Kami/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Founder & CEO/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Hubungi Kami/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Lihat Portfolio/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Lihat Portofolio/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/pengawasan proyek real-time/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/ekosistem hunian terintegrasi/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/kualitas terjamin/i)).not.toBeInTheDocument();
+
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      expect(href).not.toBe('/kontak');
+      expect(href).not.toBe('/proyek');
+    });
+
+    // Check no remote image
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      const src = img.getAttribute('src');
+      if (src) {
+        expect(src).not.toMatch(/^https?:/);
+        expect(src).not.toMatch(/cloudinary/i);
+      }
+    });
+  });
+
+  it('redirects /about to /tentang', () => {
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <AppRoutes />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/usaha konstruksi yang dibangun melalui sistem/i);
   });
 
   it('renders unavailable state for /cara-kerja', () => {

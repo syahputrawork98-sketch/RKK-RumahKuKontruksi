@@ -26,4 +26,9 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Implementation SHA Awal:** `975f9dd1c9f7d683b12554d452f746f2307f8f29`
 - **Final Audit SHA:** `365ba31ae0e231ae1f4786ac1baf198b88a6ae60`
 
+### [PLAN-003: Implementasi Halaman Tentang Rumahku Konstruksi](./PLAN-003_IMPLEMENTASI_HALAMAN_TENTANG_RUMAHKU_KONSTRUKSI.md)
+- **Status:** SIAP AUDIT IMPLEMENTASI
+- **Base SHA:** `04379b872d3b24cd4cd5d159bf0698d1f43c795a`
+- **Hasil:** Halaman Tentang telah diimplementasikan lengkap beserta komponen, content layer, styling, routing, metadata, dan test tanpa menyentuh legacy client.
+
 *(Plan lain akan ditambahkan di sini setelah disetujui)*

@@ -101,14 +101,14 @@ export function resolvePublishedProjects(projects) {
     const approvedMedia = Array.isArray(project.media)
       ? project.media.filter(m =>
           m.rightsStatus === 'APPROVED' &&
-          m.src &&
+          String(m.src || '').trim() !== '' &&
           String(m.alt || '').trim() !== ''
         )
       : [];
 
     // Safety check for cover media
     const coverMedia = approvedMedia.length > 0 ? {
-      src: approvedMedia[0].src,
+      src: String(approvedMedia[0].src).trim(),
       alt: String(approvedMedia[0].alt).trim(),
       type: approvedMedia[0].type
     } : null;

@@ -131,9 +131,10 @@ describe('resolvePublishedProjects', () => {
     expect(resolvePublishedProjects([{ ...validBase, media: invalidMedia }])).toEqual([]);
   });
 
-  it('12. rejects media without src', () => {
-    const invalidMedia = [{ rightsStatus: 'APPROVED', url: '/img.jpg', alt: 'Cover', type: 'IMAGE' }];
-    expect(resolvePublishedProjects([{ ...validBase, media: invalidMedia }])).toEqual([]);
+  it('12. rejects media without src or whitespace src', () => {
+    expect(resolvePublishedProjects([{ ...validBase, media: [{ rightsStatus: 'APPROVED', url: '/img.jpg', alt: 'Cover', type: 'IMAGE' }] }])).toEqual([]);
+    expect(resolvePublishedProjects([{ ...validBase, media: [{ rightsStatus: 'APPROVED', src: '', alt: 'Cover', type: 'IMAGE' }] }])).toEqual([]);
+    expect(resolvePublishedProjects([{ ...validBase, media: [{ rightsStatus: 'APPROVED', src: '   ', alt: 'Cover', type: 'IMAGE' }] }])).toEqual([]);
   });
 
   it('13. rejects media without alt', () => {
@@ -164,15 +165,52 @@ describe('resolvePublishedProjects', () => {
   });
 
   it('17. no sensitive fields', () => {
+    const sensitiveKeys = [
+      'internalProjectId',
+      'customerId',
+      'customerName',
+      'phone',
+      'email',
+      'exactAddress',
+      'coordinates',
+      'contractNumber',
+      'contractValue',
+      'cost',
+      'paymentStatus',
+      'margin',
+      'personIds',
+      'documentIds',
+      'riskCodes',
+      'internalProgress',
+      'internalStatus',
+      'internalNotes',
+    ];
+
     const result = resolvePublishedProjects([{
       ...validBase,
       internalProjectId: 'INT-999',
       customerId: 'CUST-001',
-      contractValue: 1000000
+      customerName: 'John Doe',
+      phone: '123456789',
+      email: 'john@example.com',
+      exactAddress: '123 Secret St',
+      coordinates: '0,0',
+      contractNumber: 'CNT-001',
+      contractValue: 1000000,
+      cost: 500000,
+      paymentStatus: 'PAID',
+      margin: 500000,
+      personIds: ['P1', 'P2'],
+      documentIds: ['D1', 'D2'],
+      riskCodes: ['R1', 'R2'],
+      internalProgress: 50,
+      internalStatus: 'ON_TRACK',
+      internalNotes: 'Looks good'
     }]);
     const mapped = result[0];
-    expect(mapped.internalProjectId).toBeUndefined();
-    expect(mapped.customerId).toBeUndefined();
-    expect(mapped.contractValue).toBeUndefined();
+
+    sensitiveKeys.forEach(key => {
+      expect(mapped).not.toHaveProperty(key);
+    });
   });
 });

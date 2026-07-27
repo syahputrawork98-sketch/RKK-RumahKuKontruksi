@@ -256,13 +256,13 @@
 }
 
 @media (max-width: 639px) {
-  .projects-hero-actions,
+  .page-projects .projects-hero-actions,
   .page-projects .projects-cta-actions {
     flex-direction: column;
     width: 100%;
   }
   
-  .projects-hero-actions a,
+  .page-projects .projects-hero-actions a,
   .page-projects .projects-cta-actions a {
     width: 100%;
     text-align: center;

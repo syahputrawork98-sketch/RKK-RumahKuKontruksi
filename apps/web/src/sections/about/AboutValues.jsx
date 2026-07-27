@@ -25,6 +25,7 @@ export default function AboutValues({ content }) {
         </div>
 
         <div className="dna-section">
+          <h3 className="dna-heading">DNA Rumahku Konstruksi</h3>
           <ol className="dna-list">
             {content.dna.map((dnaItem, index) => (
               <li key={index} className="dna-item">

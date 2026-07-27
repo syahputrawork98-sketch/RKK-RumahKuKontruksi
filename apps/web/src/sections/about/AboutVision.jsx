@@ -29,13 +29,16 @@ export default function AboutVision({ content }) {
           ))}
         </div>
 
-        <div className="mission-groups">
-          {content.missionGroups.map((group, index) => (
-            <div key={index} className="mission-group">
-              <h3 className="mission-title">{group.title}</h3>
-              <p className="mission-desc">{group.description}</p>
-            </div>
-          ))}
+        <div className="mission-groups-section">
+          <h3 className="mission-groups-heading">Ringkasan Misi</h3>
+          <div className="mission-groups">
+            {content.missionGroups.map((group, index) => (
+              <div key={index} className="mission-group">
+                <h4 className="mission-title">{group.title}</h4>
+                <p className="mission-desc">{group.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </PublicContainer>
     </PublicSection>

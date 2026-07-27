@@ -110,6 +110,32 @@ describe('PublicAppShell', () => {
     expect(h1Elements).toHaveLength(1);
     expect(h1Elements[0]).toHaveTextContent('Usaha konstruksi yang dibangun melalui sistem, proses, dan tanggung jawab yang dapat ditelusuri.');
 
+    // Check landmark and wrappers
+    const mainElements = document.querySelectorAll('main');
+    expect(mainElements.length).toBe(1);
+    expect(mainElements[0]).toHaveAttribute('id', 'main-content');
+    
+    const mainContentIds = document.querySelectorAll('#main-content');
+    expect(mainContentIds.length).toBe(1);
+
+    const aboutWrapper = document.querySelector('.page-about');
+    expect(aboutWrapper.tagName.toLowerCase()).not.toBe('main');
+
+    // Check active navigation
+    const nav = screen.getByLabelText('Navigasi Utama');
+    const activeLink = within(nav).getByText('Tentang');
+    expect(activeLink).toHaveAttribute('aria-current', 'page');
+
+    // Check metadata
+    expect(document.title).toBe('Tentang Rumahku Konstruksi | Konstruksi Berbasis Sistem');
+    const metaDescription = document.querySelector('meta[name="description"]');
+    expect(metaDescription).not.toBeNull();
+    expect(metaDescription.content).toBe('Kenali kedudukan, positioning, visi, nilai inti, DNA, arah pertumbuhan, serta peran platform pendukung Rumahku Konstruksi.');
+    
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    expect(canonicalLink).not.toBeNull();
+    expect(canonicalLink.href).toMatch(/\/tentang$/);
+
     // Check CTAs
     const caraKerjaLinks = screen.getAllByRole('link', { name: /Pelajari Cara Kerja/i });
     expect(caraKerjaLinks.length).toBeGreaterThan(0);
@@ -129,6 +155,27 @@ describe('PublicAppShell', () => {
       expect(document.querySelector('.about-hero-visual')).toHaveTextContent(stage);
     });
 
+    // Check problems
+    const problemCards = document.querySelectorAll('.problem-card');
+    expect(problemCards.length).toBe(6);
+    const expectedMarkers = ['01', '02', '03', '04', '05', '06'];
+    const problemMarkers = Array.from(document.querySelectorAll('.problem-card .card-marker')).map(el => el.textContent);
+    expect(problemMarkers).toEqual(expectedMarkers);
+
+    // Check positioning values
+    const positioningValues = document.querySelectorAll('.positioning-value');
+    expect(positioningValues.length).toBe(7);
+
+    // Check vision pillars
+    const visionPillars = document.querySelectorAll('.pillar-item');
+    expect(visionPillars.length).toBe(4);
+
+    // Check mission groups and heading
+    const missionHeading = screen.getByText('Ringkasan Misi');
+    expect(missionHeading).toBeInTheDocument();
+    const missionGroups = document.querySelectorAll('.mission-group');
+    expect(missionGroups.length).toBe(4);
+
     // Check positioning quote
     expect(screen.getByText(/"Rumahku Konstruksi adalah usaha konstruksi berbasis sistem yang membantu pekerjaan pembangunan dan renovasi dijalankan secara lebih terencana, terkendali, transparan, dan terdokumentasi."/)).toBeInTheDocument();
 
@@ -141,7 +188,9 @@ describe('PublicAppShell', () => {
     expect(valueCards.length).toBe(5);
     expect(screen.queryByText(/Profesionalisme/i)).not.toBeInTheDocument();
 
-    // Check exactly 7 DNA
+    // Check exactly 7 DNA and heading
+    const dnaHeading = screen.getByText('DNA Rumahku Konstruksi');
+    expect(dnaHeading).toBeInTheDocument();
     const dnaList = document.querySelectorAll('.dna-item');
     expect(dnaList.length).toBe(7);
 
@@ -182,12 +231,50 @@ describe('PublicAppShell', () => {
   });
 
   it('redirects /about to /tentang', () => {
+    let testLocation;
+    const LocationDisplay = () => {
+      const location = require('react-router-dom').useLocation();
+      testLocation = location;
+      return null;
+    };
+
     render(
       <MemoryRouter initialEntries={['/about']}>
         <AppRoutes />
+        <LocationDisplay />
       </MemoryRouter>
     );
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/usaha konstruksi yang dibangun melalui sistem/i);
+    expect(testLocation.pathname).toBe('/tentang');
+  });
+
+  it('restores previous metadata and removes canonical when unmounted', () => {
+    document.title = 'Original Title';
+    let originalMeta = document.createElement('meta');
+    originalMeta.name = 'description';
+    originalMeta.content = 'Original description';
+    document.head.appendChild(originalMeta);
+
+    const { unmount } = render(
+      <MemoryRouter initialEntries={['/tentang']}>
+        <AppRoutes />
+      </MemoryRouter>
+    );
+
+    expect(document.title).toBe('Tentang Rumahku Konstruksi | Konstruksi Berbasis Sistem');
+    expect(document.querySelector('meta[name="description"]').content).toBe('Kenali kedudukan, positioning, visi, nilai inti, DNA, arah pertumbuhan, serta peran platform pendukung Rumahku Konstruksi.');
+    expect(document.querySelector('link[rel="canonical"]')).not.toBeNull();
+
+    unmount();
+
+    expect(document.title).toBe('Original Title');
+    expect(document.querySelector('meta[name="description"]').content).toBe('Original description');
+    expect(document.querySelector('link[rel="canonical"]')).toBeNull();
+
+    // cleanup
+    if (originalMeta.parentNode) {
+      originalMeta.parentNode.removeChild(originalMeta);
+    }
   });
 
   it('renders unavailable state for /cara-kerja', () => {

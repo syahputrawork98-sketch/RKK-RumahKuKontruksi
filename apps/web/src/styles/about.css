@@ -247,6 +247,17 @@
   color: var(--color-text-muted);
 }
 
+.mission-groups-section {
+  margin-top: var(--space-8);
+}
+
+.mission-groups-heading {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
 .mission-groups {
   display: grid;
   gap: var(--space-4);
@@ -294,6 +305,12 @@
   padding: var(--space-6);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
+}
+
+.dna-heading {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
 }
 
 .dna-list {

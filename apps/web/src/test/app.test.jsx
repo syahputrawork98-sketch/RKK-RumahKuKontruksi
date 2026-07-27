@@ -104,7 +104,7 @@ describe('PublicAppShell', () => {
         <AppRoutes />
       </MemoryRouter>
     );
-    
+
     // Check H1
     const h1Elements = screen.getAllByRole('heading', { level: 1 });
     expect(h1Elements).toHaveLength(1);
@@ -114,7 +114,7 @@ describe('PublicAppShell', () => {
     const mainElements = document.querySelectorAll('main');
     expect(mainElements.length).toBe(1);
     expect(mainElements[0]).toHaveAttribute('id', 'main-content');
-    
+
     const mainContentIds = document.querySelectorAll('#main-content');
     expect(mainContentIds.length).toBe(1);
 
@@ -131,7 +131,7 @@ describe('PublicAppShell', () => {
     const metaDescription = document.querySelector('meta[name="description"]');
     expect(metaDescription).not.toBeNull();
     expect(metaDescription.content).toBe('Kenali kedudukan, positioning, visi, nilai inti, DNA, arah pertumbuhan, serta peran platform pendukung Rumahku Konstruksi.');
-    
+
     const canonicalLink = document.querySelector('link[rel="canonical"]');
     expect(canonicalLink).not.toBeNull();
     expect(canonicalLink.href).toMatch(/\/tentang$/);
@@ -283,30 +283,109 @@ describe('PublicAppShell', () => {
         <AppRoutes />
       </MemoryRouter>
     );
-    
-    // Check Title
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Sembilan fase untuk membantu pekerjaan/i);
-    
-    // Check Metadata
+
+    // Check Title (H1)
+    const h1Elements = screen.getAllByRole('heading', { level: 1 });
+    expect(h1Elements).toHaveLength(1);
+    expect(h1Elements[0]).toHaveTextContent(/Sembilan fase untuk membantu pekerjaan berjalan melalui proses yang lebih jelas dan dapat ditelusuri/i);
+
+    // Check main element from shell
+    const mainElements = document.querySelectorAll('main');
+    expect(mainElements.length).toBe(1);
+    expect(mainElements[0]).toHaveAttribute('id', 'main-content');
+
+    // .page-work-process is not main
+    const workProcessWrapper = document.querySelector('.page-work-process');
+    expect(workProcessWrapper.tagName.toLowerCase()).not.toBe('main');
+
+    // Check Metadata and Canonical
     expect(document.title).toBe('Cara Kerja Rumahku Konstruksi | Sembilan Fase Proses');
-    const metaDescription = document.querySelector('meta[name="description"]');
-    expect(metaDescription).not.toBeNull();
-    expect(metaDescription.content).toBe('Pelajari sembilan fase Rumahku Konstruksi dari kebutuhan masuk, pemeriksaan, perencanaan, kesepakatan, pelaksanaan, serah terima, hingga evaluasi.');
-    
-    // Check 9 phases listed
-    const phaseListItems = document.querySelectorAll('.overview-item');
-    expect(phaseListItems.length).toBe(9);
-    
-    // Check 3 groups
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    expect(canonicalLink).not.toBeNull();
+    expect(canonicalLink.href).toMatch(/\/cara-kerja$/);
+
+    // Old unavailable text does not appear
+    expect(screen.queryByText(/Halaman Cara Kerja sedang disiapkan/i)).not.toBeInTheDocument();
+
+    // 9 phase names appear in order 01-09
+    const expectedPhases = [
+      '01 Kebutuhan Masuk',
+      '02 Kualifikasi dan Penyaringan',
+      '03 Perumusan Kebutuhan dan Pemeriksaan Awal',
+      '04 Perencanaan, Desain, Estimasi, dan RAB',
+      '05 Kelayakan, Penawaran, dan Kesepakatan',
+      '06 Aktivasi dan Kesiapan',
+      '07 Pelaksanaan dan Pengendalian',
+      '08 Pemeriksaan Akhir, Serah Terima, dan Penutupan',
+      '09 Evaluasi dan Pembelajaran'
+    ];
+    const phaseListItems = Array.from(document.querySelectorAll('.overview-item')).map(el => el.textContent);
+    expect(phaseListItems).toEqual(expectedPhases);
+
+    // 3 phase groups appear
     const groupHeadings = document.querySelectorAll('.phase-group-title');
     expect(groupHeadings.length).toBe(3);
-    
-    // Check 9 phase cards
-    const phaseCards = document.querySelectorAll('.phase-card');
-    expect(phaseCards.length).toBe(9);
-    
-    // Check Notice exists
-    expect(screen.getByText('Halaman ini tidak menerima pengajuan, tidak memberikan harga, dan tidak menjanjikan penerimaan proyek.')).toBeInTheDocument();
+
+    // Check Sections appear
+    expect(screen.getByText('TITIK KEPUTUSAN')).toBeInTheDocument();
+    expect(screen.getByText('KONTROL LINTAS PROSES')).toBeInTheDocument();
+    expect(screen.getByText('PERUBAHAN DAN KENDALA')).toBeInTheDocument();
+    expect(screen.getByText('BATAS INFORMASI')).toBeInTheDocument();
+
+    // Check CTAs
+    const pelajariTentangLinks = screen.getAllByRole('link', { name: /Pelajari Tentang RKK/i });
+    expect(pelajariTentangLinks.length).toBeGreaterThan(0);
+    pelajariTentangLinks.forEach(link => {
+      expect(link).toHaveAttribute('href', '/tentang');
+    });
+
+    const kembaliBerandaLinks = screen.getAllByRole('link', { name: /Kembali ke Beranda/i });
+    expect(kembaliBerandaLinks.length).toBeGreaterThan(0);
+    kembaliBerandaLinks.forEach(link => {
+      expect(link).toHaveAttribute('href', '/');
+    });
+
+    // Check no links for konsultasi, kontak, proyek
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      expect(href).not.toMatch(/\/konsultasi$/);
+      expect(href).not.toMatch(/\/kontak$/);
+      expect(href).not.toMatch(/\/proyek$/);
+    });
+
+    // No form or input
+    expect(document.querySelectorAll('form').length).toBe(0);
+    expect(document.querySelectorAll('input').length).toBe(0);
+
+    // No remote image
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      const src = img.getAttribute('src');
+      if (src) {
+        expect(src).not.toMatch(/^https?:/);
+        expect(src).not.toMatch(/cloudinary/i);
+      }
+    });
+
+    // No forbidden claims
+    const forbiddenClaims = [
+      'kualitas terjamin',
+      'progres real-time',
+      'dashboard real-time',
+      'otomatis penuh',
+      'garansi',
+      'SLA',
+      'harga mulai',
+      'paket',
+      'Founder & CEO',
+      'Tim Kami',
+      'Lihat Portofolio',
+      'Hubungi Kami'
+    ];
+    forbiddenClaims.forEach(claim => {
+      expect(screen.queryByText(claim)).not.toBeInTheDocument();
+    });
   });
 
   it('renders unavailable state for /sign-in and no role dummy/auth', () => {

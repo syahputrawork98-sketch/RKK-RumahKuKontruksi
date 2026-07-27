@@ -1,4 +1,8 @@
-import { projectListContent } from '../content/projects';
+import {
+  projectListContent,
+  projectCatalog,
+  resolvePublishedProjects,
+} from '../content/projects';
 import { PageMeta } from '../components/ui/PageMeta';
 import ProjectsPageHero from '../sections/projects/ProjectsPageHero';
 import PublicationStatusNotice from '../sections/projects/PublicationStatusNotice';
@@ -9,6 +13,7 @@ import ProjectsClosingCTA from '../sections/projects/ProjectsClosingCTA';
 
 export default function ProjectListPage() {
   const { meta } = projectListContent;
+  const publishedProjects = resolvePublishedProjects(projectCatalog);
   
   return (
     <div className="page-projects">
@@ -20,7 +25,7 @@ export default function ProjectListPage() {
       <ProjectsPageHero />
       <PublicationStatusNotice />
       <PublicationGateSummary />
-      <ProjectsHoldState />
+      {publishedProjects.length === 0 && <ProjectsHoldState />}
       <PublicInformationBoundary />
       <ProjectsClosingCTA />
     </div>

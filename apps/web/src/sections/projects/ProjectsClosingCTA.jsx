@@ -1,4 +1,5 @@
 import { projectListContent } from '../../content/projects';
+import { Link } from 'react-router-dom';
 import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import SectionHeading from '../../components/ui/SectionHeading';
@@ -12,8 +13,8 @@ export default function ProjectsClosingCTA() {
         <div className="closing-cta-content">
           <SectionHeading id="projects-closing-cta-heading" title={closingCTA.title} />
           <div className="projects-cta-actions">
-            <a href={closingCTA.primaryCTA.href} className="btn-primary">{closingCTA.primaryCTA.label}</a>
-            <a href={closingCTA.secondaryCTA.href} className="btn-secondary">{closingCTA.secondaryCTA.label}</a>
+            <Link to={closingCTA.primaryCTA.href} className="btn-primary">{closingCTA.primaryCTA.label}</Link>
+            <Link to={closingCTA.secondaryCTA.href} className="btn-secondary">{closingCTA.secondaryCTA.label}</Link>
           </div>
         </div>
       </PublicContainer>

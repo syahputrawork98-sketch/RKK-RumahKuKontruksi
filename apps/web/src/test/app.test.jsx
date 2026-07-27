@@ -461,6 +461,45 @@ describe('PublicAppShell', () => {
     expect(activeLink).toHaveAttribute('aria-current', 'page');
   });
 
+  it('validates Proyek active navigation and drawer behavior', async () => {
+    // Render AppRouter to test full navigation (including drawer)
+    const { unmount } = render(<AppRouter />);
+
+    // Desktop navigation active state
+    const desktopNav = screen.getByLabelText('Navigasi Utama');
+    const desktopProjectLink = within(desktopNav).getByRole('link', { name: 'Proyek' });
+
+    // We haven't navigated to /proyek yet, let's navigate by clicking
+    fireEvent.click(desktopProjectLink);
+    expect(desktopProjectLink).toHaveAttribute('href', '/proyek');
+    expect(desktopProjectLink).toHaveAttribute('aria-current', 'page');
+
+    // Drawer navigation active state
+    const menuBtn = screen.getByLabelText('Buka menu navigasi');
+    const drawer = screen.getByRole('dialog', { hidden: true });
+
+    // Open drawer
+    fireEvent.click(menuBtn);
+    expect(drawer).toHaveClass('open');
+
+    const drawerNav = document.querySelector('.drawer-nav');
+    const drawerProjectLink = within(drawerNav).getByRole('link', { name: 'Proyek' });
+    expect(drawerProjectLink).toHaveAttribute('href', '/proyek');
+    expect(drawerProjectLink).toHaveAttribute('aria-current', 'page');
+
+    // Click Proyek link in drawer
+    fireEvent.click(drawerProjectLink);
+
+    // Ensure drawer closes
+    await waitFor(() => {
+      expect(drawer).not.toHaveClass('open');
+      expect(drawer).toHaveAttribute('aria-hidden', 'true');
+      expect(document.body.style.overflow).not.toBe('hidden');
+    });
+
+    unmount();
+  });
+
   it('manages drawer accessibility, focus, and body scroll lock', async () => {
     render(<AppRouter />);
 

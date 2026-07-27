@@ -23,22 +23,27 @@ export const projectListContent = {
   },
   publicationGates: {
     heading: 'Empat pemeriksaan sebelum proyek tampil',
+    description: 'Setiap proyek harus melewati pemeriksaan sumber pekerjaan, izin publikasi, anonimisasi, serta dokumentasi dan review sebelum dapat ditampilkan.',
     items: [
       {
         id: 'source',
-        title: 'Sumber Pekerjaan Nyata'
+        title: 'Sumber Pekerjaan Nyata',
+        description: 'Proyek harus dapat ditelusuri ke pekerjaan operasional dan bukti yang sah, bukan data acuan, seed, dummy, atau arsip tanpa verifikasi.'
       },
       {
         id: 'permission',
-        title: 'Izin Publikasi'
+        title: 'Izin Publikasi',
+        description: 'Persetujuan penggunaan informasi dan media harus tersedia, tercatat, masih berlaku, dan dapat ditinjau kembali.'
       },
       {
         id: 'anonymization',
-        title: 'Anonimisasi'
+        title: 'Anonimisasi',
+        description: 'Identitas pelanggan, alamat rinci, nilai kontrak, dokumen, serta data sensitif lain harus dihilangkan atau dibatasi sesuai keputusan publikasi.'
       },
       {
         id: 'documentation',
-        title: 'Dokumentasi dan Review'
+        title: 'Dokumentasi dan Review',
+        description: 'Media harus mempunyai sumber dan hak penggunaan, sedangkan copy, metadata, alt text, dan status publikasinya harus selesai ditinjau.'
       }
     ]
   },
@@ -75,40 +80,59 @@ export function resolvePublishedProjects(projects) {
     return [];
   }
 
+  const SAFE_PUBLIC_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
   return projects.reduce((published, project) => {
     // Requirements
     if (project.publicationStatus !== 'PUBLISHED') return published;
     if (project.visibility !== 'PUBLIC') return published;
     if (!project.sourceVersion) return published;
     if (!project.effectiveDate) return published;
-    if (!project.title || !project.summary || !project.category) return published;
-    
+
+    // Trim and check required strings
+    const publicProjectId = String(project.publicProjectId || '').trim();
+    const title = String(project.title || '').trim();
+    const summary = String(project.summary || '').trim();
+    const category = String(project.category || '').trim();
+
+    if (!publicProjectId || !title || !summary || !category) return published;
+
     // Media requirements
     const approvedMedia = Array.isArray(project.media)
-      ? project.media.filter(m => m.rightsStatus === 'APPROVED' && m.alt)
+      ? project.media.filter(m =>
+          m.rightsStatus === 'APPROVED' &&
+          m.src &&
+          String(m.alt || '').trim() !== ''
+        )
       : [];
-    
+
     // Safety check for cover media
     const coverMedia = approvedMedia.length > 0 ? {
-      url: approvedMedia[0].url,
-      alt: approvedMedia[0].alt,
+      src: approvedMedia[0].src,
+      alt: String(approvedMedia[0].alt).trim(),
       type: approvedMedia[0].type
     } : null;
-    
+
     if (!coverMedia) return published;
+
+    // Slug validation
+    const rawSlug = String(project.slug || '').trim();
+    const isSafeSlug = SAFE_PUBLIC_SLUG.test(rawSlug);
+    const detailPageReady = Boolean(project.detailPageReady) && isSafeSlug;
+    const detailHref = detailPageReady ? `/proyek/${rawSlug}` : null;
 
     // Return mapped safe public project
     published.push({
-      publicProjectId: String(project.publicProjectId || '').trim(), // Ensure public ID, not internal
-      title: String(project.title),
-      summary: String(project.summary),
-      category: String(project.category),
+      publicProjectId,
+      title,
+      summary,
+      category,
       locationGeneral: String(project.locationGeneral || ''),
       publicStatus: String(project.publicStatus || ''),
       completionYear: project.completionYear,
       coverMedia,
-      detailPageReady: Boolean(project.detailPageReady),
-      detailHref: project.detailPageReady ? `/proyek/${project.slug || project.publicProjectId}` : null,
+      detailPageReady,
+      detailHref,
       publishedAt: project.publishedAt || project.effectiveDate,
       reviewDueAt: project.reviewDueAt || null
     });

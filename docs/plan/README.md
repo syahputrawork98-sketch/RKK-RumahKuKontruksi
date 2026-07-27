@@ -26,6 +26,13 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Implementation SHA Awal:** `975f9dd1c9f7d683b12554d452f746f2307f8f29`
 - **Final Audit SHA:** `365ba31ae0e231ae1f4786ac1baf198b88a6ae60`
 
+### [PLAN-002: Fondasi Backend RKK](./PLAN-002_FONDASI_BACKEND_RKK.md)
+- **Status:** DIEKSEKUSI — PERLU REVISI
+- **Catatan Implementasi:** Gemini hanya mengimplementasikan dan memvalidasi. Commit dan push dilakukan pemilik setelah hasil diperiksa. Pull Request hanya dibuat setelah audit SHA dinyatakan diterima. PLAN-002 belum dinyatakan selesai atau diterima.
+- **Ruang Lingkup:** Membangun fondasi NestJS, Prisma, API `/api/v1`, dan Swagger.
+- **Branch:** `refactor/plan-002-backend-foundation`
+- **Base SHA:** `6a011bb98150d3492b7d24999a4eb72ba3eec174`
+
 ### [PLAN-003: Implementasi Halaman Tentang Rumahku Konstruksi](./PLAN-003_IMPLEMENTASI_HALAMAN_TENTANG_RUMAHKU_KONSTRUKSI.md)
 - **Status:** SIAP AUDIT IMPLEMENTASI
 - **Base SHA:** `04379b872d3b24cd4cd5d159bf0698d1f43c795a`

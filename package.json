@@ -1,7 +1,7 @@
 {
-  "name": "rkk-rumahkukontruksi",
+  "name": "rumahku-konstruksi-workspace",
   "version": "1.0.0",
-  "description": "RumahKu Konstruksi (RKK) adalah platform inovatif yang dirancang untuk membantu pengelolaan proyek konstruksi, menghubungkan konsumen, arsitek, admin, pengawas, dan mandor dalam satu ekosistem yang terintegrasi. Platform ini memastikan transparansi dan efisiensi dalam pembangunan rumah.",
+  "description": "Rumahku Konstruksi (RKK) adalah platform inovatif yang dirancang untuk membantu pengelolaan proyek konstruksi, menghubungkan konsumen, arsitek, admin, pengawas, dan mandor dalam satu ekosistem yang terintegrasi. Platform ini memastikan transparansi dan efisiensi dalam pembangunan rumah.",
   "workspaces": [
     "client",
     "server",
@@ -12,6 +12,13 @@
     "doc": "docs"
   },
   "scripts": {
+    "dev:backend": "npm run start:dev --workspace @rkk/backend",
+    "build:backend": "npm run build --workspace @rkk/backend",
+    "lint:backend": "npm run lint --workspace @rkk/backend",
+    "test:backend": "npm run test --workspace @rkk/backend",
+    "test:e2e:backend": "npm run test:e2e --workspace @rkk/backend",
+    "prisma:validate:backend": "npm run prisma:validate --workspace @rkk/backend",
+    "prisma:generate:backend": "npm run prisma:generate --workspace @rkk/backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

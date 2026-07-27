@@ -1,0 +1,83 @@
+@import './tokens.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-primary);
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-50);
+  line-height: var(--line-height-body);
+  font-size: var(--font-size-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  color: var(--color-neutral-950);
+}
+
+h1 {
+  font-size: var(--font-size-h1-desktop);
+  line-height: var(--line-height-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2-desktop);
+  line-height: var(--line-height-h2);
+}
+
+h3 {
+  font-size: var(--font-size-h3-desktop);
+  line-height: var(--line-height-h3);
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--font-size-h1-mobile);
+  }
+  h2 {
+    font-size: var(--font-size-h2-mobile);
+  }
+  h3 {
+    font-size: var(--font-size-h3-mobile);
+  }
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--spacing-4);
+}
+
+a {
+  color: var(--color-brand-600);
+  text-decoration: none;
+  transition: color var(--transition-normal);
+}
+
+a:hover {
+  color: var(--color-brand-800);
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

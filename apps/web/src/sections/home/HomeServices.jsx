@@ -1,0 +1,20 @@
+import PublicSection from '../../components/ui/PublicSection';
+import PublicContainer from '../../components/ui/PublicContainer';
+import SectionHeading from '../../components/ui/SectionHeading';
+
+export default function HomeServices({ content }) {
+  return (
+    <PublicSection bg="muted">
+      <PublicContainer>
+        <SectionHeading 
+          eyebrow={content.eyebrow}
+          title={content.title}
+        />
+        <div className="informative-panel">
+          <span className="panel-status">{content.statusLabel}</span>
+          <p className="panel-desc">{content.description}</p>
+        </div>
+      </PublicContainer>
+    </PublicSection>
+  );
+}

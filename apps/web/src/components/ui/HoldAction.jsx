@@ -3,8 +3,8 @@ export default function HoldAction({ children, reason, variant = 'primary', clas
     <div className={`hold-action-wrapper ${className}`}>
       <button 
         className={`btn btn-${variant}`} 
-        disabled 
         aria-disabled="true"
+        onClick={(e) => e.preventDefault()}
         {...props}
       >
         {children}

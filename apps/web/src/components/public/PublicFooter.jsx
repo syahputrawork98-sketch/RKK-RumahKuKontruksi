@@ -6,7 +6,7 @@ export default function PublicFooter() {
       <div className="public-container">
         <div className="footer-content">
           <div className="footer-brand">
-            <h2>RumahKuKontruksi</h2>
+            <h2>Rumahku Konstruksi</h2>
             <p className="footer-desc">
               Pendekatan terencana dan terkendali untuk kebutuhan konstruksi Anda.
             </p>
@@ -28,7 +28,7 @@ export default function PublicFooter() {
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} RumahKuKontruksi. Seluruh hak cipta dilindungi.</p>
+          <p>&copy; {new Date().getFullYear()} Rumahku Konstruksi. Seluruh hak cipta dilindungi.</p>
         </div>
       </div>
     </footer>

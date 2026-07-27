@@ -216,7 +216,8 @@
   background-color: var(--color-brand-50);
 }
 
-.btn:disabled {
+.btn:disabled,
+.btn[aria-disabled="true"] {
   opacity: 0.6;
   cursor: not-allowed;
 }

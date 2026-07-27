@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function MobileDrawer({ isOpen, onClose }) {
@@ -17,22 +17,63 @@ export default function MobileDrawer({ isOpen, onClose }) {
         onClose();
       }
     };
-    
+
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
+
+  // Body scroll lock and background inert
+  useEffect(() => {
+    const mainContent = document.getElementById('main-content');
+    const footer = document.querySelector('.public-footer');
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      if (mainContent) {
+        mainContent.setAttribute('inert', '');
+        mainContent.setAttribute('aria-hidden', 'true');
+      }
+      if (footer) {
+        footer.setAttribute('inert', '');
+        footer.setAttribute('aria-hidden', 'true');
+      }
+    } else {
+      document.body.style.overflow = '';
+      if (mainContent) {
+        mainContent.removeAttribute('inert');
+        mainContent.removeAttribute('aria-hidden');
+      }
+      if (footer) {
+        footer.removeAttribute('inert');
+        footer.removeAttribute('aria-hidden');
+      }
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      if (mainContent) {
+        mainContent.removeAttribute('inert');
+        mainContent.removeAttribute('aria-hidden');
+      }
+      if (footer) {
+        footer.removeAttribute('inert');
+        footer.removeAttribute('aria-hidden');
+      }
+    };
+  }, [isOpen]);
+
 
   // Trap focus (simplified version for baseline)
   useEffect(() => {
     const handleTab = (e) => {
       if (!isOpen) return;
-      
+
       const focusableElements = document.querySelectorAll(
         '.drawer-content a[href], .drawer-content button:not([disabled])'
       );
-      
+
       if (focusableElements.length === 0) return;
-      
+
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
 
@@ -57,30 +98,32 @@ export default function MobileDrawer({ isOpen, onClose }) {
 
   return (
     <>
-      <div 
-        className={`drawer-overlay ${isOpen ? 'open' : ''}`} 
+      <div
+        className={`drawer-overlay ${isOpen ? 'open' : ''}`}
         onClick={onClose}
         aria-hidden="true"
       />
-      
-      <div 
+
+      <div
         className={`drawer-content ${isOpen ? 'open' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-label="Menu navigasi utama"
+        inert={isOpen ? undefined : true}
+        aria-hidden={isOpen ? "false" : "true"}
       >
         <div className="drawer-header">
           <span className="brand-link">RKK</span>
-          <button 
+          <button
             ref={closeBtnRef}
-            className="drawer-close" 
+            className="drawer-close"
             onClick={onClose}
             aria-label="Tutup menu"
           >
             &times;
           </button>
         </div>
-        
+
         <nav className="drawer-nav">
           <ul>
             <li>

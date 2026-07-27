@@ -11,9 +11,7 @@ export default function PublicHeader() {
   const closeDrawer = () => {
     setDrawerOpen(false);
     // Return focus to menu button after drawer closes
-    setTimeout(() => {
-      menuBtnRef.current?.focus();
-    }, 150);
+    menuBtnRef.current?.focus();
   };
 
   return (
@@ -21,7 +19,7 @@ export default function PublicHeader() {
       <div className="public-container">
         <div className="header-content">
           <Link to="/" className="brand-link">
-            RumahKuKontruksi
+            Rumahku Konstruksi
           </Link>
 
           <nav className="desktop-nav" aria-label="Navigasi Utama">

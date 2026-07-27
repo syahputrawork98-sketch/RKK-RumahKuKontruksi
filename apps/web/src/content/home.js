@@ -1,15 +1,15 @@
 export const homeContent = {
   hero: {
-    eyebrow: 'RUMAHKUKONTRUKSI',
-    title: 'Membangun dengan terencana dan terkendali',
-    description: 'RKK menyiapkan pendekatan rasional dalam perencanaan, pelaksanaan, dan dokumentasi untuk menjaga kualitas bangunan Anda.',
+    eyebrow: 'Rumahku Konstruksi',
+    title: 'Pekerjaan konstruksi yang lebih terencana, terkendali, transparan, dan terdokumentasi.',
+    description: 'RKK membantu kebutuhan pembangunan dan renovasi dikelola melalui alur kerja yang lebih terstruktur, dengan informasi, pemeriksaan, pengendalian, dan dokumentasi yang disesuaikan dengan ruang lingkup pekerjaan.',
     primaryAction: {
       label: 'Ajukan Kebutuhan',
-      reason: 'Sistem pengajuan sedang disiapkan'
+      reason: 'Jalur pengajuan sedang disiapkan.'
     },
     secondaryAction: {
-      label: 'Pelajari Pendekatan RKK',
-      href: '#pendekatan'
+      label: 'Pelajari Cara Kerja',
+      href: '/cara-kerja'
     },
     visualNodes: [
       'Terencana', 'Terkendali', 'Transparan', 'Terdokumentasi'
@@ -17,26 +17,26 @@ export const homeContent = {
   },
   context: {
     eyebrow: 'MENGAPA RKK',
-    title: 'Menghindari masalah yang tidak perlu',
-    description: 'Proyek sering menemui kendala karena ekspektasi yang tidak terukur dan proses yang tidak tercatat.',
+    title: 'Pekerjaan konstruksi membutuhkan arah yang jelas sejak awal.',
+    description: 'Kebutuhan, keputusan, dan bukti pekerjaan perlu dikelola secara terstruktur agar setiap tahap mempunyai konteks yang dapat dipahami.',
     points: [
       {
-        title: 'Spesifikasi samar',
+        title: 'Kebutuhan dan ruang lingkup dapat berubah atau tidak tercatat dengan baik.',
         description: 'Detail material dan teknis pelaksanaan sering kali tidak tertulis dengan jelas, memicu perbedaan ekspektasi di lapangan.'
       },
       {
-        title: 'Perubahan tanpa konteks',
+        title: 'Keputusan, progres, dan kendala perlu disampaikan secara terstruktur.',
         description: 'Keputusan yang diambil di lapangan tanpa catatan dapat mengubah biaya dan menggeser jadwal tanpa disadari.'
       },
       {
-        title: 'Bukti tidak tersusun',
+        title: 'Dokumen dan bukti pekerjaan perlu mudah ditelusuri sesuai kebutuhan.',
         description: 'Dokumentasi kualitas sering terpencar di berbagai saluran komunikasi, sehingga sulit ditelusuri ketika dibutuhkan.'
       }
     ]
   },
   approach: {
     eyebrow: 'PENDEKATAN',
-    title: 'Bagaimana kami bekerja',
+    title: 'Pendekatan yang membantu pekerjaan tetap memiliki arah.',
     description: 'Kami meletakkan keteraturan sebagai dasar pelaksanaan untuk menjaga batas ruang lingkup dan standar pekerjaan.',
     items: [
       {
@@ -116,7 +116,7 @@ export const homeContent = {
     description: 'Jalur pengajuan kebutuhan sedang disiapkan. Sementara itu, Anda dapat mempelajari pendekatan dan gambaran cara kerja RKK.',
     primaryAction: {
       label: 'Ajukan Kebutuhan',
-      reason: 'Sistem sedang disiapkan'
+      reason: 'Jalur pengajuan sedang disiapkan.'
     },
     secondaryAction: {
       label: 'Pelajari Cara Kerja',

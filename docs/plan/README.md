@@ -38,4 +38,8 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Base SHA:** `04379b872d3b24cd4cd5d159bf0698d1f43c795a`
 - **Hasil:** Halaman Tentang telah diimplementasikan lengkap beserta komponen, content layer, styling, routing, metadata, dan test tanpa menyentuh legacy client.
 
+### [PLAN-004: Implementasi Halaman Cara Kerja Rumahku Konstruksi](./PLAN-004_IMPLEMENTASI_HALAMAN_CARA_KERJA_RUMAHKU_KONSTRUKSI.md)
+- **Status:** SELESAI DIEKSEKUSI
+- **Hasil:** Halaman Cara Kerja telah diimplementasikan lengkap beserta komponen sembilan fase, content layer, styling, routing, dan integrasi Beranda.
+
 *(Plan lain akan ditambahkan di sini setelah disetujui)*

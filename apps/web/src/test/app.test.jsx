@@ -67,7 +67,7 @@ describe('PublicAppShell', () => {
     expect(approachIcons.length).toBe(4);
 
     // Check precise Workflow notice
-    expect(screen.getByText('Tahapan ini merupakan gambaran ringkas. Detail proses akan dijelaskan pada halaman Cara Kerja setelah struktur dan ketentuannya siap dipublikasikan.')).toBeInTheDocument();
+    expect(screen.getByText('Halaman Cara Kerja menjelaskan sembilan fase RKK pada tingkat tinggi, termasuk pemeriksaan, keluaran, titik keputusan, pengendalian, perubahan, serah terima, dan evaluasi.')).toBeInTheDocument();
   });
 
   it('validates CTA Pelajari Cara Kerja and Hold Action behavior', () => {
@@ -277,14 +277,36 @@ describe('PublicAppShell', () => {
     }
   });
 
-  it('renders unavailable state for /cara-kerja', () => {
+  it('renders WorkProcessPage for /cara-kerja and tests its contents', () => {
     render(
       <MemoryRouter initialEntries={['/cara-kerja']}>
         <AppRoutes />
       </MemoryRouter>
     );
-    expect(screen.getByText('Sedang disiapkan')).toBeInTheDocument();
-    expect(screen.getByText('Halaman Cara Kerja sedang disiapkan.')).toBeInTheDocument();
+    
+    // Check Title
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Sembilan fase untuk membantu pekerjaan/i);
+    
+    // Check Metadata
+    expect(document.title).toBe('Cara Kerja Rumahku Konstruksi | Sembilan Fase Proses');
+    const metaDescription = document.querySelector('meta[name="description"]');
+    expect(metaDescription).not.toBeNull();
+    expect(metaDescription.content).toBe('Pelajari sembilan fase Rumahku Konstruksi dari kebutuhan masuk, pemeriksaan, perencanaan, kesepakatan, pelaksanaan, serah terima, hingga evaluasi.');
+    
+    // Check 9 phases listed
+    const phaseListItems = document.querySelectorAll('.overview-item');
+    expect(phaseListItems.length).toBe(9);
+    
+    // Check 3 groups
+    const groupHeadings = document.querySelectorAll('.phase-group-title');
+    expect(groupHeadings.length).toBe(3);
+    
+    // Check 9 phase cards
+    const phaseCards = document.querySelectorAll('.phase-card');
+    expect(phaseCards.length).toBe(9);
+    
+    // Check Notice exists
+    expect(screen.getByText('Halaman ini tidak menerima pengajuan, tidak memberikan harga, dan tidak menjanjikan penerimaan proyek.')).toBeInTheDocument();
   });
 
   it('renders unavailable state for /sign-in and no role dummy/auth', () => {

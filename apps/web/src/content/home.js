@@ -81,7 +81,7 @@ export const homeContent = {
         description: 'Merapikan catatan serta kebutuhan tindak lanjut sesuai ruang lingkup.'
       }
     ],
-    notice: 'Tahapan ini merupakan gambaran ringkas. Detail proses akan dijelaskan pada halaman Cara Kerja setelah struktur dan ketentuannya siap dipublikasikan.',
+    notice: 'Halaman Cara Kerja menjelaskan sembilan fase RKK pada tingkat tinggi, termasuk pemeriksaan, keluaran, titik keputusan, pengendalian, perubahan, serah terima, dan evaluasi.',
     action: {
       label: 'Pelajari Cara Kerja',
       href: '/cara-kerja'

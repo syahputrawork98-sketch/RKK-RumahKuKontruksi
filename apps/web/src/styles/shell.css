@@ -102,6 +102,11 @@
   padding: var(--spacing-2);
   cursor: pointer;
   color: var(--color-neutral-800);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {
@@ -163,6 +168,11 @@
   padding: var(--spacing-2);
   cursor: pointer;
   color: var(--color-neutral-600);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .drawer-nav {
@@ -179,8 +189,10 @@
 }
 
 .drawer-nav a {
-  display: block;
-  padding: var(--spacing-2) 0;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-3) 0;
+  min-height: 44px;
   color: var(--color-neutral-800);
   font-weight: 500;
 }

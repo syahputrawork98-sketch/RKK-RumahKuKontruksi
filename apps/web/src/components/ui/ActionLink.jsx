@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom';
 
-export default function ActionLink({ to, children, variant = 'primary', className = '', ...props }) {
-  const baseClass = `btn btn-${variant} ${className}`;
-  
-  if (to.startsWith('http')) {
+export default function ActionLink({
+  to,
+  variant = 'primary',
+  children,
+  className = '',
+  isExternal,
+  ...props
+}) {
+  const baseClass = `btn btn-${variant} ${className}`.trim();
+
+  if (isExternal || to.startsWith('http')) {
     return (
-      <a href={to} className={baseClass} target="_blank" rel="noopener noreferrer" {...props}>
+      <a
+        href={to}
+        className={baseClass} target="_blank" rel="noopener noreferrer" {...props}>
         {children}
       </a>
     );

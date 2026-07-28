@@ -1,22 +1,27 @@
-import { Link } from 'react-router-dom';
 import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import SectionHeading from '../../components/ui/SectionHeading';
+import ActionLink from '../../components/ui/ActionLink';
+import PublicIcon from '../../components/icons/PublicIcon';
+
 export default function HomeServices({ content }) {
   return (
-    <PublicSection bg="muted">
+    <PublicSection bg="muted" id="layanan">
       <PublicContainer>
-        <SectionHeading 
+        <SectionHeading
           eyebrow={content.eyebrow}
           title={content.title}
+          description={content.description}
         />
-        <div className="informative-panel">
-          <span className="panel-status">{content.statusLabel}</span>
-          <p className="panel-desc">{content.description}</p>
-          <div className="panel-actions">
-            <Link to={content.action.href} className="btn-secondary">
-              {content.action.label}
-            </Link>
+
+        <div className="services-hold-state">
+          <div className="hold-icon-wrapper">
+            <PublicIcon name="lock" size={32} />
+          </div>
+          <h3 className="hold-title">Layanan Segera Hadir</h3>
+          <p className="hold-desc">Kami sedang mempersiapkan katalog layanan yang dapat Anda lihat secara transparan.</p>
+          <div className="hold-actions">
+             <ActionLink to={content.action.href} variant="outline">{content.action.label}</ActionLink>
           </div>
         </div>
       </PublicContainer>

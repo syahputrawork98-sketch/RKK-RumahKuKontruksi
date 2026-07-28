@@ -1,11 +1,11 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.4
+versi: 1.5
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008D — Menunggu Penyusunan dan Persetujuan
+tahap_aktif: PLAN-008D — Dieksekusi, Menunggu Audit
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
@@ -28,10 +28,8 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
-FINAL AUDIT PLAN-008C: 09d4f315d18d3843687efb6e9553c7ff351d10c6
-
-TAHAP BERIKUTNYA ADALAH PLAN-008D — HARMONISASI VISUAL HALAMAN PUBLIK MENGACU PADA BERANDA.
-PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
+TAHAP AKTIF: PLAN-008D (Dieksekusi pada Working Tree, Menunggu Audit SHA).
+GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
 ```
 
 Dokumen ini merupakan plan induk final untuk membangun fondasi design system sekaligus mengarahkan penyempurnaan dan harmonisasi visual website publik Rumahku Konstruksi.
@@ -1849,10 +1847,7 @@ PLAN-008 MENJADI PLAN INDUK FINAL.
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
-FINAL AUDIT PLAN-008C: 09d4f315d18d3843687efb6e9553c7ff351d10c6
-
-TAHAP BERIKUTNYA ADALAH PLAN-008D — HARMONISASI VISUAL HALAMAN PUBLIK MENGACU PADA BERANDA.
-PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
+TAHAP AKTIF: PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE (MENUNGGU COMMIT PEMILIK DAN AUDIT SHA).
 ```
 
 ---
@@ -1867,3 +1862,4 @@ PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
 | 1.2 | 2026-07-28 | Mencatat PLAN-008B selesai dan terverifikasi. Tahap berikutnya PLAN-008C menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008C) |
 | 1.3 | 2026-07-28 | Mengubah arah PLAN-008C menjadi penyempurnaan visual nyata Beranda, mencatat tahap tersebut dieksekusi dan menunggu audit, serta menetapkan PLAN-008D sebagai tahap harmonisasi halaman publik | Eksekusi Bertahap — Audit PLAN-008C |
 | 1.4 | 2026-07-28 | Mencatat PLAN-008C selesai dan terverifikasi. Tahap berikutnya PLAN-008D menunggu penyusunan dan persetujuan | Eksekusi Bertahap (Menunggu PLAN-008D) |
+| 1.5 | 2026-07-29 | Mencatat PLAN-008D telah dieksekusi pada working tree. Seluruh halaman publik telah diharmonisasi mengacu pada benchmark Beranda | Eksekusi Bertahap (Audit PLAN-008D) |

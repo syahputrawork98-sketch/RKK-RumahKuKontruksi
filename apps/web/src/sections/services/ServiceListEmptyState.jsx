@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import ActionLink from '../../components/ui/ActionLink';
 import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
+import ServicePublicationGateIllustration from '../../components/illustrations/ServicePublicationGateIllustration';
 import { serviceListContent } from '../../content/services';
 
 export default function ServiceListEmptyState() {
@@ -10,6 +11,9 @@ export default function ServiceListEmptyState() {
     <PublicSection className="service-empty-state">
       <PublicContainer>
         <div className="empty-state-content">
+          <div className="empty-state-illustration-wrapper">
+            <ServicePublicationGateIllustration size={200} />
+          </div>
           <div>
             <span className="empty-state-label">{content.statusLabel}</span>
             <h2 className="empty-state-title">{content.title}</h2>
@@ -18,12 +22,12 @@ export default function ServiceListEmptyState() {
           <p className="empty-state-available">{content.availableNow}</p>
           
           <div className="empty-state-actions">
-            <Link to={content.primaryAction.href} className="btn-primary">
+            <ActionLink to={content.primaryAction.href} variant="primary">
               {content.primaryAction.label}
-            </Link>
-            <Link to={content.secondaryAction.href} className="btn-secondary">
+            </ActionLink>
+            <ActionLink to={content.secondaryAction.href} variant="outline">
               {content.secondaryAction.label}
-            </Link>
+            </ActionLink>
           </div>
           
           <p className="empty-state-notice">{content.notice}</p>

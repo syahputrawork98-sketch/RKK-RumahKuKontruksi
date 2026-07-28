@@ -2,6 +2,9 @@ import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import SectionHeading from '../../components/ui/SectionHeading';
 import InfoCard from '../../components/ui/InfoCard';
+import PublicIcon from '../../components/icons/PublicIcon';
+
+const valueIcons = ['shield-check', 'eye', 'target', 'compass'];
 
 export default function AboutValues({ content }) {
   return (
@@ -17,6 +20,7 @@ export default function AboutValues({ content }) {
           {content.coreValues.map((val, index) => (
             <InfoCard 
               key={index}
+              icon={<PublicIcon name={valueIcons[index % valueIcons.length]} className="value-icon" size={24} />}
               title={val.title}
               description={val.description}
               className="value-card"

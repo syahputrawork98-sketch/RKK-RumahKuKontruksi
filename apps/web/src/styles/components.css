@@ -174,3 +174,98 @@
   color: var(--color-neutral-600);
   margin-bottom: 0;
 }
+
+/* Illustrated State */
+.illustrated-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-8) var(--spacing-4);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.state-illustration {
+  margin-bottom: var(--spacing-6);
+  display: flex;
+  justify-content: center;
+}
+
+.state-status-badge,
+.empty-state-label,
+.unavailable-badge,
+.state-label {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--color-brand-50);
+  color: var(--color-brand-700);
+  border: 1px solid var(--color-brand-200);
+  border-radius: var(--radius-button);
+  font-size: var(--font-size-supporting);
+  font-weight: 600;
+  margin-bottom: var(--spacing-4);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.state-title {
+  font-size: var(--font-size-h2-desktop);
+  color: var(--color-neutral-900);
+  margin-bottom: var(--spacing-3);
+}
+
+.state-description {
+  font-size: var(--font-size-body-large-desktop);
+  color: var(--color-neutral-600);
+  margin-bottom: var(--spacing-6);
+  line-height: 1.6;
+}
+
+.state-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Figure & Caption */
+.about-image-wrapper,
+.vision-image-wrapper {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.about-hero-img,
+.vision-supporting-img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-neutral-200);
+  object-fit: cover;
+}
+
+.about-image-caption {
+  font-size: var(--font-size-supporting);
+  color: var(--color-neutral-600);
+  text-align: center;
+  font-style: italic;
+}
+
+/* Page State */
+.page-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-16) var(--spacing-4);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.page-state-illustration-wrapper {
+  margin-bottom: var(--spacing-6);
+}

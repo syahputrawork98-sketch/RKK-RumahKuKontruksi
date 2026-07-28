@@ -61,8 +61,8 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 
 ### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: EKSEKUSI BERTAHAP
-- Tahap aktif: PLAN-008D — Menunggu Penyusunan dan Persetujuan
-- Hasil saat ini: design token, shared component foundation, dan benchmark visual Beranda telah selesai serta terverifikasi.
+- Tahap aktif: PLAN-008D — Dieksekusi, Menunggu Audit
+- Hasil saat ini: design token, shared component foundation, benchmark visual Beranda, dan harmonisasi visual seluruh halaman publik telah dieksekusi pada working tree.
 
 ### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: SELESAI DAN TERVERIFIKASI
@@ -81,6 +81,7 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Final Audit SHA: 09d4f315d18d3843687efb6e9553c7ff351d10c6
 - Hasil: Beranda menjadi benchmark visual RKK dengan foto ilustrasi berlisensi, ikon semantik, editorial layout, timeline visual, publication hold-state, CTA penutup, responsive image, scoped CSS, dan 121 test lulus.
 
-### PLAN-008D — Belum Disusun
-- Fokus: Harmonisasi visual halaman Tentang, Cara Kerja, Layanan, Proyek, Detail Proyek, dan public states dengan mengacu pada benchmark Beranda.
-- Status: MENUNGGU PENYUSUNAN DAN PERSETUJUAN
+### [PLAN-008D: Harmonisasi Visual Seluruh Halaman Publik Mengacu pada Benchmark Beranda RKK](./PLAN-008D_HARMONISASI_VISUAL_SELURUH_HALAMAN_PUBLIK_MENGACU_PADA_BENCHMARK_BERANDA_RKK.md)
+- Status: DIEKSEKUSI — MENUNGGU AUDIT
+- Implementation SHA: MENUNGGU COMMIT PEMILIK
+- Hasil: Halaman Tentang, Cara Kerja, Layanan, Proyek, Detail Proyek, Sign-in Unavailable, dan 404 telah diharmonisasi visualnya dengan foto berlisensi, 4 ilustrasi state SVG lokal, ikon semantik, dan 153 test lulus.

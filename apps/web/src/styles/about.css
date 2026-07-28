@@ -196,9 +196,22 @@
 }
 
 /* --- Vision --- */
+.vision-grid {
+  display: grid;
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .vision-grid {
+    grid-template-columns: 6fr 6fr;
+  }
+}
+
 .vision-statement-panel {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: 0;
   padding: var(--space-6);
   background-color: var(--color-surface-hover);
   border-radius: var(--radius-lg);

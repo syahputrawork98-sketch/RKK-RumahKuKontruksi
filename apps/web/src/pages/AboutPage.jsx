@@ -19,7 +19,7 @@ export default function AboutPage() {
         path="/tentang"
       />
       
-      <div className="page-about">
+      <div className="page-about about-page">
         <AboutHero content={aboutContent.hero} />
         <AboutCompanyPosition content={aboutContent.companyPosition} />
         <AboutProblems content={aboutContent.problems} />

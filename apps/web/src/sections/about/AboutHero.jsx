@@ -37,18 +37,13 @@ export default function AboutHero({ content }) {
                 width="1440"
                 height="960"
                 loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
               <figcaption className="about-image-caption">
                 Foto ilustrasi diskusi perencanaan arsitektur dan konstruksi
               </figcaption>
             </figure>
-            {content.stages && (
-              <div className="process-stages" aria-hidden="true" style={{ display: 'none' }}>
-                {content.stages.map((stage, index) => (
-                  <span key={index} className="stage-name">{stage}</span>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </PublicContainer>

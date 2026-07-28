@@ -154,11 +154,12 @@ describe('PublicAppShell', () => {
       expect(link).toHaveAttribute('href', '/');
     });
 
-    // Check Hero stages
-    const expectedStages = ['Kebutuhan', 'Perencanaan', 'Pemeriksaan', 'Pelaksanaan', 'Dokumentasi', 'Evaluasi'];
-    expectedStages.forEach(stage => {
-      expect(document.querySelector('.about-hero-visual')).toHaveTextContent(stage);
-    });
+    // Check Hero visual photography figure & caption
+    const heroImg = document.querySelector('.about-hero-img');
+    expect(heroImg).not.toBeNull();
+    expect(heroImg).toHaveAttribute('fetchpriority', 'high');
+    expect(heroImg).toHaveAttribute('decoding', 'async');
+    expect(document.querySelector('.about-hero-visual')).toHaveTextContent('Foto ilustrasi diskusi perencanaan arsitektur dan konstruksi');
 
     // Check problems
     const problemCards = document.querySelectorAll('.problem-card');

@@ -1,11 +1,11 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.5
+versi: 1.6
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008D — Dieksekusi, Menunggu Audit
+tahap_aktif: PLAN-008D — Dieksekusi (Fix-forward Menunggu Audit)
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
@@ -1847,7 +1847,7 @@ PLAN-008 MENJADI PLAN INDUK FINAL.
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
-TAHAP AKTIF: PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE (MENUNGGU COMMIT PEMILIK DAN AUDIT SHA).
+TAHAP AKTIF: FIX-FORWARD PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE (MENUNGGU COMMIT PEMILIK DAN AUDIT SHA).
 ```
 
 ---
@@ -1862,4 +1862,5 @@ TAHAP AKTIF: PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE (MENUNGGU COMMIT PEMIL
 | 1.2 | 2026-07-28 | Mencatat PLAN-008B selesai dan terverifikasi. Tahap berikutnya PLAN-008C menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008C) |
 | 1.3 | 2026-07-28 | Mengubah arah PLAN-008C menjadi penyempurnaan visual nyata Beranda, mencatat tahap tersebut dieksekusi dan menunggu audit, serta menetapkan PLAN-008D sebagai tahap harmonisasi halaman publik | Eksekusi Bertahap — Audit PLAN-008C |
 | 1.4 | 2026-07-28 | Mencatat PLAN-008C selesai dan terverifikasi. Tahap berikutnya PLAN-008D menunggu penyusunan dan persetujuan | Eksekusi Bertahap (Menunggu PLAN-008D) |
-| 1.5 | 2026-07-29 | Mencatat PLAN-008D telah dieksekusi pada working tree. Seluruh halaman publik telah diharmonisasi mengacu pada benchmark Beranda | Eksekusi Bertahap (Audit PLAN-008D) |
+| 1.5 | 2026-07-29 | Mencatat PLAN-008D awal telah dieksekusi pada working tree | Eksekusi Bertahap (Audit PLAN-008D) |
+| 1.6 | 2026-07-29 | Mencatat fix-forward PLAN-008D dieksekusi pada working tree: harmonisasi Cara Kerja, CSS scoping, single-source SVG, dan regression test diperkuat | Eksekusi Bertahap (Audit Fix-forward PLAN-008D) |

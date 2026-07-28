@@ -29,14 +29,15 @@ export default function AboutVision({ content }) {
               src={sec960Webp}
               srcSet={`${sec640Webp} 640w, ${sec960Webp} 960w`}
               sizes="(min-width: 1024px) 50vw, 100vw"
-              alt="Pengawasan dan koordinasi teknis pekerjaan konstruksi"
+              alt="Tangan arsitek meninjau blueprint dan dokumen perencanaan"
               className="vision-supporting-img"
               width="960"
               height="640"
               loading="lazy"
+              decoding="async"
             />
             <figcaption className="about-image-caption">
-              Foto ilustrasi pengawasan dan koordinasi teknis pekerjaan konstruksi
+              Foto ilustrasi peninjauan blueprint dan dokumen perencanaan
             </figcaption>
           </figure>
         </div>

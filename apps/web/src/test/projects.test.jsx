@@ -43,7 +43,7 @@ describe('ProjectListPage', () => {
     );
 
     expect(container.querySelectorAll('.project-card, [data-testid="project-card"]')).toHaveLength(0);
-    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.querySelectorAll('img:not([data-illustration])')).toHaveLength(0);
     expect(container.querySelectorAll('input[type="search"], .search, .filter, .sort, .pagination')).toHaveLength(0);
     expect(container.querySelectorAll('.projects-toolbar')).toHaveLength(0);
     expect(container.querySelectorAll('a[href^="/proyek/"]')).toHaveLength(0); // detail link

@@ -1,4 +1,4 @@
-/* work-process.css */
+/* work-process.css - Scoped under .page-work-process */
 
 /* --- Page Wrapper --- */
 .page-work-process {
@@ -10,33 +10,131 @@
 .page-work-process .work-hero-section {
   padding-top: var(--spacing-8);
   padding-bottom: var(--spacing-8);
-  text-align: center;
+}
+
+.page-work-process .work-hero-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
 }
 
 .page-work-process .work-hero-content {
-  max-width: 800px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  text-align: left;
   gap: var(--spacing-4);
+  max-width: 720px;
+}
+
+.page-work-process .eyebrow-text {
+  font-size: var(--font-size-supporting);
+  text-transform: uppercase;
+  color: var(--color-brand-600);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.page-work-process .hero-title {
+  font-size: var(--font-size-h1-mobile);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  line-height: 1.2;
+}
+
+.page-work-process .hero-subtitle {
+  font-size: var(--font-size-body-large-desktop);
+  color: var(--color-neutral-600);
+  line-height: 1.6;
 }
 
 .page-work-process .work-hero-actions {
   display: flex;
   gap: var(--spacing-3);
-  margin-top: var(--spacing-4);
+  margin-top: var(--spacing-2);
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .page-work-process .work-hero-notice {
-  margin-top: var(--spacing-6);
+  margin-top: var(--spacing-4);
   padding: var(--spacing-4);
   background-color: var(--color-neutral-50);
   border-radius: var(--radius-card);
+  border-left: 3px solid var(--color-brand-600);
   color: var(--color-neutral-600);
   font-size: var(--font-size-supporting);
+}
+
+/* Hero Process Map Visual (Copy-first on Mobile, appears after CTA) */
+.page-work-process .work-hero-map {
+  background-color: var(--color-neutral-0);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.page-work-process .process-map-title {
+  font-size: var(--font-size-supporting);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-neutral-500);
+  letter-spacing: 0.05em;
+}
+
+.page-work-process .process-map-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.page-work-process .process-map-node {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  position: relative;
+}
+
+.page-work-process .process-map-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-button);
+  background-color: var(--color-brand-50);
+  color: var(--color-brand-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page-work-process .process-map-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.page-work-process .process-map-node-title {
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  font-size: var(--font-size-body);
+}
+
+.page-work-process .process-map-node-desc {
+  font-size: var(--font-size-supporting);
+  color: var(--color-neutral-600);
+}
+
+@media (min-width: 1024px) {
+  .page-work-process .work-hero-grid {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    align-items: center;
+  }
+  .page-work-process .hero-title {
+    font-size: var(--font-size-h1-desktop);
+  }
 }
 
 /* --- Reading Principles --- */
@@ -47,20 +145,43 @@
 }
 
 .page-work-process .principle-card {
-  padding: var(--spacing-4);
+  padding: var(--spacing-5);
   background-color: var(--color-neutral-0);
   border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-card);
+  display: flex;
+  gap: var(--spacing-4);
+  align-items: flex-start;
+}
+
+.page-work-process .principle-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-card);
+  background-color: var(--color-brand-50);
+  color: var(--color-brand-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page-work-process .principle-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
 }
 
 .page-work-process .principle-title {
+  font-size: var(--font-size-body-large-desktop);
   font-weight: 600;
-  margin-bottom: var(--spacing-2);
+  color: var(--color-neutral-900);
 }
 
 .page-work-process .principle-desc {
   color: var(--color-neutral-600);
   font-size: var(--font-size-supporting);
+  line-height: 1.5;
 }
 
 .page-work-process .principles-callout {
@@ -69,6 +190,7 @@
   border-left: 3px solid var(--color-brand-600);
   border-radius: 0 var(--radius-card) var(--radius-card) 0;
   color: var(--color-neutral-600);
+  font-size: var(--font-size-supporting);
 }
 
 @media (min-width: 768px) {
@@ -77,21 +199,60 @@
   }
 }
 
-/* --- Overview List --- */
-.page-work-process .overview-list {
-  padding-left: var(--spacing-6);
-  margin-top: var(--spacing-4);
+/* --- Nine Phase Visual Process Rail --- */
+.page-work-process .overview-list.process-rail {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-6) 0 0 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+.page-work-process .process-node {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--color-neutral-0);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-card);
+  position: relative;
+}
+
+.page-work-process .node-marker {
+  display: flex;
+  align-items: center;
   gap: var(--spacing-2);
 }
 
-.page-work-process .overview-item {
-  color: var(--color-neutral-900);
-  font-size: var(--font-size-body-large-desktop);
+.page-work-process .node-number {
+  font-size: var(--font-size-supporting);
+  font-weight: 700;
+  color: var(--color-brand-700);
+  background-color: var(--color-brand-50);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-button);
 }
 
-/* --- Phase Groups --- */
+.page-work-process .node-icon {
+  color: var(--color-brand-600);
+  display: flex;
+  align-items: center;
+}
+
+.page-work-process .node-title {
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+@media (min-width: 768px) {
+  .page-work-process .overview-list.process-rail {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Phase Groups & Cards --- */
 .page-work-process .phase-group {
   margin-top: var(--spacing-8);
 }
@@ -105,6 +266,7 @@
   text-transform: uppercase;
   color: var(--color-brand-600);
   letter-spacing: 0.05em;
+  font-weight: 600;
   margin-bottom: var(--spacing-2);
 }
 
@@ -120,6 +282,7 @@
 
 .page-work-process .phase-cards {
   display: grid;
+  grid-template-columns: 1fr;
   gap: var(--spacing-6);
 }
 
@@ -129,7 +292,7 @@
   }
 }
 
-/* --- Phase Card --- */
+/* Detailed Phase Card */
 .page-work-process .phase-card {
   background-color: var(--color-neutral-0);
   border: 1px solid var(--color-neutral-200);
@@ -143,23 +306,30 @@
 .page-work-process .phase-header {
   border-bottom: 1px solid var(--color-neutral-200);
   padding-bottom: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
 }
 
-.page-work-process .phase-number {
-  font-size: var(--font-size-supporting);
-  color: var(--color-brand-600);
+.page-work-process .phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-brand-700);
   font-weight: 600;
-  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-supporting);
 }
 
 .page-work-process .phase-title {
   font-size: var(--font-size-body-large-desktop);
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--color-neutral-900);
 }
 
 .page-work-process .phase-summary {
   color: var(--color-neutral-600);
-  font-weight: 500;
+  font-size: var(--font-size-supporting);
+  line-height: 1.5;
 }
 
 .page-work-process .phase-section {
@@ -170,10 +340,13 @@
 
 .page-work-process .phase-section-title {
   font-size: var(--font-size-supporting);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-neutral-600);
-  letter-spacing: 0.05em;
+  color: var(--color-neutral-700);
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
 }
 
 .page-work-process .phase-outputs-list {
@@ -195,9 +368,12 @@
   font-size: var(--font-size-supporting);
   color: var(--color-neutral-600);
   border-left: 2px solid var(--color-brand-600);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
 }
 
-/* --- Decision Gates & Cross Phase --- */
+/* --- Decision Gates & Controls --- */
 .page-work-process .items-grid {
   display: grid;
   gap: var(--spacing-4);
@@ -209,11 +385,26 @@
   background-color: var(--color-neutral-0);
   border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-card);
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+}
+
+.page-work-process .grid-item-icon {
+  color: var(--color-brand-600);
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.page-work-process .grid-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
 }
 
 .page-work-process .grid-item-title {
   font-weight: 600;
-  margin-bottom: var(--spacing-2);
+  color: var(--color-neutral-900);
 }
 
 .page-work-process .grid-item-desc {
@@ -226,7 +417,10 @@
   background-color: var(--color-neutral-50);
   border-radius: var(--radius-card);
   color: var(--color-neutral-600);
-  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  font-size: var(--font-size-supporting);
 }
 
 @media (min-width: 768px) {
@@ -236,9 +430,7 @@
 }
 
 @media (min-width: 1024px) {
-  .page-work-process .items-grid.gates {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .page-work-process .items-grid.gates,
   .page-work-process .items-grid.controls {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -269,7 +461,6 @@
 
 @media (min-width: 768px) {
   .page-work-process .steps-list {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
 }

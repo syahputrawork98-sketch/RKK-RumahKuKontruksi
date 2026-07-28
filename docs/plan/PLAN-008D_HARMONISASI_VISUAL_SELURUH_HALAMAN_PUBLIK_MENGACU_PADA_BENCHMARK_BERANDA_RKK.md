@@ -1,9 +1,10 @@
 ---
 kode: PLAN-008D
 judul: Harmonisasi Visual Seluruh Halaman Publik Mengacu pada Benchmark Beranda Rumahku Konstruksi
-versi: 1.1
-status: DIEKSEKUSI — MENUNGGU AUDIT
-implementation_sha: MENUNGGU COMMIT PEMILIK
+versi: 1.2
+status: DIEKSEKUSI — FIX-FORWARD MENUNGGU AUDIT
+implementation_sha_awal: dde5857026f1c28f377a3844b7394fd83e70f828
+fix_forward_sha: MENUNGGU COMMIT PEMILIK
 tanggal_penyusunan: 2026-07-29
 tanggal_persetujuan: 2026-07-29
 parent_plan: PLAN-008
@@ -2102,10 +2103,18 @@ KERJAKAN SELURUH HALAMAN DALAM SATU PLAN TERKOORDINASI.
 ## 44. Status Penutup
 
 ```text
-PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE.
-HARMONISASI VISUAL SELURUH HALAMAN PUBLIK MENGACU BENCHMARK BERANDA TELAH SELESAI.
-0 WARNING/0 ERROR LINT, 153 TEST LULUS (> 121), BUILD LULUS, DIFF BERSIH.
-STATUS: DIEKSEKUSI — MENUNGGU COMMIT PEMILIK DAN AUDIT SHA.
+PLAN-008D DITERIMA SEBAGIAN PADA IMPLEMENTASI AWAL (SHA dde5857026f1c28f377a3844b7394fd83e70f828).
+FIX-FORWARD PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE.
+PEMBAHARUAN:
+- Harmonisasi visual nyata Halaman Cara Kerja (ActionLink, visual process map, overview process rail 9 node, timeline cards, checkpoint icons);
+- Clean-up AboutHero (menghapus process-stages, menambahkan fetchPriority="high" & decoding="async");
+- Strict CSS Scoping (.about-page sebagai root scope, pemindahan figure/caption ke about.css, clean-up components.css);
+- Single-source SVG illustration (file .svg sebagai visual source, React component merender <img> dekoratif dengan data-illustration);
+- Penghapusan abstraction tak terpakai (IllustratedState.jsx);
+- Koreksi ilustrasi Detail Proyek (ProjectEmptyStateIllustration);
+- Pembaruan asset register (fotografi & 4 ilustrasi SVG);
+- Strengthening regression tests (162+ test lulus, 0 warning/0 error lint, build & diff check lulus).
+STATUS: DIEKSEKUSI — FIX-FORWARD MENUNGGU COMMIT PEMILIK DAN AUDIT SHA.
 ```
 
 ---
@@ -2116,4 +2125,5 @@ STATUS: DIEKSEKUSI — MENUNGGU COMMIT PEMILIK DAN AUDIT SHA.
 |---|---|---|---|
 | 0.1-draft | 2026-07-29 | Menyusun harmonisasi visual seluruh halaman publik berdasarkan benchmark Beranda PLAN-008C; menetapkan matriks foto/ilustrasi/ikon, target visual per route, publication invariants, asset register, responsive audit, dan workflow implementasi satu plan | Direview dan Disetujui Pemilik |
 | 1.0 | 2026-07-29 | Pemilik menyetujui harmonisasi visual seluruh halaman publik, Beranda sebagai protected benchmark, fotografi terbatas, ilustrasi state SVG lokal, asset register, implementation grouping per route, before/after evidence, dan regression test lintas halaman | Disetujui Pemilik — Siap Eksekusi |
-| 1.1 | 2026-07-29 | Mencatat eksekusi PLAN-008D pada working tree: foto Tentang berlisensi, 4 ilustrasi state SVG, PublicIcon diperluas, 153 test lulus, build/diff check lulus | Dieksekusi — Menunggu Audit |
+| 1.1 | 2026-07-29 | Mencatat eksekusi PLAN-008D awal pada working tree (SHA dde5857026f1c28f377a3844b7394fd83e70f828) | Dieksekusi — Menunggu Audit |
+| 1.2 | 2026-07-29 | Mencatat fix-forward PLAN-008D: harmonisasi nyata Cara Kerja, CSS scoping, single-source SVG, semantik Detail Proyek, asset register, dan strengthening regression tests | Dieksekusi — Fix-forward Menunggu Audit |

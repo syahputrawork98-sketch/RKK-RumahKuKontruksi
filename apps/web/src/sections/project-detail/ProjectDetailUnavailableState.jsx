@@ -2,7 +2,7 @@ import React from 'react';
 import ActionLink from '../../components/ui/ActionLink';
 import { PageMeta } from '../../components/ui/PageMeta';
 import { projectDetailContent } from '../../content/project-detail';
-import PortalUnavailableIllustration from '../../components/illustrations/PortalUnavailableIllustration';
+import ProjectEmptyStateIllustration from '../../components/illustrations/ProjectEmptyStateIllustration';
 
 export function ProjectDetailUnavailableState() {
   const { meta, ui } = projectDetailContent.unavailable;
@@ -18,7 +18,7 @@ export function ProjectDetailUnavailableState() {
       <div className="public-container">
         <div className="unavailable-card">
           <div className="unavailable-illustration-wrapper">
-            <PortalUnavailableIllustration size={200} />
+            <ProjectEmptyStateIllustration size={200} />
           </div>
           <span className="unavailable-badge">{ui.label}</span>
           <h1 className="unavailable-title">{ui.title}</h1>

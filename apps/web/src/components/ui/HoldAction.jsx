@@ -2,6 +2,7 @@ export default function HoldAction({ children, reason, variant = 'primary', clas
   return (
     <div className={`hold-action-wrapper ${className}`}>
       <button 
+        type="button"
         className={`btn btn-${variant}`} 
         aria-disabled="true"
         onClick={(e) => e.preventDefault()}

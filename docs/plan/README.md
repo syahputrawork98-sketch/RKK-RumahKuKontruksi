@@ -60,11 +60,15 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Hasil: Route Detail Proyek Publik, published-only gate, 404 publik generik, noindex, metadata dinamis, resolver aman, keamanan media, perlindungan data, dan template future-ready telah diimplementasikan dan diterima; production catalog tetap kosong.
 
 ### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: DISETUJUI PEMILIK — EKSEKUSI BERTAHAP
-- Tahap aktif: PLAN-008B (Menunggu Persetujuan)
+- Status: EKSEKUSI BERTAHAP
+- Tahap aktif: PLAN-008B
 - Hasil yang dituju: design system dan fondasi visual canonical
 
 ### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: SELESAI DAN TERVERIFIKASI
 - Final Audit SHA: bab278229b6eadfcadac5ded33d83b0f533c64b5
 - Hasil: canonical token, semantic foundation, compatibility layer sementara, focus foundation, dan automated token contract validation telah diterima.
+
+### [PLAN-008B: Standardisasi Komponen Dasar dan Ownership CSS Website Publik Rumahku Konstruksi](./PLAN-008B_STANDARDISASI_KOMPONEN_DASAR_DAN_OWNERSHIP_CSS_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
+- Status: DIEKSEKUSI — MENUNGGU AUDIT
+- Hasil yang dituju: components.css, ownership shared CSS, enam komponen dasar stabil, dan selector collision berkurang

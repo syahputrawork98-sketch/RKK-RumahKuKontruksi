@@ -34,9 +34,9 @@ TAHAP BERIKUTNYA ADALAH PLAN-008D — HARMONISASI VISUAL HALAMAN PUBLIK MENGACU 
 PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
 ```
 
-Dokumen ini merupakan plan induk final untuk menormalkan design system dan fondasi visual website publik Rumahku Konstruksi.
+Dokumen ini merupakan plan induk final untuk membangun fondasi design system sekaligus mengarahkan penyempurnaan dan harmonisasi visual website publik Rumahku Konstruksi.
 
-PLAN-008 bukan redesign visual menyeluruh. PLAN-008 juga bukan implementasi halaman publik baru. Pekerjaan difokuskan pada kontrak design token, arsitektur CSS, ownership stylesheet, komponen UI yang digunakan lintas halaman, migrasi halaman yang sudah tersedia, serta audit regresi.
+PLAN-008 tidak membuat route atau halaman publik baru dan tidak mengubah konten bisnis maupun status publikasi. PLAN-008A dan PLAN-008B membangun fondasi token, CSS, serta komponen bersama; PLAN-008C menyempurnakan visual Beranda sebagai benchmark; dan PLAN-008D mengharmonisasikan visual halaman publik lainnya dengan mengacu pada benchmark tersebut.
 
 Pemilik RKK menyetujui PLAN-008 pada 28 Juli 2026. Eksekusi dimulai melalui PLAN-008A dan tetap tunduk pada audit baseline lokal.
 
@@ -1865,4 +1865,5 @@ PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
 | 1.0 | 2026-07-28 | Pemilik menyetujui PLAN-008 sebagai plan induk, pembagian 008A–008C, 008D bersyarat, serta aturan fix-forward untuk perubahan kecil | Disetujui Pemilik — Siap Eksekusi Bertahap |
 | 1.1 | 2026-07-28 | Mencatat PLAN-008A selesai dan terverifikasi. Tahap berikutnya PLAN-008B menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008B) |
 | 1.2 | 2026-07-28 | Mencatat PLAN-008B selesai dan terverifikasi. Tahap berikutnya PLAN-008C menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008C) |
+| 1.3 | 2026-07-28 | Mengubah arah PLAN-008C menjadi penyempurnaan visual nyata Beranda, mencatat tahap tersebut dieksekusi dan menunggu audit, serta menetapkan PLAN-008D sebagai tahap harmonisasi halaman publik | Eksekusi Bertahap — Audit PLAN-008C |
 | 1.4 | 2026-07-28 | Mencatat PLAN-008C selesai dan terverifikasi. Tahap berikutnya PLAN-008D menunggu penyusunan dan persetujuan | Eksekusi Bertahap (Menunggu PLAN-008D) |

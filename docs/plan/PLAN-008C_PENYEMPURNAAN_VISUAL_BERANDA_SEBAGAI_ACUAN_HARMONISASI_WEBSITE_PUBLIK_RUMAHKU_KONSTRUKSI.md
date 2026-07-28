@@ -1616,4 +1616,5 @@ LINT 0 WARNING/0 ERROR, 121 TEST LULUS, BUILD LULUS, DIFF BERSIH.
 |---|---|---|---|
 | 0.1-draft | 2026-07-28 | Mengubah PLAN-008C dari migrasi teknis menjadi penyempurnaan visual nyata Beranda; menambahkan strategi foto ilustrasi, ikon lokal, visual benchmark, responsive audit, asset provenance, dan PLAN-008D sebagai rollout harmonisasi halaman lain | Direview dan Disetujui Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui visual refinement nyata Beranda, foto ilustrasi berlisensi, icon SVG lokal, asset register, before/after evidence, dan Beranda sebagai benchmark PLAN-008D | Disetujui Pemilik — Siap Eksekusi Visual |
+| 1.1 | 2026-07-28 | Mencatat implementasi awal PLAN-008C pada SHA c3d27eb079e37ffb361b275caceea4ba31ac98b9, hasil audit, dan kebutuhan fix-forward visual serta asset hygiene | Dieksekusi — Menunggu Audit |
 | 1.2 | 2026-07-28 | Penutupan administratif PLAN-008C berdasarkan final audit SHA 09d4f315d18d3843687efb6e9553c7ff351d10c6 | Selesai dan Terverifikasi |

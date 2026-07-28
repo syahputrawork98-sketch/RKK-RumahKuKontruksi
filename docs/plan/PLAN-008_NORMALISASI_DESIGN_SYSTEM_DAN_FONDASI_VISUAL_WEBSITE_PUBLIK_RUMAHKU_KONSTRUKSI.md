@@ -1,7 +1,7 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.0
+versi: 1.1
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28

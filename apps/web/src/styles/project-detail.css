@@ -194,7 +194,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
-  margin-bottom: var(--spacing-2xs);
+  margin-bottom: var(--spacing-1);
 }
 
 .page-project-detail .fact-value {
@@ -311,7 +311,7 @@
   font-size: var(--text-lg);
   font-weight: 700;
   color: var(--color-neutral-900);
-  margin-bottom: var(--spacing-2xs);
+  margin-bottom: var(--spacing-1);
 }
 
 .page-project-detail .step-description {
@@ -414,7 +414,7 @@
 .page-project-detail .closing-title {
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--color-brand-950);
+  color: var(--color-brand-900);
   margin-bottom: var(--spacing-xl);
 }
 

@@ -58,3 +58,12 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Status: SELESAI DAN TERVERIFIKASI
 - Final Audit SHA: bd7431d21680a4ac5b7667a6bf5b8ea8ec33bb77
 - Hasil: Route Detail Proyek Publik, published-only gate, 404 publik generik, noindex, metadata dinamis, resolver aman, keamanan media, perlindungan data, dan template future-ready telah diimplementasikan dan diterima; production catalog tetap kosong.
+
+### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
+- Status: DISETUJUI PEMILIK — EKSEKUSI BERTAHAP
+- Tahap aktif: PLAN-008A
+- Hasil yang dituju: design system dan fondasi visual canonical
+
+### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
+- Status: DIEKSEKUSI — MENUNGGU AUDIT
+- Hasil yang dituju: token canonical, semantic foundation, compatibility layer sementara, dan static token contract test

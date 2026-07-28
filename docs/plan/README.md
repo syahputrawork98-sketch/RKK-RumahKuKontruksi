@@ -60,9 +60,10 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Hasil: Route Detail Proyek Publik, published-only gate, 404 publik generik, noindex, metadata dinamis, resolver aman, keamanan media, perlindungan data, dan template future-ready telah diimplementasikan dan diterima; production catalog tetap kosong.
 
 ### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: EKSEKUSI BERTAHAP
-- Tahap aktif: PLAN-008D — Dieksekusi, Menunggu Audit
-- Hasil saat ini: design token, shared component foundation, benchmark visual Beranda, dan harmonisasi visual seluruh halaman publik telah dieksekusi pada working tree.
+- Status: SELESAI DAN TERVERIFIKASI
+- Tahap selesai: PLAN-008A, PLAN-008B, PLAN-008C, dan PLAN-008D
+- Final Audit SHA PLAN-008D: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
+- Hasil: Design token, shared component foundation, benchmark visual Beranda, dan harmonisasi visual seluruh halaman publik telah selesai diimplementasikan, dinormalisasi, dan terverifikasi utuh dengan 159 test lulus.
 
 ### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: SELESAI DAN TERVERIFIKASI
@@ -82,9 +83,10 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Hasil: Beranda menjadi benchmark visual RKK dengan foto ilustrasi berlisensi, ikon semantik, editorial layout, timeline visual, publication hold-state, CTA penutup, responsive image, scoped CSS, dan 121 test lulus.
 
 ### [PLAN-008D: Harmonisasi Visual Seluruh Halaman Publik Mengacu pada Benchmark Beranda RKK](./PLAN-008D_HARMONISASI_VISUAL_SELURUH_HALAMAN_PUBLIK_MENGACU_PADA_BENCHMARK_BERANDA_RKK.md)
-- Status: DIEKSEKUSI — FINAL VISUAL POLISH MENUNGGU AUDIT
+- Status: SELESAI DAN TERVERIFIKASI
 - Implementation SHA Awal: dde5857026f1c28f377a3844b7394fd83e70f828
 - Fix-forward SHA 1: 266ef7f2371936b74fd25a9038d3883618044d24
 - Source Alignment SHA: a56f7c709e7f5f39c77dac05853e065e83cc5e76
-- Final Visual Polish SHA: MENUNGGU COMMIT PEMILIK
-- Hasil: Halaman Tentang, Cara Kerja, Layanan, Proyek, Detail Proyek, Sign-in Unavailable, dan 404 telah diharmonisasi visualnya dengan foto berlisensi, 4 ilustrasi state SVG single-source, ikon semantik, process map dari content map, process rail vertikal 1 kolom (01–09 connector), dan test suite diperkuat (>158 test lulus).
+- Final Visual Polish SHA: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
+- Final Audit SHA: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
+- Hasil: Seluruh halaman publik telah diharmonisasi dengan benchmark Beranda melalui fotografi berlisensi, SVG state lokal single-source, ikon semantik, process map berbasis content map, process rail vertikal 01–09, scoped CSS, publication invariants, dan 159 test lulus.

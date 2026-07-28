@@ -1,17 +1,17 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.3
+versi: 1.4
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008C — Dieksekusi, Menunggu Audit
+tahap_aktif: PLAN-008D — Menunggu Penyusunan dan Persetujuan
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
 base_sha_status: Remote terverifikasi sebagai penutup final PLAN-007
 area_implementasi: apps/web
-jenis_pekerjaan: normalisasi design system, design token, fondasi CSS, komponen UI lintas halaman, migrasi halaman, dan audit regresi visual
+jenis_pekerjaan: normalisasi design system, design token, fondasi CSS, komponen UI lintas halaman, penyempurnaan visual Beranda, dan harmonisasi visual halaman publik
 route_baru: tidak ada
 perubahan_konten_bisnis: tidak ada
 perubahan_status_publikasi: tidak ada
@@ -25,13 +25,13 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
-PLAN-008 MENJADI PLAN INDUK NORMALISASI FONDASI VISUAL
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
-TAHAP AKTIF: PLAN-008C (Dieksekusi, Menunggu Audit).
-TAHAP BERIKUTNYA: PLAN-008D — Harmonisasi Visual Halaman Publik Mengacu pada Beranda.
-GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
+PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT PLAN-008C: 09d4f315d18d3843687efb6e9553c7ff351d10c6
+
+TAHAP BERIKUTNYA ADALAH PLAN-008D — HARMONISASI VISUAL HALAMAN PUBLIK MENGACU PADA BERANDA.
+PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
 ```
 
 Dokumen ini merupakan plan induk final untuk menormalkan design system dan fondasi visual website publik Rumahku Konstruksi.
@@ -46,10 +46,11 @@ Pemilik RKK menyetujui PLAN-008 pada 28 Juli 2026. Eksekusi dimulai melalui PLAN
 
 | Area | Keputusan Final |
 |---|---|
-| Strategi utama | Normalisasi fondasi visual terlebih dahulu |
+| Strategi utama | Normalisasi fondasi visual dan penyempurnaan/harmonisasi visual |
 | Bentuk pekerjaan | PLAN induk dengan tahap terkontrol |
-| Tahap besar | PLAN-008A, PLAN-008B, PLAN-008C |
-| PLAN-008D | Tidak otomatis dibuat; hanya jika audit penutupan cukup besar |
+| Tahap besar | PLAN-008A, PLAN-008B, PLAN-008C, dan PLAN-008D |
+| PLAN-008C | Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi (Selesai & Terverifikasi) |
+| PLAN-008D | Harmonisasi Visual Halaman Publik Mengacu pada Beranda (Menunggu Penyusunan) |
 | Route baru | Tidak ada |
 | Route yang dihapus | Tidak ada |
 | Konten bisnis | Tidak diubah |
@@ -60,7 +61,7 @@ Pemilik RKK menyetujui PLAN-008 pada 28 Juli 2026. Eksekusi dimulai melalui PLAN
 | Data B05 | Tetap dilarang menjadi portofolio |
 | Dummy/seed/legacy | Tetap dilarang tampil |
 | Redesign penuh | Tidak dilakukan |
-| Visual refinement besar | Ditunda ke tahap setelah struktur publik cukup lengkap |
+| Visual refinement | Beranda disempurnakan (PLAN-008C); halaman publik lain diharmonisasi pada PLAN-008D |
 | Dependency baru | Tidak direncanakan |
 | Backend/API/database | Tidak disentuh |
 | Shell publik | Dipertahankan, hanya dinormalisasi bila diperlukan |
@@ -72,17 +73,13 @@ Keputusan kerja yang diusulkan:
 
 ```text
 PLAN-008
-├── PLAN-008A — Normalisasi Design Token dan CSS Foundation
-├── PLAN-008B — Standardisasi Komponen Dasar dan Ownership CSS
-└── PLAN-008C — Migrasi Halaman Publik dan Audit Regresi
+├── PLAN-008A — Normalisasi Design Token dan CSS Foundation (Selesai & Terverifikasi)
+├── PLAN-008B — Standardisasi Komponen Dasar dan Ownership CSS (Selesai & Terverifikasi)
+├── PLAN-008C — Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi (Selesai & Terverifikasi)
+└── PLAN-008D — Harmonisasi Visual Halaman Publik Mengacu pada Beranda (Menunggu Penyusunan)
 ```
 
-PLAN-008D hanya dibuat apabila hasil PLAN-008C meninggalkan pekerjaan penutupan lintas halaman yang:
-
-- cukup besar;
-- mempunyai acceptance criteria sendiri;
-- perlu SHA terpisah;
-- tidak aman diselesaikan sebagai koreksi kecil.
+PLAN-008D difokuskan untuk melakukan rollout harmonisasi visual pada halaman Tentang, Cara Kerja, Layanan, Proyek, Detail Proyek, dan public states dengan mengacu pada benchmark Beranda (PLAN-008C).
 
 ---
 
@@ -1851,8 +1848,11 @@ PLAN-008 TELAH DISETUJUI PEMILIK RKK PADA 28 JULI 2026.
 PLAN-008 MENJADI PLAN INDUK FINAL.
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
-TAHAP BERIKUTNYA ADALAH PLAN-008C, TETAPI BELUM BOLEH DIEKSEKUSI SEBELUM PLAN ATAU INSTRUKSI DISETUJUI.
-GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
+PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT PLAN-008C: 09d4f315d18d3843687efb6e9553c7ff351d10c6
+
+TAHAP BERIKUTNYA ADALAH PLAN-008D — HARMONISASI VISUAL HALAMAN PUBLIK MENGACU PADA BERANDA.
+PLAN-008D BELUM BOLEH DIEKSEKUSI SEBELUM PLAN DISEPAKATI PEMILIK.
 ```
 
 ---
@@ -1865,3 +1865,4 @@ GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
 | 1.0 | 2026-07-28 | Pemilik menyetujui PLAN-008 sebagai plan induk, pembagian 008A–008C, 008D bersyarat, serta aturan fix-forward untuk perubahan kecil | Disetujui Pemilik — Siap Eksekusi Bertahap |
 | 1.1 | 2026-07-28 | Mencatat PLAN-008A selesai dan terverifikasi. Tahap berikutnya PLAN-008B menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008B) |
 | 1.2 | 2026-07-28 | Mencatat PLAN-008B selesai dan terverifikasi. Tahap berikutnya PLAN-008C menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008C) |
+| 1.4 | 2026-07-28 | Mencatat PLAN-008C selesai dan terverifikasi. Tahap berikutnya PLAN-008D menunggu penyusunan dan persetujuan | Eksekusi Bertahap (Menunggu PLAN-008D) |

@@ -61,8 +61,8 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 
 ### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: EKSEKUSI BERTAHAP
-- Tahap aktif: PLAN-008C — Dieksekusi, Menunggu Audit
-- Hasil yang dituju: design system dan fondasi visual canonical
+- Tahap aktif: PLAN-008D — Menunggu Penyusunan dan Persetujuan
+- Hasil saat ini: design token, shared component foundation, dan benchmark visual Beranda telah selesai serta terverifikasi.
 
 ### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: SELESAI DAN TERVERIFIKASI
@@ -75,6 +75,12 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Hasil: components.css menjadi owner shared CSS, enam komponen dasar distandardisasi, SectionHeading independen dari hero Beranda, HoldAction di-hardening, dan 120 test lulus.
 
 ### [PLAN-008C: Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi Website Publik Rumahku Konstruksi](./PLAN-008C_PENYEMPURNAAN_VISUAL_BERANDA_SEBAGAI_ACUAN_HARMONISASI_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- **Status**: DIEKSEKUSI — MENUNGGU AUDIT
-- **Implementation SHA**: `c3d27eb079e37ffb361b275caceea4ba31ac98b9`
-- **Fokus**: visual refinement Beranda, foto ilustrasi berlisensi, icon SVG lokal, dan benchmark PLAN-008D
+- Status: SELESAI DAN TERVERIFIKASI
+- Implementation SHA Awal: c3d27eb079e37ffb361b275caceea4ba31ac98b9
+- Fix-forward SHA: 8c69ef98ba9e345afccf55198c92e84f6a8acf12
+- Final Audit SHA: 09d4f315d18d3843687efb6e9553c7ff351d10c6
+- Hasil: Beranda menjadi benchmark visual RKK dengan foto ilustrasi berlisensi, ikon semantik, editorial layout, timeline visual, publication hold-state, CTA penutup, responsive image, scoped CSS, dan 121 test lulus.
+
+### PLAN-008D — Belum Disusun
+- Fokus: Harmonisasi visual halaman Tentang, Cara Kerja, Layanan, Proyek, Detail Proyek, dan public states dengan mengacu pada benchmark Beranda.
+- Status: MENUNGGU PENYUSUNAN DAN PERSETUJUAN

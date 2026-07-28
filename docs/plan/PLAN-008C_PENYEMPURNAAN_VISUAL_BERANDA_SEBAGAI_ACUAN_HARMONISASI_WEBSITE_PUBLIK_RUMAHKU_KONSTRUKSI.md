@@ -1,9 +1,11 @@
 ---
 kode: PLAN-008C
 judul: Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi Website Publik Rumahku Konstruksi
-versi: 1.1
-status: DIEKSEKUSI — MENUNGGU AUDIT
-implementation_sha: c3d27eb079e37ffb361b275caceea4ba31ac98b9
+versi: 1.2
+status: SELESAI DAN TERVERIFIKASI
+implementation_sha_awal: c3d27eb079e37ffb361b275caceea4ba31ac98b9
+fix_forward_sha: 8c69ef98ba9e345afccf55198c92e84f6a8acf12
+final_audit_sha: 09d4f315d18d3843687efb6e9553c7ff351d10c6
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
 parent_plan: PLAN-008
@@ -31,10 +33,24 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI VISUAL
-PLAN-008C ADALAH TAHAP PENYEMPURNAAN VISUAL NYATA BERANDA
-GEMINI BOLEH MENGUBAH WORKING TREE SETELAH BASELINE DAN VALIDASI AWAL LULUS
-GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, REBASE, ATAU MEMBUAT BRANCH
+PLAN-008C SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT SHA: 09d4f315d18d3843687efb6e9553c7ff351d10c6
+
+HASIL:
+- Beranda menjadi benchmark visual website publik RKK;
+- hero memakai foto ilustrasi Pexels responsif dan tersimpan lokal;
+- asset register mencatat sumber, kreator, lisensi, ukuran, dan batas penggunaan;
+- Context memakai editorial structured list;
+- Approach memakai empat ikon semantik;
+- Workflow memakai visual timeline empat tahap;
+- Services memakai publication hold-state tanpa copy duplikat;
+- Principles memakai editorial split dan foto pendukung;
+- Closing CTA menampilkan held primary action dan active secondary action;
+- CSS Beranda telah di-scope;
+- file sementara dan aset kandidat yang tidak dipakai telah dibersihkan;
+- lint 0 warning/0 error;
+- 121 test lulus;
+- build dan diff check lulus.
 ```
 
 Pemilik RKK menyetujui PLAN-008C pada 28 Juli 2026.
@@ -1586,13 +1602,10 @@ JADIKAN BERANDA SEBAGAI BENCHMARK PLAN-008D.
 ## 33. Status Penutup
 
 ```text
-PLAN-008C TELAH DISETUJUI PEMILIK RKK PADA 28 JULI 2026.
-PLAN-008C SIAP DIEKSEKUSI DARI BASELINE b14ae9690233d5b350c4a198618cc7eeeb45040c.
-FOKUS: PERUBAHAN VISUAL NYATA PADA BERANDA.
-STRUKTUR, CONTENT MAP, ROUTE, DATA, DAN PUBLICATION STATE TETAP.
-FOTO WAJIB BERLISENSI, DISIMPAN LOKAL, DAN DICATAT DALAM ASSET REGISTER.
-GEMINI TIDAK BOLEH COMMIT ATAU PUSH.
-HASIL DI-COMMIT DAN DI-PUSH OLEH PEMILIK, LALU DIAUDIT BERDASARKAN SHA REMOTE.
+PLAN-008C SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT SHA: 09d4f315d18d3843687efb6e9553c7ff351d10c6
+BERANDA TELAH MENJADI BENCHMARK VISUAL RKK.
+LINT 0 WARNING/0 ERROR, 121 TEST LULUS, BUILD LULUS, DIFF BERSIH.
 ```
 
 ---
@@ -1603,3 +1616,4 @@ HASIL DI-COMMIT DAN DI-PUSH OLEH PEMILIK, LALU DIAUDIT BERDASARKAN SHA REMOTE.
 |---|---|---|---|
 | 0.1-draft | 2026-07-28 | Mengubah PLAN-008C dari migrasi teknis menjadi penyempurnaan visual nyata Beranda; menambahkan strategi foto ilustrasi, ikon lokal, visual benchmark, responsive audit, asset provenance, dan PLAN-008D sebagai rollout harmonisasi halaman lain | Direview dan Disetujui Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui visual refinement nyata Beranda, foto ilustrasi berlisensi, icon SVG lokal, asset register, before/after evidence, dan Beranda sebagai benchmark PLAN-008D | Disetujui Pemilik — Siap Eksekusi Visual |
+| 1.2 | 2026-07-28 | Penutupan administratif PLAN-008C berdasarkan final audit SHA 09d4f315d18d3843687efb6e9553c7ff351d10c6 | Selesai dan Terverifikasi |

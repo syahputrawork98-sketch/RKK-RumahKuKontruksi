@@ -1,11 +1,11 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.1
+versi: 1.2
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008B
+tahap_aktif: PLAN-008C (Menunggu Persetujuan)
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
@@ -1848,7 +1848,8 @@ Urutan tersebut dapat disesuaikan melalui keputusan Pemilik dan kesiapan sumber 
 PLAN-008 TELAH DISETUJUI PEMILIK RKK PADA 28 JULI 2026.
 PLAN-008 MENJADI PLAN INDUK FINAL.
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
-PLAN-008B TELAH DISETUJUI DAN DIEKSEKUSI — MENUNGGU AUDIT FINAL SHA.
+PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
+TAHAP BERIKUTNYA ADALAH PLAN-008C, TETAPI BELUM BOLEH DIEKSEKUSI SEBELUM PLAN ATAU INSTRUKSI DISETUJUI.
 GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
 ```
 
@@ -1861,3 +1862,4 @@ GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
 | 0.1-draft | 2026-07-28 | Draf awal PLAN-008 berdasarkan audit Drive, GitHub, design token, CSS ownership, komponen, dan halaman publik aktif | Direview Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui PLAN-008 sebagai plan induk, pembagian 008A–008C, 008D bersyarat, serta aturan fix-forward untuk perubahan kecil | Disetujui Pemilik — Siap Eksekusi Bertahap |
 | 1.1 | 2026-07-28 | Mencatat PLAN-008A selesai dan terverifikasi. Tahap berikutnya PLAN-008B menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008B) |
+| 1.2 | 2026-07-28 | Mencatat PLAN-008B selesai dan terverifikasi. Tahap berikutnya PLAN-008C menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008C) |

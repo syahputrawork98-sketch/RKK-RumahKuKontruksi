@@ -1,8 +1,9 @@
 ---
 kode: PLAN-008B
 judul: Standardisasi Komponen Dasar dan Ownership CSS Website Publik Rumahku Konstruksi
-versi: 1.0
-status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
+versi: 1.1
+status: SELESAI DAN TERVERIFIKASI
+final_audit_sha: 95ded3cb7134fa5da287974d0e1617b07bac6130
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
 parent_plan: PLAN-008
@@ -28,10 +29,9 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
-PLAN-008B ADALAH TAHAP KEDUA PLAN-008
-GEMINI BOLEH MENGUBAH WORKING TREE HANYA SETELAH BASELINE DAN VALIDASI AWAL LULUS
-GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH
+PLAN-008B SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT SHA: 95ded3cb7134fa5da287974d0e1617b07bac6130
+HASIL: components.css menjadi owner shared CSS; PublicContainer, PublicSection, SectionHeading, InfoCard, ActionLink, dan HoldAction distandardisasi; SectionHeading independen dari hero Beranda; HoldAction telah di-hardening; lint 0 warning/0 error; 120 test lulus; build dan diff check lulus.
 ```
 
 PLAN-008B adalah tahap kedua dari PLAN-008 dan telah disetujui Pemilik RKK pada 28 Juli 2026.
@@ -1814,12 +1814,9 @@ audit SHA PLAN-008B
 ## 32. Status Penutup
 
 ```text
-PLAN-008B TELAH DISETUJUI PEMILIK RKK PADA 28 JULI 2026.
-PLAN-008B SIAP DIEKSEKUSI SETELAH AUDIT LOKAL DAN VALIDASI BASELINE LULUS.
-BASE SHA: d04f43d6bf790c5cb6befb447e15a174863f1e4f
-GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
-HASIL WORKING TREE WAJIB DIREVIEW PEMILIK DAN DIAUDIT CHATGPT.
-BELUM ADA PERUBAHAN REPOSITORY PADA SAAT PLAN INI DIFINALKAN.
+PLAN-008B SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT SHA: 95ded3cb7134fa5da287974d0e1617b07bac6130
+HASIL: components.css menjadi owner shared CSS; PublicContainer, PublicSection, SectionHeading, InfoCard, ActionLink, dan HoldAction distandardisasi; SectionHeading independen dari hero Beranda; HoldAction telah di-hardening; lint 0 warning/0 error; 120 test lulus; build dan diff check lulus.
 ```
 
 ---
@@ -1830,3 +1827,4 @@ BELUM ADA PERUBAHAN REPOSITORY PADA SAAT PLAN INI DIFINALKAN.
 |---|---|---|---|
 | 0.1-draft | 2026-07-28 | Draf awal PLAN-008B berdasarkan PLAN-008, PLAN-008A terverifikasi, audit shared components, ownership `home.css`/`shell.css`, import order, dan baseline SHA `d04f43d...` | Direview Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui `components.css`, pemindahan shared selector, standardisasi enam komponen dasar, class khusus `SectionHeading`, hardening `HoldAction`, serta batas tegas terhadap PLAN-008C | Disetujui Pemilik — Siap Eksekusi Bersyarat Audit Lokal |
+| 1.1 | 2026-07-28 | Mencatat PLAN-008B selesai dan terverifikasi. Final Audit SHA: 95ded3cb7134fa5da287974d0e1617b07bac6130 | Selesai dan Terverifikasi |

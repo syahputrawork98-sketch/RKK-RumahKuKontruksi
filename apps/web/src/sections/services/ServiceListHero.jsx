@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import ActionLink from '../../components/ui/ActionLink';
 import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import { serviceListContent } from '../../content/services';
@@ -15,12 +15,12 @@ export default function ServiceListHero() {
           <p className="service-hero-description">{content.description}</p>
           
           <div className="service-hero-actions">
-            <Link to={content.primaryAction.href} className="btn-primary">
+            <ActionLink to={content.primaryAction.href} variant="primary">
               {content.primaryAction.label}
-            </Link>
-            <Link to={content.secondaryAction.href} className="btn-secondary">
+            </ActionLink>
+            <ActionLink to={content.secondaryAction.href} variant="outline">
               {content.secondaryAction.label}
-            </Link>
+            </ActionLink>
           </div>
         </div>
       </PublicContainer>

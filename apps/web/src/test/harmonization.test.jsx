@@ -2,8 +2,9 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AppRoutes } from '../app/AppRouter';
-import { serviceCatalog, resolvePublishedServices } from '../content/services';
-import { projectCatalog, resolvePublishedProjects } from '../content/projects';
+import { workProcessContent } from '../content/workProcess';
+import { serviceCatalog, serviceListContent, resolvePublishedServices } from '../content/services';
+import { projectCatalog, projectListContent, resolvePublishedProjects } from '../content/projects';
 import fs from 'fs';
 import path from 'path';
 
@@ -367,6 +368,130 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       const h1Elements = screen.getAllByRole('heading', { level: 1 });
       expect(h1Elements.length).toBe(1);
       expect(h1Elements[0]).toHaveTextContent(/Pekerjaan konstruksi yang lebih terencana/i);
+    });
+  });
+
+  describe('Button Standardization & ActionLink Consistency', () => {
+    it('standardizes WorkClosingCTA buttons with ActionLink primary and outline variants', () => {
+      render(
+        <MemoryRouter initialEntries={['/cara-kerja']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      const closingActions = document.querySelector('.closing-actions');
+      expect(closingActions).not.toBeNull();
+      const actions = closingActions.querySelectorAll('a');
+      expect(actions.length).toBe(2);
+
+      const primary = actions[0];
+      const secondary = actions[1];
+
+      expect(primary).toHaveClass('btn', 'btn-primary');
+      expect(secondary).toHaveClass('btn', 'btn-outline');
+      expect(secondary).not.toHaveClass('btn-secondary');
+      expect(primary.getAttribute('href')).toBe(workProcessContent.closing.primaryAction.href);
+      expect(secondary.getAttribute('href')).toBe(workProcessContent.closing.secondaryAction.href);
+    });
+
+    it('standardizes ServiceListHero buttons with ActionLink primary and outline variants', () => {
+      render(
+        <MemoryRouter initialEntries={['/layanan']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      const heroActions = document.querySelector('.service-hero-actions');
+      expect(heroActions).not.toBeNull();
+      const actions = heroActions.querySelectorAll('a');
+      expect(actions.length).toBe(2);
+
+      const primary = actions[0];
+      const secondary = actions[1];
+
+      expect(primary).toHaveClass('btn', 'btn-primary');
+      expect(secondary).toHaveClass('btn', 'btn-outline');
+      expect(secondary).not.toHaveClass('btn-secondary');
+      expect(primary.getAttribute('href')).toBe(serviceListContent.hero.primaryAction.href);
+      expect(secondary.getAttribute('href')).toBe(serviceListContent.hero.secondaryAction.href);
+    });
+
+    it('standardizes ServiceClosingCTA buttons with ActionLink primary and outline variants', () => {
+      render(
+        <MemoryRouter initialEntries={['/layanan']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      const closingSection = document.querySelector('.service-closing-section');
+      expect(closingSection).not.toBeNull();
+      const actions = closingSection.querySelectorAll('.closing-actions a');
+      expect(actions.length).toBe(2);
+
+      const primary = actions[0];
+      const secondary = actions[1];
+
+      expect(primary).toHaveClass('btn', 'btn-primary');
+      expect(secondary).toHaveClass('btn', 'btn-outline');
+      expect(secondary).not.toHaveClass('btn-secondary');
+      expect(primary.getAttribute('href')).toBe(serviceListContent.closing.primaryAction.href);
+      expect(secondary.getAttribute('href')).toBe(serviceListContent.closing.secondaryAction.href);
+    });
+
+    it('standardizes ProjectsPageHero buttons with ActionLink primary and outline variants', () => {
+      render(
+        <MemoryRouter initialEntries={['/proyek']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      const heroActions = document.querySelector('.projects-hero-actions');
+      expect(heroActions).not.toBeNull();
+      const actions = heroActions.querySelectorAll('a');
+      expect(actions.length).toBe(2);
+
+      const primary = actions[0];
+      const secondary = actions[1];
+
+      expect(primary).toHaveClass('btn', 'btn-primary');
+      expect(secondary).toHaveClass('btn', 'btn-outline');
+      expect(secondary).not.toHaveClass('btn-secondary');
+      expect(primary.getAttribute('href')).toBe(projectListContent.hero.primaryCTA.href);
+      expect(secondary.getAttribute('href')).toBe(projectListContent.hero.secondaryCTA.href);
+    });
+
+    it('standardizes ProjectsClosingCTA buttons with ActionLink primary and outline variants', () => {
+      render(
+        <MemoryRouter initialEntries={['/proyek']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      const ctaActions = document.querySelector('.projects-cta-actions');
+      expect(ctaActions).not.toBeNull();
+      const actions = ctaActions.querySelectorAll('a');
+      expect(actions.length).toBe(2);
+
+      const primary = actions[0];
+      const secondary = actions[1];
+
+      expect(primary).toHaveClass('btn', 'btn-primary');
+      expect(secondary).toHaveClass('btn', 'btn-outline');
+      expect(secondary).not.toHaveClass('btn-secondary');
+      expect(primary.getAttribute('href')).toBe(projectListContent.closingCTA.primaryCTA.href);
+      expect(secondary.getAttribute('href')).toBe(projectListContent.closingCTA.secondaryCTA.href);
+    });
+
+    it('verifies target components do not import raw Link from react-router-dom', () => {
+      const targetFiles = [
+        '../sections/work-process/WorkClosingCTA.jsx',
+        '../sections/services/ServiceListHero.jsx',
+        '../sections/services/ServiceClosingCTA.jsx',
+        '../sections/projects/ProjectsPageHero.jsx',
+        '../sections/projects/ProjectsClosingCTA.jsx'
+      ];
+
+      targetFiles.forEach(relPath => {
+        const fullPath = path.resolve(__dirname, relPath);
+        const code = fs.readFileSync(fullPath, 'utf-8');
+        expect(code).not.toMatch(/import\s*\{\s*Link\s*\}\s*from\s*['"]react-router-dom['"]/);
+        expect(code).toContain("import ActionLink from");
+      });
     });
   });
 });

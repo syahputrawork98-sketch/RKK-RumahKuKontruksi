@@ -1,13 +1,15 @@
 ---
 kode: PLAN-008D
 judul: Harmonisasi Visual Seluruh Halaman Publik Mengacu pada Benchmark Beranda Rumahku Konstruksi
-versi: 1.5
-status: SELESAI DAN TERVERIFIKASI
+versi: 1.6
+status: KOREKSI PASCA-AUDIT TOMBOL MENUNGGU AUDIT
 implementation_sha_awal: dde5857026f1c28f377a3844b7394fd83e70f828
 fix_forward_sha_1: 266ef7f2371936b74fd25a9038d3883618044d24
 source_alignment_sha: a56f7c709e7f5f39c77dac05853e065e83cc5e76
 final_visual_polish_sha: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
-final_audit_sha: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
+final_audit_sha_sebelumnya: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
+administrative_closure_sha_sebelumnya: 90157c8987f2496daf82a043e2bf29a4661fe9fa
+button_consistency_sha: MENUNGGU COMMIT PEMILIK
 tanggal_penyusunan: 2026-07-29
 tanggal_persetujuan: 2026-07-29
 parent_plan: PLAN-008
@@ -42,23 +44,17 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-PLAN-008D SELESAI DAN TERVERIFIKASI.
-FINAL AUDIT SHA: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
+KOREKSI PASCA-AUDIT TOMBOL MENUNGGU AUDIT
+BASELINE KOREKSI: 90157c8987f2496daf82a043e2bf29a4661fe9fa
 
-HASIL:
-- Beranda dipertahankan sebagai protected visual benchmark;
-- Halaman Tentang memakai fotografi responsif berlisensi dan CSS ter-scope;
-- Halaman Cara Kerja memakai process map berbasis content map, ikon semantik, rail sembilan fase, decision gate, dan cross-phase control;
-- Halaman Layanan mempertahankan publication gate tanpa layanan aktif;
-- Halaman Proyek dan Detail Proyek mempertahankan katalog kosong dan unavailable state tanpa portofolio palsu;
-- Sign-in dan 404 memakai illustrated state lokal;
-- empat SVG state menggunakan single source of truth;
-- asset register telah disinkronkan;
-- content, route, backend, auth state, dan publication state tidak berubah;
-- process rail mempertahankan urutan 01–09 pada seluruh viewport;
-- lint 0 warning/0 error;
-- 159 test lulus;
-- build dan diff check lulus.
+KOREKSI TOMBOL LINTAS HALAMAN:
+- Standardisasi lima action group (Cara Kerja closing CTA, Layanan hero, Layanan closing CTA, Proyek hero, Proyek closing CTA);
+- Seluruh tombol target menggunakan ActionLink;
+- Tombol utama menggunakan varian primary (.btn .btn-primary);
+- Tombol kedua menggunakan varian outline (.btn .btn-outline);
+- Tidak ada tombol target yang menggunakan .btn-secondary;
+- Target href dan copy tidak berubah;
+- Regression testsuite diperkuat (>165 test lulus).
 ```
 
 Pemilik RKK menyetujui PLAN-008D pada 29 Juli 2026.
@@ -2118,23 +2114,13 @@ KERJAKAN SELURUH HALAMAN DALAM SATU PLAN TERKOORDINASI.
 ## 44. Status Penutup
 
 ```text
-PLAN-008D SELESAI DAN TERVERIFIKASI.
-FINAL AUDIT SHA: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
-
-HASIL:
-- Beranda dipertahankan sebagai protected visual benchmark;
-- Halaman Tentang memakai fotografi responsif berlisensi dan CSS ter-scope;
-- Halaman Cara Kerja memakai process map berbasis content map, ikon semantik, rail sembilan fase, decision gate, dan cross-phase control;
-- Halaman Layanan mempertahankan publication gate tanpa layanan aktif;
-- Halaman Proyek dan Detail Proyek mempertahankan katalog kosong dan unavailable state tanpa portofolio palsu;
-- Sign-in dan 404 memakai illustrated state lokal;
-- empat SVG state menggunakan single source of truth;
-- asset register telah disinkronkan;
-- content, route, backend, auth state, dan publication state tidak berubah;
-- process rail mempertahankan urutan 01–09 pada seluruh viewport;
-- lint 0 warning/0 error;
-- 159 test lulus;
-- build dan diff check lulus.
+PLAN-008D MEMBUKA KOREKSI PASCA-AUDIT UNTUK KONSISTENSI TOMBOL LINTAS HALAMAN.
+KOREKSI:
+- Standardisasi lima action group (Cara Kerja closing CTA, Layanan hero, Layanan closing CTA, Proyek hero, Proyek closing CTA);
+- Seluruh tombol target menggunakan ActionLink dengan varian primary (.btn .btn-primary) dan outline (.btn .btn-outline);
+- Menghapus penggunaan raw Link dan .btn-secondary pada tombol target;
+- Memperkuat regression testsuite dengan 6 test baru (total 165+ test lulus), lint 0 warning/0 error, build & diff check lulus.
+STATUS: KOREKSI PASCA-AUDIT TOMBOL MENUNGGU AUDIT (MENUNGGU COMMIT PEMILIK DAN AUDIT SHA).
 ```
 
 ---
@@ -2150,3 +2136,4 @@ HASIL:
 | 1.3 | 2026-07-29 | Mencatat koreksi terakhir PLAN-008D: content map sebagai sumber process map Hero, workProcessVisuals.js sebagai single source pemetaan ikon, struktur visual NinePhaseOverview, CSS connector, serta penguatan regression test (SHA a56f7c709e7f5f39c77dac05853e065e83cc5e76) | Dieksekusi — Koreksi Terakhir Menunggu Audit |
 | 1.4 | 2026-07-29 | Mencatat final visual polish PLAN-008D: mempertahankan urutan connector 01–09 vertikal 1 kolom pada seluruh viewport (max-width 840px), membersihkan title whitespace, dan memperkuat regression testsuite | Dieksekusi — Final Visual Polish Menunggu Audit |
 | 1.5 | 2026-07-29 | Menutup PLAN-008D setelah final audit SHA 87d8010e98fe734505cbcb34eb2b96f3c87014b2; harmonisasi seluruh halaman publik, source-of-truth, process rail lintas viewport, publication invariants, asset hygiene, dan 159 regression test dinyatakan terverifikasi | Selesai dan Terverifikasi |
+| 1.6 | 2026-07-29 | Membuka koreksi visual pasca-audit berdasarkan temuan Pemilik pada lima action group di halaman Cara Kerja, Layanan, dan Proyek; tombol distandardisasi memakai ActionLink dengan varian primary dan outline | Koreksi Pasca-Audit Menunggu Audit |

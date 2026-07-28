@@ -1,11 +1,11 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.9
-status: SELESAI DAN TERVERIFIKASI
+versi: 2.0
+status: KOREKSI PASCA-AUDIT PLAN-008D MENUNGGU AUDIT
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008 — Selesai dan Terverifikasi
+tahap_aktif: PLAN-008D — Koreksi Konsistensi Tombol Menunggu Audit
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
@@ -28,9 +28,7 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
-PLAN-008D TELAH SELESAI DAN TERVERIFIKASI.
-FINAL AUDIT PLAN-008D: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
-PLAN-008 SELESAI DAN TERVERIFIKASI.
+TAHAP AKTIF: PLAN-008D (Koreksi Pasca-Audit Konsistensi Tombol Menunggu Audit).
 ```
 
 Dokumen ini merupakan plan induk final untuk membangun fondasi design system sekaligus mengarahkan penyempurnaan dan harmonisasi visual website publik Rumahku Konstruksi.
@@ -1846,9 +1844,7 @@ Urutan tersebut dapat disesuaikan melalui keputusan Pemilik dan kesiapan sumber 
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
-PLAN-008D TELAH SELESAI DAN TERVERIFIKASI.
-FINAL AUDIT PLAN-008D: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
-PLAN-008 SELESAI DAN TERVERIFIKASI.
+TAHAP AKTIF: PLAN-008D (Koreksi Pasca-Audit Konsistensi Tombol Menunggu Audit).
 ```
 
 ---
@@ -1868,3 +1864,4 @@ PLAN-008 SELESAI DAN TERVERIFIKASI.
 | 1.7 | 2026-07-29 | Mencatat koreksi terakhir PLAN-008D dieksekusi pada working tree. Content map menjadi sumber process map Hero, single-source icon mapping, CSS connector, dan regression testsuite diperkuat | Eksekusi Bertahap (Audit Koreksi Terakhir PLAN-008D) |
 | 1.8 | 2026-07-29 | Mencatat final visual polish PLAN-008D dieksekusi pada working tree. Process rail 1 kolom vertikal (max-width 840px) pada seluruh viewport, whitespace title dibersihkan, dan regression testsuite diperkuat | Eksekusi Bertahap (Audit Final Visual Polish PLAN-008D) |
 | 1.9 | 2026-07-29 | Menutup PLAN-008 setelah PLAN-008A, PLAN-008B, PLAN-008C, dan PLAN-008D selesai serta terverifikasi; final audit PLAN-008D berada pada SHA 87d8010e98fe734505cbcb34eb2b96f3c87014b2 | Selesai dan Terverifikasi |
+| 2.0 | 2026-07-29 | Membuka koreksi pasca-audit PLAN-008D untuk menstandarkan lima kelompok tombol pada Cara Kerja, Layanan, dan Proyek menggunakan ActionLink primary/outline | Koreksi Pasca-Audit PLAN-008D Menunggu Audit |

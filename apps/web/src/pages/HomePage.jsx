@@ -9,7 +9,7 @@ import HomeClosingCTA from '../sections/home/HomeClosingCTA';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="home-page">
       <HomeHero content={homeContent.hero} />
       <HomeContext content={homeContent.context} />
       <HomeApproach content={homeContent.approach} />
@@ -17,6 +17,6 @@ export default function HomePage() {
       <HomeServices content={homeContent.services} />
       <HomePrinciples content={homeContent.principles} />
       <HomeClosingCTA content={homeContent.closing} />
-    </>
+    </div>
   );
 }

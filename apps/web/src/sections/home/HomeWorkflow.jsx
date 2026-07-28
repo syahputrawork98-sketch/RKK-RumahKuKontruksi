@@ -4,7 +4,7 @@ import SectionHeading from '../../components/ui/SectionHeading';
 import PublicIcon from '../../components/icons/PublicIcon';
 import ActionLink from '../../components/ui/ActionLink';
 
-const icons = ['message-circle', 'pen-tool', 'hammer', 'home'];
+const icons = ['message-circle', 'pen-tool', 'hammer', 'file-check'];
 
 export default function HomeWorkflow({ content }) {
   return (
@@ -13,31 +13,30 @@ export default function HomeWorkflow({ content }) {
         <SectionHeading 
           eyebrow={content.eyebrow}
           title={content.title}
-          description={content.description}
         />
         
-        <div className="timeline-grid editorial-timeline">
+        <div className="timeline-grid home-workflow-timeline">
           {content.steps.map((step, index) => (
-            <div key={index} className="timeline-step">
-              <div className="timeline-marker-wrapper">
-                <div className="timeline-icon-bg">
-                   <PublicIcon name={icons[index % icons.length]} size={20} />
+            <div key={index} className="home-workflow-step">
+              <div className="home-workflow-marker-wrapper">
+                <div className="home-workflow-icon-bg">
+                  <PublicIcon name={icons[index % icons.length]} size={20} />
                 </div>
-                {index < content.steps.length - 1 && <div className="timeline-connector"></div>}
+                {index < content.steps.length - 1 && <div className="home-workflow-connector"></div>}
               </div>
-              <div className="timeline-content">
-                <span className="timeline-number">Tahap 0{index + 1}</span>
-                <h3 className="timeline-title">{step.title}</h3>
-                <p className="timeline-desc">{step.description}</p>
+              <div className="home-workflow-content">
+                <span className="home-workflow-number">Tahap 0{index + 1}</span>
+                <h3 className="home-workflow-title">{step.title}</h3>
+                <p className="home-workflow-desc">{step.description}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="informative-panel">
-          <span className="panel-status">Catatan</span>
-          <p className="panel-desc">{content.notice}</p>
-          <div className="panel-actions">
+        <div className="home-workflow-panel">
+          <span className="home-workflow-panel-status">Catatan</span>
+          <p className="home-workflow-panel-desc">{content.notice}</p>
+          <div className="home-workflow-panel-actions">
             <ActionLink to={content.action.href} variant="outline">
               {content.action.label}
             </ActionLink>

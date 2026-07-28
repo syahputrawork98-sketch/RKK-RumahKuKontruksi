@@ -61,7 +61,7 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 
 ### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
 - Status: EKSEKUSI BERTAHAP
-- Tahap aktif: PLAN-008C (Menunggu Persetujuan)
+- Tahap aktif: PLAN-008C — Dieksekusi, Menunggu Audit
 - Hasil yang dituju: design system dan fondasi visual canonical
 
 ### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
@@ -73,3 +73,8 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Status: SELESAI DAN TERVERIFIKASI
 - Final Audit SHA: 95ded3cb7134fa5da287974d0e1617b07bac6130
 - Hasil: components.css menjadi owner shared CSS, enam komponen dasar distandardisasi, SectionHeading independen dari hero Beranda, HoldAction di-hardening, dan 120 test lulus.
+
+### [PLAN-008C: Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi Website Publik Rumahku Konstruksi](./PLAN-008C_PENYEMPURNAAN_VISUAL_BERANDA_SEBAGAI_ACUAN_HARMONISASI_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
+- **Status**: DIEKSEKUSI — MENUNGGU AUDIT
+- **Implementation SHA**: `c3d27eb079e37ffb361b275caceea4ba31ac98b9`
+- **Fokus**: visual refinement Beranda, foto ilustrasi berlisensi, icon SVG lokal, dan benchmark PLAN-008D

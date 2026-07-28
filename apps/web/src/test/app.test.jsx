@@ -57,7 +57,7 @@ describe('PublicAppShell', () => {
     });
 
     // Check Context has numeric markers (01, 02, 03)
-    const contextMarkers = document.querySelectorAll('#konteks .card-marker');
+    const contextMarkers = document.querySelectorAll('#konteks .home-context-marker');
     expect(contextMarkers.length).toBe(3);
     expect(contextMarkers[0]).toHaveTextContent('01');
     expect(contextMarkers[2]).toHaveTextContent('03');
@@ -562,5 +562,67 @@ describe('PublicAppShell', () => {
     fireEvent.keyDown(document, { key: 'Escape', code: 'Escape' });
 
     expect(drawer).not.toHaveClass('open');
+  });
+
+  it('validates PLAN-008C regression requirements for Beranda', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <AppRoutes />
+      </MemoryRouter>
+    );
+
+    // 1. HomePrinciples displays content.intro
+    expect(screen.getByText('Keterbukaan perlu berjalan bersama konteks, tanggung jawab, dan batas akses yang tepat.')).toBeInTheDocument();
+
+    // 2. Principles items heading is H3
+    const principleTitles = document.querySelectorAll('#prinsip h3');
+    expect(principleTitles.length).toBe(4);
+
+    // 3. Closing displays both actions
+    const closingSection = document.querySelector('.home-closing-section');
+    expect(within(closingSection).getByText('Ajukan Kebutuhan')).toBeInTheDocument();
+    expect(within(closingSection).getByText('Pelajari Cara Kerja')).toBeInTheDocument();
+
+    // 4. Secondary action links to /cara-kerja
+    const closingSecondaryLink = within(closingSection).getByText('Pelajari Cara Kerja').closest('a');
+    expect(closingSecondaryLink).toHaveAttribute('href', '/cara-kerja');
+
+    // 5. Services displays statusLabel
+    expect(screen.getByText('Belum ada layanan siap publik')).toBeInTheDocument();
+
+    // 6. No text "Layanan Segera Hadir" anywhere
+    expect(screen.queryByText(/Layanan Segera Hadir/i)).not.toBeInTheDocument();
+
+    // 7. Hero local image has srcSet, sizes, width, height, eager, high priority
+    const heroImg = document.querySelector('.hero-image');
+    expect(heroImg).toBeInTheDocument();
+    expect(heroImg).toHaveAttribute('srcset');
+    expect(heroImg).toHaveAttribute('sizes');
+    expect(heroImg).toHaveAttribute('width');
+    expect(heroImg).toHaveAttribute('height');
+    expect(heroImg).toHaveAttribute('loading', 'eager');
+    expect(heroImg).toHaveAttribute('fetchpriority', 'high');
+
+    // 8. Approach uses 4 key icons
+    const approachIcons = document.querySelectorAll('#pendekatan svg');
+    expect(approachIcons.length).toBe(4);
+
+    // 9. Workflow remains 4 steps
+    const workflowSteps = document.querySelectorAll('#proses .home-workflow-step');
+    expect(workflowSteps.length).toBe(4);
+
+    // 10. CTA transaction remains hold (HoldAction button with aria-disabled)
+    const holdBtns = screen.getAllByRole('button', { name: 'Ajukan Kebutuhan' });
+    expect(holdBtns.length).toBeGreaterThan(0);
+    holdBtns.forEach(btn => {
+      expect(btn).toHaveAttribute('aria-disabled', 'true');
+    });
+
+    // 11. No service/project publication
+    const projectCatalogCount = document.querySelectorAll('.project-card');
+    expect(projectCatalogCount.length).toBe(0);
+
+    // 12. HomePage has root .home-page container
+    expect(document.querySelector('.home-page')).toBeInTheDocument();
   });
 });

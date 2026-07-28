@@ -1,8 +1,9 @@
 ---
 kode: PLAN-008C
 judul: Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi Website Publik Rumahku Konstruksi
-versi: 1.0
-status: DISETUJUI PEMILIK — SIAP EKSEKUSI VISUAL
+versi: 1.1
+status: DIEKSEKUSI — MENUNGGU AUDIT
+implementation_sha: c3d27eb079e37ffb361b275caceea4ba31ac98b9
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
 parent_plan: PLAN-008

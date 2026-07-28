@@ -1,64 +1,50 @@
 # HOME VISUAL ASSET REGISTER
 
-## Ringkasan Aset
+Daftar aset fotografi berlisensi yang digunakan pada visual Beranda Website Publik Rumahku Konstruksi. Aset ini diambil dari sumber Pexels dengan Pexels License yang mengizinkan penggunaan komersial.
 
-Berikut adalah daftar aset fotografi berlisensi yang digunakan pada visual Beranda Website Publik Rumahku Konstruksi. Aset ini diambil dari sumber resmi dengan lisensi terbuka yang mengizinkan penggunaan komersial tanpa kewajiban atribusi (meskipun atribusi direkomendasikan).
-
-Semua aset telah dikonversi ke format WebP untuk performa.
-
-### 1. Hero H1 (hero-h1.webp)
-- **Sumber Asli**: Pexels
-- **URL**: [https://www.pexels.com/photo/architects-reviewing-construction-blueprints-outdoors-29299826/](https://www.pexels.com/photo/architects-reviewing-construction-blueprints-outdoors-29299826/)
-- **Kreator**: Kampus Production (atau terkait)
-- **Lisensi**: Pexels License (Free to use)
-- **Tanggal Pemeriksaan**: 28 Juli 2026
-- **Penggunaan**: Hero utama (image-led editorial)
-- **Catatan**: Tidak digunakan untuk klaim proyek RKK. Menampilkan arsitek meninjau denah di luar ruangan.
-
-### 2. Hero H2 (hero-h2.webp)
-- **Sumber Asli**: Pexels
-- **URL**: [https://www.pexels.com/photo/man-and-woman-holding-a-blueprint-of-a-house-8470040/](https://www.pexels.com/photo/man-and-woman-holding-a-blueprint-of-a-house-8470040/)
-- **Kreator**: Ivan Samkov
-- **Lisensi**: Pexels License (Free to use)
-- **Tanggal Pemeriksaan**: 28 Juli 2026
-- **Penggunaan**: Hero alternatif atau ilustrasi
-- **Catatan**: Tidak digunakan untuk klaim proyek RKK.
-
-### 3. Hero H3 (hero-h3.webp)
-- **Sumber Asli**: Pexels
-- **URL**: [https://www.pexels.com/photo/construction-site-with-engineers-discussing-plans-29197533/](https://www.pexels.com/photo/construction-site-with-engineers-discussing-plans-29197533/)
-- **Kreator**: (Kreator Pexels)
-- **Lisensi**: Pexels License (Free to use)
-- **Tanggal Pemeriksaan**: 28 Juli 2026
-- **Penggunaan**: Hero alternatif
-- **Catatan**: Tidak digunakan untuk klaim proyek RKK.
-
-### 4. Secondary S1 (sec-s1.webp)
-- **Sumber Asli**: Pexels
-- **URL**: [https://www.pexels.com/photo/architect-working-on-a-project-6285159/](https://www.pexels.com/photo/architect-working-on-a-project-6285159/)
-- **Kreator**: Ivan Samkov
-- **Lisensi**: Pexels License (Free to use)
-- **Tanggal Pemeriksaan**: 28 Juli 2026
-- **Penggunaan**: Ilustrasi konten pada section pendukung (Context/Approach)
-- **Catatan**: Tidak digunakan untuk klaim proyek RKK.
-
-### 5. Secondary S2 (sec-s2.webp)
-- **Sumber Asli**: Pexels
-- **URL**: [https://www.pexels.com/photo/an-architect-s-work-table-with-tools-and-blueprints-6894105/](https://www.pexels.com/photo/an-architect-s-work-table-with-tools-and-blueprints-6894105/)
-- **Kreator**: Ivan Samkov
-- **Lisensi**: Pexels License (Free to use)
-- **Tanggal Pemeriksaan**: 28 Juli 2026
-- **Penggunaan**: Ilustrasi section
-- **Catatan**: Tidak digunakan untuk klaim proyek RKK.
-
-### 6. Secondary S3 (sec-s3.webp)
-- **Sumber Asli**: Pexels
-- **URL**: [https://www.pexels.com/photo/pen-with-ruler-and-eyeglasses-placed-on-house-plan-4792480/](https://www.pexels.com/photo/pen-with-ruler-and-eyeglasses-placed-on-house-plan-4792480/)
-- **Kreator**: Anni Roenkae
-- **Lisensi**: Pexels License (Free to use)
-- **Tanggal Pemeriksaan**: 28 Juli 2026
-- **Penggunaan**: Ilustrasi pendukung
-- **Catatan**: Tidak digunakan untuk klaim proyek RKK.
+Catatan Umum:
+Aset digunakan sebagai foto ilustrasi, bukan proyek Rumahku Konstruksi dan bukan endorsement pihak yang tergambar. Penggunaan tetap tunduk pada Pexels License, Pexels Terms, dan hak pihak ketiga yang relevan.
 
 ---
-Semua gambar merupakan representasi visual arsitektur, perencanaan, dan kerja tim konstruksi untuk memberikan konteks visual pada website publik. Tidak ada merek dagang atau wajah yang menyiratkan *endorsement* pihak tertentu di luar izin lisensi Pexels.
+
+### Aset 1: Hero (home-hero-planning-*.webp)
+
+- **filename**: `home-hero-planning-640.webp`, `home-hero-planning-960.webp`, `home-hero-planning-1440.webp`
+- **platform**: Pexels
+- **creator**: Maren Ferraro
+- **source page**: [https://www.pexels.com/photo/architects-reviewing-construction-blueprints-outdoors-29299826/](https://www.pexels.com/photo/architects-reviewing-construction-blueprints-outdoors-29299826/)
+- **tanggal pemeriksaan**: 28 Juli 2026
+- **license**: Pexels License (Free to use)
+- **commercial use status**: Allowed for commercial use
+- **attribution requirement**: Not required (attribution included in asset register)
+- **recognisable people**: Ya (orang/tim profesional di lapangan dengan helm/rompi K3)
+- **recognisable property**: Lokasi kerja konstruksi / cetak biru umum
+- **visible trademark review**: Tidak ada merek dagang komersial menonjol yang terdeteksi
+- **intended section**: HomeHero (`/` section hero visual)
+- **alt text**: `Arsitek meninjau denah di lokasi konstruksi`
+- **crop focal point**: Center (fokus pada pembahasan cetak biru arsitek & insinyur)
+- **file dimensions**: 640x427, 960x640, 1440x960
+- **file size**: ~34 KB (640w), ~61 KB (960w), ~108 KB (1440w)
+- **notes**: Digunakan sebagai foto ilustrasi editorial split pada section Hero Beranda untuk memberikan gambaran kontekstual perencanaan konstruksi.
+
+---
+
+### Aset 2: Secondary / Principles (home-principles-planning-*.webp)
+
+- **filename**: `home-principles-planning-640.webp`, `home-principles-planning-960.webp`
+- **platform**: Pexels
+- **creator**: Mikhail Nilov
+- **source page**: [https://www.pexels.com/photo/an-architect-s-work-table-with-tools-and-blueprints-6894105/](https://www.pexels.com/photo/an-architect-s-work-table-with-tools-and-blueprints-6894105/)
+- **tanggal pemeriksaan**: 28 Juli 2026
+- **license**: Pexels License (Free to use)
+- **commercial use status**: Allowed for commercial use
+- **attribution requirement**: Not required (attribution included in asset register)
+- **recognisable people**: Tidak ada (objek/meja kerja arsitek)
+- **recognisable property**: Cetak biru, penggaris, pensil, alat ukur arsitektur
+- **visible trademark review**: Tidak ada merek dagang komersial menonjol yang terdeteksi
+- **intended section**: HomePrinciples (`/` section prinsip transparansi & dokumentasi)
+- **alt text**: `Meja kerja arsitek dengan blueprint dan alat perencanaan`
+- **crop focal point**: Center (fokus pada meja perancangan dan alat ukur)
+- **file dimensions**: 640x427, 960x640
+- **file size**: ~13 KB (640w), ~22 KB (960w)
+- **notes**: Digunakan sebagai foto pendukung pada section Prinsip Beranda untuk merepresentasikan ketelitian dokumentasi dan perencanaan.

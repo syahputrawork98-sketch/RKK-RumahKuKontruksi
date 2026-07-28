@@ -1,6 +1,9 @@
 import ActionLink from '../../components/ui/ActionLink';
 import HoldAction from '../../components/ui/HoldAction';
-import heroImageWebp from '../../assets/images/home/hero-h1.webp';
+
+import hero640Webp from '../../assets/images/home/home-hero-planning-640.webp';
+import hero960Webp from '../../assets/images/home/home-hero-planning-960.webp';
+import hero1440Webp from '../../assets/images/home/home-hero-planning-1440.webp';
 
 export default function HomeHero({ content }) {
   return (
@@ -27,16 +30,22 @@ export default function HomeHero({ content }) {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="hero-image-wrapper">
+            <figure className="hero-image-wrapper">
               <img
-                src={heroImageWebp}
+                src={hero1440Webp}
+                srcSet={`${hero640Webp} 640w, ${hero960Webp} 960w, ${hero1440Webp} 1440w`}
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 alt="Arsitek meninjau denah di lokasi konstruksi"
-                width="630"
-                height="420"
-                decoding="async"
+                width="1440"
+                height="960"
+                loading="eager"
                 fetchPriority="high"
+                decoding="async"
                 className="hero-image"
               />
+              <figcaption className="home-hero-image-caption">
+                Foto ilustrasi perencanaan konstruksi
+              </figcaption>
               <div className="hero-overlay-system system-diagram" aria-hidden="true">
                 {content.visualNodes.map((node, index) => (
                   <div key={index} className={`system-node node-${index + 1}`}>
@@ -48,7 +57,7 @@ export default function HomeHero({ content }) {
                   </div>
                 ))}
               </div>
-            </div>
+            </figure>
           </div>
         </div>
       </div>

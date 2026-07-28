@@ -14,14 +14,16 @@ export default function HomeServices({ content }) {
           description={content.description}
         />
 
-        <div className="services-hold-state">
-          <div className="hold-icon-wrapper">
-            <PublicIcon name="lock" size={32} />
+        <div className="home-services-panel">
+          <div className="home-services-status">
+            <PublicIcon name="lock" size={20} />
+            <span className="home-services-status-text">{content.statusLabel}</span>
           </div>
-          <h3 className="hold-title">Layanan Segera Hadir</h3>
-          <p className="hold-desc">Kami sedang mempersiapkan katalog layanan yang dapat Anda lihat secara transparan.</p>
-          <div className="hold-actions">
-             <ActionLink to={content.action.href} variant="outline">{content.action.label}</ActionLink>
+          <p className="home-services-desc">{content.description}</p>
+          <div className="home-services-actions">
+            <ActionLink to={content.action.href} variant="outline">
+              {content.action.label}
+            </ActionLink>
           </div>
         </div>
       </PublicContainer>

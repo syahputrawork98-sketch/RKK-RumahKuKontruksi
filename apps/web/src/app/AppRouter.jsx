@@ -1,13 +1,18 @@
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import PublicAppShell from '../layouts/PublicAppShell';
+import AuthPageShell from '../layouts/AuthPageShell';
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
-import UnavailablePage from '../pages/UnavailablePage';
 import NotFoundPage from '../pages/NotFoundPage';
 import WorkProcessPage from '../pages/WorkProcessPage';
 import ServiceListPage from '../pages/ServiceListPage';
 import ProjectListPage from '../pages/ProjectListPage';
 import ProjectDetailPage from '../pages/ProjectDetailPage';
+import DemoAccessPage from '../pages/DemoAccessPage';
+import SignInPage from '../pages/SignInPage';
+import PortalPlaceholderPage from '../pages/PortalPlaceholderPage';
+import PortalAccessBoundary from '../components/auth/PortalAccessBoundary';
+import { DemoContextProvider } from '../context/DemoContext';
 
 export function AppRoutes() {
   return (
@@ -20,11 +25,20 @@ export function AppRoutes() {
         <Route path="/layanan" element={<ServiceListPage />} />
         <Route path="/proyek" element={<ProjectListPage />} />
         <Route path="/proyek/:slug" element={<ProjectDetailPage />} />
-        <Route
-          path="/sign-in"
-          element={<UnavailablePage title="Akses akun belum tersedia pada tahap ini." description="PLAN-001 tidak menyediakan login simulasi, akses demo, atau autentikasi sementara." />}
-        />
         <Route path="*" element={<NotFoundPage />} />
+      </Route>
+
+      <Route element={<AuthPageShell />}>
+        <Route path="/demo" element={<DemoAccessPage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route
+          path="/portal"
+          element={
+            <PortalAccessBoundary>
+              <PortalPlaceholderPage />
+            </PortalAccessBoundary>
+          }
+        />
       </Route>
     </Routes>
   );
@@ -32,8 +46,10 @@ export function AppRoutes() {
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <DemoContextProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </DemoContextProvider>
   );
 }

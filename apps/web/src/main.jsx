@@ -10,6 +10,7 @@ import './styles/work-process.css'
 import './styles/services.css'
 import './styles/projects.css'
 import './styles/project-detail.css'
+import './styles/access.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

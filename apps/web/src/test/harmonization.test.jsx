@@ -25,7 +25,7 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       { path: '/layanan', expectedH1: /Daftar Layanan/i },
       { path: '/proyek', expectedH1: /Portofolio hanya ditampilkan/i },
       { path: '/proyek/tidak-ada', expectedH1: /Halaman proyek tidak tersedia/i },
-      { path: '/sign-in', expectedH1: /Akses akun belum tersedia/i },
+      { path: '/sign-in', expectedH1: /Masuk ke Akun RKK/i },
       { path: '/route-404-bebas', expectedH1: /Halaman tidak ditemukan/i }
     ];
 
@@ -100,14 +100,14 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       expect(img).not.toBeNull();
     });
 
-    it('renders data-illustration="portal-unavailable" for /sign-in unavailable state', () => {
+    it('renders official sign-in page structure for /sign-in route', () => {
       render(
         <MemoryRouter initialEntries={['/sign-in']}>
           <AppRoutes />
         </MemoryRouter>
       );
-      const img = document.querySelector('img[data-illustration="portal-unavailable"]');
-      expect(img).not.toBeNull();
+      expect(screen.getByRole('heading', { level: 1, name: /Masuk ke Akun RKK/i })).toBeInTheDocument();
+      expect(screen.getByLabelText(/Email atau nomor telepon/i)).toBeInTheDocument();
     });
 
     it('renders data-illustration="not-found-route" for 404 not found route', () => {

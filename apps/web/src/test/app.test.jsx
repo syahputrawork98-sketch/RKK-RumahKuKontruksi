@@ -392,14 +392,13 @@ describe('PublicAppShell', () => {
     });
   });
 
-  it('renders unavailable state for /sign-in and no role dummy/auth', () => {
+  it('renders official sign-in page for /sign-in and no role dummy/auth', () => {
     render(
       <MemoryRouter initialEntries={['/sign-in']}>
         <AppRoutes />
       </MemoryRouter>
     );
-    expect(screen.getByText('Sedang disiapkan')).toBeInTheDocument();
-    expect(screen.getByText('Akses akun belum tersedia pada tahap ini.')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /Masuk ke Akun RKK/i })).toBeInTheDocument();
 
     // role dummy dan autentikasi simulasi tidak tampil sebagai interaktif
     expect(screen.queryByRole('button', { name: /role\s?demo/i })).not.toBeInTheDocument();

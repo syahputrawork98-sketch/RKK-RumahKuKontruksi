@@ -1,6 +1,6 @@
 # RKK Rumahku Konstruksi — Dokumen Perencanaan
 
-> **Status Saat Ini:** PLAN-001 — SELESAI DAN TERVERIFIKASI
+> **Status Saat Ini:** PLAN-009 — IMPLEMENTASI SELESAI — MENUNGGU AUDIT ROOM 3 (Baseline: `7648b62b2a004f67721be2aed63c3fba14fe59ea`)
 
 Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan pengembangan RKK.
 
@@ -43,51 +43,49 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Hasil:** Halaman Cara Kerja telah diimplementasikan lengkap beserta komponen sembilan fase, content layer, styling, routing, dan integrasi Beranda.
 
 ### [PLAN-005: Implementasi Halaman Daftar Layanan Rumahku Konstruksi](./PLAN-005_IMPLEMENTASI_HALAMAN_DAFTAR_LAYANAN_RUMAHKU_KONSTRUKSI.md)
-- Status: SELESAI DAN TERVERIFIKASI
-- Final Audit SHA: 9baecc1dde5acacb621c0f6916a10d6512b8fbc6
-- Hasil: Halaman Layanan, gerbang publikasi, current-empty state, integrasi Beranda, dan navigasi publik telah diimplementasikan dan diterima.
-
-*(Plan lain akan ditambahkan di sini setelah disetujui)*
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `9baecc1dde5acacb621c0f6916a10d6512b8fbc6`
+- **Hasil:** Halaman Layanan, gerbang publikasi, current-empty state, integrasi Beranda, dan navigasi publik telah diimplementasikan dan diterima.
 
 ### [PLAN-006: Implementasi Halaman Daftar Proyek Publik Rumahku Konstruksi](./PLAN-006_IMPLEMENTASI_HALAMAN_DAFTAR_PROYEK_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: SELESAI DAN TERVERIFIKASI
-- Final Audit SHA: 872265f3a4e5b987b881b8b993b0bb00d5ef1bae
-- Hasil: Halaman Daftar Proyek Publik, current-hold state, empat gerbang publikasi, resolver aman, perlindungan data, dan navigasi publik telah diimplementasikan dan diterima.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `872265f3a4e5b987b881b8b993b0bb00d5ef1bae`
+- **Hasil:** Halaman Daftar Proyek Publik, current-hold state, empat gerbang publikasi, resolver aman, perlindungan data, dan navigasi publik telah diimplementasikan dan diterima.
 
 ### [PLAN-007: Implementasi Halaman Detail Proyek Publik Rumahku Konstruksi](./PLAN-007_IMPLEMENTASI_HALAMAN_DETAIL_PROYEK_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: SELESAI DAN TERVERIFIKASI
-- Final Audit SHA: bd7431d21680a4ac5b7667a6bf5b8ea8ec33bb77
-- Hasil: Route Detail Proyek Publik, published-only gate, 404 publik generik, noindex, metadata dinamis, resolver aman, keamanan media, perlindungan data, dan template future-ready telah diimplementasikan dan diterima; production catalog tetap kosong.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `bd7431d21680a4ac5b7667a6bf5b8ea8ec33bb77`
+- **Hasil:** Route Detail Proyek Publik, published-only gate, 404 publik generik, noindex, metadata dinamis, resolver aman, keamanan media, perlindungan data, dan template future-ready telah diimplementasikan dan diterima; production catalog tetap kosong.
 
 ### [PLAN-008: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi](./PLAN-008_NORMALISASI_DESIGN_SYSTEM_DAN_FONDASI_VISUAL_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: KOREKSI PASCA-AUDIT PLAN-008D MENUNGGU AUDIT
-- Tahap aktif: PLAN-008D — Koreksi Konsistensi Tombol Menunggu Audit
-- Hasil saat ini: Design token, shared component foundation, benchmark visual Beranda, dan harmonisasi visual seluruh halaman publik telah diimplementasikan; lima kelompok tombol pada Cara Kerja, Layanan, dan Proyek sedang distandardisasi menggunakan ActionLink primary/outline.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `7648b62b2a004f67721be2aed63c3fba14fe59ea`
+- **Hasil:** Design token, shared component foundation, benchmark visual Beranda, dan harmonisasi visual seluruh halaman publik telah diimplementasikan dan diverifikasi (165 test lulus).
 
 ### [PLAN-008A: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi](./PLAN-008A_NORMALISASI_DESIGN_TOKEN_DAN_CSS_FOUNDATION_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: SELESAI DAN TERVERIFIKASI
-- Final Audit SHA: bab278229b6eadfcadac5ded33d83b0f533c64b5
-- Hasil: canonical token, semantic foundation, compatibility layer sementara, focus foundation, dan automated token contract validation telah diterima.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `bab278229b6eadfcadac5ded33d83b0f533c64b5`
+- **Hasil:** canonical token, semantic foundation, compatibility layer sementara, focus foundation, dan automated token contract validation telah diterima.
 
 ### [PLAN-008B: Standardisasi Komponen Dasar dan Ownership CSS Website Publik Rumahku Konstruksi](./PLAN-008B_STANDARDISASI_KOMPONEN_DASAR_DAN_OWNERSHIP_CSS_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: SELESAI DAN TERVERIFIKASI
-- Final Audit SHA: 95ded3cb7134fa5da287974d0e1617b07bac6130
-- Hasil: components.css menjadi owner shared CSS, enam komponen dasar distandardisasi, SectionHeading independen dari hero Beranda, HoldAction di-hardening, dan 120 test lulus.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `95ded3cb7134fa5da287974d0e1617b07bac6130`
+- **Hasil:** components.css menjadi owner shared CSS, enam komponen dasar distandardisasi, SectionHeading independen dari hero Beranda, HoldAction di-hardening, dan 120 test lulus.
 
 ### [PLAN-008C: Penyempurnaan Visual Beranda sebagai Acuan Harmonisasi Website Publik Rumahku Konstruksi](./PLAN-008C_PENYEMPURNAAN_VISUAL_BERANDA_SEBAGAI_ACUAN_HARMONISASI_WEBSITE_PUBLIK_RUMAHKU_KONSTRUKSI.md)
-- Status: SELESAI DAN TERVERIFIKASI
-- Implementation SHA Awal: c3d27eb079e37ffb361b275caceea4ba31ac98b9
-- Fix-forward SHA: 8c69ef98ba9e345afccf55198c92e84f6a8acf12
-- Final Audit SHA: 09d4f315d18d3843687efb6e9553c7ff351d10c6
-- Hasil: Beranda menjadi benchmark visual RKK dengan foto ilustrasi berlisensi, ikon semantik, editorial layout, timeline visual, publication hold-state, CTA penutup, responsive image, scoped CSS, dan 121 test lulus.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Implementation SHA Awal:** `c3d27eb079e37ffb361b275caceea4ba31ac98b9`
+- **Fix-forward SHA:** `8c69ef98ba9e345afccf55198c92e84f6a8acf12`
+- **Final Audit SHA:** `09d4f315d18d3843687efb6e9553c7ff351d10c6`
+- **Hasil:** Beranda menjadi benchmark visual RKK dengan foto ilustrasi berlisensi, ikon semantik, editorial layout, timeline visual, publication hold-state, CTA penutup, responsive image, scoped CSS, dan 121 test lulus.
 
 ### [PLAN-008D: Harmonisasi Visual Seluruh Halaman Publik Mengacu pada Benchmark Beranda RKK](./PLAN-008D_HARMONISASI_VISUAL_SELURUH_HALAMAN_PUBLIK_MENGACU_PADA_BENCHMARK_BERANDA_RKK.md)
-- Status: KOREKSI PASCA-AUDIT TOMBOL MENUNGGU AUDIT
-- Baseline koreksi: 90157c8987f2496daf82a043e2bf29a4661fe9fa
-- Fokus: Standardisasi tombol pada Cara Kerja, Layanan, dan Proyek menggunakan ActionLink primary/outline
-- Implementation SHA Awal: dde5857026f1c28f377a3844b7394fd83e70f828
-- Fix-forward SHA 1: 266ef7f2371936b74fd25a9038d3883618044d24
-- Source Alignment SHA: a56f7c709e7f5f39c77dac05853e065e83cc5e76
-- Final Visual Polish SHA: 87d8010e98fe734505cbcb34eb2b96f3c87014b2
-- Button Consistency SHA: MENUNGGU COMMIT PEMILIK
-- Hasil: Halaman Publik diharmonisasi dengan benchmark Beranda; lima action group pada Cara Kerja, Layanan, dan Proyek distandardisasi memakai ActionLink primary/outline tanpa .btn-secondary, dan 165+ test lulus.
+- **Status:** SELESAI DAN TERVERIFIKASI
+- **Final Audit SHA:** `7648b62b2a004f67721be2aed63c3fba14fe59ea`
+- **Button Consistency SHA:** `7648b62b2a004f67721be2aed63c3fba14fe59ea`
+- **Hasil:** Halaman Publik diharmonisasi dengan benchmark Beranda; lima action group pada Cara Kerja, Layanan, dan Proyek distandardisasi memakai ActionLink primary/outline tanpa .btn-secondary, dan 165 test lulus.
+
+### [PLAN-009: Fondasi Akses Presentasi, Sign-in, dan Demo Context RKK](./PLAN-009_FONDASI_AKSES_PRESENTASI_SIGN-IN_DAN_DEMO_CONTEXT_RKK.md)
+- **Status:** IMPLEMENTASI SELESAI — MENUNGGU AUDIT ROOM 3
+- **Baseline SHA:** `7648b62b2a004f67721be2aed63c3fba14fe59ea`
+- **Ruang Lingkup:** Halaman `/demo` sebagai Demo Access Gateway, `/sign-in` sebagai antarmuka masuk resmi RKK, `AuthPageShell`, fondasi Demo Context lokal/sementara, adapter data demo sintetis, dan route boundary `/portal`. (184 test lulus).

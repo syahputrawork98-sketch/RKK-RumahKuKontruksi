@@ -1,24 +1,13 @@
 import PublicIcon from '../../components/icons/PublicIcon';
-
-const phaseIconsMap = {
-  '01': 'compass',
-  '02': 'search-check',
-  '03': 'pen-tool',
-  '04': 'file-check',
-  '05': 'check-circle',
-  '06': 'hammer',
-  '07': 'shield-check',
-  '08': 'file-text',
-  '09': 'target'
-};
+import { workProcessPhaseIcons } from './workProcessVisuals';
 
 export default function ProcessPhaseCard({ phase }) {
-  const iconName = phaseIconsMap[phase.number] || 'info';
+  const iconName = workProcessPhaseIcons[phase.number] || 'info';
 
   return (
     <div className="phase-card timeline-node" data-phase-number={phase.number}>
       <div className="phase-header">
-        <div className="phase-badge">
+        <div className="phase-badge" data-icon={iconName}>
           <PublicIcon name={iconName} size={18} />
           <span className="phase-number">Fase {phase.number}</span>
         </div>

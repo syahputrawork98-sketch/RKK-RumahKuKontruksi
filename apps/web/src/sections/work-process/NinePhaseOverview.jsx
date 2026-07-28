@@ -2,18 +2,7 @@ import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import SectionHeading from '../../components/ui/SectionHeading';
 import PublicIcon from '../../components/icons/PublicIcon';
-
-const phaseIcons = [
-  'compass',
-  'search-check',
-  'pen-tool',
-  'file-check',
-  'check-circle',
-  'hammer',
-  'shield-check',
-  'file-text',
-  'target'
-];
+import { workProcessPhaseIcons } from './workProcessVisuals';
 
 export default function NinePhaseOverview({ content }) {
   return (
@@ -27,16 +16,28 @@ export default function NinePhaseOverview({ content }) {
         
         <ol className="overview-list process-rail">
           {content.phases.map((phase, index) => {
-            const numStr = index + 1 < 10 ? `0${index + 1}` : `${index + 1}`;
-            const iconName = phaseIcons[index % phaseIcons.length];
+            const [number, ...titleParts] = phase.split(' ');
+            const title = titleParts.join(' ');
+            const iconName = workProcessPhaseIcons[number] || 'compass';
+
             return (
-              <li key={index} className="overview-item process-node" data-phase={numStr}>
-                <div className="node-icon" aria-hidden="true">
-                  <PublicIcon name={iconName} size={18} />
+              <li
+                key={number}
+                className="overview-item process-node"
+                data-phase={number}
+                data-icon={iconName}
+              >
+                <div className="node-marker">
+                  <span className="node-number">{number}</span>
+                  <span className="node-icon" aria-hidden="true">
+                    <PublicIcon name={iconName} size={18} />
+                  </span>
                 </div>
-                <span>{phase}</span>
+
+                <span className="node-title"> {title}</span>
+
                 {index < content.phases.length - 1 && (
-                  <div className="node-connector" aria-hidden="true" />
+                  <span className="node-connector" aria-hidden="true" />
                 )}
               </li>
             );

@@ -2,8 +2,7 @@ import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import SectionHeading from '../../components/ui/SectionHeading';
 import PublicIcon from '../../components/icons/PublicIcon';
-
-const principleIcons = ['target', 'search-check', 'refresh-cw', 'shield-check'];
+import { workProcessPrincipleIcons } from './workProcessVisuals';
 
 export default function ProcessReadingPrinciples({ content }) {
   return (
@@ -17,7 +16,7 @@ export default function ProcessReadingPrinciples({ content }) {
         
         <div className="reading-principles-grid">
           {content.items.map((item, index) => {
-            const iconName = principleIcons[index % principleIcons.length];
+            const iconName = workProcessPrincipleIcons[index % workProcessPrincipleIcons.length];
             return (
               <div key={index} className="principle-card" data-icon={iconName}>
                 <div className="principle-icon-box">

@@ -20,7 +20,7 @@ export default function WorkProcessPage() {
       />
       
       <div className="page-work-process">
-        <WorkHero content={workProcessContent.hero} />
+        <WorkHero content={workProcessContent.hero} groups={workProcessContent.groups} />
         <ProcessReadingPrinciples content={workProcessContent.readingPrinciples} />
         <NinePhaseOverview content={workProcessContent.overview} />
         

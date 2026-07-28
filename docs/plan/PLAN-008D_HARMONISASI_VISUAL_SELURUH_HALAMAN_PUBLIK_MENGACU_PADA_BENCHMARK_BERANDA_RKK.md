@@ -1,10 +1,11 @@
 ---
 kode: PLAN-008D
 judul: Harmonisasi Visual Seluruh Halaman Publik Mengacu pada Benchmark Beranda Rumahku Konstruksi
-versi: 1.2
-status: DIEKSEKUSI — FIX-FORWARD MENUNGGU AUDIT
+versi: 1.3
+status: DIEKSEKUSI — KOREKSI TERAKHIR MENUNGGU AUDIT
 implementation_sha_awal: dde5857026f1c28f377a3844b7394fd83e70f828
-fix_forward_sha: MENUNGGU COMMIT PEMILIK
+fix_forward_sha_1: 266ef7f2371936b74fd25a9038d3883618044d24
+final_correction_sha: MENUNGGU COMMIT PEMILIK
 tanggal_penyusunan: 2026-07-29
 tanggal_persetujuan: 2026-07-29
 parent_plan: PLAN-008
@@ -39,10 +40,10 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI HARMONISASI VISUAL
+DIEKSEKUSI — KOREKSI TERAKHIR MENUNGGU AUDIT
 PLAN-008D MENCAKUP SELURUH HALAMAN PUBLIK SELAIN BERANDA
 BERANDA MENJADI PROTECTED VISUAL BENCHMARK
-GEMINI BOLEH MENGUBAH WORKING TREE SETELAH BASELINE DAN VALIDASI AWAL LULUS
+GEMINI TELAH MEMPERBAIKI SOURCE-OF-TRUTH PROCESS MAP, CONNECTOR VISUAL, DAN TEST CONTRACT
 GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, REBASE, RESET, STASH, ATAU MEMBUAT BRANCH
 ```
 
@@ -2103,18 +2104,16 @@ KERJAKAN SELURUH HALAMAN DALAM SATU PLAN TERKOORDINASI.
 ## 44. Status Penutup
 
 ```text
-PLAN-008D DITERIMA SEBAGIAN PADA IMPLEMENTASI AWAL (SHA dde5857026f1c28f377a3844b7394fd83e70f828).
-FIX-FORWARD PLAN-008D TELAH DIEKSEKUSI PADA WORKING TREE.
-PEMBAHARUAN:
-- Harmonisasi visual nyata Halaman Cara Kerja (ActionLink, visual process map, overview process rail 9 node, timeline cards, checkpoint icons);
-- Clean-up AboutHero (menghapus process-stages, menambahkan fetchPriority="high" & decoding="async");
-- Strict CSS Scoping (.about-page sebagai root scope, pemindahan figure/caption ke about.css, clean-up components.css);
-- Single-source SVG illustration (file .svg sebagai visual source, React component merender <img> dekoratif dengan data-illustration);
-- Penghapusan abstraction tak terpakai (IllustratedState.jsx);
-- Koreksi ilustrasi Detail Proyek (ProjectEmptyStateIllustration);
-- Pembaruan asset register (fotografi & 4 ilustrasi SVG);
-- Strengthening regression tests (162+ test lulus, 0 warning/0 error lint, build & diff check lulus).
-STATUS: DIEKSEKUSI — FIX-FORWARD MENUNGGU COMMIT PEMILIK DAN AUDIT SHA.
+PLAN-008D IMPLEMENTASI AWAL (SHA dde5857026f1c28f377a3844b7394fd83e70f828) DAN FIX-FORWARD 1 (SHA 266ef7f2371936b74fd25a9038d3883618044d24) DILENGKAPI DENGAN KOREKSI TERAKHIR PADA WORKING TREE.
+HASIL AUDIT KOREKSI TERAKHIR:
+- Implementasi lintas halaman diterima utuh;
+- Process map Hero Cara Kerja diselaraskan penuh dengan content map (workProcessContent.groups) tanpa teks duplikat/lokal;
+- Centralized icon mapping dibuat pada workProcessVisuals.js;
+- NinePhaseOverview melengkapi struktur visual node, marker, number, icon, title, dan connector;
+- Selector CSS connector (.process-map-connector & .node-connector) ditambahkan di work-process.css;
+- ProcessPhaseCard menggunakan workProcessPhaseIcons dan data-icon pada phase-badge;
+- Regression testsuite diperkuat dan lulus seluruhnya (>156 test).
+STATUS: DIEKSEKUSI — KOREKSI TERAKHIR MENUNGGU AUDIT (MENUNGGU COMMIT PEMILIK DAN FINAL AUDIT SHA).
 ```
 
 ---
@@ -2126,4 +2125,5 @@ STATUS: DIEKSEKUSI — FIX-FORWARD MENUNGGU COMMIT PEMILIK DAN AUDIT SHA.
 | 0.1-draft | 2026-07-29 | Menyusun harmonisasi visual seluruh halaman publik berdasarkan benchmark Beranda PLAN-008C; menetapkan matriks foto/ilustrasi/ikon, target visual per route, publication invariants, asset register, responsive audit, dan workflow implementasi satu plan | Direview dan Disetujui Pemilik |
 | 1.0 | 2026-07-29 | Pemilik menyetujui harmonisasi visual seluruh halaman publik, Beranda sebagai protected benchmark, fotografi terbatas, ilustrasi state SVG lokal, asset register, implementation grouping per route, before/after evidence, dan regression test lintas halaman | Disetujui Pemilik — Siap Eksekusi |
 | 1.1 | 2026-07-29 | Mencatat eksekusi PLAN-008D awal pada working tree (SHA dde5857026f1c28f377a3844b7394fd83e70f828) | Dieksekusi — Menunggu Audit |
-| 1.2 | 2026-07-29 | Mencatat fix-forward PLAN-008D: harmonisasi nyata Cara Kerja, CSS scoping, single-source SVG, semantik Detail Proyek, asset register, dan strengthening regression tests | Dieksekusi — Fix-forward Menunggu Audit |
+| 1.2 | 2026-07-29 | Mencatat fix-forward PLAN-008D: harmonisasi nyata Cara Kerja, CSS scoping, single-source SVG, semantik Detail Proyek, asset register, dan strengthening regression tests (SHA 266ef7f2371936b74fd25a9038d3883618044d24) | Dieksekusi — Fix-forward Menunggu Audit |
+| 1.3 | 2026-07-29 | Mencatat koreksi terakhir PLAN-008D: content map sebagai sumber process map Hero, workProcessVisuals.js sebagai single source pemetaan ikon, struktur visual NinePhaseOverview, CSS connector, serta penguatan regression test | Dieksekusi — Koreksi Terakhir Menunggu Audit |

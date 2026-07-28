@@ -2,14 +2,9 @@ import PublicSection from '../../components/ui/PublicSection';
 import PublicContainer from '../../components/ui/PublicContainer';
 import ActionLink from '../../components/ui/ActionLink';
 import PublicIcon from '../../components/icons/PublicIcon';
+import { workProcessGroupIcons } from './workProcessVisuals';
 
-export default function WorkHero({ content }) {
-  const groups = [
-    { title: 'Fase 01–03: Inisiasi & Perencanaan', icon: 'compass', desc: 'Identifikasi, pemeriksaan, dan perencanaan awal' },
-    { title: 'Fase 04–06: Kesepakatan & Pelaksanaan', icon: 'clipboard-list', desc: 'Kesepakatan, kesiapan, dan pelaksanaan fisik/teknis' },
-    { title: 'Fase 07–09: Serah Terima & Evaluasi', icon: 'shield-check', desc: 'Verifikasi, serah terima, dan evaluasi hasil' }
-  ];
-
+export default function WorkHero({ content, groups = [] }) {
   return (
     <PublicSection className="work-hero-section">
       <PublicContainer>
@@ -34,20 +29,41 @@ export default function WorkHero({ content }) {
           <div className="work-hero-map" data-visual="process-map">
             <div className="process-map-title">Peta Alur Sembilan Fase</div>
             <div className="process-map-groups">
-              {groups.map((group, index) => (
-                <div key={index} className="process-map-node">
-                  <div className="process-map-icon-box">
-                    <PublicIcon name={group.icon} size={20} />
+              {groups.map((group, index) => {
+                const iconName = workProcessGroupIcons[group.id] || 'compass';
+
+                return (
+                  <div
+                    key={group.id}
+                    className="process-map-node"
+                    data-group={group.id}
+                    data-icon={iconName}
+                  >
+                    <div className="process-map-icon-box">
+                      <PublicIcon name={iconName} size={20} />
+                    </div>
+
+                    <div className="process-map-info">
+                      <span className="process-map-group-eyebrow">
+                        {group.eyebrow}
+                      </span>
+                      <span className="process-map-node-title">
+                        {group.title}
+                      </span>
+                      <span className="process-map-node-desc">
+                        {group.description}
+                      </span>
+                    </div>
+
+                    {index < groups.length - 1 && (
+                      <span
+                        className="process-map-connector"
+                        aria-hidden="true"
+                      />
+                    )}
                   </div>
-                  <div className="process-map-info">
-                    <span className="process-map-node-title">{group.title}</span>
-                    <span className="process-map-node-desc">{group.desc}</span>
-                  </div>
-                  {index < groups.length - 1 && (
-                    <div className="process-map-connector" aria-hidden="true" />
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

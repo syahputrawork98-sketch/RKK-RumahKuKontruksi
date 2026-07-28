@@ -190,6 +190,37 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       expect(processMap).not.toBeNull();
     });
 
+    it('verifies WorkHero renders process map directly from content map groups', () => {
+      render(
+        <MemoryRouter initialEntries={['/cara-kerja']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+
+      const processMap = document.querySelector('[data-visual="process-map"]');
+      expect(processMap).not.toBeNull();
+      expect(processMap).toHaveTextContent('Memahami dan menilai kebutuhan.');
+      expect(processMap).toHaveTextContent('Menyiapkan dasar dan kesiapan.');
+      expect(processMap).toHaveTextContent('Melaksanakan, menyerahkan, dan belajar.');
+
+      expect(screen.queryByText(/Inisiasi & Perencanaan/i)).toBeNull();
+      expect(screen.queryByText(/Kesepakatan & Pelaksanaan/i)).toBeNull();
+      expect(screen.queryByText(/Serah Terima & Evaluasi/i)).toBeNull();
+      expect(screen.queryByText(/pelaksanaan fisik\/teknis/i)).toBeNull();
+
+      const mapNodes = document.querySelectorAll('.process-map-node');
+      expect(mapNodes.length).toBe(3);
+
+      const mapConnectors = document.querySelectorAll('.process-map-connector');
+      expect(mapConnectors.length).toBe(2);
+
+      const groupIds = Array.from(mapNodes).map(node => node.getAttribute('data-group'));
+      expect(groupIds).toEqual(['memahami-kebutuhan', 'menyiapkan-dasar', 'melaksanakan-dan-menutup']);
+
+      const iconNames = Array.from(mapNodes).map(node => node.getAttribute('data-icon'));
+      expect(iconNames).toEqual(['compass', 'clipboard-list', 'hammer']);
+    });
+
     it('renders 4 reading principles with 4 distinct icon keys', () => {
       render(
         <MemoryRouter initialEntries={['/cara-kerja']}>
@@ -202,18 +233,51 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       expect(document.querySelector('[data-icon="shield-check"]')).not.toBeNull();
     });
 
-    it('renders 9 visual process rail nodes with numbers, icons, and connectors', () => {
+    it('verifies NinePhaseOverview renders 9 process rail nodes with number, icon, title, and connectors', () => {
       render(
         <MemoryRouter initialEntries={['/cara-kerja']}>
           <AppRoutes />
         </MemoryRouter>
       );
-      const processNodes = document.querySelectorAll('.overview-list.process-rail .process-node');
-      expect(processNodes.length).toBe(9);
-      processNodes.forEach((node, idx) => {
-        const numStr = idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`;
-        expect(node.getAttribute('data-phase')).toBe(numStr);
+      const nodes = document.querySelectorAll('.overview-list.process-rail .process-node');
+      expect(nodes.length).toBe(9);
+
+      const numbers = document.querySelectorAll('.overview-list.process-rail .node-number');
+      expect(numbers.length).toBe(9);
+
+      const icons = document.querySelectorAll('.overview-list.process-rail .node-icon');
+      expect(icons.length).toBe(9);
+
+      const titles = document.querySelectorAll('.overview-list.process-rail .node-title');
+      expect(titles.length).toBe(9);
+
+      const connectors = document.querySelectorAll('.overview-list.process-rail .node-connector');
+      expect(connectors.length).toBe(8);
+
+      const expectedPhaseIcons = {
+        '01': 'compass',
+        '02': 'search-check',
+        '03': 'eye',
+        '04': 'pen-tool',
+        '05': 'check-circle',
+        '06': 'clipboard-list',
+        '07': 'hammer',
+        '08': 'file-check',
+        '09': 'refresh-cw'
+      };
+
+      nodes.forEach(node => {
+        const phaseNum = node.getAttribute('data-phase');
+        const iconName = node.getAttribute('data-icon');
+        expect(expectedPhaseIcons[phaseNum]).toBe(iconName);
       });
+    });
+
+    it('verifies work-process.css contains required connector selectors', () => {
+      const cssPath = path.resolve(__dirname, '../styles/work-process.css');
+      const cssContent = fs.readFileSync(cssPath, 'utf-8');
+      expect(cssContent).toContain('.page-work-process .process-map-connector');
+      expect(cssContent).toContain('.page-work-process .node-connector');
     });
 
     it('renders decision gates and cross-phase control sections with icons', () => {

@@ -4,6 +4,7 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import {
   resolvePublishedProjectDetailBySlug,
+  isSafePublicMediaSrc,
 } from '../content/project-detail';
 import { projectCatalog } from '../content/projects';
 import ProjectDetailPage from '../pages/ProjectDetailPage';
@@ -426,7 +427,7 @@ describe('Project Detail Content Layer & Resolver', () => {
     ]);
   });
 
-  it('42. optional arrays empty', () => {
+  it('42. optional arrays empty as []', () => {
     const record = {
       ...validBaseRecord,
       gallery: [],
@@ -437,23 +438,25 @@ describe('Project Detail Content Layer & Resolver', () => {
     };
     const res = resolvePublishedProjectDetailBySlug([record], record.slug);
     expect(res.status).toBe('PUBLISHED');
+    expect(res.project.approach).toEqual([]);
+    expect(res.project.outcomes).toEqual([]);
     expect(res.project.gallery).toEqual([]);
-    expect(res.project.approach).toBeNull();
-    expect(res.project.outcomes).toBeNull();
     expect(res.project.relatedServices).toEqual([]);
     expect(res.project.relatedProjects).toEqual([]);
   });
 
-  it('43. invalid related service discarded', () => {
+  it('43. related services always empty []', () => {
     const record = {
       ...validBaseRecord,
       relatedServices: [
         { title: 'Layanan 1', href: '/layanan' },
-        { title: 'Layanan 2', href: '/invalid-route' },
+        { title: 'Cara Kerja', href: '/cara-kerja' },
+        { title: 'Tentang', href: '/tentang' },
+        { title: 'Beranda', href: '/' },
       ],
     };
     const res = resolvePublishedProjectDetailBySlug([record], record.slug);
-    expect(res.project.relatedServices).toEqual([{ title: 'Layanan 1', href: '/layanan' }]);
+    expect(res.project.relatedServices).toEqual([]);
   });
 
   it('44. related project current discarded', () => {
@@ -515,6 +518,255 @@ describe('Project Detail Content Layer & Resolver', () => {
     expect(res.project).toHaveProperty('scope');
     expect(res.project).toHaveProperty('coverMedia');
     expect(res.project).toHaveProperty('meta');
+  });
+});
+
+describe('Non-recursive Related Projects & Cyclic Relation Handling', () => {
+  it('handles cyclic relation (A related B, B related A) without stack overflow', () => {
+    const projA = {
+      publicProjectId: 'PRJ-A',
+      slug: 'proyek-a',
+      title: 'Proyek A',
+      summary: 'Ringkasan Proyek A',
+      category: 'Hunian',
+      publicationStatus: 'PUBLISHED',
+      visibility: 'PUBLIC',
+      detailPageReady: true,
+      sourceVersion: 'v1.0',
+      effectiveDate: '2026-01-01',
+      publicationGate: {
+        sourceVerified: true,
+        permissionApproved: true,
+        anonymizationApproved: true,
+        contentReviewApproved: true,
+      },
+      overview: ['Overview A'],
+      facts: [{ label: 'Lokasi', value: 'Jakarta' }],
+      scope: ['Scope 1', 'Scope 2', 'Scope 3'],
+      coverMedia: {
+        src: '/images/cover-a.jpg',
+        alt: 'Cover A',
+        rightsStatus: 'APPROVED',
+        publicVisibility: 'PUBLIC',
+        sourceVersion: 'v1.0',
+      },
+      relatedProjects: [{ slug: 'proyek-b' }],
+    };
+
+    const projB = {
+      publicProjectId: 'PRJ-B',
+      slug: 'proyek-b',
+      title: 'Proyek B',
+      summary: 'Ringkasan Proyek B',
+      category: 'Hunian',
+      publicationStatus: 'PUBLISHED',
+      visibility: 'PUBLIC',
+      detailPageReady: true,
+      sourceVersion: 'v1.0',
+      effectiveDate: '2026-01-01',
+      publicationGate: {
+        sourceVerified: true,
+        permissionApproved: true,
+        anonymizationApproved: true,
+        contentReviewApproved: true,
+      },
+      overview: ['Overview B'],
+      facts: [{ label: 'Lokasi', value: 'Bandung' }],
+      scope: ['Scope 1', 'Scope 2', 'Scope 3'],
+      coverMedia: {
+        src: '/images/cover-b.jpg',
+        alt: 'Cover B',
+        rightsStatus: 'APPROVED',
+        publicVisibility: 'PUBLIC',
+        sourceVersion: 'v1.0',
+      },
+      relatedProjects: [{ slug: 'proyek-a' }],
+    };
+
+    const resA = resolvePublishedProjectDetailBySlug([projA, projB], 'proyek-a');
+    expect(resA.status).toBe('PUBLISHED');
+    expect(resA.project.relatedProjects.length).toBe(1);
+    expect(resA.project.relatedProjects[0].slug).toBe('proyek-b');
+
+    // Ensure DTO B inside relatedProjects does NOT carry relatedProjects
+    expect(resA.project.relatedProjects[0]).not.toHaveProperty('relatedProjects');
+  });
+
+  it('deduplicates duplicate related project entries (A related B twice)', () => {
+    const projA = {
+      publicProjectId: 'PRJ-A',
+      slug: 'proyek-a',
+      title: 'Proyek A',
+      summary: 'Ringkasan Proyek A',
+      category: 'Hunian',
+      publicationStatus: 'PUBLISHED',
+      visibility: 'PUBLIC',
+      detailPageReady: true,
+      sourceVersion: 'v1.0',
+      effectiveDate: '2026-01-01',
+      publicationGate: {
+        sourceVerified: true,
+        permissionApproved: true,
+        anonymizationApproved: true,
+        contentReviewApproved: true,
+      },
+      overview: ['Overview A'],
+      facts: [{ label: 'Lokasi', value: 'Jakarta' }],
+      scope: ['Scope 1', 'Scope 2', 'Scope 3'],
+      coverMedia: {
+        src: '/images/cover-a.jpg',
+        alt: 'Cover A',
+        rightsStatus: 'APPROVED',
+        publicVisibility: 'PUBLIC',
+        sourceVersion: 'v1.0',
+      },
+      relatedProjects: [{ slug: 'proyek-b' }, { slug: 'proyek-b' }],
+    };
+
+    const projB = {
+      publicProjectId: 'PRJ-B',
+      slug: 'proyek-b',
+      title: 'Proyek B',
+      summary: 'Ringkasan Proyek B',
+      category: 'Hunian',
+      publicationStatus: 'PUBLISHED',
+      visibility: 'PUBLIC',
+      detailPageReady: true,
+      sourceVersion: 'v1.0',
+      effectiveDate: '2026-01-01',
+      publicationGate: {
+        sourceVerified: true,
+        permissionApproved: true,
+        anonymizationApproved: true,
+        contentReviewApproved: true,
+      },
+      overview: ['Overview B'],
+      facts: [{ label: 'Lokasi', value: 'Bandung' }],
+      scope: ['Scope 1', 'Scope 2', 'Scope 3'],
+      coverMedia: {
+        src: '/images/cover-b.jpg',
+        alt: 'Cover B',
+        rightsStatus: 'APPROVED',
+        publicVisibility: 'PUBLIC',
+        sourceVersion: 'v1.0',
+      },
+    };
+
+    const resA = resolvePublishedProjectDetailBySlug([projA, projB], 'proyek-a');
+    expect(resA.status).toBe('PUBLISHED');
+    expect(resA.project.relatedProjects.length).toBe(1);
+    expect(resA.project.relatedProjects[0].slug).toBe('proyek-b');
+  });
+});
+
+describe('Media URL Safety & isSafePublicMediaSrc', () => {
+  it('validates media URLs correctly via isSafePublicMediaSrc helper', () => {
+    // Rejected schemes
+    expect(isSafePublicMediaSrc('data:image/svg+xml;utf8,<svg></svg>')).toBe(false);
+    expect(isSafePublicMediaSrc('javascript:alert(1)')).toBe(false);
+    expect(isSafePublicMediaSrc('blob:http://example.com/uuid')).toBe(false);
+    expect(isSafePublicMediaSrc('ftp://example.com/image.jpg')).toBe(false);
+    expect(isSafePublicMediaSrc('//example.com/image.jpg')).toBe(false);
+    expect(isSafePublicMediaSrc('relative/image.jpg')).toBe(false);
+    expect(isSafePublicMediaSrc('')).toBe(false);
+    expect(isSafePublicMediaSrc(null)).toBe(false);
+    expect(isSafePublicMediaSrc(123)).toBe(false);
+
+    // Accepted schemes
+    expect(isSafePublicMediaSrc('/images/project-cover.jpg')).toBe(true);
+    expect(isSafePublicMediaSrc('https://cdn.example.com/project-cover.jpg')).toBe(true);
+  });
+
+  it('rejects coverMedia with unsafe src schemes in resolver', () => {
+    const base = {
+      publicProjectId: 'PRJ-01',
+      slug: 'proyek-unsafe-cover',
+      title: 'Proyek Unsafe Cover',
+      summary: 'Summary',
+      category: 'Hunian',
+      publicationStatus: 'PUBLISHED',
+      visibility: 'PUBLIC',
+      detailPageReady: true,
+      sourceVersion: 'v1.0',
+      effectiveDate: '2026-01-01',
+      publicationGate: {
+        sourceVerified: true,
+        permissionApproved: true,
+        anonymizationApproved: true,
+        contentReviewApproved: true,
+      },
+      overview: ['Overview'],
+      facts: [{ label: 'L', value: 'V' }],
+      scope: ['S1', 'S2', 'S3'],
+    };
+
+    const unsafeSrcs = [
+      'data:image/svg+xml;base64,123',
+      'javascript:alert(1)',
+      'blob:https://example.com/123',
+      'ftp://example.com/cover.jpg',
+      '//example.com/cover.jpg',
+      'relative/path.jpg',
+    ];
+
+    unsafeSrcs.forEach((src) => {
+      const record = {
+        ...base,
+        coverMedia: {
+          src,
+          alt: 'Cover Alt',
+          rightsStatus: 'APPROVED',
+          publicVisibility: 'PUBLIC',
+          sourceVersion: 'v1.0',
+        },
+      };
+      expect(resolvePublishedProjectDetailBySlug([record], record.slug)).toEqual({
+        status: 'UNAVAILABLE',
+        project: null,
+      });
+    });
+  });
+
+  it('accepts root-relative and https coverMedia src in resolver', () => {
+    const base = {
+      publicProjectId: 'PRJ-01',
+      slug: 'proyek-safe-cover',
+      title: 'Proyek Safe Cover',
+      summary: 'Summary',
+      category: 'Hunian',
+      publicationStatus: 'PUBLISHED',
+      visibility: 'PUBLIC',
+      detailPageReady: true,
+      sourceVersion: 'v1.0',
+      effectiveDate: '2026-01-01',
+      publicationGate: {
+        sourceVerified: true,
+        permissionApproved: true,
+        anonymizationApproved: true,
+        contentReviewApproved: true,
+      },
+      overview: ['Overview'],
+      facts: [{ label: 'L', value: 'V' }],
+      scope: ['S1', 'S2', 'S3'],
+    };
+
+    const safeSrcs = ['/images/project-cover.jpg', 'https://cdn.example.com/project-cover.jpg'];
+
+    safeSrcs.forEach((src) => {
+      const record = {
+        ...base,
+        coverMedia: {
+          src,
+          alt: 'Cover Alt',
+          rightsStatus: 'APPROVED',
+          publicVisibility: 'PUBLIC',
+          sourceVersion: 'v1.0',
+        },
+      };
+      const res = resolvePublishedProjectDetailBySlug([record], record.slug);
+      expect(res.status).toBe('PUBLISHED');
+      expect(res.project.coverMedia.src).toBe(src);
+    });
   });
 });
 
@@ -585,7 +837,6 @@ describe('Sensitive Fields Protection', () => {
         publicVisibility: 'PUBLIC',
         sourceVersion: 'v1.0',
       },
-      // Insert sensitive fields
       internalProjectId: 'INT-001',
       projectCodeInternal: 'CODE-001',
       customerId: 'CUST-001',
@@ -668,7 +919,6 @@ describe('Production Current State Component Integration', () => {
 
       expect(document.title).toBe('Halaman proyek tidak tersedia | Rumahku Konstruksi');
 
-      // Verify no sensitive / project detail components rendered
       expect(screen.queryByRole('navigation', { name: 'Breadcrumb' })).not.toBeInTheDocument();
       expect(screen.queryByText('Ringkasan Proyek')).not.toBeInTheDocument();
       expect(screen.queryByText('Galeri Dokumentasi Berizin')).not.toBeInTheDocument();
@@ -737,9 +987,6 @@ describe('Published Template Integration (Fixture Test)', () => {
         sourceVersion: 'v1.0',
       },
     ],
-    relatedServices: [
-      { title: 'Layanan Konstruksi', href: '/layanan' },
-    ],
   };
 
   it('renders complete published project detail template correctly', () => {
@@ -754,58 +1001,44 @@ describe('Published Template Integration (Fixture Test)', () => {
       </MemoryRouter>
     );
 
-    // Document Title
     expect(document.title).toBe('Fixture Proyek Publik Aman | Proyek Rumahku Konstruksi');
 
-    // Breadcrumb
     const breadcrumb = screen.getByRole('navigation', { name: 'Breadcrumb' });
     expect(breadcrumb).toBeInTheDocument();
     expect(screen.getAllByText('Fixture Proyek Publik Aman').length).toBeGreaterThanOrEqual(2);
 
-    // Hero
     expect(screen.getByRole('heading', { level: 1, name: 'Fixture Proyek Publik Aman' })).toBeInTheDocument();
     expect(screen.getByText('Hunian Modern')).toBeInTheDocument();
     expect(screen.getByText('Proyek hunian impian dengan desain modern dan efisiensi tinggi.')).toBeInTheDocument();
 
-    // Facts
     expect(screen.getByRole('heading', { level: 2, name: 'Ringkasan Proyek' })).toBeInTheDocument();
     expect(screen.getByText('Luas Bangunan')).toBeInTheDocument();
     expect(screen.getByText('250 m²')).toBeInTheDocument();
 
-    // Overview
     expect(screen.getByRole('heading', { level: 2, name: 'Gambaran dan Kebutuhan' })).toBeInTheDocument();
     expect(screen.getByText('Proyek hunian ini dirancang untuk memenuhi kebutuhan keluarga modern.')).toBeInTheDocument();
 
-    // Gallery
     expect(screen.getByRole('heading', { level: 2, name: 'Galeri Dokumentasi Berizin' })).toBeInTheDocument();
     expect(screen.getByAltText('Foto Galeri 1')).toBeInTheDocument();
 
-    // Scope
     expect(screen.getByRole('heading', { level: 2, name: 'Ruang Lingkup' })).toBeInTheDocument();
     expect(screen.getByText('Pekerjaan Pondasi & Struktur')).toBeInTheDocument();
 
-    // Approach
     expect(screen.getByRole('heading', { level: 2, name: 'Pendekatan dan Tahapan' })).toBeInTheDocument();
     expect(screen.getByText('Perencanaan')).toBeInTheDocument();
 
-    // Outcomes
     expect(screen.getByRole('heading', { level: 2, name: 'Hasil yang Dapat Dibuktikan' })).toBeInTheDocument();
     expect(screen.getByText('Tepat Waktu')).toBeInTheDocument();
 
-    // Related Services
-    expect(screen.getByRole('heading', { level: 2, name: 'Layanan Terkait' })).toBeInTheDocument();
-    expect(screen.getByText('Layanan Konstruksi')).toBeInTheDocument();
-
-    // Closing CTA
     expect(screen.getByText('Lihat kembali proyek publik yang tersedia.')).toBeInTheDocument();
   });
 
-  it('does not render optional sections when empty', () => {
+  it('does not render optional sections when empty array', () => {
     const minimalFixture = {
       ...publishedFixture,
       gallery: [],
-      approach: null,
-      outcomes: null,
+      approach: [],
+      outcomes: [],
       relatedServices: [],
       relatedProjects: [],
     };

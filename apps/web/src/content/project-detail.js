@@ -43,7 +43,28 @@ export const projectDetailContent = {
 
 export const SAFE_PUBLIC_PROJECT_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}) {
+export function isSafePublicMediaSrc(value) {
+  if (typeof value !== 'string') return false;
+
+  const src = value.trim();
+
+  if (!src) return false;
+
+  const isRootRelative =
+    src.startsWith('/') &&
+    !src.startsWith('//');
+
+  if (isRootRelative) return true;
+
+  try {
+    const url = new URL(src);
+    return url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+function resolvePublishedProjectCore(projects, slug, options = {}) {
   const { now = new Date() } = options;
   const currentDate = new Date(now);
 
@@ -169,7 +190,7 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
     rawCover.rightsStatus !== 'APPROVED' ||
     rawCover.publicVisibility !== 'PUBLIC' ||
     !String(rawCover.sourceVersion || '').trim() ||
-    !String(rawCover.src || '').trim() ||
+    !isSafePublicMediaSrc(rawCover.src) ||
     !String(rawCover.alt || '').trim()
   ) {
     return { status: 'UNAVAILABLE', project: null };
@@ -181,7 +202,7 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
     type: rawCover.type || 'IMAGE',
   };
 
-  // 10. Gallery (optional)
+  // 10. Gallery (optional, default [])
   let gallery = [];
   const rawGallery = Array.isArray(record.gallery)
     ? record.gallery
@@ -198,7 +219,7 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
           m.rightsStatus === 'APPROVED' &&
           m.publicVisibility === 'PUBLIC' &&
           String(m.sourceVersion || '').trim() !== '' &&
-          String(m.src || '').trim() !== '' &&
+          isSafePublicMediaSrc(m.src) &&
           String(m.alt || '').trim() !== '' &&
           String(m.src).trim() !== coverMedia.src
       )
@@ -210,8 +231,8 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
       .slice(0, 8);
   }
 
-  // 11. Approach (optional, 2-8 items)
-  let approach = null;
+  // 11. Approach (optional, default [])
+  let approach = [];
   if (Array.isArray(record.approach)) {
     const validApproach = record.approach
       .filter(
@@ -234,8 +255,8 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
     }
   }
 
-  // 12. Outcomes (optional)
-  let outcomes = null;
+  // 12. Outcomes (optional, default [])
+  let outcomes = [];
   if (Array.isArray(record.outcomes)) {
     const validOutcomes = record.outcomes
       .filter(
@@ -254,48 +275,7 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
     }
   }
 
-  // 13. Related Services (max 3)
-  const allowedServiceRoutes = ['/layanan', '/cara-kerja', '/tentang', '/'];
-  let relatedServices = [];
-  if (Array.isArray(record.relatedServices)) {
-    relatedServices = record.relatedServices
-      .filter(
-        (s) =>
-          s &&
-          typeof s === 'object' &&
-          String(s.title || '').trim() !== '' &&
-          allowedServiceRoutes.includes(s.href)
-      )
-      .map((s) => ({
-        title: String(s.title).trim(),
-        href: s.href,
-      }))
-      .slice(0, 3);
-  }
-
-  // 14. Related Projects (max 3)
-  let relatedProjects = [];
-  if (Array.isArray(record.relatedProjects)) {
-    relatedProjects = record.relatedProjects
-      .filter((rp) => {
-        if (!rp || typeof rp !== 'object' || rp.slug === trimmedSlug) return false;
-        const relRes = resolvePublishedProjectDetailBySlug(projects, rp.slug, { now });
-        return relRes.status === 'PUBLISHED';
-      })
-      .map((rp) => {
-        const relRes = resolvePublishedProjectDetailBySlug(projects, rp.slug, { now });
-        return {
-          slug: relRes.project.slug,
-          title: relRes.project.title,
-          summary: relRes.project.summary,
-          category: relRes.project.category,
-          href: `/proyek/${relRes.project.slug}`,
-        };
-      })
-      .slice(0, 3);
-  }
-
-  // Construct Clean DTO (no internal fields)
+  // Construct Clean Core DTO (no internal fields)
   const publicProjectDetailDTO = {
     publicProjectId,
     slug: trimmedSlug,
@@ -317,8 +297,8 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
     coverMedia,
     gallery,
 
-    relatedServices,
-    relatedProjects,
+    relatedServices: [],
+    relatedProjects: [],
 
     meta: {
       title: `${title} | Proyek Rumahku Konstruksi`,
@@ -330,5 +310,56 @@ export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}
   return {
     status: 'PUBLISHED',
     project: publicProjectDetailDTO,
+  };
+}
+
+export function resolvePublishedProjectDetailBySlug(projects, slug, options = {}) {
+  const mainResolution = resolvePublishedProjectCore(projects, slug, options);
+
+  if (mainResolution.status !== 'PUBLISHED') {
+    return mainResolution;
+  }
+
+  const currentSlug = mainResolution.project.slug;
+  const rawRecord = Array.isArray(projects)
+    ? projects.find((p) => p && p.slug === currentSlug)
+    : null;
+
+  const rawRelatedProjects = Array.isArray(rawRecord?.relatedProjects)
+    ? rawRecord.relatedProjects
+    : [];
+
+  const processedSlugs = new Set();
+  const relatedProjects = [];
+
+  for (const rp of rawRelatedProjects) {
+    if (!rp || typeof rp !== 'object') continue;
+    const targetSlug = typeof rp.slug === 'string' ? rp.slug.trim() : '';
+
+    if (!targetSlug || targetSlug === currentSlug || processedSlugs.has(targetSlug)) {
+      continue;
+    }
+
+    processedSlugs.add(targetSlug);
+
+    const relRes = resolvePublishedProjectCore(projects, targetSlug, options);
+    if (relRes.status === 'PUBLISHED') {
+      relatedProjects.push({
+        slug: relRes.project.slug,
+        title: relRes.project.title,
+        summary: relRes.project.summary,
+        category: relRes.project.category,
+        href: `/proyek/${relRes.project.slug}`,
+      });
+      if (relatedProjects.length === 3) break;
+    }
+  }
+
+  return {
+    status: 'PUBLISHED',
+    project: {
+      ...mainResolution.project,
+      relatedProjects,
+    },
   };
 }

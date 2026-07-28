@@ -478,3 +478,10 @@
     text-align: center;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-project-detail .related-service-card,
+  .page-project-detail .related-project-card {
+    transition: none;
+  }
+}

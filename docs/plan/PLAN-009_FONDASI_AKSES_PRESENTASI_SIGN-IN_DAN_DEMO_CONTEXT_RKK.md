@@ -6,13 +6,14 @@
 |---|---|
 | Kode plan | PLAN-009 |
 | Judul | Fondasi Akses Presentasi, Sign-in, dan Demo Context RKK |
-| Status | **IMPLEMENTASI SELESAI — MENUNGGU AUDIT ROOM 3** |
-| Versi | 1.0 |
+| Status | **KOREKSI PASCA-AUDIT — MENUNGGU AUDIT ULANG** |
+| Versi | 1.1 |
 | Tanggal penyusunan | 29 Juli 2026 |
 | Room penyusun | ROOM 3 — Refactor dan Implementasi Teknis RKK |
 | Repository | `syahputrawork98-sketch/RKK-RumahKuKontruksi` |
 | Branch acuan | `main` |
-| Baseline acuan jarak jauh | `7648b62b2a004f67721be2aed63c3fba14fe59ea` |
+| Implementation SHA awal | `db4749ff6da80ebd646d4235e4f42357b3115c2d` |
+| Fix-forward SHA | `MENUNGGU COMMIT PEMILIK` |
 | Pelaksana implementasi | Gemini Pro melalui Antigravity IDE |
 | Pemilik keputusan | Pemilik RKK |
 | Commit dan push | Hanya dilakukan Pemilik setelah audit dan persetujuan |
@@ -21,7 +22,7 @@
 
 ## Status Persetujuan
 
-PLAN-009 versi 1.0 telah dibaca, diterima, dan disetujui Pemilik pada 29 Juli 2026. Implementasi dapat dimulai melalui Gemini Antigravity dengan baseline GitHub yang telah diverifikasi. Gemini tetap dilarang melakukan commit dan push.
+PLAN-009 versi 1.1 merupakan perbaikan pasca-audit atas baseline `db4749ff6da80ebd646d4235e4f42357b3115c2d`. Seluruh temuan audit 1-7 (brand link neutrality, header responsiveness, arsitektur useDemoContext tunggal, sinkronisasi React state clearDemo, penghapusan inline style, validasi identifier proporsional, dan pembersihan dokumen duplikat) telah diselesaikan dan diuji. Status saat ini: KOREKSI PASCA-AUDIT — MENUNGGU AUDIT ULANG ROOM 3.
 
 ## 1. Ringkasan Eksekutif
 

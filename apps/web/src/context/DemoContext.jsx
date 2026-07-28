@@ -42,6 +42,11 @@ export function DemoContextProvider({ children }) {
     setDemoState(null);
   }, []);
 
+  const clearDemo = useCallback(() => {
+    clearDemoContext();
+    setDemoState(null);
+  }, []);
+
   const value = {
     demoContext: demoState,
     isDemoActive: Boolean(demoState),
@@ -50,7 +55,7 @@ export function DemoContextProvider({ children }) {
     refreshDemo,
     resetDemo,
     exitDemo,
-    clearDemo: clearDemoContext
+    clearDemo
   };
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
@@ -69,7 +74,9 @@ export function useDemoContext() {
       refreshDemo: readDemoContext,
       resetDemo: resetDemoContext,
       exitDemo: exitDemoMode,
-      clearDemo: clearDemoContext
+      clearDemo: () => {
+        clearDemoContext();
+      }
     };
   }
   return context;

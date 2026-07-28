@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, screen, act } from '@testing-library/react';
+import { DemoContextProvider, useDemoContext } from '../context/DemoContext';
 import {
   createDemoContext,
   readDemoContext,
@@ -10,6 +12,22 @@ import {
   DEMO_SCHEMA_VERSION,
   DEMO_STORAGE_KEY
 } from '../utils/demoContext';
+
+function ContextTestConsumer() {
+  const { demoContext, isDemoActive, startDemo, clearDemo } = useDemoContext();
+  return (
+    <div>
+      <span data-testid="active-status">{isDemoActive ? 'ACTIVE' : 'INACTIVE'}</span>
+      <span data-testid="customer-ref">{demoContext?.customerReference || 'NONE'}</span>
+      <button data-testid="start-btn" onClick={() => startDemo()}>
+        Start
+      </button>
+      <button data-testid="clear-btn" onClick={() => clearDemo()}>
+        Clear
+      </button>
+    </div>
+  );
+}
 
 describe('Demo Context Utilities & Invariants', () => {
   beforeEach(() => {
@@ -114,5 +132,32 @@ describe('Demo Context Utilities & Invariants', () => {
     const read = readDemoContext();
     expect(read).not.toBeNull();
     expect(read.sessionId).toBe(ctx.sessionId);
+  });
+
+  it('syncs clearDemo callback with React provider state', () => {
+    render(
+      <DemoContextProvider>
+        <ContextTestConsumer />
+      </DemoContextProvider>
+    );
+
+    expect(screen.getByTestId('active-status')).toHaveTextContent('INACTIVE');
+    expect(screen.getByTestId('customer-ref')).toHaveTextContent('NONE');
+
+    act(() => {
+      screen.getByTestId('start-btn').click();
+    });
+
+    expect(screen.getByTestId('active-status')).toHaveTextContent('ACTIVE');
+    expect(screen.getByTestId('customer-ref')).toHaveTextContent('DEMO-CUSTOMER-001');
+    expect(window.sessionStorage.getItem(DEMO_STORAGE_KEY)).not.toBeNull();
+
+    act(() => {
+      screen.getByTestId('clear-btn').click();
+    });
+
+    expect(screen.getByTestId('active-status')).toHaveTextContent('INACTIVE');
+    expect(screen.getByTestId('customer-ref')).toHaveTextContent('NONE');
+    expect(window.sessionStorage.getItem(DEMO_STORAGE_KEY)).toBeNull();
   });
 });

@@ -1,6 +1,6 @@
 # RKK Rumahku Konstruksi — Dokumen Perencanaan
 
-> **Status Saat Ini:** PLAN-009 — IMPLEMENTASI SELESAI — MENUNGGU AUDIT ROOM 3 (Baseline: `7648b62b2a004f67721be2aed63c3fba14fe59ea`)
+> **Status Saat Ini:** PLAN-009 — KOREKSI PASCA-AUDIT — MENUNGGU AUDIT ULANG (Implementation SHA: `db4749ff6da80ebd646d4235e4f42357b3115c2d`)
 
 Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan pengembangan RKK.
 
@@ -86,6 +86,7 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - **Hasil:** Halaman Publik diharmonisasi dengan benchmark Beranda; lima action group pada Cara Kerja, Layanan, dan Proyek distandardisasi memakai ActionLink primary/outline tanpa .btn-secondary, dan 165 test lulus.
 
 ### [PLAN-009: Fondasi Akses Presentasi, Sign-in, dan Demo Context RKK](./PLAN-009_FONDASI_AKSES_PRESENTASI_SIGN-IN_DAN_DEMO_CONTEXT_RKK.md)
-- **Status:** IMPLEMENTASI SELESAI — MENUNGGU AUDIT ROOM 3
-- **Baseline SHA:** `7648b62b2a004f67721be2aed63c3fba14fe59ea`
-- **Ruang Lingkup:** Halaman `/demo` sebagai Demo Access Gateway, `/sign-in` sebagai antarmuka masuk resmi RKK, `AuthPageShell`, fondasi Demo Context lokal/sementara, adapter data demo sintetis, dan route boundary `/portal`. (184 test lulus).
+- **Status:** KOREKSI PASCA-AUDIT — MENUNGGU AUDIT ULANG
+- **Implementation SHA Awal:** `db4749ff6da80ebd646d4235e4f42357b3115c2d`
+- **Fix-forward SHA:** `MENUNGGU COMMIT PEMILIK`
+- **Ruang Lingkup:** Halaman `/demo` sebagai Demo Access Gateway, `/sign-in` sebagai antarmuka masuk resmi RKK, `AuthPageShell`, fondasi Demo Context lokal/sementara, adapter data demo sintetis, dan route boundary `/portal`. (189 test lulus).

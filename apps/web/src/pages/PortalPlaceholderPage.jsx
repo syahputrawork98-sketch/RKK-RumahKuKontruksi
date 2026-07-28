@@ -25,7 +25,7 @@ export default function PortalPlaceholderPage() {
   };
 
   return (
-    <div className="access-page__container" style={{ maxWidth: '640px' }}>
+    <div className="access-page__container access-page__container--narrow">
       <div className="access-page__panel">
         <span className="access-page__badge">MODE DEMO — PRESENTASI PLAN-009</span>
         <h1 className="access-page__title">Customer Portal RKK (Akses Boundary)</h1>
@@ -33,9 +33,9 @@ export default function PortalPlaceholderPage() {
           Anda berhasil masuk melalui <strong>Demo Access Gateway</strong>. Customer Portal Shell dan Beranda Konsumen interaktif akan dibangun secara penuh pada <strong>PLAN-010</strong>.
         </p>
 
-        <div className="access-page__notice access-page__notice--info" style={{ marginBottom: '1.5rem' }}>
-          <strong>Identitas Demo Sintetis Active:</strong>
-          <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem', fontSize: '0.875rem' }}>
+        <div className="access-page__notice access-page__notice--info access-page__notice--mb">
+          <strong>Identitas Demo Sintetis Aktif:</strong>
+          <ul className="access-page__demo-list">
             <li><strong>Nama:</strong> {demoContext?.displayName || customerProfile.displayName}</li>
             <li><strong>Ref Pelanggan:</strong> {demoContext?.customerReference || customerProfile.customerReference}</li>
             <li><strong>Ref Proyek Demo:</strong> {projectSummary.projectReference} ({projectSummary.title})</li>

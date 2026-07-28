@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import ActionLink from '../components/ui/ActionLink';
+import { validateIdentifier } from '../utils/validation';
 
 export default function SignInPage() {
   const [identifier, setIdentifier] = useState('');
@@ -18,10 +19,11 @@ export default function SignInPage() {
     e.preventDefault();
     const newErrors = {};
 
-    const trimmedIdentifier = identifier.trim();
-    if (!trimmedIdentifier) {
-      newErrors.identifier = 'Email atau nomor telepon wajib diisi.';
+    const identifierResult = validateIdentifier(identifier);
+    if (!identifierResult.isValid) {
+      newErrors.identifier = identifierResult.error;
     }
+
     if (!password) {
       newErrors.password = 'Password wajib diisi.';
     }
@@ -129,7 +131,7 @@ export default function SignInPage() {
             <p>
               <strong>Layanan masuk resmi RKK belum diaktifkan pada tahap presentasi ini.</strong> Gunakan halaman Demo untuk melihat alur dan pengalaman Portal Konsumen.
             </p>
-            <div className="access-page__actions" style={{ marginTop: '1rem' }}>
+            <div className="access-page__actions access-page__actions--mt">
               <ActionLink href="/demo" variant="primary">
                 Buka Halaman Demo
               </ActionLink>
@@ -140,9 +142,9 @@ export default function SignInPage() {
           </div>
         )}
 
-        <div className="access-page__notice access-page__notice--info" style={{ marginTop: '1.5rem' }}>
+        <div className="access-page__notice access-page__notice--info access-page__notice--mt">
           Ingin melihat alur portal tanpa akun?{' '}
-          <ActionLink href="/demo" style={{ fontWeight: 600, textDecoration: 'underline' }}>
+          <ActionLink href="/demo" className="access-page__link-underline">
             Lihat Akses Demo
           </ActionLink>
         </div>

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { AppRoutes } from '../app/AppRouter';
 import { DemoContextProvider } from '../context/DemoContext';
 import { createDemoContext, clearDemoContext, readDemoContext, DEMO_STORAGE_KEY } from '../utils/demoContext';
+import { validateIdentifier } from '../utils/validation';
 
 function renderWithRouter(initialEntry = '/') {
   return render(
@@ -24,6 +25,35 @@ describe('PLAN-009 Access Pages, Sign-in, Routing & Boundary Tests', () => {
   afterEach(() => {
     clearDemoContext();
     window.sessionStorage.clear();
+  });
+
+  describe('Identifier Validation Helper Unit Tests', () => {
+    it('validates email addresses properly', () => {
+      expect(validateIdentifier('user@example.com').isValid).toBe(true);
+      expect(validateIdentifier('  admin.rkk@domain.co.id  ').isValid).toBe(true);
+    });
+
+    it('validates phone numbers properly', () => {
+      expect(validateIdentifier('08123456789').isValid).toBe(true);
+      expect(validateIdentifier('+62 812-3456-7890').isValid).toBe(true);
+      expect(validateIdentifier('(021) 555-1234').isValid).toBe(true);
+    });
+
+    it('rejects empty or whitespace-only identifiers', () => {
+      const res = validateIdentifier('   ');
+      expect(res.isValid).toBe(false);
+      expect(res.error).toBe('Email atau nomor telepon wajib diisi.');
+    });
+
+    it('rejects arbitrary invalid strings', () => {
+      const res1 = validateIdentifier('abc');
+      expect(res1.isValid).toBe(false);
+      expect(res1.error).toBe('Masukkan email atau nomor telepon yang valid.');
+
+      const res2 = validateIdentifier('123');
+      expect(res2.isValid).toBe(false);
+      expect(res2.error).toBe('Masukkan email atau nomor telepon yang valid.');
+    });
   });
 
   describe('/demo Access Gateway Page', () => {
@@ -80,7 +110,7 @@ describe('PLAN-009 Access Pages, Sign-in, Routing & Boundary Tests', () => {
       expect(screen.getByRole('button', { name: /Sembunyikan password/i })).toBeInTheDocument();
     });
 
-    it('validates required fields on submit without creating session', () => {
+    it('validates required and format errors on submit without creating session', () => {
       renderWithRouter('/sign-in');
 
       const submitBtn = screen.getByRole('button', { name: /^Masuk$/i });
@@ -89,15 +119,24 @@ describe('PLAN-009 Access Pages, Sign-in, Routing & Boundary Tests', () => {
       expect(screen.getByText(/Email atau nomor telepon wajib diisi/i)).toBeInTheDocument();
       expect(screen.getByText(/Password wajib diisi/i)).toBeInTheDocument();
       expect(readDemoContext()).toBeNull();
+
+      // Test invalid format input "abc"
+      const identifierInput = screen.getByLabelText(/Email atau nomor telepon/i);
+      fireEvent.change(identifierInput, { target: { value: 'abc' } });
+      fireEvent.click(submitBtn);
+
+      expect(screen.getByText(/Masukkan email atau nomor telepon yang valid/i)).toBeInTheDocument();
+      expect(readDemoContext()).toBeNull();
     });
 
-    it('displays honest notice when valid inputs are submitted', () => {
+    it('displays honest notice when valid email or phone inputs are submitted', () => {
       renderWithRouter('/sign-in');
 
       const identifierInput = screen.getByLabelText(/Email atau nomor telepon/i);
       const passwordInput = screen.getByLabelText('Password', { selector: 'input' });
 
-      fireEvent.change(identifierInput, { target: { value: '  user@example.com  ' } });
+      // Valid phone number input with whitespace
+      fireEvent.change(identifierInput, { target: { value: '  +62 812-3456-7890  ' } });
       fireEvent.change(passwordInput, { target: { value: 'secret123' } });
 
       const submitBtn = screen.getByRole('button', { name: /^Masuk$/i });
@@ -123,6 +162,7 @@ describe('PLAN-009 Access Pages, Sign-in, Routing & Boundary Tests', () => {
 
       expect(screen.getByText(/Customer Portal RKK \(Akses Boundary\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Pelanggan Demo RKK/i)).toBeInTheDocument();
+      expect(screen.getByText(/Identitas Demo Sintetis Aktif/i)).toBeInTheDocument();
       expect(screen.getByText(/DEMO-CUSTOMER-001/i)).toBeInTheDocument();
     });
 
@@ -149,11 +189,16 @@ describe('PLAN-009 Access Pages, Sign-in, Routing & Boundary Tests', () => {
   });
 
   describe('AuthPageShell & Public Route Invariants', () => {
-    it('renders AuthPageShell header and branding on /demo and /sign-in without public nav/footer noise', () => {
+    it('renders AuthPageShell header and neutral brand link without button classes', () => {
       renderWithRouter('/demo');
 
-      const brands = screen.getAllByLabelText(/Rumahku Konstruksi - Beranda/i);
-      expect(brands.length).toBeGreaterThan(0);
+      const brandLink = screen.getByRole('link', { name: /Rumahku Konstruksi - Beranda/i });
+      expect(brandLink).toBeInTheDocument();
+      expect(brandLink.className).toBe('access-page__brand');
+      expect(brandLink.className).not.toMatch(/\bbtn\b/);
+      expect(brandLink.className).not.toMatch(/\bbtn-primary\b/);
+      expect(brandLink.className).not.toMatch(/\bbtn-outline\b/);
+
       expect(screen.queryByRole('navigation', { name: /Utama/i })).not.toBeInTheDocument();
     });
 

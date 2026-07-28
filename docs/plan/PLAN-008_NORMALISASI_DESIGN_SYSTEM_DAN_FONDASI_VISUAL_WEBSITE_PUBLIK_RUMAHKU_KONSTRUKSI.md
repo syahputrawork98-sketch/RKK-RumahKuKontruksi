@@ -5,7 +5,7 @@ versi: 1.0
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008A
+tahap_aktif: PLAN-008B (Menunggu Persetujuan)
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
@@ -27,9 +27,9 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ```text
 DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 PLAN-008 MENJADI PLAN INDUK NORMALISASI FONDASI VISUAL
-TAHAP AKTIF PERTAMA ADALAH PLAN-008A
-GEMINI BOLEH MENGUBAH WORKING TREE HANYA SETELAH AUDIT LOKAL LULUS
-GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH
+PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
+TAHAP BERIKUTNYA ADALAH PLAN-008B, TETAPI BELUM BOLEH DIEKSEKUSI SEBELUM PLAN ATAU INSTRUKSI DISETUJUI.
+GEMINI TETAP DILARANG COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
 ```
 
 Dokumen ini merupakan plan induk final untuk menormalkan design system dan fondasi visual website publik Rumahku Konstruksi.
@@ -1847,10 +1847,9 @@ Urutan tersebut dapat disesuaikan melalui keputusan Pemilik dan kesiapan sumber 
 ```text
 PLAN-008 TELAH DISETUJUI PEMILIK RKK PADA 28 JULI 2026.
 PLAN-008 MENJADI PLAN INDUK FINAL.
-TAHAP AKTIF PERTAMA ADALAH PLAN-008A.
-EKSEKUSI HANYA BOLEH DIMULAI SETELAH AUDIT LOKAL LULUS.
+PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
+TAHAP BERIKUTNYA ADALAH PLAN-008B, TETAPI BELUM BOLEH DIEKSEKUSI SEBELUM PLAN ATAU INSTRUKSI DISETUJUI.
 GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
-BELUM ADA PERUBAHAN REPOSITORY PADA SAAT PLAN INI DIFINALKAN.
 ```
 
 ---
@@ -1861,3 +1860,4 @@ BELUM ADA PERUBAHAN REPOSITORY PADA SAAT PLAN INI DIFINALKAN.
 |---|---|---|---|
 | 0.1-draft | 2026-07-28 | Draf awal PLAN-008 berdasarkan audit Drive, GitHub, design token, CSS ownership, komponen, dan halaman publik aktif | Direview Pemilik |
 | 1.0 | 2026-07-28 | Pemilik menyetujui PLAN-008 sebagai plan induk, pembagian 008A–008C, 008D bersyarat, serta aturan fix-forward untuk perubahan kecil | Disetujui Pemilik — Siap Eksekusi Bertahap |
+| 1.1 | 2026-07-28 | Mencatat PLAN-008A selesai dan terverifikasi. Tahap berikutnya PLAN-008B menunggu persetujuan | Eksekusi Bertahap (Menunggu PLAN-008B) |

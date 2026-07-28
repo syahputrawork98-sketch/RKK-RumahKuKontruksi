@@ -1,8 +1,9 @@
 ---
 kode: PLAN-008A
 judul: Normalisasi Design Token dan CSS Foundation Website Publik Rumahku Konstruksi
-versi: 1.0
-status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
+versi: 1.1
+status: SELESAI DAN TERVERIFIKASI
+final_audit_sha: bab278229b6eadfcadac5ded33d83b0f533c64b5
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
 parent_plan: PLAN-008
@@ -25,10 +26,10 @@ pemilik_persetujuan_dan_git: Pemilik RKK
 ## 1. Status Dokumen
 
 ```text
-DISETUJUI PEMILIK — SIAP EKSEKUSI BERSYARAT AUDIT LOKAL
-PLAN-008A ADALAH TAHAP PERTAMA PLAN-008
-GEMINI BOLEH MENGUBAH WORKING TREE HANYA SETELAH BASELINE DAN VALIDASI AWAL LULUS
-GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH
+SELESAI DAN TERVERIFIKASI
+PLAN-008A ADALAH TAHAP PERTAMA PLAN-008 YANG TELAH DISELESAIKAN
+FINAL AUDIT SHA: bab278229b6eadfcadac5ded33d83b0f533c64b5
+HASIL: Lint, 106 test, build, diff check, token contract, focus foundation, compatibility layer, dan publication invariants telah diterima.
 ```
 
 PLAN-008A menstabilkan kontrak design token dan CSS foundation sebelum shared component dipindahkan dalam PLAN-008B dan sebelum seluruh halaman dimigrasikan dalam PLAN-008C.
@@ -877,11 +878,9 @@ Laporan harus menyertakan output penting, bukan hanya pernyataan “lulus”.
 ## 21. Status Penutup
 
 ```text
-PLAN-008A DISETUJUI PEMILIK RKK.
-BASE SHA: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
-EKSEKUSI BOLEH DIMULAI SETELAH AUDIT LOKAL DAN VALIDASI BASELINE LULUS.
-GEMINI TIDAK BOLEH COMMIT, PUSH, MERGE, ATAU MEMBUAT BRANCH.
-HASIL WORKING TREE WAJIB DIREVIEW PEMILIK DAN DIAUDIT CHATGPT.
+PLAN-008A SELESAI DAN TERVERIFIKASI.
+FINAL AUDIT SHA: bab278229b6eadfcadac5ded33d83b0f533c64b5
+HASIL: Lint, 106 test, build, diff check, token contract, focus foundation, compatibility layer, dan publication invariants telah diterima.
 ```
 
 ---
@@ -891,3 +890,4 @@ HASIL WORKING TREE WAJIB DIREVIEW PEMILIK DAN DIAUDIT CHATGPT.
 | Versi | Tanggal | Perubahan | Status |
 |---|---|---|---|
 | 1.0 | 2026-07-28 | Plan eksekusi tahap pertama PLAN-008 untuk normalisasi token, semantic foundation, compatibility layer sementara, focus/motion baseline, dan static token contract test | Disetujui Pemilik — Siap Eksekusi Bersyarat Audit Lokal |
+| 1.1 | 2026-07-28 | Penutupan administratif PLAN-008A. Lint, 106 test, build, diff check, token contract, focus foundation, compatibility layer, dan publication invariants telah diterima | Selesai dan Terverifikasi |

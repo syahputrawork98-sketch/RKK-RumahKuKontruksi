@@ -145,20 +145,26 @@ describe('Shared Components', () => {
       expect(screen.getByText('Currently holding')).toHaveClass('hold-reason');
     });
 
-    it('prevents action on click', () => {
+    it('prevents action on click and maintains safety attributes', () => {
       const onClick = vi.fn();
+
       render(
-        <div onClick={onClick}>
-          <HoldAction>Click Me</HoldAction>
-        </div>
+        <HoldAction
+          onClick={onClick}
+          type="submit"
+          aria-disabled="false"
+        >
+          Click Me
+        </HoldAction>
       );
-      
-      const button = screen.getByText('Click Me');
+
+      const button = screen.getByRole('button', { name: 'Click Me' });
+
       fireEvent.click(button);
-      // Wait, e.preventDefault() prevents default behavior, but the event might still bubble if not stopPropagation. 
-      // Actually HoldAction's own onClick prevents default. We verify click doesn't do normal stuff, but a wrapper div might still see it.
-      // A better test is ensuring onClick is called with preventDefault called.
-      // But we can just trust the component code. We'll just click it and make sure no errors occur.
+
+      expect(onClick).not.toHaveBeenCalled();
+      expect(button).toHaveAttribute('type', 'button');
+      expect(button).toHaveAttribute('aria-disabled', 'true');
     });
   });
 });

@@ -8,6 +8,7 @@ import './styles/about.css'
 import './styles/work-process.css'
 import './styles/services.css'
 import './styles/projects.css'
+import './styles/project-detail.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

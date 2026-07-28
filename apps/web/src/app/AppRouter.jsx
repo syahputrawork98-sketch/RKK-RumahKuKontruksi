@@ -7,6 +7,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import WorkProcessPage from '../pages/WorkProcessPage';
 import ServiceListPage from '../pages/ServiceListPage';
 import ProjectListPage from '../pages/ProjectListPage';
+import ProjectDetailPage from '../pages/ProjectDetailPage';
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export function AppRoutes() {
         <Route path="/cara-kerja" element={<WorkProcessPage />} />
         <Route path="/layanan" element={<ServiceListPage />} />
         <Route path="/proyek" element={<ProjectListPage />} />
+        <Route path="/proyek/:slug" element={<ProjectDetailPage />} />
         <Route
           path="/sign-in"
           element={<UnavailablePage title="Akses akun belum tersedia pada tahap ini." description="PLAN-001 tidak menyediakan login simulasi, akses demo, atau autentikasi sementara." />}

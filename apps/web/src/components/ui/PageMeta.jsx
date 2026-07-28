@@ -5,7 +5,7 @@ import { useEffect } from 'react';
  * Changes document title and meta description without any third party dependency.
  * Restores previous metadata upon unmount.
  */
-export function PageMeta({ title, description, path }) {
+export function PageMeta({ title, description, path, robots }) {
   useEffect(() => {
     // Save previous state
     const prevTitle = document.title;
@@ -19,6 +19,11 @@ export function PageMeta({ title, description, path }) {
     const hasPrevCanonical = !!canonicalLink;
     const prevCanonicalHref = hasPrevCanonical ? canonicalLink.href : null;
     let canonicalCreated = false;
+
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    const hasPrevRobots = !!metaRobots;
+    const prevRobotsContent = hasPrevRobots ? metaRobots.content : null;
+    let robotsCreated = false;
 
     // Apply new metadata
     if (title) {
@@ -45,6 +50,16 @@ export function PageMeta({ title, description, path }) {
       canonicalLink.href = `${window.location.origin}${path}`;
     }
 
+    if (robots !== undefined) {
+      if (!metaRobots) {
+        metaRobots = document.createElement('meta');
+        metaRobots.name = 'robots';
+        document.head.appendChild(metaRobots);
+        robotsCreated = true;
+      }
+      metaRobots.content = robots;
+    }
+
     // Cleanup function
     return () => {
       if (title) {
@@ -66,8 +81,16 @@ export function PageMeta({ title, description, path }) {
           canonicalLink.href = prevCanonicalHref;
         }
       }
+
+      if (robots !== undefined) {
+        if (robotsCreated && metaRobots && metaRobots.parentNode) {
+          metaRobots.parentNode.removeChild(metaRobots);
+        } else if (hasPrevRobots && metaRobots) {
+          metaRobots.content = prevRobotsContent;
+        }
+      }
     };
-  }, [title, description, path]);
+  }, [title, description, path, robots]);
 
   return null;
 }

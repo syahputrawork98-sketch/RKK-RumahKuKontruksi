@@ -53,3 +53,7 @@ Folder ini berisi plan-plan teknis yang memandu implementasi arsitektur dan peng
 - Status: SELESAI DAN TERVERIFIKASI
 - Final Audit SHA: 872265f3a4e5b987b881b8b993b0bb00d5ef1bae
 - Hasil: Halaman Daftar Proyek Publik, current-hold state, empat gerbang publikasi, resolver aman, perlindungan data, dan navigasi publik telah diimplementasikan dan diterima.
+
+### [PLAN-007: Implementasi Halaman Detail Proyek Publik Rumahku Konstruksi](./PLAN-007_IMPLEMENTASI_HALAMAN_DETAIL_PROYEK_PUBLIK_RUMAHKU_KONSTRUKSI.md)
+- Status: DIEKSEKUSI — MENUNGGU AUDIT
+- Hasil: Route detail proyek, published-only gate, 404 generik, noindex, resolver aman, template future-ready, dan perlindungan data telah diimplementasikan; production catalog tetap kosong.

@@ -420,6 +420,18 @@ describe('PublicAppShell', () => {
     });
   });
 
+  it('routes /proyek/:slug to ProjectDetailPage unavailable state in current production', () => {
+    render(
+      <MemoryRouter initialEntries={['/proyek/contoh-slug']}>
+        <AppRoutes />
+      </MemoryRouter>
+    );
+    expect(screen.getByText('404')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Halaman proyek tidak tersedia.' })
+    ).toBeInTheDocument();
+  });
+
   it('validates navigation menus include Layanan and correct sequence', () => {
     render(
       <MemoryRouter initialEntries={['/']}>

@@ -33,8 +33,8 @@ export default function NinePhaseOverview({ content }) {
                     <PublicIcon name={iconName} size={18} />
                   </span>
                 </div>
-
-                <span className="node-title"> {title}</span>
+                {' '}
+                <span className="node-title">{title}</span>
 
                 {index < content.phases.length - 1 && (
                   <span className="node-connector" aria-hidden="true" />

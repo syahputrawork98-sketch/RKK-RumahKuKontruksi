@@ -1,11 +1,11 @@
 ---
 kode: PLAN-008
 judul: Normalisasi Design System dan Fondasi Visual Website Publik Rumahku Konstruksi
-versi: 1.7
+versi: 1.8
 status: DISETUJUI PEMILIK — SIAP EKSEKUSI BERTAHAP
 tanggal_penyusunan: 2026-07-28
 tanggal_persetujuan: 2026-07-28
-tahap_aktif: PLAN-008D — Koreksi Terakhir Menunggu Audit
+tahap_aktif: PLAN-008D — Final Visual Polish Menunggu Audit
 repository: syahputrawork98-sketch/RKK-RumahKuKontruksi
 target_branch: main
 base_sha: b21562f5ffb2e7877a094197e5d21cd72eccf6a4
@@ -1847,7 +1847,7 @@ PLAN-008 MENJADI PLAN INDUK FINAL.
 PLAN-008A TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008B TELAH SELESAI DAN TERVERIFIKASI.
 PLAN-008C TELAH SELESAI DAN TERVERIFIKASI.
-TAHAP AKTIF: PLAN-008D KOREKSI TERAKHIR TELAH DIEKSEKUSI PADA WORKING TREE (MENUNGGU COMMIT PEMILIK DAN AUDIT SHA).
+TAHAP AKTIF: PLAN-008D FINAL VISUAL POLISH TELAH DIEKSEKUSI PADA WORKING TREE (MENUNGGU COMMIT PEMILIK DAN AUDIT SHA).
 ```
 
 ---
@@ -1865,3 +1865,4 @@ TAHAP AKTIF: PLAN-008D KOREKSI TERAKHIR TELAH DIEKSEKUSI PADA WORKING TREE (MENU
 | 1.5 | 2026-07-29 | Mencatat PLAN-008D awal telah dieksekusi pada working tree | Eksekusi Bertahap (Audit PLAN-008D) |
 | 1.6 | 2026-07-29 | Mencatat fix-forward PLAN-008D dieksekusi pada working tree: harmonisasi Cara Kerja, CSS scoping, single-source SVG, dan regression test diperkuat | Eksekusi Bertahap (Audit Fix-forward PLAN-008D) |
 | 1.7 | 2026-07-29 | Mencatat koreksi terakhir PLAN-008D dieksekusi pada working tree. Content map menjadi sumber process map Hero, single-source icon mapping, CSS connector, dan regression testsuite diperkuat | Eksekusi Bertahap (Audit Koreksi Terakhir PLAN-008D) |
+| 1.8 | 2026-07-29 | Mencatat final visual polish PLAN-008D dieksekusi pada working tree. Process rail 1 kolom vertikal (max-width 840px) pada seluruh viewport, whitespace title dibersihkan, dan regression testsuite diperkuat | Eksekusi Bertahap (Audit Final Visual Polish PLAN-008D) |

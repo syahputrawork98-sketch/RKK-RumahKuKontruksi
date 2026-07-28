@@ -254,6 +254,22 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       const connectors = document.querySelectorAll('.overview-list.process-rail .node-connector');
       expect(connectors.length).toBe(8);
 
+      const expectedTitles = [
+        'Kebutuhan Masuk',
+        'Kualifikasi dan Penyaringan',
+        'Perumusan Kebutuhan dan Pemeriksaan Awal',
+        'Perencanaan, Desain, Estimasi, dan RAB',
+        'Kelayakan, Penawaran, dan Kesepakatan',
+        'Aktivasi dan Kesiapan',
+        'Pelaksanaan dan Pengendalian',
+        'Pemeriksaan Akhir, Serah Terima, dan Penutupan',
+        'Evaluasi dan Pembelajaran'
+      ];
+
+      titles.forEach((element, index) => {
+        expect(element.textContent).toBe(expectedTitles[index]);
+      });
+
       const expectedPhaseIcons = {
         '01': 'compass',
         '02': 'search-check',
@@ -273,11 +289,30 @@ describe('PLAN-008D Visual Harmonization & Invariants (Fix-Forward)', () => {
       });
     });
 
-    it('verifies work-process.css contains required connector selectors', () => {
+    it('verifies process rail maintains single-column vertical layout on all viewports', () => {
+      render(
+        <MemoryRouter initialEntries={['/cara-kerja']}>
+          <AppRoutes />
+        </MemoryRouter>
+      );
+      const rail = document.querySelector('.overview-list.process-rail');
+      expect(rail).not.toBeNull();
+      const nodes = rail.querySelectorAll('.process-node');
+      expect(nodes.length).toBe(9);
+      const connectors = rail.querySelectorAll('.node-connector');
+      expect(connectors.length).toBe(8);
+      const lastNode = nodes[8];
+      expect(lastNode.querySelector('.node-connector')).toBeNull();
+    });
+
+    it('verifies work-process.css contains required connector selectors and no 3-column rail media query', () => {
       const cssPath = path.resolve(__dirname, '../styles/work-process.css');
       const cssContent = fs.readFileSync(cssPath, 'utf-8');
       expect(cssContent).toContain('.page-work-process .process-map-connector');
       expect(cssContent).toContain('.page-work-process .node-connector');
+      expect(cssContent).not.toMatch(
+        /\.overview-list\.process-rail\s*\{[^}]*grid-template-columns:\s*repeat\(3,\s*1fr\)/s
+      );
     });
 
     it('renders decision gates and cross-phase control sections with icons', () => {

@@ -226,6 +226,8 @@
   margin: var(--spacing-6) 0 0 0;
   display: grid;
   grid-template-columns: 1fr;
+  max-width: 840px;
+  margin-inline: auto;
   gap: var(--spacing-4);
 }
 
@@ -274,12 +276,6 @@
 .page-work-process .node-title {
   font-weight: 600;
   color: var(--color-neutral-900);
-}
-
-@media (min-width: 768px) {
-  .page-work-process .overview-list.process-rail {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* --- Phase Groups & Cards --- */

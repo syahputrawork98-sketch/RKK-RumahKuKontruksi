@@ -11,7 +11,6 @@ export default function HomeServices({ content }) {
         <SectionHeading
           eyebrow={content.eyebrow}
           title={content.title}
-          description={content.description}
         />
 
         <div className="home-services-panel">

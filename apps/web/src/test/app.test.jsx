@@ -587,8 +587,10 @@ describe('PublicAppShell', () => {
     const closingSecondaryLink = within(closingSection).getByText('Pelajari Cara Kerja').closest('a');
     expect(closingSecondaryLink).toHaveAttribute('href', '/cara-kerja');
 
-    // 5. Services displays statusLabel
+    // 5. Services displays statusLabel and services description appears exactly once
     expect(screen.getByText('Belum ada layanan siap publik')).toBeInTheDocument();
+    const serviceDescElements = screen.getAllByText('RKK belum menampilkan layanan sebagai penawaran aktif. Halaman Layanan menjelaskan status publikasi, gerbang kesiapan, dan batas informasi yang berlaku saat ini.');
+    expect(serviceDescElements.length).toBe(1);
 
     // 6. No text "Layanan Segera Hadir" anywhere
     expect(screen.queryByText(/Layanan Segera Hadir/i)).not.toBeInTheDocument();
